@@ -1,4 +1,5 @@
 <?php
+if (file_exists("lib/database.php")) die("No, I don't think so.");
 if(isset($_GET['dbcheck']))
 {
 	include("lib/write.php");
