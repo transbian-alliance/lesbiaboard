@@ -9,8 +9,9 @@ if(ini_get('register_globals'))
 error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
 
 if(!is_file("lib/database.php"))
-	die("You should <a href=\"install.php\">install</a> the board database first.");
-	
+//	die("You should <a href=\"install.php\">install</a> the board database first.");
+	die(header("Location: install.php"));
+
 // Deslash GPC variables if we have magic quotes on
 if (get_magic_quotes_gpc())
 {
