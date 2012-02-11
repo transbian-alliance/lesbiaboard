@@ -540,6 +540,7 @@ if($_POST['action'] == __("Edit profile"))
 
 	$sets[] = "theme = '".justEscape($_POST['theme'])."'";
 	$sets[] = "pluginsettings = '".justEscape(serialize($pluginSettings))."'";
+	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
 	$query .= join($sets, ", ")." WHERE id = ".$userid;
 	if(!$fallToEditor)
