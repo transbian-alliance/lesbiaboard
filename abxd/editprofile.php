@@ -828,7 +828,6 @@ foreach($themes as $themeKey => $themeName)
 	if(is_file($preview))
 		$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	else
-//		$preview = "<div style=\"margin-bottom: 0.5em;width: 260px; height: 80px; outline: 1px dotted #FFF; background: rgba(0, 0, 0, 0.5); line-height: 80px; overflow: hidden; text-align: center; display: block;\">No preview.</div>";
 		$preview = "<img src=\"./img/nopreview.png\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	
 	if(array_key_exists($themeKey, $themeBylines))
@@ -843,12 +842,12 @@ foreach($themes as $themeKey => $themeName)
 	
 	$themeList .= format(
 "
-	<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\" onclick=\"void();\">
-		<input type=\"radio\" name=\"theme\" value=\"{3}\"{4} onchange=\"ChangeTheme(this.value);\" />
-			{2} <br />
-			<strong>{0}</strong>
-			{1}<br />
-			{5}
+	<input style=\"display: none;\" type=\"radio\" name=\"theme\" value=\"{3}\"{4} onchange=\"ChangeTheme(this.value);\" id=\"{3}\" />
+	<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\" onclick=\"void();\" for=\"{3}\">
+		{2} <br />
+		<strong>{0}</strong>
+		{1}<br />
+		{5}
 	</label>
 ",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"),
 	($ii > 0 ? "border-top: 1px solid black;" : "") );
@@ -905,7 +904,7 @@ foreach($tabs as $id => $tab)
 		Write("
 	<table class=\"outline margin width100 eptable\" id=\"{0}\"{1}>
 		<tr class=\"header0\"><th>&nbsp;</th></tr>
-		<tr class=\"cell0\"><td class=\"threadIcons\">{2}</td></tr>
+		<tr class=\"cell0\"><td class=\"themeselector\">{2}</td></tr>
 	</table>
 ",	$id, ($id != $first) ? " style=\"display: none;\"" : "",
 	$themeList);
