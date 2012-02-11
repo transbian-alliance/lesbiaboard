@@ -82,7 +82,7 @@ a:hover span
 
 .outline
 {
-	outline: 1px solid #669;
+/*	outline: 1px solid #669;*/
 	box-shadow: 2px 2px 4px #000;
 }
 
