@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Kill this.
+
 if(!function_exists('format'))
 {
 	function format()
