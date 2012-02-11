@@ -556,8 +556,6 @@ function MakePost($post, $type, $params=array())
 		else
 			$sideBarStuff .= "<img src=\"".$post['picture']."\" alt=\"\" />";
 	}
-	else
-		$sideBarStuff .= "<div style=\"width: 50px; height: 50px;\">&nbsp;</div>";
 
 	$lastpost = ($post['lastposttime'] ? timeunits(time() - $post['lastposttime']) : "none");
 	$lastview = timeunits(time() - $post['lastactivity']);
