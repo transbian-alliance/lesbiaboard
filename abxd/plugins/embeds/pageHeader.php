@@ -1,1 +1,0 @@
-	<script type="text/javascript" src="plugins/embeds/swf.js"></script>
