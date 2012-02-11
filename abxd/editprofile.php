@@ -828,7 +828,8 @@ foreach($themes as $themeKey => $themeName)
 	if(is_file($preview))
 		$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	else
-		$preview = "<div style=\"width: 260px; height: 80px;\">&nbsp;</div>";
+//		$preview = "<div style=\"margin-bottom: 0.5em;width: 260px; height: 80px; outline: 1px dotted #FFF; background: rgba(0, 0, 0, 0.5); line-height: 80px; overflow: hidden; text-align: center; display: block;\">No preview.</div>";
+		$preview = "<img src=\"./img/nopreview.png\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	
 	if(array_key_exists($themeKey, $themeBylines))
 		$byline = "<br />".$themeBylines[$themeKey];
