@@ -169,9 +169,6 @@ if($draftEditor)
 					//$post = justEscape($post);
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-					$post;
-					$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
 					$post = mysql_real_escape_string($post);
 	
@@ -188,8 +185,6 @@ if($draftEditor)
 				{
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-					$post;
 					$post = mysql_real_escape_string($post);
 
 					$qPMT = "update pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;

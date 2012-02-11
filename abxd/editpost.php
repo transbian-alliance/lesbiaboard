@@ -127,11 +127,7 @@ if($_POST['action'] == __("Edit"))
 	
 	if($_POST['text'])
 	{
-		$post = $_POST['text'];
-		$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-		$post;
-		$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
-		$post = mysql_real_escape_string($post);
+		$post = mysql_real_escape_string($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -174,9 +170,6 @@ if($_POST['action'] == __("Edit"))
 if($_POST['text'])
 {
 	$prefill = $_POST['text'];
-	$prefill = str_replace("\n","##TSURUPETTANYOUJO##", $prefill);
-	$prefill;
-	$prefill = str_replace("##TSURUPETTANYOUJO##","\n", $prefill);
 }
 
 if($_POST['action'] == __("Preview"))

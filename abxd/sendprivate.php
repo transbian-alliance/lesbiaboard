@@ -127,9 +127,6 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 			//$post = justEscape($post);
 			$post = $_POST['text'];
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-			$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-			$post;
-			$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
 			$post = mysql_real_escape_string($post);

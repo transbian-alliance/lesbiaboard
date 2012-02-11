@@ -45,13 +45,6 @@ if($user['powerlevel'] == 4 && isset($_POST['level']) && (int)$_POST['level'] !=
 if($loguser['powerlevel'] != 4 && isset($_POST['level']) && (int)$_POST['level'] == 4)
 	Kill(__("Only Root can set Root."));
 
-if(isset($_POST['name']))
-	$_POST['name'] = $_POST['name'];
-if(isset($_POST['realname']))
-	$_POST['realname'] = $_POST['realname'];
-if(isset($_POST['location']))
-	$_POST['location'] = $_POST['location'];
-
 if(isset($_POST['displayname']))
 {
 	if(!IsReallyEmpty($_POST['displayname']) || $_POST['displayname'] == $user['name'])
