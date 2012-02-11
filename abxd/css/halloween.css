@@ -1,0 +1,156 @@
+/* AcmlmBoard XD - Halloween theme (recolor of Night) */
+
+.PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button
+{
+	border-radius: 0px;
+}
+a {
+	color: #DEDAFE;
+}
+a:hover {
+	color: #FFEEFF;
+}
+.outline, .PoRT
+{
+	outline: 0px none;
+	box-shadow: none;
+}
+
+table.outline
+{
+	border: 0px none;
+}
+
+.faq
+{
+	border: 1px solid #000000;
+	background: #331111;
+}
+
+body
+{
+	background: #1F0F00 url("../img/themes/night/background.png");
+}
+
+.header0, .header1
+{
+	border: 1px solid #000000;
+}
+
+.header0 th
+{
+	background: #5F2F25;
+}
+
+.header1 th
+{
+	background: #332211;
+}
+
+.cell1, table.post td.post
+{
+	background: #2B1111;
+}
+
+.cell0, .cell2, table.post td.side, table.post td.userlink, table.post td.meta
+{
+	background: #331111;
+}
+
+.errort
+{
+	background: #332211;
+	border: 1px solid #000000;
+}
+
+.errorc
+{
+	background: #221111;
+	border: 1px solid #000000;
+	border-top: 0px;
+}
+
+td, th
+{
+	border: 1px solid #000000;
+}
+
+table.outline tr:first-child th:last-child
+{
+	border-right: 1px solid #000000;
+}
+table.outline tr:first-child th
+{
+	border-top: 1px solid #000000;
+}
+table.outline td
+{
+	border-left: 0px none;
+	border-top: 0px none;
+}
+table.outline th
+{
+	border-bottom: 1px solid #000000;
+}
+table.outline tr td:first-child, table.outline tr th:first-child
+{
+	border-left: 1px solid #000000;
+}
+
+
+table.post
+{
+	border-collapse: collapse;
+}
+
+table.post td.side
+{
+	border-left: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+}
+
+table.post td.userlink
+{
+	border-top: 1px solid #000000;
+	border-bottom: 0px none;
+}
+
+table.post td.meta
+{
+	border-top: 1px solid #000000;
+	border-right: 1px solid #000000;
+}
+
+table.post td.post
+{
+	border: 1px solid #000000;
+}
+
+
+
+button, input[type="submit"]
+{
+	border: 1px solid #996633;
+	background: #000000;
+	color: #FFF;
+}
+
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
+{
+	background: #000000;
+	border: 1px solid #996633;
+	color: white;
+}
+
+input[type="checkbox"], input[type="radio"]
+{
+	background: #000000;
+	border: 1px solid #996633;
+	color: white;
+}
+
+div#tabs button.selected
+{
+	border-bottom: 1px solid #5F2F2F;
+	background: #5F2F2F;
+}
