@@ -70,10 +70,10 @@ else
 	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, __("New thread")=>""), $links);
 
 if(isset($_POST['title']))
-	$_POST['title'] = htmlentities2($_POST['title']);
+	$_POST['title'] = $_POST['title'];
 if(isset($_POST['pollQuestion']))
-	$_POST['pollQuestion'] = htmlentities2($_POST['pollQuestion']);
-	//$_POST['pollQuestion'] = htmlentities2(stripslashes($_POST['pollQuestion']));
+	$_POST['pollQuestion'] = $_POST['pollQuestion'];
+	//$_POST['pollQuestion'] = stripslashes($_POST['pollQuestion']);
 
 if($_POST['text'] && CheckTableBreaks($_POST['text']))
 {
@@ -107,9 +107,9 @@ if($_POST['action'] == __("Post"))
 	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $_POST['title']));
 	if($_POST['text'] && $trimmedTitle != "")
 	{
-		$post = htmlentities2($_POST['text']);
+		$post = $_POST['text'];
 		$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-		TidyPost($post);
+		$post;
 		$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
 		$post = mysql_real_escape_string($post);
 
@@ -196,13 +196,13 @@ if($_POST['action'] == __("Post"))
 
 if($_POST['text'])
 {
-	$prefill = htmlentities2($_POST['text']);
+	$prefill = $_POST['text'];
 	$prefill = str_replace("\n","##TSURUPETTANYOUJO##", $prefill);
-	TidyPost($prefill);
+	$prefill;
 	$prefill = str_replace("##TSURUPETTANYOUJO##","\n", $prefill);
 }
 if($_POST['title'])
-	$trefill = htmlentities2($_POST['title']);
+	$trefill = $_POST['title'];
 
 if($_POST['action'] == __("Preview"))
 {

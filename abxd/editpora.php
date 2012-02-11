@@ -17,7 +17,7 @@ if (isset($_POST['action']) && $key != $_POST['key'])
 
 if($_POST['action'] == __("Edit"))
 {
-	//TidyPost($_POST['text']);
+	//$_POST['text'];
 	$qPora = "update misc set porabox = '".justEscape($_POST['text'])."', poratitle = '".justEscape($_POST['title'])."'";
 	$rPora = Query($qPora);
 	Report("[b]".$loguser['name']."[/] edited the PoRA.", 1);

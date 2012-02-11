@@ -46,11 +46,11 @@ if($loguser['powerlevel'] != 4 && isset($_POST['level']) && (int)$_POST['level']
 	Kill(__("Only Root can set Root."));
 
 if(isset($_POST['name']))
-	$_POST['name'] = htmlentities2($_POST['name']);
+	$_POST['name'] = $_POST['name'];
 if(isset($_POST['realname']))
-	$_POST['realname'] = htmlentities2($_POST['realname']);
+	$_POST['realname'] = $_POST['realname'];
 if(isset($_POST['location']))
-	$_POST['location'] = htmlentities2($_POST['location']);
+	$_POST['location'] = $_POST['location'];
 
 if(isset($_POST['displayname']))
 {

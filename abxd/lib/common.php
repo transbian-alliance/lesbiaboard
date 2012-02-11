@@ -69,7 +69,6 @@ include("badges.php");
 if(!isset($noViewCount))
 	include("views.php");
 
-include("tidy.php");
 include("post.php");
 
 include("css/themelist.php");

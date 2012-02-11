@@ -68,7 +68,7 @@ while($smiley = Fetch($rSmilies))
 					<img src=\"img/smilies/{4}\" alt=\"{5}\" title=\"{5}\">
 				</td>
 			</tr>
-",	$cellClass, $i, htmlentities2($smiley['code']), htmlentities2($smiley['image']),
+",	$cellClass, $i, $smiley['code'], $smiley['image'],
 	$smiley['image'], $smiley['code']);
 }
 
