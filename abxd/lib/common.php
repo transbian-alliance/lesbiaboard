@@ -37,7 +37,13 @@ include("snippets.php");
 if($ajax)
 	$overallTidy = 0;
 //if($overallTidy)
-	ob_start("DoFooter");
+
+ob_start();
+passthru("git rev-parse --short HEAD");
+$gitrev = ob_get_contents();
+ob_end_clean();
+
+ob_start("DoFooter");
 
 date_default_timezone_set("GMT");
 $timeStart = usectime();

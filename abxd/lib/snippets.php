@@ -34,7 +34,7 @@ function usectime()
 
 function DoFooter($buffer)
 {
-	global $noFooter, $timeStart, $queries, $overallTidy, $boardname, $title, $dblink, $ajax, $footerButtons, $footerExtensionsA, $footerExtensionsB;
+	global $noFooter, $timeStart, $queries, $overallTidy, $boardname, $title, $dblink, $ajax, $footerButtons, $footerExtensionsA, $footerExtensionsB, $gitrev;
 
 	if(!$noFooter)
 	{
@@ -43,7 +43,7 @@ function DoFooter($buffer)
 		$footer = format(
 "
 		<div class=\"footer\">
-			Powered by <a href=\"http://helmet.kafuka.org/thepile/ABXD\">AcmlmBoard XD</a>, version 2.2.3<br />
+			Powered by <a href=\"http://helmet.kafuka.org/thepile/ABXD\">AcmlmBoard XD</a>, version 2.2.3 git $gitrev<br />
 			By Kawa, Mega-Mario, Nikolaj, et al<br />
 			AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 			".__("Page rendered in {0} seconds with {1}.")."<br />
