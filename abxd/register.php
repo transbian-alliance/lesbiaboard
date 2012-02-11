@@ -47,7 +47,7 @@ if(!isset($_POST['action']))
 					<label for=\"email\">".__("Email address")."</label>
 				</td>
 				<td class=\"cell0\">
-					<input type=\"email\" id=\"email\" name=\"email\" value=\"\" style=\"width: 98%;\" maxlength=\"60\"  class=\"required\" />
+					<input type=\"email\" id=\"email\" name=\"email\" value=\"\" style=\"width: 98%;\" maxlength=\"60\" />
 				</td>
 			</tr>
 			<tr>
