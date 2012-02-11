@@ -68,6 +68,7 @@ cell("<a href=\"editcats.php\">".__("Edit category list")."</a>");
 cell("<a href=\"editsettings.php\">".__("Edit settings")."</a>");
 cell("<a href=\"optimize.php\">".__("Optimize tables")."</a>");
 cell("<a href=\"log.php\">".__("View log")."</a>");
+cell("<a href=\"gitpull.php\">".__("Update the board")."</a>");
 if($loguser['powerlevel'] == 4)
 	cell("<a href=\"sql.php\">".__("SQL Console")."</a>");
 
