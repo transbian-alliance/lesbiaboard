@@ -11,6 +11,8 @@ $lastKnownBrowser = "Something";
 $knownBrowsers = array
 (
 	"MSIE" => "Internet Explorer",
+	"Opera Tablet" => "Opera Mobile (tablet)",
+	"Opera Mobile" => "Opera Mobile",
 	"Opera Mini" => "Opera Mini", //Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.18887/764; U; nl) Presto/2.4.15
 	"Nintendo Wii" => "Wii Internet Channel", //Opera/9.30 (Nintendo Wii; U; ; 3642; nl)
 	"Nintendo DSi" => "Nintendo DSi Browser", //Opera/9.50 (Nintendo DSi; Opera/507; U; en-US)
@@ -19,7 +21,9 @@ $knownBrowsers = array
 	"Opera" => "Opera",
 	"MozillaDeveloperPreview" => "Firefox dev",
 	"Firefox" => "Firefox",
+	"dwb" => "DWB",
 	"Chrome" => "Chrome",
+	"Android" => "Android",
 	"Safari" => "Safari",
 	"Konqueror" => "Konqueror",
 	"Mozilla" => "Mozilla",
@@ -30,6 +34,8 @@ $knownBrowsers = array
 $knownOSes = array
 (
 	"HTC_" => "HTC mobile",
+	"Series 60" => "S60",
+	"Android" => "Android",
 	"Windows 4.0" => "Windows 95",
 	"Windows 4.1" => "Windows 98",
 	"Windows 4.9" => "Windows ME",
@@ -39,8 +45,9 @@ $knownOSes = array
 	"Windows NT 6.0" => "Windows Vista",
 	"Windows NT 6.1" => "Windows 7",
 	"Windows Mobile" => "Windows Mobile",
-	"Android" => "Android",
-	"Linux" => "Linux",
+	"FreeBSD" => "FreeBSD",
+	"Ubuntu" => "Ubuntu",
+	"Linux" => "GNU/Linux",
 	"Mac OS X" => "Mac OS X %",
 	"iPhone" => "iPhone",
 	"iPad" => "iPad",
@@ -59,7 +66,7 @@ foreach($knownBrowsers as $code => $name)
 		//$version = preg_replace('/[^0-9,.]/','',$version);
 		
 		$versionStart = strpos($ua, $code) + strlen($code);
-		$version = GetVersion($ua, $versionStart);
+		if ($code != "dwb") $version = GetVersion($ua, $versionStart);
 
 		//Opera Mini wasn't detected properly because of the Opera 10 hack.
 		if (strpos($ua, "Opera/9.80") !== FALSE && $code != "Opera Mini" || $code == "Safari" && strpos($ua, "Version/") !== FALSE)
@@ -79,7 +86,9 @@ $browserVers = (float)$version;
 $os = "";
 foreach($knownOSes as $code => $name)
 {
+	if (strpos($ua, "X11")) $usesX11 = true;
 	if (strpos($ua, $code) !== FALSE)
+
 	{
 		$os = $name;
 		
@@ -89,7 +98,10 @@ foreach($knownOSes as $code => $name)
 			$version = GetVersion($ua, $versionStart);
 			$os = str_replace("%", $version, $os);
 		}
-	
+		//If we're using the default Android browser, just report the version of Android being used ~Nina
+		$lkbhax = explode(' ', $lastKnownBrowser);
+		if ($lkbhax[0] == "Android") break;
+		if ($usesX11) $os = $os .= " (X11)";
 		$lastKnownBrowser = format(__("{0} on {1}"), $lastKnownBrowser, $os);
 		break;
 	}
