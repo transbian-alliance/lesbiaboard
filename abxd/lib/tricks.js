@@ -649,3 +649,107 @@ function ReplacePost(id, opened)
 		$("#post"+id).replaceWith(data);
 	});
 }
+
+
+
+
+//===================================
+// Functions for Niko's Forum Editor
+
+
+var fid = 0;
+var hint = true;
+function pickForum(id) {
+	if (hint == true) {
+		$("#hint").remove();
+		hint = false;
+	}
+	$(".f, .c").css("outline", "0px none");
+	$("#forum"+id).css("outline", "1px solid #888")
+	if ($("#editcontent").is(":hidden")) $("#editcontent").show();
+	$("#editcontent").load('./editfora.php?action=editforum&fid='+id);
+	fid = id;
+}
+
+function changeForumInfo()
+{
+	var postdata = $("#forumform").serialize();
+	
+	$.post("editfora.php?action=updateforum", postdata, function(data) {	
+		if(data == "Ok")
+		{
+			$("#flist").load("editfora.php?action=forumtable");
+			$("#editcontent").html("");
+		}
+		else
+			alert("Error: "+data);		
+	});
+}
+
+function addForum()
+{
+	var postdata = $("#forumform").serialize();
+	
+	$.post("editfora.php?action=addforum", postdata, function(data) {	
+		if(data == "Ok")
+		{
+			$("#flist").load("editfora.php?action=forumtable");
+			$("#editcontent").html("");
+		}
+		else
+			alert("Error: "+data);		
+	});
+}
+
+function deleteForum(what)
+{
+	var postdata = $("#deleteform").serialize();
+
+/*	var msg = "sent to hell.";
+	
+	if(what == "delete")
+		msg = "DELETED COMPLETELY!";
+	if(what == "trash")
+		msg = "CLOSED AND TRASHED!";
+	if(what == "move")
+		msg = "moved to the forum you selected.";
+	if(what == "leave")
+		msg = "left in the database as-is. This is NOT RECOMMENDED and will probably cause problems! \n\nFor example, the threads and posts will still count towards user\'s postcounts but will be invisible";
+
+	if(!confirm("Are you sure that you want to delete the forum?\nThreads in the forum will be "+msg))
+		return;
+	if(!confirm("Are you COMPLETELY SURE? This is your last opportunity to cancel"))
+		return;*/
+
+	if(!confirm("Are you sure that you want to delete the forum?"))
+		return;
+
+	$.post("editfora.php?action=deleteforum", postdata, function(data) {	
+		if(data == "Ok")
+		{
+			$("#flist").load("editfora.php?action=forumtable");
+			$("#editcontent").html("");
+		}
+		else
+			alert("Error: "+data);		
+	});
+}
+
+function newForum()
+{
+	$('#editcontent').load('./editfora.php?action=editforumnew');
+	$("#flist").load("editfora.php?action=forumtable");
+}
+
+function showDeleteForum()
+{
+	$("#deleteforum").slideDown("slow");
+}
+
+function hideDeleteForum()
+{
+	$("#deleteforum").slideUp("slow");
+}
+
+
+
