@@ -842,7 +842,7 @@ foreach($themes as $themeKey => $themeName)
 	
 	$themeList .= format(
 "
-	<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\">
+	<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\" onclick=\"void();\">
 		<input type=\"radio\" name=\"theme\" value=\"{3}\"{4} onchange=\"ChangeTheme(this.value);\" />
 			{2} <br />
 			<strong>{0}</strong>
