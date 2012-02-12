@@ -31,9 +31,6 @@ if(NumRows($rPost))
 	$tid = $post['thread'];
 } else
 	Kill(__("Unknown post ID."));
-	
-if ($post['deleted'])
-	Kill(__("This post has been deleted."));
 
 $qThread = "select * from threads where id=".$tid;
 $rThread = Query($qThread);
@@ -84,6 +81,9 @@ if((int)$_GET['delete'] == 1)
 	//Redirect(__("Restored!"), "thread.php?id=".$tid, __("the thread"));
 	exit();
 }
+
+if ($post['deleted'])
+	Kill(__("This post has been deleted."));
 
 if(!CanMod($loguserid, $fid) && $post['user'] != $loguserid)
 	Kill(__("You are not allowed to edit posts."));
