@@ -1,5 +1,5 @@
 <?php
-include("lib/common.php");
+
 $title = __("Ranks");
 AssertForbidden("viewRanks");
 
@@ -34,7 +34,7 @@ while($set = Fetch($rSets))
 
 write(
 "
-<form action=\"ranks.php\" method=\"post\" id=\"myForm\">
+<form action=\"".actionLink("ranks")."\" method=\"post\" id=\"myForm\">
 	<table class=\"outline margin width25\">
 		<tr class=\"header0\">
 			<th colspan=\"2\">

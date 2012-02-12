@@ -2,11 +2,9 @@
 //  AcmlmBoard XD - Private message sending/previewing page
 //  Access: user
 
-include("lib/common.php");
-
 $title = __("Private messages");
 
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>"private.php", __("New PM")=>""), "");
+MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>actionLink("private"), __("New PM")=>""), "");
 
 AssertForbidden("sendPM");
 
@@ -143,7 +141,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 				$qPMT = "insert into pmsgs_text (pid,title,text) values (".$pid.", '".justEscape($_POST['title'])."', '".$post."')";
 				$rPMT = Query($qPMT);
 
-				die(header("Location: private.php?show=2"));
+				die(header("Location: ".actionLink("private", "", "show=2")));
 				//Redirect(__("Draft saved!"), "private.php?show=2", __("your drafts box"));
 			}
 			else
@@ -158,7 +156,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 					$rPMT = Query($qPMT);
 				}
 
-				die(header("Location: private.php?show=1"));
+				die(header("Location: ".actionLink("private", "", "show=1")));
 				//Redirect(__("PM sent!"),"private.php?show=1", __("your PM outbox"));
 			}
 			exit();
@@ -206,7 +204,7 @@ Write(
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"sendprivate.php\" method=\"post\">
+				<form action=\"".actionLink("sendprivate")."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">
@@ -259,8 +257,5 @@ Write(
 		</tr>
 	</table>
 ");
-			
-
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>"private.php", __("New PM")=>""), "");
 
 ?>

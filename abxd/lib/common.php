@@ -140,7 +140,7 @@ function RecalculateKarma($uid)
 			$karma -= $karmaWeights[$k['powerlevel']];
 	}
 	Query("update users set karma=".$karma." where id=".$uid);
-	CheckHeart($uid, $karma);
+//	CheckHeart($uid, $karma);
 	return $karma;
 }
 

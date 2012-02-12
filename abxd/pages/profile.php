@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - User profile page
 //  Access: all
 
-include("lib/common.php");
-
 AssertForbidden("viewProfile");
 
 if(isset($_POST['id']))
@@ -59,9 +57,9 @@ if($loguserid)
 		$rBlock = Query($qBlock);
 		$isBlocked = NumRows($rBlock);
 		if($isBlocked)
-			$blockLayoutLink = "<li><a href=\"profile.php?id=".$id."&amp;block=0\">".__("Unblock layout")."</a></li>";
+			$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0");
 		else
-			$blockLayoutLink = "<li><a href=\"profile.php?id=".$id."&amp;block=1\">".__("Block layout")."</a></li>";
+			$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1");
 	}
 
 	if(isset($_GET['vote']) && $canVote)
@@ -80,12 +78,15 @@ if($loguserid)
 
 	$qKarma = "select up from uservotes where uid=".$id." and voter=".$loguserid;
 	$k = FetchResult($qKarma);
-	if($k == -1)
-		$karmaLinks = " <small>[<a href=\"profile.php?id=".$id."&amp;vote=1\">&#x2191;</a>/<a href=\"profile.php?id=".$id."&amp;vote=0\">&#x2193;</a>]</small>";
-	else if($k == 0)
-		$karmaLinks = " <small>[<a href=\"profile.php?id=".$id."&amp;vote=1\">&#x2191;</a>]</small>";
-	else if($k == 1)
-		$karmaLinks = " <small>[<a href=\"profile.php?id=".$id."&amp;vote=0\">&#x2193;</a>]</small>";
+	
+	$karmalinks = "";
+	if($k != 1)
+		$karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1");
+		
+	if($k != 0)
+		$karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0");
+		
+	$karmaLinks = "<small>[$karmaLinks]</small>";
 }
 
 $karma = $user['karma'];
@@ -257,7 +258,8 @@ if(NumRows($rComments))
 	while($comment = Fetch($rComments))
 	{
 		if($canDeleteComments)
-			$deleteLink = "<small style=\"float: right; margin: 0px 4px;\"><a  href=\"profile.php?id=".$id."&amp;action=delete&amp;cid=".$comment['id']."\" title=\"".__("Delete comment")."\">&#x2718;</a></small>";
+			$deleteLink = "<small style=\"float: right; margin: 0px 4px;\">".
+				actionLinkTag("&#x2718;", "profile", $id, "action=delete&amp;cid=".$comment['id'])."</small>";
 		$cellClass = ($cellClass+1) % 2;
 		$thisComment = format(
 "
@@ -322,7 +324,7 @@ if($loguserid)
 	$commentField = format(
 "
 								<div>
-									<form method=\"post\" action=\"profile.php\">
+									<form method=\"post\" action=\"".actionLink("profile")."\">
 										<input type=\"hidden\" name=\"id\" value=\"{0}\" />
 										<input type=\"text\" name=\"text\" style=\"width: 80%;\" maxlength=\"255\" />
 										<input type=\"submit\" name=\"action\" value=\"".__("Post")."\" />
@@ -362,21 +364,7 @@ write(
 	</table>
 ");
 
-/*
-//Randomized previews
-$previews = array
-(
-	"(sample text)", //from AcmlmBoard 1.8a and 2.0a2
-	"[quote=Spock]A sample quote, with a <a href=\"about:blank\">link</a>, for testing your layout.[/quote](sample text)", //from ProtoBoard
-	"[quote=\"The Joker\" id=\"4\"]Why so <a href=\"profile.php?id=".$id."\">serious</a>?[/quote]Because I heard it before. And it wasn't funny then.", //from "The Dark Knight" and "The Killing Joke"
-	"[quote=Barack Obama]I am Barack Obama and I approve this preview message.[/quote](sample post)",
-);
-$previewPost['text'] = $previews[array_rand($previews)];
-//</randompreviews>
-*/
-//Fixed preview
 $previewPost['text'] = $profilePreviewText;
-//</fixedpreview>
 
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";
@@ -394,14 +382,15 @@ MakePost($previewPost, POST_SAMPLE);
 if($loguser['powerlevel'] > 2)
 {
 	if(IsAllowed("editUser"))
-		$links .= "<li><a href=\"editprofile.php?id=".$id."\">".__("Edit user")."</a></li>";
+		$links .= actionLinkTagItem(__("Edit user"), "editprofile", $id);
 	if(IsAllowed("snoopPM"))
-		$links .= "<li><a href=\"private.php?user=".$id."\">".__("Show PMs")."</a></li>";
+		$links .= actionLinkTagItem(__("Show PMs"), "private", "", "user=".$id);
 }
 if($loguserid && IsAllowed("sendPM"))
-	$links .= "<li><a href=\"sendprivate.php?uid=".$id."\">".__("Send PM")."</a></li>";
+	$links .= actionLinkTagItem(__("Send PM"), "sendprivate", "", "uid=".$id);
 if(IsAllowed("listPosts"))
-	$links .= "<li><a href=\"listposts.php?id=".$id."\">".__("Show posts")."</a></li>";
+		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id);
+
 $links .= $blockLayoutLink;
 write("
 	<ul class=\"smallFonts margin pipemenu\">

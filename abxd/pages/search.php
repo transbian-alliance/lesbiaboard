@@ -1,18 +1,18 @@
 <?php
-$noAutoHeader = TRUE;
-include("lib/common.php");
+
 if(isset($_POST['google']))
 {
 	$full = GetFullURL();
 	$here = substr($full, 0, strrpos($full, "/"));
 	header("Location: http://www.google.com/search?q=".urlencode($_POST['google']." site:".$here));
 }
-include("lib/header.php");
+
 AssertForbidden("search");
+
 write("
 <div style=\"float: left; width: 70%;\">
 
-	<form action=\"search.php\" method=\"post\">
+	<form action=\"".actionLink("search")."\" method=\"post\">
 		<div class=\"outline PoRT margin width25\" style=\"margin: 16px; width: 100%; float: none;\">
 			<div class=\"errort\">
 				<strong>".__("Google search")."</strong>
@@ -26,10 +26,14 @@ write("
 	</form>
 ");
 
-if($loguser['powerlevel'] < 1) die("</div>");
+if($loguser['powerlevel'] < 1)
+{
+	echo("</div>");
+	throw new KillException();
+}
 
 write("
-	<form action=\"search.php\" method=\"get\">
+	<form action=\"".actionLink("search")."\" method=\"get\">
 		<div class=\"outline PoRT margin\" style=\"margin: 16px; width: 100%; float: none;\">
 			<div class=\"errort\">
 				<strong>".__("Internal search")."</strong>

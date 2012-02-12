@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Report/content mismatch fixing utility
 //  Access: staff
 
-include("lib/common.php");
-
 AssertForbidden("recalculate");
 
 if($loguser['powerlevel'] < 1)

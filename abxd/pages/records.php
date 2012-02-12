@@ -2,7 +2,6 @@
 //  AcmlmBoard XD - The Records
 //  Access: all
 
-include("lib/common.php");
 
 $title = __("Records");
 AssertForbidden("viewRecords");

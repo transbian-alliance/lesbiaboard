@@ -1,7 +1,5 @@
 <?php
 
-include("lib/common.php");
-
 $title = __("Uploader");
 
 AssertForbidden("viewUploader");
@@ -36,8 +34,8 @@ else
 	$skey = "date";
 
 $sortOptions = "<div class=\"margin smallFonts\">".__("Sort order").": <ul class=\"pipemenu\">";
-$sortOptions .= ($skey == "filename") ? "<li>".__("Name")."</li>" : "<a href=\"uploader.php?sort=filename\">".__("Name")."</a></li>";
-$sortOptions .= ($skey == "date") ? "<li>".__("Date")."</li>" : "<a href=\"uploader.php\">".__("Date")."</a></li>";
+$sortOptions .= ($skey == "filename") ? "<li>".__("Name")."</li>" : actionLinkTag(__("Name"), "uploader", "", "sort=filename")."</li>";
+$sortOptions .= ($skey == "date") ? "<li>".__("Date")."</li>" : actionLinkTag(__("Date"), "uploader", "", "")."</a></li>";
 $sortOptions .= "</ul></div>";
 $sdir = ($skey == "date") ? " desc" : " asc";
 
@@ -216,7 +214,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 				$multidel = "<td><input type=\"checkbox\" name=\"delete[".$entry['id']."]\" disabled=\"disabled\" /></td>";
 			if($loguserid == $entry['user'] || $loguser['powerlevel'] > 2)
 			{
-				$delete = "<sup>&nbsp;<a href=\"uploader.php?action=delete&amp;fid=".$entry['id']."\">&#x2718;</a></sup>";
+				$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&amp;fid=".$entry['id'])."</sup>";
 				$multidel = "<td><input type=\"checkbox\" name=\"del[".$entry['id']."]\" /></td>";
 			}
 
@@ -304,7 +302,7 @@ else
 			$multidel = "<td><input type=\"checkbox\" name=\"delete[".$entry['id']."]\" disabled=\"disabled\" /></td>";
 		if($loguserid == $entry['user'] || $loguser['powerlevel'] > 2)
 		{
-			$delete = "&nbsp;<sup><a href=\"uploader.php?action=delete&amp;fid=".$entry['id']."\">&#x2718;</a></sup>";
+			$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&amp;fid=".$entry['id'])."</sup>";
 			$multidel = "<td><input type=\"checkbox\" name=\"del[".$entry['id']."]\" /></td>";
 		}
 		$cellClass = ($cellClass+1) % 2;
@@ -348,7 +346,7 @@ if($loguserid && IsAllowed("useUploader"))
 <script type=\"text/javascript\">
 	window.addEventListener(\"load\", function() { hookUploadCheck(\"newfile\", 1, {1}) }, false);
 </script>
-<form action=\"uploader.php\" method=\"post\" enctype=\"multipart/form-data\">
+<form action=\"".actionLink("uploader")."\" method=\"post\" enctype=\"multipart/form-data\">
 	<table class=\"outline margin\">
 		<tr class=\"header0\">
 			<th colspan=\"4\">".__("Upload")."</th>
@@ -447,7 +445,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid))
 }
 
 write($uploadPart);
-write("<form method=\"post\" action=\"uploader.php\">");
+write("<form method=\"post\" action=\"".actionLink("uploader")."\">");
 write($sortOptions);
 write($private);
 write($public);

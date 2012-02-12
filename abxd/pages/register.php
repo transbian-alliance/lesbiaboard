@@ -6,20 +6,17 @@ $haveSecurimage = is_file("securimage/securimage.php");
 if($haveSecurimage)
 	session_start();
 
-$noAutoHeader = TRUE;
-include("lib/common.php");
 
 $title = __("Register");
 
-$backtomain = "<br /><a href=\"./\">".__("Back to main")."</a> &bull; <a href=\"register.php\">".__("Try again")."</a>";
+$backtomain = "<br /><a href=\"./\">".__("Back to main")."</a> &bull; <a href=\"".actionLink("register")."\">".__("Try again")."</a>";
 $sexes = array(__("Male"), __("Female"), __("N/A"));
 
 if(!isset($_POST['action']))
 {
-	include("lib/header.php");
 	write(
 "
-	<form action=\"register.php\" method=\"post\">
+	<form action=\"".actionLink("register")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">
@@ -63,7 +60,7 @@ if(!isset($_POST['action']))
 				<td class=\"cell0\">
 					<label>
 						<input type=\"checkbox\" name=\"readFaq\" />
-						".format(__("I have read the {0}FAQ{1}"), "<a href=\"faq.php\">", "</a>")."
+						".format(__("I have read the {0}FAQ{1}"), "<a href=\"".actionLink("faq")."\">", "</a>")."
 					</label>
 				</td>
 			</tr>
@@ -155,9 +152,9 @@ elseif($_POST['action'] == __("Register"))
 	elseif($ipKnown)
 		$err = __("Another user is already using this IP address.").$backtomain;
 	else if(!$_POST['readFaq'])
-		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"faq.php\">", "</a>").$backtomain;
+		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if($theWord != "" && strcasecmp($_POST['theWord'], $theWord))
-		$err = format(__("That's not the right word. Are you sure you really {0}read the FAQ{1}?"), "<a href=\"faq.php\">", "</a>").$backtomain;
+		$err = format(__("That's not the right word. Are you sure you really {0}read the FAQ{1}?"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if(strlen($_POST['pass']) < 4)
 		$err = __("Your password must be at least four characters long.").$backtomain;
 	else if ($_POST['pass'] != $_POST['pass2'])
@@ -173,7 +170,6 @@ elseif($_POST['action'] == __("Register"))
 
 	if($err)
 	{
-		include("lib/header.php");
 		Kill($err);
 	}
 
@@ -203,15 +199,12 @@ elseif($_POST['action'] == __("Register"))
 
 		setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
 
-		include("lib/header.php");
 		
 		die(header("Location: ."));
 		//Redirect(__("You are now registered and logged in."), "./", __("the main page"));
 	} else
 	{
-		include("lib/header.php");
-		
-		die(header("Location: login.php"));
+		die(header("Location: ".actionLink("login")));
 		//Redirect(__("You are now registered!"), "login.php", __("the login page"));
 	}
 }

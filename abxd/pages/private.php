@@ -92,9 +92,12 @@ else
 	$from = 0;
 
 
-$links = "<ul class=\"pipemenu\"><li><a href=\"private.php".(isset($_GET['show']) ? str_replace("&amp;", "?", $userGet) . "\">".__("Show received") : "?show=1".$userGet."\">".__("Show sent"))."</a></li>";
-$links .= "<li><a href=\"private.php?show=2".$userGet."\">".__("Show drafts")."</a></li>";
-$links .= "<li><a href=\"sendprivate.php\">".__("Send new PM")."</a></li></ul>";
+$links = "<ul class=\"pipemenu\">";
+
+$links .= actionLinkTagItem(__("Show received"), "private", "", str_replace("&amp;", "", $userGet));
+$links .= actionLinkTagItem(__("Show sent"), "private", "", "show=1".$userGet);
+$links .= actionLinkTagItem(__("Show drafts"), "private", "", "show=2".$userGet);
+$links .= actionLinkTagItem(__("Send new PM"), "sendprivate");
 
 MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>actionLink("private")), $links);
 

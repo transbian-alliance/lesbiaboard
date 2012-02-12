@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Private message display page
 //  Access: user, specifically the sender or reciever.
 
-include("lib/common.php");
-
 $title = __("Private messages");
 
 AssertForbidden("viewPM");
@@ -48,7 +46,7 @@ if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
 	$qPM = "update pmsgs set msgread=1 where id=".$pm['id'];
 	$rPM = Query($qPM);
-	$links = "<a href=\"sendprivate.php?pid=".$pm['id']."\">".__("Send reply")."</a>";
+	$links = actionLinkTag(__("Send reply"), "sendprivate", "", "pid=".$pm['id']);
 }
 else if(!isset($_GET['snooping']) && $pm['drafting'])
 {
@@ -61,7 +59,7 @@ else if(isset($_GET['snooping']))
 	Alert(__("You are snooping."));
 
 $pmtitle = htmlspecialchars($pm['title']); //sender's custom title overwrites this below, so save it here
-MakeCrumbs(array(__("Main")=>"./", ("Private messages")=>"private.php", $pmtitle=>""), $links);
+MakeCrumbs(array(__("Main")=>"./", ("Private messages")=>actionLink("private"), $pmtitle=>""), $links);
 
 $pm['num'] = "preview";
 $pm['posts'] = $user['posts'];
@@ -101,7 +99,7 @@ if($draftEditor)
 		Query("delete from pmsgs where id = ".$pmid);
 		Query("delete from pmsgs_text where pid = ".$pmid);
 
-		die(header("Location: private.php"));
+		die(header("Location: ".actionLink("private")));
 		//Redirect(__("PM draft discarded."), "private.php", __("your PM box"));
 		exit();
 	}
@@ -177,7 +175,7 @@ if($draftEditor)
 					$qPM = "update pmsgs set userto = ".$firstTo." where id = ".$pmid;
 					$rPM = Query($qPM);
 
-					die(header("Location: private.php?show=2"));
+				die(header("Location: ".actionLink("private", "", "show=2")));
 					//Redirect(__("PM draft updated!"), "private.php?show=2", __("your PM box"));
 					exit();
 				}
@@ -205,7 +203,7 @@ if($draftEditor)
 						$rPMT = Query($qPMT);
 					}
 
-					die(header("Location: private.php?show=1"));
+				die(header("Location: ".actionLink("private", "", "show=1")));
 					//Redirect(__("PM sent!"),"private.php?show=1", __("your PM outbox"));
 					exit();
 				}
@@ -229,7 +227,7 @@ if($draftEditor)
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"showprivate.php\" method=\"post\">
+				<form action=\"".actionLink("showprivate")."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">
@@ -289,7 +287,5 @@ else
 {
 	MakePost($pm, POST_PM);
 }
-
-MakeCrumbs(array(__("Main")=>"./", ("Private messages")=>"private.php", $pmtitle=>""), $links);
 
 ?>
