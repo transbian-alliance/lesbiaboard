@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Frequently Asked Questions page
 //  Access: all
 
-include("lib/common.php");
-
 $title = "FAQ";
 
 $admin = UserLink(Fetch(Query("select name, id, powerlevel, sex from users where id = 1")));

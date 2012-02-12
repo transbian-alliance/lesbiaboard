@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Smiley editing tool
 //  Access: administrators only
 
-include("lib/common.php");
-
 AssertForbidden("editSmilies");
 
 if($loguser['powerlevel'] < 3)
@@ -79,7 +77,7 @@ write(
 		To edit, change either code or image fields to <em>not</em> match their hidden counterparts.
 	</div>
 
-	<form method=\"post\" action=\"editsmilies.php\">
+	<form method=\"post\" action=\"".actionLink("editsmilies")."\">
 
 		<table class=\"outline margin\" style=\"width: 30%;\">
 			<tr class=\"header1\">

@@ -86,7 +86,7 @@ function Redirect($s,$t,$n)
 		window.addEventListener(\"load\",  startBar, false);
 	</script>
 ",	$s, $t, $n, "<a href=\"".$t."\">".$n."</a>");
-	exit();
+	throw new KillException();
 }
 
 ?>

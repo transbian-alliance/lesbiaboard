@@ -65,6 +65,7 @@ cell(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
 cell(actionLinkTag(__("Edit forum list"), "editfora", 0, "key=".$key));
 cell(actionLinkTag(__("Edit category list"), "editcats"));
 cell(actionLinkTag(__("Edit settings"), "editsettings"));
+cell(actionLinkTag(__("Edit smilies"), "editsmilies"));
 cell(actionLinkTag(__("Optimize tables"), "optimize"));
 cell(actionLinkTag(__("View log"), "log"));
 cell(actionLinkTag(__("Update the board"), "gitpull"));

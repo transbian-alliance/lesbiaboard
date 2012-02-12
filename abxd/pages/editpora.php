@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Points of Required Attention editing page
 //  Access: administrators
 
-include("lib/common.php");
-
 $title = __("Points of Required Attention");
 
 AssertForbidden("editPoRA");
@@ -38,7 +36,7 @@ write(
 		</div>
 	</div>
 
-	<form action=\"editpora.php\" method=\"post\">
+	<form action=\"".actionLink("editpora")."\" method=\"post\">
 		<table id=\"t\" class=\"outline margin width50\">
 			<tr class=\"header1\">
 				<th colspan=\"2\">

@@ -1,10 +1,5 @@
 <?php
-$ajax = isset($_GET['action']);
-$noAutoHeader = $ajax;
-$noViewCount = $ajax;
-$noOnlineUsers = $ajax;
-$noFooter = $ajax;
-include("lib/common.php");
+$ajaxPage = isset($_GET['action']);
 
 if($_POST['action'] == __("Create") && $loguser['powerlevel'] > 2)
 {

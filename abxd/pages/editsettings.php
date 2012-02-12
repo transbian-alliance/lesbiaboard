@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Board Settings editing page
 //  Access: administrators
 
-include("lib/common.php");
-
 $title = __("Edit settings");
 
 AssertForbidden("editSettings");
@@ -85,7 +83,7 @@ if(!function_exists('tidy_repair_string'))
 
 write(
 "
-	<form action=\"editsettings.php\" method=\"post\">
+	<form action=\"".actionLink("editsettings")."\" method=\"post\">
 		<table class=\"outline margin width75\">
 
 			<tr class=\"header1\">

@@ -1,23 +1,19 @@
 <?php
 $noAutoHeader = true;
-include("lib/common.php");
 
 if(!$loguserid)
 {
-	include("lib/header.php");
 	Kill(__("You must be logged in to edit your profile."));
 }
 
 if ($loguser['powerlevel'] < 0)
 {
-	include("lib/header.php");
 	Kill(__("Banned users may not edit their profile."));
 }
 
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 if (isset($_POST['action']) && $key != $_POST['key'])
 {
-	include("lib/header.php");
 	Kill(__("No."));
 }
 
@@ -34,7 +30,6 @@ $user = Fetch(Query("select * from users where id=".$userid));
 $editUserMode = isset($_GET['id']) && $loguser['powerlevel'] > 2;
 if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
 {
-	include("lib/header.php");
 	Kill(__("Cannot edit a root user."));
 }
 
@@ -382,7 +377,6 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 {
 	if($user['powerlevel'] == 4)
 	{
-		include("lib/header.php");
 		Kill(__("Trying to ban a root user?"));
 	}
 	$timeStamp = strtotime($_POST['until']);
@@ -395,8 +389,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 		SendSystemPM($userid, format(__("You have been temporarily banned until {0} GMT. If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), gmdate("M jS Y, G:[b][/b]i:[b][/b]s", $timeStamp)), __("You have been temporarily banned."));
 	
 		Query("update users set tempbanpl = ".$user['powerlevel'].", tempbantime = ".$timeStamp.", powerlevel = -1 where id = ".$userid);
-		include("lib/header.php");
-		Redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), "profile.php?id=".$userid, __("that user's profile"));
+		Redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
 	}
 }
 
@@ -411,7 +404,7 @@ if($_POST['action'] == __("Edit profile"))
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
 	
-	$retlink = "<br /><br /><form action=\"editprofile.php\" method=\"post\"><input type=\"hidden\" name=\"savedpost\" value=\""
+	$retlink = "<br /><br /><form action=\"".actionLink("editprofile")."\" method=\"post\"><input type=\"hidden\" name=\"savedpost\" value=\""
 		.htmlspecialchars(base64_encode(serialize($_POST)))
 		."\" /><a href=\"#\" onclick=\"this.parentNode.submit();\">".__("Go back and fix that")."</a></form>";
 	
@@ -430,7 +423,6 @@ if($_POST['action'] == __("Edit profile"))
 							continue;
 						else if($ret != "")
 						{
-							include_once("lib/header.php");
 							Alert($ret.($fallToEditor ? '':$retlink), __('Error'));
 							if(!$fallToEditor)
 								die();
@@ -509,7 +501,6 @@ if($_POST['action'] == __("Edit profile"))
 								$sets[] = $field." = 'img/avatars/".$userid."'";
 							else
 							{
-								include_once("lib/header.php");
 								Kill($res.$retlink);
 							}
 							break;
@@ -528,7 +519,6 @@ if($_POST['action'] == __("Edit profile"))
 								$sets[] = $field." = 'img/minipics/".$userid.".png'";
 							else
 							{
-								include_once("lib/header.php");
 								Kill($res.$retlink);
 							}
 							break;
@@ -549,20 +539,19 @@ if($_POST['action'] == __("Edit profile"))
 		if($loguserid == $userid)
 		{
 			$loguser = Fetch(Query("select * from users where id=".$loguserid));
-			if(!$editUserMode)
-				CheckAutobiographer();
+//			if(!$editUserMode)
+//				CheckAutobiographer();
 		}
 		
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
 			Karma();
 
-		include_once("lib/header.php");
 		$his = "[b]".$user['name']."[/]'s";
 		if($loguserid == $userid)
 			$his = HisHer($user['sex']);
 		Report("[b]".$loguser['name']."[/] edited ".$his." profile. -> [g]#HERE#?uid=".$userid, 1);
 
-		die(header("Location: profile.php?id=".$userid));
+		die(header("Location: ".actionLink("profile", $userid)));
 		//Redirect(__("Profile updated."), "profile.php?id=".$userid, ($userid == $loguserid ? __("your profile") : __("that user's profile")));
 	}
 	else
@@ -817,7 +806,7 @@ function HandlePowerlevel($field, $item)
 /* EDITOR PART
  * -----------
  */
-include_once("lib/header.php");
+
 
 $themeList = "";
 foreach($themes as $themeKey => $themeName)
@@ -857,7 +846,7 @@ foreach($themes as $themeKey => $themeName)
 if($editUserMode && $user['powerlevel'] < 4 && $user['tempbantime'] == 0)
 	write(
 "
-	<form action=\"editprofile.php\" method=\"post\">
+	<form action=\"".actionLink("editprofile")."\" method=\"post\">
 		<table class=\"outline margin width25\" style=\"float: right;\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">
@@ -894,7 +883,7 @@ foreach($tabs as $id => $tab)
 }
 Write("
 </div>
-<form action=\"editprofile.php\" method=\"post\" enctype=\"multipart/form-data\">
+<form action=\"".actionLink("editprofile")."\" method=\"post\" enctype=\"multipart/form-data\">
 ");
 
 foreach($tabs as $id => $tab)

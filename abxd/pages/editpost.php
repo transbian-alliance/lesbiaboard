@@ -64,7 +64,7 @@ if((int)$_GET['delete'] == 1)
 	$qPosts = "update posts set deleted=1 where id=".$pid." limit 1";
 	$rPosts = Query($qPosts);
 	
-	die(header("Location: thread.php?id=".$tid));
+	die(header("Location: ".actionLink("thread", $tid)));
 	//Redirect(__("Deleted!"), "thread.php?id=".$tid, __("the thread"));
 	exit();
 } elseif((int)$_GET['delete'] == 2)
@@ -75,7 +75,7 @@ if((int)$_GET['delete'] == 1)
 	$qPosts = "update posts set deleted=0 where id=".$pid." limit 1";
 	$rPosts = Query($qPosts);
 	
-	die(header("Location: thread.php?id=".$tid));
+	die(header("Location: ".actionLink("thread", $tid)));
 	//Redirect(__("Restored!"), "thread.php?id=".$tid, __("the thread"));
 	exit();
 }
@@ -152,12 +152,12 @@ if($_POST['action'] == __("Edit"))
 			$rPosts = Query($qPosts);
 		}
 		
-		CheckEditor();
+//		CheckEditor();
 
 		if($forum['minpower'] < 1)
 			Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid);
 
-			die(header("Location: thread.php?pid=".$pid."#".$pid));
+			die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
 			//Redirect(__("Edited!"), "thread.php?pid=".$pid."#".$pid, __("the thread"));
 		exit();
 	}
@@ -229,7 +229,7 @@ Write(
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"editpost.php\" method=\"post\">
+				<form action=\"".actionLink("editpost")."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">

@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Thread editing page
 //  Access: moderators
 
-include("lib/common.php");
-
 $title = __("Edit thread");
 
 AssertForbidden("editThread");
@@ -52,7 +50,7 @@ if($canMod)
 		$rThread = Query($qThread);
 		Report("[b]".$loguser['name']."[/] closed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 	
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Thread closed."), "forum.php?id=".$thread['forum'], __("the forum"));
 	}
 	elseif($_GET['action']=="open")
@@ -61,7 +59,7 @@ if($canMod)
 		$rThread = Query($qThread);
 		Report("[b]".$loguser['name']."[/] opened thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 			
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Thread opened."), "forum.php?id=".$thread['forum'], __("the forum"));
 	}
 	elseif($_GET['action']=="stick")
@@ -70,7 +68,7 @@ if($canMod)
 		$rThread = Query($qThread);
 		Report("[b]".$loguser['name']."[/] stickied thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 			
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Thread stickied."), "forum.php?id=".$thread['forum'], __("the forum"));
 	}
 	elseif($_GET['action']=="unstick")
@@ -79,7 +77,7 @@ if($canMod)
 		$rThread = Query($qThread);
 		Report("[b]".$loguser['name']."[/] unstuck thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 			
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Thread unsticked."), "forum.php?id=".$thread['forum'], __("the forum"));
 	}
 	elseif($_POST['action']==__("Move"))
@@ -104,7 +102,7 @@ if($canMod)
 		
 		Report("[b]".$loguser['name']."[/] moved thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 			
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Thread moved."), "forum.php?id=".$moveto, __("the new forum"));
 	}
 	elseif($_GET['action']=="delete")
@@ -124,6 +122,7 @@ if($canMod)
 			$qUser = "select id from users where id=".$post['user'];
 			$rUser = Query($qUser);
 			$qUser = "update users set posts = posts - 1 where id=".$post['user'];
+
 			$rUser = Query($qUser);
 
 			//Decrease forum postcount
@@ -157,7 +156,7 @@ if($canMod)
 
 		Report("[b]".$loguser['name']."[/] deleted thread [b]".$thread['title']."[/]", $isHidden);
 			
-		die(header("Location: forum.php?id=".$thread['forum']));
+		die(header("Location: ".actionLink("forum", $thread['forum'])));
 		//Redirect(__("Thread deleted."), "forum.php?id=".$thread['forum'], __("the forum"));
 	}
 	elseif($_GET['action'] == "trash")
@@ -183,7 +182,7 @@ if($canMod)
 
 			Report("[b]".$loguser['name']."[/] thrashed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: forum.php?id=".$thread['forum']));
+			die(header("Location: ".actionLink("forum", $thread['forum'])));
 			//Redirect(__("Thread trashed."), "forum.php?id=".$thread['forum'], __("the forum"));
 		}
 		else
@@ -212,7 +211,7 @@ if($canMod)
 
 			Report("[b]".$loguser['name']."[/] edited thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: thread.php?id=".$tid));
+			die(header("Location: ".actionLink("thread", $tid)));
 			//Redirect(__("Edited!"), "thread.php?id=".$tid, __("the thread"));
 			exit();
 		}
@@ -231,7 +230,7 @@ else
 
 			Report("[b]".$loguser['name']."[/] renamed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: thread.php?id=".$tid));
+			die(header("Location: ".actionLink("thread", $tid)));
 			//Redirect(__("Edited!"), "thread.php?id=".$tid, __("the thread"));
 			exit();
 		}
@@ -290,7 +289,7 @@ if($canMod)
 	
 	write(
 "
-	<form action=\"editthread.php\" method=\"post\">
+	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin\" style=\"width: 100%;\">
 			<tr class=\"header1\">
 				<th colspan=\"2\">
@@ -342,7 +341,7 @@ if($canMod)
 				<td></td>
 				<td>
 					<input type=\"submit\" name=\"action\" value=\"".__("Edit")."\"></input>
-					<button onclick=\"window.navigate('editthread.php?id={7}&amp;action=delete');\">".__("Delete")."</button>
+					<button onclick=\"window.navigate('".actionLink("editthread", "{7}", "action=delete")."');\">".__("Delete")."</button>
 
 					<select name=\"moveTo\" size=\"1\">{8}</select>
 					<input type=\"submit\" name=\"action\" value=\"".__("Move")."\" />
@@ -361,7 +360,7 @@ else
 {
 	write(
 "
-	<form action=\"editthread.php\" method=\"post\">
+	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"cell0\">
 				<td>
