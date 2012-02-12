@@ -52,7 +52,6 @@ if(!isset($title))
 //WARNING: These things need to be kept in a certain order of execution.
 
 include("mysql.php");
-//include("supersqlescape.php");
 include("feedback.php");
 
 $thisURL = $_SERVER['SCRIPT_NAME'];
@@ -60,6 +59,7 @@ if($q = $_SERVER['QUERY_STRING'])
 	$thisURL .= "?$q";
 
 include("loguser.php");
+include("permissions.php");
 include("pluginsystem.php");
 include("links.php");
 

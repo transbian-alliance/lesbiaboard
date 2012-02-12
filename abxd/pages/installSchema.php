@@ -397,5 +397,15 @@ $tables = array
 			"up" => $bool,
 		)
 	),
+	"usergroups" => array(
+		"id" => $genericInt,
+		"title" => $var256,
+		"inherits" => $genericInt,
+		"permissions" => $text
+	),
+	"userpermissions" => array(
+		"uid" => $genericInt,
+		"permissions" => $text
+	)
 );
 ?>
