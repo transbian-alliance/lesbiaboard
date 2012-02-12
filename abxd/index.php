@@ -88,7 +88,7 @@ if($rssBar)
 	</div>
 ", $rssBar, $rssWidth + 4);
 }*/
-
+DoPrivateMessageBar();
 $bucket = "topBar"; include("./lib/pluginloader.php");
 
 require('pages/'.$_GET["action"].'.php');
