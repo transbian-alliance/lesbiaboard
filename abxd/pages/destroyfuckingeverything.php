@@ -1,11 +1,9 @@
 <?php
-include("lib/common.php");
-
 if($loguser['powerlevel'] != 4)
 	Kill(__("You're not a root user. There is nothing for you here."));
 
 if(!isset($_GET['doitfaggot']))
-	Kill(__("Are you sure?")."<br/><br/><button style=\"font-size: 150%; margin: 0.5em; padding: 0px 1em;\" onclick=\"document.location = 'destroyfuckingeverything.php?doitfaggot';\">DO IT FAGGOT</button>", __("Oh boy."));
+	Kill(__("Are you sure?")."<br/><br/><button style=\"font-size: 150%; margin: 0.5em; padding: 0px 1em;\" onclick=\"document.location = '".actionLink("destroyfuckingeverything", 0, "doitfaggot")."';\">DO IT FAGGOT</button>", __("Oh boy."));
 
 $tables = array
 (

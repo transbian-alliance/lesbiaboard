@@ -2,7 +2,6 @@
 //  AcmlmBoard XD - Administration hub page
 //  Access: administrators
 
-include("lib/common.php");
 
 AssertForbidden("viewAdminRoom");
 
@@ -58,19 +57,19 @@ Write("
 			</th>
 		</tr>
 ");
-cell("<a href=\"recalc.php\">".__("Recalculate statistics")."</a>");
-cell("<a href=\"lastknownbrowsers.php\">".__("Last Known Browsers")."</a> ".__("(not admin-only)"));
-cell("<a href=\"editpora.php\">".__("Edit Points of Required Attention")."</a>");
-cell("<a href=\"ipbans.php\">".__("Manage IP bans")."</a>");
-cell("<a href=\"managemods.php\">".__("Manage local moderator assignments")."</a>");
-cell("<a href=\"editfora.php?key=".$key."\">".__("Edit forum list")."</a>");
-cell("<a href=\"editcats.php\">".__("Edit category list")."</a>");
-cell("<a href=\"editsettings.php\">".__("Edit settings")."</a>");
-cell("<a href=\"optimize.php\">".__("Optimize tables")."</a>");
-cell("<a href=\"log.php\">".__("View log")."</a>");
-cell("<a href=\"gitpull.php\">".__("Update the board")."</a>");
+cell(actionLinkTag(__("Recalculate statistics"), "recalc"));
+cell(actionLinkTag(__("Last Known Browsers"), "lastknownbrowsers"));
+cell(actionLinkTag(__("Edit Points of Required Attention"), "editpora"));
+cell(actionLinkTag(__("Manage IP bans"), "ipbans"));
+cell(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
+cell(actionLinkTag(__("Edit forum list"), "editfora", 0, "key=".$key));
+cell(actionLinkTag(__("Edit category list"), "editcats"));
+cell(actionLinkTag(__("Edit settings"), "editsettings"));
+cell(actionLinkTag(__("Optimize tables"), "optimize"));
+cell(actionLinkTag(__("View log"), "log"));
+cell(actionLinkTag(__("Update the board"), "gitpull"));
 if($loguser['powerlevel'] == 4)
-	cell("<a href=\"sql.php\">".__("SQL Console")."</a>");
+	cell(actionLinkTag(__("SQL Console"), "sql"));
 
 $bucket = "adminleft"; include("./lib/pluginloader.php");
 

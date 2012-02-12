@@ -1,7 +1,5 @@
 <?php
 
-include("lib/common.php");
-
 $title = __("Calendar");
 
 AssertForbidden("viewCalendar");
@@ -85,12 +83,7 @@ for($i = 1; $i <= 12; $i++)
 	}
 	else
 	{
-		$monthChoice .= format(
-"
-				<li>
-					<a href=\"calendar.php?month={0}\">{1}</a>
-				</li>
-", $i, $months[$i]);
+		$monthChoice .= actionLinkTagItem($months[$i], "calendar", 0, "month=$i");
 	}
 }
 

@@ -120,18 +120,17 @@ if(isset($fid))
 	$set = "";
 	if($loguserid)
 		foreach($avalib[$fid]['content'] as $image)
-			$set .= format(
-"
-		<a href=\"avatarlibrary.php?action=set&amp;fid={0}&amp;img={1}\">
-			<img src=\"img/avatars/library/{2}/{3}.png\" alt=\"{3}\" title=\"{3}\" />
-		</a>
-", $fid, $i++, $avalib[$fid]['name'], $image);
+		{
+			$img = "<img src=\"img/avatars/library/{$avalib[$fid]['name']}/$image.png\" alt=\"$image\" title=\"$image\" />";
+			$set .= actionLinkTag($img, "avatarlibrary", 0, "action=set&amp;fid=$fid&amp;img=".$i++);
+		}
 	else
 		foreach($avalib[$fid]['content'] as $image)
-		$set .= format(
-"
-			<img src=\"img/avatars/library/{2}/{3}.png\" alt=\"{3}\" title=\"{3}\" />
-", $fid, $i++, $avalib[$fid]['name'], $image);
+		{
+			$img = "<img src=\"img/avatars/library/{$avalib[$fid]['name']}/$image.png\" alt=\"$image\" title=\"$image\" />";
+			$set .= $img;
+		}
+
 	write(
 "
 	<div class=\"outline margin faq avaLib\">

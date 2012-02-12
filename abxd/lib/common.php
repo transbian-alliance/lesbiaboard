@@ -63,9 +63,6 @@ include("loguser.php");
 include("pluginsystem.php");
 include("links.php");
 
-if(!isset($noViewCount))
-	include("views.php");
-
 include("post.php");
 
 include("css/themelist.php");

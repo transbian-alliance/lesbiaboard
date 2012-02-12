@@ -584,7 +584,7 @@ function changeForumInfo(forum)
 		if(xmlHttp.readyState == 4)
 		{
 			if(xmlHttp.responseText.indexOf("Change OK") != -1)
-				$("#flist").load("editfora.php?action=forumTable&s"+forum);
+				$("#flist").load(editforaurl+"forumTable&s"+forum);
 			else
 				alert("Something went wrong.");
 		}
@@ -602,7 +602,7 @@ function deleteForum(fid)
 		{
 			if(xmlHttp.responseText.indexOf("Deleted OK") != -1)
 			{
-				$("#flist").load("editfora.php?action=forumTable");
+				$("#flist").load(editforaurl+"forumTable");
 				document.getElementById("editcontent").textContent = "";
 			}
 			else
@@ -631,7 +631,7 @@ function addForum()
 		{
 			if(xmlHttp.responseText.indexOf("Added OK") != -1)
 			{
-				$("#flist").load("editfora.php?action=forumTable");
+				$("#flist").load(editforaurl+"forumTable");
 				document.getElementById("editcontent").textContent = "";
 			}
 			else
@@ -659,6 +659,11 @@ function ReplacePost(id, opened)
 
 var fid = 0;
 var hint = true;
+
+function geteditforaurl()
+{
+	return document.location + "&action=";
+}
 function pickForum(id) {
 	if (hint == true) {
 		$("#hint").remove();
@@ -667,18 +672,17 @@ function pickForum(id) {
 	$(".f, .c").css("outline", "0px none");
 	$("#forum"+id).css("outline", "1px solid #888")
 	if ($("#editcontent").is(":hidden")) $("#editcontent").show();
-	$("#editcontent").load('./editfora.php?action=editforum&fid='+id);
+	$("#editcontent").load(geteditforaurl()+'editforum&fid='+id);
 	fid = id;
 }
 
 function changeForumInfo()
 {
 	var postdata = $("#forumform").serialize();
-	
-	$.post("editfora.php?action=updateforum", postdata, function(data) {	
+	$.post(geteditforaurl()+"updateforum", postdata, function(data) {	
 		if(data == "Ok")
 		{
-			$("#flist").load("editfora.php?action=forumtable");
+			$("#flist").load(geteditforaurl()+"forumtable");
 			$("#editcontent").html("");
 		}
 		else
@@ -690,10 +694,10 @@ function addForum()
 {
 	var postdata = $("#forumform").serialize();
 	
-	$.post("editfora.php?action=addforum", postdata, function(data) {	
+	$.post(geteditforaurl()+"addforum", postdata, function(data) {	
 		if(data == "Ok")
 		{
-			$("#flist").load("editfora.php?action=forumtable");
+			$("#flist").load(geteditforaurl()+"forumtable");
 			$("#editcontent").html("");
 		}
 		else
@@ -724,10 +728,10 @@ function deleteForum(what)
 	if(!confirm("Are you sure that you want to delete the forum?"))
 		return;
 
-	$.post("editfora.php?action=deleteforum", postdata, function(data) {	
+	$.post(geteditforaurl()+"deleteforum", postdata, function(data) {	
 		if(data == "Ok")
 		{
-			$("#flist").load("editfora.php?action=forumtable");
+			$("#flist").load(geteditforaurl()+"forumtable");
 			$("#editcontent").html("");
 		}
 		else
@@ -737,8 +741,8 @@ function deleteForum(what)
 
 function newForum()
 {
-	$('#editcontent').load('./editfora.php?action=editforumnew');
-	$("#flist").load("editfora.php?action=forumtable");
+	$('#editcontent').load(geteditforaurl()+'editforumnew');
+	$("#flist").load(geteditforaurl()+"forumtable");
 }
 
 function showDeleteForum()

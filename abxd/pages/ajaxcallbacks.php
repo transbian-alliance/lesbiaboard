@@ -1,10 +1,6 @@
 <?php
-$noAutoHeader = TRUE;
-$noViewCount = TRUE;
-$noOnlineUsers = TRUE;
-$noFooter = TRUE;
-$ajax = TRUE;
-include("lib/common.php");
+
+$ajaxPage = true;
 
 header("Cache-Control: no-cache");
 

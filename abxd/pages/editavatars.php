@@ -1,5 +1,4 @@
 <?php
-include("lib/common.php");
 
 $title = __("Mood avatars");
 
@@ -112,7 +111,7 @@ while($mood = Fetch($rMoods))
 				<img src=\"img/avatars/{1}_{2}\" alt=\"\">
 			</td>
 			<td>
-				<form method=\"post\" action=\"editavatars.php\">
+				<form method=\"post\" action=\"".actionLink("editavatars")."\">
 					<input type=\"hidden\" name=\"mid\" value=\"{2}\" />
 					<input type=\"text\" id=\"name{2}\" name=\"name\" style=\"width: 60%;\" value=\"{3}\" />
 					<input type=\"submit\" name=\"action\" value=\"".__("Rename")."\" />
@@ -141,7 +140,7 @@ write(
 			<td>
 			</td>
 			<td>
-				<form method=\"post\" action=\"editavatars.php\" enctype=\"multipart/form-data\">
+				<form method=\"post\" action=\"".actionLink("editavatars")."\" enctype=\"multipart/form-data\">
 					<label for=\"newName\">".__("Name:")."</label>
 					<input type=\"text\" id=\"newName\" name=\"name\" style=\"width: 60%;\" /><br />
 					

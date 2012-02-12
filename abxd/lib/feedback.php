@@ -30,6 +30,15 @@ function Kill($s, $t="")
 	throw new KillException();
 }
 
+function dieAjax($what)
+{
+	global $ajaxPage;
+	
+	echo $what;
+	$ajaxPage = true;
+	throw new KillException();
+}
+
 function Redirect($s,$t,$n)
 {
 	write(

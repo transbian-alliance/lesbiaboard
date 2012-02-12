@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Rankset import tool
 //  Access: administrators
 
-include("lib/common.php");
-
 AssertForbidden("addRanks");
 
 if($loguser['powerlevel'] < 3)

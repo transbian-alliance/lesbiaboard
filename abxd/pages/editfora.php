@@ -3,8 +3,6 @@
 //Category/forum editor -- By Nikolaj
 //Secured and improved by Dirbaio
 
-$noAutoHeader = true;
-include('lib/common.php');
 $title = "Edit forums";
 
 if ($loguser['powerlevel'] < 3) Kill("You're not allowed to access the forum editor.");
@@ -58,7 +56,8 @@ switch($_POST['action'])
 		//Send it to the DB
 		$qForum = "UPDATE forums SET title = '".justEscape($title)."', description = '".justEscape($description)."', catid = ".$category.", forder = ".$forder.", minpower = ".$minpower.", minpowerthread = ".$minpowerthread.", minpowerreply = ".$minpowerreply." WHERE id = ".$id;
 		Query($qForum);
-		die("Ok");
+		dieAjax("Ok");
+
 		break;
 		
 	case 'addforum':
@@ -83,8 +82,8 @@ switch($_POST['action'])
 		//Add the actual forum
 		$qForum = "INSERT INTO forums (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`) VALUES (".$newID.", '".justEscape($title)."', '".justEscape($description)."', ".$category.", ".$forder.", ".$minpower.", ".$minpowerthread.", ".$minpowerreply.")";
 		Query($qForum);
-		die("Ok");
-		break;
+		
+		dieAjax("Ok");
 		
 	case 'deleteforum':
 		//TODO: Move and delete threads mode.
@@ -100,21 +99,20 @@ switch($_POST['action'])
 		$qForum = "SELECT * FROM forums WHERE id=".$id;
 		$rForum = Query($qForum);
 		if (!NumRows($rForum))
-			die("No such forum.");
+			dieAjax("No such forum.");
 		
 		//Check that forum has threads.
 		$forum = Fetch($rForum);
 		if($forum['numthreads'] > 0)
-			die("Forum has threads. Move those first.");
+			dieAjax("Forum has threads. Move those first.");
 			
 		//Delete
 		Query("DELETE FROM `forums` WHERE `id` = ".$id);
-		die("Ok");
-		break;
+		dieAjax("Ok");
 		
 	case 'forumtable':
 		writeForumTableContents();
-		die();
+		dieAjax("");
 		break;
 		
 	case 'editforumnew':
@@ -126,22 +124,19 @@ switch($_POST['action'])
 			$fid = -1;
 			
 		WriteForumEditContents($fid);
-		die();
+		dieAjax("");
 		break;
 		
 	case '': //No action, do main code
 		break;
 	
 	default: //Unrecognized action
-		die("Unknown action: ".$_POST["action"]);
+		dieAjax("Unknown action: ".$_POST["action"]);
 }
 
 
 
 //Main code.
-
-$noFooter = false;
-include('lib/header.php');
 
 Write('
 <div id="editcontent" style="float: right; width: 45%;">
@@ -222,7 +217,7 @@ function WriteForumEditContents($fid)
 	}
 	
 	Write('
-	<form method="post" id="forumform" action="editfora.php">
+	<form method="post" id="forumform" action="'.actionLink("editfora").'">
 	<input type="hidden" name="key" value="{8}">
 	<input type="hidden" name="id" value="{6}">
 	<table class="outline margin">
@@ -292,7 +287,7 @@ function WriteForumEditContents($fid)
 		</tr>
 	</table></form>
 	
-	<form method="post" id="deleteform" action="editfora.php">
+	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
 	<input type="hidden" name="key" value="{8}">
 	<input type="hidden" name="id" value="{6}">
 	<div id="deleteforum" style="display:none">

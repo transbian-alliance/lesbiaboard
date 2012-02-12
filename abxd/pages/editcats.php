@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Forum category editing tool
 //  Access: administrators
 
-include("lib/common.php");
-
 AssertForbidden("editCats");
 
 if($loguser['powerlevel'] < 3)
@@ -31,7 +29,7 @@ elseif($_POST['action'] == "Add")
 		<strong>Confirm deletion of \"{0}\"</strong>
 	</div>
 	<div class=\"errorc cell2\">
-		<form action=\"editcats.php\" method=\"post\">
+		<form action=\"".actionLink("editcats")."\" method=\"post\">
 			<input type=\"submit\" name=\"action\" value=\"Yes, do as I say.\" />
 			<input type=\"hidden\" name=\"cid\" value=\"{1}\" />
 			<input type=\"hidden\" name=\"key\" value=\"{2}\" />
@@ -65,7 +63,7 @@ if(NumRows($rCategories))
 		$cats .= format(
 "
 		<div class=\"errorc left cell0\" style=\"clear: both; overflow: auto;\">
-			<form action=\"editcats.php\" method=\"post\">
+			<form action=\"".actionLink("editcats")."\" method=\"post\">
 				<input type=\"text\" name=\"name\" class=\"width50\" value=\"{0}\" />
 				{1}
 				<input type=\"text\" name=\"corder\" size=\"2\" value=\"{3}\" />
@@ -87,7 +85,7 @@ write(
 		<div class=\"errort center\"><strong>Category list</strong></div>
 		{0}
 	</div>
-	<form action=\"editcats.php\" method=\"post\">
+	<form action=\"".actionLink("editcats")."\" method=\"post\">
 		<div class=\"outline margin width50\">
 			<div class=\"errort center\"><strong>Add a Category</strong></div>
 			<div class=\"errorc left cell1\" style=\"clear: both; overflow: auto;\">

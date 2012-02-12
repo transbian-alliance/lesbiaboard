@@ -80,6 +80,9 @@ if($ajaxPage)
 $layout_contents = ob_get_contents();
 ob_end_clean();
 
+//Do this only if it's not an ajax page.
+include("lib/views.php");
+
 //=======================
 // Panels and footer
 
