@@ -44,7 +44,7 @@ passthru("git rev-parse --short HEAD");
 $gitrev = ob_get_contents();
 ob_end_clean();
 
-ob_start("DoFooter");
+//ob_start("DoFooter");
 
 date_default_timezone_set("GMT");
 $timeStart = usectime();
@@ -64,7 +64,7 @@ if($q = $_SERVER['QUERY_STRING'])
 
 include("loguser.php");
 include("pluginsystem.php");
-include("badges.php");
+include("links.php");
 
 if(!isset($noViewCount))
 	include("views.php");
@@ -88,10 +88,10 @@ if(file_exists("img/themes/".$theme."/logo.png"))
 	$logopic = "img/themes/".$theme."/logo.png";
 
 include("language.php");
-
+/*
 if(!isset($noAutoHeader))
 	include("header.php");
-
+*/
 
 function justEscape($text)
 {
