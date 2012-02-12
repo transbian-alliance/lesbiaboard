@@ -2,10 +2,10 @@
 //  AcmlmBoard XD - Thread display page
 //  Access: all
 
-include("lib/common.php");
 
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];
+
 elseif(isset($_GET['pid']))
 {
 	$pid = (int)$_GET['pid'];
@@ -106,71 +106,38 @@ if($thread['closed'])
 	$replyWarning = " onclick=\"if(!confirm('".__("This thread is actually closed. Are you sure you want to abuse your staff position to post in a closed thread?")."')) return false;\"";
 
 if($loguser['powerlevel'] < 0)
-	$links .= "<li>".__("You're banned.")."</li>";
+	$links .= "<li>".__("You're banned.");
 elseif(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
-	$links .= "<li><a href=\"newreply.php?id=".$tid."\"".$replyWarning.">".__("Post reply")."</a></li>";
+	$links .= actionLinkTagItem(__("Post reply"), "newreply", $tid);
 elseif(IsAllowed("makeReply", $tid))
-	$links .= "<li>".__("Thread closed.")."</li>";
+	$links .= "<li>".__("Thread closed.");
 if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 {
 	$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 	
-	$links .= "<li><a href=\"editthread.php?id=".$tid."\">".__("Edit")."</a></li>";
+	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 	if($thread['closed'])
-		$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=open&amp;key=".$key."\">".__("Open")."</a></li>";
+		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&amp;key=".$key);
 	else
-		$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=close&amp;key=".$key."\">".__("Close")."</a></li>";
+		$links .= actionLinkTagItem(__("Close"), "editthread", $tid."action=close&amp;key=".$key);
 	if($thread['sticky'])
-		$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=unstick&amp;key=".$key."\">".__("Unstick")."</a></li>";
+		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid."action=unstick&amp;key=".$key);
 	else
-		$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=stick&amp;key=".$key."\">".__("Stick")."</a></li>";
-	$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=delete&amp;key=".$key."\" onclick=\"if(!confirm('".__("Are you sure you want to just up and delete this whole thread?")."') || !confirm('Seriously?')) return false;\">".__("Delete")."</a></li>";
+		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid."action=stick&amp;key=".$key);
+	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&amp;key=".$key);
+	
 	if(strpos($forum['description'],"[trash]") === FALSE)
-		$links .= "<li><a href=\"editthread.php?id=".$tid."&amp;action=trash&amp;key=".$key."\">".__("Trash")."</a></li>";
+		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid."action=trash&amp;key=".$key);
 }
 else if($thread['user'] == $loguserid)
-	$links .= "<li><a href=\"editthread.php?id=".$tid."\">".__("Edit")."</a></li>";
+	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 
 if($isBot)
 	$links = "";
 
 //$links = substr($links, 0, strlen($links) - 2);
 
-$onlineUsers = OnlineUsers($fid);
-
-DoPrivateMessageBar();
-
-if(!$noAjax)
-	write(
-"
-	<script type=\"text/javascript\">
-		onlineFID = {0};
-		window.addEventListener(\"load\",  startOnlineUsers, false);
-	</script>
-", $fid, $onlineUsers);
-
-$bucket = "userBar"; include("./lib/pluginloader.php");
-if($rssBar)
-{
-	write("
-	<div style=\"float: left; width: {1}px;\">&nbsp;</div>
-	<div id=\"rss\">
-		{0}
-	</div>
-", $rssBar, $rssWidth + 4);
-}
-
-write(
-"
-	<div class=\"header0 cell1 center outline smallFonts margin\" style=\"overflow: auto;\">
-		&nbsp;
-		<span id=\"onlineUsers\">
-			{0}
-		</span>
-		&nbsp;
-	</div>
-", $onlineUsers);
-
+$OnlineUsersFid = $fid;
 write(
 "
 	<script type=\"text/javascript\">
@@ -178,7 +145,7 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, $thread['title']." ".$tags=>""), $links);
+MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), $thread['title']." ".$tags=>actionLink("thread", $tid)), $links);
 
 if($thread['poll'])
 {
@@ -407,7 +374,5 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && $loguser['
 }
 
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, $thread['title']." ".$tags=>""), $links);
 
 ?>

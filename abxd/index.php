@@ -72,10 +72,10 @@ $layout_footer = ob_get_contents();
 ob_end_clean();
 
 
-if(!isset($_GET["action"]))
-	$_GET["action"] = "index";
-if(!ctype_alnum($_GET["action"]))
-	$_GET["action"] = "index";
+if(!isset($_GET["page"]))
+	$_GET["page"] = "index";
+if(!ctype_alnum($_GET["page"]))
+	$_GET["page"] = "index";
 	
 ob_start();
 
@@ -93,7 +93,7 @@ if($rssBar)
 DoPrivateMessageBar();
 $bucket = "topBar"; include("./lib/pluginloader.php");
 $layout_crumbs = "";
-require('pages/'.$_GET["action"].'.php');
+require('pages/'.$_GET["page"].'.php');
 $layout_contents = ob_get_contents();
 ob_end_clean();
 
