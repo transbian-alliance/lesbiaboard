@@ -11,7 +11,9 @@ while ($group = fetch($rGroups)) {
 if ($loguserid) {
 	$rPermissions = query("SELECT * FROM userpermissions WHERE uid=".$loguserid);
 	$permissions = fetch($rPermissions);
-	$loguser['permissions'] = array_merge($groups[$loguser['group']], $permissions); //$permissions overrides the group permissions here.	
+	$permissions['permissions'] = unserialize($permissions['permissions']);
+	if (is_array($groups[$loguser['group']]['permissions']))
+		$loguser['permissions'] = array_merge($groups[$loguser['group']]['permissions'], $permissions); //$permissions overrides the group permissions here.	
 }
 
 //Returns false for guests no matter what. Returns if the user is allowed to do something otherwise.
@@ -21,7 +23,7 @@ function checkAllowed($p) {
 	elseif (strpos('.', $p)) {
 		$nodes = explode(".", $p);
 		$r = $loguser['permissions'];
-		foreach ($nodes as $n) {
+		foreach ($nodes as $n)
 			$r = $r[$node];
 		return $r;
 	}
