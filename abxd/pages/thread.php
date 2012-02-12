@@ -197,7 +197,7 @@ if($thread['poll'])
 			{
 				$token = hash('sha256', "{$pops},{$loguserid},{$salt}");
 				$label = format("{0} <a href=\"thread.php?id={1}&amp;vote={2}&amp;token={4}\">{3}</a>", $pc[$pops], $thread['id'], $pops, $option['choice'], $token);
- 			}
+			}
 			else
 				$label = format("{0} {1}", $pc[$pops], $option['choice']);
 			
