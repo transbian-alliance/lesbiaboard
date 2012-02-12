@@ -30,8 +30,6 @@ $rLastUser = Query("select id,name,displayname,powerlevel,sex from users order b
 $lastUser = Fetch($rLastUser);
 $last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered user")), $numActive, $percent)."<br />".format(__("Newest: {0}"), UserLink($lastUser));
 
-$onlineUsers = OnlineUsers();
-
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
@@ -41,31 +39,10 @@ if($loguserid && ($_GET['action'] == "markallread" || $_GET['action'] == "markas
 	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads".$where);
 	die(header('Location: index.php'));
 }
-
-// Mega-Mario: could be optimized to
-// $rBirthdays = Query("select birthday, id, name, displayname, powerlevel, sex from users where birthday>0 and from_unixtime(birthday, '%c-%e')='".date('n-j')."' order by name");
-// but then I don't know about birthday timezones and all
-// and especially why we're using gmdate()
-$rBirthdays = Query("select birthday, id, name, displayname, powerlevel, sex from users where birthday > 0 order by name");
-$birthdays = array();
-while($user = Fetch($rBirthdays))
-{
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
-	$b = $user['birthday'];
-	if(gmdate("m-d", $b) == gmdate("m-d"))
-	{
-		$y = gmdate("Y") - gmdate("Y", $b);
-		$birthdays[] = UserLink($user)." (".$y.")";
-	}
-}
-if(count($birthdays))
-	$birthdaysToday = implode(", ", $birthdays);
-
 if(!$noAjax)
 	write(
 "
 	<script type=\"text/javascript\">
-		window.addEventListener(\"load\",  startOnlineUsers, false);
 		window.addEventListener(\"load\",  startNewMarkers, false);
 	</script>
 ");
@@ -86,39 +63,8 @@ write(
 				{0}
 			</div>
 		</div>
+	</div>
 ",	$stats, $last);
-
-if($birthdaysToday)
-	write("
-		<div class=\"header1 cell0\" style=\"border-top: 0px; text-align: center\">
-			".__("Birthdays today:")." {0}
-		</div>", $birthdaysToday);
-write("	</div>");
-
-DoPrivateMessageBar();
-$bucket = "userBar"; include("./lib/pluginloader.php");
-if($rssBar)
-{
-	write("
-	<div style=\"float: left; width: {1}px;\">&nbsp;</div>
-	<div id=\"rss\">
-		{0}
-	</div>
-", $rssBar, $rssWidth + 4);
-}
-
-write(
-"
-	<div class=\"header0 cell1 center smallFonts outline margin\" style=\"overflow: auto;\">
-		&nbsp;
-		<span id=\"onlineUsers\">
-			{0}
-		</span>
-		&nbsp;
-	</div>
-",	$onlineUsers);
-
-$bucket = "topBar"; include("./lib/pluginloader.php");
 
 $lastCatID = -1;
 $rFora = Query("	SELECT f.*, 

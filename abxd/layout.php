@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/nsmbhd-common.css");?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print themeResourceLink("style.css");?>" />
 
+	<script type="text/javascript" src="<?php print resourceLink("lib/tricks.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.tablednd_0_5.js");?>"></script>
 
