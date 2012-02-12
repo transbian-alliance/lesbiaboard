@@ -27,7 +27,7 @@ function Kill($s, $t="")
 	if($t=="")
 		$t = __("Error");
 	Alert($s, $t);
-	exit();
+	throw new KillException();
 }
 
 function Redirect($s,$t,$n)

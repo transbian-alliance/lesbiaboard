@@ -196,7 +196,7 @@ if($thread['poll'])
 			if($loguserid && !$thread['closed'] && IsAllowed("vote"))
 			{
 				$token = hash('sha256', "{$pops},{$loguserid},{$salt}");
-				$label = format("{0} <a href=\"thread.php?id={1}&amp;vote={2}&amp;token={4}\">{3}</a>", $pc[$pops], $thread['id'], $pops, $option['choice'], $token);
+				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=$token");
 			}
 			else
 				$label = format("{0} {1}", $pc[$pops], $option['choice']);
@@ -290,7 +290,7 @@ $qPosts = "	SELECT
 $rPosts = Query($qPosts);
 $numonpage = NumRows($rPosts);
 
-$pagelinks = PageLinks("thread.php?id=".$tid."&amp;from=", $ppp, $from, $total);
+$pagelinks = PageLinks(actionLink("thread", $tid, "from="), $ppp, $from, $total);
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
 if(NumRows($rPosts))

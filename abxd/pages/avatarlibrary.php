@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Avatar library
 //  Access: all
 
-include("lib/common.php");
-
 $title = __("Avatar library");
 
 AssertForbidden("viewAvatars");
@@ -43,7 +41,7 @@ if(isset($_GET['rebuild'])) //Now no longers requires an actual value.
 //Because it seems faster to just slurp in a single file than to do a whole folder scan |3
 $avalib = @unserialize(file_get_contents("avalib.txt")); //in the same vein as opendir above...
 if($avalib === FALSE)
-	Kill(format(__("Could not open avatar library file. Please {0}rebuild{1} it."), "<a href=\"avatarlibrary.php?rebuild=1\">", "</a>"));
+	Kill(format(__("Could not open avatar library file. Please {0}rebuild{1} it."), "<a href=\"".actionLink("avatarlibrary", 0, "rebuild=1")."\">", "</a>"));
 
 if(count($avalib) == 0)
 	Kill(__("The avatar library is empty."));

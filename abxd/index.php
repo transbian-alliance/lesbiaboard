@@ -93,7 +93,10 @@ if($rssBar)
 DoPrivateMessageBar();
 $bucket = "topBar"; include("./lib/pluginloader.php");
 $layout_crumbs = "";
-require('pages/'.$_GET["page"].'.php');
+try {
+	require('pages/'.$_GET["page"].'.php');
+}
+catch(KillException $e) {}
 $layout_contents = ob_get_contents();
 ob_end_clean();
 

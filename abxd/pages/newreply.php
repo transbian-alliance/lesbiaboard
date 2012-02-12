@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Reply submission/preview page
 //  Access: users
 
-include("lib/common.php");
-
 $title = __("New reply");
 
 if(isset($_POST['id']))
@@ -49,7 +47,7 @@ if($forum['minpowerreply'] > $loguser['powerlevel'])
 if($thread['closed'] && $loguser['powerlevel'] < 3)
 	Kill(__("This thread is locked."));
 
-$onlineUsers = OnlineUsers($fid);
+$OnlineUsersFid = $fid;
 
 write(
 "
@@ -57,23 +55,8 @@ write(
 			window.addEventListener(\"load\",  hookUpControls, false);
 	</script>
 ");
-if(!$noAjax)
-	write(
-"
-	<script type=\"text/javascript\">
-		onlineFID = {0};
-		window.addEventListener(\"load\",  startOnlineUsers, false);
-	</script>
-	<div class=\"header0 cell1 center outline smallFonts\" style=\"overflow: auto;\">
-		&nbsp;
-		<span id=\"onlineUsers\">
-			{1}
-		</span>
-		&nbsp;
-	</div>
-", $fid, $onlineUsers);
 
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, $titleandtags=>"thread.php?id=".$tid, __("New reply")=>""), $links);
+MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("New reply")=>""), $links);
 
 if(!$thread['sticky'] && $warnMonths > 0 && $thread['lastpostdate'] < time() - (2592000 * $warnMonths))
 	Alert(__("You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button."));
@@ -198,10 +181,10 @@ if($_POST['action'] == __("Post"))
 		$qThreads = "update threads set lastposter=".$postingAs.", lastpostdate=".time().", replies=".($thread['replies']+1).", lastpostid=".$pid.$mod." where id=".$tid." limit 1";
 		$rThreads = Query($qThreads);
 
-		CheckYearling(1);
+//		CheckYearling(1);
 		Report("New reply by [b]".$postingAsUser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $isHidden);
 
-		die(header("Location: thread.php?pid=".$pid."#".$pid));
+		die(header("Location: ".actionLink("thread", 0, "pid=".$pid."#".$pid)));
 		//Redirect(__("Posted!"), "thread.php?pid=".$pid."#".$pid, __("the thread"));
 		exit();
 	}
@@ -319,7 +302,7 @@ write(
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"newreply.php\" method=\"post\">
+				<form action=\"".actionLink("newreply")."\" method=\"post\">
 					<input type=\"hidden\" name=\"ninja\" value=\"{0}\" />
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
@@ -439,7 +422,4 @@ if(NumRows($rPosts))
 	</table>
 ",	$posts);
 }
-
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, $titleandtags=>"thread.php?id=".$tid, __("New reply")=>""), $links);
-
 ?>

@@ -39,6 +39,7 @@ if($ajax)
 	$overallTidy = 0;
 //if($overallTidy)
 
+class KillException extends Exception { }
 
 //ob_start("DoFooter");
 

@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Post editing page
 //  Access: users
 
-include("lib/common.php");
-
 $title = __("Edit post");
 
 if(!$loguserid)
@@ -328,7 +326,5 @@ if(NumRows($rPosts))
 	</table>
 ",	$posts);
 }
-
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, $thread['title']=>"thread.php?id=".$tid, __("Edit post")=>""), $links);
 
 ?>
