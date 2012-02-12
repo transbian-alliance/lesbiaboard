@@ -8,31 +8,31 @@ $handle = str_replace(" ", "", $loguser['name']);
 $handle = str_replace($badchars, "_", $handle);
 if(!$handle)
 {
-	$handle = "NikoGuest";
-	$guest = "<p>When you connect to the IRC network, please use the command <kbd>/nick NICKNAME</kbd>.</p>";
+	$handle = "ABXDGuest";
+	$guest = "<p>When you've connected to the IRC network, please use the command <kbd>/nick NICKNAME</kbd>.</p>";
 }
 
-$server = "nucleus.kafuka.org";
-$channel = "#kawa";
+$server = "irc.digibase.ca";
+$channel = "#nsmbhacking";
 if(isset($_GET['connect']))
 {
 
 	write("
 	<div class=\"faq outline margin\" style=\"width: 75%; margin: 2em auto; padding: 2em; text-align: center;\">
 		<applet code=\"IRCApplet.class\" codebase=\"irc/\"  
-		archive=\"irc.jar,pixx.jar\" width=\"100%\" height=400>
+		archive=\"irc.jar,pixx.jar\" width=\"100%\" height=\"400\">
 		<param name=\"CABINETS\" value=\"irc.cab,securedirc.cab,pixx.cab\">
 
 		<param name=\"nick\" value=\"{0}\">
 		<param name=\"alternatenick\" value=\"{0}_??\">
-		<param name=\"fullname\" value=\"ABXD/Niko IRC User\">
+		<param name=\"fullname\" value=\"ABXD IRC User\">
 		<param name=\"host\" value=\"{1}\">
-		<param name=\"port\" value=\"6666\">
+		<param name=\"port\" value=\"6667\">
 		<param name=\"gui\" value=\"pixx\">
 		<param name=\"authorizedcommandlist\" value=\"all-server-s\">
 
-		<param name=\"quitmessage\" value=\"Java IRC @ http://helmet.kafuka.org/nikoboard/irc.php\">
-		<param name=\"autorejoin\" value=\"false\">
+		<param name=\"quitmessage\" value=\"Leaving\">
+		<param name=\"autorejoin\" value=\"true\">
 
 		<param name=\"style:bitmapsmileys\" value=\"false\">
 		<param name=\"style:backgroundimage\" value=\"false\">
@@ -56,10 +56,14 @@ else
 {
 	write("
 	<div class=\"faq outline margin\" style=\"width: 75%; margin: 2em auto; padding: 2em; text-align: center;\">
+		<h3>IRC chat</h3><br />We advice you to get a real IRC client such as <strong>XChat</strong> (or <strong>XChat-WDK</strong> if you are using Windows).<br />If you don't want to get a real IRC client, you can use the client on the board.
 		<p>
-			{0}, {1}, {2}.
+			<strong>Server:</strong> {1}<br />
+			<strong>Channel:</strong> {2}<br />
+			<strong>Nickname:</strong> {0}
+		</p>
 		<p>
-			<a href=\"irc.php?connect\">Connect now</a>
+			<a href=\"irc.php?connect\">Use the on-board Java IRC client.</a>
 		</p>
 		{3}
 	</div>

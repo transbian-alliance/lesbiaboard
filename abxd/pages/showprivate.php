@@ -160,18 +160,15 @@ if($draftEditor)
 
 		if($_POST['title'])
 		{
-			$_POST['title'] = htmlentities2($_POST['title']);
+			$_POST['title'] = $_POST['title'];
 
 			if($_POST['text'])
 			{
 				if($_POST['action'] == __("Update Draft"))
 				{
 					//$post = justEscape($post);
-					$post = htmlentities2($pm['text']);
+					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-					TidyPost($post);
-					$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
 					$post = mysql_real_escape_string($post);
 	
@@ -186,10 +183,8 @@ if($draftEditor)
 				}
 				else
 				{
-					$post = htmlentities2($pm['text']);
+					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-					TidyPost($post);
 					$post = mysql_real_escape_string($post);
 
 					$qPMT = "update pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;

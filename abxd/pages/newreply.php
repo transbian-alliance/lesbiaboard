@@ -157,11 +157,7 @@ if($_POST['action'] == __("Post"))
 
 	if($_POST['text'])
 	{
-		$post = htmlentities2($_POST['text']);
-		$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-		TidyPost($post);
-		$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
-		$post = mysql_real_escape_string($post);
+		$post = mysql_real_escape_string($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -214,7 +210,7 @@ if($_POST['action'] == __("Post"))
 }
 
 if($_POST['text'])
-	$prefill = htmlentities2($_POST['text']);
+	$prefill = $_POST['text'];
 
 if($_POST['action'] == __("Preview"))
 {

@@ -31,9 +31,6 @@ if(NumRows($rPost))
 	$tid = $post['thread'];
 } else
 	Kill(__("Unknown post ID."));
-	
-if ($post['deleted'])
-	Kill(__("This post has been deleted."));
 
 $qThread = "select * from threads where id=".$tid;
 $rThread = Query($qThread);
@@ -85,6 +82,9 @@ if((int)$_GET['delete'] == 1)
 	exit();
 }
 
+if ($post['deleted'])
+	Kill(__("This post has been deleted."));
+
 if(!CanMod($loguserid, $fid) && $post['user'] != $loguserid)
 	Kill(__("You are not allowed to edit posts."));
 
@@ -127,11 +127,7 @@ if($_POST['action'] == __("Edit"))
 	
 	if($_POST['text'])
 	{
-		$post = htmlentities2($_POST['text']);
-		$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-		TidyPost($post);
-		$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
-		$post = mysql_real_escape_string($post);
+		$post = mysql_real_escape_string($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -173,11 +169,7 @@ if($_POST['action'] == __("Edit"))
 
 if($_POST['text'])
 {
-	//$prefill = htmlentities2(stripslashes($_POST['text']));
-	$prefill = htmlentities2($_POST['text']);
-	$prefill = str_replace("\n","##TSURUPETTANYOUJO##", $prefill);
-	TidyPost($prefill);
-	$prefill = str_replace("##TSURUPETTANYOUJO##","\n", $prefill);
+	$prefill = $_POST['text'];
 }
 
 if($_POST['action'] == __("Preview"))

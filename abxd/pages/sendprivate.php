@@ -118,18 +118,15 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 {
 	if($_POST['title'])
 	{
-		$_POST['title'] = htmlentities2($_POST['title']);
+		$_POST['title'] = $_POST['title'];
 
 		if($_POST['text'])
 		{
 			$wantDraft = (int)($_POST['action'] == __("Save as Draft"));
 
 			//$post = justEscape($post);
-			$post = htmlentities2($_POST['text']);
+			$post = $_POST['text'];
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-			$post = str_replace("\n","##TSURUPETTANYOUJO##", $post);
-			TidyPost($post);
-			$post = str_replace("##TSURUPETTANYOUJO##","\n", $post);
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
 			$post = mysql_real_escape_string($post);
@@ -175,8 +172,8 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 	}
 }
 
-$_POST['title'] = htmlentities2($_POST['title']);
-$_POST['text'] = htmlentities2($_POST['text']);
+$_POST['title'] = $_POST['title'];
+$_POST['text'] = $_POST['text'];
 
 if($_POST['action']=="Preview")
 {
