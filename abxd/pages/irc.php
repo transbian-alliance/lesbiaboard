@@ -1,5 +1,4 @@
 <?php
-include("lib/common.php");
 
 $title = "IRC Chat";
 
@@ -63,7 +62,7 @@ else
 			<strong>Nickname:</strong> {0}
 		</p>
 		<p>
-			<a href=\"irc.php?connect\">Use the on-board Java IRC client.</a>
+			<a href=\"".actionLink("irc", "", "connect")."\">Use the on-board Java IRC client.</a>
 		</p>
 		{3}
 	</div>

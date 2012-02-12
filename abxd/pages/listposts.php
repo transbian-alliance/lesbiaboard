@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Posts by user viewer
 //  Access: all
 
-include("lib/common.php");
-
 AssertForbidden("listPosts");
 
 if(!isset($_GET['id']))
@@ -59,19 +57,12 @@ MakeCrumbs(array(__("Main")=>"./", $user['name']=>"profile.php?id=".$id, __("Lis
 
 // TODO: use a function for page links, consistent pagelinking needed
 // (some places use compact pagelinking while this is still using Acmlmboard style pagelinking)
-for($i = $ppp; $i < $total; $i+=$ppp)
-	if($i == $from)
-		$pagelinks .= " ".(($i/$ppp)+1);
-	else
-		$pagelinks .= " <a href=\"listposts.php?id=".$id."&amp;from=".$i."\">".(($i/$ppp)+1)."</a>";
+
+
+$pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);
+
 if($pagelinks)
-{
-	if($from == 0)
-		$pagelinks = " 1".$pagelinks;
-	else
-		$pagelinks = "<a href=\"listposts.php?id=".$id."\">1</a>".$pagelinks;
 	write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-}
 
 if(NumRows($rPosts))
 {
@@ -81,7 +72,5 @@ if(NumRows($rPosts))
 
 if($pagelinks)
 	write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-
-MakeCrumbs(array(__("Main")=>"./", $user['name']=>"profile.php?id=".$id, __("List of posts")=>""), $links);
 
 ?>

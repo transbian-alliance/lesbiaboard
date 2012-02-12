@@ -2,14 +2,9 @@
 //  AcmlmBoard XD - Login page
 //  Access: guests
 
-$noAutoHeader = TRUE;
-include("lib/common.php");
-
 if($_POST['action'] == "logout")
 {
 	setcookie("logdata", 0);
-
-	include("lib/header.php");
 
 	die(header("Location: ."));
 	//Redirect(__("You are now logged out."), "./", __("the main page"));
@@ -27,7 +22,6 @@ elseif($_POST['action'] == __("Log in"))
 		$sha = hash("sha256", $original.$salt.$user['pss'], FALSE);
 		if($user['password'] != $sha)
 		{
-			include("lib/header.php");
 			Report("A visitor from [b]".$_SERVER['REMOTE_ADDR']."[/] tried to log in as [b]".$user['name']."[/].", 1);
 			Alert(__("Invalid user name or password."));
 			$okay = false;
@@ -35,7 +29,6 @@ elseif($_POST['action'] == __("Log in"))
 	}
 	else
 	{
-		include("lib/header.php");
 		Alert(__("Invalid user name or password."));
 		$okay = false;
 	}
@@ -51,7 +44,6 @@ elseif($_POST['action'] == __("Log in"))
 		else
 			setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
 
-		include("lib/header.php");
 		Report("[b]".$escapedName."[/] logged in.", 1);
 
 		die(header("Location: ."));
@@ -59,10 +51,9 @@ elseif($_POST['action'] == __("Log in"))
 	}
 }
 
-include_once("lib/header.php");
 write(
 "
-	<form action=\"login.php\" method=\"post\">
+	<form action=\"".actionLink("login")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">
@@ -103,7 +94,7 @@ write(
 			</tr>
 		</table>
 	</form>
-",  $mailResetFrom == "" ? "" : "<button onclick=\"document.location = 'lostpass.php'; return false;\">".__("Forgot password?")."</button>"
+",  $mailResetFrom == "" ? "" : "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>"
 );
 
 ?>

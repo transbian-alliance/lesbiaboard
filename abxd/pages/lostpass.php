@@ -1,5 +1,5 @@
 <?php
-include("lib/common.php");
+
 
 if($mailResetFrom == "")
 	Kill(__("No sender specified for reset emails. Please check the board settings."));
@@ -49,7 +49,7 @@ else if($_POST['action'] == __("Send reset email"))
 else
 {
 	write("
-	<form action=\"lostpass.php\" method=\"post\">
+	<form action=\"".actionLink("lostpass").".\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">

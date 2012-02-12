@@ -1,5 +1,5 @@
 <?php
-include("lib/common.php");
+
 
 $hours = $lastPostsTimeLimit;
 
@@ -30,7 +30,7 @@ while($post = Fetch($rPosts))
 			{1}
 		</td>
 		<td>
-			&raquo; <a href=\"thread.php?pid={0}#{0}\">{0}</a>
+			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
 		</td>
 	</tr>
 ", $post['id'], cdate($dateformat,$post['date']), UserLink($post, "uid"), $post['ftit'], $post['ttit'], $c);

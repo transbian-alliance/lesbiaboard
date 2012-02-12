@@ -1,9 +1,10 @@
 <?php
-include("lib/common.php");
+
 $title = "Last known browsers";
+
 $isMod = $loguser['powerlevel'] > 0;
 $sort = "id asc";
-$ual = "?";
+$ual = "";
 if(isset($_GET['byua']))
 {
 	$sort = "lastknownbrowser asc";
@@ -28,14 +29,14 @@ for($i = $ppp; $i < $numUsers; $i+=$ppp)
 	if($i == $from)
 		$pagelinks .= " ".(($i/$ppp)+1);
 	else
-		$pagelinks .= " <a href=\"lastknownbrowsers.php".$ual."from=".$i."\">".(($i/$ppp)+1)."</a>";
+		$pagelinks .= " ".actionLinkTag(($i/$ppp)+1, "lastknownbrowsers", "", $ual."from=".$i);
 }
 if($pagelinks)
 {
 	if($from == 0)
 		$pagelinks = "1".$pagelinks;
 	else
-		$pagelinks = "<a href=\"lastknownbrowsers.php".$ual."\">1</a>".$pagelinks;
+		$pagelinks = actionLinkTag(1, "lastknownbrowsers", "", $ual).$pagelinks;
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 }
 

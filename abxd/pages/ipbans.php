@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - IP ban management tool
 //  Access: administrators only
 
-include("lib/common.php");
-
 $title = __("IP bans");
 
 AssertForbidden("editIPBans");
@@ -50,7 +48,7 @@ while($ipban = Fetch($rIPBan))
 			{3}
 		</td>
 		<td>
-			<a href=\"ipbans.php?ip={1}&amp;action=delete\">&#x2718;</a>
+			<a href=\"".actionLink("ipbans", "", "ip={1}&amp;action=delete")."\">&#x2718;</a>
 		</td>
 	</tr>
 ", $cellClass, $ipban['ip'], $ipban['reason'], $date);
@@ -67,7 +65,7 @@ write("
 	{0}
 </table>
 
-<form action=\"ipbans.php\" method=\"post\">
+<form action=\"".actionLink("ipbans")."\" method=\"post\">
 	<table class=\"outline margin width50\">
 		<tr class=\"header1\">
 			<th colspan=\"2\">
@@ -108,6 +106,5 @@ write("
 </form>
 ", $banList);
 
-MakeCrumbs(array(__("Main")=>"./", __("IP ban manager")=>""), "");
 
 ?>
