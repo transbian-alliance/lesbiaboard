@@ -1,6 +1,7 @@
 <?php
 
-include("lib/mysql.php");
+$ajaxPage = true;
+
 if(!isset($_GET['u']))
 	die("No user specified!");
 
