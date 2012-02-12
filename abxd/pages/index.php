@@ -136,43 +136,40 @@ while($forum = Fetch($rFora))
 		
 		$lastLink = "";
 		if($forum['lastpostid'])
-			$lastLink = "<a href=\"thread.php?pid=".$forum['lastpostid']."#".$forum['lastpostid']."\">&raquo;</a>";
+			$lastLink = actionLinkTag("&raquo;", "thread", 0, "pid=".$forum['lastpostid']."#".$forum['lastpostid']);
 		$lastLink = format("<span class=\"nom\">{0}<br />".__("by")." </span>{1} {2}", cdate($dateformat, $forum['lastpostdate']), UserLink($user), $lastLink);
 	}
 	else
 		$lastLink = "----";
 
 
-	$theList .= format(
+	$theList .= 
 "
 		<tr class=\"cell1\">
 			<td class=\"cell2 threadIcon newMarker\">
-				{0}
+				$NewIcon
 			</td>
 			<td>
-				<h4{8}>
-					<a href=\"forum.php?id={1}\">
-						{2}
-					</a>
+				<h4 $ignoreClass>".
+					actionLinkTag($forum['title'], "forum",  $forum['id']) . "
 				</h4>
-				<span{8} class=\"nom\">
-					{3}
-					{4}
+				<span $ignoreClass class=\"nom\">
+					{$forum['description']}
+					$localMods
 				</span>
 			</td>
 			<td class=\"center cell2\">
-				{5}
+				{$forum['numthreads']}
 			</td>
 			<td class=\"center cell2\">
-				{6}
+				{$forum['numposts']}
 			</td>
 			<td class=\"smallFonts center\">
-				{7}
+				$lastLink
 			</td>
-		</tr>
-",	$NewIcon, $forum['id'], $forum['title'], $forum['description'], $localMods,
-	$forum['numthreads'], $forum['numposts'], $lastLink, $ignoreClass);
+		</tr>";
 }
+
 write(
 "
 <table class=\"outline margin\" id=\"mainTable\">

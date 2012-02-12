@@ -64,7 +64,9 @@
 	</div>
 
 	<div id="main">
+	<?php print $layout_crumbs;?>
 	<?php print $layout_contents;?>
+	<?php print $layout_crumbs;?>
 
 	</div>
 	<div class="footer" style='clear:both;'>

@@ -228,6 +228,8 @@ function CanMod($userid, $fid)
 
 function MakeCrumbs($path, $links)
 {
+	global $layout_crumbs;
+	
 	foreach($path as $text=>$link)
 	{
 		$link = str_replace("&","&amp;",$link);
@@ -251,17 +253,15 @@ function MakeCrumbs($path, $links)
 	}
 	$crumbs = substr($crumbs, 0, strlen($crumbs) - 8);
 	
-	write(
-"
+	$layout_crumbs = "
 <div class=\"margin\">
 	<div style=\"float: right;\">
 		<ul class=\"pipemenu smallFonts\">
-			{0}
+			$links
 		</ul>
 	</div>
-	{1}
-</div>
-", $links, $crumbs);
+	$crumbs
+</div>";
 }
 
 

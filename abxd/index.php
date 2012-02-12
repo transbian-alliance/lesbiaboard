@@ -5,6 +5,8 @@ require('lib/common.php');
 //TODO Place this in an appropiate place
 function getOnlineUsersText()
 {
+	global $OnlineUsersFid;
+	
 	$refreshCode = "";
 
 	if(!isset($OnlineUsersFid))
@@ -90,7 +92,7 @@ if($rssBar)
 }*/
 DoPrivateMessageBar();
 $bucket = "topBar"; include("./lib/pluginloader.php");
-
+$layout_crumbs = "";
 require('pages/'.$_GET["action"].'.php');
 $layout_contents = ob_get_contents();
 ob_end_clean();

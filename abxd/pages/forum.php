@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Thread listing page
 //  Access: all
 
-include("lib/common.php");
-
 if(!isset($_GET['id']))
 	Kill(__("Forum ID unspecified."));
 
@@ -36,6 +34,7 @@ if(NumRows($rCat))
 	Kill(__("Unknown category ID."));
 
 //Autolock system
+//TODO: Move it outa here ~Dirbaio
 if($autoLockMonths > 0)
 {
 	$locktime = time() - (2592000 * $autoLockMonths);
@@ -65,51 +64,17 @@ $isIgnored = FetchResult("select count(*) from ignoredforums where uid=".$loguse
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
-		$links .= "<li><a href=\"forum.php?id=".$fid."&amp;unignore\">".__("Unignore Forum")."</a></li>";
+		$links .= "<li>".actionLinkTag(__("Unignore Forum"), "forum", $fid, "unignore")."</li>";
 	else
-		$links .= "<li><a href=\"forum.php?id=".$fid."&amp;ignore\">".__("Ignore Forum")."</a></li>";
+		$links .= "<li>".actionLinkTag(__("Ignore Forum"), "forum", $fid, "ignore")."</li>";
 
-	$links .= "<li><a href=\"newthread.php?id=".$fid."\">".__("Post Thread")."</a></li>";
-	$links .= "<li><a href=\"newthread.php?id=".$fid."&amp;poll=1\">".__("Post Poll")."</a></li>";
+		$links .= "<li>".actionLinkTag(__("Post Thread"), "newthread", $fid)."</li>";
+		$links .= "<li>".actionLinkTag(__("Post Poll"), "newthread", $fid, "poll=1")."</li>";
 }
 
-DoPrivateMessageBar();
-$bucket = "userBar"; include("./lib/pluginloader.php");
+$OnlineUsersFid = $fid;
 
-$onlineUsers = OnlineUsers($fid);
-
-if(!$noAjax)
-{
-	write(
-"
-	<script type=\"text/javascript\">
-		onlineFID = {0};
-		window.addEventListener(\"load\",  startOnlineUsers, false);
-	</script>
-",	$fid, $onlineUsers);
-}
-
-if($rssBar)
-{
-	write("
-	<div style=\"float: left; width: {1}px;\">&nbsp;</div>
-	<div id=\"rss\">
-		{0}
-	</div>
-", $rssBar, $rssWidth + 4);
-}
-write(
-"
-	<div class=\"header0 cell1 center outline smallFonts margin\" style=\"overflow: auto;\">
-		&nbsp;
-		<span id=\"onlineUsers\">
-			{0}
-		</span>
-		&nbsp;
-	</div>
-", $onlineUsers, $rssBar, $rssWidth);
-
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid), $links);
+MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid)), $links);
 
 $total = $forum['numthreads'];
 $tpp = $loguser['threadsperpage'];
@@ -139,14 +104,16 @@ for($i = $tpp; $i < $total; $i+=$tpp)
 	if($i == $from)
 		$pagelinks .= " ".(($i/$tpp)+1);
 	else
-		$pagelinks .= " <a href=\"forum.php?id=".$fid."&amp;from=".$i."\">".(($i/$tpp)+1)."</a>";
+		$pagelinks .= " ".actionLinkTag(($i/$tpp)+1, "forum", $fid, "from=$i");
+		
 if($pagelinks)
 {
 	if($from == 0)
 		$pagelinks = " 1".$pagelinks;
 	else
-		$pagelinks = "<a href=\"forum.php?id=".$fid."\">1</a>".$pagelinks;
-	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
+		$pagelinks = actionLinkTag(1, "forum", $fid).$pagelinks;
+		
+	echo "<div class=\"smallFonts pages\">".__("Pages:")." ".$pagelinks."</div>";
 }
 
 $ppp = $loguser['postsperpage'];
@@ -214,55 +181,52 @@ if(NumRows($rThreads))
 		if($numpages <= $n * 2)
 		{
 			for($i = 1; $i <= $numpages; $i++)
-				$pl .= " <a href=\"thread.php?id=".$thread['id']."&amp;from=".($i * $ppp)."\">".($i+1)."</a>";
+				$pl .= " ".actionLinkTag($i+1, "thread", $thread['id'], "from=".($i * $ppp));
 		}
 		else
 		{
 			for($i = 1; $i < $n; $i++)
-				$pl .= " <a href=\"thread.php?id=".$thread['id']."&amp;from=".($i * $ppp)."\">".($i+1)."</a>";
+			$pl .= " ".actionLinkTag($i+1, "thread", $thread['id'], "from=".($i * $ppp));
 			$pl .= " &hellip; ";
 			for($i = $numpages - $n + 1; $i <= $numpages; $i++)
-				$pl .= " <a href=\"thread.php?id=".$thread['id']."&amp;from=".($i * $ppp)."\">".($i+1)."</a>";
+				$pl .= " ".actionLinkTag($i+1, "thread", $thread['id'], "from=".($i * $ppp));
 		}
 		if($pl)
-			$pl = " <span class=\"smallFonts\">[<a href=\"thread.php?id=".$thread['id']."\">1</a>".$pl."]</span>";
+			$pl = " <span class=\"smallFonts\">[".
+				actionLinkTag(1, "thread", $thread['id']). $pl . "]</span>";
 
 		$lastLink = "";
 		if($thread['lastpostid'])
-			$lastLink = " <a href=\"thread.php?pid=".$thread['lastpostid']."#".$thread['lastpostid']."\">&raquo;</a>";
+			$lastLink = " ".actionLinkTag("&raquo;", "thread", 0, "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
 
-		$forumList .= Format(
-"
-		<tr class=\"cell{0}\">
-			<td class=\"cell2 threadIcon\">{1}</td>
+		$forumList .= "
+		<tr class=\"cell$cellClass\">
+			<td class=\"cell2 threadIcon\"> $NewIcon</td>
 			<td class=\"threadIcon\" style=\"border-right: 0px none;\">
-				{2}
+				 $ThreadIcon
 			</td>
 			<td style=\"border-left: 0px none;\">
-				{3}
-				<a href=\"thread.php?id={4}\">
-					{5}
-				</a>
-				{6}
-				{7}
+				$poll
+				".actionLinkTag(strip_tags($thread['title']), "thread", $thread['id'])."
+				$pl
+				$tags
 			</td>
 			<td class=\"center\">
-				{8}
+				".UserLink($starter)."
 			</td>
 			<td class=\"center\">
-				{9}
+				{$thread['replies']}
 			</td>
 			<td class=\"center\">
-				{10}
+				{$thread['views']}
 			</td>
 			<td class=\"smallFonts center\">
-				{11}<br />
-				".__("by")." {12} {13}</td>
-		</tr>
-",	$cellClass, $NewIcon, $ThreadIcon, $poll, $thread['id'], strip_tags($thread['title']), $pl, $tags,
-	UserLink($starter), $thread['replies'], $thread['views'],
-	cdate($dateformat,$thread['lastpostdate']), UserLink($last), $lastLink);
+				".cdate($dateformat,$thread['lastpostdate'])."<br />
+				".__("by")." ".UserLink($last)." {$lastLink}</td>
+		</tr>";
 	}
+	
+	
 	Write(
 "
 	<table class=\"outline margin width100\">
@@ -282,14 +246,13 @@ if(NumRows($rThreads))
 	if($forum['minpowerthread'] > $loguser['powerlevel'])
 		Alert(__("You cannot start any threads here."), __("Empty forum"));
 	elseif($loguserid)
-		Alert(format(__("Would you like to {0}post something{1}?"), "<a href=\"newthread.php?id=".$fid."\">", "</a>"), __("Empty forum"));
+		Alert(format(__("Would you like to {0}?"), actionLinkTag("post something", "newthread", $fid)), __("Empty forum"));
 	else
-		Alert(format(__("{0}Log in{1} so you can post something."), "<a href=\"login.php\">", "</a>"), __("Empty forum"));
+		Alert(format(__("{0} so you can post something."), actionLinkTag("Log in", "login")), __("Empty forum"));
 
 if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid), $links);
 ForumJump();
 
 
@@ -328,14 +291,14 @@ function ForumJump()
 		$theList .= format(
 "
 				<option value=\"{0}\"{2}>{1}</option>
-",	$forum['id'], strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
+",	actionLink("forum", $forum['id']), strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
 	}
-
+	
 	write(
 "
 	<label>
 		".__("Forum Jump:")."
-		<select onchange=\"document.location='forum.php?id='+this.options[this.selectedIndex].value;\">
+		<select onchange=\"document.location=this.options[this.selectedIndex].value;\">
 			{0}
 			</optgroup>
 		</select>

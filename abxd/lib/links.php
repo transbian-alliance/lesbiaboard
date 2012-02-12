@@ -7,7 +7,7 @@ function actionLink($action, $id=0, $args="")
 	$res = "$boardroot?action=$action";
 	
 	if($id)
-		$res .= "&id=$id$args";
+		$res .= "&id=$id";
 	if($args)
 		$res .= "&$args";
 
