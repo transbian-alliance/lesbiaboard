@@ -14,12 +14,14 @@ if ($loguserid) {
 	$permissions['permissions'] = unserialize($permissions['permissions']);
 	if (is_array($groups[$loguser['group']]['permissions']))
 		$loguser['permissions'] = array_merge($groups[$loguser['group']]['permissions'], $permissions); //$permissions overrides the group permissions here.	
+	if ($loguser['power'] == 5) $loguser['group'] == "root"; //Just in case.
 }
 
 //Returns false for guests no matter what. Returns if the user is allowed to do something otherwise.
 function checkAllowed($p) {
 	global $loguser, $loguserid;
 	if (!$loguserid) return false;
+	elseif ($loguser['group'] == "root") return true;
 	elseif (strpos('.', $p)) {
 		$nodes = explode(".", $p);
 		$r = $loguser['permissions'];
