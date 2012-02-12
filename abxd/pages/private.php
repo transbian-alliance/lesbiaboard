@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Private message inbox/outbox viewer
 //  Access: users
 
-include("lib/common.php");
-
 AssertForbidden("viewPM");
 
 $title = "Private messages";
@@ -98,7 +96,7 @@ $links = "<ul class=\"pipemenu\"><li><a href=\"private.php".(isset($_GET['show']
 $links .= "<li><a href=\"private.php?show=2".$userGet."\">".__("Show drafts")."</a></li>";
 $links .= "<li><a href=\"sendprivate.php\">".__("Send new PM")."</a></li></ul>";
 
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>"private.php"), $links);
+MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>actionLink("private")), $links);
 
 $qPM = "select * from pmsgs left join pmsgs_text on pid = pmsgs.id where ".$whereFrom." and deleted != ".$deleted." order by date desc limit ".$from.", ".$ppp;
 
@@ -107,19 +105,10 @@ $qPM = "select * from pmsgs left join pmsgs_text on pid = pmsgs.id where ".$wher
 $rPM = Query($qPM);
 $numonpage = NumRows($rPM);
 
-for($i = $ppp; $i < $total; $i+=$ppp)
-	if($i == $from)
-		$pagelinks .= " ".(($i/$ppp)+1);
-	else
-		$pagelinks .= " <a href=\"private.php?from=".$i.$show.$userGet."\">".(($i/$ppp)+1)."</a>";
+$pagelinks = PageLinks(actionLink("private", "", "$show$userGet&from="), $ppp, $from, $total);
+
 if($pagelinks)
-{
-	if($from == 0)
-		$pagelinks = " 1".$pagelinks;
-	else
-		$pagelinks = "<a href=\"private.php".str_replace("&amp;","?", $show).$userGet."\">1</a>".$pagelinks;
 	write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-}
 
 if(NumRows($rPM))
 {
@@ -140,6 +129,8 @@ if(NumRows($rPM))
 
 		$check = $snoop ? "" : "<input type=\"checkbox\" name=\"delete[{2}]\" />";
 
+		$delLink = $snoop == "" ? "<sup>&nbsp;".actionLinkTag("&#x2718;", "private", "", "del=".$pm['id'].$show)."</sup>" : "";
+		
 		$pms .= format(
 "
 		<tr class=\"cell{0}\">
@@ -150,7 +141,7 @@ if(NumRows($rPM))
 				{1}
 			</td>
 			<td>
-				<a href=\"showprivate.php?id={2}{3}\">{4}</a>{7}
+				".actionLinkTag(htmlspecialchars($pm['title']), "showprivate", $pm['id'], $snoop)."{7}
 			</td>
 			<td>
 				{5}
@@ -159,7 +150,7 @@ if(NumRows($rPM))
 				{6}
 			</td>
 		</tr>
-",	$cellClass, $img, $pm['id'], $snoop, htmlspecialchars($pm['title']), $sender, cdate($dateformat,$pm['date']), $snoop == "" ? "<sup>&nbsp;<a href=\"private.php?del=".$pm['id'].$show."\">&#x2718;</a></sup>" : "");
+",	$cellClass, $img, $pm['id'], $snoop, htmlspecialchars($pm['title']), $sender, cdate($dateformat,$pm['date']), $delLink);
 	}
 }
 else
@@ -174,7 +165,7 @@ else
 
 write(
 "
-	<form method=\"post\" action=\"private.php\">
+	<form method=\"post\" action=\"".actionLink("private")."\">
 	<table class=\"outline margin\">
 		<tr class=\"header1\">
 			<th style=\"width: 22px;\">
@@ -198,7 +189,5 @@ write(
 
 if($pagelinks)
 	write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>"private.php"), $links);
 
 ?>

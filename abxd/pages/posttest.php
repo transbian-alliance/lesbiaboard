@@ -1,5 +1,4 @@
 <?php
-include("lib/common.php");
 
 //$user['postheader'] = "";
 //$user['signature'] = "";

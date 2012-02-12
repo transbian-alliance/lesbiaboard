@@ -2,8 +2,6 @@
 //  AcmlmBoard XD - Thread submission/preview page
 //  Access: users
 
-include("lib/common.php");
-
 $title = __("New thread");
 
 AssertForbidden("makeThread");
@@ -40,34 +38,11 @@ if(!isset($_POST['poll']) || isset($_GET['poll']))
 
 $isHidden = (int)($forum['minpower'] > 0);
 
-$onlineUsers = OnlineUsers($fid);
-write(
-"
-	<script type=\"text/javascript\" src=\"lib/jscolor/jscolor.js\"></script>
-	<script type=\"text/javascript\">
-			window.addEventListener(\"load\",  hookUpControls, false);
-	</script>
-");
-if(!$noAjax)
-	write(
-"
-	<script type=\"text/javascript\">
-		onlineFID = {0};
-		window.addEventListener(\"load\",  startOnlineUsers, false);
-	</script>
-	<div class=\"header0 cell1 center outline smallFonts\" style=\"overflow: auto;\">
-		&nbsp;
-		<span id=\"onlineUsers\">
-			{1}
-		</span>
-		&nbsp;
-	</div>
-", $fid, $onlineUsers);
-
+$OnlineUsersFid = $fid;
 if($_POST['poll'])
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, __("New poll")=>""), $links);
+	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), __("New poll")=>""), $links);
 else
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, __("New thread")=>""), $links);
+	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
 
 if($_POST['text'] && CheckTableBreaks($_POST['text']))
 {
@@ -169,7 +144,7 @@ if($_POST['action'] == __("Post"))
 		CheckYearling(1);
 		Report("New ".($_POST['poll'] ? "poll" : "thread")." by [b]".$loguser['name']."[/]: [b]".$_POST['title']."[/] (".$forum['title'].") -> [g]#HERE#?tid=".$tid, $isHidden);
 
-		die(header("Location: thread.php?id=".$tid));
+		die(header("Location: ".actionLink("thread", $tid)));
 		//Redirect(__("Posted!"), "thread.php?id=".$tid, __("the thread"));
 		exit();
 	}
@@ -323,7 +298,7 @@ write(
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"newthread.php\" method=\"post\">
+				<form action=\"".actionLink("newthread")."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">
@@ -487,10 +462,5 @@ write("
 		</tr>
 	</table>
 ");
-
-if($_POST['poll'])
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, __("New poll")=>""), $links);
-else
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>"forum.php?id=".$fid, __("New thread")=>""), $links);
 
 ?>

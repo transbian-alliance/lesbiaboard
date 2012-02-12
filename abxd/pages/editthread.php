@@ -33,6 +33,7 @@ $canMod = CanMod($loguserid, $thread['forum']);
 if(!$canMod && $thread['user'] != $loguserid)
 	Kill(__("You are not allowed to edit threads."));
 
+$OnlineUsersFid = $thread['forum'];
 $qFora = "select minpower from forums where id=".$thread['forum'];
 $rFora = Query($qFora);
 if(NumRows($rFora))

@@ -1,12 +1,10 @@
 <?php
+
+$ajaxPage = TRUE;
+
 if(isset($_GET['gfx']))
 {
-	$noAutoHeader = TRUE;
-	$noViewCount = TRUE;
-	$noOnlineUsers = TRUE;
-	$noFooter = TRUE;
-	$ajax = TRUE;
-	include("lib/common.php");
+
 	if(isset($_GET['id']))
 		$id = (int)$_GET['id'];
 	else
@@ -69,7 +67,6 @@ if(isset($_GET['gfx']))
 	header('Content-type: image/png');
 	imagepng($im);
 	imagedestroy($im);
-	die;
 }
 
 

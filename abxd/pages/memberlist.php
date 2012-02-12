@@ -2,7 +2,6 @@
 //  AcmlmBoard XD - Member list page
 //  Access: all
 
-include("lib/common.php");
 
 $title = __("Member list");
 
@@ -75,23 +74,8 @@ $numUsers = FetchResult("select count(*) from users where ".$where, 0, 0);
 $qUsers = "select * from users where ".$where." order by ".$order.", name asc limit ".$from.", ".$tpp;
 $rUsers = Query($qUsers);
 
-$numonpage = NumRows($rUsers);
-for($i = $tpp; $i < $numUsers; $i+=$tpp)
-{
-	if($i == $from)
-		$pagelinks .= " ".(($i/$tpp)+1);
-	else
-		$pagelinks .= " ".mlink($sort,$sex,$pow,$tpp,$letter,$dir,$i).(($i/$tpp)+1)."</a>";
-}
-if($pagelinks)
-{
-	if($from == 0)
-		$pagelinks = "1".$pagelinks;
-	else
-		$pagelinks = mlink($sort,$sex,$pow,$tpp,$letter,$dir,0)."1</a>".$pagelinks;
-}
+$pagelinks = PageLinks(actionLink("memberlist", "", mlink2($sort,$sex,$pow,$tpp,$letter,$dir)."&from="), $tpp, $from, $numUsers);
 
-//$alphabet .= "<li>".mlink($sort,$sex,$pow,$tpp,"@",$dir)."@</a></li>\n";
 $alphabet .= "<li>".mlink($sort,$sex,$pow,$tpp,"%23",$dir)."#</a></li>\n";
 for($l = 0; $l < 26; $l++)
 {
@@ -339,16 +323,27 @@ write("
 	</table>
 ");
 
+function mlink2($sort,$sex,$pow,$tpp,$letter="",$dir="")
+{
+	return ($sort   ?"sort=$sort":"")
+			.($sex    ?"&amp;sex=$sex":"")
+			.(isset($pow)?"&amp;pow=$pow":"")
+			.($letter!=""?"&amp;letter=$letter":"")
+			.($dir   ?"&dir=$dir":"");
+}
+
+
 function mlink($sort,$sex,$pow,$tpp,$letter="",$dir="",$from=1)
 {
-	return "<a href=\"memberlist.php?"
-			.($sort   ?"sort=$sort":"")
+	return "<a href=\"".actionLink("memberlist", "", 
+			($sort   ?"sort=$sort":"")
 			.($sex    ?"&amp;sex=$sex":"")
 			.(isset($pow)?"&amp;pow=$pow":"")
 			.($letter!=""?"&amp;letter=$letter":"")
 			.($dir   ?"&dir=$dir":"")
 			.($from!=1?"&amp;from=$from":"")
-			."\" rel=\"nofollow\">";
+			)."\" rel=\"nofollow\">";
 }
+
 
 ?>

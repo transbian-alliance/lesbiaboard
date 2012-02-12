@@ -2,7 +2,6 @@
 //  AcmlmBoard XD - Realtime visitor statistics page
 //  Access: all
 
-include("lib/common.php");
 
 $title = __("Online users");
 
@@ -22,12 +21,7 @@ $spans = array(60, 300, 900, 3600, 86400);
 $spanList = "";
 foreach($spans as $span)
 {
-	$spanList .= format(
-"
-			<li>
-				<a href=\"online.php?time={0}\">{1}</a>
-			</li>
-",	$span, timeunits($span));
+	$spanList .= actionLinkTagItem(timeunits($span), "online", "", "time=$span");
 }
 write(
 "

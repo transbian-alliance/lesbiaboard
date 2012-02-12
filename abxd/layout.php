@@ -64,6 +64,10 @@
 	</div>
 
 	<div id="main">
+<form action="<?php print actionLink('login'); ?>" method="post" id="logout">
+		<input type="hidden" name="action" value="logout" />
+	</form>
+	
 	<?php print $layout_crumbs;?>
 	<?php print $layout_contents;?>
 	<?php print $layout_crumbs;?>

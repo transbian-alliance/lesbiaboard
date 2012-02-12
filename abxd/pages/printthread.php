@@ -1,7 +1,5 @@
 <?php
-$noAutoHeader = TRUE;
-$noFooter = TRUE;
-include("lib/common.php");
+$ajaxPage = TRUE;
 
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];

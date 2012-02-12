@@ -2,9 +2,6 @@
 //  AcmlmBoard XD - Local moderator assignment tool
 //  Access: administrators only
 
-$noAutoHeader = TRUE;
-include("lib/common.php");
-
 $title = __("Manage localmod assignments");
 
 AssertForbidden("editMods");
@@ -14,7 +11,6 @@ if($loguser['powerlevel'] < 3)
 
 if(!isset($_GET['action']))
 {
-	include("lib/header.php");
 	$qFora = "select * from forums order by catid, forder";
 	$rFora = Query($qFora);
 	while($forum = Fetch($rFora))
@@ -27,15 +23,9 @@ if(!isset($_GET['action']))
 			$qMod = "select name, displayname, id, powerlevel, sex from users where id=".$mods['user'];
 			$rMod = Query($qMod);
 			$mod = Fetch($rMod);
-			$modList .= format(
-"
-				<li>
-					{0}
-					<sup>
-						<a href=\"managemods.php?action=delete&amp;fid={1}&amp;mid={2}\">&#x2718;</a>
-					</sup>
-				</li>
-", UserLink($mod), $forum['id'], $mods['user']);
+			$modList .= "<li>".UserLink($mod)."<sup>";
+			$modList .= actionLinkTag("&#x2718;", "managemods", "", "action=delete&amp;fid={$forum['id']}&amp;mid={$mods['user']}");
+			$modList .= "</sup></li>";
 		}
 		$theList .= format(
 "
@@ -43,9 +33,7 @@ if(!isset($_GET['action']))
 			{0}
 			<ul>
 				{2}
-				<li>
-					<a href=\"managemods.php?action=add&amp;fid={1}\">".__("Add")."</a>
-				</li>
+				".actionLinkTagItem(__("Add"), "managemods", "", "action=add&amp;fid={1}")."
 			</ul>
 		</li>
 ", $forum['title'], $forum['id'], $modList);
@@ -62,7 +50,6 @@ if(!isset($_GET['action']))
 }
 elseif($_GET['action'] == "delete")
 {
-	include("lib/header.php");
 	if(!isset($_GET['fid']))
 		Kill(__("Forum ID unspecified."));
 	if(!isset($_GET['mid']))
@@ -74,12 +61,11 @@ elseif($_GET['action'] == "delete")
 	$qMod = "delete from forummods where forum=".$fid." and user=".$mid;
 	$rMod = Query($qMod);
 	
-	die(header("Location: managemods.php"));
+	die(header("Location: ".actionLink("managemods")));
 	//Redirect(__("Removed!"), "managemods.php", __("the mod manager"));
 }
 elseif($_GET['action'] == "add")
 {
-	include("lib/header.php");
 	if(!isset($_GET['fid']))
 		Kill(__("Forum ID unspecified."));
 
@@ -97,7 +83,8 @@ elseif($_GET['action'] == "add")
 			if(NumRows($rCheck))
 				$add = __("already there");
 			else
-				$add = format("<a href=\"managemods.php?action=add&amp;fid={0}&amp;mid={1}\">".__("add")."</a>", $fid, $mod['id']);
+				$add = actionLinkTag("Add", "managemods", "", "action=add&amp;fid=$fid&amp;mid={$mod['id']}");
+
 			$modList .= format(
 "
 <li>
@@ -122,7 +109,7 @@ elseif($_GET['action'] == "add")
 		$qMod = "insert into forummods (forum	, user) values (".$fid.", ".$mid.")";
 		$rMod = Query($qMod);
 
-		die(header("Location: managemods.php"));
+		die(header("Location: ".actionLink("managemods")));
 		//Redirect(__("Added!"), "managemods.php", __("the mod manager"));
 	}
 }

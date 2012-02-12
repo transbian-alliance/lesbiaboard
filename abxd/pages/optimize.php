@@ -1,7 +1,6 @@
 <?php
-include("lib/common.php");
 
-AssertForbidden("optimize");
+	AssertForbidden("optimize");
 
 $rStats = Query("show table status");
 while($stat = Fetch($rStats))
