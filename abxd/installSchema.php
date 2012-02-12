@@ -398,14 +398,20 @@ $tables = array
 		)
 	),
 	"usergroups" => array(
-		"id" => $genericInt,
-		"title" => $var256,
-		"inherits" => $genericInt,
-		"permissions" => $text
+		"fields" => array
+		(
+			"id" => $genericInt,
+			"title" => $var256,
+			"inherits" => $genericInt,
+			"permissions" => $text
+		)
 	),
 	"userpermissions" => array(
-		"uid" => $genericInt,
-		"permissions" => $text
+		"fields" => array
+		(
+			"uid" => $genericInt,
+			"permissions" => $text
+		)
 	)
 );
 ?>
