@@ -84,8 +84,7 @@ while($user = Fetch($peeps))
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$lip = $user['lastip'];
 	$lkb = $user['lastknownbrowser'];
-	if(isset($_GET['showfull']))
-		$lkb = str_replace("-->", "", str_replace("<!--", " &mdash;", $lkb));
+	$lkb = str_replace("-->", "", str_replace("<!--", " &mdash;", $lkb));
 
 	$cellClass = ($cellClass+1) % 2;
 	$items .= format($format, $cellClass, $user['id'], UserLink($user), IP2C($lip), $lip, $lkb);
