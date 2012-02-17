@@ -44,7 +44,7 @@ function DoFooter($buffer)
 "
 		<div class=\"footer\">
 			Powered by <a href=\"https://github.com/Dirbaio/ABXD\">AcmlmBoard XD</a>, <a href=\"http://github.com/Dirbaio/ABXD\">git</a> ".$gitrev."<br />
-			By Kawa, Mega-Mario, Nikolaj, et al<br />
+			By Dirbaio, Kawa, Mega-Mario, Nikolaj, et al<br />
 			AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 			".__("Page rendered in {0} seconds with {1}.")."<br />
 			{3}
