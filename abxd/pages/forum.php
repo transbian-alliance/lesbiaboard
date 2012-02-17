@@ -100,21 +100,10 @@ $rThreads = Query("	SELECT
 
 $numonpage = NumRows($rThreads);
 
-for($i = $tpp; $i < $total; $i+=$tpp)
-	if($i == $from)
-		$pagelinks .= " ".(($i/$tpp)+1);
-	else
-		$pagelinks .= " ".actionLinkTag(($i/$tpp)+1, "forum", $fid, "from=$i");
+$pagelinks = PageLinks(actionLink("forum", $fid, "from="), $tpp, $from, $total);
 		
 if($pagelinks)
-{
-	if($from == 0)
-		$pagelinks = " 1".$pagelinks;
-	else
-		$pagelinks = actionLinkTag(1, "forum", $fid).$pagelinks;
-		
 	echo "<div class=\"smallFonts pages\">".__("Pages:")." ".$pagelinks."</div>";
-}
 
 $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
@@ -173,6 +162,7 @@ if(NumRows($rThreads))
 		if($thread['sticky'] && $haveStickies == 0) $haveStickies = 1;
 
 		$poll = ($thread['poll'] ? "<img src=\"img/poll.png\" alt=\"Poll\"/> " : "");
+
 
 		$n = 4;
 		$total = $thread['replies'];
