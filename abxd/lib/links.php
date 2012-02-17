@@ -130,4 +130,3 @@ function PageLinks($url, $epp, $from, $total)
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
 }
 ?>
-
