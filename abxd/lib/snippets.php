@@ -43,20 +43,17 @@ function DoFooter($buffer)
 		$footer = format(
 "
 		<div class=\"footer\">
-			Powered by <a href=\"https://github.com/Dirbaio/ABXD\">AcmlmBoard XD</a>, git ".$gitrev."<br />
+			Powered by <a href=\"https://github.com/Dirbaio/ABXD\">AcmlmBoard XD</a>, <a href=\"http://github.com/Dirbaio/ABXD\">git</a> ".$gitrev."<br />
 			By Kawa, Mega-Mario, Nikolaj, et al<br />
 			AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 			".__("Page rendered in {0} seconds with {1}.")."<br />
 			{3}
 
 			<a href=\"http://validator.w3.org/check?uri=referer\">
-				<img src=\"img/xhtml10.png\" alt=\"Valid XHTML 1.0 Transitional\" />
-			</a>
+				XHTML
+			</a> -
 			<a href=\"http://jigsaw.w3.org/css-validator/\">
-				<img src=\"img/css.png\" alt=\"Valid CSS!\" />
-			</a>
-			<a href=\"http://helmet.kafuka.org/thepile/ABXD\">
-				<img src=\"img/getabxd.png\" alt=\"Get a copy for yourself\" />
+				CSS
 			</a>
 			{2}
 		</div>

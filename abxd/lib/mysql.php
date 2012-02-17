@@ -22,7 +22,7 @@ function Query($query)
 	global $queries, $loguser;
 	if ($loguser['powerlevel'] < 3) CheckQuery($query);
 	//write("#{0} - {1}<br/>", $queries, $query);
-	$res = mysql_query($query) or die(mysql_error()."<br />Query was: <code>".$query."</code>");
+	$res = mysql_query($query) or die(mysql_error()."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it.");
 	$queries++;
 	return $res;
 }
