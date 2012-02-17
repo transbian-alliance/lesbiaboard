@@ -216,7 +216,7 @@ function MakeThreadLink($matches)
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);
-			$threadLinkCache[$id] = "<a href=\"thread.php?id=".$thread['id']."\">".$thread['title']."</a>";
+			$threadLinkCache[$id] = actionLinkTag($thread['title'], "thread", $thread['id']);
 		}
 		else
 			$threadLinkCache[$id] = "&lt;invalid thread ID&gt;";
@@ -234,7 +234,7 @@ function MakeForumLink($matches)
 		if(NumRows($rForum))
 		{
 			$forum = Fetch($rForum);
-			$forumLinkCache[$id] = "<a href=\"forum.php?id=".$forum['id']."\">".$forum['title']."</a>";
+			$forumLinkCache[$id] = actionLinkTag($forum['title'], "forum", $forum['id']);
 		}
 		else
 			$forumLinkCache[$id] = "&lt;invalid forum ID&gt;";
@@ -358,7 +358,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 
 	$s =  str_replace("[quote]","<blockquote><div><hr />", $s);
 	$s =  str_replace("[/quote]","<hr /></div></blockquote>", $s);
-	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<blockquote><div><small><i>Posted by <a href=\"thread.php?pid=\\2#\\2\">\\1</a></i></small><hr />", $s);
+	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<blockquote><div><small><i>Posted by ".actionLinkTag("\\1", "thread", "", "pid=\\2#\\2")."</i></small><hr />", $s);
 	$s = preg_replace("'\[quote=(.*?)\]'si","<blockquote><div><small><i>Posted by \\1</i></small><hr />", $s);
 	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<blockquote><div><small><i>Sent by \\1</i></small><hr />", $s);
 
@@ -368,7 +368,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
 	$s = preg_replace_callback("@(href|src)\s*=\s*([^\s>]+)@si", "FilterJS", $s);
 
-	$s = preg_replace("'>>([0-9]+)'si",">><a href=\"thread.php?pid=\\1#\\1\">\\1</a>", $s);
+	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
 	if($poster)
 		$s = preg_replace("'/me '","<b>* ".$poster."</b> ", $s);
 
@@ -451,7 +451,7 @@ function MakePost($post, $type, $params=array())
 		{
 			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 			if (IsAllowed("editPost", $post['id']))
-				$links .= "<li><a href=\"editpost.php?id=".$post['id']."&amp;delete=2&amp;key=".$key."\">".__("Undelete")."</a></li>";
+				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&amp;key=".$key);
 			$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
 		}
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
@@ -494,27 +494,32 @@ function MakePost($post, $type, $params=array())
 				$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 				$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
 				if ($editallowed)
-					$links .= "<li><a href=\"editpost.php?id=".$post['id']."&amp;delete=2&amp;key=".$key."\">".__("Undelete")."</a></li>";
+					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&amp;key=".$key);
 				$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",false); return false;\">".__("Close")."</a></li>";
 				$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 			}
 			else if ($type == POST_NORMAL)
 			{
-				$links .= "<ul class=\"pipemenu\"><li><a href=\"thread.php?pid=".$post['id']."#".$post['id']."\">".__("Link")."</a></li>";
+				$links .= "<ul class=\"pipemenu\">";
+				
+				$links .= actionLinkTagItem(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']);
+
 				if ($canreply && !$params['noreplylinks'])
-					$links .= "<li><a href=\"newreply.php?id=".$thread."&amp;quote=".$post['id']."\">".__("Quote")."</a></li>";
+					$links .= actionLinkTagItem(__("Quote"), "newreply", $thread, "quote=".$post['id']);
+
 				if ($editallowed && ($canmod || ($post['uid'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
-					$links .= "<li><a href=\"editpost.php?id=".$post['id']."\">".__("Edit")."</a></li>";
+					$links .= actionLinkTagItem(__("Edit"), "editpost", $post['id']);
+
 				if ($editallowed && $canmod)
 				{
 					// TODO: perhaps make delete links not require a key to be passed
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
 					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$links .= "<li><a href=\"editpost.php?id=".$post['id']."&amp;delete=1&amp;key=".$key."\">".__("Delete")."</a></li>";
+					$links .= actionLinkTagItem(__("Delete"), "editpost", $post['id'], "delete=1&amp;key=".$key);
 				}
 				if ($canreply && !$params['noreplylinks'])
-					$links .= "<li>".format(__("ID: {0}"), "<a href=\"newreply.php?id=".$thread."&amp;link=".$post['id']."\">".$post['id']."</a>")."</li>";
+					$links .= "<li>".format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))."</li>";
 				else
 					$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li>";
 				if ($loguser['powerlevel'] > 0)
@@ -526,7 +531,7 @@ function MakePost($post, $type, $params=array())
 		$meta = format(__(($type == POST_PM) ? "Sent on {0}" : "Posted on {0}"), cdate($dateformat,$post['date']));
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
-			$meta .= " ".__("in")." <a href=\"thread.php?id=".$post['thread']."\">".htmlspecialchars($post['threadname'])."</a>";
+			$meta .= " ".__("in")." ".actionLinkTag($post['threadname'], "thread", $post['thread']);
 		//Revisions
 		if($post['revision'])
 		{

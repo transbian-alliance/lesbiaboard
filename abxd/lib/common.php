@@ -34,15 +34,10 @@ if (get_magic_quotes_gpc())
 include("salt.php");
 
 include("settings.php");
+include("links.php");
 include("snippets.php");
-if($ajax)
-	$overallTidy = 0;
-//if($overallTidy)
 
 class KillException extends Exception { }
-
-//ob_start("DoFooter");
-
 date_default_timezone_set("GMT");
 $timeStart = usectime();
 
@@ -61,7 +56,6 @@ if($q = $_SERVER['QUERY_STRING'])
 include("loguser.php");
 include("permissions.php");
 include("pluginsystem.php");
-include("links.php");
 
 include("post.php");
 
@@ -81,10 +75,6 @@ if(file_exists("img/themes/".$theme."/logo.png"))
 	$logopic = "img/themes/".$theme."/logo.png";
 
 include("language.php");
-/*
-if(!isset($noAutoHeader))
-	include("header.php");
-*/
 
 function justEscape($text)
 {

@@ -204,7 +204,7 @@ function UserLink($user, $field = "id")
 	
 	$bucket = "userLink"; include('lib/pluginloader.php');
 	
-	$userlink = format("<a href=\"profile.php?id={0}\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
+	$userlink = format("<a href=\"".actionLink("profile", "{0}")."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
 	return $userlink;
 }
 
@@ -291,9 +291,9 @@ function DoPrivateMessageBar()
 			$content .= format(
 "
 		".__("You have {0}{1}. {2}Last message{1} from {3} on {4}."),
-			Plural($unread, format(__("new {0}private message"), "<a href=\"private.php\">")),
+			Plural($unread, format(__("new {0}private message"), "<a href=\"".actionLink("private")."\">")),
 			"</a>",
-			format("<a href=\"showprivate.php?id={0}\">", $last['id']),
+			"<a href=\"".actionLink("showprivate", $last['id'])."\">",
 			UserLink($user), cdate($dateformat, $last['date']));
 		}
 		
@@ -303,7 +303,7 @@ function DoPrivateMessageBar()
 "
 		".__("You {0} have new comments in your {1}profile{2}."),
 			$content != "" ? "also" : "",
-			format("<a href=\"profile.php?id={0}\">", $loguserid),
+			"<a href=\"".actionLink("profile", $loguserid)."\">",
 			"</a>");
 		}
 
@@ -432,7 +432,7 @@ function OnlineUsers($forum = 0, $update = true)
 		$loggedIn = ($user['lastpost'] <= $user['lastview']);
 		$userLink = UserLink($user);
 		if($user['minipic'])
-			$userLink = "<a href=\"profile.php?id=".$user['id']."\"><img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\"></a>&nbsp;".$userLink;
+			$userLink = "<a href=\"".actionLink("profile", $user['id'])."\"><img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\"></a>&nbsp;".$userLink;
 		if(!$loggedIn)
 			$userLink = "(".$userLink.")";
 		$onlineUsers.=($onlineUserCt ? ", " : "").$userLink;
