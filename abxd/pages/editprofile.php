@@ -528,7 +528,10 @@ if($_POST['action'] == __("Edit profile"))
 		}
 	}
 
-	$sets[] = "theme = '".justEscape($_POST['theme'])."'";
+	//Force theme names to be alphanumeric to avoid possible directory traversal exploits ~Dirbaio
+	if(ctype_alnum($_POST['theme']))
+		$sets[] = "theme = '".justEscape($_POST['theme'])."'";
+	
 	$sets[] = "pluginsettings = '".justEscape(serialize($pluginSettings))."'";
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
