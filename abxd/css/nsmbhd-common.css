@@ -1,3 +1,8 @@
+/* 
+	CSS file for the NSMBHD Layout file 
+	By Dirbaio
+*/
+
 .footer
 {
 	text-align: center;
@@ -52,6 +57,7 @@ ul.sidemenu
 	margin: 0;
 	padding: 0;
 }
+
 ul.sidemenu li
 {
 	padding: 4px;
