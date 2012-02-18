@@ -131,7 +131,11 @@ $layout_time = cdate($dateformat);
 $layout_onlineusers = getOnlineUsersText();
 $layout_birthdays = getBirthdaysText();
 $layout_views = '<span id="viewCount">'. __("Views:")." ".number_format($misc['views']).'</span>';
-$layout_title = "Hello World";
+
+$layout_title = htmlspecialchars($boardname);
+if($title != "")
+	$layout_title .= " &raquo; ".$title;
+
 
 
 //=======================
