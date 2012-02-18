@@ -2,8 +2,7 @@
 if($loguserid)
 {
 	if($_SERVER['HTTPS'] == "on") print "Secure browsing through HTTPS :)<br><br>";
-	print "Logged in as ".UserLink($loguser).".<br>";
-	print "<ul class=\"pipemenu\">";
+	print "<li>Logged in as ".UserLink($loguser)."</li>";
 	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">Log out</a></li>";
 
 	if(IsAllowed("editProfile"))
@@ -23,15 +22,11 @@ if($loguserid)
 		print actionLinkTagItem(__("Mark forum read"), "index", 0, "id=".$_POST['id']."&amp;action=markasread");
 	elseif(strpos($_SERVER['SCRIPT_NAME'], $boardIndex))
 		print actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
-	print "</ul>";
-
 }
 else
 {
-	print "<ul class=\"pipemenu\">";
 	print actionLinkTagItem(__("Register"), "register");
 	print actionLinkTagItem(__("Log in"), "login");
-	print "</ul>";
 }
 
 					

@@ -10,59 +10,73 @@
 	<meta name="keywords" content="<?php print $metaKeywords; ?>" />
 	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/common.css");?>" />
-	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/nsmbhd-common.css");?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print themeResourceLink("style.css");?>" />
 
 	<script type="text/javascript" src="<?php print resourceLink("lib/tricks.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.js");?>"></script>
-	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.tablednd_0_5.js");?>"></script>
-
+	<?php
+		$bucket = "pageHeader"; include("./lib/pluginloader.php");
+	?>
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
 	
-	<div id="boardheader">
-
-		<!-- Board header goes here -->
+<div class="outline margin width100" id="header">
 		<table>
 			<tr>
-				<td style="border: 0px none; text-align: left;">
-					<a href="<?php print resourceLink("");?>">
-						<img src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
-					</a>
-				</td>
-
-				<td style="border: 0px none; text-align: right; padding:0px; vertical-align:bottom;" class="smallFonts">
-					<div class="cell1" style="float:right; padding:5px; border-top:1px solid black; border-left:1px solid black;">
-						<?php print $layout_userpanel; ?>
-					</div>
+				<td colspan="3" class="cell0">
+					<!-- Board header goes here -->
+					<table>
+						<tr>
+							<td style="border: 0px none; text-align: left;">
+								<a href="<?php print resourceLink("");?>">
+									<img src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
+								</a>
+							</td>
+							<?php if($misc['porabox']) { ?>
+							<td style="border: 0px none;">
+								<div class="PoRT nom">
+									<div class="errort">
+										<strong><?php print $misc['poratitle']; ?></strong>
+									</div>
+									<div class="errorc cell2 left">
+										<?php print CleanUpPost($misc['porabox'], "", true, true); ?>
+									</div>
+								</div>
+							</td>
+							<?php } ?>
+						</tr>
+					</table>
 				</td>
 			</tr>
-		</table>
-	</div> <!--END OF HEADER-->
-	
-	<div id="boardheader2" class="cell1">
-		<span style="position: absolute;left: 6px;"><?php print $layout_views; ?></span></span>
-		<?php print $layout_onlineusers; ?>
-		<span style="position: absolute;right: 6px;"><?php print $layout_time; ?></span>
-		<?php print $layout_birthdays; ?>
-	</div>
-	
-	<div id="sidebar">
-
-		<table class="outline margin" style="width:130px; ">
-			<tr class="header1">
-				<th>Navigation
-				</th>
-			</tr>
-			<tr class="cell0">
-				<td>
+			<tr class="cell1">
+				<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
+					<?php print $layout_views; ?>
+				</td>
+				<td class="smallFonts" style="text-align: center; width: 80%;">
+					<ul class="pipemenu">
 					<?php print $layout_navigation;?>
 				</td>
+				<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
+					<?php print $layout_time; ?>
+					</ul>
+				</td>
+			</tr>
+			<tr class="cell2">
+				<td class="smallFonts" style="text-align: center">
+					<ul class="pipemenu">
+					<?php print $layout_userpanel; ?>
+					</ul>
+				</td>
+			</tr>
+			<tr class="cell2">
+				<td colspan="1" class="smallFonts" style="text-align: center">
+					<?php print $layout_onlineusers; ?>
+				</td>
 			</tr>
 		</table>
-	</div>
-
+	</div>	
+	
 	<div id="main">
 <form action="<?php print actionLink('login'); ?>" method="post" id="logout">
 		<input type="hidden" name="action" value="logout" />
