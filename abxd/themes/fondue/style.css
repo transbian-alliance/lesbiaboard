@@ -3,7 +3,7 @@ A pun on cheese and fire */
 
 body
 {
-	background: black url("../img/themes/fondue/back.png") repeat;
+	background: black url("back.png") repeat;
 }
 
 .PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button, .avaLib img, .smilies img, #rss img

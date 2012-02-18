@@ -3,7 +3,7 @@ Loosely based on Panda Internet Security 2011 */
 
 body
 {
-	background: black url("../img/themes/panda/back.png") repeat;
+	background: black url("back.png") repeat;
 }
 
 #header, #header tr, #header tr td

@@ -6,7 +6,7 @@ By Nikolaj */
 }
 body
 {
-	background: #222222 URL('../img/themes/circuit/circuitbg.jpg');
+	background: #222222 URL('circuitbg.jpg');
 	color: #EEFFDD;
 	font-family: "Tahoma";
 }

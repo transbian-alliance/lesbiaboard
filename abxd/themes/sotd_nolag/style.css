@@ -4,7 +4,7 @@
 body
 {
 	/* Fixed, for your (browser's) pleasure */
-	background: black url(../img/themes/sotd/bg_nolag.png); 
+	background: black url(bg_nolag.png); 
 	/*	background-attachment: fixed; */
 		background-repeat: repeat;
 		background-position: center top;
@@ -124,7 +124,7 @@ table.post td.side
 
 table.post td.post
 {
-	background: rgba(32, 62, 119, 0.4) url(../img/themes/sotd/back2t1.png) repeat-x;
+	background: rgba(32, 62, 119, 0.4) url(back2t1.png) repeat-x;
 	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
@@ -203,22 +203,22 @@ table.post td.links
 
 .cell0
 {
-	background: rgba(16, 47, 109, 0.4) url(../img/themes/sotd/back2t1.png) repeat-x;
+	background: rgba(16, 47, 109, 0.4) url(back2t1.png) repeat-x;
 }
 
 .cell1
 {
-	background: rgba(00, 33, 99, 0.4) url(../img/themes/sotd/back2t1.png) repeat-x;
+	background: rgba(00, 33, 99, 0.4) url(back2t1.png) repeat-x;
 }
 
 .cell2
 {
-	background: rgba(32, 62, 119, 0.4) url(../img/themes/sotd/back2t1.png) repeat-x;
+	background: rgba(32, 62, 119, 0.4) url(back2t1.png) repeat-x;
 }
 
 .header0 th
 {
-	background: #304B81 url(../img/themes/sotd/header0.png) repeat-x;
+	background: #304B81 url(header0.png) repeat-x;
 	text-align: center;
 	color: #EEE;
 	font-size: 8pt;
@@ -228,7 +228,7 @@ table.post td.links
 
 .header1 th
 {
-	background:  #001132 url(../img/themes/sotd/header1.png) repeat-x;
+	background:  #001132 url(header1.png) repeat-x;
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;
@@ -257,7 +257,7 @@ table.breadcrumbs, table.breadcrumbs td
 
 .faq
 {
-	background:  #001132 url(../img/themes/sotd/header1.png) repeat-x;
+	background:  #001132 url(header1.png) repeat-x;
 	padding: 4px;
 }
 
@@ -278,7 +278,7 @@ td.post blockquote
 
 td.post code.Code
 {
-	background: #24285C url(../img/themes/sotd/back2t2.png);
+	background: #24285C url(back2t2.png);
 	font-family: "Consolas", "Courier New", monospace;
 }
 
@@ -289,7 +289,7 @@ form
 
 .errort
 {
-	background:  #4E5174 url(../img/themes/sotd/backh.png) repeat-x;
+	background:  #4E5174 url(backh.png) repeat-x;
 	border: 1px solid #000;
 }
 

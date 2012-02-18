@@ -2,7 +2,7 @@
 
 body
 {
-	background: #000 url(../img/themes/glossy/back.png);
+	background: #000 url(back.png);
 }
 
 .outline
@@ -53,53 +53,53 @@ th
 table.post
 {
 	border-color: #144;
-	background: url(../img/themes/glossy/cell0.svg) #3B3B3B;
+	background: url(cell0.svg) #3B3B3B;
 }
 
 table.post td.post
 {
-	background-image: url(../img/themes/glossy/cell1.svg);
+	background-image: url(cell1.svg);
 }
 
 .cell0
 {
-	background: #001F1F url(../img/themes/glossy/cell0.svg);
+	background: #001F1F url(cell0.svg);
 }
 
 .cell1
 {
-	background: #001010 url(../img/themes/glossy/cell1.svg);
+	background: #001010 url(cell1.svg);
 }
 
 .cell2
 {
-	background: #001515 url(../img/themes/glossy/cell2.svg);
+	background: #001515 url(cell2.svg);
 }
 
 .header0 th
 {
-	background: #002525 url(../img/themes/glossy/header0.svg);
+	background: #002525 url(header0.svg);
 	border: 1px solid #000;
 }
 
 .header1 th
 {
-	background:  #005555 url(../img/themes/glossy/header1.svg);
+	background:  #005555 url(header1.svg);
 }
 
 .faq
 {
-	background: url(../img/themes/glossy/cell0.svg);
+	background: url(cell0.svg);
 }
 
 td.post code.Code
 {
-	background: #000 url(../img/themes/glossy/cell0.svg);
+	background: #000 url(cell0.svg);
 }
 
 .errort
 {
-	background:  #535353 url(../img/themes/glossy/header1.svg);
+	background:  #535353 url(header1.svg);
 }
 
 .errorc
@@ -116,7 +116,7 @@ td.post code.Code
 #pmNotice
 {
 	background-color: #000;
-	background-image: URL('../img/themes/glossy/header0.svg') !important;
+	background-image: URL('header0.svg') !important;
 	color: #FFF !important;
 	width: 80% !important;
 	left: 10%;
@@ -142,7 +142,7 @@ td.post code.Code
 
 .geshi
 {
-	background: #066 url(../img/themes/glossy/generic.svg);
+	background: #066 url(generic.svg);
 	color: #DDD;
 }
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
@@ -163,7 +163,7 @@ button, input[type="submit"]
 {
 	border: 1px solid #002020;
 	background: #000;
-	background-image: url(../img/themes/glossy/generic.svg);
+	background-image: url(generic.svg);
 	color: #FFF;
 	-o-transition: 0.2s linear;
 }
@@ -179,7 +179,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 }
 input[type="checkbox"], input[type="radio"]
 {
-	background: #066 URL(../img/themes/glossy/generic_gloss.svg);
+	background: #066 URL(generic_gloss.svg);
 	border: 2px solid #288;
 	color: #000;
 	-o-transition: 0.2s linear;
@@ -194,10 +194,10 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 	border: 1px solid #288;
 	border-radius: 0px;
 	padding: 0px;
-	background: #222 url(../img/themes/glossy/generic_gloss.svg);
+	background: #222 url(generic_gloss.svg);
 }
 .pollbar {
-	background-image: URL(../img/themes/glossy/generic_gloss.svg) !important;
+	background-image: URL(generic_gloss.svg) !important;
 	border-radius: 0px;
 	box-shadow: none;
 }
@@ -205,17 +205,17 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 
 .post_about
 {
-	background: url(../img/themes/glossy/cell2.svg);
+	background: url(cell2.svg);
 	border: 1px solid #288;
 }
 .post_topbar
 {
-	background: url(../img/themes/glossy/cell0.svg);
+	background: url(cell0.svg);
 	border: 1px solid #288;
 }
 .post_content
 {
-	background: url(../img/themes/glossy/cell0.svg);
+	background: url(cell0.svg);
 	border: 1px solid #288;
 }
 
@@ -255,7 +255,7 @@ table.outline tr td:first-child, table.outline tr th:first-child
 div#tabs button {
 	border: 1px solid #288;
 	border-radius: 8px 8px 0px 0px;
-	background-image: url(../img/themes/glossy/generic_gloss.svg);
+	background-image: url(generic_gloss.svg);
 	-o-transition: 0.2s linear;
 	background-color: #000;
 }

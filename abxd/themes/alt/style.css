@@ -2,7 +2,7 @@
 
 body
 {
-	background: #0C0B43 url(../img/themes/alt/back1000.png);
+	background: #0C0B43 url(back1000.png);
 }
 
 td, th, .header0, .header1, #body table, #body .faq
@@ -12,17 +12,17 @@ td, th, .header0, .header1, #body table, #body .faq
 
 .cell0
 {
-	background: #1A2464 url(../img/themes/alt/backt100.png);
+	background: #1A2464 url(backt100.png);
 }
 
 .cell1
 {
-	background: #06015D url(../img/themes/alt/backt200.png);
+	background: #06015D url(backt200.png);
 }
 
 .cell2, .faq
 {
-	background: #1A2464 url(../img/themes/alt/backt100.png);
+	background: #1A2464 url(backt100.png);
 }
 
 .PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button

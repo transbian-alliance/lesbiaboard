@@ -2,7 +2,7 @@
 
 body
 {
-	background: #383838 url(../img/themes/grayscale/back2c.png);
+	background: #383838 url(back2c.png);
 }
 
 .outline
@@ -53,53 +53,53 @@ th
 table.post
 {
 	border-color: #6B6B6B;
-	background: url(../img/themes/grayscale/back2t1.png) #3B3B3B;
+	background: url(back2t1.png) #3B3B3B;
 }
 
 table.post td.post
 {
-	background-image: url(../img/themes/grayscale/back2g.png);
+	background-image: url(back2g.png);
 }
 
 .cell0
 {
-	background: #2C2C2C url(../img/themes/grayscale/back2t2.png);
+	background: #2C2C2C url(back2t2.png);
 }
 
 .cell1
 {
-	background: #262626 url(../img/themes/grayscale/back2t3.png);
+	background: #262626 url(back2t3.png);
 }
 
 .cell2
 {
-	background: #3B3B3B url(../img/themes/grayscale/back2t1.png);
+	background: #3B3B3B url(back2t1.png);
 }
 
 .header0 th
 {
-	background: #444444 url(../img/themes/grayscale/backc2.png) repeat-x;
+	background: #444444 url(backc2.png) repeat-x;
 	border: 1px solid #000;
 }
 
 .header1 th
 {
-	background:  #535353 url(../img/themes/grayscale/backh.png) repeat-x;
+	background:  #535353 url(backh.png) repeat-x;
 }
 
 .faq
 {
-	background: #222 url(../img/themes/grayscale/back2g.png);
+	background: #222 url(back2g.png);
 }
 
 td.post code.Code
 {
-	background: #3B3B3B url(../img/themes/grayscale/back2t1.png);
+	background: #3B3B3B url(back2t1.png);
 }
 
 .errort
 {
-	background:  #535353 url(../img/themes/grayscale/backh.png) repeat-x;
+	background:  #535353 url(backh.png) repeat-x;
 	border: 1px solid #000;
 }
 
@@ -136,7 +136,7 @@ td.post code.Code
 
 .geshi
 {
-	background: #3B3B3B url(../img/themes/grayscale/back2t1.png);
+	background: #3B3B3B url(back2t1.png);
 	color: #DDD;
 }
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
@@ -182,17 +182,17 @@ input[type="checkbox"], input[type="radio"]
 
 .post_about
 {
-	background: url(../img/themes/grayscale/back2t2.png);
+	background: url(back2t2.png);
 	border: 1px solid #666;
 }
 .post_topbar
 {
-	background: url(../img/themes/grayscale/back2t2.png);
+	background: url(back2t2.png);
 	border: 1px solid #666;
 }
 .post_content
 {
-	background: url(../img/themes/grayscale/back2t1.png);
+	background: url(back2t1.png);
 	border: 1px solid #666;
 }
 

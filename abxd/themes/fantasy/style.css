@@ -12,44 +12,44 @@
 
 .cell0
 {
-	background: #222653 url(../img/themes/fantasy/back2t2.png) fixed repeat-x;
+	background: #222653 url(back2t2.png) fixed repeat-x;
 }
 
 .cell1
 {
-	background: #141730 url(../img/themes/fantasy/back2t3.png) fixed repeat-x;
+	background: #141730 url(back2t3.png) fixed repeat-x;
 }
 
 .cell2
 {
-	background: #303678 url(../img/themes/fantasy/back2t1.png) fixed repeat-x;
+	background: #303678 url(back2t1.png) fixed repeat-x;
 }
 
 .header0 th
 {
-	background: #373E89 url(../img/themes/fantasy/backc2.png) fixed repeat-x;
+	background: #373E89 url(backc2.png) fixed repeat-x;
 	text-shadow: #000 1px 1px 0px;
 }
 
 .header1 th
 {
-	background: #4F57B9 url(../img/themes/fantasy/backh.png) fixed repeat-x;
+	background: #4F57B9 url(backh.png) fixed repeat-x;
 	text-shadow: #000 1px 1px 0px;
 }
 
 table.post
 {
-	background: #222653 url(../img/themes/fantasy/back2t2.png) fixed repeat-x;
+	background: #222653 url(back2t2.png) fixed repeat-x;
 }
 
 table.post td.post
 {
-	background: #222 url(../img/themes/fantasy/back2g.png) fixed;
+	background: #222 url(back2g.png) fixed;
 }
 
 .faq, .errorc
 {
-	background: #141730 url(../img/themes/fantasy/back2t3.png) fixed repeat-x;
+	background: #141730 url(back2t3.png) fixed repeat-x;
 	padding: 4px;
 }
 
@@ -73,7 +73,7 @@ td.post code.Code
 
 .errort
 {
-	background: #4F57B9 url(../img/themes/fantasy/backh.png) fixed repeat-x;
+	background: #4F57B9 url(backh.png) fixed repeat-x;
 	text-shadow: #000 1px 1px 0px;
 	border: 1px solid #000;
 	text-align: center;
@@ -107,16 +107,16 @@ input[type="checkbox"], input[type="radio"]
 
 .post_about
 {
-	background: #222653 url(../img/themes/fantasy/back2t2.png) fixed repeat-x;
+	background: #222653 url(back2t2.png) fixed repeat-x;
 }
 .post_topbar
 {
-	background: #222653 url(../img/themes/fantasy/back2t2.png) fixed repeat-x;
+	background: #222653 url(back2t2.png) fixed repeat-x;
 	margin-left: 150px;
 }
 .post_content
 {
-	background: #222 url(../img/themes/fantasy/back2g.png) fixed;
+	background: #222 url(back2g.png) fixed;
 	margin-top: 2px;
 	margin-left: 150px;
 }
@@ -133,7 +133,7 @@ table.outline
 
 button, input[type="submit"]
 {
-	background: #222653 url(../img/themes/fantasy/back2t2.png);
+	background: #222653 url(back2t2.png);
 	color: white;
 	text-shadow: 1px 1px 0px black;
 	border: 1px solid #999;
@@ -147,6 +147,6 @@ div#tabs button
 
 div#tabs button.selected
 {
-	background: #373E89 url(../img/themes/fantasy/backc2.png);
+	background: #373E89 url(backc2.png);
 	border-bottom: 1px solid #999;
 }

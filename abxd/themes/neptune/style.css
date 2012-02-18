@@ -4,7 +4,7 @@ Damn HTML and CSS have more blues than Satchmo */
 
 body
 {
-	background: black url("../img/themes/neptune/back.png") repeat;
+	background: black url("back.png") repeat;
 	color: aliceblue !important;
 }
 
