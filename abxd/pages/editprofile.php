@@ -609,7 +609,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	}
 	else if($type == 1)
 	{
-		$extensions = array(".png");
+		$extensions = array(".png", ".gif");
 		$maxDim = 16;
 		$maxSize = 100 * 1024;
 	}
