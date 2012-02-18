@@ -9,10 +9,11 @@ $sat = 50;
 $hs = $hue.", ".$sat."%";
 
 $css = "/* AcmlmBoard XD - Daily Cycle */
+@import url('../../css/roundcorners.css');
 
 body
 {
-	background: hsl([huesat], 15%) url(../img/themes/cycle/background.png);
+	background: hsl([huesat], 15%) url(background.png);
 }
 
 .outline
@@ -22,29 +23,29 @@ body
 
 .cell0, table.post td.post
 {
-	background: hsl([huesat], 16%) url(../img/themes/cycle/cellgradient.png) repeat-x top;
+	background: hsl([huesat], 16%) url(cellgradient.png) repeat-x top;
 }
 
 .cell1, table.post, .faq, .errorc, .post_content
 {
-	background: hsl([huesat], 20%) url(../img/themes/cycle/cellgradient.png) repeat-x top;
+	background: hsl([huesat], 20%) url(cellgradient.png) repeat-x top;
 }
 
 .cell2
 {
-	background: hsl([huesat], 28%) url(../img/themes/cycle/cellgradient.png) repeat-x top;
+	background: hsl([huesat], 28%) url(cellgradient.png) repeat-x top;
 }
 
 .header0 th
 {
-	background: hsl([huesat], 32%) url(../img/themes/cycle/headergradient.png) repeat-x bottom;
+	background: hsl([huesat], 32%) url(headergradient.png) repeat-x bottom;
 	color: #fff;
 	text-shadow: 1px 1px 0px #000;
 }
 
 .header1 th, .errort
 {
-	background: hsl([huesat], 40%) url(../img/themes/cycle/headergradient.png) repeat-x bottom;
+	background: hsl([huesat], 40%) url(headergradient.png) repeat-x bottom;
 	color: #fff;
 	text-shadow: 1px 1px 0px #000;
 }
@@ -166,7 +167,7 @@ input[type=radio]
 
 .post_about, .post_topbar
 {
-	background: hsl([huesat], 16%) url(../img/themes/cycle/cellgradient.png) repeat-x top;
+	background: hsl([huesat], 16%) url(cellgradient.png) repeat-x top;
 }
 .post_about, .post_topbar, .post_content
 {

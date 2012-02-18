@@ -135,7 +135,7 @@ $layout_title = "Hello World";
 
 
 //=======================
-// Board logo
+// Board logo and theme
 
 if(file_exists("themes/$theme/logo.png"))
 	$layout_logopic = themeResourceLink("logo.png");
@@ -145,6 +145,10 @@ else if(file_exists("themes/$theme/logo.gif"))
 	$layout_logopic = themeResourceLink("logo.gif");
 else
 	$layout_logopic = resourceLink("img/logo.png");
+
+$layout_themefile = "themes/$theme/style.css";
+if(!file_exists($layout_themefile))
+	$layout_themefile = "themes/$theme/style.php";
 
 
 //=======================

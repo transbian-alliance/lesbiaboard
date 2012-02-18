@@ -70,20 +70,22 @@ else if($action == "ou")	//Online Users
 }
 else if($action == "tf")	//Theme File
 {
-	include("css/themelist.php");
 	$theme = $_GET['t'];
-	if (!$themes[$theme]) die("css/default.css|img/themes/default/logo.png");
-	$themeFile = "css/".$theme.".css";
+
+	$themeFile = "themes/$theme/style.css";
 	if(!file_exists($themeFile))
-	{
-		$themeFile = "css/".$theme.".php";
-		if(!file_exists($themeFile))
-			$themeFile = "css/default.css";
-	}
-	$logopic = "img/themes/default/logo.png";
-	if(file_exists("img/themes/".$theme."/logo.png"))
-		$logopic = "img/themes/".$theme."/logo.png";
-	die($themeFile."|".$logopic);
+		$themeFile = "themes/$theme/style.php";
+
+	if(file_exists("themes/$theme/logo.png"))
+		$layout_logopic = themeResourceLink("logo.png");
+	else if(file_exists("themes/$theme/logo.jpg"))
+		$layout_logopic = themeResourceLink("logo.jpg");
+	else if(file_exists("themes/$theme/logo.gif"))
+		$layout_logopic = themeResourceLink("logo.gif");
+	else
+		$layout_logopic = resourceLink("img/logo.png");
+		
+	die($themeFile."|".$layout_logopic);
 }
 else if($action == "ni")	//New Indicators
 {

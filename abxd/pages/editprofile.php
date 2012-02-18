@@ -529,7 +529,7 @@ if($_POST['action'] == __("Edit profile"))
 	}
 
 	//Force theme names to be alphanumeric to avoid possible directory traversal exploits ~Dirbaio
-	if(ctype_alnum($_POST['theme']))
+	if(preg_match("/^[a-zA-Z0-9_]+$/", $_POST['theme']))
 		$sets[] = "theme = '".justEscape($_POST['theme'])."'";
 	
 	$sets[] = "pluginsettings = '".justEscape(serialize($pluginSettings))."'";

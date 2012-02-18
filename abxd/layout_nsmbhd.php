@@ -11,7 +11,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/common.css");?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/nsmbhd-common.css");?>" />
-	<link rel="stylesheet" type="text/css" href="<?php print themeResourceLink("style.css");?>" />
+	<link rel="stylesheet" type="text/css" id="theme_css" href="<?php print $layout_themefile; ?>" />
 
 	<script type="text/javascript" src="<?php print resourceLink("lib/tricks.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.js");?>"></script>
@@ -31,7 +31,7 @@
 			<tr>
 				<td style="border: 0px none; text-align: left;">
 					<a href="<?php print resourceLink("");?>">
-						<img src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
+						<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
 					</a>
 				</td>
 
