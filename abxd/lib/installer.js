@@ -34,14 +34,25 @@ window.onload = function() {
 		if (page == numPages) $("#nextPageButton").attr("disabled");
 		$("#prevPageButton").removeAttr("disabled");
 	});
-	$("#installButton").click(function() { doInstall(); });
+	$("#installButton").click(function() { $(this).fadeOut(1000, function() {doInstall();}); });
 }
 
-function checkSqlConnection() {
-	$("#sqlStatus").html("All seems well for this test.");
-	$("#sqlStatus").fadeIn(200);
+function checkSqlConnection(attemptCreate) {
+	url = "install/checksql.php";
+	if (attemptCreate == true) url += "?attemptCreate=true";
+	$.post(url, {
+		sqlServer: $('#sqlServer').val(),
+		sqlUserName: $('#sqlUserName').val(),
+		sqlPassword: $('#sqlPassword').val(),
+		sqlDbName: $('#sqlDbName').val()
+	}, function(data) {
+		$('#sqlStatus').html(data);
+		$('#sqlStatus').fadeIn(200);
+	});
 }
 
 function doInstall() {
+	$("#prevPageButton, #nextPageButton").hide(250);
+	$("#progress").slideUp(250);
 	$("#page4").html('<div class="center" style="padding-top: 100px; font-style: italic;"><div class="pollbarContainer" style="width: 50%; margin: 12pt auto;">Installing. Please wait.</div></div>');
 }
