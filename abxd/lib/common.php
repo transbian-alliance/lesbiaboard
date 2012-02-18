@@ -59,20 +59,7 @@ include("pluginsystem.php");
 
 include("post.php");
 
-include("css/themelist.php");
-$themeFiles = array_keys($themes);
-$themeNames = array_values($themes);
 $theme = $loguser['theme'];
-$themeFile = $theme.".css";
-if(!file_exists("css/".$themeFile))
-{
-	$themeFile = $theme.".php";
-	if(!file_exists("css/".$themeFile))
-		$themeFile = "default.css";
-}
-$logopic = "img/themes/default/logo.png";
-if(file_exists("img/themes/".$theme."/logo.png"))
-	$logopic = "img/themes/".$theme."/logo.png";
 
 include("language.php");
 

@@ -1,7 +1,7 @@
 <?php
 
 $ajaxPage = true;
-
+include("lib/common.php");
 header("Cache-Control: no-cache");
 
 $action = $_GET['a'];
