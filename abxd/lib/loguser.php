@@ -106,7 +106,7 @@ if($loguserid) //Are we logged in?
 		if($loguserbull == $ourbull)
 		{
 			$rLastView = "update users set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape($thisURL)."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
-			if(!$noOnlineUsers)
+			if(!$ajaxPage)
 				$qLastView = Query($rLastView);
 
 			$dateformat = $loguser['dateformat'].", ".$loguser['timeformat'];
@@ -119,7 +119,7 @@ if($loguserid) //Are we logged in?
 if($wantGuest)
 {
 	$qGuest = "insert into guests (date, ip, lasturl, useragent, bot) values (".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($thisURL)."', '".justEscape($_SERVER['HTTP_USER_AGENT'])."', ".$isBot.")";
- 	if(!$noOnlineUsers)
+ 	if(!$ajaxPage)
  		$rGuest = Query($qGuest);
 	
 	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>"default", "dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts);
