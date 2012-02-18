@@ -10,6 +10,17 @@ td, th, .header0, .header1, #body table, #body .faq
 	border: 1px solid #8677E7;
 }
 
+.header0 th
+{
+	background: #373E89 url(backc2.png) repeat-x;
+	color: #EEE;
+}
+.header1 th
+{
+	background: #4E5174 url(backh.png) repeat-x;
+	color: #DDD;
+}
+
 .cell0
 {
 	background: #1A2464 url(backt100.png);
@@ -65,6 +76,10 @@ td.side, td.meta, table.post td.post
 	background: #111133;
 }
 
+td.post code.Code .geshi .post_about
+{
+	background: #24285C url(back2t2.png);
+}
 
 input, select, textarea, button
 {
