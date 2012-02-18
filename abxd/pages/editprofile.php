@@ -823,13 +823,13 @@ if (is_dir($dir))
             if($file == ".." || $file == ".") continue;
             $infofile = $dir.$file."/themeinfo.txt";
             
-            if(file_exists("infofile"))
+            if(file_exists($infofile))
             {
 		        $themeinfo = file_get_contents($infofile);
 		        $themeinfo = explode("\n", $themeinfo, 2);
 		        
-		        $themes[$file]["name"] = $themeinfo[0];
-		        $themes[$file]["author"] = $themeinfo[1];
+		        $themes[$file]["name"] = trim($themeinfo[0]);
+		        $themes[$file]["author"] = trim($themeinfo[1]);
 		    }
 		    else
 		    {
