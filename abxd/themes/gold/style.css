@@ -1,0 +1,452 @@
+@import url('../../css/roundcorners.css');
+
+/* AcmlmBoard XD - ABXD Gold theme */
+
+body
+{
+	background: black url(back.png);
+/*	background-attachment: fixed;*/
+	background-repeat: repeat;
+	background-position: center bottom;
+	color: white;
+	font-family: "Verdana", "Arial", sans-serif;
+	font-size: 10pt;
+	text-shadow: #012 0px -1px 10px;
+	margin: 0px;
+}
+
+#header
+{
+	background-image: url(post.png);
+}
+
+#header * td.cell0
+{
+	background: transparent;
+}
+#header * tr.cell1, #header * tr.cell2
+{
+	background: rgba(0, 0, 0, 0.7) url(back2t1.png) repeat-x;
+}
+
+h3
+{
+	font-family: "Verdana", "Arial", sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+	border-top: 1px solid #960;
+	border-bottom: 1px solid #960;
+	margin: 0px;
+}
+
+h4
+{
+	font-family: "Verdana", "Arial", sans-serif;
+	font-size: 10pt;
+	margin: 0px;
+}
+
+a
+{
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:link
+{
+	color: #ff8400;
+}
+a:visited
+{
+	color: #ff8400;
+}
+a:active
+{
+	color: #ffd8ae
+}
+a:hover
+{
+	color:#ffd8ae;
+}
+
+.outline
+{
+	outline: 1px solid #620;
+	border-radius: 4px;
+}
+
+.margin
+{
+	margin-bottom: 4px;
+}
+
+table
+{
+	color: white;
+	border-collapse: collapse;
+	width: 100%;
+	font-weight: normal;
+}
+
+td
+{
+	font-size: 10pt;
+	border: 1px solid #000;
+}
+
+th
+{
+	background: #336;
+	font-size: 12px;
+	border: 1px solid #000;
+	text-align: left;
+}
+
+table.post
+{
+	width: 100%;
+	background: rgba(61, 10, 0, 0.7);
+	border: 1px solid #000;
+}
+
+table.post td.side
+{
+	width: 15%;
+	vertical-align: top;
+	border: 0px none;
+}
+
+table.post td.post
+{
+	background: #222 url(post.png);
+	border: 1px solid #000;
+	vertical-align: top;
+	height: 100px;
+}
+
+table.post td.post td
+{
+	border: 0px none;
+}
+
+table.post td.meta
+{
+	font-size: 8pt;
+	height: 14px;
+	margin: 0px;
+	border: 0px none;
+}
+
+table.post td.links
+{
+	font-size: 8pt;
+	height: 14px;
+	margin: 0px;
+	border: 0px none;
+}
+
+.PoRT
+{
+	float: right;
+	clear: right;
+}
+
+.PoRT td, .PoRT th, .smallFonts td, .smallFonts
+{
+	font-size: 8pt;
+}
+
+.left
+{
+	text-align: left !important;
+}
+
+.right
+{
+	text-align: right;
+}
+
+.center
+{
+	text-align: center;
+}
+
+.underline
+{
+	text-decoration: underline;
+}
+
+.footer
+{
+	text-align: center;
+	width: 100%;
+	font-size: 10pt;
+	clear: both;
+}
+
+.footer *
+{
+	border: 0px none;
+}
+
+.links
+{
+	font-size: 10pt;
+	text-align: right;
+}
+
+.cell0
+{
+	background: rgba(100, 20, 0, 0.7) url(back2t1.png) repeat-x;
+}
+
+.cell1
+{
+	background: rgba(70, 10, 0, 0.7) url(back2t1.png) repeat-x;
+}
+
+.cell2
+{
+	background: rgba(119, 20, 0, 0.7) url(back2t1.png) repeat-x;
+}
+
+.header0 th
+{
+	background: #811000 url(header1.png) repeat-x;
+	text-align: center;
+	color: #EEE;
+	font-size: 8pt;
+	border-top: 0px none;
+	border-bottom: 0px none;
+}
+
+.header1 th
+{
+	background: #994400 url(header2.png) repeat-x;
+	text-align: center;
+	font-size: 8pt;
+	color: #DDD;
+	border: 0px none #000;
+}
+
+.header0
+{
+	border: 1px solid #000;
+}
+.header1
+{
+	border: 1px solid #000;
+}
+
+table.breadcrumbs, table.breadcrumbs td
+{
+	font-size: 10pt;
+	border: 0px none;
+}
+
+.pages
+{
+	padding: 4px 0px;
+}
+
+.faq
+{
+	background: #222 url(back2g.png);
+	padding: 4px;
+}
+
+/* Name color table */
+.nc0x { color: #888888; } .nc1x { color: #888888; } .nc2x { color: #888888; }
+.nc00 { color: #97ACEF; } .nc10 { color: #F185C9; } .nc20 { color: #7C60B0; }
+.nc01 { color: #D8E8FE; } .nc11 { color: #FFB3F3; } .nc21 { color: #EEB9BA; }
+.nc02 { color: #AFFABE; } .nc12 { color: #C762F2; } .nc22 { color: #47B53C; }
+.nc03 { color: #FFEA95; } .nc13 { color: #C53A9E; } .nc23 { color: #F0C413; }
+
+/* [Quote] stuff */
+td.post blockquote
+{
+	padding: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+td.post code.Code
+{
+	background: #24285C url(back2t2.png);
+	font-family: "Consolas", "Courier New", monospace;
+}
+
+form
+{
+	margin: 0px;
+}
+
+.errort
+{
+	background:  #4E5174 url(backh.png) repeat-x;
+	border: 1px solid #000;
+}
+
+.errorc
+{
+	text-align: center;
+	color: #EEE;
+	border: 1px solid #000;
+	border-top: 0px;
+}
+
+.minipic
+{
+	vertical-align: bottom;
+}
+
+.block
+{
+	display: block;
+}
+
+button
+{
+	border: 1px solid #960;
+	background: #335;
+	color: #FFF;
+}
+
+div.spoiler button
+{
+	font-size: 10px;
+}
+div.spoiler div.spoiled
+{
+	background: #000;
+	color: #FFF;
+}
+div.spoiler div.hidden
+{
+	display: none;
+}
+
+ul.pipemenu
+{
+	display: inline;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+ul.pipemenu li
+{
+	display: inline;
+	border-left: 1px solid white;
+	padding-left: 4px;
+	padding-right: 2px;
+
+}
+ul.pipemenu li:first-child
+{
+	border-left: 0px none;
+}
+
+.PoRT
+{
+	font-size: 11px;
+}
+
+/* In Opera, I noticed that the PoRA Box's outline overlaps this message.
+   This really shouldn't be, and even IE8 does it right -- and you know what?
+   I DON'T CARE and neither should you, because you should only SEE this
+   message in a browser that doesn't do outlines at all! HAW HAW HAW! */
+#getabetterbrowseryoulazyfuck
+{
+	position: absolute;
+	left: 32px;
+	top: 32px;
+	background: #FFC;
+	border: 4px solid #F00;
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 4px;
+}
+
+.footer a img
+{
+	opacity: 0.50;
+	-o-transition: opacity 0.2s ease-in-out;
+	-moz-transition: opacity 0.2s ease-in-out;
+}
+.footer a:hover img
+{
+	opacity: 1;
+}
+
+.smilies img
+{
+	padding: 1px;
+	opacity: 0.50;
+	border: 1px solid rgba(255,255,255, 0);
+
+	-o-transition: opacity 0.2s ease-in-out;
+	-moz-transition: opacity 0.2s ease-in-out;
+}
+.smilies img:hover
+{
+	margin: 0px;
+	opacity: 1;
+	background: rgba(255,255,255, 0.25);
+	border: 1px solid rgba(255,255,255, 0.50);
+}
+
+a, a span
+{
+	-o-transition: color 0.2s ease-in-out;
+}
+a:hover span
+{
+	color: white !important;
+}
+
+
+
+
+#pmNotice
+{
+	background: #BB8;
+	color: #000 !important;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 4px 8px;
+	font-size: 12px;
+	border: 1px none;
+	border-bottom: 2px solid black;
+	outline: 0px none;
+	opacity: 0.5;
+	-o-transition: all 0.2s ease-in-out;
+}
+#pmNotice:hover
+{
+	opacity: 1;
+	background: #FFC;	
+}
+#pmNotice a span, #pmNotice a
+{
+	color: #C09030 !important;
+}
+#pmNotice a:hover span, #pmNotice a:hover
+{
+	color: #000 !important;
+}
+#header
+{
+	outline: 0px none;
+}
+#body
+{
+	margin: 8px;
+}
+
+div#tabs
+{
+	top: 5px;
+}
