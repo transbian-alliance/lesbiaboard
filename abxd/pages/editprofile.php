@@ -773,7 +773,7 @@ function HandlePowerlevel($field, $item)
 			; //Do nothing -- System won't pick up the phone.
 		else if($newPL == -1)
 		{
-			SendSystemPM($id, __("If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), __("You have been banned."));			
+			SendSystemPM($id, __("If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), __("You have been banned."));
 		}
 		else if($newPL == 0)
 		{
@@ -807,21 +807,57 @@ function HandlePowerlevel($field, $item)
  * -----------
  */
 
-
+//Dirbaio: Rewrote this so that it scans the themes dir.
+$dir = "themes/";
 $themeList = "";
-foreach($themes as $themeKey => $themeName)
+$themes = array();
+
+// Open a known directory, and proceed to read its contents
+if (is_dir($dir))
 {
+    if ($dh = opendir($dir))
+    {
+        while (($file = readdir($dh)) !== false)
+        {
+            if(filetype($dir . $file) != "dir") continue;
+            if($file == ".." || $file == ".") continue;
+            $infofile = $dir.$file."/themeinfo.txt";
+            
+            if(file_exists("infofile"))
+            {
+		        $themeinfo = file_get_contents($infofile);
+		        $themeinfo = explode("\n", $themeinfo, 2);
+		        
+		        $themes[$file]["name"] = $themeinfo[0];
+		        $themes[$file]["author"] = $themeinfo[1];
+		    }
+		    else
+		    {
+		        $themes[$file]["name"] = $file;
+		        $themes[$file]["author"] = "";
+		    }
+        }
+        closedir($dh);
+    }
+}
+
+
+foreach($themes as $themeKey => $themeData)
+{
+	$themeName = $themeData["name"];
+	$themeAuthor = $themeData["author"];
+
 	$qCount = "select count(*) from users where theme='".$themeKey."'";
 	$numUsers = FetchResult($qCount);
 	
-	$preview = "img/themes/".$themeKey."/preview.png";
+	$preview = "themes/".$themeKey."/preview.png";
 	if(is_file($preview))
 		$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	else
 		$preview = "<img src=\"./img/nopreview.png\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	
-	if(array_key_exists($themeKey, $themeBylines))
-		$byline = "<br />".$themeBylines[$themeKey];
+	if($themeAuthor)
+		$byline = "<br />".nl2br($themeAuthor);
 	else
 		$byline = "";
 	
