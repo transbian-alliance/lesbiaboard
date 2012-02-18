@@ -3,7 +3,7 @@ page = 0;
 
 function setStep(page) {
 	$("#progress").html("Step&nbsp;"+page+"&nbsp;of&nbsp;"+numPages);
-	$("#progress").animate({width: (((page - 1)/ numPages) * 100)+"%"}, 200);
+	$("#progress").animate({width: ((page/ numPages) * 100)+"%"}, 200);
 	$(".page").slideUp(200);
 	$("#page"+page).slideDown(200);
 }
@@ -34,9 +34,14 @@ window.onload = function() {
 		if (page == numPages) $("#nextPageButton").attr("disabled");
 		$("#prevPageButton").removeAttr("disabled");
 	});
+	$("#installButton").click(function() { doInstall(); });
 }
 
-function validateSqlSettings() {
+function checkSqlConnection() {
 	$("#sqlStatus").html("All seems well for this test.");
 	$("#sqlStatus").fadeIn(200);
+}
+
+function doInstall() {
+	$("#page4").html('<div class="center" style="padding-top: 100px; font-style: italic;"><div class="pollbarContainer" style="width: 50%; margin: 12pt auto;">Installing. Please wait.</div></div>');
 }
