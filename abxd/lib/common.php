@@ -8,6 +8,10 @@ if(ini_get('register_globals'))
 // I can't believe there are PRODUCTION servers that have E_NOTICE turned on. What are they THINKING? -- Kawa
 error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
 
+//TODO: Add this as a setting.
+//Default theme is shown to guests, and to newly registered users.
+$defaultTheme = "gold";
+
 if(!is_file("lib/database.php"))
 //	die("You should <a href=\"install.php\">install</a> the board database first.");
 	die(header("Location: install.php"));
