@@ -301,11 +301,27 @@ table.breadcrumbs, table.breadcrumbs td
 }
 
 /* [Quote] stuff */
-td.post blockquote
+div.quote
 {
 	padding: 4px;
 	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom:4px;
+	margin-left:50px;
+	margin-right:10px;
+}
+
+div.quote div.quotecontent
+{
+	padding:4px;
+	margin-top:4px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}
+
+div.quote div.quoteheader
+{
+	font-size:10px;
+	font-style:italic;
 }
 
 td.post .codeblock

@@ -415,11 +415,13 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace("'\[img\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\">", $s);
 	$s = preg_replace("'\[img=(.*?)\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\\2\" title=\"\\2\">", $s);
 
-	$s =  str_replace("[quote]","<blockquote><div><hr />", $s);
-	$s =  str_replace("[/quote]","<hr /></div></blockquote>", $s);
-	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<blockquote><div><small><i>Posted by ".actionLinkTag("\\1", "thread", "", "pid=\\2#\\2")."</i></small><hr />", $s);
-	$s = preg_replace("'\[quote=(.*?)\]'si","<blockquote><div><small><i>Posted by \\1</i></small><hr />", $s);
-	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<blockquote><div><small><i>Sent by \\1</i></small><hr />", $s);
+	//Changed quote style.
+	//The new one is way easier to style. ~Dirbaio
+	$s =  str_replace("[quote]","<div class='quote'><div class='quotecontent'>", $s);
+	$s =  str_replace("[/quote]","</div></div>", $s);
+	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Posted by <a href=\"thread.php?pid=\\2#\\2\">\\1</a></div><div class='quotecontent'>", $s);
+	$s = preg_replace("'\[quote=(.*?)\]'si","<div class='quote'><div class='quoteheader'>Posted by \\1</div><div class='quotecontent'>", $s);
+	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Sent by \\1</div><div class='quotecontent'>", $s);
 
 	$bucket = "bbCode"; include("./lib/pluginloader.php");
 
