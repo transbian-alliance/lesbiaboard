@@ -50,7 +50,11 @@ if($pluginsDir !== FALSE)
 				$settings = explode("\n", $settingsFile);
 				foreach($settings as $setting)
 				{
+					$setting = trim($setting);
+					if($setting == "") continue;
 					$setting = explode("=", $setting);
+					$setting[0] = trim($setting[0]);
+					$setting[1] = trim($setting[1]);
 					if($setting[0][0] == "#") continue;
 					if($setting[0][0] == "$")
 						registerSetting(substr($setting[0],1), $setting[1]);

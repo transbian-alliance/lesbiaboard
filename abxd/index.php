@@ -32,15 +32,23 @@ function getBirthdaysText()
 //=======================
 // Do the page
 
-if(!isset($_GET["page"]))
-	$_GET["page"] = "index";
-if(!ctype_alnum($_GET["page"]))
-	$_GET["page"] = "index";
+$page = $_GET["page"];
+if(!isset($page))
+	$page = "index";
+if(!ctype_alnum($page))
+	$page = "index";
 
 ob_start();
 $layout_crumbs = "";
 try {
-	require('pages/'.$_GET["page"].'.php');
+	if(array_key_exists($page, $pluginpages))
+	{
+		$self = $plugins[$pluginpages[$page]];
+		require("./plugins/".$plugins[$pluginpages[$page]]['dir']."/page_".$page.".php");
+		unset($self);
+	}
+	else
+		require('pages/'.$page.'.php');
 }
 catch(KillException $e) {}
 
@@ -61,13 +69,11 @@ include("lib/views.php");
 
 ob_start();
 require('navigation.php');
-$bucket = "topMenu"; include("./lib/pluginloader.php");
 $layout_navigation = ob_get_contents();
 ob_end_clean();
 
 ob_start();
 require('userpanel.php');
-$bucket = "bottomMenu"; include("./lib/pluginloader.php");
 $layout_userpanel = ob_get_contents();
 ob_end_clean();
 
