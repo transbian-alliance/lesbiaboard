@@ -216,7 +216,7 @@ function GeshiCallback($matches)
 	$geshi = new GeSHi(trim($matches[1]), "csharp", null);
 	$geshi->set_header_type(GESHI_HEADER_NONE);
 	$geshi->enable_classes();
-	return format("<div class=\"geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
+	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
 }
 
 function GeshiCallbackL($matches)
@@ -224,7 +224,7 @@ function GeshiCallbackL($matches)
 	$geshi = new GeSHi(trim($matches[2]), $matches[1], null);
 	$geshi->set_header_type(GESHI_HEADER_NONE);
 	$geshi->enable_classes();
-	return format("<div class=\"geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
+	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
 }
 
 function MakeUserAtLink($matches)
@@ -358,8 +358,8 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
     $list  = array("<"   ,"\\\"" ,"\\\\" ,"\\'","\r"  ,"["    ,":"    ,")"    ,"_"    );
     $list2 = array("&lt;","\""   ,"\\"   ,"\'" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
     $s = preg_replace("'\[code\](.*?)\[/code\]'sie",
-					'\''."<code class=\"Code block\">".'\''
-					.'.str_replace($list,$list2,\'\\1\').\'</code>\'',$s);
+					'\''."<div class=\"codeblock\">".'\''
+					.'.str_replace($list,$list2,\'\\1\').\'</div>\'',$s);
 
 	$s = preg_replace("'\[b\](.*?)\[/b\]'si","<strong>\\1</strong>", $s);
 	$s = preg_replace("'\[i\](.*?)\[/i\]'si","<em>\\1</em>", $s);

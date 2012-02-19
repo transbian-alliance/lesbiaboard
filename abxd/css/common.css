@@ -308,9 +308,14 @@ td.post blockquote
 	margin-bottom: 4px;
 }
 
-td.post code.Code
+td.post .codeblock
 {
 	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
+	padding:4px;
+	margin-left:10px;
+	margin-right:10px;	
+	margin-top:5px;
+	margin-bottom:5px;	
 }
 
 form
@@ -340,6 +345,14 @@ form
 	display: block;
 }
 
+div.spoiler
+{
+	margin-left:10px;
+	margin-right:10px;	
+	margin-top:5px;
+	margin-bottom:5px;	
+
+}
 div.spoiler button
 {
 	font-size: .8em; /* 10px; */
@@ -349,6 +362,7 @@ div.spoiler div.spoiled
 {
 	background: #000;
 	color: #FFF;
+	padding:10px;
 }
 
 div.spoiler div.hidden
@@ -482,7 +496,6 @@ textarea
 
 .geshi
 {
-	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
 	color: #FFF;
 }
 
@@ -691,6 +704,20 @@ td.threadIcon
 {
 	text-align: center;
 }
+
+
+.PoRT div.errorc
+{
+	padding:8px;
+}
+.PoRT div.errort
+{
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
 
 div#tabs
 {
