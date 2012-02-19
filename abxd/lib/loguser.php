@@ -122,7 +122,7 @@ if($wantGuest)
  	if(!$ajaxPage)
  		$rGuest = Query($qGuest);
 	
-	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>"default", "dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts);
+	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>$defaultTheme, "dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts);
 	$loguserid = 0;
 }
 

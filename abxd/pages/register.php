@@ -178,7 +178,7 @@ elseif($_POST['action'] == __("Register"))
 	$uid = FetchResult("SELECT id+1 FROM users WHERE (SELECT COUNT(*) FROM users u2 WHERE u2.id=users.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($uid < 1) $uid = 1;
 
-	$qUsers = "insert into users (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values (".$uid.", '".justEscape($_POST['name'])."', '".$sha."', '".$newsalt."', ".time().", ".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($_POST['email'])."', ".(int)$_POST['sex'].", '".$themeFiles[0]."')";
+	$qUsers = "insert into users (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values (".$uid.", '".justEscape($_POST['name'])."', '".$sha."', '".$newsalt."', ".time().", ".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($_POST['email'])."', ".(int)$_POST['sex'].", '".justEscape($defaultTheme)."')";
 	$rUsers = Query($qUsers);
 
 	if($uid == 1)

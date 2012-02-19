@@ -5,9 +5,9 @@
 body
 {
 	background: black url(back.png);
-/*	background-attachment: fixed;*/
+	background-attachment: fixed;
 	background-repeat: repeat;
-	background-position: center bottom;
+	background-position: top left;
 	color: white;
 	font-family: "Verdana", "Arial", sans-serif;
 	font-size: 10pt;
@@ -18,6 +18,8 @@ body
 #header
 {
 	background-image: url(post.png);
+	background-attachment: fixed;
+	background-position: top left;
 }
 
 #header * td.cell0
@@ -119,6 +121,8 @@ table.post td.side
 table.post td.post
 {
 	background: #222 url(post.png);
+	background-attachment: fixed;
+	background-position: top left;
 	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
@@ -212,7 +216,9 @@ table.post td.links
 
 .header0 th
 {
-	background: #811000 url(header1.png) repeat-x;
+	background: #811000 url(header1.png);
+	background-attachment: fixed;
+	background-position: top left;
 	text-align: center;
 	color: #EEE;
 	font-size: 8pt;
@@ -222,7 +228,9 @@ table.post td.links
 
 .header1 th
 {
-	background: #994400 url(header2.png) repeat-x;
+	background: #994400 url(header2.png);
+	background-attachment: fixed;
+	background-position: top left;
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;
@@ -251,7 +259,9 @@ table.breadcrumbs, table.breadcrumbs td
 
 .faq
 {
-	background: #222 url(back2g.png);
+	background: #222 url(post.png);
+	background-attachment: fixed;
+	background-position: top left;
 	padding: 4px;
 }
 
