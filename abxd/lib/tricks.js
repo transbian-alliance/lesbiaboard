@@ -697,7 +697,7 @@ function addForum()
 	
 	$.post(geteditforaurl()+"addforum", postdata, function(data) {	
 		data = $.trim(data);
-		if(data == "Ok ")
+		if(data == "Ok")
 		{
 			$("#flist").load(geteditforaurl()+"forumtable");
 			$("#editcontent").html("");
