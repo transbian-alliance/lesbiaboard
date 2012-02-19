@@ -54,6 +54,7 @@ body
 	background: -webkit-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
 	background: -o-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
 	border-bottom: 0px none;
+	padding-bottom: 4px;
 }
 
 .cell2
