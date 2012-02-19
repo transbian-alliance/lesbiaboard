@@ -335,7 +335,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && $loguser['
 
 	write(
 	"
-	<form action=\"newreply.php\" method=\"post\">
+	<form action=\"".actionLink("newreply")."\" method=\"post\">
 		<input type=\"hidden\" name=\"ninja\" value=\"{0}\" />
 		<table class=\"outline margin width75\" style=\"margin: 4px auto;\" id=\"quickreply\">
 			<tr class=\"header1\">
