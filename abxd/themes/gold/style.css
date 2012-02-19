@@ -163,6 +163,10 @@ td.post .codeblock
 	border-top: 0px;
 }
 
+div#tabs
+{
+	margin-bottom: 6px;
+}
 
 div#tabs button.selected
 {
@@ -175,6 +179,7 @@ div#tabs button.selected
 div#tabs button
 {
 	border: 1px solid #930;
+	border-bottom:1px solid black;
 	background: #811000 url(back.png);
 	background-attachment: fixed;
 	background-position: top left;
