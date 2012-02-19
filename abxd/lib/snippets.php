@@ -76,59 +76,6 @@ function GetRainbowColor()
 }
 
 
-function CanMod($userid, $fid)
-{
-	global $loguser;
-	if($loguser['powerlevel'] > 1)
-		return 1;
-	if($loguser['powerlevel'] == 1)
-	{
-		$qMods = "select * from forummods where forum=".$fid." and user=".$userid;
-		$rMods = Query($qMods);
-		if(NumRows($rMods))
-			return 1;
-	}
-	return 0;
-}
-
-function MakeCrumbs($path, $links)
-{
-	global $layout_crumbs;
-	
-	foreach($path as $text=>$link)
-	{
-		$link = str_replace("&","&amp;",$link);
-		if($link)
-		{
-			$sep = strpos($text, '<TAGS>');
-			if ($sep === FALSE)
-			{
-				$title = $text;
-				$tags = '';
-			}
-			else
-			{
-				$title = substr($text, 0, $sep);
-				$tags = ' '.substr($text, $sep+6);
-			}
-			$crumbs .= "<a href=\"".$link."\">".$title."</a>".$tags." &raquo; ";
-		}
-		else
-			$crumbs .= str_replace('<TAGS>', '', $text). " &raquo; ";
-	}
-	$crumbs = substr($crumbs, 0, strlen($crumbs) - 8);
-	
-	$layout_crumbs = "
-<div class=\"margin\">
-	<div style=\"float: right;\">
-		<ul class=\"pipemenu smallFonts\">
-			$links
-		</ul>
-	</div>
-	$crumbs
-</div>";
-}
-
 
 function TimeUnits($sec)
 {
@@ -270,54 +217,127 @@ function DoPostHelp()
 	");
 }
 
-function OnlineUsers($forum = 0, $update = true)
+
+
+function RecalculateKarma($uid)
 {
-	global $loguserid;
-	$forumClause = "";
-	$browseLocation = __("online");
-	
-	if ($update)
+	$karma = 100;
+	$karmaWeights = array(5, 10, 10, 15, 15);
+	$qKarma = "select powerlevel, up from uservotes left join users on id=voter where uid=".$uid." and powerlevel > -1";
+	$rKarma = Query($qKarma);
+	while($k = Fetch($rKarma))
 	{
-		if ($loguserid)
-			Query("UPDATE users SET lastforum=".$forum." WHERE id=".$loguserid);
+		if($k['up'])
+			$karma += $karmaWeights[$k['powerlevel']];
 		else
-			Query("UPDATE guests SET lastforum=".$forum." WHERE ip='".$_SERVER['REMOTE_ADDR']."'");
+			$karma -= $karmaWeights[$k['powerlevel']];
 	}
-       
-	if($forum)
-	{
-		$forumClause = " and lastforum=".$forum;
-		$forumName = FetchResult("SELECT title FROM forums WHERE id=".$forum);
-		$browseLocation = format(__("browsing {0}"), $forumName);
-	}
-       
-	$rOnlineUsers = Query("select id,name,displayname,sex,powerlevel,lastactivity,lastposttime,minipic from users where (lastactivity > ".(time()-300)." or lastposttime > ".(time()-300).")".$forumClause." order by name");
-	$onlineUsers = "";
-	$onlineUserCt = 0;
-	while($user = Fetch($rOnlineUsers))
-	{
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
-		$loggedIn = ($user['lastpost'] <= $user['lastview']);
-		$userLink = UserLink($user);
-		if($user['minipic'])
-			$userLink = "<a href=\"".actionLink("profile", $user['id'])."\"><img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\"></a>&nbsp;".$userLink;
-		if(!$loggedIn)
-			$userLink = "(".$userLink.")";
-		$onlineUsers.=($onlineUserCt ? ", " : "").$userLink;
-		$onlineUserCt++;
-	}
-	//$onlineUsers = $onlineUserCt." "user".(($onlineUserCt > 1 || $onlineUserCt == 0) ? "s" : "")." ".$browseLocation.($onlineUserCt ? ": " : ".").$onlineUsers;
-	$onlineUsers = Plural($onlineUserCt, __("user"))." ".$browseLocation.($onlineUserCt ? ": " : ".").$onlineUsers;
-
-	$guests = FetchResult("select count(*) from guests where bot=0 and date > ".(time() - 300).$forumClause);
-	$bots = FetchResult("select count(*) from guests where bot=1 and date > ".(time() - 300).$forumClause);
-
-	if($guests)
-		$onlineUsers .= " | ".Plural($guests,__("guest"));
-	if($bots)
-		$onlineUsers .= " | ".Plural($bots,__("bot"));
-	       
-	return $onlineUsers;
+	Query("update users set karma=".$karma." where id=".$uid);
+//	CheckHeart($uid, $karma);
+	return $karma;
 }
 
+
+function cdate($format, $date = 0)
+{
+	global $loguser;
+	if($date == 0)
+		$date = time(); //gmmktime(); //removed for E_STRICT
+	$hours = (int)($loguser['timezone']/3600);
+	$minutes = floor(abs($loguser['timezone']/60)%60);
+	$plusOrMinus = $hours < 0 ? "" : "+";
+	$timeOffset = $plusOrMinus.$hours." hours, ".$minutes." minutes";
+	return gmdate($format, strtotime($timeOffset, $date));
+}
+
+function GetFullURL()
+{
+	$pageURL = 'http';
+	if ($_SERVER["HTTPS"] == "on")
+		$pageURL .= "s";
+	$pageURL .= "://";
+	
+	if ($_SERVER["SERVER_PORT"] != "80")
+		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+	else
+		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+
+	return $pageURL;
+}
+
+function Report($stuff, $hidden = 0, $severity = 0)
+{
+	//$here = "http://helmet.kafuka.org/nikoboard";
+	$full = GetFullURL();
+	$here = substr($full, 0, strrpos($full, "/"))."/";
+	
+	if ($severity == 2)
+		$req = "'".justEscape(base64_encode(serialize($_REQUEST)))."'";
+	else
+		$req = 'NULL';
+	
+	Query("insert into reports (ip,user,time,text,hidden,severity,request) 
+		values ('".$_SERVER['REMOTE_ADDR']."', ".(int)$loguserid.", ".time().", '".justEscape(str_replace("#HERE#", $here, $stuff))."', ".$hidden.", ".$severity.", ".$req.")");
+	Query("delete from reports where time < ".(time() - (60*60*24*30)));
+}
+
+function SendSystemPM($to, $message, $title)
+{
+	global $systemUser;
+	
+	//Don't send system PMs if no System user was set
+	if($systemUser == 0)
+		return;
+
+	$qPM = "insert into pmsgs (userto, userfrom, date, ip, msgread) values (".$to.", ".$systemUser.", ".time().", '127.0.0.1', 0)";
+	$rPM = Query($qPM);
+	$pid = mysql_insert_id();
+	$qPM = "insert into pmsgs_text (pid, text, title) values (".$pid.", '".justEscape($message)."', '".justEscape($title)."')";
+	$rPM = Query($qPM);
+	
+	//print "PM sent.";
+}
+
+function Shake()
+{
+	$cset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
+	$salt = "";
+	$chct = strlen($cset) - 1;
+	while (strlen($salt) < 16)
+		$salt .= $cset[mt_rand(0, $chct)];
+	return $salt;
+}
+
+function IniValToBytes($val)
+{
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last)
+    {
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
+}
+
+function BytesToSize($size, $retstring = '%01.2f&nbsp;%s')
+{
+	$sizes = array('B', 'KiB', 'MiB');
+	$lastsizestring = end($sizes);
+	foreach($sizes as $sizestring)
+	{
+		if($size < 1024)
+			break;
+		if($sizestring != $lastsizestring)
+			$size /= 1024;
+	}
+	if($sizestring == $sizes[0])
+		$retstring = '%01d %s'; // Bytes aren't normally fractional
+	return sprintf($retstring, $size, $sizestring);
+}
 ?>

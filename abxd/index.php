@@ -2,33 +2,6 @@
 
 require('lib/common.php');
 
-//TODO Place this in an appropiate place
-function getOnlineUsersText()
-{
-	global $OnlineUsersFid;
-	
-	$refreshCode = "";
-
-	if(!isset($OnlineUsersFid))
-		$OnlineUsersFid = 0;
-		
-	if(!$noAjax)
-	{
-		$refreshCode = format(
-	"
-		<script type=\"text/javascript\">
-			onlineFID = {0};
-			window.addEventListener(\"load\",  startOnlineUsers, false);
-		</script>
-	", $OnlineUsersFid);
-	}
-
-	$onlineUsers = OnlineUsers($OnlineUsersFid);
-
-	return "<span id=\"onlineUsers\">
-			$onlineUsers
-		</span> $refreshCode";
-}
 
 function getBirthdaysText()
 {
@@ -88,11 +61,13 @@ include("lib/views.php");
 
 ob_start();
 require('navigation.php');
+$bucket = "topMenu"; include("./lib/pluginloader.php");
 $layout_navigation = ob_get_contents();
 ob_end_clean();
 
 ob_start();
 require('userpanel.php');
+$bucket = "bottomMenu"; include("./lib/pluginloader.php");
 $layout_userpanel = ob_get_contents();
 ob_end_clean();
 
@@ -130,7 +105,7 @@ ob_end_clean();
 $layout_time = cdate($dateformat);
 $layout_onlineusers = getOnlineUsersText();
 $layout_birthdays = getBirthdaysText();
-$layout_views = '<span id="viewCount">'. __("Views:")." ".number_format($misc['views']).'</span>';
+$layout_views = __("Views:")." ".'<span id="viewCount">'.number_format($misc['views']).'</span>';
 
 $layout_title = htmlspecialchars($boardname);
 if($title != "")

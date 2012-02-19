@@ -12,17 +12,17 @@ $title = __("Administration");
 
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 
-$cell = 1;
-function cell($content) {
-	global $cell;
-	$cell = ($cell == 1 ? 0 : 1);
+$cell2 = 1;
+function cell2($content) {
+	global $cell2;
+	$cell2 = ($cell2 == 1 ? 0 : 1);
 	Write("
 		<tr class=\"cell{0}\">
 			<td>
 				{1}
 			</td>
 		</tr>
-	", $cell, $content);
+	", $cell2, $content);
 }
 
 Write("
@@ -33,7 +33,7 @@ Write("
 			</th>
 		</tr>
 ");
-cell(Format("
+cell2(Format("
 			
 				".__("Last viewcount milestone")."
 			</td>
@@ -48,7 +48,7 @@ write(
 	</table>
 ");
 
-$cell = 1;
+$cell2 = 1;
 Write("
 	<table class=\"outline margin width25\">
 		<tr class=\"header1\">
@@ -57,20 +57,20 @@ Write("
 			</th>
 		</tr>
 ");
-cell(actionLinkTag(__("Recalculate statistics"), "recalc"));
-cell(actionLinkTag(__("Last Known Browsers"), "lastknownbrowsers"));
-cell(actionLinkTag(__("Edit Points of Required Attention"), "editpora"));
-cell(actionLinkTag(__("Manage IP bans"), "ipbans"));
-cell(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
-cell(actionLinkTag(__("Edit forum list"), "editfora", 0, "key=".$key));
-cell(actionLinkTag(__("Edit category list"), "editcats"));
-cell(actionLinkTag(__("Edit settings"), "editsettings"));
-cell(actionLinkTag(__("Edit smilies"), "editsmilies"));
-cell(actionLinkTag(__("Optimize tables"), "optimize"));
-cell(actionLinkTag(__("View log"), "log"));
-cell(actionLinkTag(__("Update the board"), "gitpull"));
+cell2(actionLinkTag(__("Recalculate statistics"), "recalc"));
+cell2(actionLinkTag(__("Last Known Browsers"), "lastknownbrowsers"));
+cell2(actionLinkTag(__("Edit Points of Required Attention"), "editpora"));
+cell2(actionLinkTag(__("Manage IP bans"), "ipbans"));
+cell2(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
+cell2(actionLinkTag(__("Edit forum list"), "editfora", 0, "key=".$key));
+cell2(actionLinkTag(__("Edit category list"), "editcats"));
+cell2(actionLinkTag(__("Edit settings"), "editsettings"));
+cell2(actionLinkTag(__("Edit smilies"), "editsmilies"));
+cell2(actionLinkTag(__("Optimize tables"), "optimize"));
+cell2(actionLinkTag(__("View log"), "log"));
+cell2(actionLinkTag(__("Update the board"), "gitpull"));
 if($loguser['powerlevel'] == 4)
-	cell(actionLinkTag(__("SQL Console"), "sql"));
+	cell2(actionLinkTag(__("SQL Console"), "sql"));
 
 $bucket = "adminleft"; include("./lib/pluginloader.php");
 

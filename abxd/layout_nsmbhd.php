@@ -23,7 +23,7 @@
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
-	
+<div id="header">
 	<div id="boardheader">
 
 		<!-- Board header goes here -->
@@ -52,7 +52,7 @@
 		<span style="position: absolute;right: 6px;"><?php print $layout_time; ?></span>
 		<?php print $layout_birthdays; ?>
 	</div>
-	
+</div>
 	<div id="sidebar">
 
 		<table class="outline margin" style="width:130px; ">

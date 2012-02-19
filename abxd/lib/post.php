@@ -4,6 +4,65 @@
 include_once("geshi.php");
 include_once("write.php");
 
+
+function ParseThreadTags(&$title)
+{
+	preg_match_all("/\[(.*?)\]/", $title, $matches);
+	foreach($matches[1] as $tag)
+	{
+		$title = str_replace("[".$tag."]", "", $title);
+		$tag = htmlentities(strip_tags(strtolower($tag)));
+		
+		//Start at a hue that makes "18" red.
+		$hash = -105;
+		for($i = 0; $i < strlen($tag); $i++)
+			$hash += ord($tag[$i]);
+
+		//That multiplier is only there to make "nsfw" and "18" the same color.
+		$color = "hsl(".(($hash * 57) % 360).", 70%, 40%)";
+		
+		$tags .= "<span class=\"threadTag\" style=\"background-color: ".$color.";\">".$tag."</span>";
+	}
+	if($tags)
+		$tags = " ".$tags;
+	return $tags;
+}
+
+//Simple version -- may expand later.
+function CheckTableBreaks($text)
+{
+	$text = strtolower(CleanUpPost($text));
+//	$openers = substr_count($text, "<table") + substr_count($text, "<div") + substr_count($text, "[quote");
+//	$closers = substr_count($text, "</table>") + substr_count($text, "</div>") + substr_count($text, "[/quote]");
+//	return ($openers != $closers);
+	$tabO = substr_count($text, "<table");
+	$tabC = substr_count($text, "</table>");
+	$divO = substr_count($text, "<div");
+	$divC = substr_count($text, "</div>");
+	$quoO = substr_count($text, "[quote");
+	$quoC = substr_count($text, "[/quote]");
+	$spoO = substr_count($text, "[spoiler");
+	$spoC = substr_count($text, "[/spoiler]");
+	if($tabO != $tabC) return true;
+	if($divO != $divC) return true;
+	if($quoO != $quoC) return true;
+	if($spoO != $spoC) return true;
+	return false;
+}
+
+function filterPollColors($input)
+{
+/*
+	$valid = "#0123456789ABCDEFabcdef";
+	$output = "";
+	for($i = 0; $i < strlen($input); $i++)
+		if(strpos($valid, $input[$i]) !== FALSE)
+			$output .= $input[$i];
+	return $output;
+*/
+	return preg_replace("@[^#0123456789abcdef]@si", "", $input);
+}
+
 function LoadSmilies($byOrder = FALSE)
 {
 	global $smilies, $smiliesOrdered;

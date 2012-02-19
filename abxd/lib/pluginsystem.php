@@ -3,6 +3,7 @@
 $pluginSettings = array();
 $plugins = array();
 $pluginbuckets = array();
+$pluginpages = array();
 
 function registerSetting($settingname, $label, $check = false)
 {
@@ -71,7 +72,12 @@ if($pluginsDir !== FALSE)
 				while($f = readdir($pdir))
 				{
 					if(substr($f, (strlen($f) - 4), 4) == ".php")
-						$pluginbuckets[substr($f, 0, strlen($f) - 4)][] = $plugins[$plugin]['dir'];
+					{
+						if(substr($f, 0, 5) == "page_")
+							$pluginpages[substr($f, 5, strlen($f) - 4 - 5)] = $plugins[$plugin]['dir'];
+						else
+							$pluginbuckets[substr($f, 0, strlen($f) - 4)][] = $plugins[$plugin]['dir'];
+					}
 				}
 			}
 			else

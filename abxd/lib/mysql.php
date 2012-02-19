@@ -9,6 +9,12 @@ $dblink = mysql_connect($dbserv, $dbuser, $dbpass) or die("Could not connect to 
 mysql_select_db($dbname);
 unset($dbpass);
 
+
+function justEscape($text)
+{
+	return mysql_real_escape_string($text);
+}
+
 function CheckQuery($query)
 {
 	$check = preg_replace("@'.*?[^\\\\]'@si", 'lolstring', $query);
