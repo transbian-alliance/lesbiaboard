@@ -3,7 +3,7 @@
 	<head>
 		<title>ABXD installation</title>
 		<link rel="stylesheet" href="css/common.css" type="text/css" />
-		<link rel="stylesheet" href="css/abxd20.css" type="text/css" />
+		<link rel="stylesheet" href="themes/abxd20/style.css" type="text/css" />
 		<script src="lib/jquery.js"></script>
 		<script src="lib/installer.js"></script>
 		<style>
@@ -13,10 +13,10 @@
 		</style>
 	</head>
 	<body style="max-width: 1024px; margin: 1em auto;">
-		<img src="img/themes/default/logo.png" type="image/png" style="margin: 2em auto; display: block;" />
+		<img src="img/logo.png" type="image/png" style="margin: 2em auto; display: block;" />
 		<table class="outline margin" id="installUI" style="display: none;">
 			<tr class="cell0">
-				<td style="max-height: 500px; height: 500px; overflow: auto; vertical-align: top;" id="installPager">
+				<td style="max-height: 500px; height: 500px; vertical-align: top;" id="installPager">
 					<div class="page" id="page1">
 						<h3>Welcome to ABXD</h3>
 						<p>
@@ -107,8 +107,7 @@
 							<label><input type="checkbox" name="setUpDefaultUserGroups" id="setUpDefaultUserGroups" checked="checked" /> Set up default user groups</label><br /><br />
 							<strong>Use HTMLTidy</strong>
 							<div style="margin-left: 12px;">
-								<label><input type="radio" name="useHTMLTidy" value="checkSupport" checked="checked" /> Check support</label>
-								<label><input type="radio" name="useHTMLTidy" value="yes" /> Yes</label>
+								<label title="Will check for and use HTML Tidy if available"><input type="radio" name="useHTMLTidy" value="checkSupport" checked="checked" /> Yes</label>
 								<label><input type="radio" name="useHTMLTidy" value="no" /> No</label>
 							</div>
 						</div>
