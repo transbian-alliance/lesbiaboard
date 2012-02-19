@@ -27,6 +27,8 @@ body
 
 #header {
 	background: -moz-linear-gradient(hsl(0, 0%, 10%) 82%, hsl(0, 0%, 5%) 90%, hsl(0, 0%, 0%));
+	background: -webkit-linear-gradient(hsl(0, 0%, 10%) 82%, hsl(0, 0%, 5%) 90%, hsl(0, 0%, 0%));
+	background: -o-linear-gradient(hsl(0, 0%, 10%) 82%, hsl(0, 0%, 5%) 90%, hsl(0, 0%, 0%));
 }
 #header tr:first-child {
 	background: hsl(0, 0%, 10%);
@@ -40,6 +42,8 @@ body
 .header0 th, .header1 th
 {
 	background: -moz-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsla(0, 0%, 0%, 0));
+	background: -webkit-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsla(0, 0%, 0%, 0));
+	background: -o-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsla(0, 0%, 0%, 0));
 	padding-top: 4px;
 	color: #FFFFFF;
 }
@@ -47,6 +51,8 @@ body
 .header1:first-child th, .header0:first-child th, .errort
 {
 	background: -moz-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
+	background: -webkit-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
+	background: -o-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
 	border-bottom: 0px none;
 }
 
@@ -129,6 +135,8 @@ table.post td.post
 
 table.post tr:first-child td {
 	background: -moz-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsl(0, 0%, 10%));
+	background: -webkit-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsl(0, 0%, 10%));
+	background: -o-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsl(0, 0%, 10%));
 	padding-top: 4px;
 }
 
