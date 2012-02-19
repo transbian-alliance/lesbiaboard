@@ -680,6 +680,7 @@ function changeForumInfo()
 {
 	var postdata = $("#forumform").serialize();
 	$.post(geteditforaurl()+"updateforum", postdata, function(data) {	
+		data = $.trim(data);
 		if(data == "Ok")
 		{
 			$("#flist").load(geteditforaurl()+"forumtable");
@@ -695,7 +696,8 @@ function addForum()
 	var postdata = $("#forumform").serialize();
 	
 	$.post(geteditforaurl()+"addforum", postdata, function(data) {	
-		if(data == "Ok")
+		data = $.trim(data);
+		if(data == "Ok ")
 		{
 			$("#flist").load(geteditforaurl()+"forumtable");
 			$("#editcontent").html("");
@@ -729,6 +731,7 @@ function deleteForum(what)
 		return;
 
 	$.post(geteditforaurl()+"deleteforum", postdata, function(data) {	
+		data = $.trim(data);
 		if(data == "Ok")
 		{
 			$("#flist").load(geteditforaurl()+"forumtable");
