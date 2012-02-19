@@ -735,7 +735,7 @@ div#tabs button.selected
 {
 	position: static;
 	z-index: -100;
-	border-bottom: 1px solid #24285C;
+	border-bottom-width: 0px;
 }
 
 .noborder
