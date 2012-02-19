@@ -1,0 +1,189 @@
+@import url('../../css/roundcorners.css');
+
+/* AcmlmBoard XD - Unnamed theme */
+
+.outline, .PoRT
+{
+	outline: 0px none;
+	box-shadow: none;
+}
+
+table.outline
+{
+	border: 0px none;
+}
+
+.faq
+{
+	border: 1px solid hsl(0, 0%, 25%);
+	background: hsl(0, 0%, 10%);
+}
+
+body
+{
+	background: black;
+	color: #FFFFFF;
+}
+
+#header {
+	background: -moz-linear-gradient(hsl(0, 0%, 10%) 82%, hsl(0, 0%, 5%) 90%, hsl(0, 0%, 0%));
+}
+#header tr:first-child {
+	background: hsl(0, 0%, 10%);
+}
+
+.header0, .header1
+{
+	border: 0px none;
+}
+
+.header0 th, .header1 th
+{
+	background: -moz-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsla(0, 0%, 0%, 0));
+	padding-top: 4px;
+	color: #FFFFFF;
+}
+
+.header1:first-child th, .header0:first-child th, .errort
+{
+	background: -moz-linear-gradient(hsl(0, 50%, 45%), hsl(0, 50%, 35%));
+	border-bottom: 0px none;
+}
+
+.cell2
+{
+	background: none;
+}
+
+.cell1, table.post td.side, table.post td.userlink, table.post td.meta
+{
+	background: none;
+}
+
+.cell0, table.post td.post, .faq
+{
+	background: none;
+}
+
+table.outline, .errorc
+{
+	background: hsl(0, 0%, 10%);
+}
+
+td, th
+{
+	border: 0px none;
+}
+
+table.outline tr:first-child th:last-child
+{
+	border-right: 0px none;
+}
+table.outline tr:first-child th
+{
+	border-top: 0px none;
+}
+table.outline td
+{
+	border-left: 0px none;
+	border-top: 0px none;
+}
+table.outline th
+{
+	border-bottom: 0px none;
+}
+table.outline tr td:first-child, table.outline tr th:first-child
+{
+	border-left: 0px none;
+}
+
+
+table.post
+{
+	border: 0px none;
+	background: hsl(0, 0%, 10%);
+}
+
+table.post td.side
+{
+	border-left: 0px none;
+	border-bottom: 0px none;
+}
+
+table.post td.userlink
+{
+	border-top: 0px none;
+	border-bottom: 0px none;
+}
+
+table.post td.meta
+{
+	border-top: 0px none;
+	border-right: 0px none;
+}
+
+table.post td.post
+{
+	border: 0px none;
+}
+
+table.post tr:first-child td {
+	background: -moz-linear-gradient(hsl(0, 50%, 15%) 0px, hsl(0, 50%, 50%) 2px, hsl(0, 50%, 35%) 4px, hsl(0, 0%, 7%) 4px, hsl(0, 0%, 10%));
+	padding-top: 4px;
+}
+
+
+button, input[type="submit"]
+{
+	border: 0px none;
+	background: hsl(0, 0%, 15%);
+	border-radius: 4px;
+	color: #FFF;
+}
+
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
+{
+	background: hsl(0, 0%, 15%);
+	border-radius: 4px;
+	border: 0px none;
+	color: white;
+}
+
+input[type="checkbox"], input[type="radio"]
+{
+	background: hsl(0, 0%, 15%);
+	border: 0px none;
+	border-radius: 4px;
+	color: hsl(0, 0%, 15%);
+	transition: 0.2s linear;
+}
+
+
+input[type="radio"]
+{
+	border-radius: 8px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus
+{
+	border: 1px solid hsl(0, 50%, 45%);
+	margin: -1px;
+}
+
+div#tabs button {
+	margin-bottom: 2px;
+	border-radius: 0px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+div#tabs button.selected
+{
+	margin-bottom: 0px;
+	background: hsl(0, 50%, 45%);
+}
+
+.themeselector input:checked + label {
+	background: hsl(0, 0%, 15%);
+	outline: 0px none;
+}
