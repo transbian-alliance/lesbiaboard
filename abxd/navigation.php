@@ -8,8 +8,6 @@
 	print actionLinkTagItem(__("Main"), "index");
 	print actionLinkTagItem(__("FAQ"), "faq");
 
-	if(IsAllowed("viewUploader"))
-		print actionLinkTagItem(__("Uploader"), "uploader");
 	if(IsAllowed("viewMembers"))
 		print actionLinkTagItem(__("Member list"), "memberlist");
 	if(IsAllowed("viewRanks"))

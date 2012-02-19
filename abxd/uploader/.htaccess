@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^(.+)$ /newabxd/get.php?file=$1 [PT,L,QSA]
+RewriteRule ^$ /newabxd/get.php?error [PT,L,QSA]

@@ -235,6 +235,7 @@ function WriteForumEditContents($fid)
 			</td>
 		</tr>
 		<tr class="cell1">
+
 			<td>
 				Description
 			</td>
@@ -264,6 +265,7 @@ function WriteForumEditContents($fid)
 				Powerlevel required
 			</td>
 			<td>
+
 				{3}
 				to view
 				<br />
@@ -293,6 +295,7 @@ function WriteForumEditContents($fid)
 	<div id="deleteforum" style="display:none">
 		<table>
 			<tr class="header1">
+
 				<th>
 					Delete forum
 				</th>
@@ -322,13 +325,186 @@ function WriteForumEditContents($fid)
 					</button><br>
 					<button onclick="deleteForum(\'leave\'); return false;">
 						Leave threads in the DB
+
+					</button> (NOT recommended)<br><br>
+					<button onclick="hideDeleteForum(); return false;">
+						
+					</button> */
+}
+// $fid == -1 means that a new forum should be made :)
+function WriteForumEditContents($fid)
+{
+	global $key;
+
+	//Get all categories.
+	$qCats = "SELECT * FROM categories";
+	$rCats = Query($qCats);
+
+	$cats = array();
+	while ($cat = Fetch($rCats))
+		$cats[$cat['id']] = $cat;
+	
+	if(count($cats) == 0)
+		$cats[0] = "No categories";
+
+	if($fid != -1)
+	{
+		$qForum = "SELECT * FROM forums WHERE id=".$fid;
+		$rForum = Query($qForum);
+		if (!NumRows($rForum)) {
+			Kill("Forum not found.");
+		}
+		$forum = Fetch($rForum);
+
+		$title = $forum['title'];
+		$description = $forum['description'];
+		$catselect = MakeCatSelect('cat', $cats, $forum['catid']);
+		$minpower = PowerSelect('minpower', $forum['minpower']);
+		$minpowerthread = PowerSelect("minpowerthread", $forum['minpowerthread']);
+		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
+		$forder = $forum['forder'];
+		$func = "changeForumInfo";
+		$button = "Update";
+		$boxtitle = "Edit Forum";
+		$delbutton = "
+			<button onclick='showDeleteForum(); return false;'>
+				Delete
+			</button>";
+	}
+	else
+	{
+		$title = "New Forum";
+		$description = "Description goes here. <b>HTML allowed</b>";
+		$catselect = MakeCatSelect('cat', $cats, 1);
+		$minpower = PowerSelect('minpower', 0);
+		$minpowerthread = PowerSelect("minpowerthread", 0);
+		$minpowerreply = PowerSelect('minpowerreply', 0);
+		$forder = 0;
+		$func = "addForum";
+		$button = "Add";
+		$boxtitle = "New Forum";
+		$delbutton = "";
+	}
+	
+	Write('
+	<form method="post" id="forumform" action="'.actionLink("editfora").'">
+	<input type="hidden" name="key" value="{8}">
+	<input type="hidden" name="id" value="{6}">
+	<table class="outline margin">
+		<tr class="header1">
+			<th colspan="2">
+				{11}
+			</th>
+		</tr>
+		<tr class="cell1">
+			<td style="width: 25%;">
+				Title
+			</td>
+			<td>
+				<input type="text" style="width: 98%;" name="title" value="{0}" />
+			</td>
+		</tr>
+		<tr class="cell1">
+
+			<td>
+				Description
+			</td>
+			<td>
+				<input type="text" style="width: 98%;" name="description" value="{1}" />
+			</td>
+		</tr>
+		<tr class="cell0">
+			<td>
+				Category
+			</td>
+			<td>
+				{2}
+			</td>
+		</tr>
+		<tr class="cell1">
+			<td>
+				Listing order
+			</td>
+			<td>
+				<input type="text" size="2" name="forder" value="{7}" />
+				<img src="img/icons/icon5.png" title="Forums are sorted by listing order first, then by ID. If all forums in a category have their listing order set to 0, they will therefore be sorted by ID only." alt="[?]" />
+			</td>
+		</tr>
+		<tr class="cell0">
+			<td>
+				Powerlevel required
+			</td>
+			<td>
+
+				{3}
+				to view
+				<br />
+				{4}
+				to post threads
+				<br />
+				{5}
+				to reply
+			</td>
+		</tr>
+		<tr class="cell2">
+			<td>
+				&nbsp;
+			</td>
+			<td>
+				<button onclick="{9}(); return false;">
+					{10}
+				</button>
+				{12}
+			</td>
+		</tr>
+	</table></form>
+	
+	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
+	<input type="hidden" name="key" value="{8}">
+	<input type="hidden" name="id" value="{6}">
+	<div id="deleteforum" style="display:none">
+		<table>
+			<tr class="header1">
+
+				<th>
+					Delete forum
+				</th>
+			</tr>
+			<tr class="cell0">
+				<td>
+					Instead of deleting a forum, you might want to consider "archiving" it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.<br><br>
+					If you still want to delete it, click below:<br>
+					<button onclick="deleteForum(\'delete\'); return false;">
+						Delete forum.
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>	
+	
+	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $key, $func, $button, $boxtitle, $delbutton);
+	
+	/*
+					<br>
+					<button onclick="deleteForum(\'trash\'); return false;">
+						Trash all threads
+					</button><br>
+					<button onclick="deleteForum(\'move\'); return false;">
+						Move all threads to:
+					</button><br>
+					<button onclick="deleteForum(\'leave\'); return false;">
+						Leave threads in the DB
+
 					</button> (NOT recommended)<br><br>
 					<button onclick="hideDeleteForum(); return false;">
 						
 					</button> */
 }
 
-function WriteForumTableContents()
+//TODO 
+
+function WriteCategoryTableContents()
 {
 	$cats = array();
 	$qCats = "SELECT * FROM categories ORDER BY corder, id";
