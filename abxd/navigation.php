@@ -1,30 +1,30 @@
 
-	<?php
-		if($loguser['powerlevel'] > 2 && IsAllowed("viewAdminRoom"))
-			print actionLinkTagItem(__("Admin"), "admin");
+<?php
+	if($loguser['powerlevel'] > 2 && IsAllowed("viewAdminRoom"))
+		print actionLinkTagItem(__("Admin"), "admin");
 
-		print actionLinkTagItem(__("Main"), "index");
-		print actionLinkTagItem(__("FAQ"), "faq");
+	$bucket = "topMenuStart"; include("./lib/pluginloader.php");
 
-		if(IsAllowed("viewUploader"))
-			print actionLinkTagItem(__("Uploader"), "uploader");
-		if(IsAllowed("viewMembers"))
-			print actionLinkTagItem(__("Member list"), "memberlist");
-		if(IsAllowed("viewRanks"))
-			print actionLinkTagItem(__("Ranks"), "ranks");
-		if(IsAllowed("viewCalendar") && !$isBot)
-			print actionLinkTagItem(__("Calendar"), "calendar");
-		if(IsAllowed("viewAvatars"))
-			print actionLinkTagItem(__("Avatars"), "avatarlibrary");
-		if(IsAllowed("viewOnline"))
-			print actionLinkTagItem(__("Online users"), "online");
-		if(IsAllowed("search"))
-			print actionLinkTagItem(__("Search"), "search");
+	print actionLinkTagItem(__("Main"), "index");
+	print actionLinkTagItem(__("FAQ"), "faq");
 
-		print actionLinkTagItem(__("Last posts"), "lastposts");
+	if(IsAllowed("viewUploader"))
+		print actionLinkTagItem(__("Uploader"), "uploader");
+	if(IsAllowed("viewMembers"))
+		print actionLinkTagItem(__("Member list"), "memberlist");
+	if(IsAllowed("viewRanks"))
+		print actionLinkTagItem(__("Ranks"), "ranks");
+	if(IsAllowed("viewCalendar") && !$isBot)
+		print actionLinkTagItem(__("Calendar"), "calendar");
+	if(IsAllowed("viewAvatars"))
+		print actionLinkTagItem(__("Avatars"), "avatarlibrary");
+	if(IsAllowed("viewOnline"))
+		print actionLinkTagItem(__("Online users"), "online");
+	if(IsAllowed("search"))
+		print actionLinkTagItem(__("Search"), "search");
 
-		$bucket = "topMenu"; include("./lib/pluginloader.php");
-	?>
+	print actionLinkTagItem(__("Last posts"), "lastposts");
 
-</ul>
+	$bucket = "topMenu"; include("./lib/pluginloader.php");
+?>
 

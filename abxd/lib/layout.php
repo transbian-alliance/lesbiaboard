@@ -1,7 +1,8 @@
 <?php
 //Layout functions, by Nikolaj
 
-function cell() {
+//Renamed because conflicts with many things. ~Dirbaio
+function cellClass() {
 	global $cell;
 	$cell = ($cell == 0 ? 1 : 0);
 	return $cell;

@@ -4,6 +4,8 @@ function actionLink($action, $id=0, $args="")
 {
 	global $boardroot;
 	
+	$bucket = "linkMangler"; include('lib/pluginloader.php');
+
 	$res = "$boardroot?page=$action";
 	
 	if($id)

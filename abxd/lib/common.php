@@ -48,6 +48,35 @@ $timeStart = usectime();
 if(!isset($title))
 	$title = "";
 
+//HAX below ~Dirbaio
+//TODO: CLEAN IT!
+//$userSelectSU = "su.id suid, su.name suname, su.displayname sudisplayname, su.powerlevel supowerlevel, su.sex susex, su.birthday subirthday";
+$userSelect = "id, name, displayname, powerlevel, sex, birthday";
+$userSelectSU = "su.id suid, su.name suname, su.displayname sudisplayname, su.powerlevel supowerlevel, su.sex susex, su.birthday subirthday";
+$userSelectLU = "lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex, lu.birthday lubirthday";
+$userSelectUsers = "users.id as uid, users.name, users.displayname, users.powerlevel, users.sex, users.birthday";
+
+
+function startsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+function UserStructure($row, $prefix)
+{
+	$result = array();
+	
+	foreach($row as $key=>$value)
+	{
+		if(startsWith($key, $prefix))
+			$result[substr($key, strlen($prefix))] = $value;
+	}
+	
+	return $result;
+}
+
+//END DIRBAIO'S HAX
+
 //WARNING: These things need to be kept in a certain order of execution.
 
 include("mysql.php");
