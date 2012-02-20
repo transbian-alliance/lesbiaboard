@@ -3,6 +3,7 @@
 //  Access: all
 
 $title = "FAQ";
+makeThemeArrays();
 
 $admin = UserLink(Fetch(Query("select name, id, powerlevel, sex from users where id = 1")));
 
@@ -65,7 +66,7 @@ $code1 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_$them
 $code2 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_'.$theme.'.css" />';
 $faq = str_replace("<themeexample1 />", DoGeshi($code1), $faq);
 $faq = str_replace("<themeexample2 />", DoGeshi($code2), $faq);
-$faq = str_replace("<themelist />", implode(", ", $themeFiles), $faq);
+$faq = str_replace("<themelist />", implode(", ", $themefiles), $faq);
 $faq = str_replace("<admin />", $admin, $faq);
 
 write("

@@ -1,6 +1,7 @@
 <?php
 //  AcmlmBoard XD - Board Settings editing page
 //  Access: administrators
+makeThemeArrays();
 
 $title = __("Edit settings");
 
@@ -10,8 +11,8 @@ if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to edit the board settings."));
 	
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-if (isset($_POST['action']) && $key != $_POST['key'])
-	Kill(__("No."));
+//if (isset($_POST['action']) && $key != $_POST['key'])
+//	Kill(__("No."));
 
 if($_POST['action'] == __("Edit"))
 {
@@ -48,6 +49,7 @@ if($_POST['action'] == __("Edit"))
 	fputs($hax, "\$uploaderWhitelist = \"".prepare($_POST['uploaderWhitelist'])."\";\n");
 	fputs($hax, "\$mailResetFrom = \"".prepare($_POST['mailResetFrom'])."\";\n");
 	fputs($hax, "\$lastPostsTimeLimit = ".(int)$_POST['lastPostsTimeLimit'].";\n");	
+	fputs($hax, "\$defaultTheme = \"".prepare($_POST['defaulttheme'])."\";\n");
 	fputs($hax, "\n");
 	fputs($hax, "//Hacks\n");
 	fputs($hax, "\$hacks['forcetheme'] = \"".prepare($_POST['theme'])."\";\n");
@@ -72,8 +74,13 @@ if($_POST['action'] == __("Edit"))
 }
 
 $forcetheme = $hacks['forcetheme'];
-$themenames = $hacks['themenames'];
+//$themenames = $hacks['themenames'];
 
+//HAX
+$themes_ = $themes;
+$themes = array();
+foreach ($themes_ as $key => $name)
+	$themes[$themefiles[$key]] = $name;
 $themelist[""] = __("[Disabled]");
 $themelist = array_merge($themelist, $themes);
 $names = array(__("[Disabled]"), __("Christmas"), __("Rainbow"), __("Anonymous"));
@@ -158,6 +165,14 @@ write(
 				</td>
 				<td>
 					<input type=\"text\" id=\"customTitleThreshold\" name=\"customTitleThreshold\" value=\"{7}\" />
+				</td>
+			</tr>
+			<tr c lass=\"cell0\">
+				<td>
+					<label for=\"defaulttheme\">".__("Default theme")."</label>
+				</td>
+				<td>
+					".makeSelect("defaulttheme", $defaultTheme, $themes)."
 				</td>
 			</tr>
 			<tr class=\"cell0\">

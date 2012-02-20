@@ -340,4 +340,19 @@ function BytesToSize($size, $retstring = '%01.2f&nbsp;%s')
 		$retstring = '%01d %s'; // Bytes aren't normally fractional
 	return sprintf($retstring, $size, $sizestring);
 }
+
+function makeThemeArrays() {
+	global $themes, $themefiles;
+	$themes = array();
+	$themefiles = array();
+	$dir = @opendir("themes");
+	while ($file = readdir($dir)) {
+		if ($file != "." && $file != "..") {
+			$themefiles[] = $file;
+			$name = explode("\n", @file_get_contents("./themes/".$file."/themeinfo.txt"));
+			$themes[] = trim($name[0]);
+		}
+	}
+	closedir($dir);
+}
 ?>
