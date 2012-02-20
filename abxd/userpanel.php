@@ -1,8 +1,7 @@
 <?php
 if($loguserid)
 {
-	if($_SERVER['HTTPS'] == "on") print "Secure browsing through HTTPS :)<br><br>";
-	print "<li>Logged in as ".UserLink($loguser)."</li>";
+	print "<li>".UserLink($loguser)."</li>";
 	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">Log out</a></li>";
 
 	if(IsAllowed("editProfile"))
