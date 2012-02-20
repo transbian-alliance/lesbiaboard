@@ -40,7 +40,7 @@ while($item = Fetch($logR))
 
 write(
 "
-	<table>
+	<table class=\"outline margin\">
 		<tr class=\"header1\">
 			<th>
 				Time

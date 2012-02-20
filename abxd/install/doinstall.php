@@ -107,6 +107,7 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 		$metaKeywords = "abxd acmlmboard xd";
 		$feedname = "Some ABXD feed";
 		$rssblurb = "The latest posts from the board.";
+		$defaultTheme = "gold";
 	}
 
 	$hax = @fopen("lib/settings.php", "w") or insError("Could not open settings file (lib/settings.php) for writing. Make sure PHP has access to this file.");
@@ -149,6 +150,7 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 	fputs($hax, "//RSS\n");
 	fputs($hax, "\$feedname = \"".prepare($feedname)."\";\n");
 	fputs($hax, "\$rssblurb = \"".prepare($rssblurb)."\";\n");
+	fputs($hax, "\$defaultTheme = \"".prepare($defaultTheme)."\";\n);
 	fputs($hax, "\n");
 	fputs($hax, "?>");
 	fclose($hax);
