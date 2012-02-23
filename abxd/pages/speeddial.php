@@ -1,4 +1,5 @@
 <?php
+chdir("../");
 include("lib/settings.php");
 include("lib/snippets.php");
 include("lib/mysql.php");
@@ -11,7 +12,7 @@ $stats = Plural($newToday,"new post")." today,<br />".$newLastHour." last hour."
 <style type="text/css">
 	body
 	{
-		background: black url("img/themes/default/back.png");
+		background: black url("../themes/gold/back.png");
 		color: white;
 		text-align: center;
 		font-family: "Verdana", "Lucida Grande", sans-serif;
@@ -21,7 +22,7 @@ $stats = Plural($newToday,"new post")." today,<br />".$newLastHour." last hour."
 <meta http-equiv="preview-refresh" content="3600" />
 </head>
 <body>
-<img src="img/themes/default/logo.png" style="width: 90%; margin-top: 5%;" /><br />
+<img src="../themes/gold/logo.png" style="width: 90%; margin-top: 5%;" /><br />
 <br />
 <?php print $stats; ?>
 </body>
