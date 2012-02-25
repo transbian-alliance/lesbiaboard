@@ -149,8 +149,8 @@ elseif($_POST['action'] == __("Register"))
 		$err = __("The user name must not be empty. Please choose one.").$backtomain;
 	else if(strpos($name, ";") !== false)
 		$err = __("The user name cannot contain semicolons.").$backtomain;
-	elseif($ipKnown)
-		$err = __("Another user is already using this IP address.").$backtomain;
+//	elseif($ipKnown)
+//		$err = __("Another user is already using this IP address.").$backtomain;
 	else if(!$_POST['readFaq'])
 		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if($theWord != "" && strcasecmp($_POST['theWord'], $theWord))

@@ -332,7 +332,7 @@ function WriteForumEditContents($fid)
 					</button> */
 }
 // $fid == -1 means that a new forum should be made :)
-function WriteForumEditContents($fid)
+function WriteCategoryEditContents($fid)
 {
 	global $key;
 
@@ -502,9 +502,8 @@ function WriteForumEditContents($fid)
 					</button> */
 }
 
-//TODO 
 
-function WriteCategoryTableContents()
+function WriteForumTableContents()
 {
 	$cats = array();
 	$qCats = "SELECT * FROM categories ORDER BY corder, id";
@@ -523,50 +522,53 @@ function WriteCategoryTableContents()
 		}
 	}
 
-	$ftbl = Format('
+	print '
 	<table class="outline margin" style="width: 45%;">
 	<tr class="header1">
 		<th>
 			Edit forums
 		</th>
-	</tr>');
+	</tr>';
+	
 	foreach ($forums as $forum) {
 		$cats[$forum['catid']]['forums'][$forum['id']] = $forum;
 	}
-	foreach ($cats as $cat) {
-		$ftbl .= Format('
-	<tbody id="cat{1}" class="c">
-		<tr class="cell{2}">
+	
+	foreach ($cats as $cat)
+	{
+		print '
+	<tbody id="cat'.$cat['id'].'" class="c">
+		<tr class="cell'.cell().'">
 			<td class="c">
-				<strong>{0}</strong>
+				<strong>'.$cat['name'].'</strong>
 			</td>
-		</tr>', $cat['name'], $cat['id'], cell());
+		</tr>';
+		
 		if(isset($cat['forums'])) //<Kawa> empty categories look BAD.
 		{
-			foreach ($cat['forums'] as $cf) {
-				$ftbl .= Format('
-		<tr class="cell{3}" style="cursor: hand;">
-			<td style="padding-left: 24px;{4}" class="f" onclick="pickForum({1});" id="forum{1}">
-				{0}<br />
-				<small style="opacity: 0.75;">{2}</small>
+			foreach ($cat['forums'] as $cf)
+			{
+				$sel = $_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : '';
+				print '
+		<tr class="cell'.cell().'" style="cursor: hand;">
+			<td style="padding-left: 24px;'.$sel.'" class="f" onclick="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
+				'.$cf['title'].'<br />
+				<small style="opacity: 0.75;">'.$cf['description'].'</small>
 			</td>
-		</tr>', $cf['title'], $cf['id'], $cf['description'], cell(), ($_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : ''));
+		</tr>';
 			}
 		}
-		$ftbl .= Format("
-	</tbody>");
+		print "</tbody>";
 	}
 	
-	$ftbl .= Format('
+	print'
 	<tr class="cell2">
 		<td>
 			<span style="float: right;">
 				<button onclick="newForum();">Add Forum</button>
 			</span>Hint: Click a forum to select it.
 		</td>
-	</tr></table>');
-			
-	print $ftbl;
+	</tr></table>';
 }
 
 function MakeCatSelect($i, $o, $v) {
