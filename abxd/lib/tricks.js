@@ -206,11 +206,7 @@ function getOnlineUsers()
 	    var oldCount = viewCount[0].innerHTML;
 	    if(oldCount != data)
 	    {
-			viewCount.fadeOut(700, function()
-			{
-				viewCount[0].innerHTML = data;
-				viewCount.fadeIn(200);
-			});
+			viewCount.html(data);
 		}
 	});
 	$.get("ajaxcallbacks.php", "a=ou&f=" + onlineFID, function(data)
@@ -219,11 +215,7 @@ function getOnlineUsers()
 	    var oldOnline = onlineUsers[0].innerHTML;
 	    if(oldOnline != data)
 	    {
-			onlineUsers.fadeOut(700, function()
-			{
-				onlineUsers[0].innerHTML = data;
-				onlineUsers.fadeIn(200);
-			});
+			onlineUsers.html(data);
 		}
 	});
 }
