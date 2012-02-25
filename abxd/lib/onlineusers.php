@@ -23,7 +23,6 @@ function OnlineUsers($forum = 0, $update = true)
 	}
        
 	$rOnlineUsers = Query("select id,name,displayname,sex,powerlevel,lastactivity,lastposttime,minipic from users where (lastactivity > ".(time()-300)." or lastposttime > ".(time()-300).")".$forumClause." order by name");
-	$onlineUsers = "";
 	$onlineUserCt = 0;
 	while($user = Fetch($rOnlineUsers))
 	{
@@ -48,6 +47,7 @@ function OnlineUsers($forum = 0, $update = true)
 	if($bots)
 		$onlineUsers .= " | ".Plural($bots,__("bot"));
 	       
+	$onlineUsers = "<div style=\"display: inline-block; height: 16px; overflow: hidden; padding: 0px; line-height: 16px;\">".$onlineUsers."</div>";
 	return $onlineUsers;
 }
 
