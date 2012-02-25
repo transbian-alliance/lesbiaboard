@@ -42,7 +42,7 @@ if(NumRows($rUsers))
 	{
 		$cellClass = ($cellClass+1) % 2;
 		if($user['lasturl'])
-			$lastUrl = "<a href=\"".$user['lasturl']."\">".FilterURL($user['lasturl'])."</a>";
+			$lastUrl = "<a href=\"".FilterURL($user['lasturl'])."\">".FilterURL($user['lasturl'])."</a>";
 		else
 			$lastUrl = __("None");
 
@@ -87,7 +87,7 @@ if(NumRows($rGuests))
 	{
 		$cellClass = ($cellClass+1) % 2;
 		if($guest['date'])
-			$lastUrl = "<a href=\"".$guest['lasturl']."\">".FilterURL($guest['lasturl'])."</a>";
+			$lastUrl = "<a href=\"".FilterURL($guest['lasturl'])."\">".FilterURL($guest['lasturl'])."</a>";
 		else
 			$lastUrl = __("None");
 		
@@ -117,7 +117,7 @@ if(NumRows($rBots))
 	{
 		$cellClass = ($cellClass+1) % 2;
 		if($bot['date'])
-			$lastUrl = "<a href=\"".$bot['lasturl']."\">".FilterURL($bot['lasturl'])."</a>";
+			$lastUrl = "<a href=\"".FilterURL($bot['lasturl'])."\">".FilterURL($bot['lasturl'])."</a>";
 		else
 			$lastUrl = __("None");
 
