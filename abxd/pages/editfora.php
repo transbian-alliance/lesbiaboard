@@ -59,6 +59,23 @@ switch($_POST['action'])
 		dieAjax("Ok");
 
 		break;
+	case 'updatecategory':
+	
+		//Check for the key
+		if (isset($_POST['action']) && $key != $_POST['key'])
+			Kill(__("No."));
+
+		//Get new cat data
+		$id = (int)$_POST['id'];
+		$name = $_POST['name'];
+		$corder = (int)$_POST['corder'];
+		
+		//Send it to the DB
+		$qCat = "UPDATE categories SET name = '".justEscape($name)."', corder = '".justEscape($corder)."' WHERE id = ".$id;
+		Query($qCat);
+		dieAjax("Ok");
+
+		break;
 		
 	case 'addforum':
 		//Check for the key
@@ -84,7 +101,27 @@ switch($_POST['action'])
 		Query($qForum);
 		
 		dieAjax("Ok");
+
+	case 'addcategory':
+	
+		//Check for the key
+		if (isset($_POST['action']) && $key != $_POST['key'])
+			Kill(__("No."));
+
+		//Get new cat data
+		$id = (int)$_POST['id'];
+		$name = $_POST['name'];
+		$corder = (int)$_POST['corder'];
 		
+		//Send it to the DB
+
+		//Add the actual forum
+		$qCat = "INSERT INTO categories (`name`, `corder`) VALUES ('".justEscape($name)."', '".justEscape($corder)."')";
+		Query($qCat);
+
+		dieAjax("Ok");
+
+		break;
 	case 'deleteforum':
 		//TODO: Move and delete threads mode.
 
@@ -109,6 +146,25 @@ switch($_POST['action'])
 		//Delete
 		Query("DELETE FROM `forums` WHERE `id` = ".$id);
 		dieAjax("Ok");
+	case 'deletecategory':
+		//TODO: Do something with the forums left in it?
+		
+		//Check for the key
+		if (isset($_POST['action']) && $key != $_POST['key'])
+			Kill(__("No."));
+		
+		//Get Cat ID
+		$id = (int)$_POST['id'];
+		
+		//Check that forum exists
+		$qCat = "SELECT * FROM categories WHERE id=".$id;
+		$rCat = Query($qCat);
+		if (!NumRows($rCat))
+			dieAjax("No such category.");
+		
+		//Delete
+		Query("DELETE FROM `categories` WHERE `id` = ".$id);
+		dieAjax("Ok");
 		
 	case 'forumtable':
 		writeForumTableContents();
@@ -126,6 +182,18 @@ switch($_POST['action'])
 		WriteForumEditContents($fid);
 		dieAjax("");
 		break;
+
+	case 'editcategorynew':
+	case 'editcategory':
+	
+		//Get cat ID
+		$cid = (int)$_GET["cid"];
+		if($_POST['action'] == 'editcategorynew')
+			$cid = -1;
+			
+		WriteCategoryEditContents($cid);
+		dieAjax("");
+		break;
 		
 	case '': //No action, do main code
 		break;
@@ -137,6 +205,8 @@ switch($_POST['action'])
 
 
 //Main code.
+
+print '<script src="lib/editfora.js" type="text/javascript"></script>';
 
 Write('
 <div id="editcontent" style="float: right; width: 45%;">
@@ -305,7 +375,7 @@ function WriteForumEditContents($fid)
 					Instead of deleting a forum, you might want to consider "archiving" it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.<br><br>
 					If you still want to delete it, click below:<br>
 					<button onclick="deleteForum(\'delete\'); return false;">
-						Delete forum.
+						Delete forum
 					</button>
 				</td>
 			</tr>
@@ -332,7 +402,7 @@ function WriteForumEditContents($fid)
 					</button> */
 }
 // $fid == -1 means that a new forum should be made :)
-function WriteCategoryEditContents($fid)
+function WriteCategoryEditContents($cid)
 {
 	global $key;
 
@@ -347,25 +417,21 @@ function WriteCategoryEditContents($fid)
 	if(count($cats) == 0)
 		$cats[0] = "No categories";
 
-	if($fid != -1)
+	if($cid != -1)
 	{
-		$qForum = "SELECT * FROM forums WHERE id=".$fid;
-		$rForum = Query($qForum);
-		if (!NumRows($rForum)) {
-			Kill("Forum not found.");
+		$qCategory = "SELECT * FROM categories WHERE id=".$cid;
+		$rCategory = Query($qCategory);
+		if (!NumRows($rCategory)) {
+			Kill("Category not found.");
 		}
-		$forum = Fetch($rForum);
+		$cat = Fetch($rCategory);
 
-		$title = $forum['title'];
-		$description = $forum['description'];
-		$catselect = MakeCatSelect('cat', $cats, $forum['catid']);
-		$minpower = PowerSelect('minpower', $forum['minpower']);
-		$minpowerthread = PowerSelect("minpowerthread", $forum['minpowerthread']);
-		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
-		$forder = $forum['forder'];
-		$func = "changeForumInfo";
+		$name = $cat['name'];
+		$corder = $cat['corder'];
+
+		$func = "changeCategoryInfo";
 		$button = "Update";
-		$boxtitle = "Edit Forum";
+		$boxtitle = "Edit Category";
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
 				Delete
@@ -373,77 +439,39 @@ function WriteCategoryEditContents($fid)
 	}
 	else
 	{
-		$title = "New Forum";
-		$description = "Description goes here. <b>HTML allowed</b>";
-		$catselect = MakeCatSelect('cat', $cats, 1);
-		$minpower = PowerSelect('minpower', 0);
-		$minpowerthread = PowerSelect("minpowerthread", 0);
-		$minpowerreply = PowerSelect('minpowerreply', 0);
-		$forder = 0;
-		$func = "addForum";
+		$title = "New Category";
+		$corder = 0;
+		$func = "addCategory";
 		$button = "Add";
-		$boxtitle = "New Forum";
+		$boxtitle = "New Category";
 		$delbutton = "";
 	}
 	
-	Write('
+	print '
 	<form method="post" id="forumform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="{8}">
-	<input type="hidden" name="id" value="{6}">
+	<input type="hidden" name="key" value="'.$key.'">
+	<input type="hidden" name="id" value="'.$cid.'">
 	<table class="outline margin">
 		<tr class="header1">
 			<th colspan="2">
-				{11}
+				'.$boxtitle.'
 			</th>
 		</tr>
 		<tr class="cell1">
 			<td style="width: 25%;">
-				Title
+				Name
 			</td>
 			<td>
-				<input type="text" style="width: 98%;" name="title" value="{0}" />
-			</td>
-		</tr>
-		<tr class="cell1">
-
-			<td>
-				Description
-			</td>
-			<td>
-				<input type="text" style="width: 98%;" name="description" value="{1}" />
+				<input type="text" style="width: 98%;" name="name" value="'.$name.'" />
 			</td>
 		</tr>
 		<tr class="cell0">
-			<td>
-				Category
-			</td>
-			<td>
-				{2}
-			</td>
-		</tr>
-		<tr class="cell1">
 			<td>
 				Listing order
 			</td>
 			<td>
-				<input type="text" size="2" name="forder" value="{7}" />
-				<img src="img/icons/icon5.png" title="Forums are sorted by listing order first, then by ID. If all forums in a category have their listing order set to 0, they will therefore be sorted by ID only." alt="[?]" />
-			</td>
-		</tr>
-		<tr class="cell0">
-			<td>
-				Powerlevel required
-			</td>
-			<td>
-
-				{3}
-				to view
-				<br />
-				{4}
-				to post threads
-				<br />
-				{5}
-				to reply
+				<input type="text" size="2" name="corder" value="'.$corder.'" />
+				<img src="img/icons/icon5.png" title="Categories are sorted by listing order first, then by ID. If all categories have their listing order set to 0, they will therefore be sorted by ID only." alt="[?]" />
 			</td>
 		</tr>
 		<tr class="cell2">
@@ -451,39 +479,40 @@ function WriteCategoryEditContents($fid)
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="{9}(); return false;">
-					{10}
+				<button onclick="'.$func.'(); return false;">
+					'.$button.'
 				</button>
-				{12}
+				'.$delbutton.'
 			</td>
 		</tr>
 	</table></form>
 	
 	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="{8}">
-	<input type="hidden" name="id" value="{6}">
+	<input type="hidden" name="key" value="'.$key.'">
+	<input type="hidden" name="id" value="'.$cid.'">
 	<div id="deleteforum" style="display:none">
 		<table>
 			<tr class="header1">
 
 				<th>
-					Delete forum
+					Delete category
 				</th>
 			</tr>
 			<tr class="cell0">
 				<td>
-					Instead of deleting a forum, you might want to consider "archiving" it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.<br><br>
+					Be careful when deleting categories. Make sure there are no forums in the category before deleting it.
+					<br><br>
 					If you still want to delete it, click below:<br>
-					<button onclick="deleteForum(\'delete\'); return false;">
-						Delete forum.
+					<button onclick="deleteCategory(\'delete\'); return false;">
+						Delete category
 					</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-	</form>	
+	</form>';
 	
-	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $key, $func, $button, $boxtitle, $delbutton);
+//	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $key, $func, $button, $boxtitle, $delbutton);
 	
 	/*
 					<br>
@@ -522,6 +551,18 @@ function WriteForumTableContents()
 		}
 	}
 
+
+	
+	$buttons = '
+	<tr class="cell2">
+		<td>
+			<span style="float: right;">
+				<button onclick="newForum();">Add Forum</button>
+				<button onclick="newCategory();">Add Category</button>
+			</span>Hint: Click a forum to select it.
+		</td>
+	</tr>';
+
 	print '
 	<table class="outline margin" style="width: 45%;">
 	<tr class="header1">
@@ -529,7 +570,7 @@ function WriteForumTableContents()
 			Edit forums
 		</th>
 	</tr>';
-	
+	print $buttons;
 	foreach ($forums as $forum) {
 		$cats[$forum['catid']]['forums'][$forum['id']] = $forum;
 	}
@@ -539,7 +580,7 @@ function WriteForumTableContents()
 		print '
 	<tbody id="cat'.$cat['id'].'" class="c">
 		<tr class="cell'.cell().'">
-			<td class="c">
+			<td class="c" onclick="pickCategory('.$cat['id'].');">
 				<strong>'.$cat['name'].'</strong>
 			</td>
 		</tr>';
@@ -558,17 +599,20 @@ function WriteForumTableContents()
 		</tr>';
 			}
 		}
+		else
+		{
+				print '
+		<tr class="cell'.cell().'" style="cursor: hand;">
+			<td style="padding-left: 24px;" class="f">
+				No forums in this category.
+			</td>
+		</tr>';
+		}
 		print "</tbody>";
 	}
-	
-	print'
-	<tr class="cell2">
-		<td>
-			<span style="float: right;">
-				<button onclick="newForum();">Add Forum</button>
-			</span>Hint: Click a forum to select it.
-		</td>
-	</tr></table>';
+
+	print $buttons;
+	print '</table>';
 }
 
 function MakeCatSelect($i, $o, $v) {
