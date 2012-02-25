@@ -256,8 +256,8 @@ function WriteForumEditContents($fid)
 		}
 		$forum = Fetch($rForum);
 
-		$title = $forum['title'];
-		$description = $forum['description'];
+		$title = htmlspecialchars($forum['title']);
+		$description = htmlspecialchars($forum['description']);
 		$catselect = MakeCatSelect('cat', $cats, $forum['catid']);
 		$minpower = PowerSelect('minpower', $forum['minpower']);
 		$minpowerthread = PowerSelect("minpowerthread", $forum['minpowerthread']);
@@ -274,7 +274,7 @@ function WriteForumEditContents($fid)
 	else
 	{
 		$title = "New Forum";
-		$description = "Description goes here. <b>HTML allowed</b>";
+		$description = "Description goes here. <strong>>HTML allowed.</strong>";
 		$catselect = MakeCatSelect('cat', $cats, 1);
 		$minpower = PowerSelect('minpower', 0);
 		$minpowerthread = PowerSelect("minpowerthread", 0);
@@ -426,7 +426,7 @@ function WriteCategoryEditContents($cid)
 		}
 		$cat = Fetch($rCategory);
 
-		$name = $cat['name'];
+		$name = htmlspecialchars($cat['name']);
 		$corder = $cat['corder'];
 
 		$func = "changeCategoryInfo";
