@@ -580,7 +580,7 @@ function WriteForumTableContents()
 		print '
 	<tbody id="cat'.$cat['id'].'" class="c">
 		<tr class="cell'.cell().'">
-			<td class="c" onclick="pickCategory('.$cat['id'].');">
+			<td class="c" onmousedown="pickCategory('.$cat['id'].');">
 				<strong>'.$cat['name'].'</strong>
 			</td>
 		</tr>';
@@ -592,7 +592,7 @@ function WriteForumTableContents()
 				$sel = $_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : '';
 				print '
 		<tr class="cell'.cell().'" style="cursor: hand;">
-			<td style="padding-left: 24px;'.$sel.'" class="f" onclick="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
+			<td style="padding-left: 24px;'.$sel.'" class="f" onmousedown="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
 				'.$cf['title'].'<br />
 				<small style="opacity: 0.75;">'.$cf['description'].'</small>
 			</td>

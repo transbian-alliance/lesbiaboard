@@ -17,8 +17,8 @@ function pickForum(id) {
 		$("#hint").remove();
 		hint = false;
 	}
-	$(".f, .c").css("outline", "0px none");
-	$("#forum"+id).css("outline", "1px solid #888")
+	$(".f, .c").removeClass("fe_selected");
+	$("#forum"+id).addClass("fe_selected");
 	if ($("#editcontent").is(":hidden")) $("#editcontent").show();
 	$("#editcontent").load(geteditforaurl()+'editforum&fid='+id);
 	fid = id;
@@ -29,8 +29,8 @@ function pickCategory(id) {
 		$("#hint").remove();
 		hint = false;
 	}
-	$(".f, .c").css("outline", "0px none");
-	$("#cat"+id).css("outline", "1px solid #888")
+	$(".f, .c").removeClass("fe_selected");
+	$("#cat"+id).addClass("fe_selected");
 	if ($("#editcontent").is(":hidden")) $("#editcontent").show();
 	$("#editcontent").load(geteditforaurl()+'editcategory&cid='+id);
 	fid = id;
