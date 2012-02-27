@@ -666,7 +666,8 @@ function MakePost($post, $type, $params=array())
 	// TODO: this could be done only once somewhere else (unless plugins doing stuff like per-user &tags& are desired)
 	$tags = array
 	(
-		"numposts" => $post['num'],
+		"postnum" => $post['num'],
+		"postcount" => $post['posts'],
 		"numdays" => floor((time()-$post['regdate'])/86400),
 		"date" => cdate($dateformat,$post['date']),
 		"rank" => GetRank($post),
