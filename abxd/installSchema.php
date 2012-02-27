@@ -412,6 +412,19 @@ $tables = array
 			"uid" => $genericInt,
 			"permissions" => $text
 		)
+	),
+	"notifications" => array(
+		"fields" => array(
+			"id" => $AI,
+			"uid" => $genericInt,
+			"type" => $var256,
+			"title" => $var256,
+			"description" => $text,
+			"link" => $bool,
+			"linklocation" => $var256,
+			"time" => $genericInt
+		),
+		"special" => $keyID
 	)
 );
 ?>

@@ -150,7 +150,7 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 	fputs($hax, "//RSS\n");
 	fputs($hax, "\$feedname = \"".prepare($feedname)."\";\n");
 	fputs($hax, "\$rssblurb = \"".prepare($rssblurb)."\";\n");
-	fputs($hax, "\$defaultTheme = \"".prepare($defaultTheme)."\";\n);
+	fputs($hax, "\$defaultTheme = \"".prepare($defaultTheme)."\";\n");
 	fputs($hax, "\n");
 	fputs($hax, "?>");
 	fclose($hax);

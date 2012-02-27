@@ -81,6 +81,7 @@ $thisURL = $_SERVER['SCRIPT_NAME'];
 if($q = $_SERVER['QUERY_STRING'])
 	$thisURL .= "?$q";
 
+include("notifications.php");
 include("loguser.php");
 include("permissions.php");
 include("pluginsystem.php");
