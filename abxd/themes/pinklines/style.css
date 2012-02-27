@@ -176,8 +176,7 @@ input[type="radio"]
 
 input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus
 {
-	border: 1px solid hsl(0, 50%, 45%);
-	margin: -1px;
+	box-shadow: 0px 0px 4px hsl(0, 50%, 45%);
 }
 
 div#tabs button {

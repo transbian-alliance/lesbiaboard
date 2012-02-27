@@ -661,7 +661,10 @@ function MakePost($post, $type, $params=array())
 	$rankHax = $post['posts'];
 	//if($post['num'] == "preview")
 	//	$post['num'] = $post['posts'];
-	$post['posts'] = $post['num'];
+	//
+	//	Crappy hack to fix what another crappy hack broke
+	$post2 = $post;
+	$post2['posts'] = $post['num'];
 	//Disable tags by commenting/removing this part.
 	// TODO: this could be done only once somewhere else (unless plugins doing stuff like per-user &tags& are desired)
 	$tags = array
@@ -670,7 +673,7 @@ function MakePost($post, $type, $params=array())
 		"postcount" => $post['posts'],
 		"numdays" => floor((time()-$post['regdate'])/86400),
 		"date" => cdate($dateformat,$post['date']),
-		"rank" => GetRank($post),
+		"rank" => GetRank($post2),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
 
