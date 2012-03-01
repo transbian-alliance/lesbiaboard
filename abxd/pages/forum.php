@@ -28,8 +28,6 @@ $rCat = Query($qCat);
 if(NumRows($rCat))
 {
 	$cat = Fetch($rCat);
-	if($cat['minpower'] > $pl)
-		Kill(__("You are not allowed to see this category."));
 } else
 	Kill(__("Unknown category ID."));
 
@@ -260,7 +258,7 @@ function ForumJump()
 						FROM 
 							forums f
 							LEFT JOIN categories c ON c.id=f.catid
-						WHERE c.minpower<=".$pl." AND f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
+						WHERE f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
 						ORDER BY c.corder, c.id, f.forder");
 	
 	$theList = "";

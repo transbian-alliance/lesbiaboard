@@ -3,12 +3,14 @@
 
 $hours = $lastPostsTimeLimit;
 
-$qPosts = "select ";
-$qPosts .=
-	"posts.id, posts.date, users.id as uid, users.name, users.displayname, users.powerlevel, users.sex, threads.title as ttit, forums.title as ftit";
-$qPosts .= 
-	" from posts left join users on users.id = posts.user left join threads on threads.id = posts.thread left join forums on threads.forum = forums.id";
-$qPosts .= " where forums.minpower <= ".$loguser['powerlevel']." and posts.date >= ".(time() - ($hours * 60*60))." order by date desc limit 0, 100";
+$qPosts = "select 
+	posts.id, posts.date, users.id as uid, users.name, users.displayname, users.powerlevel, users.sex, threads.title as ttit, forums.title as ftit
+	from posts 
+	left join users on users.id = posts.user 
+	left join threads on threads.id = posts.thread 
+	left join forums on threads.forum = forums.id
+	where forums.minpower <= ".$loguser['powerlevel']." and posts.date >= ".(time() - ($hours * 60*60))." 
+	order by date desc limit 0, 100";
 
 $rPosts = Query($qPosts);
 while($post = Fetch($rPosts))

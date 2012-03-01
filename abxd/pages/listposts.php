@@ -47,7 +47,7 @@ $qPosts = "	SELECT
 				LEFT JOIN threads t ON t.id=p.thread
 				LEFT JOIN forums f ON f.id=t.forum
 				LEFT JOIN categories c ON c.id=f.catid
-			WHERE u.id=".$id." AND f.minpower <= ".$minpower." AND c.minpower <= ".$minpower."
+			WHERE u.id=".$id." AND f.minpower <= ".$minpower."
 			ORDER BY date ASC LIMIT ".$from.", ".$ppp;
 
 $rPosts = Query($qPosts);

@@ -38,7 +38,6 @@ $tables = array
 		(
 			"id" => $AI,
 			"name" => $var256,
-			"minpower" => $smallerInt,
 			"corder" => $smallerInt,
 		),
 		"special" => $keyID

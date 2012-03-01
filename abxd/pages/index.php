@@ -77,7 +77,7 @@ $rFora = Query("	SELECT f.*,
 						LEFT JOIN categories c ON c.id=f.catid
 						".($loguserid ? "LEFT JOIN ignoredforums i ON i.fid=f.id AND i.uid=".$loguserid : "")."
 						LEFT JOIN users lu ON lu.id=f.lastpostuser
-					WHERE c.minpower<=".$pl." AND f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
+					WHERE f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
 					ORDER BY c.corder, c.id, f.forder, f.id");
 
 $rMods = Query("SELECT m.forum, u.id, u.name, u.displayname, u.powerlevel, u.sex FROM forummods m LEFT JOIN users u ON m.user=u.id");

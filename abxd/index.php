@@ -2,7 +2,7 @@
 
 require('lib/common.php');
 
-
+//TODO: Put this in a proper place.
 function getBirthdaysText()
 {
 	// Mega-Mario: could be optimized to

@@ -49,8 +49,6 @@ $rCategories = Query($qCategories);
 if(NumRows($rCategories))
 {
 	$category = Fetch($rCategories);
-	if($category['minpower'] > $pl)
-		Kill(__("You are not allowed to browse forums in this category."));
 }
 else
 	Kill(__("Unknown category ID."));
@@ -308,7 +306,7 @@ if(NumRows($rPosts))
 	}
 }
 
-if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && $loguser['powerlevel'] >= $category['minpower'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning))
+if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning))
 {
 	$ninja = FetchResult("select id from posts where thread=".$tid." order by date desc limit 0, 1",0,0);
 	
