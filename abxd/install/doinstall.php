@@ -18,6 +18,8 @@ function insError($text) {
 	print $text."<br /><strong onload=\"reenableControls();\">Installation error occoured.</strong> <button onclick=\"reenableControls(); page = 2; setStep(2);\">Go back</button> to the previous pages and correct the errors, then <button onclick=\"doInstall();\">click here</button>.";
 	die();
 }
+if (isset($_POST['existingSettings'])) $existingSettings = true;
+if (!isset($_POST['action'])) die("There's nothing to do.");
 if($_POST['action'] == "Install")
 {
 	ob_start();
@@ -27,6 +29,7 @@ if($_POST['action'] == "Install")
 	$dbuser = $_POST['dbuser'];
 	$dbpass = $_POST['dbpass'];
 	$dbname = $_POST['dbname'];
+	if ($existingSettings) include("lib/database.php");
 	@mysql_connect($dbserv, $dbuser, $dbpass) or insError("Could not connect to the MySQL server. Are you sure you entered the right things in the SQL credentials page?<br />
 The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sqluser."<br />Password: ---<br />Database: ".$dbname."<br />SQL error: ".mysql_error());
 	@mysql_select_db($dbname) or insError("Could not select the database. Try creating it.");
@@ -109,6 +112,7 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 		$rssblurb = "The latest posts from the board.";
 		$defaultTheme = "gold";
 	}
+	if ($existingSettings) include("lib/settings.php");
 
 	$hax = @fopen("lib/settings.php", "w") or insError("Could not open settings file (lib/settings.php) for writing. Make sure PHP has access to this file.");
 	fputs($hax, "<?php\n");
@@ -226,6 +230,10 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 		Import("installDefaults.sql");
 	}
 	$output = ob_get_clean();
+	if ($existingSettings) {
+		die("<h3>Board update successful.</h3><br /><br />
+			<a href=\"../index.php\">Go back to the board</a>");
+	}
 	print "
 						<h3>Installation successful</h3>
 						<p>
@@ -234,7 +242,7 @@ The following info was supplied:<br />Server: ".$sqlserv."<br />Username: ".$sql
 							<div id=\"installOutput\" style=\"display: none;\">".$output."</div>
 						</p>
 						<p>
-							<a href=\".\">Go to your new board</a> &mdash; everything should be set up and ready to go.<br />
+							<a href=\".\">Go to ".(!isset($existingSettings) ? "your new board" : "the board")."</a> &mdash; everything should be set up and ready to go.<br />
 							<a href=\"?page=register\">Register the first user</a> &mdash; the first registered user will be root.
 						</p>
 	";
