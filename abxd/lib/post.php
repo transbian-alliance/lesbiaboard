@@ -651,6 +651,7 @@ function MakePost($post, $type, $params=array())
 		$anchor = "<a name=\"".$post['id']."\" />";
 	if(!$isBlocked)
 	{
+		$pTable = "table".$post['uid'];
 		$topBar1 = "topbar".$post['uid']."_1";
 		$topBar2 = "topbar".$post['uid']."_2";
 		$sideBar = "sidebar".$post['uid'];
@@ -696,7 +697,7 @@ function MakePost($post, $type, $params=array())
 
 	$postCode =
 "
-		<table class=\"post margin {14}\" id=\"post{13}\">
+		<table class=\"post margin {14} ".$pTable."\" id=\"post{13}\">
 			<tr>
 				<td class=\"side userlink {1}\">
 					{0}
