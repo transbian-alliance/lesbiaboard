@@ -1,0 +1,173 @@
+@import url("commonlight.css");
+
+
+.outline, .PoRT
+{
+	outline: 0px none;
+/*	box-shadow: none; */
+}
+
+table.outline
+{
+	border: 0px none;
+}
+
+.faq
+{
+	border: 1px solid #224;
+	background: #05012E;
+}
+
+#boardheader
+{
+	background: #1890f8 url("topbg.png");
+	background-repeat: repeat-x;
+	background-position:center top; 
+}
+
+
+body
+{
+	background: #1890f8 url("bg.png");
+	background-repeat: repeat-x;
+	background-attachment:fixed;
+	background-position:left bottom; 
+}
+
+.header0, .header1
+{
+	border: 1px solid #224;
+}
+
+.header0 th
+{
+	background: rgba(255, 112, 73, 0.85);
+	color: #EEEEEE;
+}
+
+.header1 th
+{
+	background: rgba(255, 159, 133, 0.85);
+}
+
+.cell2
+{
+	background: rgba(211, 239, 255, 0.85);
+}
+
+.cell1, table.post td.side, table.post td.userlink, table.post td.meta
+{
+	background: rgba(141, 213, 255, 0.85);
+}
+
+.cell0, table.post td.post, .faq
+{
+	background: rgba(211, 239, 255, 0.85);
+}
+
+.errort
+{
+	background: rgba(211, 239, 255, 0.85);
+	border: 1px solid #224;
+}
+
+.errorc
+{
+	background: rgba(141, 213, 255, 0.85);
+	border: 1px solid #224;
+	border-top: 0px;
+}
+
+table
+{
+}
+
+td, th
+{
+	border: 1px solid #224;
+}
+
+table.outline tr:first-child th:last-child
+{
+	border-right: 1px solid #224;
+}
+table.outline tr:first-child th
+{
+	border-top: 1px solid #224;
+}
+table.outline td
+{
+	border-left: 0px none;
+	border-top: 0px none;
+}
+table.outline th
+{
+	border-bottom: 1px solid #224;
+}
+table.outline tr td:first-child, table.outline tr th:first-child
+{
+	border-left: 1px solid #224;
+}
+
+
+table.post
+{
+	border: 0px none;
+	background: none;
+}
+
+table.post td.side
+{
+	border-left: 1px solid #224;
+	border-bottom: 1px solid #224;
+}
+
+table.post td.userlink
+{
+	border-top: 1px solid #224;
+	border-bottom: 0px none;
+}
+
+table.post td.meta
+{
+	border-top: 1px solid #224;
+	border-right: 1px solid #224;
+}
+
+table.post td.post
+{
+	border: 1px solid #224;
+}
+
+
+
+button, input[type="submit"]
+{
+	border: 1px solid #224;
+	background: rgba(218, 255, 171, 0.85);
+	color: #000;
+}
+
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea, input[type="checkbox"], input[type="radio"]
+{
+	background: rgba(218, 255, 171, 0.90);
+	border: 1px solid #224;
+	color: #000;
+}
+
+input[type="radio"]
+{
+	border-radius: 8px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus
+{
+	border-color: rgba(218, 255, 171FOCUS, 0.85);
+}
+
+
+div#tabs button.selected
+{
+	border-bottom: 1px solid rgba(255, 112, 73, 0.85);
+	background: rgba(255, 112, 73, 0.85);
+}

@@ -2,7 +2,7 @@
 
 body
 {
-	background-color: #246;
+	background-color: #222;
 	color: #FFF;
 	font-family: "Verdana", "Lucida Grande", sans-serif;
 	font-size: 1em; /* 10pt; */
@@ -54,7 +54,8 @@ a:link
 }
 a:visited
 {
-	color: #C09030;
+	color: #FFC040;
+/*	color: #C09030;*/
 }
 a:active
 {

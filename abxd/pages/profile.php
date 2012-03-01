@@ -178,7 +178,22 @@ if($homepage)
 $profileParts[__("Contact information")] = $foo;
 
 $foo = array();
-$foo[__("Theme")] = $themes[$user['theme']];
+$infofile = "themes/".$user['theme']."/themeinfo.txt";
+
+$themeinfo = file_get_contents($infofile);
+$themeinfo = explode("\n", $themeinfo, 2);
+
+if(file_exists($infofile))
+{
+	$themename = trim($themeinfo[0]);
+	$themeauthor = trim($themeinfo[1]);
+}
+else
+{
+	$themename = $user['theme'];
+	$themeauthor = "";
+}
+$foo[__("Theme")] = $themename;
 $foo[__("Items per page")] = Plural($user['postsperpage'], __("post")) . ", " . Plural($user['threadsperpage'], __("thread"));
 $profileParts[__("Presentation")] = $foo;
 
