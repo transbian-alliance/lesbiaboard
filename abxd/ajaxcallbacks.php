@@ -90,8 +90,31 @@ else if($action == "tf")	//Theme File
 else if($action == "ni")	//New Indicators
 {
 	$pl = $loguser['powerlevel'];
+	
+	//TODO: This is copypasted from pages/index.php. Maybe make a function? ~Dirbaio
+	$rFora = Query("	SELECT f.*, 
+						c.name cname,
+						".($loguserid ? "(NOT ISNULL(i.fid))" : "0")." ignored,
+						(SELECT COUNT(*) FROM threads t".($loguserid ? " LEFT JOIN threadsread tr ON tr.thread=t.id AND tr.id=".$loguserid : "")."
+							WHERE t.forum=f.id AND t.lastpostdate>".($loguserid ? "IFNULL(tr.date,0)" : time()-900).") numnew,
+						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
+					FROM forums f
+						LEFT JOIN categories c ON c.id=f.catid
+						".($loguserid ? "LEFT JOIN ignoredforums i ON i.fid=f.id AND i.uid=".$loguserid : "")."
+						LEFT JOIN users lu ON lu.id=f.lastpostuser
+					WHERE f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
+					ORDER BY c.corder, c.id, f.forder, f.id");
 
-	$threadsRead = array();
+	$first = true;
+	while($forum = Fetch($rFora))
+	{
+		if(!$first) print ",";
+		$first = false;
+		$newstuff = $forum['ignored'] ? 0 : $forum['numnew'];
+		print $newstuff;
+	}
+	die();
+/*	$threadsRead = array();
 	$rThreadsRead = Query("select id, lastpostdate, forum from threads");
 	while($trd = Fetch($rThreadsRead))
 		$threadsRead[$trd['id']] = $trd;
@@ -131,7 +154,7 @@ else if($action == "ni")	//New Indicators
 		$news[] = $newstuff;		
 	}
 
-	die(join(",", $news));
+	die(join(",", $news));*/
 }
 elseif($action == "srl")	//Show Revision List
 {
