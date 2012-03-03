@@ -652,6 +652,8 @@ function MakePost($post, $type, $params=array())
 	if(!$isBlocked)
 	{
 		$pTable = "table".$post['uid'];
+		$row1 = "row".$post['uid']."_1";
+		$row2 = "row".$post['uid']."_2";
 		$topBar1 = "topbar".$post['uid']."_1";
 		$topBar2 = "topbar".$post['uid']."_2";
 		$sideBar = "sidebar".$post['uid'];
@@ -698,7 +700,7 @@ function MakePost($post, $type, $params=array())
 	$postCode =
 "
 		<table class=\"post margin {14} ".$pTable."\" id=\"post{13}\">
-			<tr>
+			<tr class=\"".$row1."\">
 				<td class=\"side userlink {1}\">
 					{0}
 					{5}
@@ -713,7 +715,7 @@ function MakePost($post, $type, $params=array())
 					{8}
 				</td>
 			</tr>
-			<tr>
+			<tr class=\"".$row2."\">
 				<td class=\"side {3}\">
 					<div class=\"smallFonts\">
 						{6}
