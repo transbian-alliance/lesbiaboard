@@ -2,7 +2,7 @@
 
 	$df = "l, F jS Y, G:i:s";
 
-	cell(format(
+	cell2(format(
 "
 			Highest number of users in five minutes
 			</td>
