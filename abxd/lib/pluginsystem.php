@@ -34,66 +34,68 @@ function getSetting($settingname, $useUser = false)
 if($misc['version'] < 220)
 	$misc['version'] == 220;
 
-$pluginsDir = @opendir("plugins");
-if($pluginsDir !== FALSE)
+$rPlugins = Query("select * from enabledplugins");
+
+while($plugin = Fetch($rPlugins))
 {
-	while(($plugin = readdir($pluginsDir)) !== FALSE)
+	$plugin = $plugin["plugin"];
+	
+	if(is_dir("./plugins/".$plugin))
 	{
-		if($plugin == "." || $plugin == "..") continue;
-		if(is_dir("./plugins/".$plugin))
+		$plugins[$plugin] = array();
+		$plugins[$plugin]['dir'] = $plugin;
+		if(file_exists("./plugins/".$plugin."/plugin.settings"))
 		{
-			$plugins[$plugin] = array();
-			$plugins[$plugin]['dir'] = $plugin;
-			if(file_exists("./plugins/".$plugin."/plugin.settings"))
+			$settingsFile = file_get_contents("./plugins/".$plugin."/plugin.settings");
+			$settings = explode("\n", $settingsFile);
+			foreach($settings as $setting)
 			{
-				$settingsFile = file_get_contents("./plugins/".$plugin."/plugin.settings");
-				$settings = explode("\n", $settingsFile);
-				foreach($settings as $setting)
-				{
-					$setting = trim($setting);
-					if($setting == "") continue;
-					$setting = explode("=", $setting);
-					$setting[0] = trim($setting[0]);
-					$setting[1] = trim($setting[1]);
-					if($setting[0][0] == "#") continue;
-					if($setting[0][0] == "$")
-						registerSetting(substr($setting[0],1), $setting[1]);
-					else
-						$plugins[$plugin][$setting[0]] = $setting[1];
-					$minver = 220; //we introduced these plugins in 2.2.0 so assume this.
-					if($setting[0] == "minversion")
-						$minver = (int)$setting[1];
-				}
-				if($minver > $misc['version'])
-				{
-					Report(Format("Disabled plugin \"{0}\" -- meant for a later version.", $plugin), 1);
-					rename("./plugins/".$plugin."/plugin.settings", "./plugins/".$plugin."/plugin.disabled");
-					unset($plugins[$plugin]);
-					continue;
-				}
-				$dir = "./plugins/".$plugins[$plugin]['dir'];
-				$pdir = @opendir($dir);
-				while($f = readdir($pdir))
-				{
-					if(substr($f, (strlen($f) - 4), 4) == ".php")
-					{
-						if(substr($f, 0, 5) == "page_")
-							$pluginpages[substr($f, 5, strlen($f) - 4 - 5)] = $plugins[$plugin]['dir'];
-						else
-							$pluginbuckets[substr($f, 0, strlen($f) - 4)][] = $plugins[$plugin]['dir'];
-					}
-				}
+				$setting = trim($setting);
+				if($setting == "") continue;
+				$setting = explode("=", $setting);
+				$setting[0] = trim($setting[0]);
+				$setting[1] = trim($setting[1]);
+				if($setting[0][0] == "#") continue;
+				if($setting[0][0] == "$")
+					registerSetting(substr($setting[0],1), $setting[1]);
+				else
+					$plugins[$plugin][$setting[0]] = $setting[1];
+				$minver = 220; //we introduced these plugins in 2.2.0 so assume this.
+				if($setting[0] == "minversion")
+					$minver = (int)$setting[1];
 			}
-			else
+			if($minver > $misc['version'])
 			{
+				Report(Format("Disabled plugin \"{0}\" -- meant for a later version.", $plugin), 1);
+				rename("./plugins/".$plugin."/plugin.settings", "./plugins/".$plugin."/plugin.disabled");
 				unset($plugins[$plugin]);
 				continue;
 			}
+			$dir = "./plugins/".$plugins[$plugin]['dir'];
+			$pdir = @opendir($dir);
+			while($f = readdir($pdir))
+			{
+				if(substr($f, (strlen($f) - 4), 4) == ".php")
+				{
+					if(substr($f, 0, 5) == "page_")
+						$pluginpages[substr($f, 5, strlen($f) - 4 - 5)] = $plugins[$plugin]['dir'];
+					else
+						$pluginbuckets[substr($f, 0, strlen($f) - 4)][] = $plugins[$plugin]['dir'];
+				}
+			}
+		}
+		else
+		{
+			unset($plugins[$plugin]);
+			continue;
 		}
 	}
+	else
+	{
+		Query("delete from enabledplugins where plugin='".$plugin."'");
+	}
+}
 	
-	$bucket = "extrasettings"; include("./lib/pluginloader.php");
-} else mkdir("plugins");
 
 if($loguser['pluginsettings'] != "")
 {
