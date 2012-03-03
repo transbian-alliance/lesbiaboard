@@ -63,7 +63,7 @@ cell2(actionLinkTag(__("Edit Points of Required Attention"), "editpora"));
 cell2(actionLinkTag(__("Manage IP bans"), "ipbans"));
 cell2(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
 cell2(actionLinkTag(__("Edit forum list"), "editfora", 0, "key=".$key));
-cell2(actionLinkTag(__("Edit category list"), "editcats"));
+cell2(actionLinkTag(__("Manage plugins"), "pluginmanager"));
 cell2(actionLinkTag(__("Edit settings"), "editsettings"));
 cell2(actionLinkTag(__("Edit smilies"), "editsmilies"));
 cell2(actionLinkTag(__("Optimize tables"), "optimize"));

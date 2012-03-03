@@ -42,6 +42,14 @@ $tables = array
 		),
 		"special" => $keyID
 	),
+	"enabledplugins" => array
+	(
+		"fields" => array
+		(
+			"plugin" => $var256,
+		),
+		"special" => "key `plugin` (`plugin`)"
+	),
 	"forummods" => array
 	(
 		"fields" => array
