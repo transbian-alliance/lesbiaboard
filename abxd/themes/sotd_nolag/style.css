@@ -31,14 +31,17 @@ a:link
 {
 	color: #FFC040;
 }
+
 a:visited
 {
 	color: #C09030;
 }
+
 a:active
 {
 	color: #FFEA60;
 }
+
 a:hover
 {
 	color:#FFFFFF;
@@ -118,6 +121,7 @@ table.post td.post
 {
 	border: 1px solid #000;
 }
+
 .header1
 {
 	border: 1px solid #000;
@@ -156,7 +160,6 @@ button
 	color: #FFF;
 }
 
-
 button, input[type="submit"]
 {
 	border: 1px solid #000212;
@@ -187,3 +190,4 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 {
 	border-color: rgba(0, 49, 100, 0.85);
 }
+

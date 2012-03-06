@@ -89,10 +89,8 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 
 input[type="checkbox"], input[type="radio"]
 {
-	/* Don't set a color for checkboxes. It'll be all wrong. */	
+	/* Don't set a color for checkboxes. It'll be all wrong. */
 }
-
-
 
 .geshi
 {
@@ -105,22 +103,24 @@ input[type="checkbox"], input[type="radio"]
 	color: green;
 }
 
-
 .post_about
 {
 	background: #222653 url(back2t2.png) fixed repeat-x;
 }
+
 .post_topbar
 {
 	background: #222653 url(back2t2.png) fixed repeat-x;
 	margin-left: 150px;
 }
+
 .post_content
 {
 	background: #222 url(back2g.png) fixed;
 	margin-top: 2px;
 	margin-left: 150px;
 }
+
 .post_about, .post_topbar, .post_content
 {
 	box-shadow: none;
@@ -151,3 +151,4 @@ div#tabs button.selected
 	background: #373E89 url(backc2.png);
 	border-bottom: 1px solid #999;
 }
+

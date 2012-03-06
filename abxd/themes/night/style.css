@@ -21,19 +21,21 @@ a:link
 {
 	color: #DEDAFE;
 }
+
 a:visited
 {
 	color: #CECAFE;
 }
+
 a:active
 {
 	color: #FEF;
 }
+
 a:hover
 {
 	color: #EEEAFE;
 }
-
 
 th
 {
@@ -101,44 +103,44 @@ td.post code.Code
 	background: #11112B;
 }
 
-
-
-
 #pmNotice
 {
 	background: #000;
 	border-bottom: 1px solid #FFF;
 	color: #FFF !important;
 }
+
 #pmNotice:hover
 {
 	background: #888;
 }
+
 #pmNotice a span, #pmNotice a
 {
 	color: #DEDAFE !important;
 }
+
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: #EEEAFE !important;
 }
-
-
-
 
 .geshi
 {
 	background: #111120;
 	color: #DDD;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	color: #0FF;
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: #0F0;
 }
+
 .geshi .co1
 {
 	color: #05F;
@@ -152,6 +154,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	border: 1px solid #00A;
 	color: white;
 }
+
 input[type="submit"], button
 {
 	border: 1px solid #00A;
@@ -165,3 +168,4 @@ input[type="submit"], button
 {
 	border: 1px solid #000;
 }
+

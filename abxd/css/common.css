@@ -131,7 +131,6 @@ th
 table.post
 {
 	width: 100%;
-	outline: none;
 	margin-bottom: 8px;
 }
 
@@ -183,7 +182,6 @@ table.post td.userlink
 
 table.outline
 {
-	outline: 0;
 /*	border-collapse: separate;*/
 	border-spacing: 0;
 	border-width:1px; border-style:solid;
@@ -217,7 +215,6 @@ table.outline tr td:first-child, table.outline tr th:first-child
 	float: right;
 	clear: right;
 	margin-right: 1em;
-	outline: none;
 	font-size: .8em; /* 11px; */
 }
 
@@ -479,7 +476,6 @@ textarea
 	font-size: 1em; /* 12px; */
 	border: 1px none;
 	border-bottom: 2px solid #000;
-	outline: 0;
 	opacity: .5;
 	     -o-transition: all .2s ease-in-out;
 		-ms-transition: all .2s ease-in-out;
@@ -502,7 +498,6 @@ textarea
 }
 #header
 {
-	outline: 0;
 	box-shadow: none;	
 }
 
@@ -832,3 +827,4 @@ div#rss
 	outline: 1px solid rgba(255, 255, 255, 0.5);
 	background: rgba(0, 0, 0, 0.5);
 }
+

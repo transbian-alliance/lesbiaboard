@@ -78,24 +78,27 @@ table.outline tr:first-child th:last-child
 {
 	border-right: 1px solid #1F6FA5;
 }
+
 table.outline tr:first-child th
 {
 	border-top: 1px solid #1F6FA5;
 }
+
 table.outline td
 {
 	border-left: 0px none;
 	border-top: 0px none;
 }
+
 table.outline th
 {
 	border-bottom: 1px solid #1F6FA5;
 }
+
 table.outline tr td:first-child, table.outline tr th:first-child
 {
 	border-left: 1px solid #1F6FA5;
 }
-
 
 table.post
 {
@@ -125,8 +128,6 @@ table.post td.post
 	border: 1px solid #1F6FA5;
 }
 
-
-
 button, input[type="submit"]
 {
 	border: 1px solid #1F6FA5;
@@ -153,3 +154,4 @@ div#tabs button.selected
 	border-bottom: 1px solid #0B246C;
 	background: #0B246C;
 }
+

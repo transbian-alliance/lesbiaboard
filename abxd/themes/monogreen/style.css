@@ -23,6 +23,7 @@ a:link, a:visited, a:hover, a:active
 {
 	color: #8F8;
 }
+
 a:hover
 {
 	color: white !important;
@@ -113,7 +114,7 @@ table.post td.links
 td.post code.Code
 {
 	background: #040;
-	color: lime;	
+	color: lime;
 }
 
 .errort
@@ -133,21 +134,22 @@ td.post code.Code
 	border-bottom: 1px solid green;
 }
 
-
-
 #pmNotice
 {
 	background: green;
 	color: lime !important;
 }
+
 #pmNotice:hover
 {
 	background: green;
 }
+
 #pmNotice a span, #pmNotice a
 {
 	color: white !important;
 }
+
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: white !important;
@@ -169,26 +171,26 @@ input[type="submit"], button
 	font-family: "Consolas", "Courier New", monospace;
 }
 
-
-
-
-
 .geshi
 {
 	background: #040;
 	color: lime;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	color: lime;
 }
+
 .geshi .st0
 {
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: #0B0;
 }
+
 .geshi .co1
 {
 	color: green;
@@ -204,33 +206,35 @@ input[type="submit"], button
 	border: 1px solid #040;
 }
 
-
 .post_about
 {
 	background: #010;
 	border: 1px solid #040;
 }
+
 .post_topbar
 {
 	background: #010;
 	border: 1px solid #040;
 }
+
 .post_content
 {
 	background: #010;
 	border: 1px solid #040;
 }
+
 .post_about, .post_topbar, .post_content
 {
 	box-shadow: none;
 }
-
 
 table.outline
 {
 	border-radius: 0px !important;
 	border-collapse: collapse !important;
 }
+
 table.outline td, table.outline th
 {
 	border-radius: 0px !important;
@@ -253,3 +257,4 @@ div#tabs button.selected
 {
 	border-bottom: 1px solid #040;
 }
+

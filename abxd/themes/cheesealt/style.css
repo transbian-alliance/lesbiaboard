@@ -15,6 +15,7 @@ td, th, .header0, .header1, #body table, #body .faq
 	background: #373E89 url(backc2.png) repeat-x;
 	color: #EEE;
 }
+
 .header1 th
 {
 	background: #4E5174 url(backh.png) repeat-x;
@@ -93,7 +94,6 @@ button, input[type="submit"]
 	border: 2px ridge #FFD040;
 	color: #FFD040;
 }
-
 
 div#tabs
 {

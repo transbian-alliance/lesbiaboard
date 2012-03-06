@@ -31,14 +31,17 @@ a:link
 {
 	color: #FFC040;
 }
+
 a:visited
 {
 	color: #C09030;
 }
+
 a:active
 {
 	color: #FFEA60;
 }
+
 a:hover
 {
 	color:#FFFFFF;
@@ -80,7 +83,6 @@ table.post td.post
 	height: 100px;
 }
 
-
 .cell0
 {
 	background: rgba(16, 47, 109, 0.4) url(back2t1.png) repeat-x;
@@ -119,6 +121,7 @@ table.post td.post
 {
 	border: 1px solid #000;
 }
+
 .header1
 {
 	border: 1px solid #000;
@@ -136,7 +139,6 @@ td.post .codeblock
 	font-family: "Consolas", "Courier New", monospace;
 }
 
-
 .errort
 {
 	background:  #4E5174 url(backh.png) repeat-x;
@@ -151,14 +153,12 @@ td.post .codeblock
 	border-top: 0px;
 }
 
-
 button
 {
 	border: 1px solid #669;
 	background: #335;
 	color: #FFF;
 }
-
 
 button, input[type="submit"]
 {
@@ -190,3 +190,4 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 {
 	border-color: rgba(0, 49, 100, 0.85);
 }
+

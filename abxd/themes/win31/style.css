@@ -111,13 +111,68 @@ h4
 }
 
 /* Name color table */
-.nc0x { color: gray; }   .nc1x { color: gray; }    .nc2x { color: gray; }
-.nc00 { color: blue; }   .nc10 { color: fuchsia; } .nc20 { color: teal; }
-.nc01 { color: teal; }   .nc11 { color: fuchsia; } .nc21 { color: red; }
-.nc02 { color: teal; }   .nc12 { color: purple; }  .nc22 { color: green; }
-.nc03 { color: yellow; } .nc13 { color: purple; }  .nc23 { color: yellow; }
-.nc04 { color: white; }  .nc14 { color: white; }   .nc24 { color: white; } 
-.nc05 { color: red; }    .nc15 { color: red; }     .nc25 { color: red; } 
+.nc0x { color: gray;
+}
+
+.nc1x { color: gray;
+}
+
+.nc2x { color: gray;
+}
+
+.nc00 { color: blue;
+}
+
+.nc10 { color: fuchsia;
+}
+
+.nc20 { color: teal;
+}
+
+.nc01 { color: teal;
+}
+
+.nc11 { color: fuchsia;
+}
+
+.nc21 { color: red;
+}
+
+.nc02 { color: teal;
+}
+
+.nc12 { color: purple;
+}
+
+.nc22 { color: green;
+}
+
+.nc03 { color: yellow;
+}
+
+.nc13 { color: purple;
+}
+
+.nc23 { color: yellow;
+}
+
+.nc04 { color: white;
+}
+
+.nc14 { color: white;
+}
+
+.nc24 { color: white;
+}
+
+.nc05 { color: red;
+}
+
+.nc15 { color: red;
+}
+
+.nc25 { color: red;
+}
 
 .footer
 {
@@ -146,28 +201,28 @@ h3
 	font-family: "Fixedsys";
 	color: white;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	font-weight: normal;
 	color: lime;
 }
+
 .geshi .st0
 {
 	font-style: normal;
 	color: yellow;
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: red;
 }
+
 .geshi .co1, .geshi .coMULTI
 {
 	font-style: normal;
 	color: green;
-}
-.geshi a
-{
-	border-bottom: 1px dotted #888;
 }
 
 div#tabs
@@ -253,6 +308,7 @@ table.post td.meta
 	border: 1px solid rgba(255,255,255, 0);
 	border-radius: 0px;
 }
+
 .smilies img:hover, #rss img:hover
 {
 	margin: 0px;
@@ -281,11 +337,12 @@ a, a span, .footer a img, .avaLib img
 button.expander
 {
 	border-radius: 0px;
-	border: 1px outset silver;	
+	border: 1px outset silver;
 }
+
 button.expander:hover
 {
-	border: 1px outset silver;	
+	border: 1px outset silver;
 }
 
 .errorc h4
@@ -326,6 +383,7 @@ button.expander:hover
 	box-shadow: none;
 	border-radius: 0px;
 }
+
 .pollbar
 {
 	border: 0px none;
@@ -358,3 +416,4 @@ small
 	font-family: "MS Sans Serif";
 	font-size: 6pt;
 }
+

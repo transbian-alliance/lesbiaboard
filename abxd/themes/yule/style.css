@@ -45,14 +45,17 @@ a:link
 {
 	color: #bebafe;
 }
+
 a:visited
 {
 	color: #9990c0;
 }
+
 a:active
 {
 	color: #cfbeff;
 }
+
 a:hover
 {
 	color: #cecafe;
@@ -79,14 +82,12 @@ td.side, td.meta, table.post td.post
 	background: #111133;
 }
 
-
 input, select, textarea, button
 {
 	border: 1px solid #663399;
 	background: #000000;
 	color: white;
 }
-
 
 div#tabs
 {

@@ -71,12 +71,11 @@ button.expander
 
 table.outline tr:first-child th:first-child
 {
-	border-top-left-radius: 7px;
+	border-top-left-radius: 8px;
 }
 table.outline tr:first-child th:last-child
 {
-	border-top-right-radius: 7px;
-	border-right: 1px solid #000;
+	border-top-right-radius: 8px;
 }
 
 .PoRT

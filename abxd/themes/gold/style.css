@@ -21,6 +21,7 @@ body
 {
 	background: transparent;
 }
+
 #header * tr.cell1, #header * tr.cell2
 {
 	background: rgba(0, 0, 0, 0.7) url(back2t1.png) repeat-x;
@@ -31,18 +32,22 @@ h3
 	border-top: 1px solid #960;
 	border-bottom: 1px solid #960;
 }
+
 a:link
 {
 	color: #ff8400;
 }
+
 a:visited
 {
 	color: #ff8400;
 }
+
 a:active
 {
 	color: #ffd8ae
 }
+
 a:hover
 {
 	color:#ffd8ae;
@@ -91,7 +96,6 @@ table.post td.post
 	height: 100px;
 }
 
-
 .cell0
 {
 	background: rgba(100, 20, 0, 0.7) url(back2t1.png) repeat-x;
@@ -129,7 +133,6 @@ table.post td.post
 	color: #DDD;
 	border: 0px none #000;
 }
-
 
 .faq
 {
@@ -186,8 +189,6 @@ div#tabs button
 	color: #FFF;
 }
 
-
-
 button, input[type="submit"]
 {
 	background: #0e2e35 url(forms.png);
@@ -226,3 +227,4 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 {
 	border-color: #26acc9;
 }
+

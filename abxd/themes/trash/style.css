@@ -7,6 +7,7 @@
 {
 	border-radius: 0px;
 }
+
 */
 
 .outline, .PoRT
@@ -88,24 +89,27 @@ table.outline tr:first-child th:last-child
 {
 	border-right: 1px solid #000212;
 }
+
 table.outline tr:first-child th
 {
 	border-top: 1px solid #000212;
 }
+
 table.outline td
 {
 	border-left: 0px none;
 	border-top: 0px none;
 }
+
 table.outline th
 {
 	border-bottom: 1px solid #000212;
 }
+
 table.outline tr td:first-child, table.outline tr th:first-child
 {
 	border-left: 1px solid #000212;
 }
-
 
 table.post
 {
@@ -135,8 +139,6 @@ table.post td.post
 {
 	border: 1px solid #000212;
 }
-
-
 
 button, input[type="submit"]
 {
@@ -169,9 +171,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	border-color: rgba(0, 49, 100, 0.85);
 }
 
-
 div#tabs button.selected
 {
 	border-bottom: 1px solid rgba(0, 49, 100, 0.85);
 	background: rgba(0, 49, 100, 0.85);
 }
+

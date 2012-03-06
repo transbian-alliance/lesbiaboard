@@ -6,6 +6,7 @@ By Nikolaj */
 	background: #AFA;
 	color: #000;
 }
+
 body
 {
 	background: #222222 URL('circuitbg.jpg');
@@ -29,6 +30,7 @@ a:link, a:visited, a:hover, a:active
 {
 	color: #DEFECA;
 }
+
 a:hover
 {
 	color: #F6FFF0 !important;
@@ -88,6 +90,7 @@ div.footer
 	background: rgba(0, 0, 0, 0.5);
 	border-radius: 8px;
 }
+
 .cell1
 {
 	background: #183012;
@@ -123,7 +126,7 @@ div.footer
 td.post code.Code
 {
 	background: #10200C;
-	color: #FFF;	
+	color: #FFF;
 }
 
 .errort
@@ -141,22 +144,23 @@ td.post code.Code
 	border-bottom: 1px solid #000;
 }
 
-
-
 #pmNotice
 {
 	background: #000;
 	color: #FFF !important;
 	opacity: 0.5;
 }
+
 #pmNotice:hover
 {
 	opcity: 1;
 }
+
 #pmNotice a span, #pmNotice a
 {
 	color: white !important;
 }
+
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: white !important;
@@ -176,30 +180,31 @@ input[type="submit"], button
 	color: white;
 }
 
-
-
-
-
 .geshi
 {
 	background: #10200C;
 	color: #FFF;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	color: #FAA;
 }
+
 .geshi .st0
 {
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: #FAF;
 }
+
 .geshi .co1
 {
 	color: #AAF;
 }
+
 .faq
 {
 	background: rgba(50,50,50,0.4);
@@ -207,12 +212,12 @@ input[type="submit"], button
 	padding: 4px;
 }
 
-
 /* extra tweaks by Kawa */
 table.outline
 {
 	border: 0px none;
 }
+
 .PoRT, .outline
 {
 	outline: 0px none;
@@ -229,3 +234,4 @@ div#tabs button.selected
 	border-bottom: 1px solid #204018;
 	background: #204018;
 }
+

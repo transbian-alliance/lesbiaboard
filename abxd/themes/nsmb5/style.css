@@ -1,4 +1,3 @@
-
 .outline, .PoRT
 {
 	outline: 0px none;
@@ -36,7 +35,7 @@ body
 	background-image: url("overbg.png"), url("bg.png");
 	background-repeat: repeat-x, repeat;
 	background-attachment:fixed, fixed;
-	background-position:left bottom, left bottom; 
+	background-position:left bottom, left bottom;
 }
 
 .header0, .header1
@@ -86,11 +85,17 @@ body
 	padding-bottom:10px;
 }
 
-a, a:link, a:visited, .cell1 a {color: #78F!important;}
-a:hover, .cell1 a:hover {color: #ABF!important;}
-.cell0 a {color: #F78!important;}
-.cell0 a:hover {color: #FAB!important;}
+a, a:link, a:visited, .cell1 a {color: #78F!important;
+}
 
+a:hover, .cell1 a:hover {color: #ABF!important;
+}
+
+.cell0 a {color: #F78!important;
+}
+
+.cell0 a:hover {color: #FAB!important;
+}
 
 .errort
 {
@@ -118,24 +123,27 @@ table.outline tr:first-child th:last-child
 {
 	border-right: 1px solid #000;
 }
+
 table.outline tr:first-child th
 {
 	border-top: 1px solid #000;
 }
+
 table.outline td
 {
 	border-left: 0px none;
 	border-top: 0px none;
 }
+
 table.outline th
 {
 	border-bottom: 1px solid #000;
 }
+
 table.outline tr td:first-child, table.outline tr th:first-child
 {
 	border-left: 1px solid #000;
 }
-
 
 table.post
 {
@@ -166,8 +174,6 @@ table.post td.post
 	border: 1px solid #000;
 }
 
-
-
 button, input[type="submit"]
 {
 	border: 1px solid #000;
@@ -192,9 +198,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	border-color: rgba(72, 88, 120, 0.85);
 }
 
-
 div#tabs button.selected
 {
 	border-bottom: 1px solid rgba(120, 112, 104, 0.85);
 	background: rgba(120, 112, 104, 0.85);
 }
+

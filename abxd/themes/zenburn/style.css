@@ -65,15 +65,16 @@ a:link
 {
 	color: rgb(204,204,142);
 }
+
 a:visited
 {
 	color: rgb(134,134,72);
 }
+
 a:hover
 {
 	color: rgb(255,255,255);
 }
-
 
 td.post code.Code
 {
@@ -96,6 +97,7 @@ input[type="submit"], button
 	border-radius: 4px;
 	font-family: "Century Schoolbook", "Times New Roman", serif;
 }
+
 input[type="submit"]:hover, button:hover
 {
 	background: rgb(80,80,80);
@@ -111,42 +113,38 @@ input[type="submit"]:hover, button:hover
 	background: rgb(42,42,42);
 }
 
-
-
-
-
-
 .geshi
 {
 	background: rgb(20,20,20);
 	font-family: "Consolas", "Courier New", monospace;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	font-weight: bold;
 	color: rgb(234,234,175);
 }
+
 .geshi .st0
 {
 	font-style: normal;
 	color: rgb(200,145,145);
 }
+
 .geshi .nu0
 {
 	color: rgb(138,204,207);
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: rgb(220,220,204);
 }
+
 .geshi .co1
 {
 	font-style: normal;
 	color: rgb(127,159,127);
-}
-.geshi a
-{
-	border-bottom: 1px dotted #888;
 }
 
 .pollbarContainer
@@ -164,22 +162,24 @@ input[type="submit"]:hover, button:hover
 	box-shadow: inset 0px 0px 16px black;
 }
 
-
 .post_about
 {
 	background: rgb(42,42,42);
 }
+
 .post_topbar
 {
 	background: rgb(42,42,42);
 	margin-left: 145px;
 }
+
 .post_content
 {
 	margin-left: 145px;
 	margin-top: 1px;
 	background: rgb(42,42,42);
 }
+
 .post_about, .post_topbar, .post_content
 {
 	box-shadow: none;
@@ -221,3 +221,4 @@ div#tabs button.selected
 {
 	border-bottom: 1px solid rgb(26,47,44);
 }
+

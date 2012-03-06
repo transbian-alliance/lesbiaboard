@@ -17,23 +17,26 @@ h3
 	border-bottom-color: #6B6B6B;
 }
 
-
 a
 {
 	outline: 0px none !important;
 }
+
 a:link
 {
 	color: #C4C4C4;
 }
+
 a:visited
 {
 	color: #939393;
 }
+
 a:active
 {
 	color: #E1E1E1;
 }
+
 a:hover
 {
 	color: #FFF;
@@ -43,7 +46,6 @@ table.outline, table.post
 {
 	outline: 1px solid #6B6B6B;
 }
-
 
 th
 {
@@ -112,47 +114,46 @@ td.post code.Code
 	border-top: 0px;
 }
 
-
-
-
 #pmNotice
 {
 	background: #777;
 }
+
 #pmNotice:hover
 {
 	background: #888;
 }
+
 #pmNotice a span, #pmNotice a
 {
 	color: #C4C4C4 !important;
 }
+
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: #FFF !important;
 }
-
-
-
 
 .geshi
 {
 	background: #3B3B3B url(back2t1.png);
 	color: #DDD;
 }
+
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
 {
 	color: #AAA;
 }
+
 .geshi .br0, .geshi .sy0
 {
 	color: #888;
 }
+
 .geshi .co1
 {
 	color: #888;
 }
-
 
 button, input[type="submit"]
 {
@@ -180,23 +181,23 @@ input[type="checkbox"], input[type="radio"]
 	border: 1px solid #666;
 }
 
-
 .post_about
 {
 	background: url(back2t2.png);
 	border: 1px solid #666;
 }
+
 .post_topbar
 {
 	background: url(back2t2.png);
 	border: 1px solid #666;
 }
+
 .post_content
 {
 	background: url(back2t1.png);
 	border: 1px solid #666;
 }
-
 
 table.outline
 {
@@ -204,23 +205,28 @@ table.outline
 	border-spacing: 0px;
 	border: 1px solid #666;
 }
+
 table.outline tr:first-child th:last-child
 {
 	border-right: 1px solid black;
 }
+
 table.outline tr:first-child th
 {
 	border-top: 1px solid black;
 }
+
 table.outline td
 {
 	border-left: 0px none;
 	border-top: 0px none;
 }
+
 table.outline th
 {
 	border-bottom: 1px solid black;
 }
+
 table.outline tr td:first-child, table.outline tr th:first-child
 {
 	border-left: 1px solid black;
@@ -235,3 +241,4 @@ div#tabs button.selected
 {
 	border-bottom: 1px solid #444;
 }
+
