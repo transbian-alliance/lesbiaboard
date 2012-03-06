@@ -19,8 +19,7 @@ h3
 
 a
 {
-	outline: 0px none !important; /* lol */
-}
+	}
 
 a:link
 {
@@ -44,8 +43,7 @@ a:hover
 
 table
 {
-	outline: none !important;
-}
+	}
 
 th
 {

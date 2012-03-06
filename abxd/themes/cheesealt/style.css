@@ -44,8 +44,7 @@ td, th, .header0, .header1, #body table, #body .faq
 
 .outline
 {
-	outline: 0px none;
-	box-shadow: 0px 0px 0px;
+		box-shadow: 0px 0px 0px;
 }
 
 #header, .PoRT

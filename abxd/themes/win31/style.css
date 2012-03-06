@@ -14,8 +14,7 @@ body
 .PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button
 {
 	border-radius: 0px;
-	outline: 0px none;
-}
+	}
 
 button, input[type="submit"]
 {
@@ -85,8 +84,7 @@ div.outline
 
 .outline
 {
-	outline: 0px none;
-}
+	}
 
 a:link, a:visited
 {
@@ -330,8 +328,7 @@ a, a span, .footer a img, .avaLib img
 	   -moz-transform: none;
 	-webkit-transform: none;
 	border-radius: 0px;
-	outline: 1px solid black;
-	box-shadow: 2px 2px 0px black;
+		box-shadow: 2px 2px 0px black;
 }
 
 button.expander

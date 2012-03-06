@@ -11,8 +11,7 @@ body
 #header, #header tr, #header tr td
 {
 	background: none;
-	outline: 0px none;
-	box-shadow: none;
+		box-shadow: none;
 	border: 0px none;
 }
 
@@ -46,8 +45,7 @@ a:active
 
 .outline
 {
-	outline: 1px solid rgb(128, 160, 192);
-}
+	}
 
 .cell0, .cell2
 {

@@ -15,8 +15,7 @@ a:hover {
 
 .outline, .PoRT
 {
-	outline: 0px none;
-	box-shadow: none;
+		box-shadow: none;
 }
 
 table.outline

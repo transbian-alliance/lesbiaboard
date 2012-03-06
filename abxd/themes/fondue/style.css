@@ -14,8 +14,7 @@ body
 #header, #header tr, #header tr td
 {
 	background: none;
-	outline: 0px none;
-	box-shadow: none;
+		box-shadow: none;
 }
 
 #header td:first-child a:hover
@@ -46,8 +45,7 @@ a:active
 
 .outline
 {
-	outline: 0px none;
-}
+	}
 
 .cell0
 {

@@ -13,8 +13,7 @@ body
 #header, #header tr, #header tr td
 {
 	background: rgba(0, 0, 0, .25);
-	outline: none;
-	box-shadow: none;
+		box-shadow: none;
 	border: 2px outset rgba(0, 255, 255, .5);
 }
 
@@ -55,8 +54,7 @@ a:hover, a:hover span, #header  a:hover, #header a:hover span
 
 .outline
 {
-	outline: 2px outset rgba(0, 255, 255, .5);
-}
+	}
 
 .cell0
 {

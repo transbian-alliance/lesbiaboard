@@ -5,8 +5,7 @@
 
 .outline, .PoRT
 {
-	outline: 0px none;
-	box-shadow: none;
+		box-shadow: none;
 }
 
 table.outline
@@ -196,6 +195,5 @@ div#tabs button.selected
 
 .themeselector input:checked + label, .fe_selected {
 	background: hsl(0, 0%, 15%);
-	outline: 0px none;
-}
+	}
 

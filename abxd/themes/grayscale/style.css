@@ -19,8 +19,7 @@ h3
 
 a
 {
-	outline: 0px none !important;
-}
+	}
 
 a:link
 {
@@ -44,8 +43,7 @@ a:hover
 
 table.outline, table.post
 {
-	outline: 1px solid #6B6B6B;
-}
+	}
 
 th
 {

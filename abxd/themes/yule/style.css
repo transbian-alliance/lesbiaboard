@@ -27,8 +27,7 @@ body
 
 .outline
 {
-	outline: 0px none;
-	box-shadow: 0px 0px 0px;
+		box-shadow: 0px 0px 0px;
 }
 
 #header, .PoRT
