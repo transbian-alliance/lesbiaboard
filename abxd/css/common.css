@@ -1,4 +1,5 @@
 /* AcmlmBoard XD - Shared elements */
+@import url('roundcorners.css');
 
 body
 {
@@ -36,6 +37,7 @@ a, a span
 	   -moz-transition: color .2s ease-in-out;
 	-webkit-transition: color .2s ease-in-out;
 }
+
 a img
 {
 	border: none;
@@ -80,6 +82,7 @@ a:hover span
 .nc05 { color: #FF0000; } .nc15 { color: #FF0000; } .nc25 { color: #FF0000; }
 
 
+/* Widths */
 .width100
 {
 	width: 100%;
@@ -97,15 +100,38 @@ a:hover span
 	width: 25%;
 }
 
-.outline
-{
-/*	outline: 1px solid #669;*/
-/*	box-shadow: 2px 2px 4px #000;*/
-}
-
 .margin
 {
 	margin-bottom: .5em;
+}
+
+
+/* Positioning */
+
+.left
+{
+	text-align: left;
+}
+.right
+{
+	text-align: right;
+}
+
+/* Some styles */
+
+.block
+{
+	display: block;
+}
+
+.center
+{
+	text-align: center;
+}
+
+.underline
+{
+	text-decoration: underline;
 }
 
 table
@@ -116,10 +142,12 @@ table
 	font-weight: normal;
 }
 
+/* All cells have border by default */
 td
 {
 	font-size: 1em; /* 10pt; */
-	border-width:1px; border-style:solid;
+	border-width:1px;
+	border-style:solid;
 }
 
 th
@@ -127,6 +155,32 @@ th
 	font-size: 1em; /* 12px; */
 	text-align: left;
 }
+
+
+.header0
+{
+	border-width:1px; border-style:solid;
+}
+
+.header1
+{
+	border-width:1px; border-style:solid;
+}
+
+.header0 th
+{
+	text-align: center;
+	font-size: .85em; /* 8pt; */
+}
+.header1 th
+{
+	text-align: center;
+	font-size: .85em; /* 8pt; */
+	border-width: 0;
+}
+
+
+/* Post tables */
 
 table.post
 {
@@ -180,35 +234,19 @@ table.post td.userlink
 	border-bottom-width: 0;
 }
 
-table.outline
+/* Message tables */
+
+table.message td, table.message th
 {
-/*	border-collapse: separate;*/
-	border-spacing: 0;
-	border-width:1px; border-style:solid;
+	text-align:center;
+	font-size:1em;
 }
 
-table.outline tr:first-child th:last-child
+table.message td
 {
-	border-right-width: 1px;
+	padding: 10px;
 }
-
-table.outline tr:first-child th
-{
-	border-top-width: 1px;
-}
-table.outline td
-{
-	border-left-width: 0;
-	border-top-width: 0;
-}
-table.outline th
-{
-	border-bottom-width: 1px;
-}
-table.outline tr td:first-child, table.outline tr th:first-child
-{
-	border-left-width: 1px;
-}
+/* Other stuff */
 
 .PoRT
 {
@@ -221,24 +259,6 @@ table.outline tr td:first-child, table.outline tr th:first-child
 .PoRT td, .PoRT th, .smallFonts td, .smallFonts
 {
 	font-size: .85em; /* 8pt; */
-}
-
-.left
-{
-	text-align: left;
-}
-.right
-{
-	text-align: right;
-}
-.center
-{
-	text-align: center;
-}
-
-.underline
-{
-	text-decoration: underline;
 }
 
 .footer
@@ -257,40 +277,6 @@ table.outline tr td:first-child, table.outline tr th:first-child
 {
 	font-size: 1em; /* 10pt; */
 	text-align: right;
-}
-
-.header0
-{
-	border-width:1px; border-style:solid;
-}
-.header1
-{
-	border-width:1px; border-style:solid;
-}
-
-.header0 th
-{
-	text-align: center;
-	font-size: .85em; /* 8pt; */
-	border-top-width: 0;
-	border-bottom-width: 0;
-}
-.header1 th
-{
-	text-align: center;
-	font-size: .85em; /* 8pt; */
-	border-width: 0;
-}
-
-table.breadcrumbs, table.breadcrumbs td
-{
-	font-size: 1em; /* 10pt; */
-	border-width: 0;
-}
-
-.pages
-{
-	padding: 4px 0px;
 }
 
 .faq
@@ -337,26 +323,9 @@ form
 	margin: 0;
 }
 
-.errort
-{
-	border-width:1px; border-style:solid;
-}
-
-.errorc
-{
-	text-align: center;
-	border-width:1px; border-style:solid;
-	border-top-width: 0;
-}
-
 .minipic
 {
 	vertical-align: bottom;
-}
-
-.block
-{
-	display: block;
 }
 
 div.spoiler

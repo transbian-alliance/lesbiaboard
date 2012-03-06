@@ -34,6 +34,18 @@
 						<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
 					</a>
 				</td>
+				<td style="border: 0px none; text-align: left;">
+							<?php if($misc['porabox']) { ?>
+							<td style="border: 0px none;">
+								<div class="PoRT nom">
+									<table class="message">
+										<tr class="header0"><th><?php print $misc['poratitle']; ?></th></tr>
+										<tr class="cell0"><td><?php print CleanUpPost($misc['porabox'], "", true, true); ?></td></tr>
+									</table>
+								</div>
+							</td>
+							<?php } ?>
+				</td>
 
 				<td style="border: 0px none; text-align: right; padding:0px; vertical-align:bottom;" class="smallFonts">
 					<div class="cell1" style="float:right; padding:5px; border-top:1px solid black; border-left:1px solid black;">

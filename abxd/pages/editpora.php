@@ -25,17 +25,6 @@ if($_POST['action'] == __("Edit"))
 
 write(
 "
-	<div class=\"PoRT\">
-		<div class=\"errort\">
-			<strong id=\"previewtitle\">
-				{0}
-			</strong>
-		</div>
-		<div class=\"errorc cell2 left\" id=\"previewtext\">
-			{1}
-		</div>
-	</div>
-
 	<form action=\"".actionLink("editpora")."\" method=\"post\">
 		<table id=\"t\" class=\"outline margin width50\">
 			<tr class=\"header1\">
@@ -56,7 +45,7 @@ write(
 					".__("Content (HTML)")."
 				</td>
 				<td style=\"width: 80%;\">
-					<textarea name=\"text\" rows=\"16\" style=\"width: 97%;\" id=\"editbox\" onkeyup=\"startPoraUpdate()\">{3}</textarea>
+					<textarea name=\"text\" rows=\"16\" style=\"width: 97%;\" id=\"editbox\">{3}</textarea>
 				</td>
 			</tr>
 			<tr class=\"cell2\">

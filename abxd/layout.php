@@ -36,12 +36,10 @@
 							<?php if($misc['porabox']) { ?>
 							<td style="border: 0px none;">
 								<div class="PoRT nom">
-									<div class="errort">
-										<strong><?php print $misc['poratitle']; ?></strong>
-									</div>
-									<div class="errorc cell2 left">
-										<?php print CleanUpPost($misc['porabox'], "", true, true); ?>
-									</div>
+									<table class="message">
+										<tr class="header0"><th><?php print $misc['poratitle']; ?></th></tr>
+										<tr class="cell0"><td><?php print CleanUpPost($misc['porabox'], "", true, true); ?></td></tr>
+									</table>
 								</div>
 							</td>
 							<?php } ?>

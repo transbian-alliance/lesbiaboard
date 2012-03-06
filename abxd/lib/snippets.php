@@ -138,14 +138,11 @@ function DoSmileyBar($taname = "text")
 	$expandAt = 26;
 	LoadSmilies(TRUE);
 	
-	write(
-"
-	<div class=\"PoRT margin\" style=\"width: 90%\">
-		<div class=\"errort\">
-			<strong>".__("Smilies")."</strong>
-		</div>
-		<div class=\"errorc cell0\" id=\"smiliesContainer\">
-");
+
+	print '<table class="message margin">
+		<tr class="header0"><th>'.__("Smilies").'</th></tr>
+		<tr class="cell0"><td id=\"smiliesContainer\">';
+	
 	if(count($smiliesOrdered) > $expandAt)
 		write("<button class=\"expander\" id=\"smiliesExpand\" onclick=\"expandSmilies();\">&#x25BC;</button>"); 
 	print "<div class=\"smilies\" id=\"commonSet\">";
@@ -156,19 +153,16 @@ function DoSmileyBar($taname = "text")
 		$s = $smiliesOrdered[$i];
 		print "<img src=\"img/smilies/".$s['image']."\" alt=\"".htmlentities($s['code'])."\" title=\"".htmlentities($s['code'])."\" onclick=\"insertSmiley(' ".str_replace("'", "\'", $s['code'])." ');\" />";
 	}
-	write("
-			</div>
-		</div>
-	</div>
-");
+
+	print '</div></td></tr></table>';
 }
 
 function DoPostHelp()
 {
 	write("
-	<div class=\"PoRT margin\" style=\"width: 90%;\">
-		<div class=\"errort\"><strong>".__("Post help")."</strong></div>
-		<div class=\"errorc cell0\">
+	<table class=\"message margin\">
+		<tr class=\"header0\"><th>'".__("Post help")."</th></tr>
+		<tr class=\"cell0\"><td>
 			<button class=\"expander\" id=\"postHelpExpand\" onclick=\"expandPostHelp();\">&#x25BC;</button>
 			<div id=\"commonHelp\" class=\"left\">
 				<h4>".__("Presentation")."</h4>
@@ -212,8 +206,8 @@ function DoPostHelp()
 			</div>
 			<br />
 			".__("Most plain HTML also allowed.")."
-		</div>
-	</div>
+		</td></tr>
+	</table>
 	");
 }
 
