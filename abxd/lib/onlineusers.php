@@ -47,7 +47,7 @@ function OnlineUsers($forum = 0, $update = true)
 	if($bots)
 		$onlineUsers .= " | ".Plural($bots,__("bot"));
 	       
-	$onlineUsers = "<div style=\"display: inline-block; height: 16px; overflow: hidden; padding: 0px; line-height: 16px;\">".$onlineUsers."</div>";
+//	$onlineUsers = "<div style=\"display: inline-block; height: 16px; overflow: hidden; padding: 0px; line-height: 16px;\">".$onlineUsers."</div>";
 	return $onlineUsers;
 }
 
@@ -75,8 +75,6 @@ function getOnlineUsersText()
 
 	$onlineUsers = OnlineUsers($OnlineUsersFid);
 
-	return "<span id=\"onlineUsers\">
-			$onlineUsers
-		</span> $refreshCode";
+	return "<span id=\"onlineUsers\">$onlineUsers</span>$refreshCode";
 }
 ?>
