@@ -1,4 +1,6 @@
-if(Object.defineProperty && Object.getOwnPropertyDescriptor && !Object.getOwnPropertyDescriptor(Element.prototype, "textContent").get)
+//This was causing errors
+
+/*if(Object.defineProperty && Object.getOwnPropertyDescriptor && !Object.getOwnPropertyDescriptor(Element.prototype, "textContent").get)
 	(function()
 	{
 		var innerText = Object.getOwnPropertyDescriptor(Element.prototype, "innerText");
@@ -8,7 +10,7 @@ if(Object.defineProperty && Object.getOwnPropertyDescriptor && !Object.getOwnPro
 			set : function(x) { return innerText.set.call(this, x); },
 			enumerable : true
 		});
-	})();
+	})();*/
 
 
 /* Spoiler buttons for posts

@@ -201,6 +201,7 @@ if(!isset($_POST['iconid']))
 
 Write(
 "
+	<script type=\"text/javascript\" src=\"lib/sendprivate.js\"></script>
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
@@ -216,7 +217,13 @@ Write(
 								".__("To")."
 							</td>
 							<td>
-								<input type=\"text\" name=\"to\" style=\"width: 98%;\" maxlength=\"1024\" value=\"{2}\" />
+								<span id=\"to\" style=\"display: none;\">
+									&nbsp;
+								</span>
+								<button id=\"addReceiver\" type=\"button\">".__("Add")."</button>
+								<span id=\"addReceiverFormContainer\" style=\"display: none;\"> <!-- Because you apparently can't use display: none on a form -->
+									<input type=\"text\" name=\"receiver\" size=\"26\" /> <button type=\"button\" id=\"done\">".__("Done")."</button>
+								</span>
 							</td>
 						</tr>
 						<tr class=\"cell1\">
