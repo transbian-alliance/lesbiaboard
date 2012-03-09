@@ -75,6 +75,7 @@ function UserStructure($row, $prefix)
 //WARNING: These things need to be kept in a certain order of execution.
 
 include("mysql.php");
+include("mysqlfunctions.php");
 include("feedback.php");
 
 $thisURL = $_SERVER['SCRIPT_NAME'];

@@ -241,7 +241,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 
 .pollbar
 {
-	background-color:#1f697b; /* This can be overridden to color pollbars */
+	background-color:#0e2e35; /* This can be overridden to color pollbars */
 	background-image: url(transp.png);
 	background-attachment: fixed;
 	background-position: top left;
