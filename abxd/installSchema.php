@@ -315,19 +315,6 @@ $tables = array
 		),
 		"special" => "primary key (`id`, `thread`)"
 	),
-	"uploader" => array
-	(
-		"fields" => array
-		(
-			"id" => $AI,
-			"filename" => "varchar(512)".$notNull,
-			"description" => $var1024,
-			"user" => $genericInt,
-			"date" => $genericInt,
-			"private" => $bool,
-		),
-		"special" => $keyID
-	),
 	"usercomments" => array
 	(
 		"fields" => array

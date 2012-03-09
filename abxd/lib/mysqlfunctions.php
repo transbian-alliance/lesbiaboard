@@ -1,4 +1,14 @@
 <?php
+$genericInt = "int(11) NOT NULL DEFAULT '0'";
+$smallerInt = "int(8) NOT NULL DEFAULT '0'";
+$bool = "tinyint(1) NOT NULL DEFAULT '0'";
+$notNull = " NOT NULL DEFAULT ''";
+$text = "text DEFAULT ''"; //NOT NULL breaks in certain versions/settings.
+$var128 = "varchar(128)".$notNull;
+$var256 = "varchar(256)".$notNull;
+$var1024 = "varchar(1024)".$notNull;
+$AI = "int(11) NOT NULL AUTO_INCREMENT";
+$keyID = "primary key (`id`)";
 
 //SQL importer based on KusabaX installer
 function Import($sqlFile)
@@ -34,7 +44,13 @@ function Import($sqlFile)
 function Upgrade()
 {
 	global $dbname;
+	
+	//Load the board tables.
 	include("installSchema.php");
+	
+	//Allow plugins to add their own tables!
+	$bucket = "installSchema"; include('lib/pluginloader.php');
+
 	foreach($tables as $table => $tableSchema)
 	{
 		print "<li>";
