@@ -204,7 +204,7 @@ if($thread['poll'])
 			{
 				$width = 99 * ($votes / $totalVotes) + 0.1;
 				$alt = format("{0}&nbsp;of&nbsp;{1},&nbsp;{2}%", $votes, $totalVotes, $width);
-				$bar = format("<div class=\"pollbar\" style=\"background: {0}; width: {1}%;\" title=\"{2}\">&nbsp;{3}</div>", $option['color'], $width, $alt, $votes);
+				$bar = format("<div class=\"pollbar\" style=\"background-color: {0}; width: {1}%;\" title=\"{2}\">&nbsp;{3}</div>", $option['color'], $width, $alt, $votes);
 				if($width == 0)
 					$bar = "&nbsp;".$votes;
 			}

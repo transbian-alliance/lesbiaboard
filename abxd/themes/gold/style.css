@@ -227,3 +227,29 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	border-color: #26acc9;
 }
 
+
+.pollbarContainer
+{
+	border: 1px solid #000;
+	background-image: url(transp.png);
+	background-attachment: fixed;
+	background-position: top left;
+	text-shadow: none;
+	box-shadow: none;
+	border-radius:0px;
+}
+
+.pollbar
+{
+	background-color:#1f697b; /* This can be overridden to color pollbars */
+	background-image: url(transp.png);
+	background-attachment: fixed;
+	background-position: top left;
+	border: 1px solid #000212;
+
+	border-width:1px; border-style:solid;
+
+	text-shadow: none;
+	box-shadow: none;
+	border-radius: 0px;
+}
