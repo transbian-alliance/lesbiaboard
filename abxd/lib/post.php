@@ -679,23 +679,30 @@ function MakePost($post, $type, $params=array())
 		"rank" => GetRank($post2),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
-
-	$post['posts'] = $rankHax;
-	if($post['postheader'] && !$isBlocked)
-		$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader'], "", $noSmilies, true), $tags));
-
-	$postText = ApplyTags(CleanUpPost($post['text'],$post['name'], $noSmilies, $noBr), $tags);
 	
+	$post['posts'] = $rankHax;
+	
+	$postText = $noBr ? $post['text'] : nl2br($post['text']);
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
+	
+	if($post['postheader'] && !$isBlocked)
+		$postText = str_replace('$theme', $theme, $post['postheader']).$postText;
+		//$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader'], "", $noSmilies, true), $tags));
+
+	//$postText = ApplyTags(CleanUpPost($post['text'],$post['name'], $noSmilies, $noBr), $tags);
 
 	if($post['signature'] && !$isBlocked)
 	{
-		$postFooter = ApplyTags(CleanUpPost($post['signature'], "", $noSmilies, true), $tags);
+		//$postFooter = ApplyTags(CleanUpPost($post['signature'], "", $noSmilies, true), $tags);
 		if(!$post['signsep'])
-			$separator = "<br />_________________________<br />";
+			$postText .= "<br />_________________________<br />";
 		else
-			$separator = "<br />";
+			$postText .= "<br />";
+			
+		$postText .= $post['signature'];
 	}
+	
+	$postText = ApplyTags(CleanUpPost($postText,$post['name'], $noSmilies, true), $tags);
 
 	$postCode =
 "
@@ -723,12 +730,7 @@ function MakePost($post, $type, $params=array())
 				</td>
 				<td class=\"post {4}\" id=\"post_{13}\">
 
-					{9}
-
 					{10}
-
-					{12}
-					{11}
 
 				</td>
 			</tr>
@@ -738,7 +740,7 @@ function MakePost($post, $type, $params=array())
 	write($postCode,
 			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
 			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
-			$postHeader, $postText, $postFooter, $separator, $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
+			null, $postText, null, null, $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
 }
 
