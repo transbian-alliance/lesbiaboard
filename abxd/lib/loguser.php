@@ -3,20 +3,15 @@
 
 $bots = array(
 	"Microsoft URL Control",
-	"msnbot",
 	"Yahoo! Slurp",
-	"Googlebot",
 	"Mediapartners-Google",
-	"yetibot@naver.com",
 	"Twiceler",
-	"YandexBot",
-	"Baiduspider",
 	"facebook",
 	"bot","spider", //catch-all
 );
 
 $isBot = 0;
-if(str_replace($bots,"x",$_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGENT'])
+if(str_replace($bots,"x",$_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGENT']) // stristr()/stripos()?
 	$isBot = 1;
 
 include("browsers.php");
@@ -111,6 +106,10 @@ if($loguserid) //Are we logged in?
 
 			$dateformat = $loguser['dateformat'].", ".$loguser['timeformat'];
 			
+			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
+			// SHA1 with a sufficiently long salt should be enough.
+			$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
+			
 			$wantGuest = FALSE;
 		}
 	}
@@ -122,7 +121,9 @@ if($wantGuest)
  	if(!$ajaxPage)
  		$rGuest = Query($qGuest);
 	
-	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>$defaultTheme, "dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts);
+	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>$defaultTheme, 
+		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts,
+		'token'=>hash('sha1', rand()));
 	$loguserid = 0;
 }
 

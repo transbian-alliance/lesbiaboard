@@ -25,7 +25,7 @@ if($id == $loguserid)
 
 $canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
 
-if(isset($_GET['block']) && $loguserid)
+if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
 {
 	AssertForbidden("blockLayouts");
 	$block = (int)$_GET['block'];
@@ -57,12 +57,12 @@ if($loguserid)
 		$rBlock = Query($qBlock);
 		$isBlocked = NumRows($rBlock);
 		if($isBlocked)
-			$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0");
+			$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
 		else
-			$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1");
+			$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
 	}
 
-	if(isset($_GET['vote']) && $canVote)
+	if(isset($_GET['vote']) && $canVote && $_GET['token'] == $loguser['token'])
 	{
 		$vote = (int)$_GET['vote'];
 		if($vote > 1) $vote = 1 ;
@@ -81,10 +81,10 @@ if($loguserid)
 	
 	$karmalinks = "";
 	if($k != 1)
-		$karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1");
+		$karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1&token={$loguser['token']}");
 		
 	if($k != 0)
-		$karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0");
+		$karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0&token={$loguser['token']}");
 		
 	$karmaLinks = "<small>[$karmaLinks]</small>";
 }
@@ -258,7 +258,7 @@ write("
 			</td>
 ");
 
-if($canDeleteComments && $_GET['action'] == "delete")
+if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $loguser['token'])
 {
 	AssertForbidden("deleteComments");
 	Query("delete from usercomments where uid=".$id." and id=".(int)$_GET['cid']);
@@ -274,7 +274,7 @@ if(NumRows($rComments))
 	{
 		if($canDeleteComments)
 			$deleteLink = "<small style=\"float: right; margin: 0px 4px;\">".
-				actionLinkTag("&#x2718;", "profile", $id, "action=delete&amp;cid=".$comment['id'])."</small>";
+				actionLinkTag("&#x2718;", "profile", $id, "action=delete&amp;cid=".$comment['id']."&token={$loguser['token']}")."</small>";
 		$cellClass = ($cellClass+1) % 2;
 		$thisComment = format(
 "
@@ -305,7 +305,7 @@ else
 ");
 }
 
-if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid && $loguserid != $lastCID)
+if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid && $loguserid != $lastCID && $_POST['token'] == $loguser['token'])
 {
 	AssertForbidden("makeComments");
 	$_POST['text'] = strip_tags($_POST['text']);
@@ -343,6 +343,7 @@ if($loguserid)
 										<input type=\"hidden\" name=\"id\" value=\"{0}\" />
 										<input type=\"text\" name=\"text\" style=\"width: 80%;\" maxlength=\"255\" />
 										<input type=\"submit\" name=\"action\" value=\"".__("Post")."\" />
+										<input type=\"hidden\" name=\"token\" value=\"{$loguser['token']}\" />
 									</form>
 								</div>
 ", $id);
