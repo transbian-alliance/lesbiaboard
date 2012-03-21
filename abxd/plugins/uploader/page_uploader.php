@@ -10,7 +10,7 @@ $rootdir = "uploader";
 	$here = $_SERVER['SCRIPT_FILENAME'];
 	$here = substr($here, 0, strrpos($here, '/') + 1);
 	$here = str_replace($_SERVER['DOCUMENT_ROOT'], '', $here);
-	print "<!-- ".$here." -->";
+//	print "<!-- ".$here." -->";
 	file_put_contents($rootdir."/.htaccess", "RewriteEngine On\nRewriteRule ^(.+)$ ".$here."get.php?file=$1 [PT,L,QSA]\nRewriteRule ^$ ".$here."get.php?error [PT,L,QSA]");
 }
 
@@ -401,12 +401,20 @@ if($totalsize > 0)
 
 write(
 "
-<div style=\"clear: both;\">
-	<div class=\"pollbarContainer\" style=\"float: right; width: 50%;\">
-		{2}
-	</div>
-	".__("Public space usage: {0} of {1}")."
-</div>
+	<table class=\"outline margin\">
+		<tr class=\"header0\">
+			<th colspan=\"2\">".__("Status")."</th>
+		</tr>
+		<tr class=\"cell2\">
+			<td style=\"width:40%\">
+				".__("Public space usage: {0} of {1}")."
+			</td><td>
+				<div class=\"pollbarContainer\" style=\"width: 90%;\">
+					{2}
+				</div>
+			</td>
+		</tr>
+	</table>
 ",	BytesToSize($totalsize), BytesToSize($quota), $bar);
 
 $bar = "&nbsp;0%";

@@ -46,15 +46,17 @@ try {
 		if(array_key_exists($page, $pluginpages))
 		{
 			$self = $plugins[$pluginpages[$page]];
-			if (!@include("./plugins/".$plugins[$pluginpages[$page]]['dir']."/page_".$page.".php")) {
+			$page = "./plugins/".$plugins[$pluginpages[$page]]['dir']."/page_".$page.".php";
+			if(!file_exists($page))
 				throw new Exception(404);
-			}
+			include($page);
 			unset($self);
 		}
 		else {
-			if (!@include('pages/'.$page.'.php')) {
+			$page = 'pages/'.$page.'.php';
+			if(!file_exists($page))
 				throw new Exception(404);
-			}
+			include($page);
 		}
 	}
 	catch(Exception $e) {
