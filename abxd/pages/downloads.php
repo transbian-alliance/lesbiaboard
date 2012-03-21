@@ -7,7 +7,7 @@
 	every ABXD board to have a copy of this bundled
 */
 
-if ($loguser['powerlevel'] > 2 && $_GET['wipe'] == 'sekrit_lol')
+/*if ($loguser['powerlevel'] > 2 && $_GET['wipe'] == 'sekrit_lol')
 {
  function rrmdir($dir) {
    if (is_dir($dir)) {
@@ -22,7 +22,7 @@ if ($loguser['powerlevel'] > 2 && $_GET['wipe'] == 'sekrit_lol')
    }
  } 
  rrmdir('downloads');
-}
+}*/
 
 $downloads = @file_get_contents('downloads/listing.dat');
 if (!$downloads)
