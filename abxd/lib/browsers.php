@@ -24,6 +24,7 @@ $knownBrowsers = array
 	"dwb" => "DWB",
 	"Chrome" => "Chrome",
 	"Android" => "Android",
+	"Midori" => "Midori",
 	"Safari" => "Safari",
 	"Konqueror" => "Konqueror",
 	"Mozilla" => "Mozilla",
