@@ -1,7 +1,5 @@
 <?php
 $noAutoHeader = TRUE;
-if(isset($_SERVER['HTTP_X_PURPOSE']) && $_SERVER['HTTP_X_PURPOSE'] == "preview")
-	die(header("Location: speeddial.php"));
 
 if(isset($_GET['fid']) && (int)$_GET['fid'] > 0 && !isset($_GET['action']))
 	die(header("Location: forum.php?id=".(int)$_GET['fid']));
