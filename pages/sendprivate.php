@@ -54,6 +54,12 @@ if($uid)
 		Kill(__("Unknown user."));
 }
 
+/*
+// "Banned users can't send PMs. Bad bad bad, quite often PMs are a good way for them to try and get unbanned." -- Mega-Mario
+if($loguser['powerlevel'] < 0)
+	Kill("You're banned.");
+*/
+
 write(
 "
 	<script type=\"text/javascript\">
@@ -90,6 +96,7 @@ if($_POST['to'])
 	}
 	$maxRecips = array(-1 => 1, 3, 3, 3, 10, 100, 1);
 	$maxRecips = $maxRecips[$loguser['powerlevel']];
+	//$maxRecips = ($loguser['powerlevel'] > 1) ? 5 : 1;
 	if(count($recipIDs) > $maxRecips)
 		$errors .= __("Too many recipients.");
 	if($errors != "")
@@ -115,11 +122,15 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 		{
 			$wantDraft = (int)($_POST['action'] == __("Save as Draft"));
 
+			//$post = justEscape($post);
 			$post = $_POST['text'];
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
 			$post = mysql_real_escape_string($post);
+
+			//$pid = FetchResult("SELECT id+1 FROM pmsgs WHERE (SELECT COUNT(*) FROM pmsgs p2 WHERE p2.id=pmsgs.id+1)=0 ORDER BY id ASC LIMIT 1");
+			//if($pid < 1) $pid = 1;
 			
 			if($_POST['action'] == __("Save as Draft"))
 			{
@@ -131,6 +142,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 				$rPMT = Query($qPMT);
 
 				die(header("Location: ".actionLink("private", "", "show=2")));
+				//Redirect(__("Draft saved!"), "private.php?show=2", __("your drafts box"));
 			}
 			else
 			{
@@ -145,6 +157,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 				}
 
 				die(header("Location: ".actionLink("private", "", "show=1")));
+				//Redirect(__("PM sent!"),"private.php?show=1", __("your PM outbox"));
 			}
 			exit();
 		} else
@@ -188,7 +201,6 @@ if(!isset($_POST['iconid']))
 
 Write(
 "
-	<script type=\"text/javascript\" src=\"lib/sendprivate.js\"></script>
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
@@ -204,13 +216,7 @@ Write(
 								".__("To")."
 							</td>
 							<td>
-								<span id=\"to\" style=\"display: none;\">
-									&nbsp;
-								</span>
-								<button id=\"addReceiver\" type=\"button\">".__("Add")."</button>
-								<span id=\"addReceiverFormContainer\" style=\"display: none;\"> <!-- Because you apparently can't use display: none on a form -->
-									<input type=\"text\" name=\"receiver\" size=\"26\" /> <button type=\"button\" id=\"done\">".__("Done")."</button>
-								</span>
+								<input type=\"text\" name=\"to\" style=\"width: 98%;\" maxlength=\"1024\" value=\"{2}\" />
 							</td>
 						</tr>
 						<tr class=\"cell1\">
