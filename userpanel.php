@@ -2,10 +2,14 @@
 if($loguserid)
 {
 	print "<li>".UserLink($loguser)."</li>";
+	
+	//Commenting this out until it's actually useful. ~Dirbaio
+	/*
 	if (count($loguserNotifications) > 0)
 		print "<li><a href=\"#\"><span class=\"underline\" style=\"color: white;\">".__("Notifications")."</span></a></li>";
 	else
 		print "<li><a href=\"#\">".__("Notifications")."</a></li>";
+	*/
 
 	if(IsAllowed("editProfile"))
 		print actionLinkTagItem(__("Edit profile"), "editprofile");
