@@ -23,6 +23,16 @@ $tables = array
 		),
 		"special" => "unique key `steenkinbadger` (`owner`,`name`)"
 	),
+	"settings" => array
+	(
+		"fields" => array
+		(
+			"plugin" => $var128,
+			"name" => $var128,
+			"value" => $text,
+		),
+		"special" => "unique key `mainkey` (`plugin`,`name`)"
+	),
 	"blockedlayouts" => array
 	(
 		"fields" => array

@@ -21,6 +21,13 @@ function insError($text) {
 	die();
 }
 if (isset($_POST['existingSettings'])) $existingSettings = true;
+
+if(isset($_GET['update']))
+{
+	 $existingSettings = true;
+	 $_POST['action'] = "Install";
+}
+
 if (!isset($_POST['action'])) die("There's nothing to do.");
 if($_POST['action'] == "Install")
 {
