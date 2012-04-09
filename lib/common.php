@@ -76,6 +76,8 @@ function UserStructure($row, $prefix)
 
 include("mysql.php");
 include("mysqlfunctions.php");
+include("settingssystem.php");
+Settings::load();
 include("feedback.php");
 
 $thisURL = $_SERVER['SCRIPT_NAME'];

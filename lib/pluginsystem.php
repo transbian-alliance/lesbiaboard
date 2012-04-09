@@ -108,6 +108,8 @@ while($plugin = Fetch($rPlugins))
 		Report(Format("Disabled plugin \"{0}\" -- {1}", $plugin, $e->getMessage()));
 		Query("delete from enabledplugins where plugin='".$plugin."'");
 	}
+	
+	Settings::checkPlugin($plugin);
 }
 
 

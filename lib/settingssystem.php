@@ -26,40 +26,110 @@
 	
 	Types of settings:
 	
+	- boolean		(0 or 1, uses a checkbox)
 	- integer
 	- text			Creates a text field
-	- textbig		Creates a text box with no controls
+	- textbox		Creates a text box with no controls
 	- textbbcode	Creates a text box with BBCode post help
 	- texthtml		Creates a text box with HTML post help (if it's ever implemented)
 
 	- theme			Creates a theme selection drop-down. Stores the theme name.
-	- user 			Creates a user selection drop-down. Stores the UID
 	- forum			Creates a forum selection drop-down. Stores the FID
 	
-	Additionally settings can have a default value.	
+	Additionally settings can have a default value, a friendly name, and a help text.
 	Also there should be some validation of the setting values.
 	Specially for per-user settings, which can be modified at will by users.
 
 */
 
-//Loads ALL the settings.
 
-function loadSettings()
+class Settings
 {
-	global $pluginsettings, $globalsettings;
-	
-	$pluginsettings = array();
-	$globalsettings = array();
-	$rSettings = Query("select * from settings");
-	while($setting = Fetch($rSettings))
+	public static $globalsettings;
+	public static $pluginsettings;
+	//Loads ALL the settings.
+
+	public static function load()
 	{
-		if($setting["plugin"] == "main")
-			$globalsettings[$setting["name"]] = $setting["value"];
+		self::$pluginsettings = array();
+		self::$globalsettings = array();
+		$rSettings = Query("select * from settings");
+		
+		while($setting = Fetch($rSettings))
+		{
+			if($setting["plugin"] == "main")
+				self::$globalsettings[$setting["name"]] = $setting["value"];
+
+			self::$pluginsettings[$setting["plugin"]][$setting["name"]] = $setting["value"];
+		}
+	}
+
+	public static function getForPlugin($pluginname)
+	{
+		global $plugins;
+		
+		$settings = array();
+		
+		//Get the setting list.
+		if($pluginname == "main")
+			include("settingsfile.php");
 		else
-			$pluginsettings[$setting["plugin"]][$setting["name"]] = $setting["value"];
+		{
+			@include("./plugins/".$plugins[$pluginname]['dir']."/settingsfile.php");
+		}
+		return $settings;
+	}
+	
+
+	public static function checkPlugin($pluginname)
+	{
+		if(!isset(self::$pluginsettings[$pluginname]))
+			self::$pluginsettings[$pluginname] = array();
+		
+		$changed = false;		
+
+		$settings = self::getForPlugin($pluginname);		
+		foreach($settings as $name => $data)
+		{
+			$type = $data["type"];
+			$default = $data["default"];
+			
+			if(!isset(self::$pluginsettings[$pluginname][$name]))
+			{
+				self::$pluginsettings[$pluginname][$name] = $default;
+				$changed = true;
+			}
+				
+			if(!self::validate(self::$pluginsettings[$pluginname][$name], $type))
+			{
+				self::$pluginsettings[$pluginname][$name] = $default;
+				$changed = true;
+			}
+		}
+		
+		self::save($pluginname);
+	}
+
+	public static function save($pluginname)
+	{
+		foreach(self::$pluginsettings[$pluginname] as $name=>$value)
+			Query("insert into settings (plugin, name, value) values (".
+				"'".justEscape($pluginname)."', ".
+				"'".justEscape($name)."', ".
+				"'".justEscape($value)."') ".
+				"on duplicate key update value=VALUES(value)");
+	}
+	
+	
+	public static function validate($value, $type)
+	{
+		if($type == "integer" || $type == "user" || $type == "forum")
+			if($value != (int)$value) //TODO: I'm not sure if it's the best way. is_numeric allows float values too.
+				return false;
+
+		return true;
 	}
 }
-
 //TODO: Functions to change settings.
 //TODO: Setting Description Files
 //TODO: Having the board actually use these settings.
