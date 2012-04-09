@@ -93,6 +93,7 @@ ob_end_clean();
 
 ob_start();
 require('footer.php');
+print getRequestedURL();
 $layout_footer = ob_get_contents();
 ob_end_clean();
 

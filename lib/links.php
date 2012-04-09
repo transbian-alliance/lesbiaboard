@@ -3,18 +3,26 @@
 function actionLink($action, $id=0, $args="")
 {
 	global $boardroot;
-	
+	if($boardroot == "")
+		$boardroot = "./";
+
 	$bucket = "linkMangler"; include('lib/pluginloader.php');
 
-	$res = "$boardroot?page=$action";
+	$res = "";
+	
+	if($action != "index")
+		$res .= "&page=$action";
 	
 	if($id)
 		$res .= "&id=$id";
 	if($args)
 		$res .= "&$args";
 
-	return $res;
-	
+	if($res == "")
+		return $boardroot;
+	else
+		return $boardroot."?".substr($res, 1);
+
 //Possible URL Rewriting :D
 //	return "$boardroot/$action/$id?$args";
 	
@@ -131,4 +139,17 @@ function PageLinks($url, $epp, $from, $total)
 	
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
 }
+
+function getRequestedURL()
+{
+    return $_SERVER['REQUEST_URI'];
+}
+function getFullRequestedURL()
+{
+    $s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+    $protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
+    $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+    return $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
+}
+
 ?>

@@ -100,7 +100,7 @@ if($loguserid) //Are we logged in?
 		$ourbull = hash('sha256', $loguser['id'].$loguser['password'].$salt.$loguser['pss'], FALSE);
 		if($loguserbull == $ourbull)
 		{
-			$rLastView = "update users set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape($thisURL)."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
+			$rLastView = "update users set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape(getRequestedURL())."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
 			if(!$ajaxPage)
 				$qLastView = Query($rLastView);
 
