@@ -281,34 +281,27 @@ else
 		{
 			$filecount = FetchResult("select count(*) from uploader where uploader.user = ".$loguserid." and uploader.private = 1", 0, 0);
 
-			print format("
-			<tr class=\"cell{0}\">
-				<td style='text-align:center; height:4px;'>
-				</td>
-			</tr>
-			<tr class=\"cell{0}\">
-				<td>
-					<a href=\"uploaderlist.php?cat={1}\">{2}</a><br /> {3}<br /> {4} files.
-				</td>
-			</tr>
-			",	$cellClass, -1, "Private files", "Only for you.", $filecount);
-		
+			print "<tr class=\"cell$cellClass\"><td>";
+			print actionLinkTag("Private files", "uploaderlist", "", "cat=-1");
+			print "<br>";
+			print "Only for you.";
+			print "<br>";
+			print $filecount." files.";
+			print "<br>";
+			print "</td></tr>";
+
 			$cellClass = ($cellClass+1) % 2;
 
 			if($loguser['powerlevel'] > 2)
 			{
 				$filecount = FetchResult("select count(*) from uploader where uploader.private = 1", 0, 0);
-				print format("
-				<tr class=\"cell{0}\">
-					<td style='text-align:center; height:4px;'>
-					</td>
-				</tr>
-				<tr class=\"cell{0}\">
-					<td>
-						<a href=\"uploaderlist.php?cat={1}\">{2}</a><br /> {3}<br /> {4} files.
-					</td>
-				</tr>
-				",	$cellClass, -2, "All private files", "", $filecount);
+
+				print "<tr class=\"cell$cellClass\"><td>";
+				print actionLinkTag("All private files", "uploaderlist", "", "cat=-2");
+				print "<br>";
+				print $filecount." files.";
+				print "<br>";
+				print "</td></tr>";
 			}
 		}
 		print "</table>";

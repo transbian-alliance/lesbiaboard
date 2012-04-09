@@ -305,7 +305,8 @@ else
 ");
 }
 
-if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid && $loguserid != $lastCID && $_POST['token'] == $loguser['token'])
+if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid 
+	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'])
 {
 	AssertForbidden("makeComments");
 	$_POST['text'] = strip_tags($_POST['text']);
@@ -347,8 +348,8 @@ if($loguserid)
 									</form>
 								</div>
 ", $id);
-	if($lastCID == $loguserid)
-		$commentField = __("You already have the last word.");
+//	if($lastCID == $loguserid)
+//		$commentField = __("You already have the last word.");
 	if(!IsAllowed("makeComments"))
 		$commentField = __("You are not allowed to post usercomments.");
 }
