@@ -9,10 +9,6 @@ AssertForbidden("editSettings");
 if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to edit the board settings."));
 	
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-
-
-
 $plugin = "main";
 if(isset($_GET["plugin"]))
 	$plugin = $_GET["plugin"];
@@ -39,13 +35,13 @@ if(isset($_POST["_plugin"]))
 
 	if($valid)
 	{
-		Settings::save($plugin);/*
+		Settings::save($plugin);
 		if($plugin == "main")
 			die(header("Location: ".actionLink("admin")));
 		else
 			die(header("Location: ".actionLink("pluginmanager")));
-		*/
-		Alert("Settings saved");
+		
+//		Alert("Settings saved");
 	}
 	else
 		Alert("Settings were NOT saved because there were invalid values. Please correct them and try again.");

@@ -348,4 +348,9 @@ function makeThemeArrays() {
 	}
 	closedir($dir);
 }
+
+function getUserKey()
+{
+	return hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
+}
 ?>

@@ -74,18 +74,23 @@ function getPluginData($plugin, $load = true)
 	if($minver > $misc['version'])
 		throw new BadPluginException(_("Plugin meant for a later version"));
 
-	if($load)
+	$dir = "./plugins/".$plugindata['dir'];
+	$pdir = @opendir($dir);
+	while($f = readdir($pdir))
 	{
-		$dir = "./plugins/".$plugindata['dir'];
-		$pdir = @opendir($dir);
-		while($f = readdir($pdir))
+		if(substr($f, (strlen($f) - 4), 4) == ".php")
 		{
-			if(substr($f, (strlen($f) - 4), 4) == ".php")
+			if(substr($f, 0, 5) == "page_")
 			{
-				if(substr($f, 0, 5) == "page_")
-					$pluginpages[substr($f, 5, strlen($f) - 4 - 5)] = $plugindata['dir'];
-				else
-					$pluginbuckets[substr($f, 0, strlen($f) - 4)][] = $plugindata['dir'];
+				$pagename = substr($f, 5, strlen($f) - 4 - 5);
+				$plugindata["pages"][] = $pagename;
+				if($load) $pluginpages[$pagename] = $plugindata['dir'];
+			}
+			else
+			{
+				$bucketname = substr($f, 0, strlen($f) - 4);
+				$plugindata["buckets"][] = $bucketname;
+				if($load) $pluginbuckets[$bucketname][] = $plugindata['dir'];
 			}
 		}
 	}
