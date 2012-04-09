@@ -2,7 +2,7 @@
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
-$qFora = "select * from forums where id = ".$self["forumid"];
+$qFora = "select * from forums where id = ".$selfsettings["forum"];
 $rFora = Query($qFora);
 if(NumRows($rFora))
 {
@@ -132,8 +132,7 @@ write('</td><td style="border: 0px none; vertical-align: top; padding-right: 1em
 ?>
 <table class='outline margin width100'>
 <tr class='cell1'><td style='border: 1px solid #000; padding:16px' colspan='2'>
-	<h2 style='text-align:center;'>Welcome to Some ABXD Forum!</h2>
-	This is some text text text text you can put here here here here to tell your visitors what's this forum.
+<?php echo CleanUpPost($selfsettings["righttext"]);?>
 </td></tr></table>
 <?php
 write('</td></tr></table>');

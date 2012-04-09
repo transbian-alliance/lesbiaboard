@@ -25,7 +25,7 @@ if($_GET["action"] == "disable")
 	die(header("location: ".actionLink("pluginmanager")));
 }
 
-print '<table class="outline margin width50"><tr class="header0"><th style="width:20px; text-align:center;"></th><th>Plugin</th><th></th></tr>';
+print '<table class="outline margin width50"><tr class="header0"><th style="width:20px; text-align:center;"></th><th>Plugin</th><th colspan="3"></th></tr>';
 
 $cell = 0;
 $pluginsDir = @opendir("plugins");

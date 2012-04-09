@@ -42,6 +42,7 @@ try {
 		if(array_key_exists($page, $pluginpages))
 		{
 			$self = $plugins[$pluginpages[$page]];
+			$selfsettings = Settings::$pluginsettings[$pluginpages[$page]];
 			$page = "./plugins/".$plugins[$pluginpages[$page]]['dir']."/page_".$page.".php";
 			if(!file_exists($page))
 				throw new Exception(404);
