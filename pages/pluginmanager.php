@@ -25,10 +25,13 @@ if($_GET["action"] == "disable")
 	die(header("location: ".actionLink("pluginmanager")));
 }
 
-print '<table class="outline margin width50"><tr class="header0"><th style="width:20px; text-align:center;"></th><th>Plugin</th><th colspan="3"></th></tr>';
 
 $cell = 0;
 $pluginsDir = @opendir("plugins");
+
+$enabledPlugins = array();
+$disabledPlugins = array();
+$pluginDatas = array();
 
 if($pluginsDir !== FALSE)
 {
@@ -46,10 +49,26 @@ if($pluginsDir !== FALSE)
 				continue;
 			}
 			
-			listPlugin($plugin, $plugindata);
+			$pluginDatas[$plugin] = $plugindata;
+			if(isset($plugins[$plugin]))
+				$enabledplugins[$plugin] = $plugindata["name"];
+			else
+				$disabledplugins[$plugin] = $plugindata["name"];
 		}
 	}
+
 }
+	
+asort($enabledplugins);
+asort($disabledplugins);
+
+print '<table class="outline margin width50">';
+print '<tr class="header0"><th colspan="2">Enabled plugins</th></tr>';
+foreach($enabledplugins as $plugin => $pluginname)
+	listPlugin($plugin, $pluginDatas[$plugin]);
+print '<tr class="header0"><th colspan="2">Disabled plugins</th></tr>';
+foreach($disabledplugins as $plugin => $pluginname)
+	listPlugin($plugin, $pluginDatas[$plugin]);
 
 print '</table>';
 
@@ -58,16 +77,12 @@ function listPlugin($plugin, $plugindata)
 	global $cell, $plugins;
 	
 	print '<tr class="cell'.$cell.'"><td>';
-	print "X";
-	print '</td><td>';
 	print "<b>".$plugindata["name"]."</b><br>";
-	print $plugindata["description"];
+	print '<span style="margin-left:30px;">'.$plugindata["description"].'</span>';
 	print '</td><td>';
 	
-	if(isset($plugins[$plugin]))
-		print "Enabled";
-	print '</td><td>';
-
+	print '<ul class="pipemenu">';
+	
 	$text = "Enable";
 	$act = "enable";
 	if(isset($plugins[$plugin]))
@@ -75,17 +90,14 @@ function listPlugin($plugin, $plugindata)
 		$text = "Disable";
 		$act = "disable";
 	}
-	print actionLinkTag($text, "pluginmanager", $plugin, "action=".$act."&key=".getUserKey());
+	print actionLinkTagItem($text, "pluginmanager", $plugin, "action=".$act."&key=".getUserKey());
 	
-	print '</td><td>';
 	if(in_array("settingsfile", $plugindata["buckets"]))
 	{
 		if(isset($plugins[$plugin]))
-			print actionLinkTag("Edit settings", "editsettings", "", "plugin=".$plugin);
-		else
-			print "Edit settings";
+			print actionLinkTagItem("Settings&hellip;", "editsettings", "", "plugin=".$plugin);
 	}
-			
+	print '</ul>';
 	print '</td></tr>';
 	
 	$cell++;
