@@ -34,6 +34,18 @@ if(!isset($page))
 if(!ctype_alnum($page))
 	$page = "index";
 
+if($page == "index")
+{
+	if(isset($_GET['fid']) && (int)$_GET['fid'] > 0 && !isset($_GET['action']))
+		die(header("Location: ".actionLink("forum", (int)$_GET['fid'])));
+	if(isset($_GET['tid']) && (int)$_GET['tid'] > 0)
+		die(header("Location: ".actionLink("thread", (int)$_GET['tid'])));
+	if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
+		die(header("Location: ".actionLink("profile", (int)$_GET['uid'])));
+	if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
+		die(header("Location: ".actionLink("thread", "", "pid=".(int)$_GET['pid']."#".(int)$_GET['pid'])));
+}
+
 ob_start();
 $layout_crumbs = "";
 
