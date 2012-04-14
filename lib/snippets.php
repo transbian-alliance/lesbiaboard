@@ -243,21 +243,6 @@ function cdate($format, $date = 0)
 	return gmdate($format, strtotime($timeOffset, $date));
 }
 
-function GetFullURL()
-{
-	$pageURL = 'http';
-	if ($_SERVER["HTTPS"] == "on")
-		$pageURL .= "s";
-	$pageURL .= "://";
-	
-	if ($_SERVER["SERVER_PORT"] != "80")
-		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-	else
-		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-
-	return $pageURL;
-}
-
 function Report($stuff, $hidden = 0, $severity = 0)
 {
 	//$here = "http://helmet.kafuka.org/nikoboard";

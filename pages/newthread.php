@@ -143,6 +143,12 @@ if($_POST['action'] == __("Post"))
 		
 		Report("New ".($_POST['poll'] ? "poll" : "thread")." by [b]".$loguser['name']."[/]: [b]".$_POST['title']."[/] (".$forum['title'].") -> [g]#HERE#?tid=".$tid, $isHidden);
 
+		//newthread bucket
+		$postingAsUser = $loguser;
+		$thread["title"] = $_POST['title'];
+		$thread["id"] = $tid;
+		$bucket = "newthread"; include("lib/pluginloader.php");
+
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
 	else

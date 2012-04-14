@@ -179,6 +179,8 @@ if($_POST['action'] == __("Post"))
 		$rThreads = Query($qThreads);
 
 		Report("New reply by [b]".$postingAsUser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $isHidden);
+		
+		$bucket = "newreply"; include("lib/pluginloader.php");
 
 		die(header("Location: ".actionLink("thread", 0, "pid=".$pid."#".$pid)));
 		exit();
