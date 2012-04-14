@@ -78,6 +78,7 @@ include("mysql.php");
 include("mysqlfunctions.php");
 include("settingssystem.php");
 Settings::load();
+Settings::checkPlugin("main");
 include("feedback.php");
 
 $thisURL = $_SERVER['SCRIPT_NAME'];

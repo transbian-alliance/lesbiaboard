@@ -70,7 +70,7 @@ write("
 	<p>
 		{1}
 	</p>
-", $title, cdate($dateformat), $boardname);
+", $title, cdate($dateformat), htmlspecialchars(Settings::get("boardname")));
 
 if($thread['poll'])
 {

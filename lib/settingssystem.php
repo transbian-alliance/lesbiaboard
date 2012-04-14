@@ -45,21 +45,16 @@
 
 class Settings
 {
-	public static $globalsettings;
 	public static $pluginsettings;
 	//Loads ALL the settings.
 
 	public static function load()
 	{
 		self::$pluginsettings = array();
-		self::$globalsettings = array();
 		$rSettings = Query("select * from settings");
 		
 		while($setting = Fetch($rSettings))
 		{
-			if($setting["plugin"] == "main")
-				self::$globalsettings[$setting["name"]] = $setting["value"];
-
 			self::$pluginsettings[$setting["plugin"]][$setting["name"]] = $setting["value"];
 		}
 	}
@@ -129,8 +124,10 @@ class Settings
 
 		return true;
 	}
+	
+	public static function get($name)
+	{
+		return self::$pluginsettings["main"][$name];
+	}
 }
-//TODO: Functions to change settings.
-//TODO: Setting Description Files
-//TODO: Having the board actually use these settings.
 ?>

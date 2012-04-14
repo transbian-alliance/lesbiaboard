@@ -128,10 +128,9 @@ $layout_onlineusers = getOnlineUsersText();
 $layout_birthdays = getBirthdaysText();
 $layout_views = __("Views:")." ".'<span id="viewCount">'.number_format($misc['views']).'</span>';
 
-$layout_title = htmlspecialchars($boardname);
+$layout_title = htmlspecialchars(Settings::get("boardname"));
 if($title != "")
 	$layout_title .= " &raquo; ".$title;
-
 
 
 //=======================

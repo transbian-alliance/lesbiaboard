@@ -135,5 +135,6 @@ write('</td><td style="border: 0px none; vertical-align: top; padding-right: 1em
 <?php echo CleanUpPost($selfsettings["righttext"]);?>
 </td></tr></table>
 <?php
+$bucket = "blogxd_rightcolumn"; include("lib/pluginloader.php");
 write('</td></tr></table>');
 ?>
