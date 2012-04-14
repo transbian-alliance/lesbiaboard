@@ -32,7 +32,7 @@ while($ipban = Fetch($rIPBan))
 {
 	$cellClass = ($cellClass+1) % 2;
 	if($ipban['date'])
-		$date = gmdate($dateformat,$ipban['date'])." (".TimeUnits($ipban['date']-time())." left)";
+		$date = formatdate($ipban['date'])." (".TimeUnits($ipban['date']-time())." left)";
 	else
 		$date = __("Permanent");
 	$banList .= format(

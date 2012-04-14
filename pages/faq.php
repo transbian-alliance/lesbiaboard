@@ -57,10 +57,10 @@ $colortable = format("
 $faq = file_get_contents("lib/lang/faq_".$language.".html");
 
 $faq = str_replace("<colortable />", $colortable, $faq);
-if(empty($theWord))
+if("" == Settings::get("registrationWord"))
 	$faq = preg_replace("'<iftheword>(.*)</iftheword>'se", "", $faq);
 else
-	$faq = str_replace("<theword />", $theWord, $faq);
+	$faq = str_replace("<theword />", Settings::get("registrationWord"), $faq);
 
 $code1 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_$theme.css" />';
 $code2 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_'.$theme.'.css" />';

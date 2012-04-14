@@ -11,8 +11,9 @@ if(!$handle)
 	$guest = "<p>When you've connected to the IRC network, please use the command <kbd>/nick NICKNAME</kbd>.</p>";
 }
 
-$server = $self["server"];
-$channel = $self["channel"];
+$server = $selfsettings["server"];
+$channel = $selfsettings["channel"];
+$port = $selfsettings["port"];
 if(isset($_GET['connect']))
 {
 
@@ -26,7 +27,7 @@ if(isset($_GET['connect']))
 		<param name=\"alternatenick\" value=\"{0}_??\">
 		<param name=\"fullname\" value=\"ABXD IRC User\">
 		<param name=\"host\" value=\"{1}\">
-		<param name=\"port\" value=\"6667\">
+		<param name=\"port\" value=\"{3}\">
 		<param name=\"gui\" value=\"pixx\">
 		<param name=\"authorizedcommandlist\" value=\"all-server-s\">
 
@@ -49,7 +50,7 @@ if(isset($_GET['connect']))
 
 		</applet>
 	</div>
-", $handle, $server, $channel);
+", $handle, $server, $channel, $port);
 }
 else
 {
@@ -57,7 +58,7 @@ else
 	<div class=\"faq outline margin\" style=\"width: 75%; margin: 2em auto; padding: 2em; text-align: center;\">
 		<h3>IRC chat</h3><br />We advice you to get a real IRC client such as <strong>XChat</strong> (or <strong>XChat-WDK</strong> if you are using Windows).<br />If you don't want to get a real IRC client, you can use the client on the board.
 		<p>
-			<strong>Server:</strong> {1}<br />
+			<strong>Server:</strong> {1}:{4}<br />
 			<strong>Channel:</strong> {2}<br />
 			<strong>Nickname:</strong> {0}
 		</p>
@@ -66,7 +67,7 @@ else
 		</p>
 		{3}
 	</div>
-", $handle, $server, $channel, $guest);
+", $handle, $server, $channel, $guest, $port);
 }
 
 ?>

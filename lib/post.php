@@ -444,7 +444,7 @@ $sideBarData = 0;
 //		* metatext: if non-empty, this text is displayed in the metabar instead of 'Sample post' (POST_SAMPLE only)
 function MakePost($post, $type, $params=array())
 {
-	global $loguser, $loguserid, $dateformat, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
 	
 	$sideBarStuff = "";
 	
@@ -457,7 +457,7 @@ function MakePost($post, $type, $params=array())
 
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
-		$meta = format(__("Posted on {0}"), cdate($dateformat,$post['date']));
+		$meta = format(__("Posted on {0}"), formatdate($post['date']));
 		$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
 		if(CanMod($loguserid,$params['fid']))
 		{
@@ -540,7 +540,7 @@ function MakePost($post, $type, $params=array())
 			}
 		}
 
-		$meta = format(__(($type == POST_PM) ? "Sent on {0}" : "Posted on {0}"), cdate($dateformat,$post['date']));
+		$meta = format(__(($type == POST_PM) ? "Sent on {0}" : "Posted on {0}"), formatdate($post['date']));
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
 			$meta .= " ".__("in")." ".actionLinkTag($post['threadname'], "thread", $post['thread']);
@@ -626,7 +626,7 @@ function MakePost($post, $type, $params=array())
 		"postnum" => $post['num'],
 		"postcount" => $post['posts'],
 		"numdays" => floor((time()-$post['regdate'])/86400),
-		"date" => cdate($dateformat,$post['date']),
+		"date" => formatdate($post['date']),
 		"rank" => GetRank($post2),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");

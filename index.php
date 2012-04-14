@@ -42,6 +42,7 @@ try {
 		if(array_key_exists($page, $pluginpages))
 		{
 			$self = $plugins[$pluginpages[$page]];
+			$selfsettings = Settings::$pluginsettings[$pluginpages[$page]];
 			$page = "./plugins/".$plugins[$pluginpages[$page]]['dir']."/page_".$page.".php";
 			if(!file_exists($page))
 				throw new Exception(404);
@@ -122,15 +123,14 @@ ob_end_clean();
 //=======================
 // Misc stuff
 
-$layout_time = cdate($dateformat);
+$layout_time = formatdatenow();
 $layout_onlineusers = getOnlineUsersText();
 $layout_birthdays = getBirthdaysText();
 $layout_views = __("Views:")." ".'<span id="viewCount">'.number_format($misc['views']).'</span>';
 
-$layout_title = htmlspecialchars($boardname);
+$layout_title = htmlspecialchars(Settings::get("boardname"));
 if($title != "")
 	$layout_title .= " &raquo; ".$title;
-
 
 
 //=======================
@@ -153,7 +153,8 @@ if(!file_exists($layout_themefile))
 //=======================
 // Print everything!
 
-require("layout.php");
+$layout = Settings::get("defaultLayout");
+require("layouts/$layout.php");
 
 
 ?>

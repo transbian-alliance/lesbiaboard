@@ -104,8 +104,6 @@ if($loguserid) //Are we logged in?
 			if(!$ajaxPage)
 				$qLastView = Query($rLastView);
 
-			$dateformat = $loguser['dateformat'].", ".$loguser['timeformat'];
-			
 			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
 			// SHA1 with a sufficiently long salt should be enough.
 			$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
@@ -121,8 +119,8 @@ if($wantGuest)
  	if(!$ajaxPage)
  		$rGuest = Query($qGuest);
 	
-	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>$defaultTheme, 
-		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>$noGuestLayouts,
+	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"), 
+		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>!Settings::get("guestLayouts"),
 		'token'=>hash('sha1', rand()));
 	$loguserid = 0;
 }

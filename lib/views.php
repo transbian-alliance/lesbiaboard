@@ -8,6 +8,7 @@ if(!$isBot)
 	$rViewCounter = Query($qViewCounter);
 	$misc['views']++;
 
+	$viewcountInterval = Settings::get("viewcountInterval");
 	//Milestone reporting
 	if($viewcountInterval > 0 && $misc['views'] > 0 && $misc['views'] % $viewcountInterval == 0)
 	{

@@ -164,7 +164,7 @@ if($toNextRank)
 $foo[__("Karma")] = $karma.$karmaLinks;
 $foo[__("Total posts")] = format("{0} ({1} per day)", $posts, $averagePosts);
 $foo[__("Total threads")] = format("{0} ({1} per day)", $threads, $averageThreads);
-$foo[__("Registered on")] = format("{0} ({1} ago)", cdate($dateformat, $user['regdate']), TimeUnits($daysKnown*86400));
+$foo[__("Registered on")] = format("{0} ({1} ago)", formatdate($user['regdate']), TimeUnits($daysKnown*86400));
 $foo[__("Score")] = $score;
 $foo[__("Browser")] = $user['lastknownbrowser'];
 if($loguser['powerlevel'] > 0)
@@ -381,7 +381,7 @@ write(
 	</table>
 ");
 
-$previewPost['text'] = $profilePreviewText;
+$previewPost['text'] = Settings::get("profilePreviewText");
 
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";

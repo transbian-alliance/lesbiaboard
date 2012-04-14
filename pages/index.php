@@ -34,7 +34,7 @@ if($loguserid && ($_GET['action'] == "markallread" || $_GET['action'] == "markas
 	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads".$where);
 	die(header('Location: index.php'));
 }
-if(!$noAjax)
+if(Settings::get("ajax"))
 	write(
 "
 	<script type=\"text/javascript\">
@@ -132,7 +132,7 @@ while($forum = Fetch($rFora))
 		$lastLink = "";
 		if($forum['lastpostid'])
 			$lastLink = actionLinkTag("&raquo;", "thread", 0, "pid=".$forum['lastpostid']."#".$forum['lastpostid']);
-		$lastLink = format("<span class=\"nom\">{0}<br />".__("by")." </span>{1} {2}", cdate($dateformat, $forum['lastpostdate']), UserLink($user), $lastLink);
+		$lastLink = format("<span class=\"nom\">{0}<br />".__("by")." </span>{1} {2}", formatdate($forum['lastpostdate']), UserLink($user), $lastLink);
 	}
 	else
 		$lastLink = "----";

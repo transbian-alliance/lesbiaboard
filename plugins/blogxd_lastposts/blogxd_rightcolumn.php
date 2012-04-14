@@ -1,7 +1,8 @@
 <?php
 
 
-$hours = 72;
+$hours = $selfsettings["hours"];
+$limit = $selfsettings["limit"];
 
 $qPosts = "select 
 	posts.id, posts.date, users.id as uid, users.name, users.displayname, users.powerlevel, users.sex, threads.title as ttit, forums.title as ftit
@@ -10,7 +11,7 @@ $qPosts = "select
 	left join threads on threads.id = posts.thread 
 	left join forums on threads.forum = forums.id
 	where forums.minpower <= ".$loguser['powerlevel']." and posts.date >= ".(time() - ($hours * 60*60))." 
-	order by date desc limit 0, 100";
+	order by date desc limit 0, $limit";
 
 $rPosts = Query($qPosts);
 while($post = Fetch($rPosts))

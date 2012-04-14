@@ -34,7 +34,7 @@ else if($_POST['action'] == __("Send reset email"))
 	$from = $mailResetFrom;
 	$to = $user['email'];
 	$subject = format(__("Password reset for {0}"), $user['name']);
-	$message = format(__("A password reset was requested for your user account on {0}."), $boardname)."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".$_SERVER['HTTP_REFERER']."?id=".$user['id']."&key=".$resetKey."\n\n".__("This link can be used once.");
+	$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".$_SERVER['HTTP_REFERER']."?id=".$user['id']."&key=".$resetKey."\n\n".__("This link can be used once.");
 	
 	$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP/".phpversion();
 	

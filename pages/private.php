@@ -153,7 +153,7 @@ if(NumRows($rPM))
 				{6}
 			</td>
 		</tr>
-",	$cellClass, $img, $pm['id'], $snoop, htmlspecialchars($pm['title']), $sender, cdate($dateformat,$pm['date']), $delLink);
+",	$cellClass, $img, $pm['id'], $snoop, htmlspecialchars($pm['title']), $sender, formatdate($pm['date']), $delLink);
 	}
 }
 else

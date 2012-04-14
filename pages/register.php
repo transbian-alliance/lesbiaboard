@@ -66,7 +66,7 @@ if(!isset($_POST['action']))
 			</tr>
 ", MakeOptions("sex",2,$sexes));
 
-	if($theWord != "")
+	if(Settings::get("registrationWord") != "")
 	{
 		write(
 "
@@ -151,7 +151,7 @@ elseif($_POST['action'] == __("Register"))
 //		$err = __("Another user is already using this IP address.").$backtomain;
 	else if(!$_POST['readFaq'])
 		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
-	else if($theWord != "" && strcasecmp($_POST['theWord'], $theWord))
+	else if(Settings::get("registrationWord") != "" && strcasecmp($_POST['theWord'], Settings::get("registrationWord")))
 		$err = format(__("That's not the right word. Are you sure you really {0}read the FAQ{1}?"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if(strlen($_POST['pass']) < 4)
 		$err = __("Your password must be at least four characters long.").$backtomain;
@@ -176,7 +176,7 @@ elseif($_POST['action'] == __("Register"))
 	$uid = FetchResult("SELECT id+1 FROM users WHERE (SELECT COUNT(*) FROM users u2 WHERE u2.id=users.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($uid < 1) $uid = 1;
 
-	$qUsers = "insert into users (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values (".$uid.", '".justEscape($_POST['name'])."', '".$sha."', '".$newsalt."', ".time().", ".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($_POST['email'])."', ".(int)$_POST['sex'].", '".justEscape($defaultTheme)."')";
+	$qUsers = "insert into users (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values (".$uid.", '".justEscape($_POST['name'])."', '".$sha."', '".$newsalt."', ".time().", ".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($_POST['email'])."', ".(int)$_POST['sex'].", '".justEscape(Settings::get("defaultTheme"))."')";
 	$rUsers = Query($qUsers);
 
 	if($uid == 1)
