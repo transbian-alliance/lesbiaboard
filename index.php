@@ -123,7 +123,7 @@ ob_end_clean();
 //=======================
 // Misc stuff
 
-$layout_time = cdate($dateformat);
+$layout_time = formatdatenow();
 $layout_onlineusers = getOnlineUsersText();
 $layout_birthdays = getBirthdaysText();
 $layout_views = __("Views:")." ".'<span id="viewCount">'.number_format($misc['views']).'</span>';
@@ -153,7 +153,8 @@ if(!file_exists($layout_themefile))
 //=======================
 // Print everything!
 
-require("layout.php");
+$layout = Settings::get("defaultLayout");
+require("layouts/$layout.php");
 
 
 ?>

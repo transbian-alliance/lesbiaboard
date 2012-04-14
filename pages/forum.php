@@ -31,14 +31,6 @@ if(NumRows($rCat))
 } else
 	Kill(__("Unknown category ID."));
 
-//Autolock system
-//TODO: Move it outa here ~Dirbaio
-if($autoLockMonths > 0)
-{
-	$locktime = time() - (2592000 * $autoLockMonths);
-	Query("UPDATE threads SET closed=1 WHERE forum=".$fid." AND closed=0 AND lastpostdate<".$locktime);
-}
-//</autolock>
 
 $isIgnored = FetchResult("select count(*) from ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
 if(isset($_GET['ignore']))
@@ -136,7 +128,7 @@ if(NumRows($rThreads))
 			$NewIcon .= "new";
 			$newstuff++;
 		}
-		else if(!$thread['closed'] && !$thread['sticky'] && $warnMonths > 0 && $thread['lastpostdate'] < time() - (2592000 * $warnMonths))
+		else if(!$thread['closed'] && !$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 			$NewIcon = "old";
 		
 		if($NewIcon)
@@ -209,7 +201,7 @@ if(NumRows($rThreads))
 				{$thread['views']}
 			</td>
 			<td class=\"smallFonts center\">
-				".cdate($dateformat,$thread['lastpostdate'])."<br />
+				".formatdate($thread['lastpostdate'])."<br />
 				".__("by")." ".UserLink($last)." {$lastLink}</td>
 		</tr>";
 	}

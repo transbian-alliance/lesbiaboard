@@ -70,7 +70,7 @@ write("
 	<p>
 		{1}
 	</p>
-", $title, cdate($dateformat), htmlspecialchars(Settings::get("boardname")));
+", $title, formatdatenow(), htmlspecialchars(Settings::get("boardname")));
 
 if($thread['poll'])
 {
@@ -210,7 +210,7 @@ if(NumRows($rPosts))
 	</p>
 ",	$text,
 	$post['name'],
-	cdate($dateformat, $post['date']),
+	formatdate($post['date']),
 	$post['id']
 	);
 	}

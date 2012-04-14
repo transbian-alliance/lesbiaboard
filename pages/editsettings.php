@@ -8,7 +8,7 @@ AssertForbidden("editSettings");
 
 if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to edit the board settings."));
-	
+
 $plugin = "main";
 if(isset($_GET["plugin"]))
 	$plugin = $_GET["plugin"];
@@ -76,6 +76,9 @@ foreach($settings as $name => $data)
 	$input = "[Bad setting type]";
 	
 	$value = htmlspecialchars($value);
+
+	if($type == "boolean")
+		$input = makeSelect($name, $value, array(1=>"Yes", 0=>"No"));
 	if($type == "integer")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" />";
 	if($type == "text")
@@ -86,6 +89,8 @@ foreach($settings as $name => $data)
 		$input = makeForumList($name, $value);
 	if($type == "theme")
 		$input = makeThemeList($name, $value);
+	if($type == "layout")
+		$input = makeLayoutList($name, $value);
 	
 	if($help)
 		$help = "<img src=\"img/icons/icon4.png\" title=\"$help\" alt=\"[!]\" />";
@@ -183,6 +188,20 @@ function makeThemeList($fieldname, $value)
 	}
 	closedir($dir);
 	return makeSelect($fieldname, $value, $themes);
+}
+
+function makeLayoutList($fieldname, $value)
+{
+	$layouts = array();
+	$dir = @opendir("layouts");
+	while ($file = readdir($dir)) {
+		if (endsWith($file, ".php")) {
+			$layout = substr($file, 0, strlen($file)-4);
+			$layouts[$layout] = @file_get_contents("./layouts/".$layout.".info.txt");
+		}
+	}
+	closedir($dir);
+	return makeSelect($fieldname, $value, $layouts);
 }
 
 //From the PHP Manual User Comments

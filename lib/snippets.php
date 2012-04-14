@@ -87,7 +87,7 @@ function TimeUnits($sec)
 
 function DoPrivateMessageBar()
 {
-	global $loguserid, $loguser, $dateformat;
+	global $loguserid, $loguser;
 
 	if($loguserid)
 	{
@@ -109,7 +109,7 @@ function DoPrivateMessageBar()
 			Plural($unread, format(__("new {0}private message"), "<a href=\"".actionLink("private")."\">")),
 			"</a>",
 			"<a href=\"".actionLink("showprivate", $last['id'])."\">",
-			UserLink($user), cdate($dateformat, $last['date']));
+			UserLink($user), formatdate($last['date']));
 		}
 		
 		if($loguser['newcomments'])
@@ -274,6 +274,7 @@ function Report($stuff, $hidden = 0, $severity = 0)
 	Query("delete from reports where time < ".(time() - (60*60*24*30)));
 }
 
+//TODO: This is used for notifications. We should replace this with the coming-soon notifications system ~Dirbaio
 function SendSystemPM($to, $message, $title)
 {
 	global $systemUser;
@@ -352,5 +353,36 @@ function makeThemeArrays() {
 function getUserKey()
 {
 	return hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
+}
+
+function getdateformat()
+{
+	global $loguserid, $loguser;
+	
+	if($loguserid)
+		return $loguser['dateformat'].", ".$loguser['timeformat'];
+	else
+		return Settings::get("dateformat");
+}
+
+function formatdate($date)
+{
+	return cdate(getdateformat(), $date);
+}
+function formatdatenow()
+{
+	return cdate(getdateformat());
+}
+
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    $start  = $length * -1; //negative
+    return (substr($haystack, $start) === $needle);
 }
 ?>

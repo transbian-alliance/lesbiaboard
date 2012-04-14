@@ -116,7 +116,7 @@ if(isset($_GET['install']))
 			if($item[4] > $misc['version'])
 				$extras[] = Int2Version($item[4]);
 			if($item[5])
-				$extras[] = cdate($dateformat, $item[5]);
+				$extras[] = formatdate($item[5]);
 			if(count($extras))
 				$line .= " &ndash; (".join($extras, ", ").")";
 

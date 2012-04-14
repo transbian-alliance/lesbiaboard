@@ -62,7 +62,7 @@ function getOnlineUsersText()
 	if(!isset($OnlineUsersFid))
 		$OnlineUsersFid = 0;
 		
-	if(!$noAjax)
+	if(Settings::get("ajax"))
 	{
 		$refreshCode = format(
 	"

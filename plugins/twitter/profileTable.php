@@ -14,7 +14,7 @@ if(getSetting("twitName", true) != "")
 		preg_match("/\<twitter:source\>(.*)\<\/twitter:source\>/", $feed, $matches4);
 
 		$content = html_entity_decode($matches2[1]);
-		$updateTime = cdate($dateformat, strtotime($matches3[1]));
+		$updateTime = formatdate(strtotime($matches3[1]));
 		$source = html_entity_decode($matches4[1]);
 
 		$result = $content." <small>(".$updateTime.", from ".$source.")</small>";

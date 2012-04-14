@@ -90,7 +90,7 @@ while($thread = Fetch($rThreads))
 	$rPosts = Query($qPosts);
 	$post = Fetch($rPosts);
 	
-	$postdate = cdate($dateformat,$post['date']);
+	$postdate = formatdate($post['date']);
 	$posttext = CleanUpPost($post['text'],$post['name'], false, false);
 
 	$comments = Plural($thread['replies'], "comment");

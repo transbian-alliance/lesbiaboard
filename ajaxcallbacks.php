@@ -178,7 +178,7 @@ elseif($action == "sr")	//Show Revision
 	(
 		"numposts" => $post['num'],
 		"numdays" => floor((time()-$post['regdate'])/86400),
-		"date" => cdate($dateformat,$post['date']),
+		"date" => formatdate($post['date']),
 		"rank" => GetRank($post),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");

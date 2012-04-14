@@ -36,7 +36,7 @@ while($post = Fetch($rPosts))
 			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
 		</td>
 	</tr>
-", $post['id'], cdate($dateformat,$post['date']), UserLink($post, "uid"), $post['ftit'], $post['ttit'], $c);
+", $post['id'], formatdate($post['date']), UserLink($post, "uid"), $post['ftit'], $post['ttit'], $c);
 }
 
 if($theList == "")

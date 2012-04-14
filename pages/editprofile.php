@@ -287,7 +287,7 @@ $layout = array(
 
 $bucket = "edituser"; include("lib/pluginloader.php");
 
-if($user['posts'] < $customTitleThreshold && $user['powerlevel'] < 1 && !$editUserMode)
+if($user['posts'] < Settings::get("customTitleThreshold") && $user['powerlevel'] < 1 && !$editUserMode)
 	unset($general['appearance']['items']['title']);
 if(!$editUserMode)
 {
