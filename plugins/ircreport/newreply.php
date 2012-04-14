@@ -8,3 +8,4 @@ ircReport("New reply by "
 	." "
 	.getServerURL()."?pid=".$pid
 	);
+	
