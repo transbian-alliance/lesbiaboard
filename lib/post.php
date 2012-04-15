@@ -641,23 +641,23 @@ function MakePost($post, $type, $params=array())
 	
 	$post['posts'] = $rankHax;
 	
-	$postText = $noBr ? $post['text'] : nl2br($post['text']);
+	$postText = ApplyTags(CleanUpPost($post['text'], $post['name'], $noSmilies, $noBr), $tags);
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
 	
 	if($post['postheader'] && !$isBlocked)
-		$postText = str_replace('$theme', $theme, $post['postheader']).$postText;
+		$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader'], $post['name'], $noSmilies, true), $tags));
 
 	if($post['signature'] && !$isBlocked)
 	{
 		if(!$post['signsep'])
-			$postText .= "<br />_________________________<br />";
+			$separator = "<br />_________________________<br />";
 		else
-			$postText .= "<br />";
+			$separator = "<br />";
 			
-		$postText .= $post['signature'];
+		$postFooter = ApplyTags(CleanUpPost($post['signature'], $post['name'], $noSmilies, true), $tags);
 	}
 	
-	$postText = ApplyTags(CleanUpPost($postText,$post['name'], $noSmilies, true), $tags);
+	//$postText = ApplyTags(CleanUpPost($postText,$post['name'], $noSmilies, true), $tags);
 
 	$postCode =
 "
@@ -685,7 +685,12 @@ function MakePost($post, $type, $params=array())
 				</td>
 				<td class=\"post {4}\" id=\"post_{13}\">
 
+					{9}
+					<!-- POST BEGIN -->
 					{10}
+					<!-- POST END -->
+					{12}
+					{11}
 
 				</td>
 			</tr>
@@ -695,7 +700,7 @@ function MakePost($post, $type, $params=array())
 	write($postCode,
 			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
 			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
-			null, $postText, null, null, $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
+			$postHeader, $postText, $postFooter, $separator, $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
 }
 
