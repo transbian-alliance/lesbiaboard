@@ -8,7 +8,7 @@ foreach($bases as $base)
 	$offers .= "
 	<tr class=\"cell$cellClass\">
 		<td>
-			<img src=\"plugins/layoutmaker/bases/".$base['name']."{0}.png\" />
+			<img src=\"plugins/layoutmaker/bases/".$base['name'].".png\" />
 		</td>
 		<td>
 		".actionLinkTag($base['title'], "layoutmaker2", $base['name'])."

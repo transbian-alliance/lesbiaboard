@@ -30,20 +30,20 @@ function actionLink($action, $id=0, $args="")
 
 function actionLinkTag($text, $action, $id=0, $args="")
 {
-	return '<a href="'.actionLink($action, $id, $args).'">'.$text.'</a>';
+	return '<a href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a>';
 }
 function actionLinkTagItem($text, $action, $id=0, $args="")
 {
-	return '<li><a href="'.actionLink($action, $id, $args).'">'.$text.'</a></li>';
+	return '<li><a href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a></li>';
 }
 
 function actionLinkTagConfirm($text, $prompt, $action, $id=0, $args="")
 {
-	return '<a onclick="if(!confirm(\''.$prompt.'\')) return false; " href="'.actionLink($action, $id, $args).'">'.$text.'</a>';
+	return '<a onclick="return confirm(\''.$prompt.'\'); " href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a>';
 }
 function actionLinkTagItemConfirm($text, $prompt, $action, $id=0, $args="")
 {
-	return '<li><a onclick="if(!confirm(\''.$prompt.'\')) return false; " href="'.actionLink($action, $id, $args).'">'.$text.'</a></li>';
+	return '<li><a onclick="return confirm(\''.$prompt.'\'); " href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a></li>';
 }
 
 function resourceLink($what)
