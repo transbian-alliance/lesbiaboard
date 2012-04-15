@@ -24,7 +24,10 @@ body
 
 #header * tr.cell1, #header * tr.cell2
 {
-	background: rgba(0, 0, 0, 0.7) url(back2t1.png) repeat-x;
+	background-image: url(headerdark.png);
+	background-attachment: fixed;
+	background-position: top left;
+	background-repeat:repeat;
 }
 
 h3
@@ -53,21 +56,6 @@ a:hover
 	color:#ffd8ae;
 }
 
-.outline
-{
-		border-radius: 4px;
-}
-
-.margin
-{
-	margin-bottom: 4px;
-}
-
-
-table.post
-{
-	background: rgba(61, 10, 0, 0.7);
-}
 table.post td.post
 {
        background: #222 url(post.png);
@@ -76,19 +64,28 @@ table.post td.post
 }
 
 
-.cell0
+.cell0, table.post
 {
-	background: rgba(100, 20, 0, 0.7) url(back2t1.png) repeat-x;
+       background-image: url(back2t1.png), url(cell0.png);
+       background-attachment: scroll, fixed;
+       background-position: top left, top left;
+       background-repeat: repeat-x, repeat;
 }
 
 .cell1
 {
-	background: rgba(70, 10, 0, 0.7) url(back2t1.png) repeat-x;
+       background-image: url(back2t1.png), url(cell1.png);
+       background-attachment: scroll, fixed;
+       background-position: top left, top left;
+       background-repeat: repeat-x, repeat;
 }
 
 .cell2
 {
-	background: rgba(119, 20, 0, 0.7) url(back2t1.png) repeat-x;
+       background-image: url(back2t1.png), url(cell2.png);
+       background-attachment: scroll, fixed;
+       background-position: top left, top left;
+       background-repeat: repeat-x, repeat;
 }
 
 .header0 th
