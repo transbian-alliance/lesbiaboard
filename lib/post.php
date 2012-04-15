@@ -603,7 +603,7 @@ function MakePost($post, $type, $params=array())
 		$isBlocked = 1;
 	}
 
-	if($post['lastactivity'] > time() - 3600)
+	if($post['lastactivity'] > time() - 300)
 		$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
 
 	if($type == POST_NORMAL)
