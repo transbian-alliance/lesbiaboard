@@ -4,8 +4,7 @@
 $ajaxPage = true;
 
 $loguser['blocklayouts'] = 0; //force layouts to show up
-
-$base = $_GET['id'];
+$base = $_POST['base'];
 
 if(!isset($base) || strpos($base, ".") !== FALSE)
 	Kill("Invalid base layout.");
@@ -31,7 +30,7 @@ $previewPost['signature'] = trim(ApplyParameters($markupTemplateB));
 MakePost($previewPost, POST_SAMPLE);
 
 write("
-<form action=\"layoutmaker.php\" method=\"post\">
+<form action=\"".actionLink("layoutmakerinstall")."\" method=\"post\">
 <table class=\"width100\">
 	<tr class=\"header1\">
 		<th colspan=\"2\">
