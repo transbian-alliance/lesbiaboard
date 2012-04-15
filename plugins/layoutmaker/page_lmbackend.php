@@ -69,7 +69,7 @@ if($loguserid)
 	write("
 	<tr>
 		<td class=\"cell2\" colspan=\"2\">
-			<input type=\"submit\" name=\"action\" value=\"Install\" />
+			<input type=\"submit\" onclick=\"return confirm('This will completely overwrite your old layout. Are you sure?');\" name=\"action\" value=\"Install\" />
 		</td>
 	</tr>
 ");
