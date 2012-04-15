@@ -131,7 +131,8 @@ if($pagelinks)
 write('</td><td style="border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;">');
 ?>
 <table class='outline margin width100'>
-<tr class='cell1'><td style='border: 1px solid #000; padding:16px' colspan='2'>
+<tr class="header0"><th>&nbsp;</th></tr>
+<tr class='cell1'><td style='padding:16px' colspan='2'>
 <?php echo CleanUpPost($selfsettings["righttext"]);?>
 </td></tr></table>
 <?php
