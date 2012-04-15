@@ -27,10 +27,15 @@ function insError($text) {
 	print "Starting ABXD installation.<br />";
 	print "Writing database configuration file&hellip;<br />";
 	
-	$dbserv = $_POST['dbserv'];
-	$dbuser = $_POST['dbuser'];
-	$dbpass = $_POST['dbpass'];
-	$dbname = $_POST['dbname'];
+	if(isset($_POST['dbserv']))
+	{
+		$dbserv = $_POST['dbserv'];
+		$dbuser = $_POST['dbuser'];
+		$dbpass = $_POST['dbpass'];
+		$dbname = $_POST['dbname'];
+	}
+	else
+		include("lib/database.php");
 	
 	@mysql_connect($dbserv, $dbuser, $dbpass)
 		or insError(

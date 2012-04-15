@@ -1,11 +1,7 @@
-table.outline
-{
-	border: 0px none;
-}
+@import url('../../css/roundcorners.css');
 
 .faq
 {
-	border: 1px solid #000;
 	background: #05012E;
 }
 
@@ -21,11 +17,6 @@ body
 	background-repeat: repeat-x, repeat;
 	background-attachment:fixed, fixed;
 	background-position:left bottom, left bottom;
-}
-
-.header0, .header1
-{
-	border: 1px solid #000;
 }
 
 .header0 th
@@ -57,78 +48,11 @@ body
 .errort
 {
 	background: rgba(32, 8, 0, 0.85);
-	border: 1px solid #000;
 }
 
 .errorc
 {
 	background: rgba(56, 16, 8, 0.85);
-	border: 1px solid #000;
-	border-top: 0px;
-}
-
-table
-{
-}
-
-td, th
-{
-	border: 1px solid #000;
-}
-
-table.outline tr:first-child th:last-child
-{
-	border-right: 1px solid #000;
-}
-
-table.outline tr:first-child th
-{
-	border-top: 1px solid #000;
-}
-
-table.outline td
-{
-	border-left: 0px none;
-	border-top: 0px none;
-}
-
-table.outline th
-{
-	border-bottom: 1px solid #000;
-}
-
-table.outline tr td:first-child, table.outline tr th:first-child
-{
-	border-left: 1px solid #000;
-}
-
-table.post
-{
-	border: 0px none;
-	background: none;
-}
-
-table.post td.side
-{
-	border-left: 1px solid #000;
-	border-bottom: 1px solid #000;
-}
-
-table.post td.userlink
-{
-	border-top: 1px solid #000;
-	border-bottom: 0px none;
-}
-
-table.post td.meta
-{
-	border-top: 1px solid #000;
-	border-right: 1px solid #000;
-}
-
-table.post td.post
-{
-	border: 1px solid #000;
 }
 
 button, input[type="submit"]

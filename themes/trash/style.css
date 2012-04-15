@@ -2,14 +2,9 @@
 
 /* AcmlmBoard XD - TRaSH theme */
 
-table.outline
-{
-	border: 0px none;
-}
-
 .faq
 {
-	border: 1px solid #000212;
+	border-color: #000212;
 	background: #05012E;
 }
 
@@ -20,7 +15,7 @@ body
 
 .header0, .header1
 {
-	border: 1px solid #000212;
+	border-color: #000212;
 }
 
 .header0 th
@@ -52,78 +47,25 @@ body
 .errort
 {
 	background: rgba(0, 49, 100, 0.85);
-	border: 1px solid #000212;
+	border-color: #000212;
 }
 
 .errorc
 {
 	background: rgba(0, 28, 56, 0.85);
-	border: 1px solid #000212;
-	border-top: 0px;
+	border-color: #000212;
 }
 
-table
-{
-}
 
 td, th
 {
-	border: 1px solid #000212;
+	border-color: #000212;
 }
 
-table.outline tr:first-child th:last-child
-{
-	border-right: 1px solid #000212;
-}
-
-table.outline tr:first-child th
-{
-	border-top: 1px solid #000212;
-}
-
-table.outline td
-{
-	border-left: 0px none;
-	border-top: 0px none;
-}
-
-table.outline th
-{
-	border-bottom: 1px solid #000212;
-}
-
-table.outline tr td:first-child, table.outline tr th:first-child
-{
-	border-left: 1px solid #000212;
-}
-
-table.post
-{
-	border: 0px none;
-	background: none;
-}
-
-table.post td.side
-{
-	border-left: 1px solid #000212;
-	border-bottom: 1px solid #000212;
-}
-
-table.post td.userlink
-{
-	border-top: 1px solid #000212;
-	border-bottom: 0px none;
-}
-
-table.post td.meta
-{
-	border-top: 1px solid #000212;
-	border-right: 1px solid #000212;
-}
 
 table.post td.post
 {
-	border: 1px solid #000212;
+	border-color: #000212;
 }
 
 button, input[type="submit"]

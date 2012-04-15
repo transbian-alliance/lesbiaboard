@@ -1,5 +1,4 @@
 /* AcmlmBoard XD - Shared elements */
-@import url('roundcorners.css');
 
 body
 {
@@ -137,13 +136,22 @@ a:hover span
 table
 {
 	color: #FFF;
-	
+		
 	border-collapse: separate;
 	border-spacing:0;
-	border-width:1px 0px 0px 1px;
-
 	width: 100%;
 	font-weight: normal;
+}
+
+table.post, table.outline, table.message
+{
+	border-width:1px 0px 0px 1px;
+	border-style:solid;
+}
+
+table#header
+{
+	border-right-width:0;
 }
 
 /* All cells have border by default */
@@ -160,6 +168,11 @@ th
 	border-style:solid;
 	font-size: 1em; /* 12px; */
 	text-align: left;
+}
+
+th:last-child {
+	border-width: 0px 1px 1px 0px;
+	border-style:solid;
 }
 
 .header0 th
@@ -186,15 +199,14 @@ table.post td.side
 {
 	width: 15%;
 	vertical-align: top;
-	border-width: 0;
-	border-left-width: 1px;
-	border-bottom-width:1px;
+	border-width: 0px 1px 1px 0px;
+
 	padding: 0px 4px 4px;
 }
 
 table.post td.post
 {
-	border-width:1px; border-style:solid;
+	border-width: 0px 1px 1px 0px;
 	vertical-align: top;
 	height: 100px;
 }
@@ -209,9 +221,7 @@ table.post td.meta
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0;
-	border-top-width: 1px;
-	border-right-width: 1px;
+	border-width: 0px 1px 1px 0px;
 	padding-right: 4px;
 }
 table.post td.links
@@ -219,13 +229,12 @@ table.post td.links
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0;
+	border-width: 0px 1px 1px 0px;
 }
 
 table.post td.userlink
 {
-	border-top-width: 1px;
-	border-bottom-width: 0;
+	border-width: 0px 0px 0px 0px;
 }
 
 /* Message tables */

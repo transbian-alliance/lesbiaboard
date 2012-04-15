@@ -1,4 +1,9 @@
 
+table.post 
+{
+	border-radius: 8px;
+}
+
 table.post td.side
 {
 	border-bottom-left-radius: 8px;

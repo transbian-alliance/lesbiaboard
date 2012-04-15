@@ -63,37 +63,18 @@ a:hover
 	margin-bottom: 4px;
 }
 
-table
-{
-	color: white;
-	border-collapse: collapse;
-	width: 100%;
-	font-weight: normal;
-}
 
 table.post
 {
-	width: 100%;
 	background: rgba(61, 10, 0, 0.7);
-	border: 1px solid #000;
 }
-
-table.post td.side
-{
-	width: 15%;
-	vertical-align: top;
-	border: 0px none;
-}
-
 table.post td.post
 {
-	background: #222 url(post.png);
-	background-attachment: fixed;
-	background-position: top left;
-	border: 1px solid #000;
-	vertical-align: top;
-	height: 100px;
+       background: #222 url(post.png);
+       background-attachment: fixed;
+       background-position: top left;
 }
+
 
 .cell0
 {
@@ -115,11 +96,7 @@ table.post td.post
 	background: #811000 url(header1.png);
 	background-attachment: fixed;
 	background-position: top left;
-	text-align: center;
 	color: #EEE;
-	font-size: 8pt;
-	border-top: 0px none;
-	border-bottom: 0px none;
 }
 
 .header1 th
@@ -127,10 +104,7 @@ table.post td.post
 	background: #994400 url(header2.png);
 	background-attachment: fixed;
 	background-position: top left;
-	text-align: center;
-	font-size: 8pt;
 	color: #DDD;
-	border: 0px none #000;
 }
 
 .faq
@@ -138,12 +112,11 @@ table.post td.post
 	background: #222 url(post.png);
 	background-attachment: fixed;
 	background-position: top left;
-	padding: 4px;
 }
 
 td.post .codeblock
 {
-	border: 1px solid #c30;
+	border-color: #c30;
 	background: #000 url(back.png);
 	background-attachment: fixed;
 	background-position: top left;
@@ -154,15 +127,12 @@ td.post .codeblock
 	background: #811000 url(header1.png);
 	background-attachment: fixed;
 	background-position: top left;
-	border: 1px solid #000;
 }
 
 .errorc
 {
 	text-align: center;
 	color: #EEE;
-	border: 1px solid #000;
-	border-top: 0px;
 }
 
 div#tabs

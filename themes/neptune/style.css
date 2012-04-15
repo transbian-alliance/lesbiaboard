@@ -13,8 +13,8 @@ body
 #header, #header tr, #header tr td
 {
 	background: rgba(0, 0, 0, .25);
-		box-shadow: none;
-	border: 2px outset rgba(0, 255, 255, .5);
+	box-shadow: none;
+	border-color: rgba(0, 255, 255, .5);
 }
 
 #header .cell0
@@ -29,7 +29,10 @@ body
 
 a, a span
 {
-	text-shadow: -1px -1px 2px rgba(0, 0, 0, .5), 1px -1px 2px rgba(0, 0, 0, .5), 1px 1px 2px rgba(0, 0, 0, .5), -1px 1px 2px rgba(0, 0, 0, .5);
+	text-shadow: -1px -1px 2px rgba(0, 0, 0, .5), 
+				  1px -1px 2px rgba(0, 0, 0, .5), 
+				  1px 1px 2px rgba(0, 0, 0, .5), 
+				  -1px 1px 2px rgba(0, 0, 0, .5);
 }
 
 a:link
@@ -52,26 +55,19 @@ a:hover, a:hover span, #header  a:hover, #header a:hover span
 	color: aliceblue !important;
 }
 
-.outline
-{
-	}
-
 .cell0
 {
 	background: rgba(0, 0, 255, .25);
-	padding: 2px 4px;
 }
 
 .cell1
 {
 	background: rgba(0, 0, 0, .25);
-	padding: 2px 4px;
 }
 
 .cell2
 {
 	background: rgba(0, 255, 255, .125);
-	padding: 2px 4px;
 }
 
 .header0 th
@@ -126,9 +122,9 @@ a:hover, a:hover span, #header  a:hover, #header a:hover span
 	background: rgba(0, 0, 0, .25);
 }
 
-td
+td, tr
 {
-	border: 2px groove rgba(0, 0, 0, .5);
+	border-color:#088;
 }
 
 table
@@ -136,83 +132,35 @@ table
 	color: aliceblue;
 }
 
-table.outline
-{
-	border: 2px outset rgba(0, 255, 255, .5);
-}
-
-table.outline tr:first-child th:last-child
-{
-	border-right: 1px outset rgba(0, 0, 0, .5);
-}
-
-table.outline tr:first-child th
-{
-	border-top: 1px outset rgba(0, 0, 0, .5);
-}
-
-table.outline th
-{
-	border-bottom: 1px outset rgba(0, 0, 0, .5);
-}
-
-table.outline tr td:first-child, table.outline tr th:first-child
-{
-	border-left: 1px outset rgba(0, 0, 0, .5);
-}
-
 table.post
 {
-	width: 100%;
-	border: 2px outset rgba(0, 255, 255, .5);
 	background: rgba(255, 255, 255, .125);
+	border-color: rgba(0, 0, 0, .5);
+}
+
+table.post td
+{
+	border-color: rgba(0, 0, 0, .5);
 }
 
 table.post td.side
 {
-	font-family: "Helvetica", "Arial", sans-serif;
-	width: 15%;
-	vertical-align: top;
 	background: rgba(0, 255, 255, .25);
-	border: 0px none;
 }
 
 table.post td.post
 {
 	background: rgba(0, 0, 255, .125);
-	border: 2px groove rgba(0, 0, 0, .5);
-	border-bottom: 0px none;
-	border-right: 0px none;
-	vertical-align: top;
-	padding: 2px 4px;
-	height: 100px;
-}
-
-table.post td.post td
-{
-	border: 0px none;
 }
 
 table.post td.meta
 {
-	font-family: "Helvetica", "Arial", sans-serif;
-	font-size: .9em;
-	height: 10px;
-	margin: 0px;
-	border: 0px none;
 	background: rgba(0, 255, 255, .25);
-}
-
-table.post td.links
-{
-	margin: 0px;
-	border: 0px none;
 }
 
 .faq
 {
 	background: rgba(0, 0, 255, .5);
-	border: 2px outset rgba(0, 255, 255, .5);
 }
 
 h3
@@ -220,16 +168,12 @@ h3
 	border: 0px none;
 }
 
-td.post code.Code, .geshi
+.codeblock
 {
 	background: rgba(0, 0, 0, .5);
 	border: 2px inset rgba(0, 0, 0, .5);
 }
 
-#header .smallFonts
-{
-	padding: 2px;
-}
 
 ul.pipemenu li
 {
