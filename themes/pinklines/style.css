@@ -15,7 +15,7 @@ table.outline
 
 .faq
 {
-	border-color: hsl(0, 0%, 25%);
+	border: 1px solid hsl(0, 0%, 25%);
 	background: hsl(0, 0%, 10%);
 }
 

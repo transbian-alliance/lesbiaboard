@@ -64,7 +64,7 @@ table.post
 {
 	width: 100%;
 	background: #303678;
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 table.post td.side
@@ -77,7 +77,7 @@ table.post td.side
 table.post td.post
 {
 	background: #222 url(back2g.png);
-	border-color: #000;
+	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
 }
@@ -118,12 +118,12 @@ table.post td.post
 
 .header0
 {
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 .header1
 {
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 .faq
@@ -141,27 +141,27 @@ td.post .codeblock
 .errort
 {
 	background:  #4E5174 url(backh.png) repeat-x;
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 .errorc
 {
 	text-align: center;
 	color: #EEE;
-	border-color: #000;
+	border: 1px solid #000;
 	border-top: 0px;
 }
 
 button
 {
-	border-color: #669;
+	border: 1px solid #669;
 	background: #335;
 	color: #FFF;
 }
 
 button, input[type="submit"]
 {
-	border-color: #000212;
+	border: 1px solid #000212;
 	background: rgba(0, 49, 100, 0.85);
 	color: #EEEEEE;
 }
@@ -169,14 +169,14 @@ button, input[type="submit"]
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: rgba(0, 13, 34, 0.90);
-	border-color: #000212;
+	border: 1px solid #000212;
 	color: white;
 }
 
 input[type="checkbox"], input[type="radio"]
 {
 	background: rgba(0, 13, 34, 0.90);
-	border-color: #000212;
+	border: 1px solid #000212;
 	color: #B7E6FF;
 }
 

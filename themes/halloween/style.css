@@ -25,7 +25,7 @@ table.outline
 
 .faq
 {
-	border-color: #000000;
+	border: 1px solid #000000;
 	background: #331111;
 }
 
@@ -36,7 +36,7 @@ body
 
 .header0, .header1
 {
-	border-color: #000000;
+	border: 1px solid #000000;
 }
 
 .header0 th
@@ -62,19 +62,19 @@ body
 .errort
 {
 	background: #332211;
-	border-color: #000000;
+	border: 1px solid #000000;
 }
 
 .errorc
 {
 	background: #221111;
-	border-color: #000000;
+	border: 1px solid #000000;
 	border-top: 0px;
 }
 
 td, th
 {
-	border-color: #000000;
+	border: 1px solid #000000;
 }
 
 table.outline tr:first-child th:last-child
@@ -128,12 +128,12 @@ table.post td.meta
 
 table.post td.post
 {
-	border-color: #000000;
+	border: 1px solid #000000;
 }
 
 button, input[type="submit"]
 {
-	border-color: #996633;
+	border: 1px solid #996633;
 	background: #000000;
 	color: #FFF;
 }
@@ -141,14 +141,14 @@ button, input[type="submit"]
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #000000;
-	border-color: #996633;
+	border: 1px solid #996633;
 	color: white;
 }
 
 input[type="checkbox"], input[type="radio"]
 {
 	background: #000000;
-	border-color: #996633;
+	border: 1px solid #996633;
 	color: white;
 }
 

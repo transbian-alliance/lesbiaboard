@@ -19,7 +19,7 @@ h3
 
 a
 {
-}
+	}
 
 a:link
 {
@@ -48,6 +48,7 @@ table
 th
 {
 	background-color: #383838;
+	border-color: #6B6B6B;
 }
 
 table.post
@@ -79,6 +80,7 @@ table.post td.post
 .header0 th
 {
 	background: #002525 url(header0.svg);
+	border: 1px solid #000;
 }
 
 .header1 th
@@ -105,7 +107,7 @@ td.post code.Code
 {
 	text-align: center;
 	color: #AEE;
-	border-color: #000;
+	border: 1px solid #000;
 	border-top: 0px;
 }
 
@@ -159,7 +161,7 @@ td.post code.Code
 
 button, input[type="submit"]
 {
-	border-color: #002020;
+	border: 1px solid #002020;
 	background: #000;
 	background-image: url(generic.svg);
 	color: #FFF;
@@ -173,7 +175,7 @@ button:hover, input[type="submit"]:hover {
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #000;
-	border-color: #288;
+	border: 1px solid #288;
 	color: white;
 }
 
@@ -192,7 +194,7 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 
 .pollbarContainer
 {
-	border-color: #288;
+	border: 1px solid #288;
 	border-radius: 0px;
 	padding: 0px;
 	background: #222 url(generic_gloss.svg);
@@ -207,24 +209,61 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 .post_about
 {
 	background: url(cell2.svg);
-	border-color: #288;
+	border: 1px solid #288;
 }
 
 .post_topbar
 {
 	background: url(cell0.svg);
-	border-color: #288;
+	border: 1px solid #288;
 }
 
 .post_content
 {
 	background: url(cell0.svg);
-	border-color: #288;
+	border: 1px solid #288;
 }
 
+table.outline
+{
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: none;
+}
+
+table.outline tr:first-child th:last-child
+{
+	border-right: 1px solid black;
+}
+
+table.outline tr:first-child th
+{
+	border-top: 1px solid black;
+}
+
+table.outline td
+{
+	border-left: 0px none;
+	border-top: 0px none;
+}
+
+table.outline th
+{
+	border-bottom: 1px solid black;
+}
+
+table.outline tr td:first-child, table.outline tr th:first-child
+{
+	border-left: 1px solid black;
+}
+
+.header0 th
+{
+	border: 0px none;
+}
 
 div#tabs button {
-	border-color: #288;
+	border: 1px solid #288;
 	border-radius: 8px 8px 0px 0px;
 	background-image: url(generic_gloss.svg);
 	-o-transition: 0.2s linear;
@@ -235,7 +274,7 @@ div#tabs button.selected
 {
 	border-bottom: 1px solid #000;
 	background-color: #0FF;
-	border-color: transparent;
+	border: 1px solid transparent;
 	position: relative;
 	text-shadow: 1px 1px 5px #000;
 	z-index: 100;

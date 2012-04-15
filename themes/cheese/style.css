@@ -17,7 +17,7 @@ table.outline
 
 .faq
 {
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 	background: #05012E;
 }
 
@@ -28,7 +28,7 @@ body
 
 .header0, .header1
 {
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 }
 
 .header0 th
@@ -54,13 +54,13 @@ body
 .errort
 {
 	background: #0F4687;
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 }
 
 .errorc
 {
 	background: #05012E;
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 	border-top: 0px;
 }
 
@@ -70,7 +70,7 @@ table
 
 td, th
 {
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 }
 
 table.outline tr:first-child th:last-child
@@ -124,12 +124,12 @@ table.post td.meta
 
 table.post td.post
 {
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 }
 
 button, input[type="submit"]
 {
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 	background: #05012E;
 	color: #FFF;
 }
@@ -137,14 +137,14 @@ button, input[type="submit"]
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #05012E;
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 	color: white;
 }
 
 input[type="checkbox"], input[type="radio"]
 {
 	background: #05012E;
-	border-color: #1F6FA5;
+	border: 1px solid #1F6FA5;
 	color: white;
 }
 

@@ -7,7 +7,7 @@ body
 
 td, th, .header0, .header1, #body table, #body .faq
 {
-	border-color: #8677E7;
+	border: 1px solid #8677E7;
 }
 
 .header0 th
@@ -103,7 +103,7 @@ div#tabs
 div#tabs button
 {
 	background: #5344B4;
-	border-color: #8677E7;
+	border: 1px solid #8677E7;
 	padding-right: 16px;
 	color: #FFF;
 }

@@ -109,7 +109,7 @@ div.header0, div.header1
 
 td, th
 {
-	border-color: black;
+	border: 1px solid black;
 }
 
 table.outline
@@ -161,7 +161,7 @@ table.post td.side
 table.post td.post
 {
 	background: rgba(255, 128, 0, .25);
-	border-color: black;
+	border: 1px solid black;
 	border-bottom: 0px none;
 	border-right: 0px none;
 	vertical-align: top;
@@ -204,7 +204,7 @@ h3
 td.post code.Code, .geshi
 {
 	background: rgba(0, 0, 255, .5);
-	border-color: black;
+	border: 1px solid black;
 }
 
 ul.pipemenu a
@@ -226,17 +226,17 @@ ul.pipemenu li
 
 .swfmain
 {
-	border-color: black;
+	border: 1px solid black;
 }
 
 button.expander
 {
-	border-color: white;
+	border: 1px solid white;
 }
 
 .pollbarContainer
 {
-	border-color: white;
+	border: 1px solid white;
 	box-shadow: 0px 0px 8px white;
 }
 
@@ -247,7 +247,7 @@ button.expander
 
 button, input[type="submit"]
 {
-	border-color: white;
+	border: 1px solid white;
 	background: black;
 	padding: 2px 16px;
 	color: white;
@@ -255,7 +255,7 @@ button, input[type="submit"]
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
-	border-color: white;
+	border: 1px solid white;
 	background: black;
 	color: white;
 }
@@ -273,7 +273,7 @@ div#tabs
 
 div#tabs button
 {
-	border-color: white;
+	border: 1px solid white;
 	background: rgba(0, 0, 255, .5);
 	padding: 12px 16px;
 	font-weight: bold;

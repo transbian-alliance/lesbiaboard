@@ -98,7 +98,7 @@ td.post code.Code
 {
 	text-align: center;
 	color: #FFF;
-	border-color: #000;
+	border: 1px solid #000;
 	border-top: 0px;
 	background: #11112B;
 }
@@ -151,13 +151,13 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	background: #000;
 	border-radius: 2px;
 	box-shadow: inset 0px -5px 5px #222;
-	border-color: #00A;
+	border: 1px solid #00A;
 	color: white;
 }
 
 input[type="submit"], button
 {
-	border-color: #00A;
+	border: 1px solid #00A;
 	background: #000;
 	color: #FFF;
 	border-radius: 2px;
@@ -166,6 +166,6 @@ input[type="submit"], button
 
 .pollbarContainer
 {
-	border-color: #000;
+	border: 1px solid #000;
 }
 

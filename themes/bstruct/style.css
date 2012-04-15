@@ -80,7 +80,7 @@ th
 	background: #444;
 	font-size: 1em; /* 12px; */
 	text-shadow: #000 1px 1px 2px, #000 -1px -1px 2px;
-	border-color: #000;
+	border: 1px solid #000;
 	text-align: left;
 }
 
@@ -88,7 +88,7 @@ table.post
 {
 	width: 100%;
 	background: #303030;
-	border-color: #000;
+	border: 1px solid #000;
 	box-shadow: none;
 }
 
@@ -102,7 +102,7 @@ table.post td.side
 table.post td.post
 {
 	background: rgba(62, 62, 62, 0.4) url(back_f.png) repeat-x;
-	border-color: #000;
+	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
 }
@@ -214,12 +214,12 @@ table.post td.links
 
 .header0
 {
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 .header1
 {
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 table.breadcrumbs, table.breadcrumbs td
@@ -265,14 +265,14 @@ form
 .errort
 {
 	background:  #001132 url(head_bg.png) repeat-x;
-	border-color: #000;
+	border: 1px solid #000;
 }
 
 .errorc
 {
 	text-align: center;
 	color: #EEE;
-	border-color: #000;
+	border: 1px solid #000;
 	border-top: 0px;
 }
 
@@ -448,7 +448,7 @@ table.post td.post
 
 .pollbarContainer
 {
-	border-color: rgba(16,16,16,0.2);
+	border: 1px solid rgba(16,16,16,0.2);
 }
 
 div#tabs
@@ -460,7 +460,7 @@ div#tabs
 
 div#tabs button
 {
-	border-color: #000;
+	border: 1px solid #000;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 32px;
 	padding-right: 16px;

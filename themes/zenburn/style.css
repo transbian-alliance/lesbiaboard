@@ -83,14 +83,14 @@ td.post code.Code
 input, select, textarea
 {
 	background: rgb(20,20,20);
-	border-color: rgb(32,32,32);
+	border: 1px solid rgb(32,32,32);
 	color: rgb(204,204,142);
 	font-family: "Century Schoolbook", "Times New Roman", serif;
 }
 
 input[type="submit"], button
 {
-	border-color: rgb(32,32,32);
+	border: 1px solid rgb(32,32,32);
 	background: rgb(64,64,64);
 	color: rgb(204,204,142);
 	border-radius: 4px;
@@ -148,7 +148,7 @@ input[type="submit"]:hover, button:hover
 
 .pollbarContainer
 {
-	border-color: rgb(31,31,31);
+	border: 1px solid rgb(31,31,31);
 	background: rgb(20,20,20);
 	box-shadow: none;
 	border-radius: 0px;
