@@ -83,7 +83,7 @@ a:active
 
 .header0, .header1
 {
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 }
 
 div.header0, div.header1
@@ -97,7 +97,7 @@ div.header0, div.header1
 	background-image: -o-linear-gradient(rgb(16, 96, 128), rgb(32, 144, 208));
 	background-image: -moz-linear-gradient(center top, rgb(16, 96, 128) 0%, rgb(32, 144, 208) 100%);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(16, 96, 128)), color-stop(1, rgb(32, 144, 208)));
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 	color: white;
 	font-family: "Helvetica", "Arial", sans-serif;
 	font-size: 1.2em;
@@ -107,19 +107,19 @@ div.header0, div.header1
 .errorc
 {
 	color: white;
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 	border-top: 0px;
 	background: rgb(64, 64, 64);
 }
 
 td, th
 {
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 }
 
 table.outline
 {
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 }
 
 table.outline tr:first-child th:last-child
@@ -145,7 +145,7 @@ table.outline tr td:first-child, table.outline tr th:first-child
 table.post
 {
 	width: 100%;
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 	background: rgba(240, 248, 255, .05);
 }
 
@@ -161,7 +161,7 @@ table.post td.side
 table.post td.post
 {
 	background: rgba(240, 248, 255, .05);
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 	border-bottom: 0px none;
 	border-right: 0px none;
 	vertical-align: top;
@@ -193,7 +193,7 @@ table.post td.links
 .faq
 {
 	background: rgb(64, 64, 64);
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 }
 
 h3
@@ -204,7 +204,7 @@ h3
 td.post code.Code, .geshi
 {
 	background: rgb(64, 64, 64);
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 }
 
 ul.pipemenu li
@@ -214,7 +214,7 @@ ul.pipemenu li
 
 .swf
 {
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 	border-radius: 4px;
 	box-shadow: 0px 0px 4px white;
 	background: rgba(240, 248, 255, .1);
@@ -222,17 +222,17 @@ ul.pipemenu li
 
 .swfmain
 {
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 }
 
 button.expander
 {
-	border: 1px solid rgb(128, 160, 192);
+	border-color: rgb(128, 160, 192);
 }
 
 .pollbarContainer
 {
-	border: 1px solid rgb(192, 192, 192);
+	border-color: rgb(192, 192, 192);
 	box-shadow: 0px 0px 8px rgb(192, 192, 192);
 	border-radius: 0px;
 }
@@ -245,7 +245,7 @@ button.expander
 
 button, input[type="submit"]
 {
-	border: 1px solid rgb(192, 192, 192);
+	border-color: rgb(192, 192, 192);
 	background: black;
 	background-image: -o-linear-gradient(rgb(64, 64, 64), rgb(0, 0, 0));
 	background-image: -moz-linear-gradient(center top, rgb(64, 64, 64) 0%, rgb(0, 0, 0) 100%);
@@ -265,7 +265,7 @@ button:hover, input[type="submit"]:hover
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
-	border: 1px solid rgb(32, 32, 32);
+	border-color: rgb(32, 32, 32);
 	background: black;
 	color: white;
 }
@@ -291,7 +291,7 @@ div#tabs
 
 div#tabs button
 {
-	border: 1px solid rgb(0, 80, 160);
+	border-color: rgb(0, 80, 160);
 	background: rgb(32, 152, 211);
 	padding-left: 16px;
 	border-radius: 0px;

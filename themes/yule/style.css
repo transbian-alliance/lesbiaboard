@@ -83,7 +83,7 @@ td.side, td.meta, table.post td.post
 
 input, select, textarea, button
 {
-	border: 1px solid #663399;
+	border-color: #663399;
 	background: #000000;
 	color: white;
 }
@@ -97,7 +97,7 @@ div#tabs
 div#tabs button
 {
 	background: #2f2f5f;
-	border: 1px solid #000;
+	border-color: #000;
 	padding-right: 16px;
 }
 

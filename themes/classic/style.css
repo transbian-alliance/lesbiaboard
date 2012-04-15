@@ -9,12 +9,12 @@ body
 th
 {
 	background: #336;
-	border: 1px solid #000;
+	border-color: #000;
 }
 
 table.outline
 {
-	border: 1px solid #669;
+	border-color: #669;
 }
 
 table.post 
@@ -23,7 +23,7 @@ table.post
 	border-collapse: separate;
 	border-spacing: 0;
 	border-radius: 8px;
-	border: 1px solid #669;
+	border-color: #669;
 	box-shadow: 2px 2px 4px #000;
 }
 
@@ -34,7 +34,7 @@ table.post td.post
 
 button, input[type="submit"]
 {
-	border: 1px solid #669;
+	border-color: #669;
 	background: #24285C;
 	color: #FFF;
 }
@@ -93,19 +93,19 @@ td.post code.Code .geshi .post_about
 
 .post_about
 {
-	border: 1px solid #669;
+	border-color: #669;
 }
 
 .post_topbar
 {
-	border: 1px solid #669;
+	border-color: #669;
 	background: url(back2t2.png);
 }
 
 .post_content
 {
 	background: url(back2t1.png);
-	border: 1px solid #669;
+	border-color: #669;
 }
 
 h3
@@ -117,7 +117,7 @@ h3
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #24285C;
-	border: 1px solid #669;
+	border-color: #669;
 	color: white;
 }
 

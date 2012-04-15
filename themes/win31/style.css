@@ -38,7 +38,7 @@ button, input[type="submit"]
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: white;
-	border: 1px solid black;
+	border-color: black;
 	color: black;
 	font-family: "MS Sans Serif";
 }
@@ -46,7 +46,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 input[type="checkbox"], input[type="radio"]
 {
 	background: white;
-	border: 1px solid black;
+	border-color: black;
 	color: black;
 }
 
@@ -182,7 +182,7 @@ h4
 {
 	background: white;
 	color: black;
-	border: 1px solid black;
+	border-color: black;
 	font-family: "MS Sans Serif";
 }
 
@@ -248,7 +248,7 @@ div#tabs button.selected
 td.threadIcons label > input ~ *
 {
 	background: silver;
-	border: 1px solid silver;
+	border-color: silver;
 	border-radius: 0px;
 	padding: 0px 2px;
 }
@@ -270,7 +270,7 @@ table.post
 {
 	width: 100%;
 	background: silver;
-	border: 1px solid #000;
+	border-color: #000;
 	color: black;
 	box-shadow: none;
 }
@@ -303,7 +303,7 @@ table.post td.meta
 {
 	padding: 1px;
 	opacity: 1;
-	border: 1px solid rgba(255,255,255, 0);
+	border-color: rgba(255,255,255, 0);
 	border-radius: 0px;
 }
 
@@ -354,7 +354,7 @@ button.expander:hover
 	font-family: "MS Sans Serif";
 	color: white;
 	font-size: 6pt;
-	border: 1px solid #000;
+	border-color: #000;
 }
 
 .errorc
@@ -363,7 +363,7 @@ button.expander:hover
 	font-family: "MS Sans Serif";
 	font-size: 6pt;
 	color: black;
-	border: 1px solid #000;
+	border-color: #000;
 	border-top: 0px;
 }
 
@@ -374,7 +374,7 @@ button.expander:hover
 
 .pollbarContainer
 {
-	border: 1px solid black;
+	border-color: black;
 	margin: 0.2em;
 	background: white;
 	box-shadow: none;
@@ -398,7 +398,7 @@ button.expander:hover
 	color: white;
 	text-shadow: none;
 	padding: 0px 2px;
-	border: 1px solid black;
+	border-color: black;
 	box-shadow: none;
 	margin-right: 2px;
 }

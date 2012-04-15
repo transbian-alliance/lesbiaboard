@@ -55,7 +55,7 @@ a:hover
 
 .outline
 {
-		border-radius: 4px;
+	border-radius: 4px;
 }
 
 .margin
@@ -66,7 +66,6 @@ a:hover
 table
 {
 	color: white;
-	border-collapse: collapse;
 	width: 100%;
 	font-weight: normal;
 }
@@ -75,14 +74,12 @@ table.post
 {
 	width: 100%;
 	background: rgba(61, 10, 0, 0.7);
-	border: 1px solid #000;
 }
 
 table.post td.side
 {
 	width: 15%;
 	vertical-align: top;
-	border: 0px none;
 }
 
 table.post td.post
@@ -90,7 +87,6 @@ table.post td.post
 	background: #222 url(post.png);
 	background-attachment: fixed;
 	background-position: top left;
-	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
 }
@@ -118,8 +114,6 @@ table.post td.post
 	text-align: center;
 	color: #EEE;
 	font-size: 8pt;
-	border-top: 0px none;
-	border-bottom: 0px none;
 }
 
 .header1 th
@@ -130,7 +124,6 @@ table.post td.post
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;
-	border: 0px none #000;
 }
 
 .faq
@@ -143,7 +136,7 @@ table.post td.post
 
 td.post .codeblock
 {
-	border: 1px solid #c30;
+	border-color: #c30;
 	background: #000 url(back.png);
 	background-attachment: fixed;
 	background-position: top left;
@@ -154,14 +147,14 @@ td.post .codeblock
 	background: #811000 url(header1.png);
 	background-attachment: fixed;
 	background-position: top left;
-	border: 1px solid #000;
+	border-color: #000;
 }
 
 .errorc
 {
 	text-align: center;
 	color: #EEE;
-	border: 1px solid #000;
+	border-color: #000;
 	border-top: 0px;
 }
 
@@ -180,7 +173,7 @@ div#tabs button.selected
 
 div#tabs button
 {
-	border: 1px solid #930;
+	border-color: #930;
 	border-bottom:1px solid black;
 	background: #811000 url(back.png);
 	background-attachment: fixed;
@@ -194,7 +187,7 @@ button, input[type="submit"]
 	background-attachment: fixed;
 	background-position: top left;
 
-	border: 1px solid #000212;
+	border-color: #000212;
 	color: #EEEEEE;
 }
 
@@ -204,7 +197,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	background-attachment: fixed;
 	background-position: top left;
 
-	border: 1px solid #000212;
+	border-color: #000212;
 	color: white;
 }
 
@@ -213,7 +206,7 @@ input[type="checkbox"], input[type="radio"]
 	background: #0e2e35 url(forms.png);
 	background-attachment: fixed;
 	background-position: top left;
-	border: 1px solid #000212;
+	border-color: #000212;
 	color: #B7E6FF;
 }
 
@@ -230,7 +223,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 
 .pollbarContainer
 {
-	border: 1px solid #000;
+	border-color: #000;
 	background-image: url(transp.png);
 	background-attachment: fixed;
 	background-position: top left;
@@ -245,7 +238,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	background-image: url(transp.png);
 	background-attachment: fixed;
 	background-position: top left;
-	border: 1px solid #000212;
+	border-color: #000212;
 
 	border-width:1px; border-style:solid;
 

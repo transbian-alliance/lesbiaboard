@@ -252,13 +252,13 @@ ul.pipemenu li
 
 button.expander
 {
-	border: 1px solid rgba(0, 255, 255, .5);
+	border-color: rgba(0, 255, 255, .5);
 	color: aliceblue;
 }
 
 button.expander:hover
 {
-	border: 1px solid aqua;
+	border-color: aqua;
 	color: aliceblue;
 }
 
@@ -278,7 +278,7 @@ button.expander:hover
 
 button, input[type="submit"]
 {
-	border: 1px solid rgba(0, 255, 255, .5);
+	border-color: rgba(0, 255, 255, .5);
 	background: navy;
 	background-image: -o-linear-gradient(cornflowerblue, dodgerblue, cornflowerblue);
 	background-image: -moz-linear-gradient(center top, cornflowerblue 0%, dodgerblue 50%, cornflowerblue 100%);
@@ -290,7 +290,7 @@ button, input[type="submit"]
 
 button:hover, input[type="submit"]:hover
 {
-	border: 1px solid aqua;
+	border-color: aqua;
 	background: blue;
 	background-image: -o-linear-gradient(royalblue, powderblue, royalblue);
 	background-image: -moz-linear-gradient(center top, royalblue 0%, powderblue 50%, royalblue 100%);

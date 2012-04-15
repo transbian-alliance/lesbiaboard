@@ -75,14 +75,14 @@ td.post code.Code
 {
 	background: #4F57B9 url(backh.png) fixed repeat-x;
 	text-shadow: #000 1px 1px 0px;
-	border: 1px solid #000;
+	border-color: #000;
 	text-align: center;
 }
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #141730;
-	border: 1px solid #777;
+	border-color: #777;
 	color: white;
 }
 
@@ -136,7 +136,7 @@ button, input[type="submit"]
 	background: #222653 url(back2t2.png);
 	color: white;
 	text-shadow: 1px 1px 0px black;
-	border: 1px solid #999;
+	border-color: #999;
 	border-radius: 4px;
 }
 

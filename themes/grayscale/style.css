@@ -80,7 +80,7 @@ table.post td.post
 .header0 th
 {
 	background: #444444 url(backc2.png) repeat-x;
-	border: 1px solid #000;
+	border-color: #000;
 }
 
 .header1 th
@@ -101,14 +101,14 @@ td.post code.Code
 .errort
 {
 	background:  #535353 url(backh.png) repeat-x;
-	border: 1px solid #000;
+	border-color: #000;
 }
 
 .errorc
 {
 	text-align: center;
 	color: #EEE;
-	border: 1px solid #000;
+	border-color: #000;
 	border-top: 0px;
 }
 
@@ -155,7 +155,7 @@ td.post code.Code
 
 button, input[type="submit"]
 {
-	border: 1px solid #666;
+	border-color: #666;
 	background: #444;
 	color: #FFF;
 }
@@ -163,7 +163,7 @@ button, input[type="submit"]
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
 	background: #444;	
-	border: 1px solid #666;
+	border-color: #666;
 	color: white;
 }
 
@@ -176,32 +176,32 @@ input[type="checkbox"], input[type="radio"]
 
 .pollbarContainer
 {
-	border: 1px solid #666;
+	border-color: #666;
 }
 
 .post_about
 {
 	background: url(back2t2.png);
-	border: 1px solid #666;
+	border-color: #666;
 }
 
 .post_topbar
 {
 	background: url(back2t2.png);
-	border: 1px solid #666;
+	border-color: #666;
 }
 
 .post_content
 {
 	background: url(back2t1.png);
-	border: 1px solid #666;
+	border-color: #666;
 }
 
 table.outline
 {
 	border-collapse: separate;
 	border-spacing: 0px;
-	border: 1px solid #666;
+	border-color: #666;
 }
 
 table.outline tr:first-child th:last-child

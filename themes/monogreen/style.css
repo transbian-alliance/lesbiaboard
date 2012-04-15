@@ -92,7 +92,7 @@ table.post td.links
 {
 	background: #040;
 	color: white;
-	border: 1px solid #040;
+	border-color: #040;
 }
 
 .header1 th
@@ -121,7 +121,7 @@ td.post code.Code
 {
 	background: #040;
 	color: white;
-	border: 1px solid green;
+	border-color: green;
 }
 
 .errorc
@@ -158,14 +158,14 @@ td.post code.Code
 input, select, textarea
 {
 	background: #040;
-	border: 1px solid green;
+	border-color: green;
 	color: white;
 	font-family: "Consolas", "Courier New", monospace;
 }
 
 input[type="submit"], button
 {
-	border: 1px solid green;
+	border-color: green;
 	background: #040;
 	color: white;
 	font-family: "Consolas", "Courier New", monospace;
@@ -203,25 +203,25 @@ input[type="submit"], button
 
 .pollbarContainer
 {
-	border: 1px solid #040;
+	border-color: #040;
 }
 
 .post_about
 {
 	background: #010;
-	border: 1px solid #040;
+	border-color: #040;
 }
 
 .post_topbar
 {
 	background: #010;
-	border: 1px solid #040;
+	border-color: #040;
 }
 
 .post_content
 {
 	background: #010;
-	border: 1px solid #040;
+	border-color: #040;
 }
 
 .post_about, .post_topbar, .post_content
@@ -238,7 +238,7 @@ table.outline
 table.outline td, table.outline th
 {
 	border-radius: 0px !important;
-	border: 1px solid black !important;
+	border-color: black !important;
 }
 
 .PoRT, .PoRT div

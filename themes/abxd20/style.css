@@ -48,12 +48,12 @@ body
 
 .header0
 {
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.5);
 }
 
 .header1
 {
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.5);
 }
 
 div.header0, div.header1
@@ -64,7 +64,7 @@ div.header0, div.header1
 .errort
 {
 	background: rgba(160, 160, 255, 0.35);
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.5);
 	color: white;
 	text-shadow: 1px 1px 2px black;
 	text-align: center;
@@ -74,13 +74,13 @@ div.header0, div.header1
 {
 	text-align: center;
 	color: white;
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.5);
 	border-top: 0px;
 }
 
 td, th
 {
-	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-color: rgba(0, 0, 0, 0.5);
 }
 
 table.outline
@@ -117,7 +117,7 @@ table.post
 {
 	width: 100%;
 	background: rgba(160, 160, 255, 0.000);
-	border: 1px solid rgba(160, 160, 255, 0.500);
+	border-color: rgba(160, 160, 255, 0.500);
 }
 
 table.post td.side
@@ -131,7 +131,7 @@ table.post td.side
 table.post td.post
 {
 	background: rgba(160, 160, 255, 0.075);
-	border: 1px solid #000;
+	border-color: #000;
 	border-bottom: 0px none;
 	border-right: 0px none;
 	vertical-align: top;
@@ -175,7 +175,7 @@ td.post code.Code, .geshi
 
 .swf
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	border-radius: 4px;
 	box-shadow: 0px 0px 4px white;
 	background: rgba(0, 0, 0, 0.75);
@@ -183,7 +183,7 @@ td.post code.Code, .geshi
 
 .swfmain
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	background: black;
 	color: white;
 }
@@ -191,17 +191,17 @@ td.post code.Code, .geshi
 button.expander
 {
 	color: white;
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 }
 
 .pollbarContainer
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 }
 
 button, input[type="submit"]
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	background: rgba(160, 160, 255, 0.200);
 	border-radius: 8px;
 	color: white;
@@ -209,14 +209,14 @@ button, input[type="submit"]
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	background: rgba(0, 0, 0, 0.500);
 	color: white;
 }
 
 input[type="checkbox"], input[type="radio"]
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	background: rgba(0, 0, 0, 0.500);
 	color: white;
 	border-radius: 2px;
@@ -236,7 +236,7 @@ div#tabs
 
 div#tabs button
 {
-	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-color: rgba(160, 160, 255, 0.175);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 32px;
 	border-bottom-left-radius: 0px;
