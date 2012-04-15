@@ -326,9 +326,9 @@ write("
 function mlink2($sort,$sex,$pow,$tpp,$letter="",$dir="")
 {
 	return ($sort   ?"sort=$sort":"")
-			.($sex    ?"&amp;sex=$sex":"")
-			.(isset($pow)?"&amp;pow=$pow":"")
-			.($letter!=""?"&amp;letter=$letter":"")
+			.($sex    ?"&sex=$sex":"")
+			.(isset($pow)?"&pow=$pow":"")
+			.($letter!=""?"&letter=$letter":"")
 			.($dir   ?"&dir=$dir":"");
 }
 
@@ -337,11 +337,11 @@ function mlink($sort,$sex,$pow,$tpp,$letter="",$dir="",$from=1)
 {
 	return "<a href=\"".actionLink("memberlist", "", 
 			($sort   ?"sort=$sort":"")
-			.($sex    ?"&amp;sex=$sex":"")
-			.(isset($pow)?"&amp;pow=$pow":"")
-			.($letter!=""?"&amp;letter=$letter":"")
+			.($sex    ?"&sex=$sex":"")
+			.(isset($pow)?"&pow=$pow":"")
+			.($letter!=""?"&letter=$letter":"")
 			.($dir   ?"&dir=$dir":"")
-			.($from!=1?"&amp;from=$from":"")
+			.($from!=1?"&from=$from":"")
 			)."\" rel=\"nofollow\">";
 }
 

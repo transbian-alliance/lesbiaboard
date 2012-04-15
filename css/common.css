@@ -46,7 +46,7 @@ a img
 /* Default border color */
 table, td, tr, th, div
 {
-	border-color:black;	
+	border-color:black;
 }
 
 /* Default link colors */
@@ -137,7 +137,10 @@ a:hover span
 table
 {
 	color: #FFF;
-	border-collapse: collapse;
+	
+	border-collapse: separate;
+	border-spacing:0;
+
 	width: 100%;
 	font-weight: normal;
 }
@@ -146,25 +149,29 @@ table
 td
 {
 	font-size: 1em; /* 10pt; */
-	border-width:1px;
+	border-width:0px 1px 1px 0px;
 	border-style:solid;
+}
+td:first-child, th:first-child
+{
+	border-left-width:1px;
+}
+td:last-child, th:last-child
+{
+	border-right-width:1px;
+}
+
+tr:first-child > td, tr:first-child > th
+{
+	border-top-width:1px;
 }
 
 th
 {
+	border-width: 0px 0px 1px 0px;
+	border-style:solid;
 	font-size: 1em; /* 12px; */
 	text-align: left;
-}
-
-
-.header0
-{
-	border-width:1px; border-style:solid;
-}
-
-.header1
-{
-	border-width:1px; border-style:solid;
 }
 
 .header0 th
@@ -176,7 +183,6 @@ th
 {
 	text-align: center;
 	font-size: .85em; /* 8pt; */
-	border-width: 0;
 }
 
 

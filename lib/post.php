@@ -463,7 +463,7 @@ function MakePost($post, $type, $params=array())
 		{
 			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 			if (IsAllowed("editPost", $post['id']))
-				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&amp;key=".$key);
+				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
 			$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
 		}
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
@@ -506,7 +506,7 @@ function MakePost($post, $type, $params=array())
 				$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 				$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
 				if ($editallowed)
-					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&amp;key=".$key);
+					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
 				$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",false); return false;\">".__("Close")."</a></li>";
 				$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 			}
@@ -528,7 +528,7 @@ function MakePost($post, $type, $params=array())
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
 					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$links .= actionLinkTagItem(__("Delete"), "editpost", $post['id'], "delete=1&amp;key=".$key);
+					$links .= actionLinkTagItem(__("Delete"), "editpost", $post['id'], "delete=1&key=".$key);
 				}
 				if ($canreply && !$params['noreplylinks'])
 					$links .= "<li>".format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))."</li>";

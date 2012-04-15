@@ -274,7 +274,7 @@ if(NumRows($rComments))
 	{
 		if($canDeleteComments)
 			$deleteLink = "<small style=\"float: right; margin: 0px 4px;\">".
-				actionLinkTag("&#x2718;", "profile", $id, "action=delete&amp;cid=".$comment['id']."&token={$loguser['token']}")."</small>";
+				actionLinkTag("&#x2718;", "profile", $id, "action=delete&cid=".$comment['id']."&token={$loguser['token']}")."</small>";
 		$cellClass = ($cellClass+1) % 2;
 		$thisComment = format(
 "
