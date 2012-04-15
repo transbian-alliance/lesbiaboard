@@ -18,6 +18,9 @@ function actionLink($action, $id=0, $args="")
 	if($args)
 		$res .= "&$args";
 
+	if(strpos($res, "&amp"))
+		Kill("Found &amp;amp; in link");
+		 
 	if($res == "")
 		return $boardroot;
 	else

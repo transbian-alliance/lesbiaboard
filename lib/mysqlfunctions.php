@@ -40,7 +40,6 @@ function Import($sqlFile)
 	}
 }
 
-
 function Upgrade()
 {
 	global $dbname;

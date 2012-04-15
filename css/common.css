@@ -140,6 +140,7 @@ table
 	
 	border-collapse: separate;
 	border-spacing:0;
+	border-width:1px 0px 0px 1px;
 
 	width: 100%;
 	font-weight: normal;
@@ -151,19 +152,6 @@ td
 	font-size: 1em; /* 10pt; */
 	border-width:0px 1px 1px 0px;
 	border-style:solid;
-}
-td:first-child, th:first-child
-{
-	border-left-width:1px;
-}
-td:last-child, th:last-child
-{
-	border-right-width:1px;
-}
-
-tr:first-child > td, tr:first-child > th
-{
-	border-top-width:1px;
 }
 
 th
