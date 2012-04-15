@@ -19,8 +19,11 @@ function actionLink($action, $id=0, $args="")
 		$res .= "&$args";
 
 	if(strpos($res, "&amp"))
+	{
+		debug_print_backtrace();
 		Kill("Found &amp;amp; in link");
-		 
+	}
+			 
 	if($res == "")
 		return $boardroot;
 	else

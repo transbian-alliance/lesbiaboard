@@ -13,8 +13,8 @@ $user = $loguserid;
 if(isset($_GET['user']) && $loguser['powerlevel'] > 2)
 {
 	$user = (int)$_GET['user'];
-	$snoop = "&amp;snooping=1";
-	$userGet = "&amp;user=".$user;
+	$snoop = "&snooping=1";
+	$userGet = "&user=".$user;
 }
 
 if(isset($_POST['action']))
@@ -69,7 +69,7 @@ $drafting = 0;
 $deleted = 2;
 if(isset($_GET['show']))
 {
-	$show = "&amp;show=".(int)$_GET['show'];
+	$show = "&show=".(int)$_GET['show'];
 	if($_GET['show'] == 1)
 		$deleted = 1;
 	else if($_GET['show'] == 2)
