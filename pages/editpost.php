@@ -133,7 +133,7 @@ if($_POST['action'] == __("Edit"))
 		$rev = Fetch($rRev);
 		$rev = $rev[0]; //note: no longer a fetched row.
 		$rev++;
-		$qPostsText = "insert into posts_text (pid,text,revision) values (".$pid.", '".$post."', ".$rev.")";
+		$qPostsText = "insert into posts_text (pid,text,revision,user,date) values (".$pid.", '".$post."', ".$rev.", ".$loguserid.", ".time().")";
 		$rPostsText = Query($qPostsText);
 
 		$qPosts = "update posts set options='".$options."', mood=".(int)$_POST['mood'].", currentrevision = currentrevision + 1 where id=".$pid." limit 1";

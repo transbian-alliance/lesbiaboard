@@ -241,6 +241,8 @@ $tables = array
 			"pid" => $genericInt,
 			"text" => $text,
 			"revision" => $genericInt,
+			"user" => $genericInt,
+			"date" => $genericInt,
 		),
 		"special" => "fulltext key `text` (`text`)"
 	),
