@@ -4,6 +4,7 @@
 
 <head>
 	<title><?php print $layout_title?></title>
+	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("layouts/nsmbhd.css");?>" />
 	<?php include("header.php"); ?>
 </head>
 
