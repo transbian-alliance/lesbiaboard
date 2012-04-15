@@ -9,7 +9,7 @@ AssertForbidden("editIPBans");
 if($loguser['powerlevel'] < 3)
 	Kill(__("Only administrators get to manage IP bans."));
 
-MakeCrumbs(array(__("Main")=>"./", __("IP ban manager")=>""), "");
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => actionLink("ipbans")), "");
 
 if($_POST['action'] == __("Add"))
 {

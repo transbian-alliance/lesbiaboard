@@ -6,6 +6,7 @@
 $title = "Edit forums";
 
 if ($loguser['powerlevel'] < 3) Kill("You're not allowed to access the forum editor.");
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => actionLink("editfora")), "");
 
 /** 
 	Okay. Much like the category editor, now the action is specified by $_POST["action"]. 

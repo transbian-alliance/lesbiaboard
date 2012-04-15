@@ -4,6 +4,13 @@
 function MakeCrumbs($path, $links)
 {
 	global $layout_crumbs;
+
+	$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink("index"));
+	$pathPostfix = array(); //Not sure how this could be used, but...
+	
+	$bucket = "breadcrumbs"; include("lib/pluginloader.php");
+
+	$path = $pathPrefix + $path + $pathPostfix;
 	
 	foreach($path as $text=>$link)
 	{

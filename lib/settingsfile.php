@@ -52,6 +52,11 @@
 			"name" => "Word needed for registration",
 			"help" => "If set, the registration page will send the user to the FAQ page to look for the word",
 		),
+		"breadcrumbsMainName" => array (
+			"type" => "text",
+			"default" => "Main",
+			"name" => "Text in breadcrumbs 'main' link",
+		),
 		"defaultTheme" => array (
 			"type" => "theme",
 			"default" => "gold",

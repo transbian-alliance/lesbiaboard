@@ -10,6 +10,8 @@ if($loguser['powerlevel'] < 3)
 
 $title = __("Administration");
 
+MakeCrumbs(array("Admin" => actionLink("admin")), "");
+
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 
 $cell2 = 1;

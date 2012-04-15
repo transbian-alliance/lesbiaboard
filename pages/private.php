@@ -99,7 +99,7 @@ $links .= actionLinkTagItem(__("Show sent"), "private", "", "show=1".$userGet);
 $links .= actionLinkTagItem(__("Show drafts"), "private", "", "show=2".$userGet);
 $links .= actionLinkTagItem(__("Send new PM"), "sendprivate");
 
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>actionLink("private")), $links);
+MakeCrumbs(array(__("Private messages")=>actionLink("private")), $links);
 
 $qPM = "select * from pmsgs left join pmsgs_text on pid = pmsgs.id where ".$whereFrom." and deleted != ".$deleted." order by date desc limit ".$from.", ".$ppp;
 

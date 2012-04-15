@@ -1,6 +1,11 @@
 <?php
 
-	AssertForbidden("optimize");
+AssertForbidden("optimize");
+
+if($loguser['powerlevel'] < 3)
+	Kill(__("You're not an administrator. There is nothing for you here."));
+
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Optimize tables") => actionLink("optimize")), "");
 
 $rStats = Query("show table status");
 while($stat = Fetch($rStats))

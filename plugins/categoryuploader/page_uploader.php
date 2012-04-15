@@ -38,7 +38,7 @@ if($_GET['action'] == "uploadform")
 
 	$cat = getCategory($_GET["cat"]);
 
-	MakeCrumbs(array("Main"=>"./", 
+	MakeCrumbs(array(
 					"Uploader"=>actionLink("uploader"), 
 					$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]), 
 					"Upload new file" => actionLink("uploader", "", "action=uploadforum&cat=".$cat["id"])), $links);
@@ -226,7 +226,7 @@ else if($_GET['action'] == "delete") //single file
 }
 else
 {
-	MakeCrumbs(array("Main"=>"./", 
+	MakeCrumbs(array(
 					"Uploader"=>actionLink("uploader")), $links);
 
 	$errormsg = __("No categories found.");

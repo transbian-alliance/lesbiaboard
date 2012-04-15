@@ -16,5 +16,20 @@
 			"default" => "Blog",
 			"help" => "The text of the link that will be added to the top menu."
 		),
+		"changeCrumbs" => array(
+			"type" => "boolean",
+			"name" => "Breadcrumbs override",
+			"default" => "true",
+		),
+		"crumbsBlogLink" => array(
+			"type" => "text",
+			"name" => "Text of link to blog in the breadcrumbs",
+			"default" => "Main",
+		),
+		"crumbsBoardLink" => array(
+			"type" => "text",
+			"name" => "Text of link to board in the breadcrumbs",
+			"default" => "Forums",
+		),
 	);
 ?>

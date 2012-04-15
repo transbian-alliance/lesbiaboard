@@ -209,7 +209,7 @@
     
     switch ($action) {
 		case 'list':
-			MakeCrumbs(array("Main"=>"./", "Sprite Database"=>actionLink("spritedb")), $links);
+			MakeCrumbs(array("Sprite Database"=>actionLink("spritedb")), $links);
 
 			if (!is_numeric($_GET["go"]))
 				unset($_GET["go"]);

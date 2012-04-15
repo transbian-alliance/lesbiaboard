@@ -40,9 +40,9 @@ $isHidden = (int)($forum['minpower'] > 0);
 
 $OnlineUsersFid = $fid;
 if($_POST['poll'])
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), __("New poll")=>""), $links);
+	MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New poll")=>""), $links);
 else
-	MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
+	MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
 
 if($_POST['text'] && CheckTableBreaks($_POST['text']))
 {

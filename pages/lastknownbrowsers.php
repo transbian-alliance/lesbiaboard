@@ -11,6 +11,9 @@ if(isset($_GET['byua']))
 	$ual .= "byua&amp;";
 }
 AssertForbidden("viewLKB");
+
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Last Known Browsers") => actionLink("lastknownbrowsers")), "");
+
 $numUsers = FetchResult("select count(*) from users where powerlevel < 5", 0, 0);
 
 $ppp = $loguser['postsperpage'];

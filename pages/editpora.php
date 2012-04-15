@@ -8,6 +8,8 @@ AssertForbidden("editPoRA");
 
 if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to edit the Points of Required Attention."));
+
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit Points of Required Attention") => actionLink("editpora")), "");
 	
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 if (isset($_POST['action']) && $key != $_POST['key'])

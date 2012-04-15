@@ -1,3 +1,3 @@
-	<li>
-		<a href="layoutmaker.php">Layout maker</a>
-	</li>
+<?php
+	print actionLinkTagItem("Layout Maker", "layoutmaker");
+?>

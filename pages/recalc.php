@@ -6,6 +6,7 @@ AssertForbidden("recalculate");
 
 if($loguser['powerlevel'] < 1)
 		Kill(__("Staff only, please."));
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Recalculate statistics") => actionLink("recalc")), "");
 
 print "<table class=\"outline margin width50\">";
 

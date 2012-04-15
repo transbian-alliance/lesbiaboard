@@ -6,7 +6,9 @@ AssertForbidden("editSmilies");
 
 if($loguser['powerlevel'] < 3)
 	Kill("You must be an administrator to edit the smiley table.");
-	
+
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit smilies") => actionLink("editsmilies")), "");
+
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 if (isset($_POST['action']) && $key != $_POST['key'])
 	Kill(__("No."));

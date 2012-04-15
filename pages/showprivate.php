@@ -59,7 +59,7 @@ else if(isset($_GET['snooping']))
 	Alert(__("You are snooping."));
 
 $pmtitle = htmlspecialchars($pm['title']); //sender's custom title overwrites this below, so save it here
-MakeCrumbs(array(__("Main")=>"./", ("Private messages")=>actionLink("private"), $pmtitle=>""), $links);
+MakeCrumbs(array(("Private messages")=>actionLink("private"), $pmtitle=>""), $links);
 
 $pm['num'] = "preview";
 $pm['posts'] = $user['posts'];

@@ -173,7 +173,7 @@ if($isBot)
 if(!$loguserid)
 	$links = "";
 
-MakeCrumbs(array("Main"=>"./", 
+MakeCrumbs(array(
 				"Uploader"=>actionLink("uploader"), 
 				$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]), 
 				), $links);

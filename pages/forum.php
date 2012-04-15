@@ -64,7 +64,7 @@ if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 
 $OnlineUsersFid = $fid;
 
-MakeCrumbs(array(__("Main")=>"./", $forum['title']=>actionLink("forum", $fid)), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid)), $links);
 
 $total = $forum['numthreads'];
 $tpp = $loguser['threadsperpage'];

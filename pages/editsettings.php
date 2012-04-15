@@ -15,6 +15,11 @@ if(isset($_GET["plugin"]))
 if(isset($_POST["_plugin"]))
 	$plugin = $_POST["_plugin"];
 
+if($plugin == "main")
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit Settings") => actionLink("editsettings")), "");
+else
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
+
 $settings = Settings::getForPlugin($plugin);
 
 if(isset($_POST["_plugin"]))

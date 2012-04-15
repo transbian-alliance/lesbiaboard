@@ -4,7 +4,7 @@
 
 $title = __("Private messages");
 
-MakeCrumbs(array(__("Main")=>"./", __("Private messages")=>actionLink("private"), __("New PM")=>""), "");
+MakeCrumbs(array(__("Private messages")=>actionLink("private"), __("New PM")=>""), "");
 
 AssertForbidden("sendPM");
 

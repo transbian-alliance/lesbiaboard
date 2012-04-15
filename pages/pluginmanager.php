@@ -6,6 +6,7 @@ AssertForbidden("managePlugins");
 
 if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to manage plugins."));
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => actionLink("pluginmanager")), "");
 
 
 if($_GET["action"] == "enable")

@@ -3,6 +3,8 @@
 if($loguser['powerlevel'] < 1)
 	Kill("Access denied.");
 
+MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Log") => actionLink("log")), "");
+
 //$here = "http://helmet.kafuka.org/nikoboard";
 $full = GetFullURL();
 $here = substr($full, 0, strrpos($full, "/"))."/";
