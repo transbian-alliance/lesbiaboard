@@ -121,7 +121,7 @@ if(isset($fid))
 		foreach($avalib[$fid]['content'] as $image)
 		{
 			$img = "<img src=\"img/avatars/library/{$avalib[$fid]['name']}/$image.png\" alt=\"$image\" title=\"$image\" />";
-			$set .= actionLinkTag($img, "avatarlibrary", 0, "action=set&amp;fid=$fid&amp;img=".$i++);
+			$set .= actionLinkTag($img, "avatarlibrary", 0, "action=set&fid=$fid&img=".$i++);
 		}
 	else
 		foreach($avalib[$fid]['content'] as $image)

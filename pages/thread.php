@@ -114,17 +114,17 @@ if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 	
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 	if($thread['closed'])
-		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&amp;key=".$key);
+		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$key);
 	else
-		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&amp;key=".$key);
+		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$key);
 	if($thread['sticky'])
-		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&amp;key=".$key);
+		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$key);
 	else
-		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&amp;key=".$key);
-	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&amp;key=".$key);
+		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$key);
+	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$key);
 	
 	if(strpos($forum['description'],"[trash]") === FALSE)
-		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&amp;key=".$key);
+		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$key);
 }
 else if($thread['user'] == $loguserid)
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);

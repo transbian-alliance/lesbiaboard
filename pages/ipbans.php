@@ -48,7 +48,7 @@ while($ipban = Fetch($rIPBan))
 			{3}
 		</td>
 		<td>
-			<a href=\"".actionLink("ipbans", "", "ip={1}&amp;action=delete")."\">&#x2718;</a>
+			<a href=\"".actionLink("ipbans", "", "ip={1}&action=delete")."\">&#x2718;</a>
 		</td>
 	</tr>
 ", $cellClass, $ipban['ip'], $ipban['reason'], $date);

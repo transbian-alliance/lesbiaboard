@@ -24,7 +24,7 @@ if(!isset($_GET['action']))
 			$rMod = Query($qMod);
 			$mod = Fetch($rMod);
 			$modList .= "<li>".UserLink($mod)."<sup>";
-			$modList .= actionLinkTag("&#x2718;", "managemods", "", "action=delete&amp;fid={$forum['id']}&amp;mid={$mods['user']}");
+			$modList .= actionLinkTag("&#x2718;", "managemods", "", "action=delete&fid={$forum['id']}&mid={$mods['user']}");
 			$modList .= "</sup></li>";
 		}
 		$theList .= format(
@@ -33,7 +33,7 @@ if(!isset($_GET['action']))
 			{0}
 			<ul>
 				{2}
-				".actionLinkTagItem(__("Add"), "managemods", "", "action=add&amp;fid={1}")."
+				".actionLinkTagItem(__("Add"), "managemods", "", "action=add&fid={1}")."
 			</ul>
 		</li>
 ", $forum['title'], $forum['id'], $modList);
@@ -82,7 +82,7 @@ elseif($_GET['action'] == "add")
 			if(NumRows($rCheck))
 				$add = __("already there");
 			else
-				$add = actionLinkTag("Add", "managemods", "", "action=add&amp;fid=$fid&amp;mid={$mod['id']}");
+				$add = actionLinkTag("Add", "managemods", "", "action=add&fid=$fid&mid={$mod['id']}");
 
 			$modList .= format(
 "

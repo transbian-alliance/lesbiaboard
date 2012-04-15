@@ -214,7 +214,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 				$multidel = "<td><input type=\"checkbox\" name=\"delete[".$entry['id']."]\" disabled=\"disabled\" /></td>";
 			if($loguserid == $entry['user'] || $loguser['powerlevel'] > 2)
 			{
-				$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&amp;fid=".$entry['id'])."</sup>";
+				$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&fid=".$entry['id'])."</sup>";
 				$multidel = "<td><input type=\"checkbox\" name=\"del[".$entry['id']."]\" /></td>";
 			}
 
@@ -302,7 +302,7 @@ else
 			$multidel = "<td><input type=\"checkbox\" name=\"delete[".$entry['id']."]\" disabled=\"disabled\" /></td>";
 		if($loguserid == $entry['user'] || $loguser['powerlevel'] > 2)
 		{
-			$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&amp;fid=".$entry['id'])."</sup>";
+			$delete = "<sup>&nbsp;".actionLinkTag("&#x2718;", "uploader", "", "action=delete&fid=".$entry['id'])."</sup>";
 			$multidel = "<td><input type=\"checkbox\" name=\"del[".$entry['id']."]\" /></td>";
 		}
 		$cellClass = ($cellClass+1) % 2;

@@ -25,7 +25,7 @@ if($loguserid)
 
 	//TODO FIX
 	if(strpos($_SERVER['SCRIPT_NAME'], "forum.php"))
-		print actionLinkTagItem(__("Mark forum read"), "index", 0, "id=".$_POST['id']."&amp;action=markasread");
+		print actionLinkTagItem(__("Mark forum read"), "index", 0, "id=".$_POST['id']."&action=markasread");
 	elseif(strpos($_SERVER['SCRIPT_NAME'], $boardIndex))
 		print actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
 	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">Log out</a></li>";
