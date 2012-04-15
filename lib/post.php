@@ -488,7 +488,7 @@ function MakePost($post, $type, $params=array())
 	}
 
 	if ($type == POST_SAMPLE)
-		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");
+		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");	// dirty hack
 	else
 	{
 		$forum = $params['fid'];
@@ -547,10 +547,18 @@ function MakePost($post, $type, $params=array())
 		//Revisions
 		if($post['revision'])
 		{
-			if ($canmod)
-				$meta .= " (<a href=\"javascript:void(0);\" onclick=\"showRevisions(".$post['id'].")\">".format(__("revision {0}"), $post['revision'])."</a>)";
+			if ($post['revuser'])
+			{
+				$ru_link = UserLink(array('id'=>$post['revuser'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+				$revdetail = format(__(" by {0} on {1}"), $ru_link, formatdate($post['revdate']));
+			}
 			else
-				$meta .= " (".format(__("revision {0}"), $post['revision']).")";
+				$revdetail = '';
+			
+			if ($canmod)
+				$meta .= " (<a href=\"javascript:void(0);\" onclick=\"showRevisions(".$post['id'].")\">".format(__("rev. {0}"), $post['revision'])."</a>".$revdetail.")";
+			else
+				$meta .= " (".format(__("rev. {0}"), $post['revision']).$revdetail.")";
 		}
 		//</revisions>
 	}
