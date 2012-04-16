@@ -2,12 +2,19 @@
 
 $title = 'postfixxor';
 
-$posts = Query("SELECT p.id, pt.revision FROM posts p LEFT JOIN posts_text pt ON pt.pid=p.id WHERE pt.revision>0 AND (pt.user=0 OR pt.date=0) ORDER BY p.id, pt.revision");
+$posts = Query("
+	SELECT p.id, (SELECT MAX(pt2.revision) FROM posts_text pt2 WHERE pt2.pid=pt.pid) maxrevision, pt.revision 
+	FROM posts p LEFT JOIN posts_text pt ON pt.pid=p.id 
+	WHERE pt.revision>0 AND (pt.user=0 OR pt.date=0) 
+	ORDER BY p.id ASC, pt.revision DESC");
+	
+if (!NumRows($posts)) die('No posts to fix');
+	
 while ($post = Fetch($posts))
 {
-	echo "POST ID {$post['id']} REV {$post['revision']}: ";
+	echo "POST ID {$post['id']} REV {$post['revision']} MAXREV {$post['maxrevision']}: ";
 	
-	$logentry = Fetch(Query("SELECT time,text FROM reports WHERE text LIKE 'Post edited by %pid={$post['id']}' ORDER BY time LIMIT ".($post['revision']-1).",1"));
+	$logentry = Fetch(Query("SELECT time,text FROM reports WHERE text LIKE 'Post edited by %pid={$post['id']}' ORDER BY time DESC LIMIT ".($post['maxrevision'] - $post['revision']).",1"));
 	if (!$logentry)
 	{
 		echo "no log entry found, skipping<br>";
