@@ -68,6 +68,7 @@
 		<input type="hidden" name="action" value="logout" />
 	</form>
 	
+	<?php print $layout_bars; ?>
 	<?php print $layout_crumbs;?>
 	<?php print $layout_contents;?>
 	<?php print $layout_crumbs;?>

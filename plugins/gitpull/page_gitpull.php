@@ -1,5 +1,5 @@
 <?php
-if($loguser['powerlevel'] < 3)
+if($loguser['powerlevel'] < 2)
 	Kill(__("You're not admin. There is nothing for you here."));
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Update board") => actionLink("gitpull")), "");
 	
