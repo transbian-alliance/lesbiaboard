@@ -30,8 +30,8 @@ if($_GET["action"] == "disable")
 $cell = 0;
 $pluginsDir = @opendir("plugins");
 
-$enabledPlugins = array();
-$disabledPlugins = array();
+$enabledplugins = array();
+$disabledplugins = array();
 $pluginDatas = array();
 
 if($pluginsDir !== FALSE)
