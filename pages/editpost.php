@@ -142,10 +142,7 @@ if($_POST['action'] == __("Edit"))
 		//Update thread lastpostdate if we edited the last post
 		if($wasLastPost)
 		{
-			$qThreads = "update threads set lastpostdate=".time()." where id=".$tid." limit 1";
-			$qPosts = "update posts set date=".time()." where id=".$pid." limit 1";
-			$rThreads = Query($qThreads);
-			$rPosts = Query($qPosts);
+			Query("DELETE FROM threadsread WHERE thread={$thread['id']}");
 		}
 
 		if($forum['minpower'] < 1)
