@@ -288,6 +288,26 @@ function GetSyndrome($activity)
 	return $soFar;
 }
 
+function CodeCallback($match)
+{
+	if ($match[1] == 'code')
+	{
+		$list  = array("<"   , "\r"  ,"["    ,":"    ,")"    ,"_"    );
+		$list2 = array("&lt;" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
+		return '<div class="codeblock">'.str_replace($list, $list2, $match[4]).'</div>';
+	}
+	else if ($match[1] == 'source')
+	{
+		$language = $match[3] ? $match[3] : 'csharp';
+		$geshi = new GeSHi(trim($match[4]), $language, null);
+		$geshi->set_header_type(GESHI_HEADER_NONE);
+		$geshi->enable_classes();
+		return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
+	}
+	
+	return $match[0];
+}
+
 $text = "";
 function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 {
@@ -300,8 +320,9 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	
 	$s = EatThatPork($s);
 
-	$s = preg_replace_callback("'\[source=(.*?)\](.*?)\[/source\]'si", "GeshiCallbackL", $s);
-	$s = preg_replace_callback("'\[source\](.*?)\[/source\]'si", "GeshiCallback", $s);
+	//$s = preg_replace_callback("'\[source=(.*?)\](.*?)\[/source\]'si", "GeshiCallbackL", $s);
+	//$s = preg_replace_callback("'\[source\](.*?)\[/source\]'si", "GeshiCallback", $s);
+	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
 
 	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
 	$s = preg_replace_callback("'\[thread=([0-9]+)\]'si", "MakeThreadLink", $s);
@@ -309,11 +330,11 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
 
 	//De-tabled [code] tag, based on BH's...
-    $list  = array("<"   ,"\\\"" ,"\\\\" ,"\\'","\r"  ,"["    ,":"    ,")"    ,"_"    );
+    /*$list  = array("<"   ,"\\\"" ,"\\\\" ,"\\'","\r"  ,"["    ,":"    ,")"    ,"_"    );
     $list2 = array("&lt;","\""   ,"\\"   ,"\'" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
     $s = preg_replace("'\[code\](.*?)\[/code\]'sie",
 					'\''."<div class=\"codeblock\">".'\''
-					.'.str_replace($list,$list2,\'\\1\').\'</div>\'',$s);
+					.'.str_replace($list,$list2,\'\\1\').\'</div>\'',$s);*/
 
 	$s = preg_replace("'\[b\](.*?)\[/b\]'si","<strong>\\1</strong>", $s);
 	$s = preg_replace("'\[i\](.*?)\[/i\]'si","<em>\\1</em>", $s);
