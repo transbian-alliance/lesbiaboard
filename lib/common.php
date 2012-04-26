@@ -32,7 +32,7 @@ if (get_magic_quotes_gpc())
 
 include("salt.php");
 
-include("settings.php");
+include("settingsfile.php");
 include("links.php");
 include("snippets.php");
 

@@ -34,9 +34,10 @@ if($minpower < 0)
 
 $qPosts = "	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.options, p.mood, p.ip, 
-				pt.text, pt.revision, 
+				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
 				t.id thread, t.title threadname,
 				f.id fid
 			FROM 
@@ -44,6 +45,7 @@ $qPosts = "	SELECT
 				LEFT JOIN posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN users u ON u.id = p.user
 				LEFT JOIN blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
+				LEFT JOIN users u2 ON u2.id = pt.user
 				LEFT JOIN threads t ON t.id=p.thread
 				LEFT JOIN forums f ON f.id=t.forum
 				LEFT JOIN categories c ON c.id=f.catid

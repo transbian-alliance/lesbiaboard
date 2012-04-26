@@ -216,7 +216,7 @@ function FilterURL($url)
 {
 	$url = str_replace('_', ' ', urldecode($url));
 	$url = htmlspecialchars($url);
-	$url = preg_replace("@&?(key|token)=[0-9a-f]{64}@i", '', $url);
+	$url = preg_replace("@&?(key|token)=[0-9a-f]{40,64}@i", '', $url);
 	return $url;
 }
 
