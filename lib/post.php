@@ -117,9 +117,6 @@ function LoadBlocklayouts()
 	$rBlocks = Query("select * from blockedlayouts where blockee = ".$loguserid);
 	while($block = Fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
-	//$qBlock = "select * from blockedlayouts where user=".$post['uid']." and blockee=".$loguserid;
-	//$rBlock = Query($qBlock);
-
 }
 
 function LoadRanks($rankset)
@@ -320,21 +317,12 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	
 	$s = EatThatPork($s);
 
-	//$s = preg_replace_callback("'\[source=(.*?)\](.*?)\[/source\]'si", "GeshiCallbackL", $s);
-	//$s = preg_replace_callback("'\[source\](.*?)\[/source\]'si", "GeshiCallback", $s);
 	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
 
 	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
 	$s = preg_replace_callback("'\[thread=([0-9]+)\]'si", "MakeThreadLink", $s);
 	$s = preg_replace_callback("'\[forum=([0-9]+)\]'si", "MakeForumLink", $s);
 	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
-
-	//De-tabled [code] tag, based on BH's...
-    /*$list  = array("<"   ,"\\\"" ,"\\\\" ,"\\'","\r"  ,"["    ,":"    ,")"    ,"_"    );
-    $list2 = array("&lt;","\""   ,"\\"   ,"\'" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
-    $s = preg_replace("'\[code\](.*?)\[/code\]'sie",
-					'\''."<div class=\"codeblock\">".'\''
-					.'.str_replace($list,$list2,\'\\1\').\'</div>\'',$s);*/
 
 	$s = preg_replace("'\[b\](.*?)\[/b\]'si","<strong>\\1</strong>", $s);
 	$s = preg_replace("'\[i\](.*?)\[/i\]'si","<em>\\1</em>", $s);
@@ -677,8 +665,6 @@ function MakePost($post, $type, $params=array())
 			
 		$postFooter = ApplyTags(CleanUpPost($post['signature'], $post['name'], $noSmilies, true), $tags);
 	}
-	
-	//$postText = ApplyTags(CleanUpPost($postText,$post['name'], $noSmilies, true), $tags);
 
 	$postCode =
 "
@@ -742,7 +728,7 @@ function CheckKosher($matches)
 	if($num < 127)
 		return ""; //"&#xA4;";
 	else
-		return "&#x".dechex($num).";"; //$matches[0];
+		return "&#x".dechex($num).";";
 }
 
 ?>
