@@ -613,6 +613,9 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	$fileSize = $_FILES[$field]['size'];
 	$tempFile = $_FILES[$field]['tmp_name'];
 	list($width, $height, $fileType) = getimagesize($tempFile);
+	
+	if ($type == 0 && ($width > 300 || $height > 300))
+		return __("That avatar is definitely too big. The avatar field is meant for an avatar, not a wallpaper.");
 
 	$extension = strtolower(strrchr($fileName, "."));
 	if(!in_array($extension, $extensions))
