@@ -26,7 +26,7 @@ function Import($sqlFile)
 	$sqlData = explode(";",$data);
 	foreach($sqlData as $sql)
 	{
-		if(strlen($sql) === 0)
+		if(strlen(trim($sql)) === 0)
 			continue;
 		if(strstr($sql, "CREATE TABLE `"))
 		{
@@ -35,8 +35,7 @@ function Import($sqlFile)
 			$tableName = substr($sql, $pos1+1, ($pos2-$pos1)-1);
 			print "<li>".$tableName."</li>";
 		}
-		$query = str_replace("SEMICOLON", ";", $sql);
-		Query($query);
+		Query($sql);
 	}
 }
 
