@@ -24,9 +24,13 @@ function insError($text) {
 }
 
 	ob_start();
+
+	if(file_exists("lib/database.php"))
+		insError("ERROR: Board is already installed. Please delete /lib/database.php to run installation again.");
+
 	print "Starting ABXD installation.<br />";
 	print "Writing database configuration file&hellip;<br />";
-	
+		
 	if(isset($_POST['dbserv']))
 	{
 		$dbserv = $_POST['dbserv'];
