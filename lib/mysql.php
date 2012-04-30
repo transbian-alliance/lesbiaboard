@@ -1,18 +1,18 @@
 <?php
-//  AcmlmBoard XD support - MySQL database wrapper functions
+// AcmlmBoard XD support - MySQL database wrapper functions
 
 include("database.php");
 
 $queries = 0;
 
-$dblink = mysql_connect($dbserv, $dbuser, $dbpass) or die("Could not connect to database.");
-mysql_select_db($dbname);
+$dblink = new mysqli($dbserv, $dbuser, $dbpass, $dbname);
 unset($dbpass);
 
 
 function justEscape($text)
 {
-	return mysql_real_escape_string($text);
+	global $dblink;
+	return $dblink->real_escape_string($text);
 }
 
 function CheckQuery($query)
@@ -25,9 +25,9 @@ function CheckQuery($query)
 
 function Query($query)
 {
-	global $queries, $loguser;
+	global $queries, $loguser, $dblink;
 	if ($loguser['powerlevel'] < 3) CheckQuery($query);
-	$res = mysql_query($query) or die(mysql_error()."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
+	$res = @$dblink->query($query) or die($dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 	<input type=\"hidden\" name=\"action\" value=\"Install\" />
 	<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 	<input type=\"submit\" value=\"Click here to re-run the installation sript\" /></form>");
@@ -37,20 +37,38 @@ function Query($query)
 
 function Fetch($result)
 {
-	$res = mysql_fetch_array($result);
-	return $res;
+	return $result->fetch_array();
+}
+
+function FetchRow($result)
+{
+	return $result->fetch_row();
 }
 
 function FetchResult($query, $row = 0, $field = 0)
 {
 	$res = Query($query);
-	if(mysql_numrows($res) == 0) return -1;
-	return mysql_result($res, $row, $field);
+	if($res->num_rows == 0) return -1;
+	return Result($res, $row, $field);
+}
+
+// based on http://stackoverflow.com/a/3779460/736054
+function Result($res, $row = 0, $field = 0) {
+	$res->data_seek($row);
+	$ceva = array_values($res->fetch_assoc());
+	$rasp = $ceva[$field];
+	return $rasp;
 }
 
 function NumRows($result)
 {
-	return mysql_numrows($result);
+	return $result->num_rows;
+}
+
+function InsertId()
+{
+	global $dblink;
+	return $dblink->insert_id;
 }
 
 ?>

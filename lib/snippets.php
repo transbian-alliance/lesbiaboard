@@ -270,7 +270,7 @@ function SendSystemPM($to, $message, $title)
 
 	$qPM = "insert into pmsgs (userto, userfrom, date, ip, msgread) values (".$to.", ".$systemUser.", ".time().", '127.0.0.1', 0)";
 	$rPM = Query($qPM);
-	$pid = mysql_insert_id();
+	$pid = InsertId();
 	$qPM = "insert into pmsgs_text (pid, text, title) values (".$pid.", '".justEscape($message)."', '".justEscape($title)."')";
 	$rPM = Query($qPM);
 	
@@ -289,19 +289,19 @@ function Shake()
 
 function IniValToBytes($val)
 {
-    $val = trim($val);
-    $last = strtolower($val[strlen($val)-1]);
-    switch($last)
-    {
-        case 'g':
-            $val *= 1024;
-        case 'm':
-            $val *= 1024;
-        case 'k':
-            $val *= 1024;
-    }
+	$val = trim($val);
+	$last = strtolower($val[strlen($val)-1]);
+	switch($last)
+	{
+		case 'g':
+			$val *= 1024;
+		case 'm':
+			$val *= 1024;
+		case 'k':
+			$val *= 1024;
+	}
 
-    return $val;
+	return $val;
 }
 
 function BytesToSize($size, $retstring = '%01.2f&nbsp;%s')
@@ -362,12 +362,12 @@ function formatdatenow()
 
 function endsWith($haystack, $needle)
 {
-    $length = strlen($needle);
-    if ($length == 0) {
-        return true;
-    }
+	$length = strlen($needle);
+	if ($length == 0) {
+		return true;
+	}
 
-    $start  = $length * -1; //negative
-    return (substr($haystack, $start) === $needle);
+	$start  = $length * -1; //negative
+	return (substr($haystack, $start) === $needle);
 }
 ?>

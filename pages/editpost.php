@@ -121,7 +121,7 @@ if($_POST['action'] == __("Edit"))
 	
 	if($_POST['text'])
 	{
-		$post = mysql_real_escape_string($_POST['text']);
+		$post = justEscape($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;

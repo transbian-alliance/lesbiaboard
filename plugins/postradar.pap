@@ -10,26 +10,14 @@
 
 registerPlugin("Post radar");
 
-//old deprecated method, but it doesn't count as a query.
-function TableExists($table)
-{
-	global $dbname;
-	$tables = mysql_list_tables($dbname);
-	while (list($temp) = mysql_fetch_array($tables))
-		if ($temp == $table)
-			return TRUE;
-	return FALSE;
-}
-
 function PostRadar_Write($tag = "")
 {
 	global $loguserid, $loguser;
 	if($tag != "userBar" || $loguserid == 0)
 		return;
 
-	if(!TableExists("postradar"))
-		Query("CREATE TABLE IF NOT EXISTS `postradar` (`user` int(11) NOT NULL, `userid` int(11) NOT NULL
-);");
+	// TODO: Change it so it will not require query ($dblink->list_tables() IS query)
+	Query("CREATE TABLE IF NOT EXISTS `postradar` (`user` int(11) NOT NULL, `userid` int(11) NOT NULL);");
 
 	$qEntries = "SELECT id, name, displayname, sex, powerlevel, posts FROM postradar LEFT JOIN users ON postradar.user = users.id WHERE userid=".$loguserid." order by posts DESC";
 	$rEntries = Query($qEntries);

@@ -75,7 +75,7 @@ if($_POST['to'])
 	$recipients = explode(";", $_POST['to']);
 	foreach($recipients as $to)
 	{
-		$to = mysql_real_escape_string(trim(htmlentities($to)));
+		$to = justEscape(trim(htmlentities($to)));
 		if($to == "")
 			continue;
 		$qUser = "select id from users where name='".$to."' or displayname='".$to."'";
@@ -127,7 +127,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-			$post = mysql_real_escape_string($post);
+			$post = justEscape($post);
 
 			//$pid = FetchResult("SELECT id+1 FROM pmsgs WHERE (SELECT COUNT(*) FROM pmsgs p2 WHERE p2.id=pmsgs.id+1)=0 ORDER BY id ASC LIMIT 1");
 			//if($pid < 1) $pid = 1;
@@ -136,7 +136,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 			{
 				$qPM = "insert into pmsgs (userto, userfrom, date, ip, msgread, drafting) values (".$firstTo.", ".$loguserid.", ".time().", '".$_SERVER['REMOTE_ADDR']."', 0, ".$wantDraft.")";
 				$rPM = Query($qPM);
-				$pid = mysql_insert_id();
+				$pid = InsertId();
 
 				$qPMT = "insert into pmsgs_text (pid,title,text) values (".$pid.", '".justEscape($_POST['title'])."', '".$post."')";
 				$rPMT = Query($qPMT);
@@ -150,7 +150,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 				{
 					$qPM = "insert into pmsgs (userto, userfrom, date, ip, msgread, drafting) values (".$recipient.", ".$loguserid.", ".time().", '".$_SERVER['REMOTE_ADDR']."', 0, ".$wantDraft.")";
 					$rPM = Query($qPM);
-					$pid = mysql_insert_id();
+					$pid = InsertId();
 
 					$qPMT = "insert into pmsgs_text (pid,title,text) values (".$pid.", '".justEscape($_POST['title'])."', '".$post."')";
 					$rPMT = Query($qPMT);

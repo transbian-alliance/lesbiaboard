@@ -30,7 +30,7 @@ while ($post = Fetch($posts))
 		continue;
 	}
 	
-	$userid = FetchResult("SELECT id FROM users WHERE name='".mysql_real_escape_string($match[1])."'");
+	$userid = FetchResult("SELECT id FROM users WHERE name='".justEscape($match[1])."'");
 	if ($userid == -1)
 	{
 		echo " * user '{$match[1]}' not found, skipping<br>";

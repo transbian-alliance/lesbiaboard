@@ -245,10 +245,10 @@
 			print "<br><form action='".actionLink("spritedb")."' method='POST'>Go to sprite ID:<br><input type='text' maxlength='10' size='8' name='go' value='$gg'/><input type='submit' value='Go'/></form>";
 			print "</td></tr><tr class='header1'><th>Status</th></tr><tr><td class='cell0'>";
 			
-			$gettotal = mysql_fetch_row(mysql_query('select count(id) from sprites'));
-			$getoriginal = mysql_fetch_row(mysql_query('select count(id) from sprites where orig = 1'));
-			$getknown = mysql_fetch_row(mysql_query('select count(id) from sprites where known = 1'));// and orig = 0'));
-			$getcomplete = mysql_fetch_row(mysql_query('select count(id) from sprites where complete = 1'));// and orig = 0'));
+			$gettotal = FetchRow(Query('select count(id) from sprites'));
+			$getoriginal = FetchRow(Query('select count(id) from sprites where orig = 1'));
+			$getknown = FetchRow(Query('select count(id) from sprites where known = 1'));// and orig = 0'));
+			$getcomplete = FetchRow(Query('select count(id) from sprites where complete = 1'));// and orig = 0'));
 
 			$c = intval($getcomplete[0]);
 			$o = $getoriginal[0];
@@ -277,7 +277,7 @@
 				$cond = "where id=".intval($_GET["go"]);				
 			}
 
-			$getsprites = mysql_query("select * from sprites $cond order by id");
+			$getsprites = Query("select * from sprites $cond order by id");
 			$hasSprite = false;
 			print "<table class='sprites'>
 				<tr class='header1'>
@@ -287,7 +287,7 @@
 					<th style='width: 150px'>Last edited by</th>
 				</tr>";
 			
-			while ($row = mysql_fetch_array($getsprites))
+			while ($row = Fetch($getsprites))
 			{
 				printSpriteRow($row);
 				$hasSprite = true;
@@ -308,11 +308,11 @@
 			if (!is_numeric($id)) { die('Invalid sprite ID'); }
 				$id = intval($id);
 
-			$getsprite = mysql_query("select * from sprites where id = $id");
-			if (mysql_num_rows($getsprite) == 0)
+			$getsprite = Query("select * from sprites where id = $id");
+			if (NumRows($getsprite) == 0)
 				die("Can't find the sprite ID $id");
 
-			$sprite = mysql_fetch_array($getsprite);
+			$sprite = Fetch($getsprite);
 			
 			print "<form id='spritedataform' onsubmit='sendSpriteData(1); return false;' action='".actionLink("spritedb", "", "act=modsprite")."' method='post'>";
 			print "<input type='hidden' name='token' value='$csrftoken'>";
@@ -432,8 +432,8 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 			print "<table class='outline margin width50'>";
 			print "<tr class='header1'><th colspan='2'>Existing In-Game Sprite Data</th></tr>";
 			
-			$getdata = mysql_query("select DISTINCT level, data from origdata where sprite = $id");
-			if (mysql_num_rows($getdata) == 0)
+			$getdata = Query("select DISTINCT level, data from origdata where sprite = $id");
+			if (NumRows($getdata) == 0)
 			{
 				print "<tr class='cell0'> <td>This sprite isn't used in the original game.</td></tr>";
 			}
@@ -441,7 +441,7 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 			{
 				$datavalues = array();
 				print "<tr class='cell0'><td style='width: 240px'><b>Level</b></td><td><b>Data</b></td></tr>";
-				while ($row = mysql_fetch_row($getdata))
+				while ($row = FetchRow($getdata))
 				{
 					if (!isset($datavalues[$row[0]])) $datavalues[$row[0]] = array();
 						$datavalues[$row[0]][] = $row[1];
@@ -470,11 +470,11 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 				die("Bad token!");
 			
 			$id = intval($id);
-			$getsprite = mysql_query("select * from sprites where id = $id");
-			if (mysql_num_rows($getsprite) == 0)
+			$getsprite = Query("select * from sprites where id = $id");
+			if (NumRows($getsprite) == 0)
 				die("Can't find the sprite ID $id");
 			
-			$sprite = mysql_fetch_row($getsprite);
+			$sprite = FetchRow($getsprite);
 
 			//Now let's validate all the data!
 
@@ -484,19 +484,19 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 
 
 			// Sprite name
-			$spritename = mysql_real_escape_string($_POST['spritename']);
+			$spritename = justEscape($_POST['spritename']);
 
 
 			// Sprite category: it must exist
 			$cat = intval($_POST['cat']);
-			$getcategory = mysql_query("select * from spritecategories where id = $cat");
-			if (mysql_num_rows($getsprite) == 0)
+			$getcategory = Query("select * from spritecategories where id = $cat");
+			if (NumRows($getsprite) == 0)
 				die("Can't find category ID $id");
 
 
 			// Notes and files.
-			$notes = mysql_real_escape_string($_POST['notes']);
-			$files = mysql_real_escape_string($_POST['files']);
+			$notes = justEscape($_POST['notes']);
+			$files = justEscape($_POST['files']);
 			
 			
 			//Fields
@@ -565,9 +565,9 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 				}
 			}
 			
-			$fields = mysql_real_escape_string($fields);
+			$fields = justEscape($fields);
 
-			mysql_query("update sprites set known=$known, category=$cat, complete=$complete, name='$spritename', notes='$notes', files='$files', fields='$fields', lasteditor='${loguser['id']}' where id=$id");
+			Query("update sprites set known=$known, category=$cat, complete=$complete, name='$spritename', notes='$notes', files='$files', fields='$fields', lasteditor='${loguser['id']}' where id=$id");
 
 			die("Ok");
 			break;
@@ -578,8 +578,8 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 			if (!is_numeric($id))
 				die('Invalid sprite ID');
 
-			$getsprites = mysql_query('select * from sprites where id = '.$id);
-			while ($row = mysql_fetch_array($getsprites))
+			$getsprites = Query('select * from sprites where id = '.$id);
+			while ($row = Fetch($getsprites))
 			{
 				printSpriteRow($row);
 			}
@@ -591,9 +591,9 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 			if (!is_numeric($id))
 				die('Invalid sprite ID');
 
-			$getsprites = mysql_query('select * from sprites where id = '.$id);
+			$getsprites = Query('select * from sprites where id = '.$id);
 			$found = false;
-			while ($row = mysql_fetch_array($getsprites))
+			while ($row = Fetch($getsprites))
 			{
 				printSpriteRowText($row);
 				$found = true;
