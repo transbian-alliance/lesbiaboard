@@ -35,7 +35,8 @@ function Import($sqlFile)
 			$tableName = substr($sql, $pos1+1, ($pos2-$pos1)-1);
 			print "<li>".$tableName."</li>";
 		}
-		Query($sql);
+		$query = str_replace("SEMICOLON", ";", $sql);
+		Query($query);
 	}
 }
 
