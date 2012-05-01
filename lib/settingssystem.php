@@ -89,15 +89,14 @@ class Settings
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$pluginsettings[$pluginname][$name]))
+			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type))
 			{
-				self::$pluginsettings[$pluginname][$name] = $default;
-				$changed = true;
-			}
-				
-			if(!self::validate(self::$pluginsettings[$pluginname][$name], $type))
-			{
-				self::$pluginsettings[$pluginname][$name] = $default;
+				if (isset($data["defaultfile"])) {
+					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
+				}
+				else {
+					self::$pluginsettings[$pluginname][$name] = $default;
+				}
 				$changed = true;
 			}
 		}
