@@ -9,6 +9,9 @@ else if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
 	die(header("Location: profile.php?id=".(int)$_GET['uid']));
 else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 	die(header("Location: thread.php?pid=".(int)$_GET['pid']."#".(int)$_GET['pid']));
+    
+
+$user_panel = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
 
 $numThreads = FetchResult("select count(*) from threads");
 $numPosts = FetchResult("select count(*) from posts");
@@ -28,11 +31,9 @@ $last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered us
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
-if($loguserid && ($_GET['action'] == "markallread" || $_GET['action'] == "markasread" && isset($_GET['fid'])))
+if($loguserid && $_GET['action'] == "markallread")
 {
-	$where = ($_GET['action'] == 'markallread') ? "" : " WHERE threads.forum=".(int)$_GET['fid'];	
-	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads".$where);
-	die(header('Location: index.php'));
+	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads");
 }
 if(Settings::get("ajax"))
 	write(
