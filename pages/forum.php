@@ -6,6 +6,12 @@ if(!isset($_GET['id']))
 	Kill(__("Forum ID unspecified."));
 
 $fid = (int)$_GET['id'];
+
+if($loguserid && $_GET['action'] == "markasread")
+{
+	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads WHERE threads.forum=$fid");
+}
+
 AssertForbidden("viewForum", $fid);
 
 $pl = $loguser['powerlevel'];
@@ -49,6 +55,8 @@ else if(isset($_GET['unignore']))
 		Alert(__("Forum unignored."));
 	}
 }
+
+$user_panel = actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
 
 $isIgnored = FetchResult("select count(*) from ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
