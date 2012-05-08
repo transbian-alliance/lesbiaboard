@@ -8,7 +8,7 @@
  */
 
 define("PHASE", 2);
-$language = "es_ES";
+$language = "en_US";
 
 if(!function_exists("__"))
 {
