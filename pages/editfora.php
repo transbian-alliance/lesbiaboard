@@ -93,7 +93,7 @@ switch($_POST['action'])
 		$minpowerreply = (int)$_POST['minpowerreply'];
 
 		//Figure out the new forum ID.
-		//I think it'd be better to use mysql_insert_id, but...
+		//I think it'd be better to use InsertId, but...
 		$newID = FetchResult("SELECT id+1 FROM forums WHERE (SELECT COUNT(*) FROM forums f2 WHERE f2.id=forums.id+1)=0 ORDER BY id ASC LIMIT 1");
 		if($newID < 1) $newID = 1;
 

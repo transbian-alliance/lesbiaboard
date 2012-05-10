@@ -264,6 +264,20 @@ if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $logus
 	Query("delete from usercomments where uid=".$id." and id=".(int)$_GET['cid']);
 }
 
+if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid 
+	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'])
+{
+	AssertForbidden("makeComments");
+	$_POST['text'] = strip_tags($_POST['text']);
+	$newID = FetchResult("SELECT id+1 FROM usercomments WHERE (SELECT COUNT(*) FROM usercomments u2 WHERE u2.id=usercomments.id+1)=0 ORDER BY id ASC LIMIT 1");
+	if($newID < 1) $newID = 1;
+	$qComment = "insert into usercomments (id, uid, cid, date, text) values (".$newID.", ".$id.", ".$loguserid.", ".time().", '".justEscape($_POST['text'])."')";
+	$rComment = Query($qComment);
+	if($loguserid != $id)
+		Query("update users set newcomments = 1 where id=".$id);
+}
+
+
 $qComments = "select users.name, users.displayname, users.powerlevel, users.sex, usercomments.id, usercomments.cid, usercomments.text from usercomments left join users on users.id = usercomments.cid where uid=".$id." order by usercomments.date desc limit 0,10";
 $rComments = Query($qComments);
 $commentList = "";
@@ -300,37 +314,10 @@ else
 						<tr>
 							<td class=\"cell0\" colspan=\"2\">
 								".__("No comments.")."
+
 							</td>
 						</tr>
 ");
-}
-
-if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid 
-	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'])
-{
-	AssertForbidden("makeComments");
-	$_POST['text'] = strip_tags($_POST['text']);
-	$newID = FetchResult("SELECT id+1 FROM usercomments WHERE (SELECT COUNT(*) FROM usercomments u2 WHERE u2.id=usercomments.id+1)=0 ORDER BY id ASC LIMIT 1");
-	if($newID < 1) $newID = 1;
-	$qComment = "insert into usercomments (id, uid, cid, date, text) values (".$newID.", ".$id.", ".$loguserid.", ".time().", '".justEscape($_POST['text'])."')";
-	$rComment = Query($qComment);
-	if($loguserid != $id)
-		Query("update users set newcomments = 1 where id=".$id);
-	$lastCID = $loguserid;
-	$thisComment = format(
-"
-						<tr>
-							<td class=\"cell2 width25\">
-								{0}
-							</td>
-							<td class=\"cell{1}\">
-								{2}
-							</td>
-						</tr>
-",	UserLink($loguser), 2, PutASmileOnThatFace(htmlspecialchars($_POST['text'])));
-	if($commentsWasEmpty)
-		$commentList = "";
-	$commentList .= $thisComment;
 }
 
 //print "lastCID: ".$lastCID;
@@ -425,8 +412,9 @@ function IsReallyEmpty($subject)
 
 function IP2C($ip)
 {
-	$q = @mysql_query("select cc from ip2c where ip_from <= inet_aton('".$ip."') and ip_to >= inet_aton('".$ip."')") or $r['cc'] = "";
-	if($q) $r = @mysql_fetch_array($q);
+	global $dblink;
+	$q = @$dblink->query("select cc from ip2c where ip_from <= inet_aton('".$ip."') and ip_to >= inet_aton('".$ip."')") or $r['cc'] = "";
+	if($q) $r = @$q->fetch_array();
 	if($r['cc'])
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }

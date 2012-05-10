@@ -118,7 +118,7 @@ if($draftEditor)
 			$recipients = explode(";", $_POST['to']);
 			foreach($recipients as $to)
 			{
-				$to = mysql_real_escape_string(trim(htmlentities($to)));
+				$to = justEscape(trim(htmlentities($to)));
 				if($to == "")
 					continue;
 				$qUser = "select id from users where name='".$to."' or displayname='".$to."'";
@@ -166,7 +166,7 @@ if($draftEditor)
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-					$post = mysql_real_escape_string($post);
+					$post = justEscape($post);
 	
 					$qPMT = "update pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;
 					$rPMT = Query($qPMT);
@@ -179,7 +179,7 @@ if($draftEditor)
 				{
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = mysql_real_escape_string($post);
+					$post = justEscape($post);
 
 					$qPMT = "update pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;
 					$rPMT = Query($qPMT);
@@ -193,7 +193,7 @@ if($draftEditor)
 										
 						$qPM = "insert into pmsgs (userto, userfrom, date, ip, msgread) values (".$recipient.", ".$loguserid.", ".time().", '".$_SERVER['REMOTE_ADDR']."', 0)";
 						$rPM = Query($qPM);
-						$pid = mysql_insert_id();
+						$pid = insertId();
 
 						$qPMT = "insert into pmsgs_text (pid,title,text) values (".$pid.", '".justEscape($_POST['title'])."', '".$post."')";
 						$rPMT = Query($qPMT);

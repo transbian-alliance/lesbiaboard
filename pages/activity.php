@@ -15,7 +15,7 @@ $dd2 = mktime(0, 0, 0, substr($vd, 0, 2), substr($vd, 3, 2) + 1, substr($vd, 6, 
 
 $nn = Query("select from_unixtime(date, '%Y%m%d') ymd, floor(date / 86400) d, count(*) c, max(num) m from posts where user = ".$u." group by ymd order by ymd");
 
-while($n = mysql_fetch_array($nn))
+while($n = Fetch($nn))
 {
 	$p[$n[$d]] = $n[c];
 	$t[$n[$d]] = $n[m];
@@ -24,8 +24,8 @@ while($n = mysql_fetch_array($nn))
 for($i = 0; $dd + $i * 86400 < time(); $i++)
 {
 	$ps = Query("select count(*),max(num) from posts where user = $u and date >= ".$dd." + ".$i." * 86400 and date < ".$dd2." + ".$i." * 86400");
-	$p[$i] = mysql_result($ps, 0, 0);
-	$t[$i] = mysql_result($ps, 0, 1);
+	$p[$i] = Result($ps, 0, 0);
+	$t[$i] = Result($ps, 0, 1);
 }
 
 $days = floor((time() - $dd) / 86400);

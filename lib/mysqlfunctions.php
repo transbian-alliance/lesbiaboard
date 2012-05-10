@@ -78,7 +78,7 @@ function Upgrade()
 			$changes = 0;
 			$foundFields = array();
 			$scan = Query("show columns from `".$table."`");
-			while($field = mysql_fetch_assoc($scan))
+			while($field = $scan->fetch_assoc())
 			{
 				$fieldName = $field['Field'];
 				$foundFields[] = $fieldName;

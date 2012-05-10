@@ -76,7 +76,7 @@ if($_POST['action'] == __("Post"))
 	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $_POST['title']));
 	if($_POST['text'] && $trimmedTitle != "")
 	{
-		$post = mysql_real_escape_string($_POST['text']);
+		$post = justEscape($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -102,7 +102,7 @@ if($_POST['action'] == __("Post"))
 			$doubleVote = ($_POST['multivote']) ? 1 : 0;
 			$qPoll = "insert into poll (question, doublevote) values ('".justEscape($_POST['pollQuestion'])."', ".$doubleVote.")";
 			$rPoll = Query($qPoll);
-			$pod = mysql_insert_id();
+			$pod = InsertId();
 			for($pops = 0; $pops < $_POST['pollOptions']; $pops++)
 			{
 				if($_POST['pollOption'.$pops])
@@ -124,14 +124,14 @@ if($_POST['action'] == __("Post"))
 
 		$qThreads = "insert into threads (id, forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) values (".$newID.",".$fid.",".$loguserid.",'".justEscape($_POST['title'])."','".$iconurl."',".time().",".$loguserid.", ".$mod.", ".$pod.")";
 		$rThreads = Query($qThreads);
-		$tid = mysql_insert_id();
+		$tid = InsertId();
 
 		$qUsers = "update users set posts=".($loguser['posts']+1).", lastposttime=".time()." where id=".$loguserid." limit 1";
 		$rUsers = Query($qUsers);
 
 		$qPosts = "insert into posts (thread, user, date, ip, num, options, mood) values (".$tid.",".$loguserid.",".time().",'".$_SERVER['REMOTE_ADDR']."',".($loguser['posts']+1).", ".$options.", ".(int)$_POST['mood'].")";
 		$rPosts = Query($qPosts);
-		$pid = mysql_insert_id();
+		$pid = InsertId();
 
 		$qPostsText = "insert into posts_text (pid,text) values (".$pid.",'".$post."')";
 		$rPostsText = Query($qPostsText);

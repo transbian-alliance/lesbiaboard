@@ -140,7 +140,7 @@ if($_POST['action'] == __("Post"))
 
 	if($_POST['text'])
 	{
-		$post = mysql_real_escape_string($_POST['text']);
+		$post = justEscape($_POST['text']);
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -167,7 +167,7 @@ if($_POST['action'] == __("Post"))
 
 		$qPosts = "insert into posts (thread, user, date, ip, num, options, mood) values (".$tid.",".$postingAs.",".time().",'".$_SERVER['REMOTE_ADDR']."',".($postingAsUser['posts']+1).", ".$options.", ".(int)$_POST['mood'].")";
 		$rPosts = Query($qPosts);
-		$pid = mysql_insert_id();
+		$pid = InsertId();
 
 		$qPostsText = "insert into posts_text (pid,text) values (".$pid.",'".$post."')";
 		$rPostsText = Query($qPostsText);

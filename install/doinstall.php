@@ -41,8 +41,10 @@ function insError($text) {
 	else
 		include("lib/database.php");
 	
-	@mysql_connect($dbserv, $dbuser, $dbpass)
-		or insError(
+	$dblink = new mysqli($sqlServ, $sqlUser, $sqlPass);
+	
+	if ($dblink->connect_error) {
+		insError(
 			"Could not connect to the MySQL server. Are you sure you entered 
 			the right things in the SQL credentials page?<br />
 			The following info was supplied:<br />
@@ -50,12 +52,14 @@ function insError($text) {
 			Username: ".$sqluser."<br />
 			Password: (not shown)<br />
 			Database: ".$dbname."<br />
-			SQL error: ".mysql_error());
+			SQL error: ".$dblink->connect_error);
+	}
 			
-	@mysql_select_db($dbname) 
-		or insError(
+	if (!$dblink->select_db($dbname)) {
+		insError(
 			"Could not select the database. Try creating it. <br>
 			(The installer doesn't create it automatically for you)");
+	}
 
 	$dbcfg = @fopen("lib/database.php", "w+") 
 		or insError(
