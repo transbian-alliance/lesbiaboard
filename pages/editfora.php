@@ -299,7 +299,7 @@ function WriteForumEditContents($fid)
 		</tr>
 		<tr class="cell1">
 			<td style="width: 25%;">
-				Title
+				'.__("Title").'
 			</td>
 			<td>
 				<input type="text" style="width: 98%;" name="title" value="{0}" />
@@ -308,7 +308,7 @@ function WriteForumEditContents($fid)
 		<tr class="cell1">
 
 			<td>
-				Description
+				'.__("Description").'
 			</td>
 			<td>
 				<input type="text" style="width: 98%;" name="description" value="{1}" />
@@ -316,7 +316,7 @@ function WriteForumEditContents($fid)
 		</tr>
 		<tr class="cell0">
 			<td>
-				Category
+				'.__("Category").'
 			</td>
 			<td>
 				{2}
@@ -324,27 +324,27 @@ function WriteForumEditContents($fid)
 		</tr>
 		<tr class="cell1">
 			<td>
-				Listing order
+				'.__("Listing order").'
 			</td>
 			<td>
 				<input type="text" size="2" name="forder" value="{7}" />
-				<img src="img/icons/icon5.png" title="Forums are sorted by listing order first, then by ID. If all forums in a category have their listing order set to 0, they will therefore be sorted by ID only." alt="[?]" />
+				<img src="img/icons/icon5.png" title="'.__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.").'" alt="[?]" />
 			</td>
 		</tr>
 		<tr class="cell0">
 			<td>
-				Powerlevel required
+				'.__("Powerlevel required").'
 			</td>
 			<td>
 
 				{3}
-				to view
+				'.__("to view").'
 				<br />
 				{4}
-				to post threads
+				'.__("to post threads").'
 				<br />
 				{5}
-				to reply
+				'.__("to reply").'
 			</td>
 		</tr>
 		<tr class="cell2">
@@ -368,15 +368,15 @@ function WriteForumEditContents($fid)
 			<tr class="header1">
 
 				<th>
-					Delete forum
+					'.__("Delete forum").'
 				</th>
 			</tr>
 			<tr class="cell0">
 				<td>
-					Instead of deleting a forum, you might want to consider "archiving" it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.<br><br>
-					If you still want to delete it, click below:<br>
+					'.__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.").'<br><br>
+					'.__("If you still want to delete it, click below:").'<br>
 					<button onclick="deleteForum(\'delete\'); return false;">
-						Delete forum
+						'.__("Delete forum").'
 					</button>
 				</td>
 			</tr>
@@ -415,20 +415,20 @@ function WriteCategoryEditContents($cid)
 		$corder = $cat['corder'];
 
 		$func = "changeCategoryInfo";
-		$button = "Update";
-		$boxtitle = "Edit Category";
+		$button = __("Update");
+		$boxtitle = __("Edit Category");
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
-				Delete
+				".__("Delete")."
 			</button>";
 	}
 	else
 	{
-		$title = "New Category";
+		$title = __("New Category");
 		$corder = 0;
 		$func = "addCategory";
-		$button = "Add";
-		$boxtitle = "New Category";
+		$button = __("Add");
+		$boxtitle = __("New Category");
 		$delbutton = "";
 	}
 	
@@ -444,7 +444,7 @@ function WriteCategoryEditContents($cid)
 		</tr>
 		<tr class="cell1">
 			<td style="width: 25%;">
-				Name
+				'.__("Name").'
 			</td>
 			<td>
 				<input type="text" style="width: 98%;" name="name" value="'.$name.'" />
@@ -452,11 +452,11 @@ function WriteCategoryEditContents($cid)
 		</tr>
 		<tr class="cell0">
 			<td>
-				Listing order
+				'.__("Listing order").'
 			</td>
 			<td>
 				<input type="text" size="2" name="corder" value="'.$corder.'" />
-				<img src="img/icons/icon5.png" title="Categories are sorted by listing order first, then by ID. If all categories have their listing order set to 0, they will therefore be sorted by ID only." alt="[?]" />
+				<img src="img/icons/icon5.png" title="'.__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.").'" alt="[?]" />
 			</td>
 		</tr>
 		<tr class="cell2">
@@ -480,16 +480,17 @@ function WriteCategoryEditContents($cid)
 			<tr class="header1">
 
 				<th>
-					Delete category
+					'.__("Delete category").'
 				</th>
 			</tr>
 			<tr class="cell0">
 				<td>
-					Be careful when deleting categories. Make sure there are no forums in the category before deleting it.
+					'.__("Be careful when deleting categories. Make sure there are no forums in the category before deleting it.").'
 					<br><br>
-					If you still want to delete it, click below:<br>
+					'.__("If you still want to delete it, click below:").'
+					<br>
 					<button onclick="deleteCategory(\'delete\'); return false;">
-						Delete category
+						'.__("Delete category").'
 					</button>
 				</td>
 			</tr>
@@ -524,9 +525,9 @@ function WriteForumTableContents()
 	<tr class="cell2">
 		<td>
 			<span style="float: right;">
-				<button onclick="newForum();">Add Forum</button>
-				<button onclick="newCategory();">Add Category</button>
-			</span>Hint: Click a forum to select it.
+				<button onclick="newForum();">'.__("Add Forum").'</button>
+				<button onclick="newCategory();">'.__("Add Category").'</button>
+			</span>'.__("Hint: Click a forum to select it.").'
 		</td>
 	</tr>';
 
@@ -534,7 +535,7 @@ function WriteForumTableContents()
 	<table class="outline margin" style="width: 45%;">
 	<tr class="header1">
 		<th>
-			Edit forums
+			'.__("Edit forum list").'
 		</th>
 	</tr>';
 	print $buttons;
@@ -571,7 +572,7 @@ function WriteForumTableContents()
 				print '
 		<tr class="cell'.cell().'" style="cursor: hand;">
 			<td style="padding-left: 24px;" class="f">
-				No forums in this category.
+				'.__("No forums in this category.").'
 			</td>
 		</tr>';
 		}
@@ -599,7 +600,7 @@ function PowerSelect($id, $s) {
 	$r = Format('
 				<select name="{0}">
 	', $id);
-	$powers = array(-1=>"Banned", 0=>"Regular", 1=>"Local mod", 2=>"Full mod", 3=>"Admin");
+	$powers = array(-1=>__("Banned"), 0=>__("Regular"), 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Admin"));
 	foreach ($powers as $k => $v) {
 		$r .= Format('
 					<option value="{0}"{2}>{1}</option>

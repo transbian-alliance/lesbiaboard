@@ -67,6 +67,11 @@
 			"default" => "abxd",
 			"name" => "Board layout",
 		),
+		"defaultLanguage" => array (
+			"type" => "language",
+			"default" => "en_US",
+			"name" => "Board language",
+		),
 		
 		"profilePreviewText" => array (
 			"type" => "textbbcode",

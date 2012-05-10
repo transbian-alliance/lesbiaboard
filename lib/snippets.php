@@ -1,6 +1,5 @@
 <?php
 //  AcmlmBoard XD support - Handy snippets
-include_once("language.php");
 include_once("write.php");
 
 function OptimizeLayouts($text)
