@@ -21,14 +21,9 @@
 									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
 								</a>
 							</td>
-							<?php if($misc['porabox']) { ?>
+							<?php if($layout_pora) { ?>
 							<td style="border: 0px none;">
-								<div class="PoRT nom">
-									<table class="message">
-										<tr class="header0"><th><?php print $misc['poratitle']; ?></th></tr>
-										<tr class="cell0"><td><?php print CleanUpPost($misc['porabox'], "", true, true); ?></td></tr>
-									</table>
-								</div>
+								<?php print $layout_pora; ?>
 							</td>
 							<?php } ?>
 						</tr>

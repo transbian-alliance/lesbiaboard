@@ -34,15 +34,22 @@ $days = array(
 	"Sabado",
 );
 
+function PluralWord($s)
+{
+	if($s == "MySQL")
+		return $s;
+		
+	return $s."s";
+}
+
 function Plural($i, $s)
 {
 	if($i == 1) //For 1, just return that.
 		return $i." ".$s;
 
-	if(substr($s,-1) == "y") //Grammar Nazi strikes back!
-		$s = substr($s, 0, strlen($s)-1)."ies"; //query -> queries
-	else
-		$s .= "s"; //record -> records
+	$s = explode(" ", $s);
+	$s = array_map("PluralWord", $s);
+	$s = implode(" ", $s);
 
 	return $i." ".$s;
 }
