@@ -12,7 +12,7 @@ function ParseThreadTags(&$title)
 	{
 		$title = str_replace("[".$tag."]", "", $title);
 		$tag = htmlentities(strip_tags(strtolower($tag)));
-		
+
 		//Start at a hue that makes "18" red.
 		$hash = -105;
 		for($i = 0; $i < strlen($tag); $i++)
@@ -20,7 +20,7 @@ function ParseThreadTags(&$title)
 
 		//That multiplier is only there to make "nsfw" and "18" the same color.
 		$color = "hsl(".(($hash * 57) % 360).", 70%, 40%)";
-		
+
 		$tags .= "<span class=\"threadTag\" style=\"background-color: ".$color.";\">".$tag."</span>";
 	}
 	if($tags)
@@ -121,7 +121,7 @@ function LoadBlocklayouts()
 
 function LoadRanks($rankset)
 {
-	global $ranks;	
+	global $ranks;
 	if(isset($ranks[$rankset]))
 		return;
 	$ranks[$poster['rankset']] = array();
@@ -163,7 +163,7 @@ function GetToNextRank($poster)
 		$ret = $num - $poster['posts'];
 		if($num > $poster['posts'])
 			return $ret;
-	}	
+	}
 }
 
 function GeshiCallback($matches)
@@ -301,7 +301,7 @@ function CodeCallback($match)
 		$geshi->enable_classes();
 		return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
 	}
-	
+
 	return $match[0];
 }
 
@@ -314,7 +314,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 
 	$s = $postText;
 	$s = str_replace("\r\n","\n", $s);
-	
+
 	$s = EatThatPork($s);
 
 	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
@@ -360,7 +360,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace("'display:'si", "display<em></em>:", $s);
 
 	$s = preg_replace("@(on)(\w+?\s*?)=@si", '$1$2&#x3D;', $s);
-	
+
 	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);
 	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
 	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
@@ -408,10 +408,10 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 		$s = preg_replace($orig, $repl, " ".$s." ");
 		$s = substr($s, 1, -1);
 	}
-	
+
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);	
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
 
 	include("macros.php");
 	foreach($macros as $macro => $img)
@@ -454,9 +454,9 @@ $sideBarData = 0;
 function MakePost($post, $type, $params=array())
 {
 	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
-	
+
 	$sideBarStuff = "";
-	
+
 	if(isset($_GET['pid']))
 		$highlight = (int)$_GET['pid'];
 
@@ -506,7 +506,7 @@ function MakePost($post, $type, $params=array())
 		$replyallowed = IsAllowed("makeReply", $thread);
 		$editallowed = IsAllowed("editPost", $post['id']);
 		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1));
-		
+
 		$links = "";
 		if (!$isBot)
 		{
@@ -522,7 +522,7 @@ function MakePost($post, $type, $params=array())
 			else if ($type == POST_NORMAL)
 			{
 				$links .= "<ul class=\"pipemenu\">";
-				
+
 				$links .= actionLinkTagItem(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']);
 
 				if ($canreply && !$params['noreplylinks'])
@@ -549,7 +549,13 @@ function MakePost($post, $type, $params=array())
 			}
 		}
 
-		$meta = format(__(($type == POST_PM) ? "Sent on {0}" : "Posted on {0}"), formatdate($post['date']));
+		if ($type == POST_PM) {
+			$message = __("Sent on {0}");
+		}
+		else {
+			$message = __("Posted on {0}");
+		}
+		$meta = format($message, formatdate($post['date']));
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
 			$meta .= " ".__("in")." ".actionLinkTag($post['threadname'], "thread", $post['thread']);
@@ -563,7 +569,7 @@ function MakePost($post, $type, $params=array())
 			}
 			else
 				$revdetail = '';
-			
+
 			if ($canmod)
 				$meta .= " (<a href=\"javascript:void(0);\" onclick=\"showRevisions(".$post['id'].")\">".format(__("rev. {0}"), $post['revision'])."</a>".$revdetail.")";
 			else
@@ -598,7 +604,7 @@ function MakePost($post, $type, $params=array())
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['posts'];
 	else
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['num']."/".$post['posts'];
-		
+
 	$sideBarStuff .= "<br />\n".__("Since:")." ".cdate($loguser['dateformat'], $post['regdate'])."<br />";
 
 	$bucket = "sidebar"; include("./lib/pluginloader.php");
@@ -647,12 +653,12 @@ function MakePost($post, $type, $params=array())
 		"rank" => GetRank($post2),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
-	
+
 	$post['posts'] = $rankHax;
-	
+
 	$postText = ApplyTags(CleanUpPost($post['text'], $post['name'], $noSmilies, $noBr), $tags);
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
-	
+
 	if($post['postheader'] && !$isBlocked)
 		$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader'], $post['name'], $noSmilies, true), $tags));
 
@@ -662,7 +668,7 @@ function MakePost($post, $type, $params=array())
 			$separator = "<br />_________________________<br />";
 		else
 			$separator = "<br />";
-			
+
 		$postFooter = ApplyTags(CleanUpPost($post['signature'], $post['name'], $noSmilies, true), $tags);
 	}
 
