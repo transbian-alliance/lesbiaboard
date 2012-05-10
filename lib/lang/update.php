@@ -20,7 +20,7 @@ while (($buffer = fgets($handle, 4096)) !== false)
 {
 	$vals = explode("\t", $buffer);
 	for($i = 0; $i < $langcount; $i++)
-		$langs[$i+2][$vals[0]] = $vals[$i+2];
+		$langs[$i+2][trim($vals[0])] = trim($vals[$i+2]);
 }
 
 for($i = 0; $i < $langcount; $i++)

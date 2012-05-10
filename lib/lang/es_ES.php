@@ -1,37 +1,37 @@
 <?php
 
-setlocale(LC_ALL, "en_US");
+setlocale(LC_ALL, "es_ES");
 
-$birthdayExample = "June 26, 1983";
+$birthdayExample = "Junio 26, 1983";
 
 $dateformats = array("", "m-d-y", "d-m-y", "y-m-d", "Y-m-d", "m/d/Y", "d.m.y", "M j Y", "D jS M Y");
 $timeformats = array("", "h:i A", "h:i:s A", "H:i", "H:i:s");
 
 $months = array(
 	"",
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
+	"Enero",
+	"Febrero",
+	"Marzo",
+	"Abril",
+	"Mayo",
+	"Junio",
+	"Julio",
+	"Agosto",
+	"Septiembre",
+	"Octubre",
+	"Noviembre",
+	"Diciembre",
 );
 
 $days = array(
 	"",
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
+	"Domingo",
+	"Lunes",
+	"Martes",
+	"Miercoles",
+	"Jueves",
+	"Viernes",
+	"Sabado",
 );
 
 function Plural($i, $s)
@@ -49,11 +49,8 @@ function Plural($i, $s)
 
 function HisHer($user)
 {
-	if($user['sex'] == 0)
-		return "his";
-	if($user['sex'] == 1)
-		return "her";
-	return "its";
+	//Heh, this doesn't take plurals into account...
+	return "su";
 }
 
 function stringtotimestamp($str)
