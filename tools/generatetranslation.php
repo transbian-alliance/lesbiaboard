@@ -9,6 +9,8 @@ $directory = isset($argv[1]) ? $argv[1] : '..';
 
 $messages = array();
 
+echo "<?php\n\$languagePack = array(\n";
+
 foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file) {
 	if ($file->isFile()) {
 		$filename = $file->getPathName();
@@ -27,17 +29,15 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory
 				// __() declaration
 				if (is_array($token) && $token[1] === '__' && $tokens[$id + 1] === '(') {
 					if ($tokens[$id + 2][0] === T_CONSTANT_ENCAPSED_STRING && ($tokens[$id + 3] === ')' || $tokens[$id + 3] === ',')) {
-						// eval() removes all useless PHP baggage
-						$message = eval("return {$tokens[$id + 2][1]};");
-						if (!isset($messages[$message])) {
+						if (!isset($messages[$tokens[$id + 2][1]])) {
 							if (!$filenameInserted) {
-								echo "# $filename\n";
+								echo "// $filename\n";
 								$filenameInserted = true;
 							}
-							echo $message, "\n\n";
+							echo $tokens[$id + 2][1], " => '',\n";
 						}
 						// Hash lookups are fast, so why not abuse this structure?
-						$messages[$message] = true;
+						$messages[$tokens[$id + 2][1]] = true;
 					}
 					elseif ($tokens[$id - 1][0] !== T_FUNCTION) {
 						$line = isset($tokens[$id + 2][2]) ? $tokens[$id + 2][2] : $token[2];
@@ -48,3 +48,4 @@ foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory
 		}
 	}
 }
+echo ");\n";
