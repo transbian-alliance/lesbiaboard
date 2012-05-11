@@ -161,6 +161,21 @@ $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))
 	$layout_themefile = "themes/$theme/style.php";
 
+//=======================
+// PoRA box
+
+if(Settings::get("showPoRA"))
+{
+	$layout_pora = '
+		<div class="PoRT nom">
+			<table class="message">
+				<tr class="header0"><th>'.Settings::get("PoRATitle").'</th></tr>
+				<tr class="cell0"><td>'.Settings::get("PoRAText").'</td></tr>
+			</table>
+		</div>';	
+}
+else
+	$layout_pora = "";
 
 //=======================
 // Print everything!

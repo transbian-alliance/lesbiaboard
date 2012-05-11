@@ -1,59 +1,63 @@
 <?php
 
-setlocale(LC_ALL, "en_US");
+setlocale(LC_ALL, "es_ES");
 
-$birthdayExample = "June 26, 1983";
+$birthdayExample = "Junio 26, 1983";
 
 $dateformats = array("", "m-d-y", "d-m-y", "y-m-d", "Y-m-d", "m/d/Y", "d.m.y", "M j Y", "D jS M Y");
 $timeformats = array("", "h:i A", "h:i:s A", "H:i", "H:i:s");
 
 $months = array(
 	"",
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
+	"Enero",
+	"Febrero",
+	"Marzo",
+	"Abril",
+	"Mayo",
+	"Junio",
+	"Julio",
+	"Agosto",
+	"Septiembre",
+	"Octubre",
+	"Noviembre",
+	"Diciembre",
 );
 
 $days = array(
 	"",
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
+	"Domingo",
+	"Lunes",
+	"Martes",
+	"Miercoles",
+	"Jueves",
+	"Viernes",
+	"Sabado",
 );
+
+function PluralWord($s)
+{
+	if($s == "MySQL")
+		return $s;
+		
+	return $s."s";
+}
 
 function Plural($i, $s)
 {
 	if($i == 1) //For 1, just return that.
 		return $i." ".$s;
 
-	if(substr($s,-1) == "y") //Grammar Nazi strikes back!
-		$s = substr($s, 0, strlen($s)-1)."ies"; //query -> queries
-	else
-		$s .= "s"; //record -> records
+	$s = explode(" ", $s);
+	$s = array_map("PluralWord", $s);
+	$s = implode(" ", $s);
 
 	return $i." ".$s;
 }
 
 function HisHer($user)
 {
-	if($user['sex'] == 0)
-		return "his";
-	if($user['sex'] == 1)
-		return "her";
-	return "its";
+	//Heh, this doesn't take plurals into account...
+	return "su";
 }
 
 function stringtotimestamp($str)

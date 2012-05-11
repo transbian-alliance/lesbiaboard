@@ -72,6 +72,21 @@
 			"default" => "en_US",
 			"name" => "Board language",
 		),
+		"showPoRA" => array (
+			"type" => "boolean",
+			"default" => "1",
+			"name" => "Show Points of Required Attention",
+		),
+		"PoRATitle" => array (
+			"type" => "text",
+			"default" => "Points of Required Attention&trade;",
+			"name" => "PoRA title",
+		),
+		"PoRAText" => array (
+			"type" => "texthtml",
+			"default" => "Welcome to your new ABXD Board!",
+			"name" => "PoRA textx	",
+		),
 		
 		"profilePreviewText" => array (
 			"type" => "textbbcode",

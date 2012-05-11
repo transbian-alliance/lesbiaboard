@@ -449,7 +449,7 @@
 'Last known IP' => 'Última IP utilizada',
 'Items per page' => 'Elementos por página',
 'post' => 'post',
-'thread' => 'tema ',
+'thread' => 'tema',
 'Private' => 'Privada',
 'Show' => 'Mostrar',
 'None given' => 'No especificada',

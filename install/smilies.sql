@@ -45,4 +45,6 @@ INSERT INTO `smilies` (`code`, `image`) VALUES
 	('D:', 'outrage.png'),
 	(':sob:', 'sob.png'),
 	(':XD:', 'xd.png'),
+	(':nyan:', 'nyan.gif'),
+	(':c', 'frown_improved.png'),
 	(':yum:', 'yum.png');

@@ -479,7 +479,7 @@ if($_POST['action'] == __("Edit profile"))
 							}
 							else
 								$val = 0;
-							$sets[] = $field." = ".$val;
+							$sets[] = $field." = '".$val."'";
 							break;
 						case "timezone":
 							$val = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
