@@ -41,7 +41,7 @@ function insError($text) {
 	else
 		include("lib/database.php");
 	
-	$dblink = new mysqli($dbserv, $dbuser, $dbpass);
+	$dblink = @new mysqli($dbserv, $dbuser, $dbpass);
 	
 	if ($dblink->connect_error) {
 		insError(
