@@ -13,11 +13,11 @@ if (!@$dblink->real_connect($sqlServ, $sqlUser, $sqlPass, null)) {
 }
 
 if (isset($_GET['attemptCreate'])) {
-	if ($dblink->query("CREATE DATABASE ".justEscape($sqlData))) {
-		print "Successfully created the database. You should be good to go.";
+	if ($dblink->query("CREATE DATABASE $sqlData")) {
+		die("Successfully created the database. You should be good to go.");
 	}
 	else {
-		die("Error: {$mysqli->error}");
+		die("Error: {$dblink->error}");
 	}
 }
 
