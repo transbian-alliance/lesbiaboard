@@ -305,17 +305,22 @@ function CodeCallback($match)
 	return $match[0];
 }
 
+include("bbcode.php");
+
 $text = "";
 function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 {
 	global $smilies, $text;
 	static $orig, $repl;
 	LoadSmilies();
-
+	
+	$s = parseBBCode($postText);
+	$s = securityPostFilter($s);
+	
+	return $s;
+	
+/*
 	$s = $postText;
-	$s = str_replace("\r\n","\n", $s);
-
-	$s = EatThatPork($s);
 
 	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
 
@@ -337,33 +342,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	if($noBr == FALSE)
 		$s = str_replace("\n","<br />", $s);
 
-	//Blacklisted tags
-	$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
-	foreach($badTags as $tag)
-	{
-		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
-		$s = preg_replace("'</$tag(.*?)>'si", "&lt;/$tag>", $s);
-	}
 
-	//Bad sites
-	$s = preg_replace("'goatse'si","goat<span>se</span>", $s);
-	$s = preg_replace("'tubgirl.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'ogrish.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
-	$s = preg_replace("'liveleak.com'si","www.youtube.com/watch?v=xhLxnlNcxv8", $s);
-	$s = preg_replace("'charonboat.com'si","www.youtube.com/watch?v=c9BA5e2Of_U", $s);
-	$s = preg_replace("'shrewsburycollege.co.uk'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'lemonparty.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'meatspin.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
-
-	//Various other stuff
-	//[SUGGESTION] Block "display: none" instead of just "display:" -- Mega-Mario
-	$s = preg_replace("'display:'si", "display<em></em>:", $s);
-
-	$s = preg_replace("@(on)(\w+?\s*?)=@si", '$1$2&#x3D;', $s);
-
-	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);
-	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
-	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
 
 	$s = str_replace("[spoiler]","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\">Show spoiler</button><div class=\"spoiled hidden\">", $s);
 	$s = preg_replace("'\[spoiler=(.*?)\]'si","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\" class=\"named\">\\1</button><div class=\"spoiled hidden\">", $s);
@@ -384,10 +363,6 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Sent by \\1</div><div class='quotecontent'>", $s);
 
 	$bucket = "bbCode"; include("./lib/pluginloader.php");
-
-	$s = preg_replace_callback("@(href|src)\s*=\s*\"([^\"]+)\"@si", "FilterJS", $s);
-	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
-	$s = preg_replace_callback("@(href|src)\s*=\s*([^\s>]+)@si", "FilterJS", $s);
 
 	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
 	if($poster)
@@ -416,6 +391,50 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
+*/
+}
+
+//This function is CRITICAL for the post security.
+//Should always run LAST and on the WHOLE post.
+
+function securityPostFilter($s)
+{
+	$s = str_replace("\r\n","\n", $s);
+
+	$s = EatThatPork($s);
+
+	//Blacklisted tags
+	$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
+	foreach($badTags as $tag)
+	{
+		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
+		$s = preg_replace("'</$tag(.*?)>'si", "&lt;/$tag>", $s);
+	}
+
+	//Bad sites
+	//Do we reaaally need this? This could be plugin-based... ~Dirbaio
+	$s = preg_replace("'goatse'si","goat<span>se</span>", $s);
+	$s = preg_replace("'tubgirl.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
+	$s = preg_replace("'ogrish.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
+	$s = preg_replace("'liveleak.com'si","www.youtube.com/watch?v=xhLxnlNcxv8", $s);
+	$s = preg_replace("'charonboat.com'si","www.youtube.com/watch?v=c9BA5e2Of_U", $s);
+	$s = preg_replace("'shrewsburycollege.co.uk'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
+	$s = preg_replace("'lemonparty.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
+	$s = preg_replace("'meatspin.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
+
+	//Various other stuff
+	//[SUGGESTION] Block "display: none" instead of just "display:" -- Mega-Mario
+	$s = preg_replace("'display:'si", "display<em></em>:", $s);
+
+	$s = preg_replace("@(on)(\w+?\s*?)=@si", '$1$2&#x3D;', $s);
+
+	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);
+	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
+	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
+
+	$s = preg_replace_callback("@(href|src)\s*=\s*\"([^\"]+)\"@si", "FilterJS", $s);
+	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
+	$s = preg_replace_callback("@(href|src)\s*=\s*([^\s>]+)@si", "FilterJS", $s);
 
 	return $s;
 }
