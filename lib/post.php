@@ -219,70 +219,19 @@ function GetSyndrome($activity)
 	return $soFar;
 }
 
-
-$text = "";
-function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
+function postDoReplaceText($s)
 {
-	global $smilies, $text;
-	static $orig, $repl;
+	global $postNoSmilies, $postNoBr, $postPoster, $smilies;
+	
+	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
+	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
+	if($postPoster)
+		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
+
 	LoadSmilies();
 	
-	$s = parseBBCode($postText);
-	$s = securityPostFilter($s);
-	
-	return $s;
-	
-/*
-	$s = $postText;
-
-	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
-
-	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
-	$s = preg_replace_callback("'\[thread=([0-9]+)\]'si", "MakeThreadLink", $s);
-	$s = preg_replace_callback("'\[forum=([0-9]+)\]'si", "MakeForumLink", $s);
-	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
-
-	$s = preg_replace("'\[b\](.*?)\[/b\]'si","<strong>\\1</strong>", $s);
-	$s = preg_replace("'\[i\](.*?)\[/i\]'si","<em>\\1</em>", $s);
-	$s = preg_replace("'\[u\](.*?)\[/u\]'si","<u>\\1</u>", $s);
-	$s = preg_replace("'\[s\](.*?)\[/s\]'si","<del>\\1</del>", $s);
-
-	$s = preg_replace("'<b>(.*?)\</b>'si","<strong>\\1</strong>", $s);
-	$s = preg_replace("'<i>(.*?)\</i>'si","<em>\\1</em>", $s);
-	$s = preg_replace("'<u>(.*?)\</u>'si","<span class=\"underline\">\\1</span>", $s);
-	$s = preg_replace("'<s>(.*?)\</s>'si","<del>\\1</del>", $s);
-
-	if($noBr == FALSE)
-		$s = str_replace("\n","<br />", $s);
-
-
-
-	$s = str_replace("[spoiler]","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\">Show spoiler</button><div class=\"spoiled hidden\">", $s);
-	$s = preg_replace("'\[spoiler=(.*?)\]'si","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\" class=\"named\">\\1</button><div class=\"spoiled hidden\">", $s);
-	$s = str_replace("[/spoiler]","</div></div>", $s);
-
-	$s = preg_replace("'\[url\](.*?)\[/url\]'si","<a href=\"\\1\">\\1</a>", $s);
-	$s = preg_replace("'\[url=[\'\"]?(.*?)[\'\"]?\](.*?)\[/url\]'si","<a href=\"\\1\">\\2</a>", $s);
-	$s = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si","<a href=\"\\1\">\\2</a>", $s);
-	$s = preg_replace("'\[img\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\">", $s);
-	$s = preg_replace("'\[img=(.*?)\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\\2\" title=\"\\2\">", $s);
-
-	//Changed quote style.
-	//The new one is way easier to style. ~Dirbaio
-	$s =  str_replace("[quote]","<div class='quote'><div class='quotecontent'>", $s);
-	$s =  str_replace("[/quote]","</div></div>", $s);
-	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Posted by <a href=\"thread.php?pid=\\2#\\2\">\\1</a></div><div class='quotecontent'>", $s);
-	$s = preg_replace("'\[quote=(.*?)\]'si","<div class='quote'><div class='quoteheader'>Posted by \\1</div><div class='quotecontent'>", $s);
-	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Sent by \\1</div><div class='quotecontent'>", $s);
-
-	$bucket = "bbCode"; include("./lib/pluginloader.php");
-
-	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
-	if($poster)
-		$s = preg_replace("'/me '","<b>* ".$poster."</b> ", $s);
-
 	//Smilies
-	if(!$noSmilies)
+	if(!$postNoSmilies)
 	{
 		if (!isset($orig))
 		{
@@ -297,14 +246,32 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 		$s = substr($s, 1, -1);
 	}
 
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
 
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
-*/
+		
+	return $s;
+}
+
+function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
+{
+	global $postNoSmilies, $postNoBr, $smilies, $postPoster;
+	static $orig, $repl;
+	
+	$postNoSmilies = $noSmilies;
+	$postNoBr = $noBr;
+	$postPoster = $poster;
+	
+	$s = parseBBCode($postText);
+
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
+
+	$s = securityPostFilter($s);
+	
+	return $s;
 }
 
 //This function is CRITICAL for the post security.

@@ -49,6 +49,7 @@ function bbcodeURL($contents, $arg)
 
 function bbcodeImage($contents, $arg)
 {
+	print "LOL"; 
 	$dest = $contents;
 	$title = "";
 	if($arg)

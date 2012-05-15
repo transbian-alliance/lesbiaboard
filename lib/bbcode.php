@@ -4,15 +4,18 @@
 
 function parseText($text)
 {
-	global $parseStatus;
+	global $parseStatus, $postNoSmilies, $postNoBr, $postPoster;
 	
 	//Parse smilies and such
 	if($parseStatus <= 1)
 		$text = htmlspecialchars($text);
+		
 	if($parseStatus == 0)
 	{
-		$text = nl2br($text);
-		//Smilies here
+		if(!$postNoBr)
+			$text = nl2br($text);
+		
+		$text = postDoReplaceText($text);
 	}
 	
 	return $text;
@@ -31,6 +34,7 @@ $tagParseStatus = array(
 	"code" => 2,
 	"source" => 2,
 	"pre" => 2,
+	"style" => 2,
 );
 
 $heavyTags = array(
@@ -38,7 +42,10 @@ $heavyTags = array(
 );
 
 $singleTags = array(
-	"user", "forum", "thread", "img", "br"
+	"user", "forum", "thread",
+);
+$singleHtmlTags = array(
+	"p", "br", "li", "img"
 );
 
 
@@ -132,7 +139,7 @@ function parseToken($token)
 
 function parse($parenttoken)
 {
-	global $tokens, $tokenPtr, $heavyTags, $singleTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks;
+	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks;
 	
 	$contents = "";
 	$finished = false;
@@ -140,9 +147,24 @@ function parse($parenttoken)
 	$textContents = "";
 	
 	$thistag = strtolower($parenttoken["tag"]);
-
-	if(in_array($thistag, $singleTags))
-		return $parenttoken["text"];
+	$singletag = false;
+	
+	if($parenttoken["type"] == 1)
+	{
+		if(in_array($thistag, $singleTags))
+		{
+			$finished = true;
+			$singletag = true;
+		}
+	}
+	else
+	{
+		if(in_array($thistag, $singleHtmlTags))
+		{
+			$finished = true;
+			$singletag = true;
+		}
+	}
 		
 	//Heavy tags just put everything as text until lol.
 	$heavyTag = $parenttoken != 0 && in_array($thistag, $heavyTags);
@@ -178,11 +200,18 @@ function parse($parenttoken)
 					$result .= parse($token);
 				break;
 			case 2: //BBCode close
-			case 4: //HTML close
-				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $token["type"] == $parenttoken["type"]+1)
+				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $parenttoken["type"] == 1)
 					$finished = true;
 				else
 					$printAsText = true;
+			case 4: //HTML close
+				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $parenttoken["type"] == 3)
+					$finished = true;
+				else
+				{
+					if(!in_array(strtolower($token["tag"]), $singleHtmlTags))
+						$printAsText = true;
+				}
 			//TODO HTML
 		}
 		
@@ -209,8 +238,9 @@ function parse($parenttoken)
 		return $contents;
 	
 	$errors = "";
-	if(!$finished)
-		$errors = "<span style=\"color:red;\">Unclosed tag: $thistag</span><br>";
+
+//	if(!$finished)
+//		$errors = "<span style=\"color:red;\">Unclosed tag: $thistag</span><br>";
 		
 	if($parenttoken["type"] == 1) //BBCode
 	{
@@ -226,7 +256,10 @@ function parse($parenttoken)
 		if($parenttoken["attributes"] != "")
 			$attrs = " ".$parenttoken["attributes"];
 		//Now we gotta do something with the tag in here.
-		return $errors."<".$thistag.$attrs.">".$contents."</".$thistag.">";
+		if($singletag)
+			return $errors."<".$thistag.$attrs.">";
+		else
+			return $errors."<".$thistag.$attrs.">".$contents."</".$thistag.">";
 	}
 	else return "WTF?";
 }
