@@ -166,22 +166,6 @@ function GetToNextRank($poster)
 	}
 }
 
-function GeshiCallback($matches)
-{
-	$geshi = new GeSHi(trim($matches[1]), "csharp", null);
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	$geshi->enable_classes();
-	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
-}
-
-function GeshiCallbackL($matches)
-{
-	$geshi = new GeSHi(trim($matches[2]), $matches[1], null);
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	$geshi->enable_classes();
-	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
-}
-
 function MakeUserAtLink($matches)
 {
 	global $members;
@@ -235,25 +219,6 @@ function GetSyndrome($activity)
 	return $soFar;
 }
 
-function CodeCallback($match)
-{
-	if ($match[1] == 'code')
-	{
-		$list  = array("<"   , "\r"  ,"["    ,":"    ,")"    ,"_"    );
-		$list2 = array("&lt;" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
-		return '<div class="codeblock">'.str_replace($list, $list2, $match[4]).'</div>';
-	}
-	else if ($match[1] == 'source')
-	{
-		$language = $match[3] ? $match[3] : 'csharp';
-		$geshi = new GeSHi(trim($match[4]), $language, null);
-		$geshi->set_header_type(GESHI_HEADER_NONE);
-		$geshi->enable_classes();
-		return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
-	}
-
-	return $match[0];
-}
 
 $text = "";
 function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
