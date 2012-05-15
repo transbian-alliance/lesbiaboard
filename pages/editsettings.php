@@ -96,6 +96,8 @@ foreach($settings as $name => $data)
 		$input = makeThemeList($name, $value);
 	if($type == "layout")
 		$input = makeLayoutList($name, $value);
+	if($type == "language")
+		$input = makeLangList($name, $value);
 	
 	if($help)
 		$help = "<img src=\"img/icons/icon4.png\" title=\"$help\" alt=\"[!]\" />";
@@ -207,6 +209,22 @@ function makeLayoutList($fieldname, $value)
 	}
 	closedir($dir);
 	return makeSelect($fieldname, $value, $layouts);
+}
+
+function makeLangList($fieldname, $value)
+{
+	$data = array();
+	$dir = @opendir("lib/lang");
+	while ($file = readdir($dir)) {
+		//print $file;
+		if (endsWith($file, "_lang.php")) {
+			$file = substr($file, 0, strlen($file)-9);
+			$data[$file] = $file;
+		}
+	}
+	$data["en_US"] = "en_US";
+	closedir($dir);
+	return makeSelect($fieldname, $value, $data);
 }
 
 //From the PHP Manual User Comments

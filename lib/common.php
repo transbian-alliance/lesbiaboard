@@ -34,6 +34,14 @@ include("salt.php");
 
 include("settingsfile.php");
 include("links.php");
+
+include("mysql.php");
+include("mysqlfunctions.php");
+include("settingssystem.php");
+Settings::load();
+Settings::checkPlugin("main");
+include("feedback.php");
+include("language.php");
 include("snippets.php");
 
 class KillException extends Exception { }
@@ -74,12 +82,6 @@ function UserStructure($row, $prefix)
 
 //WARNING: These things need to be kept in a certain order of execution.
 
-include("mysql.php");
-include("mysqlfunctions.php");
-include("settingssystem.php");
-Settings::load();
-Settings::checkPlugin("main");
-include("feedback.php");
 
 $thisURL = $_SERVER['SCRIPT_NAME'];
 if($q = $_SERVER['QUERY_STRING'])
@@ -93,7 +95,6 @@ include("post.php");
 include("onlineusers.php");
 
 $theme = $loguser['theme'];
-include("language.php");
 include("write.php");
 include('lib/layout.php');
 

@@ -41,15 +41,15 @@ function insError($text) {
 	else
 		include("lib/database.php");
 	
-	$dblink = new mysqli($sqlServ, $sqlUser, $sqlPass);
+	$dblink = @new mysqli($dbserv, $dbuser, $dbpass);
 	
 	if ($dblink->connect_error) {
 		insError(
 			"Could not connect to the MySQL server. Are you sure you entered 
 			the right things in the SQL credentials page?<br />
 			The following info was supplied:<br />
-			Server: ".$sqlserv."<br />
-			Username: ".$sqluser."<br />
+			Server: ".$dbserv."<br />
+			Username: ".$dbuser."<br />
 			Password: (not shown)<br />
 			Database: ".$dbname."<br />
 			SQL error: ".$dblink->connect_error);
