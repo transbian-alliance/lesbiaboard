@@ -145,9 +145,9 @@ function bbcodeQuoteGeneric($contents, $arg, $text)
 function bbcodeSpoiler($contents, $arg)
 {
 	if($arg)
-		return "<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\" class=\"spoilerbutton named\">$arg</button><div class=\"spoiled hidden\">$contents</div></div>";
+		return "<div class=\"spoiler\"><button class=\"spoilerbutton named\">$arg</button><div class=\"spoiled hidden\">$contents</div></div>";
 	else
-		return "<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\" class=\"spoilerbutton\">Show spoiler</button><div class=\"spoiled hidden\">$contents</div></div>";
+		return "<div class=\"spoiler\"><button class=\"spoilerbutton\">Show spoiler</button><div class=\"spoiled hidden\">$contents</div></div>";
 }
 
 function bbcodeCode($contents, $arg)
