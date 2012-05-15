@@ -204,6 +204,7 @@ function parse($parenttoken)
 					$finished = true;
 				else
 					$printAsText = true;
+				break;
 			case 4: //HTML close
 				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $parenttoken["type"] == 3)
 					$finished = true;
