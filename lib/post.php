@@ -205,56 +205,6 @@ function MakeUserAtLink($matches)
 		return $username; //Return the actual name attempted.
 }
 
-function MakeUserLink($matches)
-{
-	global $members;
-	$id = (int)$matches[1];
-	if(!isset($members[$id]))
-	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id=".$id);
-		if(NumRows($rUser))
-			$members[$id] = Fetch($rUser);
-		else
-			return UserLink(array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1));
-	}
-	return UserLink($members[$id]);
-}
-
-function MakeThreadLink($matches)
-{
-	global $threadLinkCache;
-	$id = (int)$matches[1];
-	if(!isset($threadLinkCache[$id]))
-	{
-		$rThread = Query("select id, title from threads where id=".$id);
-		if(NumRows($rThread))
-		{
-			$thread = Fetch($rThread);
-			$threadLinkCache[$id] = actionLinkTag($thread['title'], "thread", $thread['id']);
-		}
-		else
-			$threadLinkCache[$id] = "&lt;invalid thread ID&gt;";
-	}
-	return $threadLinkCache[$id];
-}
-
-function MakeForumLink($matches)
-{
-	global $forumLinkCache;
-	$id = (int)$matches[1];
-	if(!isset($forumLinkCache[$id]))
-	{
-		$rForum = Query("select id, title from forums where id=".$id);
-		if(NumRows($rForum))
-		{
-			$forum = Fetch($rForum);
-			$forumLinkCache[$id] = actionLinkTag($forum['title'], "forum", $forum['id']);
-		}
-		else
-			$forumLinkCache[$id] = "&lt;invalid forum ID&gt;";
-	}
-	return $forumLinkCache[$id];
-}
 
 function ApplyNetiquetteToLinks($match)
 {
@@ -304,8 +254,6 @@ function CodeCallback($match)
 
 	return $match[0];
 }
-
-include("bbcode.php");
 
 $text = "";
 function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
@@ -397,14 +345,17 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 //This function is CRITICAL for the post security.
 //Should always run LAST and on the WHOLE post.
 
+$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
+
 function securityPostFilter($s)
 {
+	global $badTags;
+
 	$s = str_replace("\r\n","\n", $s);
 
 	$s = EatThatPork($s);
 
 	//Blacklisted tags
-	$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
 	foreach($badTags as $tag)
 	{
 		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
