@@ -128,9 +128,11 @@ function bbcodeQuoteGeneric($contents, $arg, $text)
 	$arg = explode(" ", $arg);
 	
 	$who = $arg[0];
+	$who = str_replace('"', '', $who);
 	if(count($arg) == 2)
 	{
 		$id = $arg[1];
+		$id = str_replace('"', '', $id);
 		$id = substr($id, 3);
 		$id = (int)$id;
 		return "<div class='quote'><div class='quoteheader'>$text <a href=\"thread.php?pid=$id#$id\">$who</a></div><div class='quotecontent'>$contents</div></div>";

@@ -38,7 +38,7 @@ $heavyTags = array(
 );
 
 $singleTags = array(
-	"code", "source", "pre"
+	"user", "forum", "thread", "img", "br"
 );
 
 
@@ -132,15 +132,18 @@ function parseToken($token)
 
 function parse($parenttoken)
 {
-	global $tokens, $tokenPtr, $heavyTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks;
+	global $tokens, $tokenPtr, $heavyTags, $singleTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks;
 	
 	$contents = "";
 	$finished = false;
 	
 	$textContents = "";
 	
-	$thistag = $parenttoken["tag"];
-	
+	$thistag = strtolower($parenttoken["tag"]);
+
+	if(in_array($thistag, $singleTags))
+		return $parenttoken["text"];
+		
 	//Heavy tags just put everything as text until lol.
 	$heavyTag = $parenttoken != 0 && in_array($thistag, $heavyTags);
 	
@@ -176,7 +179,7 @@ function parse($parenttoken)
 				break;
 			case 2: //BBCode close
 			case 4: //HTML close
-				if($parenttoken != 0 && $token["tag"] == $parenttoken["tag"] && $token["type"] == $parenttoken["type"]+1)
+				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $token["type"] == $parenttoken["type"]+1)
 					$finished = true;
 				else
 					$printAsText = true;
@@ -204,13 +207,18 @@ function parse($parenttoken)
 	
 	if($parenttoken == 0)
 		return $contents;
-	else if($parenttoken["type"] == 1) //BBCode
+	
+	$errors = "";
+	if(!$finished)
+		$errors = "<span style=\"color:red;\">Unclosed tag: $thistag</span><br>";
+		
+	if($parenttoken["type"] == 1) //BBCode
 	{
 		$func = $bbcodeCallbacks[$thistag];
 		if($func)
-			return $func($contents, $parenttoken["attributes"]);
+			return $errors.$func($contents, $parenttoken["attributes"]);
 		else
-			return $contents;
+			return $errors.$contents;
 	}
 	else if($parenttoken["type"] == 3) //HTML
 	{
@@ -218,7 +226,7 @@ function parse($parenttoken)
 		if($parenttoken["attributes"] != "")
 			$attrs = " ".$parenttoken["attributes"];
 		//Now we gotta do something with the tag in here.
-		return "<".$thistag.$attrs.">".$contents."</".$thistag.">";
+		return $errors."<".$thistag.$attrs.">".$contents."</".$thistag.">";
 	}
 	else return "WTF?";
 }
