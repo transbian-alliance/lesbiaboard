@@ -18,7 +18,7 @@
 		"color2" => array(
 			"type" => "integer",
 			"default" => "3",
-			"name" => "Destination port",
+			"name" => "Color code 2",
 		),
 	);
 ?>
