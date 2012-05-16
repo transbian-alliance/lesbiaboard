@@ -98,5 +98,7 @@ $theme = $loguser['theme'];
 include("write.php");
 include('lib/layout.php');
 
+include("lists.php");
+
 $bucket = "init"; include('lib/pluginloader.php');
 
