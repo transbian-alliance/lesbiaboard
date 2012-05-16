@@ -91,8 +91,8 @@ include("notifications.php");
 include("loguser.php");
 include("permissions.php");
 include("pluginsystem.php");
-include("bbcode_callbacks.php");
 include("bbcode.php");
+include("bbcode_callbacks.php");
 include("post.php");
 include("onlineusers.php");
 
