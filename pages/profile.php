@@ -123,7 +123,7 @@ if($user['title'])
 if($user['homepageurl'])
 {
 	if($user['homepagename'])
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> &mdash; ".$user['homepageurl'];
+		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> - ".$user['homepageurl'];
 	else
 		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepageurl']."</a>";
 }
