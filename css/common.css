@@ -311,8 +311,9 @@ div.quote div.quoteheader
 	font-style:italic;
 }
 
-td.post .codeblock
+.codeblock
 {
+	white-space:pre;
 	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
 	padding:4px;
 	margin-left:10px;

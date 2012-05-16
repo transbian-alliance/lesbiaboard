@@ -123,7 +123,7 @@ if($user['title'])
 if($user['homepageurl'])
 {
 	if($user['homepagename'])
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> &mdash; ".$user['homepageurl'];
+		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> - ".$user['homepageurl'];
 	else
 		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepageurl']."</a>";
 }
@@ -419,10 +419,12 @@ function IP2C($ip)
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }
 
+//THIS IS A HACK !!!
+
 function PutASmileOnThatFace($s)
 {
 	global $smilies;
-	LoadSmilies();
+/*	LoadSmilies();
 	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
 	for($i = 0; $i < count($smilies); $i++)
 	{
@@ -433,7 +435,7 @@ function PutASmileOnThatFace($s)
 		$s = str_replace($smilies[$i]['code'], "«".$smilies[$i]['image']."»", $s);
 		$s = str_replace("«".$smilies[$i]['image']."»", "<img src=\"img/smilies/".$smilies[$i]['image']."\" alt=\"".str_replace(">", "&gt;", $smilies[$i]['code'])."\" />", $s);
 		$s = str_replace("##LOLDONTREPLACESMILIESINHTMLTAGZLOL##", $smilies[$i]['code'], $s);
-	}
+	}*/
 	return $s;
 }
 

@@ -166,22 +166,6 @@ function GetToNextRank($poster)
 	}
 }
 
-function GeshiCallback($matches)
-{
-	$geshi = new GeSHi(trim($matches[1]), "csharp", null);
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	$geshi->enable_classes();
-	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
-}
-
-function GeshiCallbackL($matches)
-{
-	$geshi = new GeSHi(trim($matches[2]), $matches[1], null);
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	$geshi->enable_classes();
-	return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
-}
-
 function MakeUserAtLink($matches)
 {
 	global $members;
@@ -205,56 +189,6 @@ function MakeUserAtLink($matches)
 		return $username; //Return the actual name attempted.
 }
 
-function MakeUserLink($matches)
-{
-	global $members;
-	$id = (int)$matches[1];
-	if(!isset($members[$id]))
-	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id=".$id);
-		if(NumRows($rUser))
-			$members[$id] = Fetch($rUser);
-		else
-			return UserLink(array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1));
-	}
-	return UserLink($members[$id]);
-}
-
-function MakeThreadLink($matches)
-{
-	global $threadLinkCache;
-	$id = (int)$matches[1];
-	if(!isset($threadLinkCache[$id]))
-	{
-		$rThread = Query("select id, title from threads where id=".$id);
-		if(NumRows($rThread))
-		{
-			$thread = Fetch($rThread);
-			$threadLinkCache[$id] = actionLinkTag($thread['title'], "thread", $thread['id']);
-		}
-		else
-			$threadLinkCache[$id] = "&lt;invalid thread ID&gt;";
-	}
-	return $threadLinkCache[$id];
-}
-
-function MakeForumLink($matches)
-{
-	global $forumLinkCache;
-	$id = (int)$matches[1];
-	if(!isset($forumLinkCache[$id]))
-	{
-		$rForum = Query("select id, title from forums where id=".$id);
-		if(NumRows($rForum))
-		{
-			$forum = Fetch($rForum);
-			$forumLinkCache[$id] = actionLinkTag($forum['title'], "forum", $forum['id']);
-		}
-		else
-			$forumLinkCache[$id] = "&lt;invalid forum ID&gt;";
-	}
-	return $forumLinkCache[$id];
-}
 
 function ApplyNetiquetteToLinks($match)
 {
@@ -285,60 +219,75 @@ function GetSyndrome($activity)
 	return $soFar;
 }
 
-function CodeCallback($match)
+function postDoReplaceText($s)
 {
-	if ($match[1] == 'code')
+	global $postNoSmilies, $postNoBr, $postPoster, $smilies;
+	
+	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
+	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
+	if($postPoster)
+		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
+
+	LoadSmilies();
+	
+	//Smilies
+	if(!$postNoSmilies)
 	{
-		$list  = array("<"   , "\r"  ,"["    ,":"    ,")"    ,"_"    );
-		$list2 = array("&lt;" ,"<br/>","&#91;","&#58;","&#41;","&#95;");
-		return '<div class="codeblock">'.str_replace($list, $list2, $match[4]).'</div>';
-	}
-	else if ($match[1] == 'source')
-	{
-		$language = $match[3] ? $match[3] : 'csharp';
-		$geshi = new GeSHi(trim($match[4]), $language, null);
-		$geshi->set_header_type(GESHI_HEADER_NONE);
-		$geshi->enable_classes();
-		return format("<div class=\"codeblock geshi\">{0}</div>", str_replace("\n", "", $geshi->parse_code()));
+		if (!isset($orig))
+		{
+			$orig = $repl = array();
+			for ($i = 0; $i < count($smilies); $i++)
+			{
+				$orig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
+				$repl[] = "<img src=\"img/smilies/".$smilies[$i]['image']."\" />";
+			}
+		}
+		$s = preg_replace($orig, $repl, " ".$s." ");
+		$s = substr($s, 1, -1);
 	}
 
-	return $match[0];
+
+	include("macros.php");
+	foreach($macros as $macro => $img)
+		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
+		
+	return $s;
 }
 
-$text = "";
 function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 {
-	global $smilies, $text;
+	global $postNoSmilies, $postNoBr, $smilies, $postPoster;
 	static $orig, $repl;
-	LoadSmilies();
+	
+	$postNoSmilies = $noSmilies;
+	$postNoBr = $noBr;
+	$postPoster = $poster;
+	
+	$s = parseBBCode($postText);
 
-	$s = $postText;
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
+	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
+
+	$s = securityPostFilter($s);
+	
+	return $s;
+}
+
+//This function is CRITICAL for the post security.
+//Should always run LAST and on the WHOLE post.
+
+$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
+
+function securityPostFilter($s)
+{
+	global $badTags;
+
 	$s = str_replace("\r\n","\n", $s);
 
 	$s = EatThatPork($s);
 
-	$s = preg_replace_callback("@\[(code|source)(=(.+?))?\](.*?)\[/\\1\]@si", 'CodeCallback', $s);
-
-	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
-	$s = preg_replace_callback("'\[thread=([0-9]+)\]'si", "MakeThreadLink", $s);
-	$s = preg_replace_callback("'\[forum=([0-9]+)\]'si", "MakeForumLink", $s);
-	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
-
-	$s = preg_replace("'\[b\](.*?)\[/b\]'si","<strong>\\1</strong>", $s);
-	$s = preg_replace("'\[i\](.*?)\[/i\]'si","<em>\\1</em>", $s);
-	$s = preg_replace("'\[u\](.*?)\[/u\]'si","<u>\\1</u>", $s);
-	$s = preg_replace("'\[s\](.*?)\[/s\]'si","<del>\\1</del>", $s);
-
-	$s = preg_replace("'<b>(.*?)\</b>'si","<strong>\\1</strong>", $s);
-	$s = preg_replace("'<i>(.*?)\</i>'si","<em>\\1</em>", $s);
-	$s = preg_replace("'<u>(.*?)\</u>'si","<span class=\"underline\">\\1</span>", $s);
-	$s = preg_replace("'<s>(.*?)\</s>'si","<del>\\1</del>", $s);
-
-	if($noBr == FALSE)
-		$s = str_replace("\n","<br />", $s);
-
 	//Blacklisted tags
-	$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
 	foreach($badTags as $tag)
 	{
 		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
@@ -346,6 +295,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	}
 
 	//Bad sites
+	//Do we reaaally need this? This could be plugin-based... ~Dirbaio
 	$s = preg_replace("'goatse'si","goat<span>se</span>", $s);
 	$s = preg_replace("'tubgirl.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
 	$s = preg_replace("'ogrish.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
@@ -365,57 +315,9 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
 	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
 
-	$s = str_replace("[spoiler]","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\">Show spoiler</button><div class=\"spoiled hidden\">", $s);
-	$s = preg_replace("'\[spoiler=(.*?)\]'si","<div class=\"spoiler\"><button onclick=\"toggleSpoiler(this.parentNode);\" class=\"named\">\\1</button><div class=\"spoiled hidden\">", $s);
-	$s = str_replace("[/spoiler]","</div></div>", $s);
-
-	$s = preg_replace("'\[url\](.*?)\[/url\]'si","<a href=\"\\1\">\\1</a>", $s);
-	$s = preg_replace("'\[url=[\'\"]?(.*?)[\'\"]?\](.*?)\[/url\]'si","<a href=\"\\1\">\\2</a>", $s);
-	$s = preg_replace("'\[url=(.*?)\](.*?)\[/url\]'si","<a href=\"\\1\">\\2</a>", $s);
-	$s = preg_replace("'\[img\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\">", $s);
-	$s = preg_replace("'\[img=(.*?)\](.*?)\[/img\]'si","<img src=\"\\1\" alt=\"\\2\" title=\"\\2\">", $s);
-
-	//Changed quote style.
-	//The new one is way easier to style. ~Dirbaio
-	$s =  str_replace("[quote]","<div class='quote'><div class='quotecontent'>", $s);
-	$s =  str_replace("[/quote]","</div></div>", $s);
-	$s = preg_replace("'\[quote=\"(.*?)\" id=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Posted by <a href=\"thread.php?pid=\\2#\\2\">\\1</a></div><div class='quotecontent'>", $s);
-	$s = preg_replace("'\[quote=(.*?)\]'si","<div class='quote'><div class='quoteheader'>Posted by \\1</div><div class='quotecontent'>", $s);
-	$s = preg_replace("'\[reply=\"(.*?)\"\]'si","<div class='quote'><div class='quoteheader'>Sent by \\1</div><div class='quotecontent'>", $s);
-
-	$bucket = "bbCode"; include("./lib/pluginloader.php");
-
 	$s = preg_replace_callback("@(href|src)\s*=\s*\"([^\"]+)\"@si", "FilterJS", $s);
 	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
 	$s = preg_replace_callback("@(href|src)\s*=\s*([^\s>]+)@si", "FilterJS", $s);
-
-	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
-	if($poster)
-		$s = preg_replace("'/me '","<b>* ".$poster."</b> ", $s);
-
-	//Smilies
-	if(!$noSmilies)
-	{
-		if (!isset($orig))
-		{
-			$orig = $repl = array();
-			for ($i = 0; $i < count($smilies); $i++)
-			{
-				$orig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
-				$repl[] = "<img src=\"img/smilies/".$smilies[$i]['image']."\" />";
-			}
-		}
-		$s = preg_replace($orig, $repl, " ".$s." ");
-		$s = substr($s, 1, -1);
-	}
-
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
-
-	include("macros.php");
-	foreach($macros as $macro => $img)
-		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
 
 	return $s;
 }
