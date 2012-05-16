@@ -61,7 +61,8 @@ function tokenValidTag($tagname, $bbcode)
 		return false;
 	
 	if($bbcode && !array_key_exists($tagname, $bbcodeCallbacks))
-		return false;
+			return false;
+
 	if(!$bbcode && !in_array($tagname, $goodHtmlTags))
 		return false;
 	
@@ -91,9 +92,6 @@ function parseToken($token)
 	{
 		$tagname = substr($token, 1, strlen($token)-2);
 
-		if(!tokenValidTag($tagname, true))
-			return array("type" => 0, "text" => $token);
-
 		$arg = "";
 		$ind = strpos($tagname, "=");
 		if($ind)
@@ -101,6 +99,9 @@ function parseToken($token)
 			$arg = substr($tagname, $ind+1);
 			$tagname = substr($tagname, 0, $ind);
 		}
+
+		if(!tokenValidTag($tagname, true))
+			return array("type" => 0, "text" => $token);
 		
 		return array(
 			"type" => 1,
@@ -123,8 +124,6 @@ function parseToken($token)
 	if(substr($token, 0, 1) == "<" && substr($token, strlen($token)-1, 1) == ">")
 	{
 		$tagname = substr($token, 1, strlen($token)-2);
-		if(!tokenValidTag($tagname, false))
-			return array("type" => 0, "text" => $token);
 		$arg = "";
 		$ind = strpos($tagname, " ");
 		if($ind)
@@ -133,6 +132,8 @@ function parseToken($token)
 			$tagname = substr($tagname, 0, $ind);
 		}
 		
+		if(!tokenValidTag($tagname, false))
+			return array("type" => 0, "text" => $token);
 		return array(
 			"type" => 3,
 			"tag" => $tagname,
