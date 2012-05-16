@@ -49,7 +49,6 @@ function bbcodeURL($contents, $arg)
 
 function bbcodeImage($contents, $arg)
 {
-	print "LOL"; 
 	$dest = $contents;
 	$title = "";
 	if($arg)
@@ -154,7 +153,7 @@ function bbcodeCode($contents, $arg)
 {
 	if(!$arg)
 	{
-		return '<div class="codeblock">'.$contents.'</div>';
+		return '<div class="codeblock">'.htmlentities($contents).'</div>';
 	}
 	else
 	{
