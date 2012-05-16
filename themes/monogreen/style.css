@@ -18,9 +18,10 @@ body
 
 #header table
 {
-	background-image:url("matrix14.jpg");
+/*	background-image:url("matrix14.jpg");
 	background-repeat: repeat-x;
-	background-position: top;
+	background-position: top;*/
+	background-color: black;
 }
 
 h3
