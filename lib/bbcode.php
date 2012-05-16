@@ -48,12 +48,21 @@ $singleHtmlTags = array(
 	"p", "br", "li", "img"
 );
 
+$goodHtmlTags = array(
+	"a", "b", "br", "center", "code", "del", "div", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "li", "ol", "p", "pre", "s", "span", "strong", "style", "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "u", "ul"
+);
+
 
 function tokenValidTag($tagname, $bbcode)
 {
-	global $badTags;
+	global $badTags, $bbcodeCallbacks, $goodHtmlTags;
 	
 	if(!$bbcode && in_array(trim(strtolower($tagname)), $badTags))
+		return false;
+	
+	if($bbcode && !array_key_exists($tagname, $bbcodeCallbacks))
+		return false;
+	if(!$bbcode && !in_array($tagname, $goodHtmlTags))
 		return false;
 	
 	return 
