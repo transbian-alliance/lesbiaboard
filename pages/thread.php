@@ -140,7 +140,7 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $thread['title']." ".$tags=>actionLink("thread", $tid)), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $thread['title']."</a> ".$tags=>actionLink("thread", $tid)."<a href=''>"), $links);
 
 if($thread['poll'])
 {
