@@ -69,6 +69,8 @@ cell2(actionLinkTag(__("Edit settings"), "editsettings"));
 cell2(actionLinkTag(__("Edit smilies"), "editsmilies"));
 cell2(actionLinkTag(__("Optimize tables"), "optimize"));
 cell2(actionLinkTag(__("View log"), "log"));
+cell2(actionLinkTag(__("Update table structure"), "updateschema"));
+
 if($loguser['powerlevel'] == 4)
 	cell2(actionLinkTag(__("SQL Console"), "sql"));
 
