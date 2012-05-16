@@ -181,6 +181,7 @@ else
 // Print everything!
 
 $layout = Settings::get("defaultLayout");
+//$layout_contents.="<br>".nl2br(htmlspecialchars($querytext));
 require("layouts/$layout.php");
 
 

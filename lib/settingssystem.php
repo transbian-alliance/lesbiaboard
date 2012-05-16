@@ -91,27 +91,31 @@ class Settings
 			
 			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type))
 			{
-				if (isset($data["defaultfile"])) {
+				if (isset($data["defaultfile"]))
 					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
-				}
-				else {
+				else
 					self::$pluginsettings[$pluginname][$name] = $default;
-				}
+
+				self::saveSetting($pluginname, $name);
 				$changed = true;
 			}
 		}
 		
-		self::save($pluginname);
 	}
 
 	public static function save($pluginname)
 	{
 		foreach(self::$pluginsettings[$pluginname] as $name=>$value)
-			Query("insert into settings (plugin, name, value) values (".
-				"'".justEscape($pluginname)."', ".
-				"'".justEscape($name)."', ".
-				"'".justEscape($value)."') ".
-				"on duplicate key update value=VALUES(value)");
+			self::saveSetting($pluginname, $name);
+	}
+	
+	public static function saveSetting($pluginname, $settingname)
+	{
+		Query("insert into settings (plugin, name, value) values (".
+			"'".justEscape($pluginname)."', ".
+			"'".justEscape($settingname)."', ".
+			"'".justEscape($pluginsettings[$pluginname][$settingname])."') ".
+			"on duplicate key update value=VALUES(value)");
 	}
 	
 	
