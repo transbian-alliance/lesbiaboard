@@ -2,7 +2,7 @@
 
 function listThread($thread, $cellClass)
 {
-	global $haveStickies;
+	global $haveStickies, $loguserid, $loguser;
 	
 	$forumList = "";
 	
