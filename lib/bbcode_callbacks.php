@@ -41,10 +41,11 @@ function bbcodeURL($contents, $arg)
 {
 	$dest = $contents;
 	$title = $contents;
+
 	if($arg)
-		$dest = $arg;
+		$dest = htmlentities($arg);
 	
-	return '<a href="'.htmlentities($dest).'">'.$title.'</a>';
+	return '<a href="'.$dest.'">'.$title.'</a>';
 }
 
 function bbcodeImage($contents, $arg)
