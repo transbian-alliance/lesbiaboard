@@ -61,12 +61,6 @@ MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>acti
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 	Alert(__("You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button."));
 
-if($_POST['text'] && CheckTableBreaks($_POST['text']))
-{
-	$_POST['action'] = "";
-	Alert(__("This post would break the board layout."), ("I'm sorry, Dave."));
-}
-
 if($_POST['text'] && $_POST['action'] != __("Preview"))
 {
 	$words = explode(" ", trim($_POST['text']));

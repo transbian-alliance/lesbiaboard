@@ -44,12 +44,6 @@ if($_POST['poll'])
 else
 	MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
 
-if($_POST['text'] && CheckTableBreaks($_POST['text']))
-{
-	$_POST['action'] = "";
-	Alert(__("This post would break the board layout."), __("I'm sorry, Dave."));
-}
-
 if($_POST['text'] && $_POST['action'] != __("Preview"))
 {
 	$words = explode(" ", trim($_POST['text']));

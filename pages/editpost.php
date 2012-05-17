@@ -91,12 +91,6 @@ write("
 	</script>
 ");
 
-if($_POST['text'] && CheckTableBreaks($_POST['text']))
-{
-	$_POST['action'] = "";
-	Alert(__("This post would break the board layout."), __("I'm sorry, Dave."));
-}
-
 if($_POST['text'])
 {
 	$words = explode(" ", trim($_POST['text']));

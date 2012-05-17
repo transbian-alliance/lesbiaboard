@@ -29,6 +29,8 @@ function ParseThreadTags(&$title)
 }
 
 //Simple version -- may expand later.
+//Not needed with the new parser -- all tags are guaranteed to be properly nested. ~Dirbaio
+/*
 function CheckTableBreaks($text)
 {
 	$text = strtolower(CleanUpPost($text));
@@ -45,7 +47,7 @@ function CheckTableBreaks($text)
 	if($quoO != $quoC) return true;
 	if($spoO != $spoC) return true;
 	return false;
-}
+}*/
 
 function filterPollColors($input)
 {
@@ -55,24 +57,7 @@ function filterPollColors($input)
 function LoadSmilies($byOrder = FALSE)
 {
 	global $smilies, $smiliesOrdered;
-	$smiliesR = array
-	(
-		')' => '\)',
-		'(' => '\(',
-		'/' => '\/',
-		'+' => '\+',
-		'|' => '\|',
-		'^' => '\^',
-		'?' => '\?',
-		'[' => '\[',
-		']' => '\]',
-		'<' => '\<',
-		'>' => '\>',
-		':' => '\:',
-		']' => '\]',
-		'.' => '\.',
-		'\'' => '\\\'',
-	);
+	
 	if($byOrder)
 	{
 		if(isset($smiliesOrdered))
@@ -80,11 +65,7 @@ function LoadSmilies($byOrder = FALSE)
 		$rSmilies = Query("select * from smilies order by id asc");
 		$smiliesOrdered = array();
 		while($smiley = Fetch($rSmilies))
-		{
-			//foreach ($smiliesR as $old => $new)
-			//	$smiley['code'] = str_replace($old, $new, $smiley['code']);
 			$smiliesOrdered[] = $smiley;
-		}
 	}
 	else
 	{
@@ -558,21 +539,22 @@ function MakePost($post, $type, $params=array())
 
 	$post['posts'] = $rankHax;
 
-	$postText = ApplyTags(CleanUpPost($post['text'], $post['name'], $noSmilies, $noBr), $tags);
+	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
 
-	if($post['postheader'] && !$isBlocked)
-		$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader'], $post['name'], $noSmilies, true), $tags));
+	//Post header and footer.
+	//OMFG, more hax.
+	$magicString = "###POSTTEXTGOESHEREOMG###";
 
-	if($post['signature'] && !$isBlocked)
+	if($isBlocked)
+		$postLayout = $magicString;
+	else
 	{
-		if(!$post['signsep'])
-			$separator = "<br />_________________________<br />";
-		else
-			$separator = "<br />";
-
-		$postFooter = ApplyTags(CleanUpPost($post['signature'], $post['name'], $noSmilies, true), $tags);
+		$postLayout = $post['postheader'].$magicString.$post['signature'];
+		$postLayout = ApplyTags($postLayout, $tags);
+		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
 	}
+	$postText = str_replace($magicString, $postText, $postLayout);
 
 	$postCode =
 "
