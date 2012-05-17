@@ -552,7 +552,7 @@ function MakePost($post, $type, $params=array())
 	{
 		$postLayout = $post['postheader'].$magicString.$post['signature'];
 		$postLayout = ApplyTags($postLayout, $tags);
-		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
+		$postLayout = CleanUpPost("<!-- LOL -->".$postLayout."<br/>", $post['name'], $noSmilies, true);
 	}
 	$postText = str_replace($magicString, $postText, $postLayout);
 
