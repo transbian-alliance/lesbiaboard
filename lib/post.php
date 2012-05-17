@@ -269,11 +269,13 @@ function securityPostFilter($s)
 	$s = EatThatPork($s);
 
 	//Blacklisted tags
+	//Commenting this out because the post parser now checks for bad tags by itself. ~Dirbaio
+	/*
 	foreach($badTags as $tag)
 	{
 		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
 		$s = preg_replace("'</$tag(.*?)>'si", "&lt;/$tag>", $s);
-	}
+	}*/
 
 	//Bad sites
 	//Do we reaaally need this? This could be plugin-based... ~Dirbaio
