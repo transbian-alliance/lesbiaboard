@@ -545,16 +545,24 @@ function MakePost($post, $type, $params=array())
 	//Post header and footer.
 	//OMFG, more hax.
 	$magicString = "###POSTTEXTGOESHEREOMG###";
-
+	$separator = "";
+	
 	if($isBlocked)
 		$postLayout = $magicString;
 	else
 	{
 		$postLayout = $post['postheader'].$magicString.$post['signature'];
 		$postLayout = ApplyTags($postLayout, $tags);
-		$postLayout = CleanUpPost("<!-- LOL -->".$postLayout."<br/>", $post['name'], $noSmilies, true);
+		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
+		
+		if($post['signature'])
+			if(!$post['signsep'])
+				$separator = "<br />_________________________<br />";
+			else
+				$separator = "<br />";
 	}
-	$postText = str_replace($magicString, $postText, $postLayout);
+	
+	$postText = str_replace($magicString, "<!-- LOL -->".$postText.$separator, $postLayout);
 
 	$postCode =
 "
