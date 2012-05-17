@@ -605,7 +605,7 @@ function MakePost($post, $type, $params=array())
 	write($postCode,
 			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
 			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
-			$postHeader, $postText, $postFooter, $separator, $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
+			"", $postText, "", "", $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
 }
 
