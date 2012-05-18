@@ -15,12 +15,17 @@ if(isset($_GET["plugin"]))
 if(isset($_POST["_plugin"]))
 	$plugin = $_POST["_plugin"];
 
+if(!ctype_alnum($plugin))
+	Kill(__("No."));
+
 if($plugin == "main")
 	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit Settings") => actionLink("editsettings")), "");
 else
 	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
 
 $settings = Settings::getForPlugin($plugin);
+$oursettings = Settings::$pluginsettings[$plugin];
+$invalidsettings = array();
 
 if(isset($_POST["_plugin"]))
 {
@@ -30,23 +35,34 @@ if(isset($_POST["_plugin"]))
 	foreach($_POST as $key => $value)
 	{
 		if($key == "_plugin") continue;
-		if(!isset($settings[$key])) continue; //Don't accept unexisting settings.
-		print $key."<br>";
-		Settings::$pluginsettings[$plugin][$key] = $value;
-
-		if(!Settings::validate($value, $type))
+		
+		//Don't accept unexisting settings.
+		if(!isset($settings[$key])) continue; 
+		
+		//Save the entered settings for re-editing
+		$oursettings[$key] = $value;
+		
+		if(!Settings::validate($value, $settings[$key]["type"]))
+		{
 			$valid = false;
+			$invalidsettings[$key] = true;
+		}
+		else
+			Settings::$pluginsettings[$plugin][$key] = $value;
 	}
 
 	if($valid)
 	{
 		Settings::save($plugin);
-		if($plugin == "main")
-			die(header("Location: ".actionLink("admin")));
+		if(isset($_POST["_exit"]))
+		{
+			if($plugin == "main")
+				die(header("Location: ".actionLink("admin")));
+			else
+				die(header("Location: ".actionLink("pluginmanager")));
+		}
 		else
-			die(header("Location: ".actionLink("pluginmanager")));
-		
-//		Alert("Settings saved");
+			Alert(__("Settings were successfully saved!"));
 	}
 	else
 		Alert("Settings were NOT saved because there were invalid values. Please correct them and try again.");
@@ -76,7 +92,7 @@ foreach($settings as $name => $data)
 	
 	$type = $data["type"];
 	$help = $data["help"];
-	$value = Settings::$pluginsettings[$plugin][$name];
+	$value = $oursettings[$name];
 	
 	$input = "[Bad setting type]";
 	
@@ -99,6 +115,10 @@ foreach($settings as $name => $data)
 	if($type == "language")
 		$input = makeLangList($name, $value);
 	
+	$invalidicon = "";
+	if($invalidsettings[$name])
+		$invalidicon = "[INVALID]";
+	
 	if($help)
 		$help = "<img src=\"img/icons/icon4.png\" title=\"$help\" alt=\"[!]\" />";
 	
@@ -109,6 +129,7 @@ foreach($settings as $name => $data)
 				<td>
 					$input
 					$help
+					$invalidicon
 				</td>
 			</tr>";
 	$class = ($class+1)%2;
@@ -118,6 +139,7 @@ print "			<tr class=\"cell2\">
 				<td>
 				</td>
 				<td>
+					<input type=\"submit\" name=\"_exit\" value=\"".__("Save and Exit")."\" />
 					<input type=\"submit\" name=\"_action\" value=\"".__("Save")."\" />
 					<input type=\"hidden\" name=\"key\" value=\"{31}\" />
 				</td>

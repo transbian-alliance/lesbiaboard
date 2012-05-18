@@ -114,15 +114,23 @@ class Settings
 		Query("insert into settings (plugin, name, value) values (".
 			"'".justEscape($pluginname)."', ".
 			"'".justEscape($settingname)."', ".
-			"'".justEscape($pluginsettings[$pluginname][$settingname])."') ".
+			"'".justEscape(self::$pluginsettings[$pluginname][$settingname])."') ".
 			"on duplicate key update value=VALUES(value)");
 	}
 	
 	
 	public static function validate($value, $type)
 	{
+		if($type == "boolean" || $type == "integer" || $type == "user" || $type == "forum" || $type == "layout" || $type == "theme" || $type == "language")
+			if(trim($value) == "")
+				return false;
+
+		if($type == "boolean")
+			if($value != 0 && $value != 1)
+				return false;
+		
 		if($type == "integer" || $type == "user" || $type == "forum")
-			if($value != (int)$value) //TODO: I'm not sure if it's the best way. is_numeric allows float values too.
+			if(!is_numeric($value) || $value != (int)$value) //TODO: I'm not sure if it's the best way. is_numeric allows float values too.
 				return false;
 
 		return true;
