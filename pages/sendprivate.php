@@ -25,7 +25,7 @@ if($pid)
 			$user = Fetch($rUser);
 		else
 			Kill(__("Unknown user."));
-		$prefill = "[reply=\"".$user['name']."\"]".htmlspecialchars($sauce['text'])."[/quote]";
+		$prefill = "[reply=\"".$user['name']."\"]".htmlspecialchars($sauce['text'])."[/reply]";
 
 		if(strpos($sauce['title'], "Re: Re: Re: ") !== false)
 			$trefill = str_replace("Re: Re: Re: ", "Re*4: ", $sauce['title']);
