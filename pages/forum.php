@@ -148,6 +148,14 @@ if($pagelinks)
 
 ForumJump();
 
+if(Settings::get("ajax"))
+	write(
+"
+	<script type=\"text/javascript\">
+		refreshUrl = \"".actionLink("forum", $fid, "ajax=1&from=$from")."\";
+		window.addEventListener(\"load\",  startPageUpdate, false);
+	</script>
+");
 
 function ForumJump()
 {

@@ -39,7 +39,8 @@ if(Settings::get("ajax"))
 	write(
 "
 	<script type=\"text/javascript\">
-		window.addEventListener(\"load\",  startNewMarkers, false);
+		refreshUrl = \"./?ajax=1\";
+		window.addEventListener(\"load\",  startPageUpdate, false);
 	</script>
 ");
 write(

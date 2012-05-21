@@ -25,6 +25,10 @@ function getBirthdaysText()
 		return "";
 }
 
+$ajaxPage = false;
+if($_GET["ajax"] == 1)
+	$ajaxPage = true;
+
 //=======================
 // Do the page
 
@@ -161,6 +165,8 @@ $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))
 	$layout_themefile = "themes/$theme/style.php";
 
+
+$layout_contents = "<div id=\"page_contents\">$layout_contents</div>";
 //=======================
 // PoRA box
 
