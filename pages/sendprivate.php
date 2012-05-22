@@ -173,7 +173,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 $_POST['title'] = $_POST['title'];
 $_POST['text'] = $_POST['text'];
 
-if($_POST['action']=="Preview")
+if($_POST['action']==__("Preview"))
 {
 	if($_POST['text'])
 	{
