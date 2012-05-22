@@ -106,8 +106,6 @@ if($pagelinks)
 $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
 
-$bucket = "topBar"; include("./lib/pluginloader.php");
-
 if(NumRows($rThreads))
 {	
 	$forumList = "";
