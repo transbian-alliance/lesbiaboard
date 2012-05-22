@@ -147,15 +147,7 @@ if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
 ForumJump();
-
-if(Settings::get("ajax"))
-	write(
-"
-	<script type=\"text/javascript\">
-		refreshUrl = \"".actionLink("forum", $fid, "ajax=1&from=$from")."\";
-		window.addEventListener(\"load\",  startPageUpdate, false);
-	</script>
-");
+printRefreshCode();
 
 function ForumJump()
 {

@@ -1,5 +1,26 @@
 <?php
 
+function getRefreshActionLink()
+{
+	$args = "ajax=1";
+	
+	if(isset($_GET["from"]))
+		$args .= "&from=".$_GET["from"];
+	
+	return actionLink($_GET["page"], $_GET["id"], $args);
+}
+
+function printRefreshCode()
+{
+	if(Settings::get("ajax"))
+		write(
+	"
+		<script type=\"text/javascript\">
+			refreshUrl = ".json_encode(getRefreshActionLink()).";
+			window.addEventListener(\"load\",  startPageUpdate, false);
+		</script>
+	");
+}
 function actionLink($action, $id=0, $args="")
 {
 	global $boardroot;
@@ -119,8 +140,6 @@ function UserLink($user, $field = "id")
 	$userlink = format("<a href=\"".actionLink("profile", "{0}")."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
 	return $userlink;
 }
-
-
 
 function PageLinks($url, $epp, $from, $total)
 {

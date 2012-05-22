@@ -35,14 +35,8 @@ if($loguserid && $_GET['action'] == "markallread")
 {
 	Query("REPLACE INTO threadsread (id,thread,date) SELECT ".$loguserid.", threads.id, ".time()." FROM threads");
 }
-if(Settings::get("ajax"))
-	write(
-"
-	<script type=\"text/javascript\">
-		refreshUrl = \"./?ajax=1\";
-		window.addEventListener(\"load\",  startPageUpdate, false);
-	</script>
-");
+
+printRefreshCode();
 write(
 "
 	<style type=\"text/css\">
