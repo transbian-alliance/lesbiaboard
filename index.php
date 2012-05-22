@@ -1,5 +1,9 @@
 <?php
 
+$ajaxPage = false;
+if($_GET["ajax"] == 1)
+	$ajaxPage = true;
+	
 require('lib/common.php');
 
 //TODO: Put this in a proper place.
@@ -25,9 +29,6 @@ function getBirthdaysText()
 		return "";
 }
 
-$ajaxPage = false;
-if($_GET["ajax"] == 1)
-	$ajaxPage = true;
 
 //=======================
 // Do the page
