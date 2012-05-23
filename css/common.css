@@ -287,6 +287,11 @@ table.message td
 	padding: 4px;
 }
 
+.ignored
+{
+	opacity: 0.5;
+}
+
 /* [Quote] stuff */
 div.quote
 {

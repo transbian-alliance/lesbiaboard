@@ -28,9 +28,8 @@ function OnlineUsers($forum = 0, $update = true)
 	{
 		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		$loggedIn = ($user['lastpost'] <= $user['lastview']);
-		$userLink = UserLink($user);
-		if($user['minipic'])
-			$userLink = "<a href=\"".actionLink("profile", $user['id'])."\"><img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\"></a>&nbsp;".$userLink;
+		$userLink = UserLink($user, "id", true);
+
 		if(!$loggedIn)
 			$userLink = "(".$userLink.")";
 		$onlineUsers.=($onlineUserCt ? ", " : "").$userLink;

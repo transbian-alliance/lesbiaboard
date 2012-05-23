@@ -13,4 +13,4 @@ function printGitCommit()
 }
 
 printGitCommit();
-print "<br>";
+print "<br />";

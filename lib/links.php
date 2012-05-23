@@ -16,7 +16,7 @@ function printRefreshCode()
 		write(
 	"
 		<script type=\"text/javascript\">
-			refreshUrl = ".json_encode(getRefreshActionLink()).";
+			refreshUrl = ".htmlspecialchars(json_encode(getRefreshActionLink())).";
 			window.addEventListener(\"load\",  startPageUpdate, false);
 		</script>
 	");
@@ -85,7 +85,7 @@ function themeResourceLink($what)
 	return $boardroot."themes/$theme/$what";
 }
 
-function UserLink($user, $field = "id")
+function UserLink($user, $field = "id", $showMinipic = false)
 {
 	global $hacks;
 
@@ -93,6 +93,10 @@ function UserLink($user, $field = "id")
 	$fsex = $user['sex'];
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
+
+	if($showMinipic && $user['minipic'])
+		$fname = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;".$fname;
+
 	if($fpow < 0) $fpow = -1;
 
 	if($hacks['alwayssamepower'])
@@ -137,7 +141,7 @@ function UserLink($user, $field = "id")
 	
 	$bucket = "userLink"; include('lib/pluginloader.php');
 	
-	$userlink = format("<a href=\"".actionLink("profile", "{0}")."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
+	$userlink = format("<a href=\"".htmlentities(actionLink("profile", "{0}"))."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
 	return $userlink;
 }
 

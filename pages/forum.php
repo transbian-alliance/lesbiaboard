@@ -182,7 +182,7 @@ function ForumJump()
 		$theList .= format(
 "
 				<option value=\"{0}\"{2}>{1}</option>
-",	actionLink("forum", $forum['id']), strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
+",	htmlentities(actionLink("forum", $forum['id'])), strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
 	}
 	
 	write(

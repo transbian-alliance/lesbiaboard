@@ -39,13 +39,6 @@ if($loguserid && $_GET['action'] == "markallread")
 printRefreshCode();
 write(
 "
-	<style type=\"text/css\">
-		.ignored
-		{
-			opacity: 0.5;
-		}
-	</style>
-
 	<div class=\"outline margin width100 smallFonts\" style=\"overflow: auto;\">
 		<div class=\"header0 cell2 center\" style=\"overflow: auto;\">
 			<div style=\"float: left; width: 25%;\">&nbsp;<br />&nbsp;</div>

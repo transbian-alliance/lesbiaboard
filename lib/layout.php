@@ -28,19 +28,22 @@ function MakeCrumbs($path, $links)
 				$title = substr($text, 0, $sep);
 				$tags = ' '.substr($text, $sep+6);
 			}
-			$crumbs .= "<a href=\"".$link."\">".$title."</a>".$tags." &raquo; ";
+			$crumbs .= "<a href=\"".$link."\">".$title."</a> ".$tags." &raquo; ";
 		}
 		else
 			$crumbs .= str_replace('<TAGS>', '', $text). " &raquo; ";
 	}
 	$crumbs = substr($crumbs, 0, strlen($crumbs) - 8);
 	
+	if($links)
+		$links = "<ul class=\"pipemenu smallFonts\">
+			$links
+		</ul>";
+	
 	$layout_crumbs = "
 <div class=\"margin\">
 	<div style=\"float: right;\">
-		<ul class=\"pipemenu smallFonts\">
-			$links
-		</ul>
+		$links
 	</div>
 	$crumbs
 </div>";

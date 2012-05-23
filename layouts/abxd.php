@@ -17,7 +17,7 @@
 					<table>
 						<tr>
 							<td style="border: 0px none; text-align: left;">
-								<a href="<?php print resourceLink(".");?>">
+								<a href="./">
 									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
 								</a>
 							</td>
@@ -37,10 +37,10 @@
 				<td class="smallFonts" style="text-align: center; width: 80%;">
 					<ul class="pipemenu">
 					<?php print $layout_navigation;?>
+					</ul>
 				</td>
 				<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
 					<?php print $layout_time; ?>
-					</ul>
 				</td>
 			</tr>
 			<tr class="cell2">

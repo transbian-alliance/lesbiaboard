@@ -59,14 +59,25 @@ function LoadSmilies($byOrder = FALSE)
 	}
 }
 
+	{
+		
+	}
+
 function ApplySmilies($text)
 {
-	global $smilies;
-	foreach($smilies as $s)
+	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
+	
+	if (!isset($smiliesReplaceOrig))
 	{
-		$text = preg_replace("/\b(".$s['code'].")\b/si", "<img src=\"img/smilies/".htmlentities($s['image'])."\" />", $text);
+		$smiliesReplaceOrig = $smiliesReplaceNew = array();
+		for ($i = 0; $i < count($smilies); $i++)
+		{
+			$smiliesReplaceOrig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
+			$smiliesReplaceNew[] = "<img alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
+		}
 	}
-	return $text;
+	
+	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, " ".$text." ");
 }
 
 function LoadBlocklayouts()
@@ -185,19 +196,8 @@ function postDoReplaceText($s)
 	
 	//Smilies
 	if(!$postNoSmilies)
-	{
-		if (!isset($orig))
-		{
-			$orig = $repl = array();
-			for ($i = 0; $i < count($smilies); $i++)
-			{
-				$orig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
-				$repl[] = "<img src=\"img/smilies/".$smilies[$i]['image']."\" />";
-			}
-		}
-		$s = preg_replace($orig, $repl, " ".$s." ");
-		$s = substr($s, 1, -1);
-	}
+		$s = ApplySmilies($s);
+		
 
 
 	include("macros.php");
