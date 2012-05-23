@@ -12,7 +12,7 @@ function search_for_function($tokens, $filename)
 	}
 }
 
-require '../lib/recursivetokenizer.php';
+require 'lib/recursivetokenizer.php';
 if (!isset($argv[1]))
 {
 	die("Usage: $argv[0] [FUNCTION]\n");

@@ -34,7 +34,7 @@ function find_strings($tokens, $filename) {
 
 $messages = array();
 
-require '../lib/recursivetokenizer.php';
+require 'lib/recursivetokenizer.php';
 echo "<?php\n\$languagePack = array(\n";
 
 recurse('find_strings');
