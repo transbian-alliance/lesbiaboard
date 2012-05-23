@@ -1,7 +1,7 @@
 <?php
 
 $ajaxPage = false;
-if($_GET["ajax"] == 1)
+if(isset($_GET["ajax"]))
 	$ajaxPage = true;
 	
 require('lib/common.php');

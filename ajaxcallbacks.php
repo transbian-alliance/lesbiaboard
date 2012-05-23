@@ -87,34 +87,6 @@ else if($action == "tf")	//Theme File
 
 	die($themeFile."|".$layout_logopic);
 }
-else if($action == "ni")	//New Indicators
-{
-	$pl = $loguser['powerlevel'];
-
-	//TODO: This is copypasted from pages/index.php. Maybe make a function? ~Dirbaio
-	$rFora = Query("	SELECT f.*,
-						c.name cname,
-						".($loguserid ? "(NOT ISNULL(i.fid))" : "0")." ignored,
-						(SELECT COUNT(*) FROM threads t".($loguserid ? " LEFT JOIN threadsread tr ON tr.thread=t.id AND tr.id=".$loguserid : "")."
-							WHERE t.forum=f.id AND t.lastpostdate>".($loguserid ? "IFNULL(tr.date,0)" : time()-900).") numnew,
-						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
-					FROM forums f
-						LEFT JOIN categories c ON c.id=f.catid
-						".($loguserid ? "LEFT JOIN ignoredforums i ON i.fid=f.id AND i.uid=".$loguserid : "")."
-						LEFT JOIN users lu ON lu.id=f.lastpostuser
-					WHERE f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
-					ORDER BY c.corder, c.id, f.forder, f.id");
-
-	$first = true;
-	while($forum = Fetch($rFora))
-	{
-		if(!$first) print ",";
-		$first = false;
-		$newstuff = $forum['ignored'] ? 0 : $forum['numnew'];
-		print $newstuff;
-	}
-	die();
-}
 elseif($action == "srl")	//Show Revision List
 {
 	$qPost = "select currentrevision, thread from posts where id=".$id;
@@ -162,48 +134,10 @@ elseif($action == "sr")	//Show Revision
 	$rForum = Query($qForum);
 	$forum = Fetch($rForum);
 	if($forum['minpower'] > $loguser['powerlevel'])
-		$post['text'] = __("No.");
+		die(__("No."));
 
-	LoadBlockLayouts();
-	$isBlocked = $blocklayouts[$post['uid']] /* NumRows($rBlock) */ | $post['globalblock'] | $loguser['blocklayouts'] | $post['options'] & 1;
-	$noSmilies = $post['options'] & 2;
-
-	$tags = array();
-	$rankHax = $post['posts'];
-	if($post['num'] == "???")
-		$post['num'] = $post['posts'];
-	$post['posts'] = $post['num'];
-	//Disable tags by commenting/removing this part.
-	$tags = array
-	(
-		"numposts" => $post['num'],
-		"numdays" => floor((time()-$post['regdate'])/86400),
-		"date" => formatdate($post['date']),
-		"rank" => GetRank($post),
-	);
-	$bucket = "amperTags"; include("./lib/pluginloader.php");
-
-	$post['posts'] = $rankHax;
-
-	if($post['postheader'] && !$isBlocked)
-		$postHeader = str_replace('$theme', $theme, ApplyTags(CleanUpPost($post['postheader']), $tags));
-
-	$postText = ApplyTags(CleanUpPost($post['text'],$post['name'],$noSmilies), $tags);
-
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
-
-	if($post['signature'] && !$isBlocked)
-	{
-		$postFooter = ApplyTags(CleanUpPost($post['signature']), $tags);
-		if(!$post['signsep'])
-			$separator = "<br />_________________________<br />";
-		else
-			$separator = "<br />";
-	}
-
-	$reply = $postHeader.$postText.$separator.$postFooter;
-
-	die($reply);
+//	die(var_dump($post));
+	die(makePostText($post));
 }
 elseif($action == "em")	//Email
 {

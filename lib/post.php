@@ -28,27 +28,6 @@ function ParseThreadTags(&$title)
 	return $tags;
 }
 
-//Simple version -- may expand later.
-//Not needed with the new parser -- all tags are guaranteed to be properly nested. ~Dirbaio
-/*
-function CheckTableBreaks($text)
-{
-	$text = strtolower(CleanUpPost($text));
-	$tabO = substr_count($text, "<table");
-	$tabC = substr_count($text, "</table>");
-	$divO = substr_count($text, "<div");
-	$divC = substr_count($text, "</div>");
-	$quoO = substr_count($text, "[quote");
-	$quoC = substr_count($text, "[/quote]");
-	$spoO = substr_count($text, "[spoiler");
-	$spoC = substr_count($text, "[/spoiler]");
-	if($tabO != $tabC) return true;
-	if($divO != $divC) return true;
-	if($quoO != $quoC) return true;
-	if($spoO != $spoC) return true;
-	return false;
-}*/
-
 function filterPollColors($input)
 {
 	return preg_replace("@[^#0123456789abcdef]@si", "", $input);
@@ -182,13 +161,6 @@ function ApplyNetiquetteToLinks($match)
 	return $match[0].' target="_blank"';
 }
 
-function FilterJS($match)
-{
-	$url = html_entity_decode($match[2]);
-	if (stristr($url, "javascript:"))
-		return "";
-	return $match[0];
-}
 
 function GetSyndrome($activity)
 {
@@ -255,10 +227,52 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	return $s;
 }
 
+
+function ApplyTags($text, $tags)
+{
+	if(!stristr($text, "&"))
+		return $text;
+	$s = $text;
+	foreach($tags as $tag => $val)
+		$s = str_replace("&".$tag."&", $val, $s);
+	if(is_numeric($tags['numposts']))
+		$s = preg_replace('@&(\d+)&@sie', 'max($1 - '.$tags['numposts'].', 0)', $s);
+	else
+		$s = preg_replace("'&(\d+)&'si", "preview", $s);
+	return $s;
+}
+
 //This function is CRITICAL for the post security.
 //Should always run LAST and on the WHOLE post.
 
 $badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
+
+function FilterJS($match)
+{
+	$url = html_entity_decode($match[2]);
+	if (stristr($url, "javascript:"))
+		return "";
+	return $match[0];
+}
+
+//Scans for any numerical entities that decode to the 7-bit printable ASCII range and removes them.
+//This makes a last-minute hack impossible where a javascript: link is given completely in absurd and malformed entities.
+function EatThatPork($s)
+{
+	$s = preg_replace_callback("/(&#)(x*)([a-f0-9]+(?![a-f0-9]))(;*)/i", "CheckKosher", $s);
+	return $s;
+}
+
+function CheckKosher($matches)
+{
+	$num = ltrim($matches[3], "0");
+	if($matches[2])
+		$num = hexdec($num);
+	if($num < 127)
+		return ""; //"&#xA4;";
+	else
+		return "&#x".dechex($num).";";
+}
 
 function securityPostFilter($s)
 {
@@ -305,18 +319,63 @@ function securityPostFilter($s)
 	return $s;
 }
 
-function ApplyTags($text, $tags)
+function makePostText($post)
 {
-	if(!stristr($text, "&"))
-		return $text;
-	$s = $text;
-	foreach($tags as $tag => $val)
-		$s = str_replace("&".$tag."&", $val, $s);
-	if(is_numeric($tags['numposts']))
-		$s = preg_replace('@&(\d+)&@sie', 'max($1 - '.$tags['numposts'].', 0)', $s);
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
+
+	LoadBlockLayouts();
+
+	$isBlocked = $post['layoutblocked'] | $loguser['blocklayouts'] | $post['options'] & 1;
+	$noSmilies = $post['options'] & 2;
+	$noBr = $post['options'] & 4;
+
+	$tags = array();
+	$rankHax = $post['posts'];
+	//if($post['num'] == "preview")
+	//	$post['num'] = $post['posts'];
+	//
+	//	Crappy hack to fix what another crappy hack broke
+	$post2 = $post;
+	$post2['posts'] = $post['num'];
+	//Disable tags by commenting/removing this part.
+	// TODO: this could be done only once somewhere else (unless plugins doing stuff like per-user &tags& are desired)
+	$tags = array
+	(
+		"postnum" => $post['num'],
+		"postcount" => $post['posts'],
+		"numdays" => floor((time()-$post['regdate'])/86400),
+		"date" => formatdate($post['date']),
+		"rank" => GetRank($post2),
+	);
+	$bucket = "amperTags"; include("./lib/pluginloader.php");
+
+	$post['posts'] = $rankHax;
+
+	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
+	$bucket = "postMangler"; include("./lib/pluginloader.php");
+
+	//Post header and footer.
+	//OMFG, more hax.
+	$magicString = "###POSTTEXTGOESHEREOMG###";
+	$separator = "";
+	
+	if($isBlocked)
+		$postLayout = $magicString;
 	else
-		$s = preg_replace("'&(\d+)&'si", "preview", $s);
-	return $s;
+	{
+		$postLayout = $post['postheader'].$magicString.$post['signature'];
+		$postLayout = ApplyTags($postLayout, $tags);
+		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
+		
+		if($post['signature'])
+			if(!$post['signsep'])
+				$separator = "<br />_________________________<br />";
+			else
+				$separator = "<br />";
+	}
+	
+	$postText = str_replace($magicString, "<!-- LOL -->".$postText.$separator, $postLayout);
+	return $postText;
 }
 
 define('POST_NORMAL', 0);			// standard post box
@@ -344,10 +403,6 @@ function MakePost($post, $type, $params=array())
 
 	if(isset($_GET['pid']))
 		$highlight = (int)$_GET['pid'];
-
-	$isBlocked = $post['layoutblocked'] | $loguser['blocklayouts'] | $post['options'] & 1;
-	$noSmilies = $post['options'] & 2;
-	$noBr = $post['options'] & 4;
 
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
@@ -496,12 +551,12 @@ function MakePost($post, $type, $params=array())
 
 	$sideBarStuff .= "<br />\n".__("Last post:")." ".$lastpost;
 	$sideBarStuff .= "<br />\n".__("Last view:")." ".$lastview;
-
+/*
 	if($hacks['themenames'] == 3)
 	{
 		$sideBarStuff = "";
 		$isBlocked = 1;
-	}
+	}*/
 
 	if($post['lastactivity'] > time() - 300)
 		$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
@@ -519,52 +574,7 @@ function MakePost($post, $type, $params=array())
 		$mainBar = "mainbar".$post['uid'];
 	}
 
-	$tags = array();
-	$rankHax = $post['posts'];
-	//if($post['num'] == "preview")
-	//	$post['num'] = $post['posts'];
-	//
-	//	Crappy hack to fix what another crappy hack broke
-	$post2 = $post;
-	$post2['posts'] = $post['num'];
-	//Disable tags by commenting/removing this part.
-	// TODO: this could be done only once somewhere else (unless plugins doing stuff like per-user &tags& are desired)
-	$tags = array
-	(
-		"postnum" => $post['num'],
-		"postcount" => $post['posts'],
-		"numdays" => floor((time()-$post['regdate'])/86400),
-		"date" => formatdate($post['date']),
-		"rank" => GetRank($post2),
-	);
-	$bucket = "amperTags"; include("./lib/pluginloader.php");
-
-	$post['posts'] = $rankHax;
-
-	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
-
-	//Post header and footer.
-	//OMFG, more hax.
-	$magicString = "###POSTTEXTGOESHEREOMG###";
-	$separator = "";
-	
-	if($isBlocked)
-		$postLayout = $magicString;
-	else
-	{
-		$postLayout = $post['postheader'].$magicString.$post['signature'];
-		$postLayout = ApplyTags($postLayout, $tags);
-		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
-		
-		if($post['signature'])
-			if(!$post['signsep'])
-				$separator = "<br />_________________________<br />";
-			else
-				$separator = "<br />";
-	}
-	
-	$postText = str_replace($magicString, "<!-- LOL -->".$postText.$separator, $postLayout);
+	$postText = makePostText($post);
 
 	$postCode =
 "
@@ -609,26 +619,6 @@ function MakePost($post, $type, $params=array())
 			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
 			"", $postText, "", "", $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
-}
-
-
-//Scans for any numerical entities that decode to the 7-bit printable ASCII range and removes them.
-//This makes a last-minute hack impossible where a javascript: link is given completely in absurd and malformed entities.
-function EatThatPork($s)
-{
-	$s = preg_replace_callback("/(&#)(x*)([a-f0-9]+(?![a-f0-9]))(;*)/i", "CheckKosher", $s);
-	return $s;
-}
-
-function CheckKosher($matches)
-{
-	$num = ltrim($matches[3], "0");
-	if($matches[2])
-		$num = hexdec($num);
-	if($num < 127)
-		return ""; //"&#xA4;";
-	else
-		return "&#x".dechex($num).";";
 }
 
 ?>
