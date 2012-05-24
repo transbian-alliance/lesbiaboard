@@ -5,7 +5,7 @@ $bbcodeCallbacks["swf"] = "bbcodeFlash";
 
 function bbcodeYoutube($contents, $arg)
 {
-	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
+	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", trim($contents)))
 		return "[Invalid youtube video ID]";
 	
 	$args = "";
