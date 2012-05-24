@@ -275,7 +275,7 @@ function WriteForumEditContents($fid)
 	else
 	{
 		$title = "New Forum";
-		$description = "Description goes here. <strong>>HTML allowed.</strong>";
+		$description = "Description goes here. <strong>HTML allowed.</strong>";
 		$catselect = MakeCatSelect('cat', $cats, 1);
 		$minpower = PowerSelect('minpower', 0);
 		$minpowerthread = PowerSelect("minpowerthread", 0);
