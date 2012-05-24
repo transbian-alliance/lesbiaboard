@@ -33,8 +33,7 @@ else if($_POST['action'] == __("Send reset email"))
 	$user = Query("select id, name, password, email, lostkeytimer, pss from users where name = '".justEscape($_POST['name'])."' and email = '".justEscape($_POST['mail'])."'");
 	if(NumRows($user) != 0)
 	{
-//Do not disclose info about user e-mail. 
-//		Kill(__("Could not find a user with that name and email address."), __("Invalid user name or email"));
+                //Do not disclose info about user e-mail. 
 		$user = Fetch($user);
 		if($user['lostkeytimer'] > time() - (60*60)) //wait an hour between attempts
 			Kill(__("To prevent abuse, this function can only be used once an hour."), __("Slow down!"));
@@ -52,7 +51,6 @@ else if($_POST['action'] == __("Send reset email"))
 		$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP";
 	
 		mail($to, $subject, wordwrap($message, 70), $headers);
-		//print "NORMALLY I WOULD SEND MAIL NAO:<pre>".$headers."\n\n".wordwrap($message,70)."</pre>";
 
 		Query("update users set lostkey = '".justEscape($hashedResetKey)."', lostkeytimer = ".time()." where id = ".$user['id']);
 	}
