@@ -169,6 +169,11 @@ function PageLinks($url, $epp, $from, $total)
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
 }
 
+function absoluteActionLink($action, $id=0, $args="")
+{
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).substr(actionLink($action, $id, $args), 1);
+}
+
 function getRequestedURL()
 {
     return $_SERVER['REQUEST_URI'];

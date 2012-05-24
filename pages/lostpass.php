@@ -1,54 +1,67 @@
 <?php
 
-
-if($mailResetFrom == "")
+if(Settings::get("mailResetSender") == "")
 	Kill(__("No sender specified for reset emails. Please check the board settings."));
 
 if(isset($_GET['key']) && isset($_GET['id']))
 {
-	$user = Query("select id, name, password from users where id = '".(int)$_GET['id']."' and lostkey = '".justEscape($_GET['key'])."'");
+	$user = Query("select pss from users where id = '".(int)$_GET['id']."'");
+	if(NumRows($user) == 0)
+		Kill(__("This old key cannot be used."), __("Invalid key"));
+
+	$user = Fetch($user);
+	
+	$sha = hash("sha256", $_GET['key'].$salt.$user["pss"], FALSE);
+	
+	$user = Query("select id, name, password, pss from users where id = '".(int)$_GET['id']."' and lostkey = '".justEscape($sha)."' and lostkeytimer > ".(time() - (60*60)));
+
 	if(NumRows($user) == 0)
 		Kill(__("This old key cannot be used."), __("Invalid key"));
 	else
 		$user = Fetch($user);
 
+	$newsalt = Shake();
 	$newPass = randomString(8);
-	$sha = hash("sha256", $newPass.$salt, FALSE);
+	$sha = hash("sha256", $newPass.$salt.$newsalt, FALSE);
 
-	Query("update users set lostkey = '', password = '".$sha."', pss = '' where id = ".(int)$_GET['id']);
+	Query("update users set lostkey = '', password = '".$sha."', pss = '$newsalt' where id = ".(int)$_GET['id']);
 	Kill(format(__("Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible."), $newPass), __("Password reset"));
 	
 }
 else if($_POST['action'] == __("Send reset email"))
 {
-	$user = Query("select id, name, password, email, lostkeytimer from users where name = '".justEscape($_POST['name'])."' and email = '".justEscape($_POST['mail'])."'");
-	if(NumRows($user) == 0)
-		Kill(__("Could not find a user with that name and email address."), __("Invalid user name or email"));
-	else
+	$user = Query("select id, name, password, email, lostkeytimer, pss from users where name = '".justEscape($_POST['name'])."' and email = '".justEscape($_POST['mail'])."'");
+	if(NumRows($user) != 0)
+	{
+//Do not disclose info about user e-mail. 
+//		Kill(__("Could not find a user with that name and email address."), __("Invalid user name or email"));
 		$user = Fetch($user);
-	if($user['lostkeytimer'] > time() - (60*60)) //wait an hour between attempts
-		Kill(__("To prevent abuse, this function can only be used once an hour."), __("Slow down!"));
+		if($user['lostkeytimer'] > time() - (60*60)) //wait an hour between attempts
+			Kill(__("To prevent abuse, this function can only be used once an hour."), __("Slow down!"));
 
-	$resetKey = md5($user['id'].$user['name'].$user['password'].$user['email']);
+		//Make a RANDOM reset key.
+		$resetKey = Shake();
+		
+		$hashedResetKey = hash("sha256", $resetKey.$salt.$user["pss"], FALSE);
 
-	$from = $mailResetFrom;
-	$to = $user['email'];
-	$subject = format(__("Password reset for {0}"), $user['name']);
-	$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".$_SERVER['HTTP_REFERER']."?id=".$user['id']."&key=".$resetKey."\n\n".__("This link can be used once.");
+		$from = Settings::get("mailResetSender");
+		$to = $user['email'];
+		$subject = format(__("Password reset for {0}"), $user['name']);
+		$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".absoluteActionLink("lostpass", $user['id'], "key=$resetKey")."\n\n".__("This link can be used once.");
+			
+		$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP";
 	
-	$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP/".phpversion();
-	
-	mail($to, $subject, wordwrap($message, 70), $headers);
-	//print "NORMALLY I WOULD SEND MAIL NAO:<pre>".$headers."\n\n".wordwrap($message,70)."</pre>";
+		mail($to, $subject, wordwrap($message, 70), $headers);
+		//print "NORMALLY I WOULD SEND MAIL NAO:<pre>".$headers."\n\n".wordwrap($message,70)."</pre>";
 
-	Query("update users set lostkey = '".justEscape($resetKey)."', lostkeytimer = ".time()." where id = ".$user['id']);
-
+		Query("update users set lostkey = '".justEscape($hashedResetKey)."', lostkeytimer = ".time()." where id = ".$user['id']);
+	}
 	Kill(__("Check your email in a moment and follow the link found therein."), __("Reset email sent"));
 }
 else
 {
 	write("
-	<form action=\"".actionLink("lostpass").".\" method=\"post\">
+	<form action=\"".actionLink("lostpass")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">
