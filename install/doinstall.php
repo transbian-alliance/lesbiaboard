@@ -18,7 +18,8 @@ function cdate($format, $date = 0)
 include("lib/mysqlfunctions.php");
 $overallTidy = 0;
 
-function insError($text) {
+function insError($text)
+{
 	print $text."<br /><strong onload=\"reenableControls();\">Installation error occoured.</strong> <button onclick=\"reenableControls(); page = 2; setStep(2);\">Go back</button> to the previous pages and correct the errors, then <button onclick=\"doInstall();\">click here</button>.";
 	die();
 }
@@ -43,7 +44,8 @@ function insError($text) {
 	
 	$dblink = @new mysqli($dbserv, $dbuser, $dbpass);
 	
-	if ($dblink->connect_error) {
+	if ($dblink->connect_error)
+	{
 		insError(
 			"Could not connect to the MySQL server. Are you sure you entered 
 			the right things in the SQL credentials page?<br />
@@ -55,7 +57,8 @@ function insError($text) {
 			SQL error: ".$dblink->connect_error);
 	}
 			
-	if (!$dblink->select_db($dbname)) {
+	if (!$dblink->select_db($dbname))
+	{
 		insError(
 			"Could not select the database. Try creating it. <br>
 			(The installer doesn't create it automatically for you)");

@@ -54,7 +54,8 @@ function FetchResult($query, $row = 0, $field = 0)
 }
 
 // based on http://stackoverflow.com/a/3779460/736054
-function Result($res, $row = 0, $field = 0) {
+function Result($res, $row = 0, $field = 0)
+{
 	$res->data_seek($row);
 	$ceva = array_values($res->fetch_assoc());
 	$rasp = $ceva[$field];

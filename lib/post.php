@@ -489,7 +489,8 @@ function MakePost($post, $type, $params=array())
 			}
 		}
 
-		if ($type == POST_PM) {
+		if ($type == POST_PM)
+		{
 			$message = __("Sent on {0}");
 		}
 		else {
