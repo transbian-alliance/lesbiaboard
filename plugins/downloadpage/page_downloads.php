@@ -5,6 +5,8 @@
 	TEMPORARY ABXD download page -- Mega-Mario
 	This shouldn't stay in the repo, you don't want
 	every ABXD board to have a copy of this bundled
+	
+	Let's turn this into a plugin, then! ~Dirbaio
 */
 
 $downloads = @file_get_contents('downloads/listing.dat');

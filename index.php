@@ -153,7 +153,19 @@ if($title != "")
 //=======================
 // Board logo and theme
 
-if(file_exists("themes/$theme/logo.png"))
+if(file_exists("img/logos/logo_$theme.png"))
+	$layout_logopic = resourceLink("img/logos/logo_$theme.png");
+else if(file_exists("img/logos/logo_$theme.jpg"))
+	$layout_logopic = resourceLink("img/logos/logo_$theme.jpg");
+else if(file_exists("img/logos/logo_$theme.gif"))
+	$layout_logopic = resourceLink("img/logos/logo_$theme.gif");
+else if(file_exists("img/logos/logo.png"))
+	$layout_logopic = resourceLink("img/logos/logo.png");
+else if(file_exists("img/logos/logo.jpg"))
+	$layout_logopic = resourceLink("img/logos/logo.jpg");
+else if(file_exists("img/logos/logo.gif"))
+	$layout_logopic = resourceLink("img/logos/logo.gif");
+else if(file_exists("themes/$theme/logo.png"))
 	$layout_logopic = themeResourceLink("logo.png");
 else if(file_exists("themes/$theme/logo.jpg"))
 	$layout_logopic = themeResourceLink("logo.jpg");

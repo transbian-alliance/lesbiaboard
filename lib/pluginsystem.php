@@ -73,7 +73,9 @@ function getPluginData($plugin, $load = true)
 
 	if($minver > $misc['version'])
 		throw new BadPluginException(_("Plugin meant for a later version"));
-
+	$plugindata["buckets"] = array();
+	$plugindata["pages"] = array();
+	
 	$dir = "./plugins/".$plugindata['dir'];
 	$pdir = @opendir($dir);
 	while($f = readdir($pdir))
