@@ -1,6 +1,7 @@
 <?php
 // Generator for en_US language file
-function find_strings($tokens, $filename) {
+function find_strings($tokens, $filename)
+{
 	global $messages;
 	
 	$filenameInserted = false;
@@ -14,7 +15,8 @@ function find_strings($tokens, $filename) {
 			{
 				if (!isset($messages[$tokens[$id + 2][1]]))
 				{
-					if (!$filenameInserted) {
+					if (!$filenameInserted)
+					{
 						echo "\n// $filename\n";
 						$filenameInserted = true;
 					}
