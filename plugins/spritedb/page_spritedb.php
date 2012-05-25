@@ -173,7 +173,8 @@
 		print "Last edited by ".$lastEditor."\n";
 	}
 
-	if (get_magic_quotes_gpc()) {
+	if (get_magic_quotes_gpc())
+	{
 		foreach ($_GET as $k => $v) $_GET[$k] = stripslashes($v);
 		foreach ($_POST as $k => $v) $_POST[$k] = stripslashes($v);
 	}
@@ -207,7 +208,8 @@
     $csrftoken = hash('sha256', $loguser['id'].$loguser['password']."spritedbtrololol", FALSE);
  
     
-    switch ($action) {
+    switch ($action)
+	{
 		case 'list':
 			MakeCrumbs(array("Sprite Database"=>actionLink("spritedb")), $links);
 
@@ -305,8 +307,9 @@
 
 		case 'edit':
 			$id = $_GET['id'];
-			if (!is_numeric($id)) { die('Invalid sprite ID'); }
-				$id = intval($id);
+			if (!is_numeric($id))
+				die('Invalid sprite ID');
+			$id = intval($id);
 
 			$getsprite = Query("select * from sprites where id = $id");
 			if (NumRows($getsprite) == 0)
@@ -517,7 +520,8 @@ If you want it to be multiple nybbles, enter them first-last. For example, 2-3<b
 				die("Please no fields without title");
 			
 			$usednybbles = array();
-			if (isset($_POST['title']) && is_array($_POST['title']) && count($_POST['title']) > 0) {
+			if (isset($_POST['title']) && is_array($_POST['title']) && count($_POST['title']) > 0)
+			{
 				foreach ($_POST['title'] as $fid => $title)
 				{
 					$fieldtype = $_POST['type'][$fid];

@@ -13,7 +13,8 @@ if(isset($_GET['dbcheck']))
 	//2005: no such server
 	//1045: no such user
     $db = new mysqli($dbserv, $dbuser, $dbpass);
-    if ($db->connect_error) {
+    if ($db->connect_error)
+	{
         die($mysql->connecterrno == 2005 ? format("Could not connect to any database server at \"{0}\". Usually, the database server runs on the same system as the web server, in which case \"localhost\" would suffice. If not, the server could be (temporarily) offline, nonexistant, or maybe you entered a full URL instead of just a hostname (\"http://www.mydbserver.com\" instead of just \"mydb.com\").", $dbserv) : format("The database server has rejected your username and/or password."));
     }
 	$mysql->select_db($dbname) or die(format("Could not select database \"{0}\". Even though we could connect to the database server, there does not seem to be a database by that name on that server. Perhaps you forgot to add it before trying to install?", $dbname));

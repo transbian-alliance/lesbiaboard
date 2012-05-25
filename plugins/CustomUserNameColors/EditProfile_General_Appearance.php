@@ -1,6 +1,7 @@
 <?php
 
-if ($uncolors[$user['id']]['hascolor'] || $user['powerlevel'] > 1) {
+if ($uncolors[$user['id']]['hascolor'] || $user['powerlevel'] > 1)
+{
 	Write("<script type=\"text/javascript\" src=\"lib/jscolor/jscolor.js\"></script>");
 	row("Name color", array(
 		"type"=>"text",

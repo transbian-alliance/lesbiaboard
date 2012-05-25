@@ -25,6 +25,7 @@ if (in_array($function, $php_functions['internal']))
 	die("$function() is PHP core function.\n");
 }
 recurse('search_for_function');
-if (!$found) {
+if (!$found)
+{
 	echo "$argv[1]() wasn't found.\n";
 }

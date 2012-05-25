@@ -113,11 +113,13 @@ function bbcodeForum($contents, $arg)
 	return $forumLinkCache[$id];
 }
 
-function bbcodeQuote($contents, $arg) {
+function bbcodeQuote($contents, $arg)
+{
 	return bbcodeQuoteGeneric($contents, $arg, __("Posted by"));
 }
 
-function bbcodeReply($contents, $arg) {
+function bbcodeReply($contents, $arg)
+{
 	return bbcodeQuoteGeneric($contents, $arg, __("Sent by"));
 }
 

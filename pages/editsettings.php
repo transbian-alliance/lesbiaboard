@@ -209,8 +209,10 @@ function makeThemeList($fieldname, $value)
 {
 	$themes = array();
 	$dir = @opendir("themes");
-	while ($file = readdir($dir)) {
-		if ($file != "." && $file != "..") {
+	while ($file = readdir($dir))
+	{
+		if ($file != "." && $file != "..")
+		{
 			$name = explode("\n", @file_get_contents("./themes/".$file."/themeinfo.txt"));
 			$themes[$file] = trim($name[0]);
 		}
@@ -223,8 +225,10 @@ function makeLayoutList($fieldname, $value)
 {
 	$layouts = array();
 	$dir = @opendir("layouts");
-	while ($file = readdir($dir)) {
-		if (endsWith($file, ".php")) {
+	while ($file = readdir($dir))
+	{
+		if (endsWith($file, ".php"))
+		{
 			$layout = substr($file, 0, strlen($file)-4);
 			$layouts[$layout] = @file_get_contents("./layouts/".$layout.".info.txt");
 		}
@@ -237,9 +241,11 @@ function makeLangList($fieldname, $value)
 {
 	$data = array();
 	$dir = @opendir("lib/lang");
-	while ($file = readdir($dir)) {
+	while ($file = readdir($dir))
+	{
 		//print $file;
-		if (endsWith($file, "_lang.php")) {
+		if (endsWith($file, "_lang.php"))
+		{
 			$file = substr($file, 0, strlen($file)-9);
 			$data[$file] = $file;
 		}

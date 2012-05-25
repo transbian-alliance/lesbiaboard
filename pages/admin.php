@@ -15,7 +15,8 @@ MakeCrumbs(array("Admin" => actionLink("admin")), "");
 $key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 
 $cell2 = 1;
-function cell2($content) {
+function cell2($content)
+{
 	global $cell2;
 	$cell2 = ($cell2 == 1 ? 0 : 1);
 	Write("

@@ -1,5 +1,6 @@
 <?php
-if ($fname == "Nikolaj") {
+if ($fname == "Nikolaj")
+{
 	$classing  = substr($classing, 0, (strlen($classing)-1));
 	if (!$uncolors[$user[$field]])
 		$classing .= '" style="';

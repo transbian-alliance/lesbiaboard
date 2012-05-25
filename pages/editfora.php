@@ -226,7 +226,8 @@ Write('
 
 //Helper functions
 
-function cell() {
+function cell()
+{
 	global $cell;
 	$cell = ($cell == 1 ? 0 : 1);
 	return $cell;
@@ -252,7 +253,8 @@ function WriteForumEditContents($fid)
 	{
 		$qForum = "SELECT * FROM forums WHERE id=".$fid;
 		$rForum = Query($qForum);
-		if (!NumRows($rForum)) {
+		if (!NumRows($rForum))
+		{
 			Kill("Forum not found.");
 		}
 		$forum = Fetch($rForum);
@@ -406,7 +408,8 @@ function WriteCategoryEditContents($cid)
 	{
 		$qCategory = "SELECT * FROM categories WHERE id=".$cid;
 		$rCategory = Query($qCategory);
-		if (!NumRows($rCategory)) {
+		if (!NumRows($rCategory))
+		{
 			Kill("Category not found.");
 		}
 		$cat = Fetch($rCategory);
@@ -505,15 +508,18 @@ function WriteForumTableContents()
 	$cats = array();
 	$qCats = "SELECT * FROM categories ORDER BY corder, id";
 	$rCats = Query($qCats);
-	if (NumRows($rCats)) {
-		while ($cat = Fetch($rCats)) {
+	if (NumRows($rCats))
+	{
+		while ($cat = Fetch($rCats))
+		{
 			$cats[$cat['id']] = $cat;
 		}
 		$qForums = "SELECT * FROM forums ORDER BY forder, id";
 		$rForums = Query($qForums);
 		$forums = array();
 		if (NumRows($rForums)) {
-			while ($forum = Fetch($rForums)) {
+			while ($forum = Fetch($rForums))
+			{
 				$forums[$forum['id']] = $forum;
 			}
 		}
@@ -539,7 +545,8 @@ function WriteForumTableContents()
 		</th>
 	</tr>';
 	print $buttons;
-	foreach ($forums as $forum) {
+	foreach ($forums as $forum)
+	{
 		$cats[$forum['catid']]['forums'][$forum['id']] = $forum;
 	}
 	
@@ -583,10 +590,12 @@ function WriteForumTableContents()
 	print '</table>';
 }
 
-function MakeCatSelect($i, $o, $v) {
+function MakeCatSelect($i, $o, $v)
+{
 	$r = '
 			<select name="category">';
-	foreach ($o as $opt) {
+	foreach ($o as $opt)
+	{
 		$r .= '
 				<option value="'.$opt['id'].'"'.($v == $opt['id'] ? ' selected="selected"' : '').'>
 					'.$opt['name'].'
@@ -596,12 +605,14 @@ function MakeCatSelect($i, $o, $v) {
 			</select>';
 	return $r;
 }
-function PowerSelect($id, $s) {
+function PowerSelect($id, $s)
+{
 	$r = Format('
 				<select name="{0}">
 	', $id);
 	$powers = array(-1=>__("Banned"), 0=>__("Regular"), 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Admin"));
-	foreach ($powers as $k => $v) {
+	foreach ($powers as $k => $v)
+	{
 		$r .= Format('
 					<option value="{0}"{2}>{1}</option>
 		', $k, $v, ($k == $s ? ' selected="selected"' : ''));
@@ -613,9 +624,11 @@ function PowerSelect($id, $s) {
 
 //Sort array by values in sub-arrays
 //This will not work if the values in the sub-arrays are the same, but since this is made for ordering forums anyway, who cares?
-function sort_by_order($array, $key, $order_column = "forder") {
+function sort_by_order($array, $key, $order_column = "forder")
+{
 	$r = array();
-	foreach ($array as $k => $v) {
+	foreach ($array as $k => $v)
+	{
 		$r[$v[$order_column]] = $v;
 	}
 	return $r;

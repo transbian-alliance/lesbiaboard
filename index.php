@@ -73,14 +73,17 @@ try {
 			include($page);
 		}
 	}
-	catch(Exception $e) {
-		if ($e->getMessage() != 404) {
+	catch(Exception $e)
+	{
+		if ($e->getMessage() != 404)
+		{
 			throw $e;
 		}
 		require('pages/404.php');
 	}
 }
-catch(KillException $e) {
+catch(KillException $e)
+{
 	// Nothing. Just ignore this exception.
 }
 

@@ -1,6 +1,7 @@
 <?php
 
-if (php_sapi_name() !== 'cli') {
+if (php_sapi_name() !== 'cli')
+{
 	die("This script is only intended for CLI usage.\n");
 }
 

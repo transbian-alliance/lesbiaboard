@@ -319,13 +319,16 @@ function BytesToSize($size, $retstring = '%01.2f&nbsp;%s')
 	return sprintf($retstring, $size, $sizestring);
 }
 
-function makeThemeArrays() {
+function makeThemeArrays()
+{
 	global $themes, $themefiles;
 	$themes = array();
 	$themefiles = array();
 	$dir = @opendir("themes");
-	while ($file = readdir($dir)) {
-		if ($file != "." && $file != "..") {
+	while ($file = readdir($dir))
+	{
+		if ($file != "." && $file != "..")
+		{
 			$themefiles[] = $file;
 			$name = explode("\n", @file_get_contents("./themes/".$file."/themeinfo.txt"));
 			$themes[] = trim($name[0]);
@@ -362,7 +365,8 @@ function formatdatenow()
 function endsWith($haystack, $needle)
 {
 	$length = strlen($needle);
-	if ($length == 0) {
+	if ($length == 0)
+	{
 		return true;
 	}
 

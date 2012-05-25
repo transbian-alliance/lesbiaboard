@@ -15,7 +15,8 @@ if($loguserid)
 	if(!isset($_POST['id']) && isset($_GET['id']))
 		$_POST['id'] = (int)$_GET['id'];
         
-	if (isset($user_panel)) {
+	if (isset($user_panel))
+	{
         echo $user_panel;
     }
 
