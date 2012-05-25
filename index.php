@@ -179,7 +179,7 @@ else
 
 if(file_exists("img/logos/favicon.gif"))
 	$layout_favicon = resourceLink("img/logos/favicon.gif");
-if(file_exists("img/logos/favicon.ico"))
+else if(file_exists("img/logos/favicon.ico"))
 	$layout_favicon = resourceLink("img/logos/favicon.ico");
 else
 	$layout_favicon = resourceLink("img/favicon.ico");
