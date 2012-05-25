@@ -177,6 +177,13 @@ else if(file_exists("themes/$theme/logo.gif"))
 else
 	$layout_logopic = resourceLink("img/logo.png");
 
+if(file_exists("img/logos/favicon.gif"))
+	$layout_favicon = resourceLink("img/logos/favicon.gif");
+if(file_exists("img/logos/favicon.ico"))
+	$layout_favicon = resourceLink("img/logos/favicon.ico");
+else
+	$layout_favicon = resourceLink("img/favicon.ico");
+
 $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))
 	$layout_themefile = "themes/$theme/style.php";

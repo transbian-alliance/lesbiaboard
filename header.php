@@ -2,7 +2,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9" />
 	<meta name="description" content="<?php print $metaDescription; ?>" />
 	<meta name="keywords" content="<?php print $metaKeywords; ?>" />
-	<link rel="shortcut icon" type="image/x-icon" href="<?php print resourceLink("img/favicon.ico");?>" />
+	<link rel="shortcut icon" type="image/x-icon" href="<?php print $layout_favicon;?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/common.css");?>" />
 	<link rel="stylesheet" type="text/css" id="theme_css" href="<?php print $layout_themefile; ?>" /> 
 
@@ -12,3 +12,4 @@
 	<?php
 		$bucket = "pageHeader"; include("./lib/pluginloader.php");
 	?>
+	
