@@ -6,7 +6,7 @@ $title = __("Private messages");
 
 AssertForbidden("viewPM");
 
-if(!loguserid)
+if(!$loguserid)
 	Kill(__("You must be logged in to view your private messages."));
 
 if(!isset($_GET['id']) && !isset($_POST['id']))
