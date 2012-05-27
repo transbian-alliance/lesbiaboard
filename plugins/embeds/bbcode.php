@@ -2,10 +2,14 @@
 
 $bbcodeCallbacks["youtube"] = "bbcodeYoutube";
 $bbcodeCallbacks["swf"] = "bbcodeFlash";
+$bbcodeCallbacks["video"] = "bbcodeVideo";
+$bbcodeCallbacks["tindeck"] = "bbcodeTindeck";
+$bbcodeCallbacks["svg"] = "bbcodeSvg";
 
 function bbcodeYoutube($contents, $arg)
 {
-	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", trim($contents)))
+	$contents = trim($contents);
+	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
 		return "[Invalid youtube video ID]";
 	
 	$args = "";
