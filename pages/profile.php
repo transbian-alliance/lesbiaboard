@@ -123,9 +123,9 @@ if($user['title'])
 if($user['homepageurl'])
 {
 	if($user['homepagename'])
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> - ".$user['homepageurl'];
+		$homepage = "<a href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepageurl']."</a>";
+		$homepage = "<a href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
 }
 
 $emailField = __("Private");
@@ -174,7 +174,7 @@ $profileParts[__("General information")] = $foo;
 $foo = array();
 $foo[__("Email address")] = $emailField;
 if($homepage)
-	$foo[__("Homepage")] = CleanUpPost($homepage);
+	$foo[__("Homepage")] = $homepage;
 $profileParts[__("Contact information")] = $foo;
 
 $foo = array();
