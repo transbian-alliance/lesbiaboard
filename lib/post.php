@@ -59,10 +59,6 @@ function LoadSmilies($byOrder = FALSE)
 	}
 }
 
-	{
-		
-	}
-
 function ApplySmilies($text)
 {
 	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
@@ -72,12 +68,11 @@ function ApplySmilies($text)
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$smiliesReplaceOrig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
+			$smiliesReplaceOrig[] = "/".preg_quote($smilies[$i]['code'], "/")."/";
 			$smiliesReplaceNew[] = "<img alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
-	
-	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, " ".$text." ");
+	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
 }
 
 function LoadBlocklayouts()
@@ -203,7 +198,7 @@ function postDoReplaceText($s)
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
-		
+	
 	return $s;
 }
 

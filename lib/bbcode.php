@@ -8,7 +8,7 @@ function parseText($text)
 	
 	//Parse smilies and such
 	if($parseStatus <= 1)
-		$text = htmlspecialchars($text);
+		$text = htmlentities(html_entity_decode($text));
 		
 	if($parseStatus == 0)
 	{
