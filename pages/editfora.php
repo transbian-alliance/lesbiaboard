@@ -508,6 +508,7 @@ function WriteForumTableContents()
 	$cats = array();
 	$qCats = "SELECT * FROM categories ORDER BY corder, id";
 	$rCats = Query($qCats);
+	$forums = array();
 	if (NumRows($rCats))
 	{
 		while ($cat = Fetch($rCats))
@@ -524,16 +525,15 @@ function WriteForumTableContents()
 			}
 		}
 	}
-
-
+	$hint = $cats ? __("Hint: Click a forum to select it.") : '';
+	$newforum = $cats ? '<button onclick="newForum();">'.__("Add Forum").'</button>' : '';
 	
 	$buttons = '
 	<tr class="cell2">
 		<td>
-			<span style="float: right;">
-				<button onclick="newForum();">'.__("Add Forum").'</button>
-				<button onclick="newCategory();">'.__("Add Category").'</button>
-			</span>'.__("Hint: Click a forum to select it.").'
+			<span style="float: right;">' . $newforum .
+				'<button onclick="newCategory();">'.__("Add Category").'</button>
+			</span>' . $hint . '
 		</td>
 	</tr>';
 
@@ -586,7 +586,9 @@ function WriteForumTableContents()
 		print "</tbody>";
 	}
 
+	if ($forums) {
 	print $buttons;
+	}
 	print '</table>';
 }
 
