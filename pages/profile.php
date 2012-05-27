@@ -174,7 +174,7 @@ $profileParts[__("General information")] = $foo;
 $foo = array();
 $foo[__("Email address")] = $emailField;
 if($homepage)
-	$foo[__("Homepage")] = $homepage;
+	$foo[__("Homepage")] = securityPostFilter($homepage);
 $profileParts[__("Contact information")] = $foo;
 
 $foo = array();
