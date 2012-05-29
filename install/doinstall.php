@@ -2,6 +2,8 @@
 
 chdir("../");
 
+error_reporting(-1 & ~E_NOTICE);
+
 function cdate($format, $date = 0)
 {
 	global $loguser;
@@ -20,6 +22,7 @@ $overallTidy = 0;
 
 function insError($text)
 {
+	global $dbpref;
 	print $text."<br /><strong onload=\"reenableControls();\">Installation error occoured.</strong> <button onclick=\"reenableControls(); page = 2; setStep(2);\">Go back</button> to the previous pages and correct the errors, then <button onclick=\"doInstall();\">click here</button>.";
 	die();
 }
@@ -38,6 +41,7 @@ function insError($text)
 		$dbuser = $_POST['dbuser'];
 		$dbpass = $_POST['dbpass'];
 		$dbname = $_POST['dbname'];
+		$dbpref = $_POST['dbpref'];
 	}
 	else
 		include("lib/database.php");
@@ -75,6 +79,7 @@ function insError($text)
 	fwrite($dbcfg, "\$dbuser = \"".$dbuser."\";\n");
 	fwrite($dbcfg, "\$dbpass = \"".$dbpass."\";\n");
 	fwrite($dbcfg, "\$dbname = \"".$dbname."\";\n");
+	fwrite($dbcfg, "\$dbpref = \"".$dbpref."\";\n");
 	fwrite($dbcfg, "\n?>");
 	fclose($dbcfg);
 
@@ -116,15 +121,15 @@ function insError($text)
 	Upgrade();
 	
 	print "Adding bare neccesities&hellip;<br />"; 
-	$misc = Query("select * from misc");
+	$misc = Query("select * from {$dbpref}misc");
 	if(NumRows($misc) == 0)
-		Query("INSERT INTO `misc` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
+		Query("INSERT INTO `{$dbpref}misc` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
 		
-	Query("UPDATE `misc` SET `version` = 222");
+	Query("UPDATE `{$dbpref}misc` SET `version` = 222");
 
 	print "Importing smilies&hellip;<br />";
 
-	$smilies = Query("select * from smilies");
+	$smilies = Query("select * from {$dbpref}smilies");
 	if(NumRows($smilies) == 0)
 		Import("install/smilies.sql");
 
