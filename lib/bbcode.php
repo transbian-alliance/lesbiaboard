@@ -9,8 +9,8 @@ function parseText($text)
 	//Parse smilies and such
 	if($parseStatus <= 1)
 	{
-		$text = html_entity_decode($text, ENT_COMPAT | ENT_HTML401, 'UTF-8');
-		$text = htmlentities($text, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+		$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+		$text = htmlentities($text, ENT_COMPAT, 'UTF-8');
 	}
 
 	if($parseStatus == 0)
