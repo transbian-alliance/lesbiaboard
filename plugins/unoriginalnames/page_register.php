@@ -5,9 +5,8 @@ while ($name = FetchRow($query))
 {
 	$name = strtolower(preg_replace('/[^a-zA-Z]/', '', $name[0]));
 	// Name might not use any letters. Skip those.
-	if ($name) {
+	if ($name)
 		$names[] = $name;
-	}
 }
 ?>
 <script>
