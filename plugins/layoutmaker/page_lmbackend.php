@@ -24,7 +24,7 @@ $copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,rank
 foreach($copies as $toCopy)
 	$previewPost[$toCopy] = $loguser[$toCopy];
 $previewPost['postheader'] = trim(ApplyParameters($markupTemplateA));
-$previewPost['text'] = $profilePreviewText;
+$previewPost['text'] = Settings::get("profilePreviewText");
 $previewPost['signature'] = trim(ApplyParameters($markupTemplateB));
 
 MakePost($previewPost, POST_SAMPLE);
