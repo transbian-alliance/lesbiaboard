@@ -10,7 +10,7 @@ $bbcodeCallbacks = array(
 	"img" => "bbcodeImage",
 	
 	"user" => "bbcodeUser",
-	"thread" => "bbcodeUser",
+	"thread" => "bbcodeThread",
 	"forum" => "bbcodeForum",
 	
 	"quote" => "bbcodeQuote",
