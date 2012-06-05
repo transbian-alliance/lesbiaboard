@@ -7,6 +7,8 @@ $title = __("Member list");
 
 AssertForbidden("viewMembers");
 
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist")), $links);
+
 $tpp = $loguser['threadsperpage'];
 if($tpp<1) $tpp=50;
 

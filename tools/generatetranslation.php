@@ -2,7 +2,7 @@
 // Generator for en_US language file
 function find_strings($tokens, $filename)
 {
-	global $messages;
+	global $messages, $languagePack;
 	
 	$filenameInserted = false;
 	// Now search for __() calls
@@ -13,17 +13,24 @@ function find_strings($tokens, $filename)
 		{
 			if ($tokens[$id + 2][0] === T_CONSTANT_ENCAPSED_STRING && ($tokens[$id + 3] === ')' || $tokens[$id + 3] === ','))
 			{
-				if (!isset($messages[$tokens[$id + 2][1]]))
+				$thetoken = $tokens[$id + 2][1];
+				eval('$string = '.$thetoken.';');
+				if (!isset($messages[$string]))
 				{
 					if (!$filenameInserted)
 					{
 						echo "\n// $filename\n";
 						$filenameInserted = true;
 					}
-					echo $tokens[$id + 2][1], " => '',\n";
+					
+					$translation = "";
+					if(isset($languagePack[$string]))
+						$translation = $languagePack[$string];
+
+					print "'".str_replace("'", "\\'", $string)."' => '".str_replace("'", "\\'", $translation)."',\n";
 				}
 				// Hash lookups are fast, so why not abuse this structure?
-				$messages[$tokens[$id + 2][1]] = true;
+				$messages[$string] = true;
 			}
 			elseif ($tokens[$id - 1][0] !== T_FUNCTION)
 			{
@@ -36,9 +43,28 @@ function find_strings($tokens, $filename)
 
 $messages = array();
 
+if(isset($argv[1]))
+{
+	require "../lib/lang/${argv[1]}_lang.php";
+}
+else
+	$languagePack = array();
+	
 require 'lib/recursivetokenizer.php';
 echo "<?php\n\$languagePack = array(\n";
 
 recurse('find_strings');
+
+$textWritten = false;
+foreach($languagePack as $original => $translated)
+{
+	if(!isset($messages[$original]))
+	{
+		if(!$textWritten)
+			echo "\n// Strings no longer used\n";
+		$textWritten = true;
+		print "'".str_replace("'", "\\'", $original)."' => '".str_replace("'", "\\'", $translated)."',\n";
+	}
+}
 
 echo ");\n";

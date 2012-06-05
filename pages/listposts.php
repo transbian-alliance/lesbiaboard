@@ -55,11 +55,11 @@ $qPosts = "	SELECT
 $rPosts = Query($qPosts);
 $numonpage = NumRows($rPosts);
 
-MakeCrumbs(array($user['name']=>actionLink("profile", $id), __("List of posts")=>""), $links);
-
-// TODO: use a function for page links, consistent pagelinking needed
-// (some places use compact pagelinking while this is still using Acmlmboard style pagelinking)
-
+$uname = $user["name"];
+if($user["displayname"])
+	$uname = $user["displayname"];
+	
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $id), __("List of posts")=>""), $links);
 
 $pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);
 

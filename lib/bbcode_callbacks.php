@@ -207,4 +207,4 @@ function _pcreEntityToUtf($matches)
 	{
 		return chr(0xe0 | (0x0f & ($char >> 12))) . chr(0x80 | (0x3f & ($char >> 6))). chr(0x80 | (0x3f & $char));
 	}*/
-} 
+}

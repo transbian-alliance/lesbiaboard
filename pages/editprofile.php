@@ -35,6 +35,12 @@ if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
 
 AssertForbidden($editUserMode ? "editUser" : "editProfile");
 
+$uname = $user["name"];
+if($user["displayname"])
+	$uname = $user["displayname"];
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), $links);
+
+
 $qRanksets = "select name from ranksets";
 $rRanksets = Query($qRanksets);
 $ranksets[] = __("None");
@@ -76,7 +82,7 @@ $general = array(
 				"value" => $user['displayname'],
 				"width" => "98%",
 				"length" => 20,
-				"hint" => "Leave this empty to use your login name.",
+				"hint" => __("Leave this empty to use your login name."),
 				"callback" => "HandleDisplayname",
 			),
 			"rankset" => array(

@@ -62,12 +62,12 @@ $isIgnored = FetchResult("select count(*) from ignoredforums where uid=".$loguse
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
-		$links .= "<li>".actionLinkTag(__("Unignore Forum"), "forum", $fid, "unignore")."</li>";
+		$links .= "<li>".actionLinkTag(__("Unignore forum"), "forum", $fid, "unignore")."</li>";
 	else
-		$links .= "<li>".actionLinkTag(__("Ignore Forum"), "forum", $fid, "ignore")."</li>";
+		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
 
-		$links .= "<li>".actionLinkTag(__("Post Thread"), "newthread", $fid)."</li>";
-		$links .= "<li>".actionLinkTag(__("Post Poll"), "newthread", $fid, "poll=1")."</li>";
+		$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
+		$links .= "<li>".actionLinkTag(__("Post poll"), "newthread", $fid, "poll=1")."</li>";
 }
 
 $OnlineUsersFid = $fid;
