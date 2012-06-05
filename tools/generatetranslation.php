@@ -95,7 +95,9 @@ function updateLanguage($lang)
 			if(!$textWritten)
 				echo "\n// Strings no longer used\n";
 			$textWritten = true;
-			echo var_export($original, true), ' => ', var_export(trim($translated), true), ",\n";
+			$translated = trim($translated);
+			if($translated)
+				echo var_export($original, true), ' => ', var_export($translated, true), ",\n";
 		}
 	}
 

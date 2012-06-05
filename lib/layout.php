@@ -5,12 +5,15 @@ function MakeCrumbs($path, $links)
 {
 	global $layout_crumbs;
 
-	$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink("index"));
-	$pathPostfix = array(); //Not sure how this could be used, but...
+	if(count($path) != 0)
+	{
+		$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink("index"));
+		$pathPostfix = array(); //Not sure how this could be used, but...
 	
-	$bucket = "breadcrumbs"; include("lib/pluginloader.php");
+		$bucket = "breadcrumbs"; include("lib/pluginloader.php");
 
-	$path = $pathPrefix + $path + $pathPostfix;
+		$path = $pathPrefix + $path + $pathPostfix;
+	}
 	
 	foreach($path as $text=>$link)
 	{
@@ -45,7 +48,7 @@ function MakeCrumbs($path, $links)
 	<div style=\"float: right;\">
 		$links
 	</div>
-	$crumbs
+	$crumbs&nbsp;
 </div>";
 }
 ?>

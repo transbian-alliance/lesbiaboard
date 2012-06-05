@@ -318,9 +318,9 @@ $languagePack = array(
 // pages/editsettings.php
 'Edit settings' => 'Zmiana ustawień',
 'You must be an administrator to edit the board settings.' => 'Musisz być administratorem aby zmieniać ustawienia tego forum.',
-'Edit Settings' => '',
-'Plugin Manager' => '',
+'Plugin manager' => '',
 'Settings were successfully saved!' => '',
+'Settings were NOT saved because there were invalid values. Please correct them and try again.' => '',
 'Settings' => 'Ustawienia',
 'Save and Exit' => '',
 'Save' => '',
@@ -638,6 +638,7 @@ $languagePack = array(
 
 // pages/pluginmanager.php
 'You must be an administrator to manage plugins.' => '',
+'Plugin Manager' => '',
 
 // pages/editfora.php
 'Listing order' => '',
@@ -847,7 +848,7 @@ $languagePack = array(
 'Sample post' => 'Przykładowy post',
 'Sent on {0}' => 'Wysłano {0}',
 'in' => 'w',
-' by {0} on {1}' => '',
+'by {0} on {1}' => '',
 'rev. {0}' => '',
 'Posts:' => 'Posty:',
 'Since:' => 'Od:',

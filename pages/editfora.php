@@ -3,7 +3,7 @@
 //Category/forum editor -- By Nikolaj
 //Secured and improved by Dirbaio
 
-$title = "Edit forums";
+$title = __("Edit forums");
 
 if ($loguser['powerlevel'] < 3) Kill("You're not allowed to access the forum editor.");
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => actionLink("editfora")), "");
@@ -267,16 +267,16 @@ function WriteForumEditContents($fid)
 		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
 		$forder = $forum['forder'];
 		$func = "changeForumInfo";
-		$button = "Update";
-		$boxtitle = "Edit Forum";
+		$button = __("Update");
+		$boxtitle = __("Edit Forum");
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
-				Delete
+				".__("Delete")."
 			</button>";
 	}
 	else
 	{
-		$title = "New Forum";
+		$title = __("New Forum");
 		$description = "Description goes here. <strong>HTML allowed.</strong>";
 		$catselect = MakeCatSelect('cat', $cats, 1);
 		$minpower = PowerSelect('minpower', 0);
@@ -284,8 +284,8 @@ function WriteForumEditContents($fid)
 		$minpowerreply = PowerSelect('minpowerreply', 0);
 		$forder = 0;
 		$func = "addForum";
-		$button = "Add";
-		$boxtitle = "New Forum";
+		$button = __("Add");
+		$boxtitle = __("New Forum");
 		$delbutton = "";
 	}
 	

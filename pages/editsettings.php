@@ -19,9 +19,9 @@ if(!ctype_alnum($plugin))
 	Kill(__("No."));
 
 if($plugin == "main")
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit Settings") => actionLink("editsettings")), "");
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit settings") => actionLink("editsettings")), "");
 else
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
 
 $settings = Settings::getForPlugin($plugin);
 $oursettings = Settings::$pluginsettings[$plugin];
@@ -65,7 +65,7 @@ if(isset($_POST["_plugin"]))
 			Alert(__("Settings were successfully saved!"));
 	}
 	else
-		Alert("Settings were NOT saved because there were invalid values. Please correct them and try again.");
+		Alert(__("Settings were NOT saved because there were invalid values. Please correct them and try again."));
 }
 
 $plugintext = "";

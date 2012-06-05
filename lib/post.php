@@ -501,7 +501,7 @@ function MakePost($post, $type, $params=array())
 			if ($post['revuser'])
 			{
 				$ru_link = UserLink(array('id'=>$post['revuser'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
-				$revdetail = format(__(" by {0} on {1}"), $ru_link, formatdate($post['revdate']));
+				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
 			}
 			else
 				$revdetail = '';
