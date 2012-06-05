@@ -104,7 +104,6 @@ $languagePack = array(
 'Unknown post ID.' => 'Nieznane ID postu.',
 'Thread ID unspecified.' => 'Numer ID tematu nieustalony.',
 'Unknown thread ID.' => 'Nieznane ID tematu.',
-'You are not allowed to browse forums in this category.' => 'Nie możesz przeglądać forum w tej kategorii.',
 'Unknown category ID.' => 'Nieznane ID kategorii.',
 
 // pages/editprofile.php
@@ -267,10 +266,10 @@ $languagePack = array(
 'Forum ignored. You will no longer see any "New" markers for this forum.' => 'Forum zignorowane. Nie będziesz dłużej widział żadnych markerów "New" w tym forum.',
 'Forum unignored.' => 'Forum nie jest już dłużej ignorowane.',
 'Mark forum read' => 'Zaznacz forum jako przeczytane',
-'Unignore forum' => '',
-'Ignore forum' => '',
-'Post thread' => '',
-'Post poll' => '',
+'Unignore forum' => 'Przestań ignorować forum',
+'Ignore forum' => 'Ignoruj forum',
+'Post thread' => 'Pisz temat',
+'Post poll' => 'Zrób ankietę',
 'Started by' => 'Zaczęty przez',
 'Replies' => 'Odpowiedzi',
 'Views' => 'Wyświetlenia',
@@ -864,6 +863,7 @@ $languagePack = array(
 'No such file.' => 'Nie ma takiego pliku.',
 
 // Strings no longer used
+'You are not allowed to browse forums in this category.' => 'Nie możesz przeglądać forum w tej kategorii.',
 'SQL Console' => 'Konsola SQL',
 '(not admin-only)' => '(nie tylko administratorzy)',
 'Edit Points of Required Attention' => 'Edycja punktów wymaganej uwagi',
@@ -951,10 +951,6 @@ $languagePack = array(
 'Local Mod' => 'Lokalny moderator',
 'Full Mod' => 'Globalny moderator',
 'You are not allowed to see this category.' => 'Nie możesz zobaczyć tej kategorii.',
-'Unignore Forum' => 'Przestań ignorować forum',
-'Ignore Forum' => 'Ignoruj forum',
-'Post Thread' => 'Pisz temat',
-'Post Poll' => 'Zrób ankietę',
 'Would you like to {0}post something{1}?' => 'Czy chciałbyś {0}coś napisać{1}?',
 '{0}Log in{1} so you can post something.' => '{0}Zaloguj się{1}, aby coś napisać.',
 'You are now logged out.' => 'Jesteś teraz wylogowany.',

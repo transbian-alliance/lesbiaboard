@@ -104,7 +104,6 @@ $languagePack = array(
 'Unknown post ID.' => 'Onbekende post-ID.',
 'Thread ID unspecified.' => 'Thread-ID niet aangegeven.',
 'Unknown thread ID.' => 'Onbekende thread-ID.',
-'You are not allowed to browse forums in this category.' => '',
 'Unknown category ID.' => 'Onbekende categorie-ID.',
 
 // pages/editprofile.php
@@ -267,10 +266,10 @@ $languagePack = array(
 'Forum ignored. You will no longer see any "New" markers for this forum.' => 'Forum genegeerd. Je zult geen "Nieuw" markeringen meer zien voor dit forum.',
 'Forum unignored.' => 'Forum niet meer genegeerd.',
 'Mark forum read' => 'Markeer forum als gelezen',
-'Unignore forum' => '',
-'Ignore forum' => '',
-'Post thread' => '',
-'Post poll' => '',
+'Unignore forum' => 'Forum niet meer negeren',
+'Ignore forum' => 'Forum negeren',
+'Post thread' => 'Nieuwe thread',
+'Post poll' => 'Nieuwe poll',
 'Started by' => 'Gestart door',
 'Replies' => 'Reacties',
 'Views' => 'Bezichtigingen',
@@ -864,6 +863,7 @@ $languagePack = array(
 'No such file.' => 'Bestand bestaat niet.',
 
 // Strings no longer used
+'You are not allowed to browse forums in this category.' => '',
 'SQL Console' => 'SQL Console',
 '(not admin-only)' => '(niet alleen voor admins)',
 'Edit Points of Required Attention' => 'Bewerk Aandachtspunten',
@@ -951,10 +951,6 @@ $languagePack = array(
 'Local Mod' => '',
 'Full Mod' => '',
 'You are not allowed to see this category.' => 'Je mag deze categorie niet zien.',
-'Unignore Forum' => 'Forum niet meer negeren',
-'Ignore Forum' => 'Forum negeren',
-'Post Thread' => 'Nieuwe thread',
-'Post Poll' => 'Nieuwe poll',
 'Would you like to {0}post something{1}?' => 'Wil je {0}iets posten{1}?',
 '{0}Log in{1} so you can post something.' => '{0}Meld je aan{1} zodat je iets kunt posten.',
 'You are now logged out.' => 'Je bent nu afgemeld',

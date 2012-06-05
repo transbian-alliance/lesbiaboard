@@ -45,11 +45,7 @@ else
 $qCategories = "select * from categories where id=".$forum['catid'];
 $rCategories = Query($qCategories);
 if(NumRows($rCategories))
-{
 	$category = Fetch($rCategories);
-	if($category['minpower'] > $pl)
-		die(__("You are not allowed to browse forums in this category."));
-}
 else
 	die(__("Unknown category ID."));
 
