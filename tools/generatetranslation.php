@@ -27,7 +27,7 @@ function find_strings($tokens, $filename)
 					if(isset($languagePack[$string]))
 						$translation = $languagePack[$string];
 
-					print "'".str_replace("'", "\\'", $string)."' => '".str_replace("'", "\\'", $translation)."',\n";
+					echo var_export($string, true), ' => ', var_export($translation, true), "\n";
 				}
 				// Hash lookups are fast, so why not abuse this structure?
 				$messages[$string] = true;
@@ -63,7 +63,7 @@ foreach($languagePack as $original => $translated)
 		if(!$textWritten)
 			echo "\n// Strings no longer used\n";
 		$textWritten = true;
-		print "'".str_replace("'", "\\'", $original)."' => '".str_replace("'", "\\'", $translated)."',\n";
+		echo var_export($original, true), ' => ', var_export($translated, true), "\n";
 	}
 }
 
