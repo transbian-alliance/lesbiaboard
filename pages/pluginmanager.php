@@ -64,10 +64,10 @@ asort($enabledplugins);
 asort($disabledplugins);
 
 print '<table class="outline margin width50">';
-print '<tr class="header0"><th colspan="2">Enabled plugins</th></tr>';
+print '<tr class="header0"><th colspan="2">'.__("Enabled plugins").'</th></tr>';
 foreach($enabledplugins as $plugin => $pluginname)
 	listPlugin($plugin, $pluginDatas[$plugin]);
-print '<tr class="header0"><th colspan="2">Disabled plugins</th></tr>';
+print '<tr class="header0"><th colspan="2">'.__("Disabled plugins").'</th></tr>';
 foreach($disabledplugins as $plugin => $pluginname)
 	listPlugin($plugin, $pluginDatas[$plugin]);
 
