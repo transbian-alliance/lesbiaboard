@@ -1,4 +1,9 @@
 <?php
+if (php_sapi_name() !== 'cli')
+{
+	die("This script is only intended for CLI usage.\n");
+}
+
 // Generator for en_US language file
 function find_strings($tokens, $filename)
 {
@@ -25,9 +30,9 @@ function find_strings($tokens, $filename)
 					
 					$translation = "";
 					if(isset($languagePack[$string]))
-						$translation = $languagePack[$string];
+						$translation = trim($languagePack[$string]);
 
-					echo var_export($string, true), ' => ', var_export($translation, true), "\n";
+					echo var_export($string, true), ' => ', var_export($translation, true), ",\n";
 				}
 				// Hash lookups are fast, so why not abuse this structure?
 				$messages[$string] = true;
@@ -63,7 +68,7 @@ foreach($languagePack as $original => $translated)
 		if(!$textWritten)
 			echo "\n// Strings no longer used\n";
 		$textWritten = true;
-		echo var_export($original, true), ' => ', var_export($translated, true), "\n";
+		echo var_export($original, true), ' => ', var_export(trim($translated), true), ",\n";
 	}
 }
 
