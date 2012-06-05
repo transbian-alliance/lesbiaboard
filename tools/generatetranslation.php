@@ -46,6 +46,7 @@ function find_strings($tokens, $filename)
 	}
 }
 
+require 'lib/recursivetokenizer.php';
 
 if(!isset($argv[1]))
 	die("Usage: generatetranslation.php <langName>|all\n");
@@ -79,10 +80,9 @@ function updateLanguage($lang)
 
 	$languagePack = array();
 	$langFile = "../lib/lang/".$lang."_lang.php";
-	if(file_exists($langFile)
+	if(file_exists($langFile))
 		include $langFile;
 	
-	require 'lib/recursivetokenizer.php';
 	echo "<?php\n\$languagePack = array(\n";
 
 	recurse('find_strings');
