@@ -46,30 +46,63 @@ function find_strings($tokens, $filename)
 	}
 }
 
-$messages = array();
 
-if(isset($argv[1]))
+if(!isset($argv[1]))
+	die("Usage: generatetranslation.php <langName>|all\n");
+
+if($argv[1] == "all")
 {
-	require "../lib/lang/${argv[1]}_lang.php";
-}
-else
-	$languagePack = array();
-	
-require 'lib/recursivetokenizer.php';
-echo "<?php\n\$languagePack = array(\n";
+	if ($handle = opendir('../lib/lang/')) {
+		while (false !== ($entry = readdir($handle)))
+		{
+			if(preg_match("/^(.*)_lang\\.php$/", $entry, $matches))
+			{
+				$lang = $matches[1];
+				updateLanguage($lang);
+			}
+		}
 
-recurse('find_strings');
-
-$textWritten = false;
-foreach($languagePack as $original => $translated)
-{
-	if(!isset($messages[$original]))
-	{
-		if(!$textWritten)
-			echo "\n// Strings no longer used\n";
-		$textWritten = true;
-		echo var_export($original, true), ' => ', var_export(trim($translated), true), ",\n";
+		closedir($handle);
 	}
 }
+else
+	updateLanguage($argv[1]);
 
-echo ");\n";
+print "Done!\n";
+
+function updateLanguage($lang)
+{
+	global $messages, $languagePack;
+	echo $lang, "... ";
+	ob_start();
+	$messages = array();
+
+	$languagePack = array();
+	$langFile = "../lib/lang/".$lang."_lang.php";
+	if(file_exists($langFile)
+		include $langFile;
+	
+	require 'lib/recursivetokenizer.php';
+	echo "<?php\n\$languagePack = array(\n";
+
+	recurse('find_strings');
+
+	$textWritten = false;
+	foreach($languagePack as $original => $translated)
+	{
+		if(!isset($messages[$original]))
+		{
+			if(!$textWritten)
+				echo "\n// Strings no longer used\n";
+			$textWritten = true;
+			echo var_export($original, true), ' => ', var_export(trim($translated), true), ",\n";
+		}
+	}
+
+	echo ");\n";
+
+	$stuff = ob_get_contents();
+	ob_end_clean();
+	file_put_contents($langFile, $stuff);
+	echo "Ok.\n";
+}
