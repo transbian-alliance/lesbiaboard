@@ -1,7 +1,5 @@
 <?php
-$numberOfFields = $plugins['profilefields']['amount'];
-
-for($i = 0; $i < $numberOfFields; $i++)
+for($i = 0; $i < $selfsettings['numberOfFields']; $i++)
 {
 	if(getSetting("profileExt".$i."t", true) != "" && getSetting("profileExt".$i."v", true) != "")
 	{
