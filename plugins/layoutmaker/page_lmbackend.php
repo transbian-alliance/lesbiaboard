@@ -31,7 +31,7 @@ MakePost($previewPost, POST_SAMPLE);
 
 write("
 <form action=\"".actionLink("layoutmakerinstall")."\" method=\"post\">
-<table class=\"width100\">
+<table class=\"outline margin width100\">
 	<tr class=\"header1\">
 		<th colspan=\"2\">
 			Code
@@ -79,6 +79,25 @@ write("
 </form>
 ");
 
+function hex2rgb($color)
+{
+	if ($color[0] == '#')
+	$color = substr($color, 1);
+
+	if (strlen($color) == 6)
+		list($r, $g, $b) = array($color[0].$color[1],
+					$color[2].$color[3],
+					$color[4].$color[5]);
+	elseif (strlen($color) == 3)
+		list($r, $g, $b) = array($color[0].$color[0], $color[1].$color[1], $color[2].$color[2]);
+	else
+		return false;
+
+	$r = hexdec($r); $g = hexdec($g); $b = hexdec($b);
+
+	return "$r, $g, $b";
+}
+
 function ApplyParameters($input)
 {
 	global $parameters;
@@ -106,6 +125,8 @@ function ApplyParameters($input)
 			else if($settings['type'] == "textfx")
 				$value = $textfx[$value];
 			$line = str_replace("[".$id."]", $value, $line);
+			if($settings['type'] == "color")
+			$line = str_replace("[".$id."_RGB]", hex2rgb($value), $line);
 			if($settings['type'] == "font")
 			{
 				if(in_array($value, $metafonts))
