@@ -472,9 +472,8 @@ if($_POST['action'] == __("Edit profile"))
 							$sets[] = $field." = ".$val;
 							break;
 						case "radiogroup":
-							$num = (int)$_POST[$field];
-							if (array_key_exists($num, $item['options']))
-								$sets[] = $field." = ".$num;
+							if (array_key_exists($_POST[$field], $item['options']))
+								$sets[] = $field." = '".justEscape($_POST[$field])."'";
 							break;
 						case "birthday":
 							if($_POST[$field])
