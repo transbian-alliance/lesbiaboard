@@ -96,6 +96,22 @@ elseif($action == "srl")	//Show Revision List
 	else
 		die(format(__("Unknown post ID #{0}."), $id)." ".$hideTricks);
 
+$qPosts = "	SELECT 
+				p.id, p.date, p.num, p.deleted, p.options, p.mood, p.ip, 
+				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
+				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
+				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+			FROM 
+				posts p 
+				LEFT JOIN posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+				LEFT JOIN users u ON u.id = p.user
+				LEFT JOIN blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
+				LEFT JOIN users u2 ON u2.id = pt.user
+			WHERE thread=".$tid." 
+			ORDER BY date ASC LIMIT ".$from.", ".$ppp;
+
+
 	$qThread = "select forum from threads where id=".$post['thread'];
 	$rThread = Query($qThread);
 	$thread = Fetch($rThread);
@@ -105,9 +121,34 @@ elseif($action == "srl")	//Show Revision List
 	if($forum['minpower'] > $loguser['powerlevel'])
 		die(__("No.")." ".$hideTricks);
 
-	$reply = __("Show revision:");
-	for($i = 0; $i <= $post['currentrevision']; $i++)
-		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$i.")\">".$i."</a>";
+
+	$qRevs = "SELECT 
+				revision, user AS revuser, date AS revdate,
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+			FROM 
+				posts_text
+				LEFT JOIN users u2 ON u2.id = user
+			WHERE pid=".$id." 
+			ORDER BY revision ASC";
+	$revs = Query($qRevs);
+	
+	
+	$reply = __("Show revision:")."<br>";
+	while($revision = Fetch($revs))
+	{
+		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$revision["revision"].")\">".format(__("rev. {0}"), $revision["revision"])."</a>";
+
+			if ($revision['revuser'])
+			{
+				$ru_link = UserLink(array('id'=>$revision['revuser'], 'name'=>$revision['ru_name'], 'displayname'=>$revision['ru_dn'], 'powerlevel'=>$revision['ru_power'], 'sex'=>$revision['ru_sex']));
+				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
+			}
+			else
+				$revdetail = '';
+		$reply .= $revdetail;
+		$reply .= "<br>";
+	}			
+				
 	$reply .= $hideTricks;
 	die($reply);
 }
