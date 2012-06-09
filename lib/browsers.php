@@ -29,6 +29,8 @@ $knownBrowsers = array
 	"Konqueror" => "Konqueror",
 	"Mozilla" => "Mozilla",
 	"Lynx" => "Lynx",
+	"ELinks" => "ELinks",
+	"Links" => "Links",
 	"Nokia" => "Nokia mobile",
 );
 
@@ -49,7 +51,7 @@ $knownOSes = array
 	"Windows Mobile" => "Windows Mobile",
 	"FreeBSD" => "FreeBSD",
 	"Ubuntu" => "Ubuntu",
-	"Linux" => "GNU/Linux",
+	"Linux" => "GNU/Linux %",
 	"Mac OS X" => "Mac OS X %",
 	"iPhone" => "iPhone",
 	"iPad" => "iPad",
@@ -82,7 +84,8 @@ $browserVers = (float)$version;
 $os = "";
 foreach($knownOSes as $code => $name)
 {
-	if (strpos($ua, "X11")) $usesX11 = true;
+	if (strpos($ua, "X11")) $suffix = " (X11)";
+	else if (strpos($ua, "textmode")) $suffix = " (text mode)";
 	if (strpos($ua, $code) !== FALSE)
 
 	{
@@ -97,7 +100,7 @@ foreach($knownOSes as $code => $name)
 		//If we're using the default Android browser, just report the version of Android being used ~Nina
 		$lkbhax = explode(' ', $lastKnownBrowser);
 		if ($lkbhax[0] == "Android") break;
-		if ($usesX11) $os = $os .= " (X11)";
+		if (isset($suffix)) $os = $os . $suffix;
 		$lastKnownBrowser = format(__("{0} on {1}"), $lastKnownBrowser, $os);
 		break;
 	}
@@ -109,21 +112,29 @@ function GetVersion($ua, $versionStart)
 {
 	$numDots = 0;
 	$version = "";
-	for($i = $versionStart; $i < strlen($ua); $i++)
-	{
-		$ch = $ua[$i];
-		if($ch == ';')
-			break;
-		if($ch == '_' && strpos($ua, "Mac OS X"))
-			$ch = '.';
-		if($ch == '.')
-		{
-			$numDots++;
-			if($numDots == 3)
+	if (strpos($ua, "Linux")) {
+		for ($i = ++$versionStart; $i < strlen($ua); $i++) {
+			if ($ua[$i] === " ")
 				break;
+			else if ($ua[$i] != ";") $version .= $ua[$i];
 		}
-		if(strpos("0123456789.", $ch) !== FALSE)
-			$version .= $ch;
+	} else {
+		for($i = $versionStart; $i < strlen($ua); $i++)
+		{
+			$ch = $ua[$i];
+			if($ch == ';')
+				break;
+			if($ch == '_' && strpos($ua, "Mac OS X"))
+				$ch = '.';
+			if($ch == '.')
+			{
+				$numDots++;
+				if($numDots == 3)
+					break;
+			}
+			else if(strpos("0123456789.-", $ch) !== FALSE)
+				$version .= $ch;
+		}
 	}
 	return $version;
 }
