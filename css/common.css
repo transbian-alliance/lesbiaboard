@@ -68,7 +68,7 @@ a:hover
 }
 a:hover span
 {
-	color: #FFF;
+	color: #FFF !important;
 }
 
 /* Name color table */
