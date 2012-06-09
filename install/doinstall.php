@@ -71,10 +71,10 @@ function insError($text)
 	
 	fwrite($dbcfg, "<?php\n");
 	fwrite($dbcfg, "//  AcmlmBoard XD support - Database settings\n\n");
-	fwrite($dbcfg, "\$dbserv = \"".$dbserv."\";\n");
-	fwrite($dbcfg, "\$dbuser = \"".$dbuser."\";\n");
-	fwrite($dbcfg, "\$dbpass = \"".$dbpass."\";\n");
-	fwrite($dbcfg, "\$dbname = \"".$dbname."\";\n");
+	fwrite($dbcfg, '$dbserv = ' . var_export($dbserv, true) . ";\n");
+	fwrite($dbcfg, '$dbuser = ' . var_export($dbuser, true) . ";\n");
+	fwrite($dbcfg, '$dbpass = ' . var_export($dbpass, true) . ";\n");
+	fwrite($dbcfg, '$dbname = ' . var_export($dbname, true) . ";\n");
 	fwrite($dbcfg, "\n?>");
 	fclose($dbcfg);
 
