@@ -169,7 +169,7 @@ foreach($parameters as $id => $settings)
 
 write(
 "
-	<table style=\"width: 45%; float: left; margin-bottom: 1em;\">
+	<table class=\"outline margin\" style=\"width: 45%; float: left; margin-bottom: 1em;\">
 		<tr class=\"header1\">
 			<th colspan=\"2\">Parameters</th>
 		</tr>
@@ -180,7 +180,7 @@ write(
 
 ?>
 
-<table id="backgroundmaker" class="subeditor">
+<table class="outline margin subeditor" id="backgroundmaker">
 	<tr class="header1">
 		<th colspan="2">Backgrounds</th>
 	</tr>
@@ -264,7 +264,7 @@ write(
 	</tr>
 </table>
 
-<table id="bordermaker" class="subeditor">
+<table class="outline margin subeditor"  id="bordermaker">
 	<tr class="header1">
 		<th colspan="2">Borders</th>
 	</tr>

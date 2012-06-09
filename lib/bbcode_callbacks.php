@@ -58,7 +58,7 @@ function bbcodeImage($contents, $arg)
 		$dest = $arg;
 	}
 	
-	return '<img src="'.htmlentities($dest).'" alt="'.$title.'"/>';
+	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
 }
 
 

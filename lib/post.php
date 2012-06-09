@@ -69,7 +69,7 @@ function ApplySmilies($text)
 		for ($i = 0; $i < count($smilies); $i++)
 		{
 			$smiliesReplaceOrig[] = "/".preg_quote($smilies[$i]['code'], "/")."/";
-			$smiliesReplaceNew[] = "<img alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
+			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
 	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
