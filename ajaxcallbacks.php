@@ -141,7 +141,7 @@ $qPosts = "	SELECT
 			if ($revision['revuser'])
 			{
 				$ru_link = UserLink(array('id'=>$revision['revuser'], 'name'=>$revision['ru_name'], 'displayname'=>$revision['ru_dn'], 'powerlevel'=>$revision['ru_power'], 'sex'=>$revision['ru_sex']));
-				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
+				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($revision['revdate']));
 			}
 			else
 				$revdetail = '';
