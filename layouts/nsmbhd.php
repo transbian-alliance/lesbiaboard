@@ -4,7 +4,7 @@
 
 <head>
 	<title><?php print $layout_title?></title>
-	<link rel="stylesheet" type="text/css" href="/<?php print resourceLink("layouts/nsmbhd.css");?>" />
+	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("layouts/nsmbhd.css");?>" />
 	<?php include("header.php"); ?>
 </head>
 
@@ -17,7 +17,7 @@
 			<tr>
 				<td style="border: 0px none; text-align: left;">
 					<a href="./">
-						<img id="theme_banner" src="/<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
+						<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" style="padding: 8px;" />
 					</a>
 				</td>
 				<td style="border: 0px none; text-align: left;">
