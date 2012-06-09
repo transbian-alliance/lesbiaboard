@@ -1,2 +1,2 @@
 <?php
-$tables['users']['fields']['linguage'] = "varchar(16) NOT NULL DEFAULT 'en_US'";
+$tables['users']['fields']['linguage'] = "varchar(16) NOT NULL DEFAULT '-default'";

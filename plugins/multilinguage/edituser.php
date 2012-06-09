@@ -13,6 +13,7 @@ function makeLangList()
 		}
 	}
 	$data["en_US"] = "en_US";
+	$data["-default"] = "Board default";
 	closedir($dir);
 	ksort($data);
 	return $data;

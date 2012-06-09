@@ -1,5 +1,5 @@
 <?php
-if (isset($loguser['linguage']))
+if (isset($loguser['linguage']) && $loguser['linguage'] !== '-default')
 {
 	$language = $loguser['linguage'];
 	if ($language !== 'en_US')
