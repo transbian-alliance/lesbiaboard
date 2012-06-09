@@ -19,7 +19,7 @@ $personal['extrafields'] = array(
 for($i = 0; $i < $selfsettings['numberOfFields']; $i++)
 {
 	$personal['extrafields']['items']['extra'.$i.'t'] = array(
-		"caption" => "Caption for #".($i + 1),
+		"caption" => format(__("Caption for #{0}"), $i+1),
 		"type" => "text",
 		"value" => getSetting("profileExt".$i."t", true),
 		"callback" => "HandleExtraField",
@@ -28,7 +28,7 @@ for($i = 0; $i < $selfsettings['numberOfFields']; $i++)
 		"isCaption" => true,
 	);
 	$personal['extrafields']['items']['extra'.$i.'v'] = array(
-		"caption" => "Value for #".($i + 1),
+		"caption" => format(__("Value for #{0}"), $i+1),
 		"type" => "text",
 		"value" => getSetting("profileExt".$i."v", true),
 		"callback" => "HandleExtraField",

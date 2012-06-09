@@ -2,7 +2,7 @@
 $settings = array(
 	"numberOfFields" => array(
 		"type" => "integer",
-		"name" => "Number of fields",
+		"name" => __("Number of fields"),
 		"default" => 10,
 	),
 );
