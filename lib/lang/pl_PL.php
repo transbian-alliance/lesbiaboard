@@ -77,7 +77,7 @@ $wordto2=array(
 	'MySQL query'=>'MySQL queries',
 	// hardcoding filename, because to plural form already with link goes - making things
 	// hard with not English based language
-	'nową <a href="private.php">prywatną wiadomość'=>'nowe <a href="private.php">prywatne wiadomości',
+	'nową <a href="' . actionLink("private") . '">prywatną wiadomość'=>'nowe <a href="' . actionLink("private") . '">prywatne wiadomości',
 	'gość'=>'gości',
 	'bot'=>'boty',
 	'nowy post'=>'nowe posty',
