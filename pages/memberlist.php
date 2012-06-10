@@ -206,7 +206,6 @@ if (!$isBot)
 	<div id=\"userFilter\" class=\"cell0 width75\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(
-			"" => "-----",
 			"id" => "ID",
 			"name" => "Name",
 			"karma" => "Karma",
@@ -219,14 +218,14 @@ if (!$isBot)
 		))." &nbsp;
 		".__("Sex").":
 		".makeSelect("sex", array(
-			"" => "-----",
+			"" => "(any)",
 			"n" => "N/A",
 			"f" => "Female",
 			"m" => "Male"
 		))." &nbsp;
 		".__("Power").":
 		".makeSelect("power", array(
-			"" => "-----",
+			"" => "(any)",
 			-1 => "Banned",
 			0 => "Normal",
 			1 => "Local Mod",
@@ -261,8 +260,9 @@ write("
 function makeSelect($name, $options) {
 	$result = "<select name=\"".$name."\" id=\"".$name."\">";
 
+	$i = 0;
 	foreach ($options as $key => $value) {
-		$result .= "\n\t<option value=\"".$key."\">".__($value)."</option>";
+		$result .= "\n\t<option".($i = 0 ? " selected=\"selected\"" : "")." value=\"".$key."\">".__($value)."</option>";
 	}
 
 	$result .= "\n</select>";
