@@ -236,7 +236,10 @@ if (!$isBot)
 			5 => "System"
 		))."
 		<div style=\"float: right;\">
-			<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\"><button id=\"submitQuery\">&rarr;</button>
+			<form action=\"javascript:refreshMemberlist();\">
+				<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\" />
+				<button id=\"submitQuery\">&rarr;</button>
+			</form>
 		</div>
 	</div>
 ");
