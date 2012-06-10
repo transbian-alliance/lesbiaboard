@@ -21,14 +21,12 @@ else
 $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if($id == $loguserid)
-	Query("update users set newcomments = 0 where id=".$loguserid);
-
-$canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
-
-if ($id == $loguserid)
 {
+	Query("update users set newcomments = 0 where id=".$loguserid);
 	$loguser['newcomments'] = false;
 }
+
+$canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
 
 if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
 {
