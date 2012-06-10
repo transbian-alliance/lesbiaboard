@@ -25,6 +25,11 @@ if($id == $loguserid)
 
 $canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
 
+if ($id == $loguserid)
+{
+	$loguser['newcomments'] = false;
+}
+
 if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
 {
 	AssertForbidden("blockLayouts");
