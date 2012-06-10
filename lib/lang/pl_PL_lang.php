@@ -552,6 +552,8 @@ $languagePack = array(
 
 // pages/log.php
 'Log' => 'Log',
+'Time' => 'Czas',
+'Event' => 'Zdarzenie',
 
 // pages/login.php
 'Invalid user name or password.' => 'Niewłaściwa nazwa użytkownika lub hasło.',
@@ -878,6 +880,9 @@ $languagePack = array(
 'Public space usage: {0} of {1}' => 'Użycie publicznego miejsca: {0} z {1}',
 'Personal folder space usage: {0} of {1}' => 'Użycie prywatnego miejsca: {0} z {1}',
 
+// userpanel.php
+'Log out' => 'Wyloguj',
+
 // Strings no longer used
 'You are not allowed to browse forums in this category.' => 'Nie możesz przeglądać forum w tej kategorii.',
 'SQL Console' => 'Konsola SQL',
@@ -992,7 +997,6 @@ $languagePack = array(
 'PM draft updated!' => 'Szkic został zaaktualizowany.',
 'the forum' => 'forum',
 'You will now be redirected to {3}&hellip;' => 'Będziesz teraz przekierowany do {3}&hellip;',
-'Log out' => 'Wyloguj',
 'Are you sure you want to log out?' => 'Czy na pewno chcesz się wylogować?',
 'revision {0}' => 'rewizja {0}',
 'Posted in' => 'Napisany w',
