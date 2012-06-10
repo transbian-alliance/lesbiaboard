@@ -206,6 +206,7 @@ if (!$isBot)
 	<div id=\"userFilter\" class=\"cell0 width75\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(
+			"" => "Post count",
 			"id" => "ID",
 			"name" => "Name",
 			"karma" => "Karma",
