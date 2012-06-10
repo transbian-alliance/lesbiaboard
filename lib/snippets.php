@@ -160,7 +160,7 @@ function DoPostHelp()
 {
 	write("
 	<table class=\"message margin\">
-		<tr class=\"header0\"><th>'".__("Post help")."</th></tr>
+		<tr class=\"header0\"><th>".__("Post help")."</th></tr>
 		<tr class=\"cell0\"><td>
 			<button class=\"expander\" id=\"postHelpExpand\" onclick=\"expandPostHelp();\">&#x25BC;</button>
 			<div id=\"commonHelp\" class=\"left\">
