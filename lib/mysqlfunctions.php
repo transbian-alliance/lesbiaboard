@@ -97,7 +97,7 @@ function Upgrade()
 					$wantedType = $tableSchema['fields'][$fieldName];
 					if(strcasecmp($wantedType, $type))
 					{
-						print " \"".$fieldName."\" not correct type&hellip;";
+						print " \"".$fieldName."\" not correct type: was $type, wanted $wantedType &hellip;<br>";
 						if($fieldName == "id")
 						{
 							print_r($field);

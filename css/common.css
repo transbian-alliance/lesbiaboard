@@ -155,14 +155,14 @@ table#header
 }
 
 /* All cells have border by default */
-td
+table.post td, table.outline td, table.message td
 {
 	font-size: 1em; /* 10pt; */
 	border-width:0px 1px 1px 0px;
 	border-style:solid;
 }
 
-th
+table.post th, table.outline th, table.message th
 {
 	border-width: 0px 0px 1px 0px;
 	border-style:solid;
@@ -170,22 +170,17 @@ th
 	text-align: left;
 }
 
-th:last-child {
+table.post th:last-child, table.outline th:last-child, table.message th:last-child
+{
 	border-width: 0px 1px 1px 0px;
 	border-style:solid;
 }
 
-.header0 th
+.header0 th, .header1 th
 {
-	text-align: center;
-	font-size: .85em; /* 8pt; */
+	text-align: center!important;
+	font-size: .85em!important; /* 8pt; */
 }
-.header1 th
-{
-	text-align: center;
-	font-size: .85em; /* 8pt; */
-}
-
 
 /* Post tables */
 
@@ -261,7 +256,7 @@ table.message td
 
 .PoRT td, .PoRT th, .smallFonts td, .smallFonts
 {
-	font-size: .85em; /* 8pt; */
+	font-size: .85em!important; /* 8pt; */
 }
 
 .footer

@@ -41,11 +41,11 @@ function Plural($i, $s)
 	if($i == 1) //For 1, just return that.
 		return $i." ".$s;
 	if ($s2[count($s)-1] == "indlæg")
-		$s2[count[$s]-2] .= "e";
-	else if ($s2[count[$s]-1] == "tråd")
+		$s2[count($s)-2] .= "e";
+	else if ($s2[count($s)-1] == "tråd")
 		$s2[count($s)-1] .= "e";
 	else
-		$s2[count[$s]-1] .= "er"; //record -> records
+		$s2[count($s)-1] .= "er"; //record -> records
 
 	return $i." ".implode(" ", $s2);
 }
