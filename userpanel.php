@@ -20,7 +20,7 @@ if($loguserid)
         echo $user_panel;
     }
 
-	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">Log out</a></li>";
+	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">" .  __("Log out") . "</a></li>";
     
 }
 else
