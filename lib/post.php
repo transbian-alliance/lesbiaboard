@@ -584,7 +584,7 @@ function MakePost($post, $type, $params=array())
 					<div style=\"float: left;\" id=\"meta_{13}\">
 						{7}
 					</div>
-					<div style=\"float: left; display: none;\" id=\"dyna_{13}\">
+					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_{13}\">
 						Hi.
 					</div>
 					{8}

@@ -32,7 +32,7 @@ function find_strings($tokens, $filename)
 					if(isset($languagePack[$string]))
 						$translation = trim($languagePack[$string]);
 
-					echo var_export($string, true), ' => ', var_export($translation, true), ",\n";
+					echo var_export($string, true), " =>\n", var_export($translation, true), ",\n\n";
 				}
 				// Hash lookups are fast, so why not abuse this structure?
 				$messages[$string] = true;
@@ -97,7 +97,7 @@ function updateLanguage($lang)
 			$textWritten = true;
 			$translated = trim($translated);
 			if($translated)
-				echo var_export($original, true), ' => ', var_export($translated, true), ",\n";
+				echo var_export($original, true), " =>\n", var_export($translated, true), ",\n\n";
 		}
 	}
 

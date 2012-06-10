@@ -100,7 +100,7 @@ foreach($settings as $name => $data)
 
 	if($type == "boolean")
 		$input = makeSelect($name, $value, array(1=>"Yes", 0=>"No"));
-	if($type == "integer")
+	if($type == "integer" || $type == "float")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" />";
 	if($type == "text")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" class=\"width75\"/>";

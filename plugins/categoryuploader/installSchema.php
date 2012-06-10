@@ -10,7 +10,19 @@ $tables["uploader"] = array
 			"user" => $genericInt,
 			"date" => $genericInt,
 			"private" => $bool,
+			"category" => $genericInt,
 		),
 		"special" => $keyID
 	);
 
+$tables["uploader_categories"] = array
+	(
+		"fields" => array
+		(
+			"id" => $AI,
+			"name" => $var256,
+			"description" => $text,
+			"ord" => $genericInt,
+		),
+		"special" => $keyID
+	);

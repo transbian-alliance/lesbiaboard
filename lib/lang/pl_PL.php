@@ -4,6 +4,9 @@ setlocale(LC_ALL, "pl_PL");
 
 $birthdayExample = "26 Lipca, 1983";
 
+$dateformats = array("", "m-d-y", "d-m-y", "y-m-d", "Y-m-d", "m/d/Y", "d.m.y", "M j Y", "D jS M Y");
+$timeformats = array("", "h:i A", "h:i:s A", "H:i", "H:i:s");
+
 // yay for mega insane months array :P
 $months = array(
 	'',
@@ -74,7 +77,7 @@ $wordto2=array(
 	'MySQL query'=>'MySQL queries',
 	// hardcoding filename, because to plural form already with link goes - making things
 	// hard with not English based language
-	'nową <a href="private.php">prywatną wiadomość'=>'nowe <a href="private.php">prywatne wiadomości',
+	'nową <a href="' . actionLink("private") . '">prywatną wiadomość'=>'nowe <a href="' . actionLink("private") . '">prywatne wiadomości',
 	'gość'=>'gości',
 	'bot'=>'boty',
 	'nowy post'=>'nowe posty',

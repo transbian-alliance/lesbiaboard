@@ -42,10 +42,10 @@ write(
 	<table class=\"outline margin\">
 		<tr class=\"header1\">
 			<th>
-				Time
+				".__("Time")."
 			</th>
 			<th>
-				Event
+				".__("Event")."
 			</th>
 		</tr>
 		{0}

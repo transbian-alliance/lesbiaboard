@@ -14,7 +14,7 @@ $rootdir = "uploader";
 }
 
 if($uploaderWhitelist)
-	$goodfiles = explode(" ", $uploaderWhitelist);
+	$goodfiles = explode(" ", $selfsettings['uploaderWhitelist']);
 
 $badfiles = array("html", "htm", "php", "php2", "php3", "php4", "php5", "php6", "htaccess", "htpasswd", "mht", "js", "asp", "aspx", "cgi", "py", "exe", "com", "bat", "pif", "cmd", "lnk", "wsh", "vbs", "vbe", "jse", "wsf", "msc", "pl", "rb", "shtm", "shtml", "stm", "htc");
 
@@ -23,11 +23,11 @@ if(isset($_POST['action']))
 if(isset($_POST['fid']))
 	$_GET['fid'] = $_POST['fid'];
 
-$quota = $uploaderCap * 1024 * 1024;
-$pQuota = $personalCap * 1024 * 1024;
+$quota = $selfsettings['uploaderCap'] * 1024 * 1024;
+$pQuota = $selfsettings['personalCap'] * 1024 * 1024;
 $totalsize = foldersize($rootdir);
 
-$maxSizeMult = $uploaderMaxFileSize * 1024 * 1024;
+$maxSizeMult = $selfsettings['uploaderMaxFileSize'] * 1024 * 1024;
 
 if($_GET['action'] == "uploadform")
 {
@@ -80,7 +80,7 @@ if($_GET['action'] == "uploadform")
 				</tr>
 			</table>
 		</form>
-		", BytesToSize($maxSizeMult), $maxSizeMult, $uploaderWhitelist);
+		", BytesToSize($maxSizeMult), $maxSizeMult, $selfsettings['uploaderWhitelist']);
 	
 	}
 }
@@ -115,9 +115,9 @@ else if($_GET['action'] == __("Upload"))
 				else
 					Alert(__("File is empty."));
 			}
-			else if($_FILES['newfile']['size'] > $uploaderMaxFileSize * 1024 * 1024)
+			else if($_FILES['newfile']['size'] > $selfsettings['uploaderMaxFileSize'] * 1024 * 1024)
 			{
-				Alert(format(__("File is too large. Maximum size is {0}."), BytesToSize($uploaderMaxFileSize * 1024 * 1024)));
+				Alert(format(__("File is too large. Maximum size is {0}."), BytesToSize($selfsettings['uploaderMaxFileSize'] * 1024 * 1024)));
 			}
 			else
 			{

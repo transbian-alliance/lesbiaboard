@@ -137,9 +137,9 @@ if(NumRows($rThreads))
 	if($forum['minpowerthread'] > $loguser['powerlevel'])
 		Alert(__("You cannot start any threads here."), __("Empty forum"));
 	elseif($loguserid)
-		Alert(format(__("Would you like to {0}?"), actionLinkTag("post something", "newthread", $fid)), __("Empty forum"));
+		Alert(format(__("Would you like to {0}?"), actionLinkTag(__("post something"), "newthread", $fid)), __("Empty forum"));
 	else
-		Alert(format(__("{0} so you can post something."), actionLinkTag("Log in", "login")), __("Empty forum"));
+		Alert(format(__("{0} so you can post something."), actionLinkTag(__("Log in"), "login")), __("Empty forum"));
 
 if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);

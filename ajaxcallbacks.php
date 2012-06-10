@@ -105,9 +105,35 @@ elseif($action == "srl")	//Show Revision List
 	if($forum['minpower'] > $loguser['powerlevel'])
 		die(__("No.")." ".$hideTricks);
 
-	$reply = __("Show revision:");
-	for($i = 0; $i <= $post['currentrevision']; $i++)
-		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$i.")\">".$i."</a>";
+
+	$qRevs = "SELECT 
+				revision, user AS revuser, date AS revdate,
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+			FROM 
+				posts_text
+				LEFT JOIN users u2 ON u2.id = user
+			WHERE pid=".$id." 
+			ORDER BY revision ASC";
+	$revs = Query($qRevs);
+	
+	
+	$reply = __("Show revision:")."<br>";
+	while($revision = Fetch($revs))
+	{
+		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$revision["revision"].")\">".format(__("rev. {0}"), $revision["revision"])."</a>";
+
+			if ($revision['revuser'])
+			{
+				$ru_link = UserLink(array('id'=>$revision['revuser'], 'name'=>$revision['ru_name'], 'displayname'=>$revision['ru_dn'], 'powerlevel'=>$revision['ru_power'], 'sex'=>$revision['ru_sex']));
+				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($revision['revdate']));
+			}
+			else
+				$revdetail = '';
+		$reply .= $revdetail;
+		$reply .= "<br>";
+	}
+				
+	$hideTricks = " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$post["currentrevision"]."); hideTricks(".$id.")\">".__("Back")."</a>";
 	$reply .= $hideTricks;
 	die($reply);
 }
