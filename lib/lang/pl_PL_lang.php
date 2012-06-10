@@ -485,7 +485,7 @@ $languagePack = array(
 'Narzędzia administratora',
 
 'Recalculate statistics' =>
-'Przelicz statystyki',
+'Przeliczanie statystyk',
 
 'Last Known Browsers' =>
 'Ostatnie przeglądarki',
@@ -497,16 +497,16 @@ $languagePack = array(
 'Przydzielanie lokalnych moderatorów do forum',
 
 'Edit forum list' =>
-'Edytuj listę forum',
+'Edycja listy forów',
 
 'Manage plugins' =>
-'Zarządzaj wtyczkami',
+'Zarządzanie wtyczkami',
 
 'Edit settings' =>
 'Zmiana ustawień',
 
 'Edit smilies' =>
-'Edytuj emotikony',
+'Edycja emotikonów',
 
 'Optimize tables' =>
 'Optymizacja tabel SQL',
@@ -515,7 +515,7 @@ $languagePack = array(
 'Czytanie logów',
 
 'Update table structure' =>
-'Aktualizuj strukturę bazy danych',
+'Aktualizacja struktury bazy danych',
 
 
 // pages/avatarlibrary.php
@@ -2294,7 +2294,7 @@ $languagePack = array(
 
 // plugins/gitpull/adminleft.php
 'Update the board' =>
-'Aktualizuj forum',
+'Aktualizacja forum',
 
 
 // plugins/gitpull/page_gitpull.php
@@ -2302,7 +2302,7 @@ $languagePack = array(
 'Nie jesteś administratorem. Tutaj nie ma nic dla ciebie.',
 
 'Update board' =>
-'Aktualizuj forum',
+'Aktualizacja forum',
 
 
 // plugins/groups/topMenu.php
