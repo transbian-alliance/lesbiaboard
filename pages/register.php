@@ -155,7 +155,7 @@ elseif($_POST['action'] == __("Register"))
 		$err = format(__("That's not the right word. Are you sure you really {0}read the FAQ{1}?"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if(strlen($_POST['pass']) < 4)
 		$err = __("Your password must be at least four characters long.").$backtomain;
-	else if ($_POST['pass'] != $_POST['pass2'])
+	else if ($_POST['pass'] !== $_POST['pass2'])
 		$err = __("The passwords you entered don't match.").$backtomain;
 
 	if($haveSecurimage)
