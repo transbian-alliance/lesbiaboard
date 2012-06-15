@@ -115,7 +115,7 @@ if($loguserid) //Are we logged in?
 
 if($wantGuest)
 {
-	$qGuest = "insert into {$dbpref}guests (date, ip, lasturl, useragent, bot) values (".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($thisURL)."', '".justEscape($_SERVER['HTTP_USER_AGENT'])."', ".$isBot.")";
+	$qGuest = "insert into {$dbpref}guests (date, ip, lasturl, useragent, bot) values (".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape(getRequestedURL())."', '".justEscape($_SERVER['HTTP_USER_AGENT'])."', ".$isBot.")";
  	if(!$ajaxPage)
  		$rGuest = Query($qGuest);
 	

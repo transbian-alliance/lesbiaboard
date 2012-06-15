@@ -64,10 +64,10 @@ asort($enabledplugins);
 asort($disabledplugins);
 
 print '<table class="outline margin width50">';
-print '<tr class="header0"><th colspan="2">Enabled plugins</th></tr>';
+print '<tr class="header0"><th colspan="2">'.__("Enabled plugins").'</th></tr>';
 foreach($enabledplugins as $plugin => $pluginname)
 	listPlugin($plugin, $pluginDatas[$plugin]);
-print '<tr class="header0"><th colspan="2">Disabled plugins</th></tr>';
+print '<tr class="header0"><th colspan="2">'.__("Disabled plugins").'</th></tr>';
 foreach($disabledplugins as $plugin => $pluginname)
 	listPlugin($plugin, $pluginDatas[$plugin]);
 
@@ -84,11 +84,11 @@ function listPlugin($plugin, $plugindata)
 	
 	print '<ul class="pipemenu">';
 	
-	$text = "Enable";
+	$text = __("Enable");
 	$act = "enable";
 	if(isset($plugins[$plugin]))
 	{
-		$text = "Disable";
+		$text = __("Disable");
 		$act = "disable";
 	}
 	print actionLinkTagItem($text, "pluginmanager", $plugin, "action=".$act."&key=".getUserKey());
@@ -96,7 +96,7 @@ function listPlugin($plugin, $plugindata)
 	if(in_array("settingsfile", $plugindata["buckets"]))
 	{
 		if(isset($plugins[$plugin]))
-			print actionLinkTagItem("Settings&hellip;", "editsettings", "", "plugin=".$plugin);
+			print actionLinkTagItem(__("Settings&hellip;"), "editsettings", "", "plugin=".$plugin);
 	}
 	print '</ul>';
 	print '</td></tr>';

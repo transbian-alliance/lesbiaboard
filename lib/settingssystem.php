@@ -90,7 +90,7 @@ class Settings
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type))
+			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type, $data["options"]))
 			{
 				if (isset($data["defaultfile"]))
 					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
@@ -121,9 +121,9 @@ class Settings
 	}
 	
 	
-	public static function validate($value, $type)
+	public static function validate($value, $type, $options = array())
 	{
-		if($type == "boolean" || $type == "integer" || $type == "user" || $type == "forum" || $type == "layout" || $type == "theme" || $type == "language")
+		if($type == "boolean" || $type == "integer" || $type == "float" || $type == "user" || $type == "forum" || $type == "layout" || $type == "theme" || $type == "language")
 			if(trim($value) == "")
 				return false;
 
@@ -134,6 +134,15 @@ class Settings
 		if($type == "integer" || $type == "user" || $type == "forum")
 			if(!is_numeric($value) || $value != (int)$value) //TODO: I'm not sure if it's the best way. is_numeric allows float values too.
 				return false;
+				
+		if($type == "float") 
+			if (!is_numeric($value))
+				return false;
+				
+		if($type == "options")
+			if (!isset($options[$value]))
+				return false;
+			
 
 		return true;
 	}

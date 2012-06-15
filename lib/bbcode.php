@@ -8,8 +8,11 @@ function parseText($text)
 	
 	//Parse smilies and such
 	if($parseStatus <= 1)
-		$text = htmlspecialchars($text);
-		
+	{
+		$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+		$text = htmlentities($text, ENT_COMPAT, 'UTF-8');
+	}
+
 	if($parseStatus == 0)
 	{
 		if(!$postNoBr)
@@ -31,6 +34,7 @@ $tagParseStatus = array(
 	"th" => 0,
 
 	"img" => 2,
+	"url" => 2,
 	"code" => 2,
 	"source" => 2,
 	"pre" => 2,

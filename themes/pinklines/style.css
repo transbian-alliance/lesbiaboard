@@ -13,6 +13,11 @@ table.outline
 	border: 0px none;
 }
 
+table.outline td, table.outline .header0 th, table.outline .header1 th
+{
+	border: 0px none;
+}
+
 .faq
 {
 	border: 1px solid hsl(0, 0%, 25%);

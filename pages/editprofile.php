@@ -35,6 +35,11 @@ if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
 
 AssertForbidden($editUserMode ? "editUser" : "editProfile");
 
+$uname = $user["name"];
+if($user["displayname"])
+	$uname = $user["displayname"];
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), $links);
+
 $qRanksets = "select name from {$dbpref}ranksets";
 $rRanksets = Query($qRanksets);
 $ranksets[] = __("None");
@@ -76,7 +81,7 @@ $general = array(
 				"value" => $user['displayname'],
 				"width" => "98%",
 				"length" => 20,
-				"hint" => "Leave this empty to use your login name.",
+				"hint" => __("Leave this empty to use your login name."),
 				"callback" => "HandleDisplayname",
 			),
 			"rankset" => array(
@@ -466,9 +471,8 @@ if($_POST['action'] == __("Edit profile"))
 							$sets[] = $field." = ".$val;
 							break;
 						case "radiogroup":
-							$num = (int)$_POST[$field];
-							if (array_key_exists($num, $item['options']))
-								$sets[] = $field." = ".$num;
+							if (array_key_exists($_POST[$field], $item['options']))
+								$sets[] = $field." = '".justEscape($_POST[$field])."'";
 							break;
 						case "birthday":
 							if($_POST[$field])
@@ -683,7 +687,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 function HandlePassword($field, $item)
 {
 	global $fallToEditor, $sets, $salt, $user, $loguser, $loguserid;
-	if($_POST[$field] != "" && $_POST['repeat'.$field] != "" && $_POST['repeat'.$field] != $_POST[$field])
+	if($_POST[$field] != "" && $_POST['repeat'.$field] != "" && $_POST['repeat'.$field] !== $_POST[$field])
 	{
 		$fallToEditor = true;
 		return __("To change your password, you must type it twice without error.");

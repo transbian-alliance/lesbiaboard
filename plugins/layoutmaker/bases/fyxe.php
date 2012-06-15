@@ -1,8 +1,28 @@
 <?php
 
-$cssTemplate = ".mainbar[ID]
+$cssTemplate = "
+.mainbar[ID]
+{
+	background: transparent !important;
+}
+.topbar[ID]_1, .topbar[ID]_2, .sidebar[ID]
+{
+	background: rgba(0,0,0, [OPACITY])!important;
+	color: [COLOR]!important;
+}
+
+.table[ID]
 {
 	background: [BACKGROUND] !important;
+}
+
+.topbar[ID]_2
+{
+	border-bottom: [BORDER]!important;
+}
+.sidebar[ID]
+{
+	border-right: [BORDER]!important;
 }
 .mainbar[ID] div.main
 {
@@ -25,6 +45,7 @@ $parameters = array
 (
 	"ID" => array("label"=>"User ID", "type"=>"int"),
 	"BACKGROUND" => array("label"=>"Background", "type"=>"background", "default"=>"#000044"),
+	"BACKGROUND2" => array("label"=>"Background2", "type"=>"background", "default"=>"#000044"),
 	"MARGIN" => array("label"=>"Margin", "type"=>"int", "default"=>"15", "pxem"=>"1"),
 	"PADDING" => array("label"=>"Padding", "type"=>"int", "default"=>"15", "pxem"=>"1"),
 	"OPACITY" => array("label"=>"Opacity", "type"=>"percentage", "default"=>"50"),

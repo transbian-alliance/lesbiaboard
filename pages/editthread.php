@@ -43,6 +43,12 @@ else
 
 $isHidden = (int)($forum['minpower'] > 0);
 
+$thread['title'] = strip_tags($thread['title']);
+$tags = ParseThreadTags($thread['title']);
+$titleandtags = $thread['title']."<TAGS>".$tags;
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("Edit thread")=>""), $links);
+
+
 if($canMod)
 {
 	if($_GET['action']=="close")
@@ -286,7 +292,7 @@ if($canMod)
 		<table class=\"outline margin\" style=\"width: 100%;\">
 			<tr class=\"header1\">
 				<th colspan=\"2\">
-					".__("Edit Thread")."
+					".__("Edit thread")."
 				</th>
 			</tr>
 			<tr class=\"cell0\">

@@ -1,3 +1,3 @@
 <?php
-	print actionLinkTagItem("Layout Maker", "layoutmaker");
+	print actionLinkTagItem("Layout maker", "layoutmaker");
 ?>

@@ -11,7 +11,8 @@ else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 	die(header("Location: thread.php?pid=".(int)$_GET['pid']."#".(int)$_GET['pid']));
     
 
-$user_panel = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
+$links = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
+MakeCrumbs(array(), $links);
 
 $numThreads = FetchResult("select count(*) from {$dbpref}threads");
 $numPosts = FetchResult("select count(*) from {$dbpref}posts");
@@ -39,15 +40,17 @@ if($loguserid && $_GET['action'] == "markallread")
 printRefreshCode();
 write(
 "
-	<div class=\"outline margin width100 smallFonts\" style=\"overflow: auto;\">
-		<div class=\"header0 cell2 center\" style=\"overflow: auto;\">
+	<table class=\"outline margin width100 smallFonts\" style=\"overflow: auto;\">
+		<tr class=\"header0 cell2 center\" style=\"overflow: auto;\">
+		<td>
 			<div style=\"float: left; width: 25%;\">&nbsp;<br />&nbsp;</div>
 			<div style=\"float: right; width: 25%;\">{1}</div>
 			<div class=\"center\">
 				{0}
 			</div>
-		</div>
-	</div>
+		</td>
+		</tr>
+	</table>
 ",	$stats, $last);
 
 $lastCatID = -1;

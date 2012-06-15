@@ -10,7 +10,7 @@
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
 	
 <div class="outline margin width100" id="header">
-		<table>
+		<table class="outline">
 			<tr>
 				<td colspan="3" class="cell0">
 					<!-- Board header goes here -->

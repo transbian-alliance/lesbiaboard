@@ -3,9 +3,9 @@
 //Category/forum editor -- By Nikolaj
 //Secured and improved by Dirbaio
 
-$title = "Edit forums";
+$title = __("Edit forums");
 
-if ($loguser['powerlevel'] < 3) Kill("You're not allowed to access the forum editor.");
+if ($loguser['powerlevel'] < 3) Kill(__("You're not allowed to access the forum editor."));
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => actionLink("editfora")), "");
 
 /** 
@@ -142,7 +142,7 @@ switch($_POST['action'])
 		//Check that forum has threads.
 		$forum = Fetch($rForum);
 		if($forum['numthreads'] > 0)
-			dieAjax("Forum has threads. Move those first.");
+			dieAjax(__("Forum has threads. Move those first."));
 			
 		//Delete
 		Query("DELETE FROM `{$dbpref}forums` WHERE `id` = ".$id);
@@ -161,7 +161,7 @@ switch($_POST['action'])
 		$qCat = "SELECT * FROM {$dbpref}categories WHERE id=".$id;
 		$rCat = Query($qCat);
 		if (!NumRows($rCat))
-			dieAjax("No such category.");
+			dieAjax(__("No such category."));
 		
 		//Delete
 		Query("DELETE FROM `{$dbpref}categories` WHERE `id` = ".$id);
@@ -200,7 +200,7 @@ switch($_POST['action'])
 		break;
 	
 	default: //Unrecognized action
-		dieAjax("Unknown action: ".$_POST["action"]);
+		dieAjax(format(__("Unknown action: {0}"), $_POST["action"]));
 }
 
 
@@ -247,7 +247,7 @@ function WriteForumEditContents($fid)
 		$cats[$cat['id']] = $cat;
 	
 	if(count($cats) == 0)
-		$cats[0] = "No categories";
+		$cats[0] = __("No categories");
 
 	if($fid != -1)
 	{
@@ -255,7 +255,7 @@ function WriteForumEditContents($fid)
 		$rForum = Query($qForum);
 		if (!NumRows($rForum))
 		{
-			Kill("Forum not found.");
+			Kill(__("Forum not found."));
 		}
 		$forum = Fetch($rForum);
 
@@ -267,25 +267,25 @@ function WriteForumEditContents($fid)
 		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
 		$forder = $forum['forder'];
 		$func = "changeForumInfo";
-		$button = "Update";
-		$boxtitle = "Edit Forum";
+		$button = __("Update");
+		$boxtitle = __("Edit Forum");
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
-				Delete
+				".__("Delete")."
 			</button>";
 	}
 	else
 	{
-		$title = "New Forum";
-		$description = "Description goes here. <strong>HTML allowed.</strong>";
+		$title = __("New Forum");
+		$description = __("Description goes here. <strong>HTML allowed.</strong>");
 		$catselect = MakeCatSelect('cat', $cats, 1);
 		$minpower = PowerSelect('minpower', 0);
 		$minpowerthread = PowerSelect("minpowerthread", 0);
 		$minpowerreply = PowerSelect('minpowerreply', 0);
 		$forder = 0;
 		$func = "addForum";
-		$button = "Add";
-		$boxtitle = "New Forum";
+		$button = __("Add");
+		$boxtitle = __("New Forum");
 		$delbutton = "";
 	}
 	

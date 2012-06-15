@@ -21,7 +21,10 @@ else
 $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if($id == $loguserid)
+{
 	Query("update {$dbpref}users set newcomments = 0 where id=".$loguserid);
+	$loguser['newcomments'] = false;
+}
 
 $canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
 
@@ -123,9 +126,9 @@ if($user['title'])
 if($user['homepageurl'])
 {
 	if($user['homepagename'])
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepagename']."</a> - ".$user['homepageurl'];
+		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
-		$homepage = "<a href=\"".$user['homepageurl']."\">".$user['homepageurl']."</a>";
+		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
 }
 
 $emailField = __("Private");
@@ -174,7 +177,7 @@ $profileParts[__("General information")] = $foo;
 $foo = array();
 $foo[__("Email address")] = $emailField;
 if($homepage)
-	$foo[__("Homepage")] = CleanUpPost($homepage);
+	$foo[__("Homepage")] = securityPostFilter($homepage);
 $profileParts[__("Contact information")] = $foo;
 
 $foo = array();
@@ -300,7 +303,7 @@ if(NumRows($rComments))
 								{3}{2}
 							</td>
 						</tr>
-",	UserLink($comment, "cid"), $cellClass, PutASmileOnThatFace(htmlspecialchars($comment['text'])), $deleteLink);
+",	UserLink($comment, "cid"), $cellClass, CleanUpPost($comment['text']), $deleteLink);
 		$commentList = $thisComment . $commentList;
 		if(!isset($lastCID))
 			$lastCID = $comment['cid'];
@@ -383,24 +386,26 @@ $previewPost['layoutblocked'] = $user['globalblock'] || FetchResult("SELECT COUN
 
 MakePost($previewPost, POST_SAMPLE);
 
-if($loguser['powerlevel'] > 2)
-{
-	if(IsAllowed("editUser"))
-		$links .= actionLinkTagItem(__("Edit user"), "editprofile", $id);
-	if(IsAllowed("snoopPM"))
-		$links .= actionLinkTagItem(__("Show PMs"), "private", "", "user=".$id);
-}
+
+if(IsAllowed("editProfile") && $loguserid == $id)
+	$links .= actionLinkTagItem(__("Edit my profile"), "editprofile", $id);
+else if(IsAllowed("editUser") && $loguser['powerlevel'] > 2)
+	$links .= actionLinkTagItem(__("Edit user"), "editprofile", $id);
+
+if(IsAllowed("snoopPM") && $loguser['powerlevel'] > 2)
+	$links .= actionLinkTagItem(__("Show PMs"), "private", "", "user=".$id);
+
 if($loguserid && IsAllowed("sendPM"))
 	$links .= actionLinkTagItem(__("Send PM"), "sendprivate", "", "uid=".$id);
 if(IsAllowed("listPosts"))
 		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id);
 
 $links .= $blockLayoutLink;
-write("
-	<ul class=\"smallFonts margin pipemenu\">
-		{0}
-	</ul>
-", $links);
+
+$uname = $user["name"];
+if($user["displayname"])
+	$uname = $user["displayname"];
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $id)), $links);
 
 $title = "Profile for ".htmlspecialchars($user['name']);
 
@@ -419,24 +424,5 @@ function IP2C($ip)
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }
 
-//THIS IS A HACK !!!
-
-function PutASmileOnThatFace($s)
-{
-	global $smilies;
-/*	LoadSmilies();
-	$s = preg_replace_callback("'\[user=([0-9]+)\]'si", "MakeUserLink", $s);
-	for($i = 0; $i < count($smilies); $i++)
-	{
-		$preg_special = array("\\","^","$",".","*","+","?","|","(",")","[","]","{","}","@");
-		$preg_special_escape = array("\\\\","\\^","\\$","\\.","\\*","\\+","\\?","\\|","\\(","\\)","\\[","\\]","\\{","\\}","\\@");
-
-		$s = preg_replace("@<([^>]+)(".str_replace($preg_special, $preg_special_escape, $smilies[$i]['code']).")+([^>]+)>@si", "<$1##LOLDONTREPLACESMILIESINHTMLTAGZLOL##$3>", $s);
-		$s = str_replace($smilies[$i]['code'], "«".$smilies[$i]['image']."»", $s);
-		$s = str_replace("«".$smilies[$i]['image']."»", "<img src=\"img/smilies/".$smilies[$i]['image']."\" alt=\"".str_replace(">", "&gt;", $smilies[$i]['code'])."\" />", $s);
-		$s = str_replace("##LOLDONTREPLACESMILIESINHTMLTAGZLOL##", $smilies[$i]['code'], $s);
-	}*/
-	return $s;
-}
 
 ?>

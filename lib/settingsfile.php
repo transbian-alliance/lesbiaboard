@@ -83,6 +83,12 @@
 			"default" => "1",
 			"name" => "Show Points of Required Attention",
 		),
+		"tagsDirection" => array (
+			"type" => "options",
+			"options" => array('Left' => 'Left', 'Right' => 'Right'),
+			"default" => 'Right',
+			"name" => "Direction of thread tags.",
+		),
 		"PoRATitle" => array (
 			"type" => "text",
 			"default" => "Points of Required Attention&trade;",

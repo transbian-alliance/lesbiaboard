@@ -59,10 +59,6 @@ function LoadSmilies($byOrder = FALSE)
 	}
 }
 
-	{
-		
-	}
-
 function ApplySmilies($text)
 {
 	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
@@ -72,12 +68,11 @@ function ApplySmilies($text)
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$smiliesReplaceOrig[] = "/(?<=.\W|\W.|^\W)".preg_quote($smilies[$i]['code'], "/")."(?=.\W|\W.|\W$)/";
-			$smiliesReplaceNew[] = "<img alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
+			$smiliesReplaceOrig[] = "/".preg_quote($smilies[$i]['code'], "/")."/";
+			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
-	
-	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, " ".$text." ");
+	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
 }
 
 function LoadBlocklayouts()
@@ -203,7 +198,7 @@ function postDoReplaceText($s)
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
-		
+	
 	return $s;
 }
 
@@ -506,7 +501,7 @@ function MakePost($post, $type, $params=array())
 			if ($post['revuser'])
 			{
 				$ru_link = UserLink(array('id'=>$post['revuser'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
-				$revdetail = format(__(" by {0} on {1}"), $ru_link, formatdate($post['revdate']));
+				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
 			}
 			else
 				$revdetail = '';
@@ -589,7 +584,7 @@ function MakePost($post, $type, $params=array())
 					<div style=\"float: left;\" id=\"meta_{13}\">
 						{7}
 					</div>
-					<div style=\"float: left; display: none;\" id=\"dyna_{13}\">
+					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_{13}\">
 						Hi.
 					</div>
 					{8}

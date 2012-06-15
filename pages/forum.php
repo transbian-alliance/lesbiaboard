@@ -56,18 +56,18 @@ else if(isset($_GET['unignore']))
 	}
 }
 
-$user_panel = actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
+$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
 
 $isIgnored = FetchResult("select count(*) from {$dbpref}ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
-		$links .= "<li>".actionLinkTag(__("Unignore Forum"), "forum", $fid, "unignore")."</li>";
+		$links .= "<li>".actionLinkTag(__("Unignore forum"), "forum", $fid, "unignore")."</li>";
 	else
-		$links .= "<li>".actionLinkTag(__("Ignore Forum"), "forum", $fid, "ignore")."</li>";
+		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
 
-		$links .= "<li>".actionLinkTag(__("Post Thread"), "newthread", $fid)."</li>";
-		$links .= "<li>".actionLinkTag(__("Post Poll"), "newthread", $fid, "poll=1")."</li>";
+		$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
+		$links .= "<li>".actionLinkTag(__("Post poll"), "newthread", $fid, "poll=1")."</li>";
 }
 
 $OnlineUsersFid = $fid;
@@ -137,9 +137,9 @@ if(NumRows($rThreads))
 	if($forum['minpowerthread'] > $loguser['powerlevel'])
 		Alert(__("You cannot start any threads here."), __("Empty forum"));
 	elseif($loguserid)
-		Alert(format(__("Would you like to {0}?"), actionLinkTag("post something", "newthread", $fid)), __("Empty forum"));
+		Alert(format(__("Would you like to {0}?"), actionLinkTag(__("post something"), "newthread", $fid)), __("Empty forum"));
 	else
-		Alert(format(__("{0} so you can post something."), actionLinkTag("Log in", "login")), __("Empty forum"));
+		Alert(format(__("{0} so you can post something."), actionLinkTag(__("Log in"), "login")), __("Empty forum"));
 
 if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);

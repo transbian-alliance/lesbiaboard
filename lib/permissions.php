@@ -45,6 +45,9 @@ function checkAllowed($p)
 function CanMod($userid, $fid)
 {
 	global $loguser;
+	// Private messages. You cannot moderate them
+	if (!$fid)
+		return 0;
 	if($loguser['powerlevel'] > 1)
 		return 1;
 	if($loguser['powerlevel'] == 1)

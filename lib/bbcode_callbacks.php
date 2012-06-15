@@ -10,7 +10,7 @@ $bbcodeCallbacks = array(
 	"img" => "bbcodeImage",
 	
 	"user" => "bbcodeUser",
-	"thread" => "bbcodeUser",
+	"thread" => "bbcodeThread",
 	"forum" => "bbcodeForum",
 	
 	"quote" => "bbcodeQuote",
@@ -58,7 +58,7 @@ function bbcodeImage($contents, $arg)
 		$dest = $arg;
 	}
 	
-	return '<img src="'.htmlentities($dest).'" alt="'.$title.'"/>';
+	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
 }
 
 
@@ -207,4 +207,4 @@ function _pcreEntityToUtf($matches)
 	{
 		return chr(0xe0 | (0x0f & ($char >> 12))) . chr(0x80 | (0x3f & ($char >> 6))). chr(0x80 | (0x3f & $char));
 	}*/
-} 
+}

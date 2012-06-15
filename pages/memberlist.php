@@ -7,6 +7,7 @@ $title = __("Member list");
 
 AssertForbidden("viewMembers");
 
+
 $tpp = $loguser['threadsperpage'];
 if($tpp<1) $tpp=50;
 
@@ -30,10 +31,7 @@ if(!in_array($sort, array('', 'id', 'name', 'karma', 'reg')))
 $sex = $_GET['sex'];
 if(isset($_GET['pow']) && $_GET['pow'] != "")
 	$pow = (int)$_GET['pow'];
-if(isset($_GET['letter']) && is_string($_GET['letter']))
-	$letter = $_GET['letter'][0];
-else
-	$letter = "";
+
 $order = "";
 $where = "";
 
@@ -56,14 +54,11 @@ switch($sex)
 
 if(isset($pow))
 	$where.= " and powerlevel=".$pow;
-if($letter != "")
-{
-	if($letter == "@")	//I can't figure it out. Anybody else?
-		$where.= " and substring(name, 1,1) regexp '[:punct:]' or substring(displayname, 1,1) regexp '[:punct:]'";
-	if($letter == "#")
-		$where.= " and substring(name, 1,1) regexp '[0-9]' or substring(displayname, 1,1) regexp '[0-9]'";
-	else
-		$where.= " and name like '".$letter."%' or displayname like '".$letter."%'";
+
+$query = $_GET['query'];
+
+if($query != "") {
+		$where.= " and name like '%".justEscape($query)."%' or displayname like '%".justEscape($query)."%'";
 }
 
 if(!(isset($pow) && $pow == 5))
@@ -74,275 +69,206 @@ $numUsers = FetchResult("select count(*) from {$dbpref}users where ".$where, 0, 
 $qUsers = "select * from {$dbpref}users where ".$where." order by ".$order.", name asc limit ".$from.", ".$tpp;
 $rUsers = Query($qUsers);
 
-$pagelinks = PageLinks(actionLink("memberlist", "", mlink2($sort,$sex,$pow,$tpp,$letter,$dir)."&from="), $tpp, $from, $numUsers);
-
-$alphabet .= "<li>".mlink($sort,$sex,$pow,$tpp,"%23",$dir)."#</a></li>\n";
-for($l = 0; $l < 26; $l++)
+function PageLinks2($url, $epp, $from, $total)
 {
-	$let = chr(65+$l);
-	$alphabet .= "<li>".mlink($sort,$sex,$pow,$tpp,$let,$dir).$let."</a></li>\n";
-}
-$alphabet .= "<li>".mlink($sort,$sex,$pow,$tpp,"",$dir)."All</a></li>\n";
+	$numPages = ceil($total / $epp);
+	$page = ceil($from / $epp) + 1;
 
-write(
-"
-	<table class=\"outline margin\">
-		<tr class=\"header0\">
-			<th colspan=\"8\">
-				".__("Options")."
-			</th>
-		</tr>
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"8\">
-				".__("{0} found.")."
-			</td>
-		</tr>
-",	Plural($numUsers, __("user")));
+	$first = ($from) ? "<a href=\"".$url."0)\">&#x00AB;</a> " : "";
+	$prev = ($from) ? "<a href=\"".$url.($from - $epp).")\">&#x2039;</a> " : "";
+	$next = ($from < $total - $epp) ? " <a href=\"".$url.($from + $epp).")\">&#x203A;</a>" : "";
+	$last = ($from < $total - $epp) ? " <a href=\"".$url.(($numPages * $epp) - $epp).")\">&#x00BB;</a>" : "";
+
+	$pageLinks = array();
+	for($p = $page - 5; $p < $page + 10; $p++)
+	{
+		if($p < 1 || $p > $numPages)
+			continue;
+		if($p == $page || ($from == 0 && $p == 1))
+			$pageLinks[] = $p;
+		else
+			$pageLinks[] = "<a href=\"".$url.(($p-1) * $epp).")\">".$p."</a>";
+	}
+	
+	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
+}
+
+$pagelinks = PageLinks2("javascript:refreshMemberlist(", $tpp, $from, $numUsers);
+
+if ($_GET['listing'])  {
+	$ajaxPage = true;
+
+	if($pagelinks)
+	{
+		write(
+	"
+		<table class=\"outline margin\">
+			<tr class=\"cell2 smallFonts\">
+				<td colspan=\"2\">
+					".__("Page")."
+				</td>
+				<td colspan=\"6\">
+					{0}
+				</td>
+			</tr>
+	",	$pagelinks);
+	}
+
+	$memberList = "";
+	if($numUsers)
+	{
+		while($user = Fetch($rUsers))
+		{
+			$bucket = "userMangler"; include("./lib/pluginloader.php");
+			$daysKnown = (time()-$user['regdate'])/86400;
+			$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
+
+			$userPic = "";
+			if($user['picture'] && $hacks['themenames'] != 3)
+				$userPic = "<img src=\"".str_replace("img/avatars/", "img/avatars/", $user['picture'])."\" alt=\"\" style=\"width: 60px;\" />";
+
+			$cellClass = ($cellClass+1) % 2;
+			$memberList .= format(
+	"
+			<tr class=\"cell{0}\">
+				<td>{1}</td>
+				<td>{2}</td>
+				<td>{3}</td>
+				<td>{4}</td>
+				<td>{5}</td>
+				<td>{6}</td>
+				<td>{7}</td>
+				<td>{8}</td>
+			</tr>
+	",	$cellClass, $user['id'], $userPic, UserLink($user), $user['posts'],
+		$user['average'], $user['karma'],
+		($user['birthday'] ? cdate("M jS", $user['birthday']) : "&nbsp;"),
+		cdate("M jS Y", $user['regdate'])
+		);
+		}
+	} else
+	{
+		$memberList = format(
+	"
+			<tr class=\"cell0\">
+				<td colspan=\"8\">
+					".__("Nothing matched your search.")."
+				</td>
+			</tr>
+	");
+	}
+
+	write(
+	"
+			<tr class=\"header1\">
+				<th style=\"width: 30px; \">#</th>
+				<th style=\"width: 62px; \">".__("Picture")."</th>
+				<th>".__("Name")."</th>
+				<th style=\"width: 50px; \">".__("Posts")."</th>
+				<th style=\"width: 50px; \">".__("Average")."</th>
+				<th style=\"width: 50px; \">".__("Karma")."</th>
+				<th style=\"width: 80px; \">".__("Birthday")."</th>
+				<th style=\"width: 130px; \">".__("Registered on")."</th>
+			</tr>
+			{0}
+	",	$memberList);
+
+	if($pagelinks)
+	{
+		write(
+	"
+			<tr class=\"cell2 smallFonts\">
+				<td colspan=\"2\">
+					".__("Page")."
+				</td>
+				<td colspan=\"6\">
+					{0}
+				</td>
+			</tr>
+	",	$pagelinks);
+	}
+
+	write("
+		</table>
+	");
+	$noAutoHeader = true;
+	die();
+}
+
+
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist")), $links);
+
 if (!$isBot)
 {
 	write(
 "
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Sort by")."
-			</td>
-			<td colspan=\"6\">
-				<ul class=\"pipemenu\">
-					<li>
-						{1}
-					</li>
-					<li>
-						{2}
-					</li>
-					<li>
-						{3}
-					</li>
-					<li>
-						{4}
-					</li>
-					<li>
-						{5}
-					</li>
-				</ul>
-			</td>
-		</tr>
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Order")."
-			</td>
-			<td colspan=\"6\">
-				<ul class=\"pipemenu\">
-					<li>
-						{6}
-					</li>
-					<li>
-						{7}
-					</li>
-				</ul>
-			</td>
-		</tr>
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Sex")."
-			</td>
-			<td colspan=\"6\">
-				<ul class=\"pipemenu\">
-					<li>
-						{8}
-					</li>
-					<li>
-						{9}
-					</li>
-					<li>
-						{10}
-					</li>
-					<li>
-						{11}
-					</li>
-				</ul>
-			</td>
-		</tr>
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Power")."
-			</td>
-			<td colspan=\"6\">
-				<ul class=\"pipemenu\">
-					<li>
-						{12}
-					</li>
-					<li>
-						{13}
-					</li>
-					<li>
-						{14}
-					</li>
-					<li>
-						{15}
-					</li>
-					<li>
-						{16}
-					</li>
-					<li>
-						{17}
-					</li>
-					<li>
-						{18}
-					</li>
-				</ul>
-			</td>
-		</tr>
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Name")."
-			</td>
-			<td colspan=\"6\">
-				<ul class=\"pipemenu\">
-					{19}
-				</ul>
-			</td>
-		</tr>
-",	null,
-
-	mlink(""     ,$sex,$pow,$tpp,$letter,$dir).__("Posts")."</a>",
-	mlink("id"   ,$sex,$pow,$tpp,$letter).__("ID")."</a>",
-	mlink("name" ,$sex,$pow,$tpp,$letter,$dir).__("Username")."</a>",
-	mlink("karma",$sex,$pow,$tpp,$letter,$dir).__("Karma")."</a>",
-	mlink("reg"  ,$sex,$pow,$tpp,$letter,$dir).__("Registration date")."</a>",
-
-	mlink($sort,$sex,$pow,$tpp,$letter,"asc").__("Ascending")."</a>",
-	mlink($sort,$sex,$pow,$tpp,$letter,"desc").__("Descending")."</a>",
-
-	mlink($sort,"m",$pow,$tpp,$letter,$dir).__("Male")."</a>",
-	mlink($sort,"f",$pow,$tpp,$letter,$dir).__("Female")."</a>",
-	mlink($sort,"n",$pow,$tpp,$letter,$dir).__("N/A")."</a>",
-	mlink($sort,"", $pow,$tpp,$letter,$dir).__("All")."</a>",
-	
-	mlink($sort,$sex,"-1",$tpp,$letter,$dir).__("Banned")."</a>",
-	mlink($sort,$sex, "0",$tpp,$letter,$dir).__("Normal")."</a>",
-	mlink($sort,$sex, "1",$tpp,$letter,$dir).__("Local moderator")."</a>", 
-	mlink($sort,$sex, "2",$tpp,$letter,$dir).__("Full moderator")."</a>",
-	mlink($sort,$sex, "3",$tpp,$letter,$dir).__("Administrator")."</a>",
-	mlink($sort,$sex, "4",$tpp,$letter,$dir).__("Root")."</a>",
-	mlink($sort,$sex, "", $tpp,$letter,$dir).__("All")."</a>",
-	
-	$alphabet
-);
-}
-
-if($pagelinks)
-{
-	write(
-"
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Page")."
-			</td>
-			<td colspan=\"6\">
-				{0}
-			</td>
-		</tr>
-",	$pagelinks);
-}
-
-$memberList = "";
-if($numUsers)
-{
-	while($user = Fetch($rUsers))
-	{
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
-		$daysKnown = (time()-$user['regdate'])/86400;
-		$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
-
-		$userPic = "";
-		if($user['picture'] && $hacks['themenames'] != 3)
-			$userPic = "<img src=\"".str_replace("img/avatars/", "img/avatars/", $user['picture'])."\" alt=\"\" style=\"width: 60px;\" />";
-
-		$cellClass = ($cellClass+1) % 2;
-		$memberList .= format(
-"
-		<tr class=\"cell{0}\">
-			<td>{1}</td>
-			<td>{2}</td>
-			<td>{3}</td>
-			<td>{4}</td>
-			<td>{5}</td>
-			<td>{6}</td>
-			<td>{7}</td>
-			<td>{8}</td>
-		</tr>
-",	$cellClass, $user['id'], $userPic, UserLink($user), $user['posts'],
-	$user['average'], $user['karma'],
-	($user['birthday'] ? cdate("M jS", $user['birthday']) : "&nbsp;"),
-	cdate("M jS Y", $user['regdate'])
-	);
-	}
-} else
-{
-	$memberList = format(
-"
-		<tr class=\"cell0\">
-			<td colspan=\"8\">
-				".__("Nothing here.")."
-			</td>
-		</tr>
+	<script src=\"".resourceLink("lib/memberlist.js")."\"></script>
+	<div id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
+		".__("Sort by").": 
+		".makeSelect("orderBy", array(
+			"" => "Post count",
+			"id" => "ID",
+			"name" => "Name",
+			"karma" => "Karma",
+			"reg" => "Registration date"
+		))." &nbsp;
+		".__("Order").":
+		".makeSelect("order", array(
+			"desc" => "Descending",
+			"asc" => "Ascending",
+		))." &nbsp;
+		".__("Sex").":
+		".makeSelect("sex", array(
+			"" => "(any)",
+			"n" => "N/A",
+			"f" => "Female",
+			"m" => "Male"
+		))." &nbsp;
+		".__("Power").":
+		".makeSelect("power", array(
+			"" => "(any)",
+			-1 => "Banned",
+			0 => "Normal",
+			1 => "Local Mod",
+			2 => "Full Mod",
+			3 => "Admin",
+			4 => "Root",
+			5 => "System"
+		))."
+		<div style=\"float: right;\">
+			<form action=\"javascript:refreshMemberlist();\">
+				<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\" />
+				<button id=\"submitQuery\">&rarr;</button>
+			</form>
+		</div>
+	</div>
 ");
-}
-
-write(
-"
-		<tr class=\"header1\">
-			<th style=\"width: 30px; \">#</th>
-			<th style=\"width: 62px; \">".__("Picture")."</th>
-			<th>".__("Name")."</th>
-			<th style=\"width: 50px; \">".__("Posts")."</th>
-			<th style=\"width: 50px; \">".__("Average")."</th>
-			<th style=\"width: 50px; \">".__("Karma")."</th>
-			<th style=\"width: 80px; \">".__("Birthday")."</th>
-			<th style=\"width: 130px; \">".__("Registered on")."</th>
-		</tr>
-		{0}
-",	$memberList);
-
-if($pagelinks)
-{
-	write(
-"
-		<tr class=\"cell2 smallFonts\">
-			<td colspan=\"2\">
-				".__("Page")."
-			</td>
-			<td colspan=\"6\">
-				{0}
-			</td>
-		</tr>
-",	$pagelinks);
 }
 
 write("
-	</table>
+	<div id=\"memberlist\">
+		<div class=\"center\" style=\"padding: 2em;\">
+			".__("Loading memberlist...")."
+		</div>
+	</div>
 ");
 
-function mlink2($sort,$sex,$pow,$tpp,$letter="",$dir="")
-{
-	return ($sort   ?"sort=$sort":"")
-			.($sex    ?"&sex=$sex":"")
-			.(isset($pow)?"&pow=$pow":"")
-			.($letter!=""?"&letter=$letter":"")
-			.($dir   ?"&dir=$dir":"");
-}
 
+//We do not need a default index.
+//All options are translatable too, so no need for __() in the array.
+//Name is the same as ID.
 
-function mlink($sort,$sex,$pow,$tpp,$letter="",$dir="",$from=1)
-{
-	return "<a href=\"".actionLink("memberlist", "", 
-			($sort   ?"sort=$sort":"")
-			.($sex    ?"&sex=$sex":"")
-			.(isset($pow)?"&pow=$pow":"")
-			.($letter!=""?"&letter=$letter":"")
-			.($dir   ?"&dir=$dir":"")
-			.($from!=1?"&from=$from":"")
-			)."\" rel=\"nofollow\">";
+function makeSelect($name, $options) {
+	$result = "<select name=\"".$name."\" id=\"".$name."\">";
+
+	$i = 0;
+	foreach ($options as $key => $value) {
+		$result .= "\n\t<option".($i = 0 ? " selected=\"selected\"" : "")." value=\"".$key."\">".__($value)."</option>";
+	}
+
+	$result .= "\n</select>";
+
+	return $result;
 }
 
 

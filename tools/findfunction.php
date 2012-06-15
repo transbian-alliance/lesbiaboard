@@ -1,4 +1,9 @@
 <?php
+if (php_sapi_name() !== 'cli')
+{
+	die("This script is only intended for CLI usage.\n");
+}
+
 function search_for_function($tokens, $filename)
 {
 	global $function, $found;

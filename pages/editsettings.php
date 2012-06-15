@@ -19,9 +19,9 @@ if(!ctype_alnum($plugin))
 	Kill(__("No."));
 
 if($plugin == "main")
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit Settings") => actionLink("editsettings")), "");
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit settings") => actionLink("editsettings")), "");
 else
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
+	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
 
 $settings = Settings::getForPlugin($plugin);
 $oursettings = Settings::$pluginsettings[$plugin];
@@ -42,7 +42,7 @@ if(isset($_POST["_plugin"]))
 		//Save the entered settings for re-editing
 		$oursettings[$key] = $value;
 		
-		if(!Settings::validate($value, $settings[$key]["type"]))
+		if(!Settings::validate($value, $settings[$key]["type"], $settings[$key]["options"]))
 		{
 			$valid = false;
 			$invalidsettings[$key] = true;
@@ -65,7 +65,7 @@ if(isset($_POST["_plugin"]))
 			Alert(__("Settings were successfully saved!"));
 	}
 	else
-		Alert("Settings were NOT saved because there were invalid values. Please correct them and try again.");
+		Alert(__("Settings were NOT saved because there were invalid values. Please correct them and try again."));
 }
 
 $plugintext = "";
@@ -92,6 +92,7 @@ foreach($settings as $name => $data)
 	
 	$type = $data["type"];
 	$help = $data["help"];
+	$options = $data["options"];
 	$value = $oursettings[$name];
 	
 	$input = "[Bad setting type]";
@@ -100,7 +101,9 @@ foreach($settings as $name => $data)
 
 	if($type == "boolean")
 		$input = makeSelect($name, $value, array(1=>"Yes", 0=>"No"));
-	if($type == "integer")
+	if($type == "options")
+		$input = makeSelect($name, $value, $options);
+	if($type == "integer" || $type == "float")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" />";
 	if($type == "text")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" class=\"width75\"/>";
