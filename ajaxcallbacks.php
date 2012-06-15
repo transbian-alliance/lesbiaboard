@@ -110,8 +110,8 @@ elseif($action == "srl")	//Show Revision List
 				revision, user AS revuser, date AS revdate,
 				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
 			FROM 
-				posts_text
-				LEFT JOIN users u2 ON u2.id = user
+				{$dbpref}posts_text
+				LEFT JOIN {$dbpref}users u2 ON u2.id = user
 			WHERE pid=".$id." 
 			ORDER BY revision ASC";
 	$revs = Query($qRevs);
