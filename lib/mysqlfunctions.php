@@ -30,7 +30,7 @@ function Upgrade()
 	{
 		print "<li>";
 		print $dbpref.$table."&hellip;";
-		$tableStatus = Query("show table status from ".$dbname." like '".$table."'");
+		$tableStatus = Query("show table status from ".$dbname." like '".$dbpref.$table."'");
 		$numRows = NumRows($tableStatus);
 		if($numRows == 0)
 		{

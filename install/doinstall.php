@@ -79,9 +79,11 @@ function insError($text)
 	fwrite($dbcfg, '$dbuser = ' . var_export($dbuser, true) . ";\n");
 	fwrite($dbcfg, '$dbpass = ' . var_export($dbpass, true) . ";\n");
 	fwrite($dbcfg, '$dbname = ' . var_export($dbname, true) . ";\n");
+	fwrite($dbcfg, '$dbpref = ' . var_export($dbpref, true) . ";\n");
 	fwrite($dbcfg, "\n?>");
 	fclose($dbcfg);
 
+	include("lib/debug.php");
 	include("lib/mysql.php");
 	
 	$shakeIt = false;
