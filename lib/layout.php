@@ -31,7 +31,10 @@ function MakeCrumbs($path, $links)
 				$title = substr($text, 0, $sep);
 				$tags = ' '.substr($text, $sep+6);
 			}
-			$crumbs .= "<a href=\"".$link."\">".$title."</a> ".$tags." &raquo; ";
+			if (Settings::get("tagsDirection") === 'Left')
+				$crumbs .= $tags."<a href=\"".$link."\">".$title."</a> &raquo; ";
+			else
+				$crumbs .= "<a href=\"".$link."\">".$title."</a> ".$tags." &raquo; ";
 		}
 		else
 			$crumbs .= str_replace('<TAGS>', '', $text). " &raquo; ";

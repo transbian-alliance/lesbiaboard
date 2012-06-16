@@ -688,7 +688,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 function HandlePassword($field, $item)
 {
 	global $fallToEditor, $sets, $salt, $user, $loguser, $loguserid;
-	if($_POST[$field] != "" && $_POST['repeat'.$field] != "" && $_POST['repeat'.$field] != $_POST[$field])
+	if($_POST[$field] != "" && $_POST['repeat'.$field] != "" && $_POST['repeat'.$field] !== $_POST[$field])
 	{
 		$fallToEditor = true;
 		return __("To change your password, you must type it twice without error.");
