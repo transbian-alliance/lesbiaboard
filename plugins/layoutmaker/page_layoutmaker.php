@@ -4,11 +4,16 @@ include("bases/list.php");
 $offers = "";
 foreach($bases as $base)
 {
+	$picture = '';
+	if (file_exists('plugins/layoutmaker/bases/'.$base['name'].'.png'))
+	{
+		$picture = "<img src=\"plugins/layoutmaker/bases/".$base['name'].".png\" />";
+	}
 	$cellClass = ($cellClass + 1) % 2;
 	$offers .= "
 	<tr class=\"cell$cellClass\">
 		<td>
-			<img src=\"plugins/layoutmaker/bases/".$base['name'].".png\" />
+			$picture
 		</td>
 		<td>
 		".actionLinkTag($base['title'], "layoutmaker2", $base['name'])."
