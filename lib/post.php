@@ -402,7 +402,17 @@ function MakePost($post, $type, $params=array())
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
 		$meta = format(__("Posted on {0}"), formatdate($post['date']));
-		$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
+		$meta .= __(', deleted');
+		if ($post['deletedby'])
+		{
+			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+			$meta .= __(' by ').$db_link;
+			
+			if ($post['reason'])
+				$meta .= ': '.htmlspecialchars($post['reason']);
+		}
+		
+		$links = '<ul class="pipemenu">';
 		if(CanMod($loguserid,$params['fid']))
 		{
 			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
@@ -472,7 +482,8 @@ function MakePost($post, $type, $params=array())
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
 					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$links .= actionLinkTagItem(__("Delete"), "editpost", $post['id'], "delete=1&key=".$key);
+					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$key);
+					$links .= "<li><a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a></li>";
 				}
 				if ($canreply && !$params['noreplylinks'])
 					$links .= "<li>".format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))."</li>";

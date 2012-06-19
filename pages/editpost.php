@@ -61,7 +61,7 @@ if((int)$_GET['delete'] == 1)
 	if ($_GET['key'] != $key) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to delete posts."));
-	$qPosts = "update {$dbpref}posts set deleted=1 where id=".$pid." limit 1";
+	$qPosts = "update {$dbpref}posts set deleted=1,deletedby={$loguserid},reason='".justEscape($_GET['reason'])."' where id=".$pid." limit 1";
 	$rPosts = Query($qPosts);
 	
 	die(header("Location: ".actionLink("thread", $tid)));

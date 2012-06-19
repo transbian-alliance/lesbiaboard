@@ -270,7 +270,7 @@ else
 		$from = 0;
 
 $qPosts = "	SELECT 
-				p.id, p.date, p.num, p.deleted, p.options, p.mood, p.ip, 
+				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
@@ -280,7 +280,7 @@ $qPosts = "	SELECT
 				LEFT JOIN {$dbpref}posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {$dbpref}users u ON u.id = p.user
 				LEFT JOIN {$dbpref}blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-				LEFT JOIN {$dbpref}users u2 ON u2.id = pt.user
+				LEFT JOIN {$dbpref}users u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
 			WHERE thread=".$tid." 
 			ORDER BY date ASC LIMIT ".$from.", ".$ppp;
 
