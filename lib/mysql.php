@@ -15,18 +15,59 @@ function justEscape($text)
 	return $dblink->real_escape_string($text);
 }
 
-function CheckQuery($query)
+function Query_ExpandFieldLists($match)
 {
-	$check = preg_replace("@'.*?[^\\\\]'@si", 'lolstring', $query);
-	$check = preg_replace("@\".*?[^\\\\]\"@si", 'lolstring', $check);
-	if (preg_match("@UPDATE\s+?users\s+?SET\s+?.*?`?(powerlevel|tempbanpl)`?\s*?=\s*?[\"']?\d+?[\"']?@si", $check))
-		Report("Unauthorized user powerlevel change (".$query.")", 1, 2);
+	$ret = array();
+	$prefix = $match[1];
+	$fields = preg_split('@\s*,\s*@', $match[2]);
+	
+	foreach ($fields as $f)
+		$ret[] = $prefix.'.'.$f.' AS '.$prefix.'_'.$f;
+		
+	return implode(',', $ret);
 }
 
-function Query($query)
+function Query_AddUserInput($match)
+{
+	global $args;
+	$var = $args[$match[1]+1];
+	return '\''.justEscape($var).'\'';
+}
+
+/*
+ * Function for prepared queries
+ *
+ * Example usage: Query("SELECT t1.(foo,bar), t2.(*) FROM {table1} t1 LEFT JOIN {table2} t2 ON t2.id=t1.crapo WHERE t1.id={0} AND t1.crapo={1}", 1337, "Robert'; DROP TABLE students; --");
+ * assuming a database prefix of 'abxd_', final query is:
+ * SELECT t1.foo AS t1_foo,t1.bar AS t1_bar, t2.* FROM abxd_table1 t1 LEFT JOIN abxd_table2 t2 ON t2.id=t1.crapo WHERE t1.id='1337' AND t1.crapo='Robert\'; DROP TABLE students; --'
+ *
+ * compacted fieldlists allow for defining certain widely-used field lists as global variables or defines (namely, the fields for usernames)
+ * {table} syntax allows for flexible manipulation of table names (namely, adding a DB prefix)
+ *
+ */
+function Query()
+{
+	global $dbpref, $args;
+	$args = func_get_args();
+	
+	// legacy support
+	if (count($args) < 2) return RawQuery($args[0]);
+	
+	$query = $args[0];
+	// expand compacted field lists
+	$query = preg_replace("@(\w+)\.\(\*\)@s", '$1.*', $query);
+	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
+	// add table prefixes
+	$query = preg_replace("@\{(\w{2,})\}@s", $dbpref.'$1', $query);
+	// add the user input
+	$query = preg_replace_callback("@\{(\d+)\}@s", 'Query_AddUserInput', $query);
+
+	return RawQuery($query);
+}
+
+function RawQuery($query)
 {
 	global $queries, $querytext, $loguser, $dblink;
-	if ($loguser['powerlevel'] < 3) CheckQuery($query);
 	$res = @$dblink->query($query) or die(backTrace()."<br>".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 	<input type=\"hidden\" name=\"action\" value=\"Install\" />
 	<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
