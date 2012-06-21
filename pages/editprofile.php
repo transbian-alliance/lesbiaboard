@@ -380,6 +380,8 @@ if (isset($_POST['theme']) && $user['id'] == $loguserid)
  */
 if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 {
+	if ($loguser['powerlevel'] < 3) Kill(__('No.'));
+	
 	if($user['powerlevel'] == 4)
 	{
 		Kill(__("Trying to ban a root user?"));
