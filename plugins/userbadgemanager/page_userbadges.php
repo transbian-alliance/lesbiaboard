@@ -20,14 +20,14 @@ if($_POST['action'] == __("Add"))
 	}
 	else
 	{
-		$qBadge = "insert into {$dbpref}badges values ('".$_POST['userid']."', '".$_POST['name']."', ".((int)$_POST['color']).")";
+		$qBadge = "insert into {$dbpref}badges values ('".((int)$_POST['userid'])."', '".justEscape($_POST['name'])."', ".((int)$_POST['color']).")";
 		$rBadge = Query($qBadge);
 		Alert(__("Added."), __("Notice"));
 	}
 }
 elseif($_GET['action'] == "delete")
 {
-	$qBadge = "delete from {$dbpref}badges where owner='".$_GET['userid']."' and name='".$_GET['name']."'";
+	$qBadge = "delete from {$dbpref}badges where owner='".((int)$_GET['userid'])."' and name='".justEscape($_GET['name'])."'";
 	Query($qBadge);
 	Alert(__("Removed."), __("Notice"));
 }
@@ -42,7 +42,7 @@ while($badges = Fetch($rBadge))
 {
 	$cellClass = ($cellClass+1) % 2;
 	$colors = array(__("Bronze"),__("Silver"),__("Gold"),__("Platinum"));
-	$id = $badges['owner'];
+	$id = (int) $badges['owner'];
 	// Fetch user
 	$qUser = "select * from {$dbpref}users where id=".$id;
 	$rUser = Query($qUser);
