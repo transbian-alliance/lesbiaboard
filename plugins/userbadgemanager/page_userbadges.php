@@ -33,7 +33,7 @@ elseif($_GET['action'] == "delete")
 }
 
 // Fetch badges
-$qBadge = "select * from {$dbpref}badges";
+$qBadge = "SELECT owner, badges.name, color, {$dbpref}users.name username FROM {$dbpref}badges JOIN {$dbpref}users where owner = id";
 $rBadge = Query($qBadge);
 
 
@@ -43,10 +43,6 @@ while($badges = Fetch($rBadge))
 	$cellClass = ($cellClass+1) % 2;
 	$colors = array(__("Bronze"),__("Silver"),__("Gold"),__("Platinum"));
 	$id = (int) $badges['owner'];
-	// Fetch user
-	$qUser = "select * from {$dbpref}users where id=".$id;
-	$rUser = Query($qUser);
-	$user = Fetch($rUser);
 	// userMangler Bucket
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$badgeList .= format(
@@ -65,7 +61,7 @@ while($badges = Fetch($rBadge))
 			<a href=\"".actionLink("userbadges", "", "userid={2}&name={3}&action=delete")."\">&#x2718;</a>
 		</td>
 	</tr>
-", $cellClass, $user['name'], $user['id'], $badges['name'], $colors[$badges['color']]);
+", $cellClass, $badges['username'], $badges['owner'], $badges['name'], $colors[$badges['color']]);
 }
 
 write("
