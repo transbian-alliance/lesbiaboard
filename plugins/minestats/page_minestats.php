@@ -9,17 +9,17 @@ $blocks = require 'plugins/minestats/mcblocks.php';
 $maps = explode(' ', $maps);
 
 $properties = array(
-	'map' => array('Map', array_combine($maps, $maps)),
-	'dir' => array('Direction', array('ASC' => 'Ascending', 'DESC' => 'Descending')),
-	'order' => array('Order by', array('created' => 'Created', 'destroyed' => 'Destroyed', 'SUM(created) + SUM(destroyed)' => 'Sum of created and destroyed')),
-	'player' => array('Show', array('NULL' => 'By player', 0 => 'By block')),
+	'map' => array(__('Map'), array_combine($maps, $maps)),
+	'dir' => array(__('Direction'), array('ASC' => __('Ascending'), 'DESC' => __('Descending'))),
+	'order' => array(__('Order by'), array('created' => __('Created'), 'destroyed' => __('Destroyed'), 'SUM(created) + SUM(destroyed)' => __('Sum of created and destroyed'))),
+	'player' => array(__('Show'), array('NULL' => __('By player'), 0 => __('By block'))),
 );
 
 $map = isset($_GET['map']) && in_array($_GET['map'], $maps) ? $_GET['map'] : $maps[0];
 $dir = isset($properties['dir'][1][$_GET['dir']]) ? $_GET['dir'] : 'DESC';
 $order = isset($properties['order'][1][$_GET['order']]) ? $_GET['order'] : 'destroyed';
 
-echo '<table class="outline margin width100"><tr class="header0"><th colspan=3>Settings';
+echo '<table class="outline margin width100"><tr class="header0"><th colspan=3>', __('Settings');
 $i = 1;
 foreach ($properties as $name => $property) {
 	$i = ($i + 1) % 2;
@@ -54,7 +54,7 @@ if (isset($_GET['player']))
 		$condition1 .= ' AND playerid = ' . (int) $_GET['player'];
 		$condition2 .= ' AND playerid = ' . (int) $_GET['player'];
 	}
-	echo 'Block';
+	echo __('Block');
 }
 else {
 	$arg = 'player';
@@ -67,9 +67,9 @@ else {
 		$condition1 = 'type = ' . (int) $_GET['block'];
 		$condition2 = 'replaced = ' . (int) $_GET['block'];
 	}
-	echo 'Player';
+	echo __('Player');
 }
-echo '<th>Created<th>Destroyed';
+echo '<th>', __('Created'), '<th>', __('Destroyed');
 $data = $db->query("
 	SELECT $name, SUM(created) created, SUM(destroyed) destroyed $additionalfields
 	FROM
