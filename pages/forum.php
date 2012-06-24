@@ -56,8 +56,9 @@ else if(isset($_GET['unignore']))
 	}
 }
 
-$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
-
+if($loguserid)
+	$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
+	
 $isIgnored = FetchResult("select count(*) from {$dbpref}ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {

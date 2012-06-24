@@ -9,9 +9,13 @@ else if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
 	die(header("Location: profile.php?id=".(int)$_GET['uid']));
 else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 	die(header("Location: thread.php?pid=".(int)$_GET['pid']."#".(int)$_GET['pid']));
-    
 
-$links = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
+   
+$links = "";
+
+if($loguserid)
+	$links = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
+
 MakeCrumbs(array(), $links);
 
 $numThreads = FetchResult("select count(*) from {$dbpref}threads");
