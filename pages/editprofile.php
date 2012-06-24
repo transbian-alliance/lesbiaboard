@@ -758,6 +758,11 @@ function HandleUsername($field, $item)
 		$fallToEditor = true;
 		return __("The login name you entered cannot contain semicolons.");
 	}
+	else if($_POST['field'] !== ($_POST['field'] = preg_replace('/[\x{202a}-\x{202e}]/u', '' $_POST[$field])))
+	{
+		$fallToEditor = true;
+		return __("The login name you entered cannot contain BIDI characters.");
+	}
 }
 
 function HandleEmail($field, $item)
