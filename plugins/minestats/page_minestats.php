@@ -1,0 +1,111 @@
+<?php
+$maps = trim($selfsettings['maps']);
+if (!preg_match('/^(?:\w+ )*\w+$/', $maps))
+{
+	Kill('Please configure this plugin.');
+}
+$db = @new mysqli($selfsettings['dbserv'], $selfsettings['dbuser'], $selfsettings['dbpass'], $selfsettings['dbname']) or Kill('Couldn\'t get information.');
+$blocks = require 'plugins/minestats/mcblocks.php';
+$maps = explode(' ', $maps);
+
+$properties = array(
+	'map' => array('Map', array_combine($maps, $maps)),
+	'dir' => array('Direction', array('ASC' => 'Ascending', 'DESC' => 'Descending')),
+	'order' => array('Order by', array('created' => 'Created', 'destroyed' => 'Destroyed', 'SUM(created) + SUM(destroyed)' => 'Sum of ascending and descending')),
+	'block' => array('Show', array(0 => 'By player', 'NULL' => 'By block')),
+);
+
+$map = isset($_GET['map']) && in_array($_GET['map'], $maps) ? $_GET['map'] : $maps[0];
+$dir = isset($properties['dir'][1][$_GET['dir']]) ? $_GET['dir'] : 'DESC';
+$order = isset($properties['order'][1][$_GET['order']]) ? $_GET['order'] : 'destroyed';
+
+echo '<table class="outline margin width100"><tr class="header0"><th colspan=3>Settings';
+$i = 1;
+foreach ($properties as $name => $property) {
+	$i = ($i + 1) % 2;
+	echo "<tr class=cell$i><td style=width:100px>$property[0]:<td>";
+	$properties = array();
+	foreach ($property[1] as $key => $value) {
+		$gets = $_GET;
+		if ($name === 'block' || $name === 'map')
+			unset($gets['player']);
+		if ($key === 'NULL')
+			unset($gets[$name]);
+		else
+			$gets[$name] = $key;
+		$properties[] = '<a href="?' . htmlspecialchars(http_build_query($gets)) . '">' . $value . '</a>';
+	}
+	echo implode(' | ', $properties);
+}
+echo '</table>';
+echo '<table class="outline margin width100"><tr class="header0"><th>';
+$condition1 = 'type != 0';
+$condition2 = 'replaced != 0';
+if (isset($_GET['block']))
+{
+	$arg = 'player';
+	$join = 'INNER JOIN `lb-players` USING (playerid)';
+	$group = 'playerid';
+	$replaced = 'playerid';
+	$name = 'playername';
+	$additionalfields = ', `lb-players`.playerid';
+	if ((int) $_GET['block']) {
+		$condition1 = 'type = ' . (int) $_GET['block'];
+		$condition2 = 'replaced = ' . (int) $_GET['block'];
+	}
+	echo 'Player';
+}
+else {
+	$arg = 'block';
+	$group = 'type';
+	$replaced = 'replaced';
+	$name = 'type';
+	if (isset($_GET['player'])) {
+		$condition1 .= ' AND playerid = ' . (int) $_GET['player'];
+		$condition2 .= ' AND playerid = ' . (int) $_GET['player'];
+	}
+	echo 'Block';
+}
+echo '<th>Created<th>Destroyed';
+$data = $db->query("
+	SELECT $name, SUM(created) created, SUM(destroyed) destroyed $additionalfields
+	FROM
+	(
+		(
+			SELECT $group, count(*) created, 0 destroyed
+			FROM `lb-$map`
+			WHERE $condition1
+			AND type != replaced
+			GROUP BY $group
+		)
+		UNION
+		(
+			SELECT $replaced type, 0 created, count(*) destroyed
+			FROM `lb-$map`
+			WHERE $condition2
+			AND type != replaced
+			GROUP BY $replaced
+		)
+	) t
+	$join GROUP BY $group ORDER BY $order $dir
+");
+$i = 1;
+$gets = $_GET;
+unset($gets['block']);
+unset($gets['player']);
+while ($row = $data->fetch_array()) {
+	$i = ($i + 1) % 2;
+	$gets[$arg] = $row[0];
+	if (isset($_GET['block'])) {
+		$description = $row[0];
+		if ($description == 'WaterFlow') $description = 'Water Flow';
+		if ($description == 'LavaFlow') $description = 'Lava Flow';
+		$gets[$arg] = $row[3];
+	}
+	else {
+		$description = isset($blocks[$row[0]]) ? $blocks[$row[0]] : "Block $row[0]";
+	}
+	echo "<tr class=cell$i><td><a href='?", htmlspecialchars(http_build_query($gets)), "'>", $description, "</a><td>$row[1]<td>$row[2]";
+}
+echo '</table>';
+?>
