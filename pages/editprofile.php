@@ -737,6 +737,11 @@ function HandleDisplayname($field, $item)
 			$fallToEditor = true;
 			return __("The display name you entered cannot contain semicolons.");
 		}
+		else if($_POST[$field] !== ($_POST[$field] = preg_replace('/[\x{202a}-\x{202e}]/u', '', $_POST[$field])))
+		{
+			$fallToEditor = true;
+			return __("The display name you entered cannot contain BIDI characters.");
+		}
 	}
 }
 
@@ -757,6 +762,11 @@ function HandleUsername($field, $item)
 		$user['name'] = str_replace(";", "", $_POST[$field]);
 		$fallToEditor = true;
 		return __("The login name you entered cannot contain semicolons.");
+	}
+	else if($_POST[$field] !== ($_POST[$field] = preg_replace('/[\x{202a}-\x{202e}]/u', '', $_POST[$field])))
+	{
+		$fallToEditor = true;
+		return __("The login name you entered cannot contain BIDI characters.");
 	}
 }
 

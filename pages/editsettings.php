@@ -107,6 +107,8 @@ foreach($settings as $name => $data)
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" />";
 	if($type == "text")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" class=\"width75\"/>";
+	if($type == "password")
+		$input = "<input type=\"password\" id=\"$name\" name=\"$name\" value=\"$value\" class=\"width75\"/>";
 	if($type == "textbox" || $type == "textbbcode" || $type == "texthtml")
 		$input = "<textarea id=\"$name\" name=\"$name\" rows=\"8\" style=\"width: 98%;\">$value</textarea>";
 	if($type == "forum")
