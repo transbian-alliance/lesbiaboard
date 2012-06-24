@@ -42,7 +42,6 @@
 
 */
 
-
 class Settings
 {
 	public static $pluginsettings;
@@ -50,8 +49,10 @@ class Settings
 
 	public static function load()
 	{
+		global $dbpref;
+	
 		self::$pluginsettings = array();
-		$rSettings = Query("select * from settings");
+		$rSettings = Query("select * from {$dbpref}settings");
 		
 		while($setting = Fetch($rSettings))
 		{
@@ -89,7 +90,7 @@ class Settings
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type))
+			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type, $data["options"]))
 			{
 				if (isset($data["defaultfile"]))
 					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
@@ -111,7 +112,8 @@ class Settings
 	
 	public static function saveSetting($pluginname, $settingname)
 	{
-		Query("insert into settings (plugin, name, value) values (".
+		global $dbpref;
+		Query("insert into {$dbpref}settings (plugin, name, value) values (".
 			"'".justEscape($pluginname)."', ".
 			"'".justEscape($settingname)."', ".
 			"'".justEscape(self::$pluginsettings[$pluginname][$settingname])."') ".
@@ -119,7 +121,7 @@ class Settings
 	}
 	
 	
-	public static function validate($value, $type)
+	public static function validate($value, $type, $options = array())
 	{
 		if($type == "boolean" || $type == "integer" || $type == "float" || $type == "user" || $type == "forum" || $type == "layout" || $type == "theme" || $type == "language")
 			if(trim($value) == "")
@@ -135,6 +137,10 @@ class Settings
 				
 		if($type == "float") 
 			if (!is_numeric($value))
+				return false;
+				
+		if($type == "options")
+			if (!isset($options[$value]))
 				return false;
 			
 

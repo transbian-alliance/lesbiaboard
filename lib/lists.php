@@ -14,7 +14,10 @@ function listThread($thread, $cellClass)
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$last = $user;
 
-	$tags = ParseThreadTags($thread['title']);
+	if (Settings::get("tagsDirection") === 'Left')
+		$tagsl = ParseThreadTags($thread['title']);
+	else
+		$tagsr = ParseThreadTags($thread['title']);
 
 	$NewIcon = "";
 	$newstuff = 0;
@@ -90,10 +93,11 @@ function listThread($thread, $cellClass)
 			 $ThreadIcon
 		</td>
 		<td style=\"border-left: 0px none;\">
+			$tagsl
 			$poll
 			".actionLinkTag(strip_tags($thread['title']), "thread", $thread['id'])."
 			$pl
-			$tags
+			$tagsr
 		</td>
 		<td class=\"center\">
 			".UserLink($starter)."

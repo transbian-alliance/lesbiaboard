@@ -9,6 +9,8 @@
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/tricks.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.tablednd_0_5.js");?>"></script>
+	<script type="text/javascript" src="<?php print resourceLink("lib/jquery.scrollTo-1.4.2-min.js");?>"></script>
+
 	<?php
 		$bucket = "pageHeader"; include("./lib/pluginloader.php");
 	?>

@@ -316,7 +316,7 @@ div.quote div.quoteheader
 
 .codeblock
 {
-	white-space:pre;
+	white-space:pre-wrap;
 	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
 	padding:4px;
 	margin-left:10px;

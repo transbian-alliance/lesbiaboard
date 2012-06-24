@@ -35,13 +35,13 @@ function filterPollColors($input)
 
 function LoadSmilies($byOrder = FALSE)
 {
-	global $smilies, $smiliesOrdered;
+	global $smilies, $smiliesOrdered, $dbpref;
 	
 	if($byOrder)
 	{
 		if(isset($smiliesOrdered))
 			return;
-		$rSmilies = Query("select * from smilies order by id asc");
+		$rSmilies = Query("select * from {$dbpref}smilies order by id asc");
 		$smiliesOrdered = array();
 		while($smiley = Fetch($rSmilies))
 			$smiliesOrdered[] = $smiley;
@@ -50,7 +50,7 @@ function LoadSmilies($byOrder = FALSE)
 	{
 		if(isset($smilies))
 			return;
-		$rSmilies = Query("select * from smilies order by length(code) desc");
+		$rSmilies = Query("select * from {$dbpref}smilies order by length(code) desc");
 		$smilies = array();
 		while($smiley = Fetch($rSmilies))
 		{
@@ -77,21 +77,21 @@ function ApplySmilies($text)
 
 function LoadBlocklayouts()
 {
-	global $blocklayouts, $loguserid;
+	global $blocklayouts, $loguserid, $dbpref;
 	if(isset($blocklayouts))
 		return;
-	$rBlocks = Query("select * from blockedlayouts where blockee = ".$loguserid);
+	$rBlocks = Query("select * from {$dbpref}blockedlayouts where blockee = ".$loguserid);
 	while($block = Fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
 }
 
 function LoadRanks($rankset)
 {
-	global $ranks;
+	global $ranks, $dbpref;
 	if(isset($ranks[$rankset]))
 		return;
 	$ranks[$poster['rankset']] = array();
-	$rRanks = Query("select * from ranks where rset=".$rankset." order by num");
+	$rRanks = Query("select * from {$dbpref}ranks where rset=".$rankset." order by num");
 	while($rank = Fetch($rRanks))
 		$ranks[$rankset][$rank['num']] = $rank['text'];
 }
@@ -134,7 +134,7 @@ function GetToNextRank($poster)
 
 function MakeUserAtLink($matches)
 {
-	global $members;
+	global $members, $dbpref;
 	$username = $matches[1];
 	foreach($members as $id => $data)
 	{
@@ -144,7 +144,7 @@ function MakeUserAtLink($matches)
 		}
 	}
 	//Didn't find it in the cache.
-	$rUser = Query("select id, name, displayname, powerlevel, sex from users where name='".$username."' or displayname='".$username."'");
+	$rUser = Query("select id, name, displayname, powerlevel, sex from {$dbpref}users where name='".$username."' or displayname='".$username."'");
 	if(NumRows($rUser))
 	{
 		$hit = Fetch($rUser);
@@ -402,7 +402,17 @@ function MakePost($post, $type, $params=array())
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
 		$meta = format(__("Posted on {0}"), formatdate($post['date']));
-		$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
+		$meta .= __(', deleted');
+		if ($post['deletedby'])
+		{
+			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+			$meta .= __(' by ').$db_link;
+			
+			if ($post['reason'])
+				$meta .= ': '.htmlspecialchars($post['reason']);
+		}
+		
+		$links = '<ul class="pipemenu">';
 		if(CanMod($loguserid,$params['fid']))
 		{
 			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
@@ -472,7 +482,8 @@ function MakePost($post, $type, $params=array())
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
 					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$links .= actionLinkTagItem(__("Delete"), "editpost", $post['id'], "delete=1&key=".$key);
+					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$key);
+					$links .= "<li><a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a></li>";
 				}
 				if ($canreply && !$params['noreplylinks'])
 					$links .= "<li>".format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))."</li>";

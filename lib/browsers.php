@@ -131,6 +131,7 @@ function GetVersion($ua, $versionStart)
 				$numDots++;
 				if($numDots == 3)
 					break;
+				$version .= '.';
 			}
 			else if(strpos("0123456789.-", $ch) !== FALSE)
 				$version .= $ch;

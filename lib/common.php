@@ -35,6 +35,7 @@ include("salt.php");
 include("settingsfile.php");
 include("links.php");
 
+include("debug.php");
 include("mysql.php");
 include("mysqlfunctions.php");
 include("settingssystem.php");

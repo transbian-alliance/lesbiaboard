@@ -42,7 +42,7 @@ if(isset($_POST["_plugin"]))
 		//Save the entered settings for re-editing
 		$oursettings[$key] = $value;
 		
-		if(!Settings::validate($value, $settings[$key]["type"]))
+		if(!Settings::validate($value, $settings[$key]["type"], $settings[$key]["options"]))
 		{
 			$valid = false;
 			$invalidsettings[$key] = true;
@@ -92,6 +92,7 @@ foreach($settings as $name => $data)
 	
 	$type = $data["type"];
 	$help = $data["help"];
+	$options = $data["options"];
 	$value = $oursettings[$name];
 	
 	$input = "[Bad setting type]";
@@ -100,6 +101,8 @@ foreach($settings as $name => $data)
 
 	if($type == "boolean")
 		$input = makeSelect($name, $value, array(1=>"Yes", 0=>"No"));
+	if($type == "options")
+		$input = makeSelect($name, $value, $options);
 	if($type == "integer" || $type == "float")
 		$input = "<input type=\"text\" id=\"$name\" name=\"$name\" value=\"$value\" />";
 	if($type == "text")
@@ -170,15 +173,15 @@ function prepare($text)
 
 function makeForumList($fieldname, $selectedID)
 {
-	global $fid, $loguser;
+	global $fid, $loguser, $dbpref;
 	
 	$lastCatID = -1;	
 	$rFora = Query("	SELECT 
 							f.id, f.title, f.catid,
 							c.name cname
 						FROM 
-							forums f
-							LEFT JOIN categories c ON c.id=f.catid
+							{$dbpref}forums f
+							LEFT JOIN {$dbpref}categories c ON c.id=f.catid
 						ORDER BY c.corder, c.id, f.forder");
 	
 	$theList = "";
