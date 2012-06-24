@@ -12,7 +12,7 @@ $properties = array(
 	'map' => array('Map', array_combine($maps, $maps)),
 	'dir' => array('Direction', array('ASC' => 'Ascending', 'DESC' => 'Descending')),
 	'order' => array('Order by', array('created' => 'Created', 'destroyed' => 'Destroyed', 'SUM(created) + SUM(destroyed)' => 'Sum of ascending and descending')),
-	'block' => array('Show', array(0 => 'By player', 'NULL' => 'By block')),
+	'player' => array('Show', array('NULL' => 'By player', 0 => 'By block')),
 );
 
 $map = isset($_GET['map']) && in_array($_GET['map'], $maps) ? $_GET['map'] : $maps[0];
@@ -41,8 +41,19 @@ echo '</table>';
 echo '<table class="outline margin width100"><tr class="header0"><th>';
 $condition1 = 'type != 0';
 $condition2 = 'replaced != 0';
-if (isset($_GET['block']))
+if (isset($_GET['player']))
 {
+	$arg = 'block';
+	$group = 'type';
+	$replaced = 'replaced';
+	$name = 'type';
+	if ($_GET['player']) {
+		$condition1 .= ' AND playerid = ' . (int) $_GET['player'];
+		$condition2 .= ' AND playerid = ' . (int) $_GET['player'];
+	}
+	echo 'Block';
+}
+else {
 	$arg = 'player';
 	$join = 'INNER JOIN `lb-players` USING (playerid)';
 	$group = 'playerid';
@@ -54,17 +65,6 @@ if (isset($_GET['block']))
 		$condition2 = 'replaced = ' . (int) $_GET['block'];
 	}
 	echo 'Player';
-}
-else {
-	$arg = 'block';
-	$group = 'type';
-	$replaced = 'replaced';
-	$name = 'type';
-	if (isset($_GET['player'])) {
-		$condition1 .= ' AND playerid = ' . (int) $_GET['player'];
-		$condition2 .= ' AND playerid = ' . (int) $_GET['player'];
-	}
-	echo 'Block';
 }
 echo '<th>Created<th>Destroyed';
 $data = $db->query("
@@ -96,14 +96,14 @@ unset($gets['player']);
 while ($row = $data->fetch_array()) {
 	$i = ($i + 1) % 2;
 	$gets[$arg] = $row[0];
-	if (isset($_GET['block'])) {
+	if (isset($_GET['player'])) {
+		$description = isset($blocks[$row[0]]) ? $blocks[$row[0]] : "Block $row[0]";
+	}
+	else {
 		$description = $row[0];
 		if ($description == 'WaterFlow') $description = 'Water Flow';
 		if ($description == 'LavaFlow') $description = 'Lava Flow';
 		$gets[$arg] = $row[3];
-	}
-	else {
-		$description = isset($blocks[$row[0]]) ? $blocks[$row[0]] : "Block $row[0]";
 	}
 	echo "<tr class=cell$i><td><a href='?", htmlspecialchars(http_build_query($gets)), "'>", $description, "</a><td>$row[1]<td>$row[2]";
 }
