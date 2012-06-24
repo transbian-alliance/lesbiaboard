@@ -11,7 +11,7 @@ $maps = explode(' ', $maps);
 $properties = array(
 	'map' => array('Map', array_combine($maps, $maps)),
 	'dir' => array('Direction', array('ASC' => 'Ascending', 'DESC' => 'Descending')),
-	'order' => array('Order by', array('created' => 'Created', 'destroyed' => 'Destroyed', 'SUM(created) + SUM(destroyed)' => 'Sum of ascending and descending')),
+	'order' => array('Order by', array('created' => 'Created', 'destroyed' => 'Destroyed', 'SUM(created) + SUM(destroyed)' => 'Sum of created and destroyed')),
 	'player' => array('Show', array('NULL' => 'By player', 0 => 'By block')),
 );
 
