@@ -28,7 +28,10 @@ foreach ($properties as $name => $property) {
 	foreach ($property[1] as $key => $value) {
 		$gets = $_GET;
 		if ($name === 'block' || $name === 'map')
+		{
+			unset($gets['block']);
 			unset($gets['player']);
+		}
 		if ($key === 'NULL')
 			unset($gets[$name]);
 		else
