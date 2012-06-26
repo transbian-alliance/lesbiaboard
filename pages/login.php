@@ -10,6 +10,9 @@ if($_POST['action'] == "logout")
 }
 elseif($_POST['action'] == __("Log in"))
 {
+	// Slow down bruteforce attacks
+	sleep(1);
+	
 	$okay = true;
 	$original = $_POST['pass'];
 	$escapedName = justEscape($_POST['name']);
