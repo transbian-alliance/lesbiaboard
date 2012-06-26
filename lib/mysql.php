@@ -15,18 +15,9 @@ function justEscape($text)
 	return $dblink->real_escape_string($text);
 }
 
-function CheckQuery($query)
-{
-	$check = preg_replace("@'.*?[^\\\\]'@si", 'lolstring', $query);
-	$check = preg_replace("@\".*?[^\\\\]\"@si", 'lolstring', $check);
-	if (preg_match("@UPDATE\s+?users\s+?SET\s+?.*?`?(powerlevel|tempbanpl)`?\s*?=\s*?[\"']?\d+?[\"']?@si", $check))
-		Report("Unauthorized user powerlevel change (".$query.")", 1, 2);
-}
-
 function Query($query)
 {
 	global $queries, $querytext, $loguser, $dblink;
-	if ($loguser['powerlevel'] < 3) CheckQuery($query);
 	$res = @$dblink->query($query) or die(backTrace()."<br>".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 	<input type=\"hidden\" name=\"action\" value=\"Install\" />
 	<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
