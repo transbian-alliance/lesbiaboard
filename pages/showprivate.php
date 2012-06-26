@@ -18,7 +18,7 @@ $pmid = $id;
 if(isset($_GET['snooping']))
 {
 	if($loguser['powerlevel'] > 2)
-		$qPM = "select * from {$dbpref}pmsgs left join p{$dbpref}msgs_text on pid = {$dbpref}pmsgs.id where {$dbpref}pmsgs.id = ".$id;
+		$qPM = "select * from {$dbpref}pmsgs left join {$dbpref}pmsgs_text on pid = {$dbpref}pmsgs.id where {$dbpref}pmsgs.id = ".$id;
 	else
 		Kill(__("No snooping for you."));
 }

@@ -14,7 +14,7 @@ if(!$loguserid) //Not logged in?
 $pid = (int)$_GET['pid'];
 if($pid)
 {
-	$qPM = "select * from {$dbpref}pmsgs left join pmsgs_text on pid = pmsgs.id where userto = ".$loguserid." and pmsgs.id = ".$pid;
+	$qPM = "select * from {$dbpref}pmsgs left join {$dbpref}pmsgs_text on pid = {$dbpref}pmsgs.id where userto = ".$loguserid." and {$dbpref}pmsgs.id = ".$pid;
 	$rPM = Query($qPM);
 	if(NumRows($rPM))
 	{
