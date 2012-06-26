@@ -13,19 +13,16 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => act
 
 if($_POST['action'] == __("Add"))
 {
-	$qIPBan = "insert into {$dbpref}ipbans (ip, reason, date) values ('".justEscape($_POST['ip'])."', '".justEscape($_POST['reason'])."', ".((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0).")";
-	$rIPBan = Query($qIPBan);
+	$rIPBan = Query("insert into {ipbans} (ip, reason, date) values ({0}, {1}, {2})", $_POST['ip'], $_POST['reason'], ((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0));
 	Alert(__("Added."), __("Notice"));
 }
 elseif($_GET['action'] == "delete")
 {
-	$qIPBan = "delete from {$dbpref}ipbans where ip='".justEscape($_GET['ip'])."' limit 1";
-	$rIPBan = Query($qIPBan);
+	$rIPBan = Query("delete from {ipbans} where ip={0} limit 1", $_GET['ip']);
 	Alert(__("Removed."), __("Notice"));
 }
 
-$qIPBan = "select * from {$dbpref}ipbans order by date desc";
-$rIPBan = Query($qIPBan);
+$rIPBan = Query("select * from {ipbans} order by date desc");
 
 $banList = "";
 while($ipban = Fetch($rIPBan))

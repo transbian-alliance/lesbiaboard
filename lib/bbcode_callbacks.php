@@ -68,7 +68,7 @@ function bbcodeUser($contents, $arg)
 	$id = (int)$arg;
 	if(!isset($members[$id]))
 	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id=".$id);
+		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id={0}", $id);
 		if(NumRows($rUser))
 			$members[$id] = Fetch($rUser);
 		else
@@ -83,7 +83,7 @@ function bbcodeThread($contents, $arg)
 	$id = (int)$arg;
 	if(!isset($threadLinkCache[$id]))
 	{
-		$rThread = Query("select id, title from threads where id=".$id);
+		$rThread = Query("select id, title from threads where id={0}", $id);
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);
@@ -101,7 +101,7 @@ function bbcodeForum($contents, $arg)
 	$id = (int)$arg;
 	if(!isset($forumLinkCache[$id]))
 	{
-		$rForum = Query("select id, title from forums where id=".$id);
+		$rForum = Query("select id, title from forums where id={0}", $id);
 		if(NumRows($rForum))
 		{
 			$forum = Fetch($rForum);

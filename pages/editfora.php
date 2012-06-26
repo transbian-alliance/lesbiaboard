@@ -55,8 +55,7 @@ switch($_POST['action'])
 		$minpowerreply = (int)$_POST['minpowerreply']; 
 		
 		//Send it to the DB
-		$qForum = "UPDATE {$dbpref}forums SET title = '".justEscape($title)."', description = '".justEscape($description)."', catid = ".$category.", forder = ".$forder.", minpower = ".$minpower.", minpowerthread = ".$minpowerthread.", minpowerreply = ".$minpowerreply." WHERE id = ".$id;
-		Query($qForum);
+		Query("UPDATE {forums} SET title = {0}, description = {1}, catid = {2}, forder = {3}, minpower = {4}, minpowerthread = {5}, minpowerreply = {6} WHERE id = {7}", $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply, $id);
 		dieAjax("Ok");
 
 		break;
@@ -72,8 +71,7 @@ switch($_POST['action'])
 		$corder = (int)$_POST['corder'];
 		
 		//Send it to the DB
-		$qCat = "UPDATE {$dbpref}categories SET name = '".justEscape($name)."', corder = '".justEscape($corder)."' WHERE id = ".$id;
-		Query($qCat);
+		Query("UPDATE {categories} SET name = {0}, corder = {1} WHERE id = {2}", $name, $corder, $id);
 		dieAjax("Ok");
 
 		break;
@@ -94,12 +92,11 @@ switch($_POST['action'])
 
 		//Figure out the new forum ID.
 		//I think it'd be better to use InsertId, but...
-		$newID = FetchResult("SELECT id+1 FROM {$dbpref}forums WHERE (SELECT COUNT(*) FROM {$dbpref}forums f2 WHERE f2.id={$dbpref}forums.id+1)=0 ORDER BY id ASC LIMIT 1");
+		$newID = FetchResult("SELECT id+1 FROM {forums} WHERE (SELECT COUNT(*) FROM {forums} f2 WHERE f2.id={forums}.id+1)=0 ORDER BY id ASC LIMIT 1");
 		if($newID < 1) $newID = 1;
 
 		//Add the actual forum
-		$qForum = "INSERT INTO {$dbpref}forums (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`) VALUES (".$newID.", '".justEscape($title)."', '".justEscape($description)."', ".$category.", ".$forder.", ".$minpower.", ".$minpowerthread.", ".$minpowerreply.")";
-		Query($qForum);
+		Query("INSERT INTO {forums} (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", $newID, $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply);
 		
 		dieAjax("Ok");
 
@@ -117,8 +114,7 @@ switch($_POST['action'])
 		//Send it to the DB
 
 		//Add the actual forum
-		$qCat = "INSERT INTO {$dbpref}categories (`name`, `corder`) VALUES ('".justEscape($name)."', '".justEscape($corder)."')";
-		Query($qCat);
+		Query("INSERT INTO {categories} (`name`, `corder`) VALUES ({0}, {1})", $name, $corder);
 
 		dieAjax("Ok");
 
@@ -134,8 +130,7 @@ switch($_POST['action'])
 		$id = (int)$_POST['id'];
 		
 		//Check that forum exists
-		$qForum = "SELECT * FROM {$dbpref}forums WHERE id=".$id;
-		$rForum = Query($qForum);
+		$rForum = Query("SELECT * FROM {forums} WHERE id={0}", $id);
 		if (!NumRows($rForum))
 			dieAjax("No such forum.");
 		
@@ -145,7 +140,7 @@ switch($_POST['action'])
 			dieAjax(__("Forum has threads. Move those first."));
 			
 		//Delete
-		Query("DELETE FROM `{$dbpref}forums` WHERE `id` = ".$id);
+		Query("DELETE FROM `{forums}` WHERE `id` = {0}", $id);
 		dieAjax("Ok");
 	case 'deletecategory':
 		//TODO: Do something with the forums left in it?
@@ -158,13 +153,12 @@ switch($_POST['action'])
 		$id = (int)$_POST['id'];
 		
 		//Check that forum exists
-		$qCat = "SELECT * FROM {$dbpref}categories WHERE id=".$id;
-		$rCat = Query($qCat);
+		$rCat = Query("SELECT * FROM {categories} WHERE id={0}", $id);
 		if (!NumRows($rCat))
 			dieAjax(__("No such category."));
 		
 		//Delete
-		Query("DELETE FROM `{$dbpref}categories` WHERE `id` = ".$id);
+		Query("DELETE FROM `{categories}` WHERE `id` = {0}", $id);
 		dieAjax("Ok");
 		
 	case 'forumtable':
@@ -239,8 +233,7 @@ function WriteForumEditContents($fid)
 	global $key, $dbpref;
 
 	//Get all categories.
-	$qCats = "SELECT * FROM {$dbpref}categories";
-	$rCats = Query($qCats);
+	$rCats = Query("SELECT * FROM {categories}");
 
 	$cats = array();
 	while ($cat = Fetch($rCats))
@@ -251,8 +244,7 @@ function WriteForumEditContents($fid)
 
 	if($fid != -1)
 	{
-		$qForum = "SELECT * FROM {$dbpref}forums WHERE id=".$fid;
-		$rForum = Query($qForum);
+		$rForum = Query("SELECT * FROM {forums} WHERE id={0}", $fid);
 		if (!NumRows($rForum))
 		{
 			Kill(__("Forum not found."));
@@ -394,8 +386,7 @@ function WriteCategoryEditContents($cid)
 	global $key, $dbpref;
 
 	//Get all categories.
-	$qCats = "SELECT * FROM {$dbpref}categories";
-	$rCats = Query($qCats);
+	$rCats = Query("SELECT * FROM {categories}");
 
 	$cats = array();
 	while ($cat = Fetch($rCats))
@@ -406,8 +397,7 @@ function WriteCategoryEditContents($cid)
 
 	if($cid != -1)
 	{
-		$qCategory = "SELECT * FROM {$dbpref}categories WHERE id=".$cid;
-		$rCategory = Query($qCategory);
+		$rCategory = Query("SELECT * FROM {categories} WHERE id={0}", $cid);
 		if (!NumRows($rCategory))
 		{
 			Kill("Category not found.");
@@ -507,8 +497,7 @@ function WriteForumTableContents()
 {
 	global $dbpref;
 	$cats = array();
-	$qCats = "SELECT * FROM {$dbpref}categories ORDER BY corder, id";
-	$rCats = Query($qCats);
+	$rCats = Query("SELECT * FROM {categories} ORDER BY corder, id");
 	$forums = array();
 	if (NumRows($rCats))
 	{
@@ -516,8 +505,7 @@ function WriteForumTableContents()
 		{
 			$cats[$cat['id']] = $cat;
 		}
-		$qForums = "SELECT * FROM {$dbpref}forums ORDER BY forder, id";
-		$rForums = Query($qForums);
+		$rForums = Query("SELECT * FROM {forums} ORDER BY forder, id");
 		$forums = array();
 		if (NumRows($rForums)) {
 			while ($forum = Fetch($rForums))

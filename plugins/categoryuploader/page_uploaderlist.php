@@ -44,7 +44,7 @@ function listCategory($cat)
 	if($cat < 0)
 		$errormsg = __("You have no private files.");
 		
-	$entries = Query("select {$dbpref}uploader.*, $userSelectUsers from uploader left join users on uploader.user = users.id where $condition order by ".$skey.$sdir);
+	$entries = Query("select {uploader}.*, $userSelectUsers from uploader left join users on uploader.user = users.id where $condition order by ".$skey.$sdir);
 
 	$checkbox = "";
 	if($loguserid)
@@ -140,7 +140,7 @@ function listCategory($cat)
 		
 		if($loguserid)
 		{
-			$entries = Query("select * from {$dbpref}uploader_categories order by ord");
+			$entries = Query("select * from {uploader_categories} order by ord");
 			$movelist = "";
 			
 			while($entry = Fetch($entries))
@@ -191,7 +191,7 @@ function getCategory($cat)
 
 	if($cat >= 0)
 	{
-		$qCategory = "select * from {$dbpref}uploader_categories where id=".$cat;
+		$qCategory = "select * from {uploader_categories} where id=".$cat;
 		$rCategory = Query($qCategory);
 		if(NumRows($rCategory) == 0) Kill("Invalid category");
 		$rcat = Fetch($rCategory);

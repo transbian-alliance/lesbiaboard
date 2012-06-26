@@ -14,12 +14,12 @@ if($action == "q")	//Quote
 					f.minpower,
 					u.name poster
 				from posts p
-					left join {$dbpref}posts_text pt on pt.pid = p.id and pt.revision = p.currentrevision
-					left join {$dbpref}threads t on t.id=p.thread
-					left join {$dbpref}forums f on f.id=t.forum
-					left join {$dbpref}users u on u.id=p.user
-				where p.id=".$id;
-	$rQuote = Query($qQuote);
+					left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision
+					left join {threads} t on t.id=p.thread
+					left join {forums} f on f.id=t.forum
+					left join {users} u on u.id=p.user
+				where p.id={0}";
+	$rQuote = Query($qQuote, $id);
 
 	if(!NumRows($rQuote))
 		die(__("Unknown post ID."));
@@ -47,14 +47,14 @@ else if ($action == 'rp') // retrieve post
 					u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 					(u.globalblock OR !ISNULL(bl.user)) layoutblocked
 				FROM
-					{$dbpref}posts p
-					LEFT JOIN {$dbpref}posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision
-					LEFT JOIN {$dbpref}users u ON u.id = p.user
-					LEFT JOIN {$dbpref}blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-					LEFT JOIN {$dbpref}threads t ON t.id=p.thread
-					LEFT JOIN {$dbpref}forums f ON f.id=t.forum
-				WHERE p.id=".$id;
-	$rPost = Query($qPost);
+					{posts} p
+					LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
+					LEFT JOIN {users} u ON u.id = p.user
+					LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee=".$loguserid."
+					LEFT JOIN {threads} t ON t.id=p.thread
+					LEFT JOIN {forums} f ON f.id=t.forum
+				WHERE p.id={0}";
+	$rPost = Query($qPost, $id);
 	if (!NumRows($rPost))
 		die(__("Unknown post ID."));
 	$post = Fetch($rPost);
@@ -89,18 +89,18 @@ else if($action == "tf")	//Theme File
 }
 elseif($action == "srl")	//Show Revision List
 {
-	$qPost = "select currentrevision, thread from {$dbpref}posts where id=".$id;
-	$rPost = Query($qPost);
+	$qPost = "select currentrevision, thread from {posts} where id={0}";
+	$rPost = Query($qPost, $id);
 	if(NumRows($rPost))
 		$post = Fetch($rPost);
 	else
 		die(format(__("Unknown post ID #{0}."), $id)." ".$hideTricks);
 
-	$qThread = "select forum from {$dbpref}threads where id=".$post['thread'];
-	$rThread = Query($qThread);
+	$qThread = "select forum from {threads} where id={0}";
+	$rThread = Query($qThread, $post['thread']);
 	$thread = Fetch($rThread);
-	$qForum = "select minpower from {$dbpref}forums where id=".$thread['forum'];
-	$rForum = Query($qForum);
+	$qForum = "select minpower from {forums} where id={0}";
+	$rForum = Query($qForum, $thread['forum']);
 	$forum = Fetch($rForum);
 	if($forum['minpower'] > $loguser['powerlevel'])
 		die(__("No.")." ".$hideTricks);
@@ -110,11 +110,11 @@ elseif($action == "srl")	//Show Revision List
 				revision, user AS revuser, date AS revdate,
 				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
 			FROM 
-				{$dbpref}posts_text
-				LEFT JOIN {$dbpref}users u2 ON u2.id = user
-			WHERE pid=".$id." 
+				{posts_text}
+				LEFT JOIN {users} u2 ON u2.id = user
+			WHERE pid={0} 
 			ORDER BY revision ASC";
-	$revs = Query($qRevs);
+	$revs = Query($qRevs, $id);
 	
 	
 	$reply = __("Show revision:")."<br>";
@@ -144,20 +144,20 @@ elseif($action == "sr")	//Show Revision
 	$qPost .=
 		"posts.id, posts.date, posts.num, posts.deleted, posts.options, posts.mood, posts.ip, posts_text.text, posts_text.text, posts_text.revision, users.id as uid, users.name, users.displayname, users.rankset, users.powerlevel, users.title, users.sex, users.picture, users.posts, users.postheader, users.signature, users.signsep, users.globalblock, users.lastposttime, users.lastactivity, users.regdate, posts.thread";
 	$qPost .=
-		" from posts left join posts_text on posts_text.pid = posts.id and posts_text.revision = ".(int)$_GET['rev']." left join users on users.id = posts.user";
-	$qPost .= " where posts_text.pid=".$id;
+		" from posts left join posts_text on posts_text.pid = posts.id and posts_text.revision = {1} left join users on users.id = posts.user";
+	$qPost .= " where posts_text.pid={0}";
 
-	$rPost = Query($qPost);
+	$rPost = Query($qPost, $id, $_GET['rev']);
 	if(NumRows($rPost))
 		$post = Fetch($rPost);
 	else
 		die(format(__("Unknown post ID #{0} or revision missing."), $id));
 
-	$qThread = "select forum from {$dbpref}threads where id=".$post['thread'];
-	$rThread = Query($qThread);
+	$qThread = "select forum from {threads} where id={0}";
+	$rThread = Query($qThread, $post['thread']);
 	$thread = Fetch($rThread);
-	$qForum = "select minpower from {$dbpref}forums where id=".$thread['forum'];
-	$rForum = Query($qForum);
+	$qForum = "select minpower from {forums} where id={0}";
+	$rForum = Query($qForum, $thread['forum']);
 	$forum = Fetch($rForum);
 	if($forum['minpower'] > $loguser['powerlevel'])
 		die(__("No."));
@@ -167,12 +167,12 @@ elseif($action == "sr")	//Show Revision
 }
 elseif($action == "em")	//Email
 {
-	$blah = FetchResult("select email from {$dbpref}users where id=".$id." and showemail=1");
+	$blah = FetchResult("select email from {users} where id={0} and showemail=1", $id);
 	die(htmlspecialchars($blah));
 }
 elseif($action == "vc")	//View Counter
 {
-	$blah = FetchResult("select views from {$dbpref}misc");
+	$blah = FetchResult("select views from {misc}");
 	die(number_format($blah));
 }
 

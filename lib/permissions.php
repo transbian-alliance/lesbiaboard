@@ -1,7 +1,7 @@
 <?php
 //Improved permissions system ~Nina
 $groups = array();
-$rGroups = query("SELECT * FROM {$dbpref}usergroups");
+$rGroups = query("SELECT * FROM {usergroups}");
 while ($group = fetch($rGroups))
 {
 	$groups[] = $group;
@@ -11,7 +11,7 @@ while ($group = fetch($rGroups))
 //Do nothing for guests.
 if ($loguserid)
 {
-	$rPermissions = query("SELECT * FROM {$dbpref}userpermissions WHERE uid=".$loguserid);
+	$rPermissions = query("SELECT * FROM {userpermissions} WHERE uid={0}", $loguserid);
 	$permissions = fetch($rPermissions);
 	$permissions['permissions'] = unserialize($permissions['permissions']);
 	if (is_array($groups[$loguser['group']]['permissions']))
@@ -52,8 +52,7 @@ function CanMod($userid, $fid)
 		return 1;
 	if($loguser['powerlevel'] == 1)
 	{
-		$qMods = "select * from forummods where forum=".$fid." and user=".$userid;
-		$rMods = Query($qMods);
+		$rMods = Query("select * from forummods where forum={0} and user={1}", $fid, $userid);
 		if(NumRows($rMods))
 			return 1;
 	}

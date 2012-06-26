@@ -12,8 +12,7 @@ if(!isset($_GET['id']))
 
 $id = (int)$_GET['id'];
 
-$qUser = "select * from {$dbpref}users where id=".$id;
-$rUser = Query($qUser);
+$rUser = Query("select * from {users} where id={0}", $id);
 if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
@@ -22,7 +21,7 @@ $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if($id == $loguserid)
 {
-	Query("update {$dbpref}users set newcomments = 0 where id=".$loguserid);
+	Query("update {users} set newcomments = 0 where id={0}", $loguserid);
 	$loguser['newcomments'] = false;
 }
 
@@ -32,19 +31,16 @@ if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
 {
 	AssertForbidden("blockLayouts");
 	$block = (int)$_GET['block'];
-	$qBlock = "select * from {$dbpref}blockedlayouts where user=".$id." and blockee=".$loguserid;
-	$rBlock = Query($qBlock);
+	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 	$isBlocked = NumRows($rBlock);
 	if($block && !$isBlocked)
 	{
-		$qBlock = "insert into {$dbpref}blockedlayouts (user, blockee) values (".$id.", ".$loguserid.")";
-		$rBlock = Query($qBlock);
+		$rBlock = Query("insert into {blockedlayouts} (user, blockee) values ({0}, {1})", $id, $loguserid);
 		Alert(__("Layout blocked."), __("Notice"));
 	}
 	elseif(!$block && $isBlocked)
 	{
-		$qBlock = "delete from {$dbpref}blockedlayouts where user=".$id." and blockee=".$loguserid." limit 1";
-		$rBlock = Query($qBlock);
+		$rBlock = Query("delete from {blockedlayouts} where user={0} and blockee={1} limit 1", $id, $loguserid);
 		Alert(__("Layout unblocked."), __("Notice"));
 	}
 }
@@ -56,8 +52,7 @@ if($loguserid)
 {
 	if(IsAllowed("blockLayouts"))
 	{
-		$qBlock = "select * from {$dbpref}blockedlayouts where user=".$id." and blockee=".$loguserid;
-		$rBlock = Query($qBlock);
+		$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 		$isBlocked = NumRows($rBlock);
 		if($isBlocked)
 			$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
@@ -70,17 +65,16 @@ if($loguserid)
 		$vote = (int)$_GET['vote'];
 		if($vote > 1) $vote = 1 ;
 		if($vote < -1) $vote = -1;
-		$k = FetchResult("select count(*) from {$dbpref}uservotes where uid=".$id." and voter=".$loguserid);
+		$k = FetchResult("select count(*) from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
 		if($k == 0)
-			$qKarma = "insert into uservotes (uid, voter, up) values (".$id.", ".$loguserid.", ".$vote.")";
+			$_qKarma = "insert into uservotes (uid, voter, up) values ({0}, {1}, {2})";
 		else
-			$qKarma = "update {$dbpref}uservotes set up=".$vote." where uid=".$id." and voter=".$loguserid;
-		$rKarma = Query($qKarma);
+			$_qKarma = "update {uservotes} set up={2} where uid={0} and voter={1}";
+		$rKarma = Query($_qKarma, $id, $loguserid, $vote);
 		$user['karma'] = RecalculateKarma($id);
 	}
 
-	$qKarma = "select up from {$dbpref}uservotes where uid=".$id." and voter=".$loguserid;
-	$k = FetchResult($qKarma);
+	$k = FetchResult("select up from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
 	
 	$karmalinks = "";
 	if($k != 1)
@@ -98,11 +92,9 @@ if(!$canVote)
 
 $daysKnown = (time()-$user['regdate'])/86400;
 
-$qPosts = "select count(*) from {$dbpref}posts where user=".$id;
-$posts = FetchResult($qPosts);
+$posts = FetchResult("select count(*) from {posts} where user={0}", $id);
 
-$qThreads = "select count(*) from {$dbpref}threads where user=".$id;
-$threads = FetchResult($qThreads);
+$threads = FetchResult("select count(*) from {threads} where user={0}", $id);
 
 $averagePosts = sprintf("%1.02f", $user['posts'] / $daysKnown);
 $averageThreads = sprintf("%1.02f", $threads / $daysKnown);
@@ -212,7 +204,7 @@ if($user['bio'])
 if(count($foo))
 	$profileParts[__("Personal information")] = $foo;
 
-$badgersR = Query("select * from {$dbpref}badges where owner=".$id." order by color");
+$badgersR = Query("select * from {badges} where owner={0} order by color", $id);
 if(NumRows($badgersR))
 {
 	$badgers = "";
@@ -264,7 +256,7 @@ write("
 if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $loguser['token'])
 {
 	AssertForbidden("deleteComments");
-	Query("delete from {$dbpref}usercomments where uid=".$id." and id=".(int)$_GET['cid']);
+	Query("delete from {usercomments} where uid={0} and id={1}", $id, (int)$_GET['cid']);
 }
 
 if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid 
@@ -272,17 +264,15 @@ if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) &
 {
 	AssertForbidden("makeComments");
 	$_POST['text'] = strip_tags($_POST['text']);
-	$newID = FetchResult("SELECT id+1 FROM {$dbpref}usercomments WHERE (SELECT COUNT(*) FROM {$dbpref}usercomments u2 WHERE u2.id={$dbpref}usercomments.id+1)=0 ORDER BY id ASC LIMIT 1");
+	$newID = FetchResult("SELECT id+1 FROM {usercomments} WHERE (SELECT COUNT(*) FROM {usercomments} u2 WHERE u2.id={usercomments}.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($newID < 1) $newID = 1;
-	$qComment = "insert into {$dbpref}usercomments (id, uid, cid, date, text) values (".$newID.", ".$id.", ".$loguserid.", ".time().", '".justEscape($_POST['text'])."')";
-	$rComment = Query($qComment);
+	$rComment = Query("insert into {usercomments} (id, uid, cid, date, text) values ({0}, {1}, {2}, {3}, {4})", $newID, $id, $loguserid, time(), $_POST['text']);
 	if($loguserid != $id)
-		Query("update {$dbpref}users set newcomments = 1 where id=".$id);
+		Query("update {users} set newcomments = 1 where id={0}", $id);
 }
 
 
-$qComments = "select {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.powerlevel, {$dbpref}users.sex, {$dbpref}usercomments.id, {$dbpref}usercomments.cid, {$dbpref}usercomments.text from {$dbpref}usercomments left join {$dbpref}users on {$dbpref}users.id = {$dbpref}usercomments.cid where uid=".$id." order by {$dbpref}usercomments.date desc limit 0,10";
-$rComments = Query($qComments);
+$rComments = Query("select {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, {usercomments}.id, {usercomments}.cid, {usercomments}.text from {usercomments} left join {users} on {users}.id = {usercomments}.cid where uid={0} order by {usercomments}.date desc limit 0,10", $id);
 $commentList = "";
 $commentField = "";
 if(NumRows($rComments))
@@ -380,9 +370,9 @@ $copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,post
 foreach($copies as $toCopy)
 	$previewPost[$toCopy] = $user[$toCopy];
 
-$previewPost['activity'] = FetchResult("select count(*) from {$dbpref}posts where user = ".$id." and date > ".(time() - 86400), 0, 0);
+$previewPost['activity'] = FetchResult("select count(*) from {posts} where user = {0} and date > {1}", $id, (time() - 86400));
 
-$previewPost['layoutblocked'] = $user['globalblock'] || FetchResult("SELECT COUNT(*) FROM {$dbpref}blockedlayouts WHERE user=".$user['id']." AND blockee=".$loguserid);
+$previewPost['layoutblocked'] = $user['globalblock'] || FetchResult("SELECT COUNT(*) FROM {blockedlayouts} WHERE user={0} AND blockee={1}", $user['id'], $loguserid);
 
 MakePost($previewPost, POST_SAMPLE);
 
@@ -418,8 +408,8 @@ function IsReallyEmpty($subject)
 function IP2C($ip)
 {
 	global $dblink;
-	$q = @$dblink->query("select {$dbpref}cc from ip2c where ip_from <= inet_aton('".$ip."') and ip_to >= inet_aton('".$ip."')") or $r['cc'] = "";
-	if($q) $r = @$q->fetch_array();
+	$q = @Query("select {cc} from ip2c where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
+	if($q) $r = @Fetch($q);
 	if($r['cc'])
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }

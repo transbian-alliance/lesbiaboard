@@ -25,7 +25,7 @@ if($loguser['powerlevel'] > 2)
 else
 	$userid = $loguserid;
 
-$user = Fetch(Query("select * from {$dbpref}users where id=".$userid));
+$user = Fetch(Query("select * from {users} where id={0}", $userid));
 
 $editUserMode = isset($_GET['id']) && $loguser['powerlevel'] > 2;
 if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
@@ -40,7 +40,7 @@ if($user["displayname"])
 	$uname = $user["displayname"];
 MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), $links);
 
-$qRanksets = "select name from {$dbpref}ranksets";
+$qRanksets = "select name from {ranksets}";
 $rRanksets = Query($qRanksets);
 $ranksets[] = __("None");
 while($rankset = Fetch($rRanksets))
@@ -395,7 +395,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 	{
 		SendSystemPM($userid, format(__("You have been temporarily banned until {0} GMT. If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), gmdate("M jS Y, G:[b][/b]i:[b][/b]s", $timeStamp)), __("You have been temporarily banned."));
 	
-		Query("update {$dbpref}users set tempbanpl = ".$user['powerlevel'].", tempbantime = ".$timeStamp.", powerlevel = -1 where id = ".$userid);
+		Query("update {users} set tempbanpl = {0}, tempbantime = {1}, powerlevel = -1 where id = {2}", $user['powerlevel'], $timeStamp, $userid);
 		Redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
 	}
 }
@@ -407,7 +407,7 @@ $fallToEditor = true;
 if($_POST['action'] == __("Edit profile"))
 {
 	$fallToEditor = false;
-	$query = "UPDATE {$dbpref}users SET ";
+	$query = "UPDATE {users} SET ";
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
 	
@@ -546,7 +546,7 @@ if($_POST['action'] == __("Edit profile"))
 		Query($query);
 		if($loguserid == $userid)
 		{
-			$loguser = Fetch(Query("select * from {$dbpref}users where id=".$loguserid));
+			$loguser = Fetch(Query("select * from {users} where id={0}", $loguserid));
 		}
 		
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
@@ -725,7 +725,7 @@ function HandleDisplayname($field, $item)
 	}
 	else
 	{
-		$dispCheck = FetchResult("select count(*) from {$dbpref}users where id != ".$user['id']." and (name = '".justEscape($_POST[$field])."' or displayname = '".justEscape($_POST[$field])."')", 0, 0);
+		$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 		if($dispCheck)
 		{
 			$fallToEditor = true;
@@ -746,7 +746,7 @@ function HandleUsername($field, $item)
 	if(!IsReallyEmpty($_POST[$field]))
 		$_POST[$field] = $user[$field];
 
-	$dispCheck = FetchResult("select count(*) from {$dbpref}users where id != ".$user['id']." and (name = '".justEscape($_POST[$field])."' or displayname = '".justEscape($_POST[$field])."')", 0, 0);
+	$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 	if($dispCheck)
 	{
 		$fallToEditor = true;
@@ -853,7 +853,7 @@ foreach($themes as $themeKey => $themeData)
 	$themeName = $themeData["name"];
 	$themeAuthor = $themeData["author"];
 
-	$qCount = "select count(*) from {$dbpref}users where theme='".$themeKey."'";
+	$qCount = "select count(*) from {users} where theme='".$themeKey."'";
 	$numUsers = FetchResult($qCount);
 	
 	$preview = "themes/".$themeKey."/preview.png";
@@ -1087,7 +1087,7 @@ function IsReallyEmpty($subject)
 function Karma()
 {
 	global $userid;
-	$votes = Query("select uid from {$dbpref}uservotes where voter=".$userid);
+	$votes = Query("select uid from {uservotes} where voter={0}", $userid);
 	if(NumRows($votes))
 		while($karmaChameleon = Fetch($votes))
 			RecalculateKarma($karmaChameleon['uid']);

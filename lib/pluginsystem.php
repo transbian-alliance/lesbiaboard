@@ -100,7 +100,7 @@ function getPluginData($plugin, $load = true)
 	return $plugindata;
 }
 
-$rPlugins = Query("select * from {$dbpref}enabledplugins");
+$rPlugins = Query("select * from {enabledplugins}");
 
 while($plugin = Fetch($rPlugins))
 {
@@ -113,7 +113,7 @@ while($plugin = Fetch($rPlugins))
 	catch(BadPluginException $e)
 	{
 		Report(Format("Disabled plugin \"{0}\" -- {1}", $plugin, $e->getMessage()));
-		Query("delete from {$dbpref}enabledplugins where plugin='".$plugin."'");
+		Query("delete from {enabledplugins} where plugin={0}", $plugin);
 	}
 	
 	Settings::checkPlugin($plugin);

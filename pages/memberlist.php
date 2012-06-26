@@ -53,21 +53,20 @@ switch($sex)
 }
 
 if(isset($pow))
-	$where.= " and powerlevel=".$pow;
+	$where.= " and powerlevel={2}";
 
 $query = $_GET['query'];
 
 if($query != "") {
-		$where.= " and name like '%".justEscape($query)."%' or displayname like '%".justEscape($query)."%'";
+		$where.= " and name like {3} or displayname like {3}";
 }
 
 if(!(isset($pow) && $pow == 5))
 	$where.= " and powerlevel < 5";
 
-$numUsers = FetchResult("select count(*) from {$dbpref}users where ".$where, 0, 0);
+$numUsers = FetchResult("select count(*) from {users} where ".$where);
 
-$qUsers = "select * from {$dbpref}users where ".$where." order by ".$order.", name asc limit ".$from.", ".$tpp;
-$rUsers = Query($qUsers);
+$rUsers = Query("select * from {users} where ".$where." order by ".$order.", name asc limit {0},{1}", $from, $tpp, $pow, "%{$query}%");
 
 function PageLinks2($url, $epp, $from, $total)
 {

@@ -14,7 +14,7 @@ if($_GET["action"] == "enable")
 	if($_GET["key"] != getUserKey())
 		Kill("No.");
 	
-	Query("insert into {$dbpref}enabledplugins values ('".justEscape($_GET["id"])."')");
+	Query("insert into {enabledplugins} values ({0})", $_GET["id"]);
 	die(header("location: ".actionLink("pluginmanager")));
 }
 if($_GET["action"] == "disable")
@@ -22,7 +22,7 @@ if($_GET["action"] == "disable")
 	if($_GET["key"] != getUserKey())
 		Kill("No.");
 	
-	Query("delete from {$dbpref}enabledplugins where plugin='".justEscape($_GET["id"])."'");
+	Query("delete from {enabledplugins} where plugin={0}", $_GET["id"]);
 	die(header("location: ".actionLink("pluginmanager")));
 }
 

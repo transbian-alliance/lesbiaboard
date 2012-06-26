@@ -1,5 +1,5 @@
 <?php
-$query = Query("SELECT name FROM {$dbpref}users");
+$query = Query("SELECT name FROM {users}");
 $names = array();
 while ($name = FetchRow($query))
 {

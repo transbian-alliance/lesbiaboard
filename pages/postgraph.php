@@ -10,13 +10,13 @@ if(isset($_GET['gfx']))
 	else
 		$id = $loguserid;
 
-	$forums = Query("select id, title from {$dbpref}forums order by id");
+	$forums = Query("select id, title from {forums} order by id");
 	$names = array();
 	$posts = array();
 	while($forum = Fetch($forums))
 	{
 		$names[] = $forum['title'];
-		$posts[] = FetchResult("select count(*) from {$dbpref}posts left join {$dbpref}threads on {$dbpref}posts.thread = {$dbpref}threads.id where {$dbpref}posts.user = ".$id." and {$dbpref}threads.forum = ".$forum['id']."");
+		$posts[] = FetchResult("select count(*) from {posts} left join {threads} on {posts}.thread = {threads}.id where {posts}.user = {0} and {threads}.forum = {1}", $id, $forum['id']);
 		//print $forum['title']." &rarr; ".$posts."<br/>";
 	}
 

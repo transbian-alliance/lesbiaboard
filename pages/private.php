@@ -24,7 +24,7 @@ if(isset($_POST['action']))
 		$deleted = 0;
 		foreach($_POST['delete'] as $pid => $on)
 		{
-			$rPM = Query("select * from {$dbpref}pmsgs where id = ".$pid." and (userto = ".$loguserid." or userfrom = ".$loguserid.")");
+			$rPM = Query("select * from {pmsgs} where id = {0} and (userto = {1} or userfrom = {1})", $pid, $loguserid);
 			if(NumRows($rPM))
 			{
 				$pm = Fetch($rPM);
@@ -32,11 +32,11 @@ if(isset($_POST['action']))
 				$newVal = ($pm['deleted'] | $val);
 				if($newVal == 3)
 				{
-					Query("delete from {$dbpref}pmsgs where id = ".$pid);
-					Query("delete from {$dbpref}pmsgs_text where pid = ".$pid);
+					Query("delete from {pmsgs} where id = {0}", $pid);
+					Query("delete from {pmsgs_text} where pid = {0}", $pid);
 				}
 				else
-					Query("update {$dbpref}pmsgs set deleted = ".$newVal." where id = ".$pid);
+					Query("update {pmsgs} set deleted = {0} where id = {1}", $newVal, $pid);
 				$deleted++;
 			}
 		}
@@ -47,7 +47,7 @@ if(isset($_POST['action']))
 if(isset($_GET['del']))
 {
 	$pid = (int)$_GET['del'];
-	$rPM = Query("select * from {$dbpref}pmsgs where id = ".$pid." and (userto = ".$loguserid." or userfrom = ".$loguserid.")");
+	$rPM = Query("select * from {pmsgs} where id = {0} and (userto = {1} or userfrom = {1})", $pid, $loguserid);
 	if(NumRows($rPM))
 	{
 		$pm = Fetch($rPM);
@@ -55,16 +55,16 @@ if(isset($_GET['del']))
 		$newVal = ($pm['deleted'] | $val);
 		if($newVal == 3)
 		{
-			Query("delete from {$dbpref}pmsgs where id = ".$pid);
-			Query("delete from {$dbpref}pmsgs_text where pid = ".$pid);
+			Query("delete from {pmsgs} where id = {0}", $pid);
+			Query("delete from {pmsgs_text} where pid = {0}", $pid);
 		}
 		else
-			Query("update {$dbpref}pmsgs set deleted = ".$newVal." where id = ".$pid);
+			Query("update {pmsgs} set deleted = {0} where id = {1}", $newVal, $pid);
 		Alert(__("Private message deleted."));
 	}
 }
 
-$whereFrom = "userfrom = ".$user;
+$whereFrom = "userfrom = {0}";
 $drafting = 0;
 $deleted = 2;
 if(isset($_GET['show']))
@@ -77,12 +77,11 @@ if(isset($_GET['show']))
 }
 else
 {
-	$whereFrom = "userto = ".$user;
+	$whereFrom = "userto = {0}";
 }
 $whereFrom .= " and drafting = ".$drafting;
 
-$qTotal = "select count(*) from {$dbpref}pmsgs where ".$whereFrom." and deleted != ".$deleted;
-$total = FetchResult($qTotal);
+$total = FetchResult("select count(*) from {pmsgs} where {0} and deleted != {1}", $whereFrom, $deleted);
 
 $ppp = $loguser['postsperpage'];
 
@@ -101,11 +100,7 @@ $links .= actionLinkTagItem(__("Send new PM"), "sendprivate");
 
 MakeCrumbs(array(__("Private messages")=>actionLink("private")), $links);
 
-$qPM = "select * from {$dbpref}pmsgs left join {$dbpref}pmsgs_text on pid = {$dbpref}pmsgs.id where ".$whereFrom." and deleted != ".$deleted." order by date desc limit ".$from.", ".$ppp;
-
-//print $qPM;
-
-$rPM = Query($qPM);
+$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where ".$whereFrom." and deleted != {1} order by date desc limit {2}, {3}", $user, $deleted, $from, $ppp);
 $numonpage = NumRows($rPM);
 
 $pagelinks = PageLinks(actionLink("private", "", "$show$userGet&from="), $ppp, $from, $total);
@@ -117,8 +112,7 @@ if(NumRows($rPM))
 {
 	while($pm = Fetch($rPM))
 	{
-		$qUser = "select * from {$dbpref}users where id = ".(isset($_GET['show']) ? $pm['userto'] : $pm['userfrom']);
-		$rUser = Query($qUser);
+		$rUser = Query("select * from {users} where id = {0}", (isset($_GET['show']) ? $pm['userto'] : $pm['userfrom']));
 		if(NumRows($rUser))
 			$user = Fetch($rUser);
 

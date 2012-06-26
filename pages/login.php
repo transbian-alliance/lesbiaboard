@@ -13,8 +13,7 @@ elseif($_POST['action'] == __("Log in"))
 	$okay = true;
 	$original = $_POST['pass'];
 	$escapedName = justEscape($_POST['name']);
-	$qUser = "select * from {$dbpref}users where name='".$escapedName."'";
-	$rUser = Query($qUser);
+	$rUser = Query("select * from {users} where name={0}", $escapedName);
 	if(NumRows($rUser))
 	{
 		$user = Fetch($rUser);

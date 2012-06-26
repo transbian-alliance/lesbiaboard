@@ -9,11 +9,13 @@ $dblink = new mysqli($dbserv, $dbuser, $dbpass, $dbname);
 unset($dbpass);
 
 
-function justEscape($text)
+function SqlEscape($text)
 {
 	global $dblink;
 	return $dblink->real_escape_string($text);
 }
+
+function justEscape($text) { return $text; }
 
 function Query_ExpandFieldLists($match)
 {
@@ -31,7 +33,9 @@ function Query_AddUserInput($match)
 {
 	global $args;
 	$var = $args[$match[1]+1];
-	return '\''.justEscape($var).'\'';
+	if ($var === NULL) return 'NULL';
+	else if (is_numeric($var)) return $var;
+	else return '\''.SqlEscape($var).'\'';
 }
 
 /*
@@ -49,9 +53,7 @@ function Query()
 {
 	global $dbpref, $args;
 	$args = func_get_args();
-	
-	// legacy support
-	if (count($args) < 2) return RawQuery($args[0]);
+	if (is_array($args[0])) $args = $args[0];
 	
 	$query = $args[0];
 	// expand compacted field lists
@@ -87,11 +89,11 @@ function FetchRow($result)
 	return $result->fetch_row();
 }
 
-function FetchResult($query, $row = 0, $field = 0)
+function FetchResult()
 {
-	$res = Query($query);
+	$res = Query(func_get_args());
 	if($res->num_rows == 0) return -1;
-	return Result($res, $row, $field);
+	return Result($res, 0, 0);
 }
 
 // based on http://stackoverflow.com/a/3779460/736054

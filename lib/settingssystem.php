@@ -52,7 +52,7 @@ class Settings
 		global $dbpref;
 	
 		self::$pluginsettings = array();
-		$rSettings = Query("select * from {$dbpref}settings");
+		$rSettings = Query("select * from {settings}");
 		
 		while($setting = Fetch($rSettings))
 		{
@@ -112,12 +112,9 @@ class Settings
 	
 	public static function saveSetting($pluginname, $settingname)
 	{
-		global $dbpref;
-		Query("insert into {$dbpref}settings (plugin, name, value) values (".
-			"'".justEscape($pluginname)."', ".
-			"'".justEscape($settingname)."', ".
-			"'".justEscape(self::$pluginsettings[$pluginname][$settingname])."') ".
-			"on duplicate key update value=VALUES(value)");
+		Query("insert into {settings} (plugin, name, value) values ({0}, {1}, {2}) ".
+			"on duplicate key update value=VALUES(value)", 
+			$pluginname, $settingname, self::$pluginsettings[$pluginname][$settingname]);
 	}
 	
 	

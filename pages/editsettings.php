@@ -180,8 +180,8 @@ function makeForumList($fieldname, $selectedID)
 							f.id, f.title, f.catid,
 							c.name cname
 						FROM 
-							{$dbpref}forums f
-							LEFT JOIN {$dbpref}categories c ON c.id=f.catid
+							{forums} f
+							LEFT JOIN {categories} c ON c.id=f.catid
 						ORDER BY c.corder, c.id, f.forder");
 	
 	$theList = "";

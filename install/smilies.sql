@@ -1,4 +1,4 @@
-INSERT INTO `{$dbpref}smilies` (`code`, `image`) VALUES
+INSERT INTO `{smilies}` (`code`, `image`) VALUES
 	(':)', 'smile.png'),
 	(';)', 'wink.png'),
 	(':D', 'biggrin.png'),

@@ -3,16 +3,14 @@
 
 $hours = 72;
 
-$qPosts = "select 
-	{$dbpref}posts.id, {$dbpref}posts.date, {$dbpref}users.id as uid, {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.powerlevel, {$dbpref}users.sex, {$dbpref}threads.title as ttit, {$dbpref}forums.title as ftit
-	from {$dbpref}posts 
-	left join {$dbpref}users on {$dbpref}users.id = {$dbpref}posts.user 
-	left join {$dbpref}threads on {$dbpref}threads.id = {$dbpref}posts.thread 
-	left join {$dbpref}forums on {$dbpref}threads.forum = {$dbpref}forums.id
-	where {$dbpref}forums.minpower <= ".$loguser['powerlevel']." and {$dbpref}posts.date >= ".(time() - ($hours * 60*60))." 
-	order by date desc limit 0, 100";
-
-$rPosts = Query($qPosts);
+$rPosts = Query("select 
+	{posts}.id, {posts}.date, {users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, {threads}.title as ttit, {forums}.title as ftit
+	from {posts} 
+	left join {users} on {users}.id = {posts}.user 
+	left join {threads} on {threads}.id = {posts}.thread 
+	left join {forums} on {threads}.forum = {forums}.id
+	where {forums}.minpower <= {0} and {posts}.date >= {1} 
+	order by date desc limit 0, 100", $loguser['powerlevel'], (time() - ($hours * 60*60)));
 while($post = Fetch($rPosts))
 {
 	$c = ($c+1) % 2;
