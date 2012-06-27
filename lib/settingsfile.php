@@ -97,7 +97,7 @@
 		"PoRAText" => array (
 			"type" => "texthtml",
 			"default" => "Welcome to your new ABXD Board!",
-			"name" => "PoRA textx	",
+			"name" => "PoRA text",
 		),
 		
 		"profilePreviewText" => array (
