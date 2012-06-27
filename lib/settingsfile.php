@@ -4,100 +4,100 @@
 		"boardname" => array (
 			"type" => "text",
 			"default" => "AcmlmBoard XD",
-			"name" => "Board name"
+			"name" => __("Board name")
 		),
 		"metaDescription" => array (
 			"type" => "text",
 			"default" => "AcmlmBoard XD",
-			"name" => "Meta description"
+			"name" => __("Meta description")
 		),
 		"metaTags" => array (
 			"type" => "text",
 			"default" => "AcmlmBoard XD abxd",
-			"name" => "Meta tags"
+			"name" => __("Meta tags")
 		),
 		"dateformat" => array (
 			"type" => "text",
 			"default" => "m-d-y, h:i a",
-			"name" => "Date format"
+			"name" => __("Date format")
 		),
 		"customTitleThreshold" => array (
 			"type" => "integer",
 			"default" => "100",
-			"name" => "Custom Title Threshold"
+			"name" => __("Custom Title Threshold")
 		),
 		"oldThreadThreshold" => array (
 			"type" => "integer",
 			"default" => "3",
-			"name" => "Old Thread Threshold months"
+			"name" => __("Old Thread Threshold months")
 		),
 		"viewcountInterval" => array (
 			"type" => "integer",
 			"default" => "10000",
-			"name" => "Viewcount Report Interval"
+			"name" => __("Viewcount Report Interval")
 		),
 		"ajax" => array (
 			"type" => "boolean",
 			"default" => "1",
-			"name" => "Enable AJAX"
+			"name" => __("Enable AJAX")
 		),
 		"guestLayouts" => array (
 			"type" => "boolean",
 			"default" => "0",
-			"name" => "Show post layouts to guests"
+			"name" => __("Show post layouts to guests")
 		),
 		"registrationWord" => array (
 			"type" => "text",
 			"default" => "",
-			"name" => "Word needed for registration",
-			"help" => "If set, the registration page will send the user to the FAQ page to look for the word",
+			"name" => __("Word needed for registration"),
+			"help" => __("If set, the registration page will send the user to the FAQ page to look for the word"),
 		),
 		"breadcrumbsMainName" => array (
 			"type" => "text",
 			"default" => "Main",
-			"name" => "Text in breadcrumbs 'main' link",
+			"name" => __("Text in breadcrumbs 'main' link"),
 		),
 		"mailResetSender" => array (
 			"type" => "text",
 			"default" => "",
-			"name" => "Password Reset e-mail Sender",
-			"help" => "Email address used to send the pasword reset e-mails. If left blank, the password reset feature is disabled.",
+			"name" => __("Password Reset e-mail Sender"),
+			"help" => __("Email address used to send the pasword reset e-mails. If left blank, the password reset feature is disabled."),
 		),
 		"defaultTheme" => array (
 			"type" => "theme",
 			"default" => "gold",
-			"name" => "Default Board Theme",
+			"name" => __("Default Board Theme"),
 		),
 		"defaultLayout" => array (
 			"type" => "layout",
 			"default" => "abxd",
-			"name" => "Board layout",
+			"name" => __("Board layout"),
 		),
 		"defaultLanguage" => array (
 			"type" => "language",
 			"default" => "en_US",
-			"name" => "Board language",
+			"name" => __("Board language"),
 		),
 		"showPoRA" => array (
 			"type" => "boolean",
 			"default" => "1",
-			"name" => "Show Points of Required Attention",
+			"name" => __("Show Points of Required Attention"),
 		),
 		"tagsDirection" => array (
 			"type" => "options",
 			"options" => array('Left' => 'Left', 'Right' => 'Right'),
 			"default" => 'Right',
-			"name" => "Direction of thread tags.",
+			"name" => __("Direction of thread tags."),
 		),
 		"PoRATitle" => array (
 			"type" => "text",
 			"default" => "Points of Required Attention&trade;",
-			"name" => "PoRA title",
+			"name" => __("PoRA title"),
 		),
 		"PoRAText" => array (
 			"type" => "texthtml",
 			"default" => "Welcome to your new ABXD Board!",
-			"name" => "PoRA text",
+			"name" => __("PoRA text"),
 		),
 		
 		"profilePreviewText" => array (
@@ -111,7 +111,7 @@ Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perha
     printf(\"Hello World!
 \");
 }[/source]",
-			"name" => "Post Preview text"		
+			"name" => __("Post Preview text")		
 		),
 	);
 ?>
