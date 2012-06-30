@@ -24,7 +24,7 @@
 			"type" => "text",
 			"default" => "",
 			"name" => "Space separated list of maps",
-			"hint" => "The first map is default.",
+			"help" => "The first map is default.",
 		),
 		"showlink" => array(
 			"type" => "boolean",
