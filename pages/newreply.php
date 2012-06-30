@@ -131,7 +131,7 @@ if($_POST['action'] == __("Post"))
 
 	if($_POST['text'])
 	{
-		$post = justEscape($_POST['text']);
+		$post = $_POST['text'];
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;

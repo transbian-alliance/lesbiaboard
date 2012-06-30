@@ -15,7 +15,11 @@ function SqlEscape($text)
 	return $dblink->real_escape_string($text);
 }
 
-function justEscape($text) { return $text; }
+function justEscape($text) {
+	$backtrace = debug_backtrace();
+	Kill("FIXME: {$backtrace[0]['file']} ({$backtrace[0]['line']})");
+	return $text;
+}
 
 function Query_ExpandFieldLists($match)
 {

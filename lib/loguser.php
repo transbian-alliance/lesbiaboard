@@ -90,9 +90,9 @@ if($loguserid) //Are we logged in?
 		$ourbull = hash('sha256', $loguser['id'].$loguser['password'].$salt.$loguser['pss'], FALSE);
 		if($loguserbull == $ourbull)
 		{
-			$rLastView = "update {users} set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape(getRequestedURL())."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
+			$rLastView = "update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3} where id={4}";
 			if(!$ajaxPage)
-				$qLastView = Query($rLastView);
+				$qLastView = Query($rLastView, time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);
 
 			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
 			// SHA1 with a sufficiently long salt should be enough.
