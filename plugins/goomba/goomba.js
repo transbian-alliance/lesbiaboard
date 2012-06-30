@@ -1,72 +1,51 @@
-var goomba, goomPos, goomDir, goomStep, goomStomped, goomAudio;
-function startGoomba()
-{
-	goomba = document.getElementById("goomba");
-	if(goomba == null)
-	{
-		setTimeout("startGoomba();", 100);
-		return;
-	}
+function Goomba() {
+	var self = this;
+	this.goomba = document.createElement('div');
+	$(this.goomba).addClass('goomba').click(function () {
+		self.stomp()
+	});
+	$('body').append(this.goomba);
 	if(Math.random() > 0.5)
 	{
-		goomPos = getWidth();
-		goomDir = -1;
+		this.position = $(document).width();
+		this.direction = -1;
 	}
 	else
 	{
-		goomPos = -15;
-		goomDir = 1;
+		this.position = -15;
+		this.direction = 1;
 	}
-	goomStep = 0;
-	goomAudio = new Audio("plugins/goomba/goomba.ogg");
-	setTimeout("moveGoomba();", 100);
-}
-
-function moveGoomba()
-{
-	if(goomStomped)
-		return;
-	goomPos += goomDir;
-	if(goomPos > getWidth() || goomPos < -16)
-	{
-		if(Math.random() > 0.5)
+	this.step = 0;
+	this.audio = new Audio("plugins/goomba/goomba.ogg");
+	setInterval(function () {
+		if(self.stomped) return;
+		self.position += self.direction;
+		if(self.position > $(document).width() || self.position < -16)
 		{
-			goomPos = getWidth();
-			goomDir = -1;
+			if(Math.random() > 0.5)
+			{
+				self.position = $(document).width();
+				self.direction = -1;
+			}
+			else
+			{
+				self.position = -15;
+				self.direction = 1;
+			}
 		}
-		else
-		{
-			goomPos = -15;
-			goomDir = 1;
-		}
-	}
-	goomba.style.left = goomPos + "px";
-	goomStep = (goomStep + 1) % 2;
-	goomba.style.backgroundPosition = "-" + (goomStep * 16) + "px 0px";
-	setTimeout("moveGoomba();", 100);
+		self.goomba.style.left = self.position + "px";
+		self.step = (self.step + 1) % 2;
+		self.goomba.style.backgroundPosition = "-" + (self.step * 16) + "px 0px";
+	}, 100);
 }
-
-function stompGoomba()
+Goomba.prototype.stomp = function ()
 {
-	goomStomped = 1;
-	goomba.style.backgroundPosition = "-32px 0px";
-	goomAudio.play();
-	setTimeout("removeGoomba();", 500);
-}
-
-function removeGoomba()
-{
-	goomba.style.display = "none";
-}
-
-function getWidth()
-{
-	if (self.innerHeight)
-		return self.innerWidth;
-	else if (document.documentElement && document.documentElement.clientHeight)
-		return document.documentElement.clientWidth;
-	else if (document.body)
-		return document.body.clientWidth;
-}
-
-window.addEventListener("load", startGoomba, false);
+	var self = this;
+	this.stomped = true;
+	self.goomba.style.backgroundPosition = "-32px 0px";
+	this.audio.play();
+	clearInterval(this.interval);
+	setTimeout(function () {
+		self.goomba.style.display = "none";
+	}, 500);
+};
