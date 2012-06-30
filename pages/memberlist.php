@@ -205,34 +205,34 @@ if (!$isBot)
 	<div id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(
-			"" => "Post count",
-			"id" => "ID",
-			"name" => "Name",
-			"karma" => "Karma",
-			"reg" => "Registration date"
+			"" => __("Post count"),
+			"id" => __("ID"),
+			"name" => __("Name"),
+			"karma" => __("Karma"),
+			"reg" => __("Registration date")
 		))." &nbsp;
 		".__("Order").":
 		".makeSelect("order", array(
-			"desc" => "Descending",
-			"asc" => "Ascending",
+			"desc" => __("Descending"),
+			"asc" => __("Ascending"),
 		))." &nbsp;
 		".__("Sex").":
 		".makeSelect("sex", array(
-			"" => "(any)",
-			"n" => "N/A",
-			"f" => "Female",
-			"m" => "Male"
+			"" => __("(any)"),
+			"n" => __("N/A"),
+			"f" => __("Female"),
+			"m" => __("Male")
 		))." &nbsp;
 		".__("Power").":
 		".makeSelect("power", array(
-			"" => "(any)",
-			-1 => "Banned",
-			0 => "Normal",
-			1 => "Local Mod",
-			2 => "Full Mod",
-			3 => "Admin",
-			4 => "Root",
-			5 => "System"
+			"" => __("(any)"),
+			-1 => __("Banned"),
+			0 => __("Normal"),
+			1 => __("Local Mod"),
+			2 => __("Full Mod"),
+			3 => __("Admin"),
+			4 => __("Root"),
+			5 => __("System")
 		))."
 		<div style=\"float: right;\">
 			<form action=\"javascript:refreshMemberlist();\">
@@ -262,7 +262,7 @@ function makeSelect($name, $options) {
 
 	$i = 0;
 	foreach ($options as $key => $value) {
-		$result .= "\n\t<option".($i = 0 ? " selected=\"selected\"" : "")." value=\"".$key."\">".__($value)."</option>";
+		$result .= "\n\t<option".($i = 0 ? " selected=\"selected\"" : "")." value=\"".$key."\">".$value."</option>";
 	}
 
 	$result .= "\n</select>";

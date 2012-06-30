@@ -42,8 +42,9 @@ else
 $isHidden = (int)($forum['minpower'] > 0);
 
 $thread['title'] = strip_tags($thread['title']);
-$tags = ParseThreadTags($thread['title']);
-$titleandtags = $thread['title']."<TAGS>".$tags;
+$title2 = $thread['title'];
+$tags = ParseThreadTags($title2);
+$titleandtags = $title2."<TAGS>".$tags;
 MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("Edit thread")=>""), $links);
 
 
@@ -260,6 +261,7 @@ if($canMod)
 	
 	write(
 "
+	<script src=\"".resourceLink("lib/threadtagging.js")."\"></script>
 	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin\" style=\"width: 100%;\">
 			<tr class=\"header1\">
@@ -271,7 +273,7 @@ if($canMod)
 				<td>
 					<label for=\"tit\">".__("Title")."</label>
 				</td>
-				<td>
+				<td id=\"threadTitleContainer\">
 					<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"{0}\" />
 				</td>
 			</tr>

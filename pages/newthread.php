@@ -285,6 +285,7 @@ while(is_file("img/icons/icon".$i.".png"))
 
 write(
 "
+	<script src=\"".resourceLink("lib/threadtagging.js")."\"></script>
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
@@ -301,7 +302,7 @@ write(
 									".__("Title")."
 								</label>
 							</td>
-							<td>
+							<td id=\"threadTitleContainer\">
 								<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"{1}\" />
 							</td>
 						</tr>

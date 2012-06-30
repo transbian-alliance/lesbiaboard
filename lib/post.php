@@ -277,30 +277,6 @@ function securityPostFilter($s)
 
 	$s = EatThatPork($s);
 
-	//Blacklisted tags
-	//Commenting this out because the post parser now checks for bad tags by itself. ~Dirbaio
-	/*
-	foreach($badTags as $tag)
-	{
-		$s = preg_replace("'<$tag(.*?)>'si", "&lt;$tag\\1>" ,$s);
-		$s = preg_replace("'</$tag(.*?)>'si", "&lt;/$tag>", $s);
-	}*/
-
-	//Bad sites
-	//Do we reaaally need this? This could be plugin-based... ~Dirbaio
-	$s = preg_replace("'goatse'si","goat<span>se</span>", $s);
-	$s = preg_replace("'tubgirl.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'ogrish.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
-	$s = preg_replace("'liveleak.com'si","www.youtube.com/watch?v=xhLxnlNcxv8", $s);
-	$s = preg_replace("'charonboat.com'si","www.youtube.com/watch?v=c9BA5e2Of_U", $s);
-	$s = preg_replace("'shrewsburycollege.co.uk'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'lemonparty.com'si","www.youtube.com/watch?v=EK2tWVj6lXw", $s);
-	$s = preg_replace("'meatspin.com'si","www.youtube.com/watch?v=2iveTJXcp6k", $s);
-
-	//Various other stuff
-	//[SUGGESTION] Block "display: none" instead of just "display:" -- Mega-Mario
-	$s = preg_replace("'display:'si", "display<em></em>:", $s);
-
 	$s = preg_replace("@(on)(\w+?\s*?)=@si", '$1$2&#x3D;', $s);
 
 	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);

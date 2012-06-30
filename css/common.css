@@ -7,6 +7,9 @@ body
 	font-family: "Verdana", "Lucida Grande", sans-serif;
 	font-size: 1em; /* 10pt; */
 	margin: 0;
+	max-width: 1366px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 h3

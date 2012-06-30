@@ -18,7 +18,7 @@ $pmid = $id;
 if(isset($_GET['snooping']))
 {
 	if($loguser['powerlevel'] > 2)
-		$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where {pmsgs}.id = {0}", $id);
+		$qPM = "select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where {pmsgs}.id = {0}";
 	else
 		Kill(__("No snooping for you."));
 }
@@ -42,8 +42,8 @@ $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
-	$qPM = "update {$dbpref}pmsgs set msgread=1 where id=".$pm['id'];
-	$rPM = Query($qPM);
+	$qPM = "update {pmsgs} set msgread=1 where id={0}";
+	$rPM = Query($qPM, $pm['id']);
 	$links = actionLinkTag(__("Send reply"), "sendprivate", "", "pid=".$pm['id']);
 }
 else if(!isset($_GET['snooping']) && $pm['drafting'])
