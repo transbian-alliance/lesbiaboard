@@ -264,8 +264,11 @@ $languagePack = array(
 'Posted on {0}' =>
 'Napisano {0}',
 
-'Post deleted' =>
-'Post usunięty',
+', deleted' =>
+', usunięte',
+
+' by ' =>
+' przez ',
 
 'Undelete' =>
 'Przywróć',
@@ -278,6 +281,9 @@ $languagePack = array(
 
 'Sample post' =>
 'Przykładowy post',
+
+'Post deleted' =>
+'Post usunięty',
 
 'Close' =>
 'Zamknij',
@@ -574,181 +580,10 @@ $languagePack = array(
 'Ponieważ nie jesteś zalogowany, nie możesz wybrać żadnego awatara. Nie krępuj się jednak przeglądać.',
 
 
-// pages/broken/groups.php
-'Create' =>
-'',
-
-'Invalid group.' =>
-'',
-
-'You\'re not logged in.' =>
-'',
-
-'Invalid user.' =>
-'',
-
-'You\'re not the group leader or an administrator.' =>
-'',
-
-'User groups' =>
-'',
-
-'Are you sure you want to remove the user group \\""+name+"\\"?' =>
-'',
-
-'Seriously?' =>
-'',
-
-'There are no groups.' =>
-'',
-
-'Delete group' =>
-'',
-
-'Name' =>
-'Nazwa',
-
-'Members' =>
-'',
-
-'Create group' =>
-'',
-
-'Leave' =>
-'',
-
-'Pass leadership' =>
-'',
-
-'Kick out' =>
-'',
-
-'Ban' =>
-'',
-
-'Join group' =>
-'',
-
-'Deny membership' =>
-'',
-
-'This group has no members.' =>
-'',
-
-'Waiting:' =>
-'',
-
-'Request join' =>
-'',
-
-
-// pages/broken/installplugin.php
-'You\'re not a root user. There is nothing for you here.' =>
-'',
-
-'Plugin "{0}" disabled.' =>
-'',
-
-'Plugin "{0}" is already disabled.' =>
-'',
-
-'No such plugin.' =>
-'',
-
-'Plugin "{0}" enabled.' =>
-'',
-
-'Plugin "{0}" is already enabled.' =>
-'',
-
-'Something went wrong:' =>
-'',
-
-'Installed "{0}" to folder "{1}".' =>
-'',
-
-'Install or upgrade' =>
-'',
-
-'Could not get the plugin list.' =>
-'',
-
-'Disable' =>
-'Wyłącz',
-
-'Reinstall or Update' =>
-'',
-
-'Enable' =>
-'Włącz',
-
-'The following plugins are managed from the Repository:' =>
-'',
-
-'Any plugins not listed here are probably custom or third-party, and must be managed by hand.' =>
-'',
-
-'Managed plugins' =>
-'',
-
-
-// pages/broken/installrankset.php
-'Installed rankset "{0}" on ID {1}.' =>
-'',
-
-'No such rankset.' =>
-'',
-
-'Rankset "{0}" deleted.' =>
-'',
-
-'Could not get the rankset list.' =>
-'',
-
-'<b>{1}</b> by {2} (already installed)' =>
-'',
-
-'{0}{1}{2} by {3}' =>
-'',
-
-'The following ranksets are available:' =>
-'',
-
-'Click a rankset to delete it.' =>
-'',
-
-'Install from the Repository' =>
-'',
-
-'Delete a rankset' =>
-'',
-
-'Install locally' =>
-'',
-
-'This method assumes you already have the required images in the correct place on the server.' =>
-'',
-
-'Image directory' =>
-'',
-
-'Not required if the set doesn\'t use images. The whole "/img/ranks/" bit is implied.' =>
-'',
-
-'List' =>
-'',
-
-'Install' =>
-'',
-
-'Had to copy {0} files out of {1}.' =>
-'',
-
-'Install a rankset' =>
-'',
-
-
 // pages/destroyfuckingeverything.php
+'You\'re not a root user. There is nothing for you here.' =>
+'Nie jesteś rootem. Nie ma tu nic dla ciebie.',
+
 'Are you sure?' =>
 'Czy jesteś pewien?',
 
@@ -873,6 +708,9 @@ $languagePack = array(
 'New Category' =>
 'Nowa kategoria',
 
+'Name' =>
+'Nazwa',
+
 'Delete category' =>
 'Usuń kategorię',
 
@@ -921,7 +759,7 @@ $languagePack = array(
 'Nie możesz przywracać postów.',
 
 'This post has been deleted.' =>
-'',
+'Ten post został usunięty.',
 
 'You are not allowed to edit posts.' =>
 'Nie możesz edytować postów.',
@@ -1189,11 +1027,17 @@ $languagePack = array(
 'The display name you entered cannot contain semicolons.' =>
 'Wyświetlana nazwa nie można zawierać średników.',
 
+'The display name you entered cannot contain control characters.' =>
+'Wyświetlana nazwa nie może zawierać znaków kontrolnych.',
+
 'The login name you entered, "{0}", is already taken.' =>
 'Nazwa użytkownika "#{0} jest już zajęta.',
 
 'The login name you entered cannot contain semicolons.' =>
 'Nazwa użytkownika nie może zawierać średników.',
+
+'The login name you entered cannot contain control characters.' =>
+'Nazwa użytkownika nie może zawierać znaków kontrolnych.',
 
 'If you don\'t know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible.' =>
 'Jeżeli nie wiesz czemu to się stało, zapytaj kogoś kto najprawdopobniej to spowodował. Spokojnie, jeśli to możliwe.',
@@ -1601,44 +1445,11 @@ $languagePack = array(
 
 
 // pages/memberlist.php
-'{0} found.' =>
-'Znaleziono {0}.',
-
-'Sort by' =>
-'Sortuj według',
-
-'Order' =>
-'Kolejność',
-
-'Power' =>
-'Poziom mocy',
-
-'Username' =>
-'Nazwa użytkownika',
-
-'Karma' =>
-'Karma',
-
-'Registration date' =>
-'Data rejestracji',
-
-'Ascending' =>
-'Rosnąco',
-
-'Descending' =>
-'Malejąco',
-
-'All' =>
-'Wszyscy',
-
-'Normal' =>
-'Normalni',
-
 'Page' =>
 'Strona',
 
-'Nothing here.' =>
-'Nic tu nie ma.',
+'Nothing matched your search.' =>
+'Nic nie znaleziono.',
 
 'Picture' =>
 'Obrazek',
@@ -1646,8 +1457,50 @@ $languagePack = array(
 'Average' =>
 'Przecietnie',
 
+'Karma' =>
+'Karma',
+
 'Registered on' =>
 'Zarejestrowany',
+
+'Sort by' =>
+'Sortuj według',
+
+'Post count' =>
+'Liczba postów',
+
+'Registration date' =>
+'Data rejestracji',
+
+'Order' =>
+'Kolejność',
+
+'Descending' =>
+'Malejąco',
+
+'Ascending' =>
+'Rosnąco',
+
+'(any)' =>
+'(dowolny)',
+
+'Power' =>
+'Poziom mocy',
+
+'Normal' =>
+'Normalni',
+
+'Local Mod' =>
+'Lokalny moderator',
+
+'Full Mod' =>
+'Globalny moderator',
+
+'System' =>
+'System',
+
+'Loading memberlist...' =>
+'Ładowanie listy użytkowników&hellip;',
 
 
 // pages/newreply.php
@@ -1811,6 +1664,12 @@ $languagePack = array(
 
 'Disabled plugins' =>
 'Wyłączone wtyczki',
+
+'Enable' =>
+'Włącz',
+
+'Disable' =>
+'Wyłącz',
 
 'Settings&hellip;' =>
 'Ustawienia&hellip;',
@@ -2315,6 +2174,417 @@ $languagePack = array(
 'Logi firewalla',
 
 
+// plugins/minestats/mcblocks.php
+'Stone' =>
+'Kamień',
+
+'Grass' =>
+'Trawa',
+
+'Dirt' =>
+'Ziemia',
+
+'Cobblestone' =>
+'Bruk',
+
+'Wooden Plank' =>
+'Deski',
+
+'Sapling' =>
+'Sadzonka',
+
+'Bedrock' =>
+'Skała macierzysta',
+
+'Water' =>
+'Woda',
+
+'Water (stationary)' =>
+'Woda (stojąca)',
+
+'Lava' =>
+'Lawa',
+
+'Lava (stationary)' =>
+'Lawa (stojąca)',
+
+'Sand' =>
+'Piasek',
+
+'Gravel' =>
+'Żwir',
+
+'Gold Ore' =>
+'Ruda złota',
+
+'Iron Ore' =>
+'Ruda żelaza',
+
+'Coal Ore' =>
+'Ruda węgla',
+
+'Wood' =>
+'Drewno',
+
+'Leaves' =>
+'Liście',
+
+'Sponge' =>
+'Gąbka',
+
+'Glass' =>
+'Szkło',
+
+'Lapis Lazuri Ore' =>
+'Ruda lapis lazuri',
+
+'Lapis Lazuri Block' =>
+'Block lapis lazuri',
+
+'Dispenser' =>
+'Dozownik',
+
+'Sandstone' =>
+'Piaskowiec',
+
+'Note Block' =>
+'Instrument',
+
+'Bed' =>
+'Łóżko',
+
+'Powered Rail' =>
+'Zasilane tory',
+
+'Detector Rail' =>
+'Tory z czujnikiem',
+
+'Sticky Piston' =>
+'Lepki tłok',
+
+'Web' =>
+'Pajęczyna',
+
+'Tall Grass' =>
+'Wysoka trawa',
+
+'Piston' =>
+'Tłok',
+
+'Piston Head' =>
+'Głowica tłoka',
+
+'Wool' =>
+'Wełna',
+
+'Dandelion' =>
+'Żółty kwiat',
+
+'Rose' =>
+'Róża',
+
+'Brown Mushroom' =>
+'Brązowy grzyb',
+
+'Red Mushroom' =>
+'Czerwony grzyb',
+
+'Gold Block' =>
+'Blok złota',
+
+'Iron Block' =>
+'Blok żelaza',
+
+'Double Slab' =>
+'Podwójny schodek',
+
+'Slab' =>
+'Schodek',
+
+'Brick' =>
+'Cegła',
+
+'TNT' =>
+'TNT',
+
+'Bookshelf' =>
+'Biblioteczka',
+
+'Mossy Cobblestone' =>
+'Bruk z mchem',
+
+'Obsidian' =>
+'Obsydian',
+
+'Torch' =>
+'Pochodnia',
+
+'Fire' =>
+'Ogień',
+
+'Wooden Stairs' =>
+'Schody z drewna',
+
+'Chest' =>
+'Skrzynia',
+
+'Redstone' =>
+'Czerwony kamień',
+
+'Diamond Ore' =>
+'Ruda diamentu',
+
+'Diamond Block' =>
+'Blok diamentu',
+
+'Workbench' =>
+'Stół warsztatowy',
+
+'Wheat Crops' =>
+'Pszenica',
+
+'Soil' =>
+'Gleba',
+
+'Furnace' =>
+'Piec',
+
+'Sign Post' =>
+'Znak',
+
+'Door' =>
+'Drzwi',
+
+'Ladder' =>
+'Drabina',
+
+'Rails' =>
+'Tory',
+
+'Cobblestone Stairs' =>
+'Schody z bruku',
+
+'Wall Sign' =>
+'Tablica na ścianie',
+
+'Lever' =>
+'Dźwignia',
+
+'Stone Pressure Plate' =>
+'Kamienna płyta naciskowa',
+
+'Iron Door' =>
+'Żelazne drzwi',
+
+'Wooden Pressure Plate' =>
+'Drewniana płyta naciskowa',
+
+'Redstone Ore' =>
+'Ruda czerwonego kamienia',
+
+'Glowing Redstone Ore' =>
+'Świecąca ruda czerwonego kamienia',
+
+'Stone Button' =>
+'Kamienny przycisk',
+
+'Snow' =>
+'Śnieg',
+
+'Ice' =>
+'Lód',
+
+'Snow Block' =>
+'Blok śniegu',
+
+'Cactus' =>
+'Kaktus',
+
+'Clay' =>
+'Glina',
+
+'Sugar Cane' =>
+'Trzcina cukrowa',
+
+'Jukebox' =>
+'Szafa grająca',
+
+'Fence' =>
+'Płot',
+
+'Pumpkin' =>
+'Dynia',
+
+'Netherrack' =>
+'Netherrack',
+
+'Soul Sand' =>
+'Piasek dusz',
+
+'Glowstone' =>
+'Glowstone',
+
+'Portal' =>
+'Portal',
+
+'Jack-O-Lantern' =>
+'Jack-O-Lantern',
+
+'Cake' =>
+'Ciasto',
+
+'Trapdoor' =>
+'Klapa',
+
+'Monster Egg' =>
+'Monster Egg',
+
+'Stone Brick' =>
+'Kamienna cegła',
+
+'Red Mushroom Cap' =>
+'Główka czerwonego grzyba',
+
+'Brown Mushroom Cap' =>
+'Główka brązowego grzyba',
+
+'Iron Bars' =>
+'Kraty',
+
+'Glass Pane' =>
+'Szyba',
+
+'Melon Block' =>
+'Arbuz',
+
+'Pumpkin Stem' =>
+'Korzeń dynii',
+
+'Vines' =>
+'Pnącze',
+
+'Fence Gate' =>
+'Furtka',
+
+'Brick Stairs' =>
+'Ceglaste schody',
+
+'Stone Brick Stairs' =>
+'Schody z kamiennych cegieł',
+
+'Mycelium' =>
+'Grzybnia',
+
+'Lily Pad' =>
+'Lilia',
+
+'Nether Brick' =>
+'Cegły netheru',
+
+'Nether Brick Fence' =>
+'Płot z netherowej cegły',
+
+'Nether Brick Stairs' =>
+'Schody z netherowej cegły',
+
+'Nether Wart' =>
+'Brodawka',
+
+'Enchantment Table' =>
+'Stół do zaklęć',
+
+'Brewing Stand' =>
+'Statyw alchemiczny',
+
+'Cauldron' =>
+'Kocioł',
+
+'End Portal Frame' =>
+'Rama portalu kresu',
+
+'End Stone' =>
+'Kamień kresu',
+
+'Dragon Egg' =>
+'Jajo smoka',
+
+'Redstone Lamp (inactive)' =>
+'Lampa (nieaktywna)',
+
+'Redstone Lamp (active)' =>
+'Lampa (aktywna)',
+
+'Double Wooden Slab' =>
+'Podwójny drewniany schodek',
+
+'Wooden Slab' =>
+'Drewniany schodek',
+
+'Cocoa Plant' =>
+'Roślina kakao',
+
+'Sandstone Stairs' =>
+'Schody z piaskowca',
+
+'Emerald Ore' =>
+'Ruda szmaragdu',
+
+'Ender Chest' =>
+'Skrzynia kresu',
+
+'Tripwire Hook' =>
+'Zaczep potykacza',
+
+'Block of Emerald' =>
+'Blok szmaragdu',
+
+'Spruce Wood Stairs' =>
+'Schody z brzozowego drewna',
+
+'Birch Wood Stairs' =>
+'Schody z sosnowego drewna',
+
+'Jungle Wood Stairs' =>
+'Schody z dżunglowego drewna',
+
+
+// plugins/minestats/page_minestats.php
+'Map' =>
+'Mapa',
+
+'Direction' =>
+'Kierunek',
+
+'Order by' =>
+'Porządkuj według',
+
+'Created' =>
+'Stworzonych bloczków',
+
+'Destroyed' =>
+'Usuniętych bloczków',
+
+'Sum of created and destroyed' =>
+'Sumy stworzonych i usuniętych bloczków',
+
+'By player' =>
+'Gracze',
+
+'By block' =>
+'Bloczki',
+
+'Block' =>
+'Blok',
+
+'Player' =>
+'Gracz',
+
+
+// plugins/minestats/topMenu.php
+'Minecraft stats' =>
+'Statystyki Minecrafta',
+
+
 // plugins/multilinguage/edituser.php
 'Language' =>
 'Język',
@@ -2370,12 +2640,67 @@ $languagePack = array(
 'Użycie prywatnego miejsca: {0} z {1}',
 
 
+// plugins/userbadgemanager/adminleft.php
+'Manage User Badges' =>
+'Zarządzaj odznakami',
+
+
+// plugins/userbadgemanager/page_userbadges.php
+'User Badges Manager' =>
+'Zarządzenie odznakami',
+
+'Please review your settings before adding a user badge.' =>
+'Proszę sprawdź swoje ustawienia zanim kontynuujesz.',
+
+'Bronze' =>
+'Brązowa',
+
+'Silver' =>
+'Srebrna',
+
+'Gold' =>
+'Złota',
+
+'Platinum' =>
+'Platynowa',
+
+'Badge Owner' =>
+'Właściciel odznaki',
+
+'Badge Name' =>
+'Nazwa odznaki',
+
+'Badge Type' =>
+'Typ odznaki',
+
+'User ID' =>
+'ID użytkownika',
+
+'Type' =>
+'Typ',
+
+'Select' =>
+'Wybierz',
+
+
 // userpanel.php
 'Log out' =>
 'Wyloguj',
 
 
 // Strings no longer used
+'{0} found.' =>
+'Znaleziono {0}.',
+
+'Username' =>
+'Nazwa użytkownika',
+
+'All' =>
+'Wszyscy',
+
+'Nothing here.' =>
+'Nic tu nie ma.',
+
 'You are not allowed to browse forums in this category.' =>
 'Nie możesz przeglądać forum w tej kategorii.',
 
@@ -2630,12 +2955,6 @@ $languagePack = array(
 
 'Thread trashed.' =>
 'Temat został wrzucony do kosza.',
-
-'Local Mod' =>
-'Lokalny moderator',
-
-'Full Mod' =>
-'Globalny moderator',
 
 'You are not allowed to see this category.' =>
 'Nie możesz zobaczyć tej kategorii.',
