@@ -211,9 +211,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$postNoBr = $noBr;
 	$postPoster = $poster;
 	
-	$s = preg_replace("@[^\]=]https?://[^\s]+@si", '[url]$0[/url]', $postText);
-	
-	$s = parseBBCode($s);
+	$s = parseBBCode($postText);
 
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
