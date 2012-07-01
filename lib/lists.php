@@ -95,7 +95,7 @@ function listThread($thread, $cellClass)
 		<td style=\"border-left: 0px none;\">
 			$tagsl
 			$poll
-			".actionLinkTag(strip_tags($thread['title']), "thread", $thread['id'])."
+			".actionLinkTag(htmlspecialchars($thread['title']), "thread", $thread['id'])."
 			$pl
 			$tagsr
 		</td>

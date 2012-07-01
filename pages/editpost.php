@@ -85,7 +85,7 @@ if(!CanMod($loguserid, $fid) && $post['user'] != $loguserid)
 if($thread['closed'] && !CanMod($loguserid, $fid))
 	Kill(__("This thread is closed."));
 	
-$thread['title'] = strip_tags($thread['title']);
+$thread['title'] = htmlspecialchars($thread['title']);
 $tags = ParseThreadTags($thread['title']);
 $titleandtags = $thread['title']."<TAGS>".$tags;
 MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("Edit post")=>""), $links);

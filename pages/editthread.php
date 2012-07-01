@@ -43,7 +43,7 @@ else
 
 $isHidden = (int)($forum['minpower'] > 0);
 
-$thread['title'] = strip_tags($thread['title']);
+$thread['title'] = htmlspecialchars($thread['title']);
 $title2 = $thread['title'];
 $tags = ParseThreadTags($title2);
 $titleandtags = $title2."<TAGS>".$tags;
