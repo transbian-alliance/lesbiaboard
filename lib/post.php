@@ -211,7 +211,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$postNoBr = $noBr;
 	$postPoster = $poster;
 	
-	$s = preg_replace("@[^\]=\"']https?://[^\s]+@si", '[url]$0[/url]', $postText);
+	$s = preg_replace("@(?<![\]=\"'])https?://[^\s]+[^.,!?):\"'\s]@si", '[url]$0[/url]', $postText);
 	
 	$s = parseBBCode($s);
 
