@@ -87,7 +87,7 @@ if($_GET['action'] == __("Upload"))
 				}
 				else
 				{
-					$description = strip_tags($_POST['description']);
+					$description = htmlspecialchars($_POST['description']);
 
 					$newID = FetchResult("SELECT id+1 FROM {$dbpref}uploader WHERE (SELECT COUNT(*) FROM {$dbpref}uploader u2 WHERE u2.id={$dbpref}uploader.id+1)=0 ORDER BY id ASC LIMIT 1");
 					if($newID < 1) $newID = 1;
