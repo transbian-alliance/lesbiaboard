@@ -450,7 +450,7 @@ write(
 				</form>
 			</td>
 			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	$prefill, $postButton, $moodOptions, $nopl, $nosm, $fid, htmlspecialchars($_POST['poll']), $multivote, $nobr, $mod);
+",	$prefill, $postButton, $moodOptions, $nopl, $nosm, $fid, stripslashes($_POST['poll']), $multivote, $nobr, $mod);
 
 DoSmileyBar();
 DoPostHelp();

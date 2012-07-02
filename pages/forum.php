@@ -176,14 +176,14 @@ function ForumJump()
 "
 			{0}
 			<optgroup label=\"{1}\">
-", $optgroup, htmlspecialchars($forum['cname']));
+", $optgroup, strip_tags($forum['cname']));
 			$optgroup = "</optgroup>";
 		}
 
 		$theList .= format(
 "
 				<option value=\"{0}\"{2}>{1}</option>
-",	htmlentities(actionLink("forum", $forum['id'])), htmlspecialchars($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
+",	htmlentities(actionLink("forum", $forum['id'])), strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
 	}
 	
 	write(

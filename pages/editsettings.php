@@ -197,14 +197,14 @@ function makeForumList($fieldname, $selectedID)
 "
 			{0}
 			<optgroup label=\"{1}\">
-", $optgroup, htmlspecialchars($forum['cname']));
+", $optgroup, strip_tags($forum['cname']));
 			$optgroup = "</optgroup>";
 		}
 
 		$theList .= format(
 "
 				<option value=\"{0}\"{2}>{1}</option>
-", $forum['id'], htmlspecialchars($forum['title']), ($forum['id'] == $selectedID ? " selected=\"selected\"" : ""));
+", $forum['id'], strip_tags($forum['title']), ($forum['id'] == $selectedID ? " selected=\"selected\"" : ""));
 	}
 	
 	return "<select id=\"$fieldname\" name=\"$fieldname\">$theList</select>";
