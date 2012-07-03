@@ -87,7 +87,7 @@ function bbcodeThread($contents, $arg)
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);
-			$threadLinkCache[$id] = actionLinkTag($thread['title'], "thread", $thread['id']);
+			$threadLinkCache[$id] = makeThreadLink($thread);
 		}
 		else
 			$threadLinkCache[$id] = "&lt;invalid thread ID&gt;";
