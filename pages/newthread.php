@@ -293,7 +293,7 @@ while(is_file("img/icons/icon".$i.".png"))
 
 write(
 "
-	<script src=\"".resourceLink("lib/threadtagging.js")."\"></script>
+	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">

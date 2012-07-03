@@ -285,7 +285,7 @@ if($canMod)
 	
 	write(
 "
-	<script src=\"".resourceLink("lib/threadtagging.js")."\"></script>
+	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
 	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin\" style=\"width: 100%;\">
 			<tr class=\"header1\">
