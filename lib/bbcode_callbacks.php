@@ -48,6 +48,11 @@ function bbcodeURL($contents, $arg)
 	return '<a href="'.$dest.'">'.$title.'</a>';
 }
 
+function bbcodeURLAuto($match)
+{
+	return bbcodeURL($match[0], "");
+}
+
 function bbcodeImage($contents, $arg)
 {
 	$dest = $contents;

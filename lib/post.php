@@ -71,11 +71,11 @@ function ApplySmilies($text)
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$smiliesReplaceOrig[] = "/".preg_quote($smilies[$i]['code'], "/")."/";
+			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote($smilies[$i]['code'], "/")."(?!\w)/";
 			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
-	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
+	return trim(preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text));
 }
 
 function LoadBlocklayouts()
@@ -197,12 +197,14 @@ function postDoReplaceText($s)
 	//Smilies
 	if(!$postNoSmilies)
 		$s = ApplySmilies($s);
-		
-
 
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
+
+	$s = preg_replace_callback("@(?<![\]=\"'])https?://[^\s<]+[^<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
+
+	$bucket = "postMangler"; include("./lib/pluginloader.php");
 	
 	return $s;
 }
@@ -216,7 +218,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$postNoBr = $noBr;
 	$postPoster = $poster;
 	
-	$s = preg_replace("@(?<![\]=\"'])https?://[^\s]+[^.,!?):\"'\s]@si", '[url]$0[/url]', $postText);
+	$s = $postText;
 	
 	$s = parseBBCode($s);
 
@@ -328,7 +330,6 @@ function makePostText($post)
 	$post['posts'] = $rankHax;
 
 	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
 
 	//Post header and footer.
 	//OMFG, more hax.
