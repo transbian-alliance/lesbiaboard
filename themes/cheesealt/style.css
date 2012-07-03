@@ -5,9 +5,9 @@ body
 	background: #0C0B43 url(back1000.png);
 }
 
-td, th, .header0, .header1, #body table, #body .faq
+table.outline, td, th, .header0, .header1, #body table, #body .faq
 {
-	border: 1px solid #8677E7;
+	border-color: #8677E7;
 }
 
 .header0 th
@@ -35,34 +35,6 @@ td, th, .header0, .header1, #body table, #body .faq
 .cell2, .faq
 {
 	background: #1A2464 url(backt100.png);
-}
-
-.PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button
-{
-	border-radius: 0px;
-}
-
-.outline
-{
-		box-shadow: 0px 0px 0px;
-}
-
-#header, .PoRT
-{
-	box-shadow: none;
-}
-
-table.outline
-{
-	border: 0px none;
-}
-
-.header0 th, .errort
-{
-}
-
-.header1 th
-{
 }
 
 table.post

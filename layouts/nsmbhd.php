@@ -40,10 +40,12 @@
 	</div> <!--END OF HEADER-->
 	
 	<div id="boardheader2" class="cell1">
-		<span style="position: absolute;left: 6px;"><?php print $layout_views; ?></span></span>
-		<?php print $layout_onlineusers; ?>
-		<span style="position: absolute;right: 6px;"><?php print $layout_time; ?></span>
-		<?php print $layout_birthdays; ?>
+		<table><tr>
+		<td style="text-align:left; padding-left:6px;"><?php print $layout_views; ?></td>
+		<td><?php print $layout_onlineusers; ?>
+		<?php print $layout_birthdays; ?></td>
+		<td style="text-align:right; padding-right:6px;"><?php print $layout_time; ?></td>
+		</tr></table>
 	</div>
 </div>
 	<div id="sidebar">
