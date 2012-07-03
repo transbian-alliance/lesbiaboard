@@ -3,19 +3,9 @@
 /* Pinklines theme
    Created by Nina */
 
-.outline, .PoRT
+table.outline, table.outline td, table.post td, table.outline .header0 th, table.outline .header1 th
 {
-		box-shadow: none;
-}
-
-table.outline
-{
-	border: 0px none;
-}
-
-table.outline td, table.outline .header0 th, table.outline .header1 th
-{
-	border: 0px none;
+	border-width: 0px!important;
 }
 
 .faq
@@ -83,64 +73,9 @@ table.outline, .errorc
 	background: hsl(0, 0%, 10%);
 }
 
-td, th
-{
-	border: 0px none;
-}
-
-table.outline tr:first-child th:last-child
-{
-	border-right: 0px none;
-}
-
-table.outline tr:first-child th
-{
-	border-top: 0px none;
-}
-
-table.outline td
-{
-	border-left: 0px none;
-	border-top: 0px none;
-}
-
-table.outline th
-{
-	border-bottom: 0px none;
-}
-
-table.outline tr td:first-child, table.outline tr th:first-child
-{
-	border-left: 0px none;
-}
-
 table.post
 {
-	border: 0px none;
 	background: hsl(0, 0%, 10%);
-}
-
-table.post td.side
-{
-	border-left: 0px none;
-	border-bottom: 0px none;
-}
-
-table.post td.userlink
-{
-	border-top: 0px none;
-	border-bottom: 0px none;
-}
-
-table.post td.meta
-{
-	border-top: 0px none;
-	border-right: 0px none;
-}
-
-table.post td.post
-{
-	border: 0px none;
 }
 
 table.post tr:first-child td {

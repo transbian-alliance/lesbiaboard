@@ -27,46 +27,21 @@ h3
 	margin: 0px;
 }
 
-a:link
-{
-	color: #FFC040;
-}
-
-a:visited
-{
-	color: #C09030;
-}
-
-a:active
-{
-	color: #FFEA60;
-}
-
-a:hover
-{
-	color:#FFFFFF;
-}
-
-.outline
-{
-		border-radius: 4px;
-}
-
 table
 {
 	color: white;
-	border-collapse: collapse;
-	width: 100%;
-	font-weight: normal;
 }
 
 table.post
 {
 	width: 100%;
-	background: #303678;
 	border: 1px solid #000;
 }
 
+table.post td.side, table.post td.meta, table.post td.links
+{
+	background: rgba(0, 30, 80, 0.7);
+}
 table.post td.side
 {
 	width: 15%;
@@ -76,7 +51,7 @@ table.post td.side
 
 table.post td.post
 {
-	background: #222 url(back2g.png);
+	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
@@ -103,8 +78,8 @@ table.post td.post
 	text-align: center;
 	color: #EEE;
 	font-size: 8pt;
-	border-top: 0px none;
-	border-bottom: 0px none;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
 }
 
 .header1 th
@@ -113,23 +88,22 @@ table.post td.post
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;
-	border: 0px none #000;
+	border-width: 0px;
 }
 
 .header0
 {
-	border: 1px solid #000;
+	border-width: 1px;
 }
 
 .header1
 {
-	border: 1px solid #000;
+	border-width: 1px;
 }
 
 .faq
 {
-	background: #222 url(back2g.png);
-	padding: 4px;
+	background: rgba(0, 0, 0, 0.7);
 }
 
 td.post .codeblock

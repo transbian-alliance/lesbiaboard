@@ -1,14 +1,14 @@
 @import url('../../css/roundcorners.css');
 
-/* AcmlmBoard XD - Shared elements */
- /* Space Over The Deck (?) theme */
+/* AcmlmBoard XD - Space Over The Deck (?) theme */
 
 body
 {
 	/* Fixed, for your (browser's) pleasure */
 	background: black url(bg_nolag.png); 
-		background-repeat: repeat;
-		background-position: center top;
+	background-repeat: repeat;
+	background-position: center top;
+
 	color: white;
 	font-family: "Verdana", "Arial", sans-serif;
 	font-size: 10pt;
@@ -26,46 +26,21 @@ h3
 	margin: 0px;
 }
 
-a:link
-{
-	color: #FFC040;
-}
-
-a:visited
-{
-	color: #C09030;
-}
-
-a:active
-{
-	color: #FFEA60;
-}
-
-a:hover
-{
-	color:#FFFFFF;
-}
-
-.outline
-{
-		border-radius: 4px;
-}
-
 table
 {
 	color: white;
-	border-collapse: collapse;
-	width: 100%;
-	font-weight: normal;
 }
 
 table.post
 {
 	width: 100%;
-	background: #303678;
 	border: 1px solid #000;
 }
 
+table.post td.side, table.post td.meta, table.post td.links
+{
+	background: rgba(0, 30, 80, 0.7);
+}
 table.post td.side
 {
 	width: 15%;
@@ -75,7 +50,7 @@ table.post td.side
 
 table.post td.post
 {
-	background: rgba(32, 62, 119, 0.4) url(back2t1.png) repeat-x;
+	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid #000;
 	vertical-align: top;
 	height: 100px;
@@ -102,8 +77,8 @@ table.post td.post
 	text-align: center;
 	color: #EEE;
 	font-size: 8pt;
-	border-top: 0px none;
-	border-bottom: 0px none;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
 }
 
 .header1 th
@@ -112,23 +87,22 @@ table.post td.post
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;
-	border: 0px none #000;
+	border-width: 0px;
 }
 
 .header0
 {
-	border: 1px solid #000;
+	border-width: 1px;
 }
 
 .header1
 {
-	border: 1px solid #000;
+	border-width: 1px;
 }
 
 .faq
 {
-	background:  #001132 url(header1.png) repeat-x;
-	padding: 4px;
+	background: rgba(0, 0, 0, 0.7);
 }
 
 td.post .codeblock

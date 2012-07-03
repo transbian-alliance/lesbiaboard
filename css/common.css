@@ -197,14 +197,14 @@ table.post td.side
 {
 	width: 15%;
 	vertical-align: top;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 0px 1px 0px;
 
 	padding: 0px 4px 4px;
 }
 
 table.post td.post
 {
-	border-width: 0px 1px 1px 0px;
+	border-width: 1px 1px 1px 1px;
 	vertical-align: top;
 	height: 100px;
 }
@@ -219,7 +219,7 @@ table.post td.meta
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 1px 0px 0px;
 	padding-right: 4px;
 }
 table.post td.links
@@ -227,13 +227,24 @@ table.post td.links
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 1px 0px 0px;
 }
 
 table.post td.userlink
 {
 	border-width: 0px 0px 0px 0px;
 }
+
+table.deletedpost td.meta
+{
+	border-width: 0px 1px 1px 0px;
+}
+table.deletedpost td.side
+{
+	border-width: 0px 0px 1px 0px;
+}
+
+
 
 /* Message tables */
 
@@ -471,10 +482,6 @@ textarea
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: #000;
-}
-#header
-{
-	box-shadow: none;	
 }
 
 #body

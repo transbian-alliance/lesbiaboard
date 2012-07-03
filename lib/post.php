@@ -401,15 +401,15 @@ function MakePost($post, $type, $params=array())
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 		write(
 "
-		<table class=\"post margin\" id=\"post{0}\">
+		<table class=\"post margin deletedpost\" id=\"post{0}\">
 			<tr>
 				<td class=\"side userlink\" id=\"{0}\">
 					{1}
 				</td>
-				<td class=\"smallFonts\" style=\"border-left: 0px none; border-right: 0px none;\">
-					{2}
-				</td>
-				<td class=\"smallFonts right\" style=\"border-left: 0px none;\">
+				<td class=\"smallFonts meta right\">
+					<div style=\"float:left\">
+						{2}
+					</div>
 					{3}
 				</td>
 			</tr>
