@@ -159,38 +159,43 @@ if($title != "")
 //=======================
 // Board logo and theme
 
-if(file_exists("img/logos/logo_$theme.png"))
-	$layout_logopic = resourceLink("img/logos/logo_$theme.png");
-else if(file_exists("img/logos/logo_$theme.jpg"))
-	$layout_logopic = resourceLink("img/logos/logo_$theme.jpg");
-else if(file_exists("img/logos/logo_$theme.gif"))
-	$layout_logopic = resourceLink("img/logos/logo_$theme.gif");
-else if(file_exists("img/logos/logo.png"))
-	$layout_logopic = resourceLink("img/logos/logo.png");
-else if(file_exists("img/logos/logo.jpg"))
-	$layout_logopic = resourceLink("img/logos/logo.jpg");
-else if(file_exists("img/logos/logo.gif"))
-	$layout_logopic = resourceLink("img/logos/logo.gif");
-else if(file_exists("themes/$theme/logo.png"))
-	$layout_logopic = themeResourceLink("logo.png");
-else if(file_exists("themes/$theme/logo.jpg"))
-	$layout_logopic = themeResourceLink("logo.jpg");
-else if(file_exists("themes/$theme/logo.gif"))
-	$layout_logopic = themeResourceLink("logo.gif");
-else
-	$layout_logopic = resourceLink("img/logo.png");
+function checkForImage(&$image, $external, $file)
+{
+	global $dataDir, $dataUrl;
+	
+	if($image) return;
+	
+	if($external)
+	{		
+		if(file_exists($dataDir.$file))
+			$image = $dataUrl.$file;
+	}
+	else
+	{
+		if(file_exists($file))
+			$image = $file;
+	}
+}
 
-if(file_exists("img/logos/favicon.gif"))
-	$layout_favicon = resourceLink("img/logos/favicon.gif");
-else if(file_exists("img/logos/favicon.ico"))
-	$layout_favicon = resourceLink("img/logos/favicon.ico");
-else
-	$layout_favicon = resourceLink("img/favicon.ico");
+checkForImage($layout_logopic, true, "logos/logo_$theme.png");
+checkForImage($layout_logopic, true, "logos/logo_$theme.jpg");
+checkForImage($layout_logopic, true, "logos/logo_$theme.gif");
+checkForImage($layout_logopic, true, "logos/logo.png");
+checkForImage($layout_logopic, true, "logos/logo.jpg");
+checkForImage($layout_logopic, true, "logos/logo.gif");
+checkForImage($layout_logopic, false, "themes/$theme/logo.png");
+checkForImage($layout_logopic, false, "themes/$theme/logo.jpg");
+checkForImage($layout_logopic, false, "themes/$theme/logo.gif");
+checkForImage($layout_logopic, false, "themes/$theme/logo.png");
+checkForImage($layout_logopic, false, "img/logo.png");
+
+checkForImage($layout_favicon, true, "logos/favicon.gif");
+checkForImage($layout_favicon, true, "logos/favicon.ico");
+checkForImage($layout_favicon, false, "img/favicon.ico");
 
 $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))
 	$layout_themefile = "themes/$theme/style.php";
-
 
 $layout_contents = "<div id=\"page_contents\">$layout_contents</div>";
 //=======================

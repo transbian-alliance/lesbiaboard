@@ -207,7 +207,7 @@ switch($_POST['action'])
 
 //Main code.
 
-print '<script src="lib/editfora.js" type="text/javascript"></script>';
+print '<script src="js/editfora.js" type="text/javascript"></script>';
 
 Write('
 <div id="editcontent" style="float: right; width: 45%;">

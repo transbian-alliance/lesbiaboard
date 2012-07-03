@@ -86,16 +86,24 @@ function themeResourceLink($what)
 
 function UserLink($user, $field = "id", $showMinipic = false)
 {
-	global $hacks;
+	global $hacks, $dataUrl, $dataDir;
 
 	$fpow = $user['powerlevel'];
 	$fsex = $user['sex'];
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
 
-	if($showMinipic && $user['minipic'])
-		$fname = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;".$fname;
-
+	$minipic = "";
+	if($showMinipic)
+	{
+		if($user["minipic"] == "#INTERNAL#")
+			$minipic = "<img src=\"${dataUrl}minipics/${user[$field]}\" alt=\"\" class=\"minipic\" />&nbsp;";
+		else if($user["minipic"])
+			$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
+	}
+	
+	$fname = $minipic.$fname;
+	
 	if($fpow < 0) $fpow = -1;
 
 	if($hacks['alwayssamepower'])

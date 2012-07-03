@@ -23,7 +23,7 @@ if(!function_exists("HandleUsernameColor"))
 
 if ($uncolors[$userid]['color'] || $loguser['powerlevel'] > 1)
 {
-	Write("<script type=\"text/javascript\" src=\"lib/jscolor/jscolor.js\"></script>");
+	Write("<script type=\"text/javascript\" src=\"js/jscolor/jscolor.js\"></script>");
 	$general['appearance']['items']['unc'] = array(
 		"caption" => "Name color",
 		"type" => "text",

@@ -38,6 +38,7 @@ function usectime()
 
 
 include("salt.php");
+include("dirs.php");
 
 include("settingsfile.php");
 include("links.php");

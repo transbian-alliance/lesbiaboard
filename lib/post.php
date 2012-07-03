@@ -374,7 +374,7 @@ $sideBarData = 0;
 //		* metatext: if non-empty, this text is displayed in the metabar instead of 'Sample post' (POST_SAMPLE only)
 function MakePost($post, $type, $params=array())
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt, $dataDir, $dataUrl;
 
 	$sideBarStuff = "";
 
@@ -524,12 +524,18 @@ function MakePost($post, $type, $params=array())
 		$sideBarStuff .= $levelRanks[$post['powerlevel']]."<br />";
 	}
 	$sideBarStuff .= GetSyndrome($post['activity']);
-	if($post['picture'])
+
+	if($post['mood'] > 0)
 	{
-		if($post['mood'] > 0 && file_exists("img/avatars/".$post['uid']."_".$post['mood']))
-			$sideBarStuff .= "<img src=\"img/avatars/".$post['uid']."_".$post['mood']."\" alt=\"\" />";
-		else
-			$sideBarStuff .= "<img src=\"".$post['picture']."\" alt=\"\" />";
+		if(file_exists("${dataDir}avatars/".$post['uid']."_".$post['mood']))
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."_".$post['mood']."\" alt=\"\" />";
+	}
+	else
+	{
+		if($post["picture"] == "#INTERNAL#")
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."\" alt=\"\" />";
+		else if($post["picture"])
+			$sideBarStuff .= "<img src=\"".htmlspecialchars($post["picture"])."\" alt=\"\" />";
 	}
 
 	$lastpost = ($post['lastposttime'] ? timeunits(time() - $post['lastposttime']) : "none");

@@ -14,7 +14,7 @@ else
 write(
 "
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/layoutmaker/layoutmaker.css\" />
-	<script type=\"text/javascript\" src=\"lib/jscolor/jscolor.js\"></script>
+	<script type=\"text/javascript\" src=\"js/jscolor/jscolor.js\"></script>
 ");
 
 $parmFields = "";
