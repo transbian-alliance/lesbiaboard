@@ -75,7 +75,7 @@ function ApplySmilies($text)
 			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
-	return trim(preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text));
+	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
 }
 
 function LoadBlocklayouts()
