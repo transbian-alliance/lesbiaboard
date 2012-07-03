@@ -5,8 +5,7 @@
 
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];
-
-elseif(isset($_GET['pid']))
+else if(isset($_GET['pid']))
 {
 	$pid = (int)$_GET['pid'];
 	$qPost = "select * from {$dbpref}posts where id=".$pid;
@@ -16,12 +15,15 @@ elseif(isset($_GET['pid']))
 	else
 		Kill(__("Unknown post ID."));
 	$tid = $post['thread'];
-} else
+}
+else
 	Kill(__("Thread ID unspecified."));
+
 AssertForbidden("viewThread", $tid);
 
 $qThread = "select * from {$dbpref}threads where id=".$tid;
 $rThread = Query($qThread);
+
 if(NumRows($rThread))
 	$thread = Fetch($rThread);
 else
@@ -53,11 +55,10 @@ if(NumRows($rCategories))
 else
 	Kill(__("Unknown category ID."));
 
-$tags = ParseThreadTags($thread['title']);
-$thread['title'] = strip_tags($thread['title']);
-$title = $thread['title'];
+$threadtags = ParseThreadTags($thread['title']);
+$title = $threadtags[0];
 
-$qViewCounter = "update {$dbpref}threads set views=".($thread['views']+1)." where id=".$tid." limit 1";
+$qViewCounter = "update {$dbpref}threads set views=views+1 where id=".$tid." limit 1";
 $rViewCounter = Query($qViewCounter);
 
 if(isset($_GET['vote']))
@@ -140,8 +141,7 @@ write(
 	</script>
 ");
 
-$titleandtags = $thread['title']."<TAGS>".$tags;
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags => actionLink("thread", $tid)), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => $threadtags), $links);
 
 if($thread['poll'])
 {
@@ -274,13 +274,15 @@ $qPosts = "	SELECT
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
+				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex
 			FROM 
 				{$dbpref}posts p 
 				LEFT JOIN {$dbpref}posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {$dbpref}users u ON u.id = p.user
 				LEFT JOIN {$dbpref}blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-				LEFT JOIN {$dbpref}users u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
+				LEFT JOIN {$dbpref}users u2 ON u2.id=pt.user
+				LEFT JOIN {$dbpref}users u3 ON u3.id=p.deletedby
 			WHERE thread=".$tid." 
 			ORDER BY date ASC LIMIT ".$from.", ".$ppp;
 

@@ -5,13 +5,13 @@ include_once("geshi.php");
 include_once("write.php");
 
 
-function ParseThreadTags(&$title)
+function ParseThreadTags($title)
 {
 	preg_match_all("/\[(.*?)\]/", $title, $matches);
 	foreach($matches[1] as $tag)
 	{
 		$title = str_replace("[".$tag."]", "", $title);
-		$tag = htmlentities(strip_tags(strtolower($tag)));
+		$tag = htmlentities(strtolower($tag));
 
 		//Start at a hue that makes "18" red.
 		$hash = -105;
@@ -25,7 +25,10 @@ function ParseThreadTags(&$title)
 	}
 	if($tags)
 		$tags = " ".$tags;
-	return $tags;
+
+	$title = str_replace("<", "&lt;", $title);		
+	$title = str_replace(">", "&gt;", $title);		
+	return array(trim($title), $tags);
 }
 
 function filterPollColors($input)
@@ -81,6 +84,8 @@ function LoadBlocklayouts()
 	if(isset($blocklayouts))
 		return;
 	$rBlocks = Query("select * from {$dbpref}blockedlayouts where blockee = ".$loguserid);
+	
+	$blocklayouts = array();
 	while($block = Fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
 }
@@ -273,8 +278,6 @@ function CheckKosher($matches)
 
 function securityPostFilter($s)
 {
-	global $badTags;
-
 	$s = str_replace("\r\n","\n", $s);
 
 	$s = EatThatPork($s);
@@ -383,7 +386,7 @@ function MakePost($post, $type, $params=array())
 		$meta .= __(', deleted');
 		if ($post['deletedby'])
 		{
-			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['du_name'], 'displayname'=>$post['du_dn'], 'powerlevel'=>$post['du_power'], 'sex'=>$post['du_sex']));
 			$meta .= __(' by ').$db_link;
 			
 			if ($post['reason'])
@@ -483,7 +486,13 @@ function MakePost($post, $type, $params=array())
 		$meta = format($message, formatdate($post['date']));
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
-			$meta .= " ".__("in")." ".actionLinkTag($post['threadname'], "thread", $post['thread']);
+		{
+			$thread = array();
+			$thread["id"] = $post["thread"];
+			$thread["title"] = $post["threadname"];
+			
+			$meta .= " ".__("in")." ".makeThreadLink($thread);
+		}
 		//Revisions
 		if($post['revision'])
 		{

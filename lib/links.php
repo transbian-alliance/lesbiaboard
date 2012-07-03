@@ -52,7 +52,6 @@ function actionLink($action, $id=0, $args="")
 
 //Possible URL Rewriting :D
 //	return "$boardroot/$action/$id?$args";
-	
 }
 
 function actionLinkTag($text, $action, $id=0, $args="")

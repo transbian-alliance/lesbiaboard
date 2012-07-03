@@ -4,7 +4,11 @@
 $hours = 72;
 
 $qPosts = "select 
-	{$dbpref}posts.id, {$dbpref}posts.date, {$dbpref}users.id as uid, {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.powerlevel, {$dbpref}users.sex, {$dbpref}threads.title as ttit, {$dbpref}forums.title as ftit
+	{$dbpref}posts.id, {$dbpref}posts.date, 
+	{$dbpref}users.id as uid, {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.powerlevel, {$dbpref}users.sex, 
+	{$dbpref}threads.title as ttit, {$dbpref}threads.id as tid, 
+	{$dbpref}forums.title as ftit, {$dbpref}forums.id as fid
+	
 	from {$dbpref}posts 
 	left join {$dbpref}users on {$dbpref}users.id = {$dbpref}posts.user 
 	left join {$dbpref}threads on {$dbpref}threads.id = {$dbpref}posts.thread 
@@ -13,8 +17,13 @@ $qPosts = "select
 	order by date desc limit 0, 100";
 
 $rPosts = Query($qPosts);
+
 while($post = Fetch($rPosts))
 {
+	$thread = array();
+	$thread["title"] = $post["ttit"];
+	$thread["id"] = $post["tid"];
+
 	$c = ($c+1) % 2;
 	$theList .= format(
 "
@@ -35,7 +44,7 @@ while($post = Fetch($rPosts))
 			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
 		</td>
 	</tr>
-", $post['id'], formatdate($post['date']), UserLink($post, "uid"), $post['ftit'], $post['ttit'], $c);
+", $post['id'], formatdate($post['date']), UserLink($post, "uid"), actionLinkTag($post["ftit"], "forum", $post["fid"]), makeThreadLink($thread), $c);
 }
 
 if($theList == "")

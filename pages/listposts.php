@@ -19,7 +19,20 @@ $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 $title = __("Post list");
 
-$total = $user['posts'];
+$minpower = $loguser['powerlevel'];
+if($minpower < 0)
+	$minpower = 0;
+	
+
+$qPostCount = "	SELECT 
+				count(p.id)
+			FROM 
+				{$dbpref}posts p 
+				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
+				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
+			WHERE p.user=".$id." AND f.minpower <= ".$minpower;
+$total = FetchResult($qPostCount);
+
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))
 	$from = (int)$_GET['from'];
@@ -28,9 +41,6 @@ else
 
 if(!$ppp) $ppp = 25;
 
-$minpower = $loguser['powerlevel'];
-if($minpower < 0)
-	$minpower = 0;
 
 $qPosts = "	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
@@ -38,6 +48,7 @@ $qPosts = "	SELECT
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
 				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
+				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex,
 				t.id thread, t.title threadname,
 				f.id fid
 			FROM 
@@ -45,7 +56,8 @@ $qPosts = "	SELECT
 				LEFT JOIN {$dbpref}posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {$dbpref}users u ON u.id = p.user
 				LEFT JOIN {$dbpref}blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-				LEFT JOIN {$dbpref}users u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
+				LEFT JOIN {$dbpref}users u2 ON u2.id=pt.user
+				LEFT JOIN {$dbpref}users u3 ON u3.id=p.deletedby
 				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
 				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
 				LEFT JOIN {$dbpref}categories c ON c.id=f.catid

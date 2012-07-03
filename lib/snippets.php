@@ -25,11 +25,6 @@ function OptimizeLayouts($text)
 	return $text;
 }
 
-function usectime()
-{
-	$t = gettimeofday();
-	return $t['sec'] + ($t['usec'] / 1000000);
-}
 
 function GetRainbowColor()
 {

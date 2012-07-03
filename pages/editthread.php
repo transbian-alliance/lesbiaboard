@@ -34,7 +34,7 @@ if(!$canMod && $thread['user'] != $loguserid)
 	Kill(__("You are not allowed to edit threads."));
 
 $OnlineUsersFid = $thread['forum'];
-$qFora = "select minpower from {$dbpref}forums where id=".$thread['forum'];
+$qFora = "select * from {$dbpref}forums where id=".$thread['forum'];
 $rFora = Query($qFora);
 if(NumRows($rFora))
 	$forum = Fetch($rFora);
@@ -43,11 +43,7 @@ else
 
 $isHidden = (int)($forum['minpower'] > 0);
 
-$thread['title'] = htmlspecialchars($thread['title']);
-$title2 = $thread['title'];
-$tags = ParseThreadTags($title2);
-$titleandtags = $title2."<TAGS>".$tags;
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("Edit thread")=>""), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"]), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("Edit thread")=>""), $links);
 
 
 if($canMod)

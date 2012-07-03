@@ -26,9 +26,6 @@ if(NumRows($rThread))
 }
 else
 	Kill(__("Unknown thread ID."));
-$thread['title'] = strip_tags($thread['title']);
-$tags = ParseThreadTags($thread['title']);
-$titleandtags = $thread['title']."<TAGS>".$tags;
 
 $qFora = "select * from {$dbpref}forums where id=".$fid;
 $rFora = Query($qFora);
@@ -56,7 +53,7 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("New reply")=>""), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("New reply")=>""), $links);
 
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 	Alert(__("You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button."));

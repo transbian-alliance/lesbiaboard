@@ -1,5 +1,5 @@
 <?php
-
+//$debugMode = true;
 $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
@@ -213,7 +213,10 @@ else
 // Print everything!
 
 $layout = Settings::get("defaultLayout");
-//$layout_contents.="<br>".nl2br(htmlspecialchars($querytext));
+
+if($debugMode)
+	$layout_contents.="<table class=\"outline margin width100\">$querytext</table>";
+
 require("layouts/$layout.php");
 
 

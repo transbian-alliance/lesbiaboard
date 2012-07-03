@@ -84,7 +84,7 @@ table.post td.post
 
 .header1 th
 {
-	background:  #001132 url(header1.png) repeat-x;
+	background:  #001132 url(header1.png) repeat;
 	text-align: center;
 	font-size: 8pt;
 	color: #DDD;

@@ -67,7 +67,8 @@ if($_POST['text'] && $_POST['action'] == __("Post"))
 
 if($_POST['action'] == __("Post"))
 {
-	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $_POST['title']));
+	$titletags = parseThreadTags($_POST['title']);
+	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $titletags[0]));
 	if($_POST['text'] && $trimmedTitle != "")
 	{
 		$post = justEscape($_POST['text']);

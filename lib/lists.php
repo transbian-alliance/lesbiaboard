@@ -86,6 +86,8 @@ function listThread($thread, $cellClass)
 	if($thread['lastpostid'])
 		$lastLink = " ".actionLinkTag("&raquo;", "thread", 0, "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
 
+	$threadlink = makeThreadLink($thread);
+	
 	$forumList .= "
 	<tr class=\"cell$cellClass\">
 		<td class=\"cell2 threadIcon\"> $NewIcon</td>
@@ -93,11 +95,9 @@ function listThread($thread, $cellClass)
 			 $ThreadIcon
 		</td>
 		<td style=\"border-left: 0px none;\">
-			$tagsl
 			$poll
-			".actionLinkTag(htmlspecialchars($thread['title']), "thread", $thread['id'])."
+			$threadlink
 			$pl
-			$tagsr
 		</td>
 		<td class=\"center\">
 			".UserLink($starter)."
