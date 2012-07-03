@@ -40,7 +40,7 @@ function MakeCrumbs($path, $links)
 		else if (Settings::get("tagsDirection") === 'Left')
 			$crumbs .= $tags." <a href=\"".$link."\">".$text."</a>";
 		else
-			$crumbs .= "<a href=\"".$link."\">".$text."</a> ".$tags." &raquo; ";
+			$crumbs .= "<a href=\"".$link."\">".$text."</a> ".$tags;
 	}
 
 	if($links)
