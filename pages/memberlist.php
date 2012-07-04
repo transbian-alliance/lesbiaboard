@@ -124,8 +124,11 @@ if ($_GET['listing'])  {
 			$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
 
 			$userPic = "";
-			if($user['picture'] && $hacks['themenames'] != 3)
-				$userPic = "<img src=\"".str_replace("img/avatars/", "img/avatars/", $user['picture'])."\" alt=\"\" style=\"width: 60px;\" />";
+			
+			if($user["picture"] == "#INTERNAL#")
+				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"width: 60px;\" />";
+			else if($user["picture"])
+				$userPic = "<img src=\"".htmlspecialchars($user["picture"])."\" alt=\"\" style=\"width: 60px;\" />";
 
 			$cellClass = ($cellClass+1) % 2;
 			$memberList .= format(
