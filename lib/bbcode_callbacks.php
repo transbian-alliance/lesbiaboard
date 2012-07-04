@@ -8,6 +8,7 @@ $bbcodeCallbacks = array(
 	
 	"url" => "bbcodeURL",
 	"img" => "bbcodeImage",
+	"imgs" => "bbcodeImageScale",
 	
 	"user" => "bbcodeUser",
 	"thread" => "bbcodeThread",
@@ -64,6 +65,20 @@ function bbcodeImage($contents, $arg)
 	}
 	
 	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
+}
+
+
+function bbcodeImageScale($contents, $arg)
+{
+	$dest = $contents;
+	$title = "";
+	if($arg)
+	{
+		$title = $contents;
+		$dest = $arg;
+	}
+	
+	return '<a href="'.htmlentities($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlentities($dest).'" alt="'.$title.'"/></a>';
 }
 
 

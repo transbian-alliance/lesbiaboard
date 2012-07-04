@@ -34,6 +34,7 @@ $tagParseStatus = array(
 	"th" => 0,
 
 	"img" => 2,
+	"imgs" => 2,
 	"url" => 2,
 	"code" => 2,
 	"source" => 2,
