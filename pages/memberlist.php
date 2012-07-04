@@ -202,7 +202,7 @@ if (!$isBot)
 {
 	write(
 "
-	<script src=\"".resourceLink("lib/memberlist.js")."\"></script>
+	<script src=\"".resourceLink("js/memberlist.js")."\"></script>
 	<div id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(
