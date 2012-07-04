@@ -74,6 +74,12 @@ a:hover span
 	color: #FFF !important;
 }
 
+.pagelink
+{
+	padding:5px;
+	display:inline-block;
+}
+
 /* Name color table */
 .nc0x { color: #888888; } .nc1x { color: #888888; } .nc2x { color: #888888; }
 .nc00 { color: #97ACEF; } .nc10 { color: #F185C9; } .nc20 { color: #7C60B0; }

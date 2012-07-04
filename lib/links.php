@@ -157,10 +157,10 @@ function PageLinks($url, $epp, $from, $total)
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 
-	$first = ($from) ? "<a href=\"".$url."0\">&#x00AB;</a> " : "";
-	$prev = ($from) ? "<a href=\"".$url.($from - $epp)."\">&#x2039;</a> " : "";
-	$next = ($from < $total - $epp) ? " <a href=\"".$url.($from + $epp)."\">&#x203A;</a>" : "";
-	$last = ($from < $total - $epp) ? " <a href=\"".$url.(($numPages * $epp) - $epp)."\">&#x00BB;</a>" : "";
+	$first = ($from) ? "<a class=\"pagelink\" href=\"".$url."0\">&#x00AB;</a> " : "";
+	$prev = ($from) ? "<a class=\"pagelink\"  href=\"".$url.($from - $epp)."\">&#x2039;</a> " : "";
+	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.($from + $epp)."\">&#x203A;</a>" : "";
+	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.(($numPages * $epp) - $epp)."\">&#x00BB;</a>" : "";
 
 	$pageLinks = array();
 	for($p = $page - 5; $p < $page + 10; $p++)
@@ -168,12 +168,12 @@ function PageLinks($url, $epp, $from, $total)
 		if($p < 1 || $p > $numPages)
 			continue;
 		if($p == $page || ($from == 0 && $p == 1))
-			$pageLinks[] = $p;
+			$pageLinks[] = "<span class=\"pagelink\">$p</span>";
 		else
-			$pageLinks[] = "<a href=\"".$url.(($p-1) * $epp)."\">".$p."</a>";
+			$pageLinks[] = "<a class=\"pagelink\"  href=\"".$url.(($p-1) * $epp)."\">".$p."</a>";
 	}
 	
-	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
+	return $first.$prev.join(array_slice($pageLinks, 0, 11), "").$next.$last;
 }
 
 function absoluteActionLink($action, $id=0, $args="")
