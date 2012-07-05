@@ -1,7 +1,6 @@
 <?php
 //  AcmlmBoard XD support - Post functions
 
-include_once("geshi.php");
 include_once("write.php");
 
 
