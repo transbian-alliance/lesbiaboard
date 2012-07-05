@@ -50,7 +50,7 @@ $singleTags = array(
 	"user", "forum", "thread",
 );
 $singleHtmlTags = array(
-	"p", "br", "li", "img", "link"
+	"p", "br", "li", "img", "link", "td", "tr"
 );
 
 $goodHtmlTags = array(
@@ -154,7 +154,7 @@ function parseToken($token)
 
 function parse($parenttoken)
 {
-	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks;
+	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables;
 	
 	$contents = "";
 	$finished = false;
@@ -186,6 +186,10 @@ function parse($parenttoken)
 	
 	//Backup parse status
 	$oldParseStatus = $parseStatus;
+	$oldAllowTables = $allowTables;
+	
+	if($parenttoken["type"] == 3 && $parenttoken["tag"] == "table")
+		$allowTables = true;
 	
 	//Force parse status if tag wants to.
 	if($parenttoken != 0)
@@ -211,8 +215,11 @@ function parse($parenttoken)
 					$result .= parse($token);
 				break;
 			case 3: //HTML open
-				if(!$heavyTag)
-					$result .= parse($token);
+				if(!$allowTables && ($token["tag"] == "td" || $token["tag"] == "tr"))
+					$printAsText = true;
+				else
+					if(!$heavyTag)
+						$result .= parse($token);
 				break;
 			case 2: //BBCode close
 				if($parenttoken != 0 && strtolower($token["tag"]) == $thistag && $parenttoken["type"] == 1)
@@ -249,6 +256,7 @@ function parse($parenttoken)
 
 	//Restore saved parse status.
 	$parseStatus = $oldParseStatus;
+	$allowTables = $oldAllowTables;
 	
 	if($parenttoken == 0)
 		return $contents;
