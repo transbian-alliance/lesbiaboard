@@ -20,20 +20,31 @@ if($_POST['action'] == __("Add"))
 	}
 	else
 	{
-		$qBadge = "insert into {$dbpref}badges values ('".$_POST['userid']."', '".$_POST['name']."', ".((int)$_POST['color']).")";
+		$qBadge = "insert into {$dbpref}badges values ('".((int)$_POST['userid'])."', '".justEscape($_POST['name'])."', ".((int)$_POST['color']).")";
 		$rBadge = Query($qBadge);
 		Alert(__("Added."), __("Notice"));
 	}
 }
 elseif($_GET['action'] == "delete")
 {
-	$qBadge = "delete from {$dbpref}badges where owner='".$_GET['userid']."' and name='".$_GET['name']."'";
+	$qBadge = "delete from {$dbpref}badges where owner='".((int)$_GET['userid'])."' and name='".justEscape($_GET['name'])."'";
 	Query($qBadge);
 	Alert(__("Removed."), __("Notice"));
 }
+elseif($_GET['action'] == "deleteall")
+{
+	$qBadge = "delete from {$dbpref}badges where owner='".((int)$_GET['userid'])."'";
+	Query($qBadge);
+	Alert(__("Removed all badges of the user."), __("Notice"));
+}
+elseif($_GET['action'] == "newbadge")
+{
+	$userID = "value=\"".((int)$_GET['userid'])."\"";
+}
+
 
 // Fetch badges
-$qBadge = "select * from {$dbpref}badges";
+$qBadge = "SELECT owner, {$dbpref}badges.name, color, {$dbpref}users.name username FROM {$dbpref}badges JOIN {$dbpref}users where owner = id";
 $rBadge = Query($qBadge);
 
 
@@ -42,18 +53,13 @@ while($badges = Fetch($rBadge))
 {
 	$cellClass = ($cellClass+1) % 2;
 	$colors = array(__("Bronze"),__("Silver"),__("Gold"),__("Platinum"));
-	$id = $badges['owner'];
-	// Fetch user
-	$qUser = "select * from {$dbpref}users where id=".$id;
-	$rUser = Query($qUser);
-	$user = Fetch($rUser);
 	// userMangler Bucket
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$badgeList .= format(
 "
 	<tr class=\"cell{0}\">
 		<td>
-			{1}
+			<a href=".actionLink("profile", "{2}").">{1}</a>
 		</td>
 		<td>
 			{3}
@@ -65,7 +71,7 @@ while($badges = Fetch($rBadge))
 			<a href=\"".actionLink("userbadges", "", "userid={2}&name={3}&action=delete")."\">&#x2718;</a>
 		</td>
 	</tr>
-", $cellClass, $user['name'], $user['id'], $badges['name'], $colors[$badges['color']]);
+", $cellClass, $badges['username'], $badges['owner'], $badges['name'], $colors[$badges['color']]);
 }
 
 write("
@@ -91,7 +97,7 @@ write("
 				".__("User ID")."
 			</td>
 			<td class=\"cell0\">
-				<input type=\"text\" name=\"userid\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"userid\" style=\"width: 15%;\" maxlength=\"4\" {1}/>
 			</td>
 		</tr>
 		<tr>
@@ -99,7 +105,7 @@ write("
 				".__("Name")."
 			</td>
 			<td class=\"cell1\">
-				<input type=\"text\" name=\"name\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"name\" style=\"width: 98%;\" maxlength=\"15\" />
 			</td>
 		</tr>
 		<tr>
@@ -124,6 +130,6 @@ write("
 		</tr>
 	</table>
 </form>
-", $badgeList);
+", $badgeList, $userID);
 
 ?>
