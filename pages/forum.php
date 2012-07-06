@@ -68,7 +68,6 @@ if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
 
 		$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
-		$links .= "<li>".actionLinkTag(__("Post poll"), "newthread", $fid, "poll=1")."</li>";
 }
 
 $OnlineUsersFid = $fid;
