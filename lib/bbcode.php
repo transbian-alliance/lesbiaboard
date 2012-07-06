@@ -210,7 +210,7 @@ function parse($parenttoken)
 					$result .= parse($token);
 				break;
 			case 3: //HTML open
-				if(!$allowTables && ($token['tag'] == 'td' || $token['tag'] == 'tr'))
+				if(!$allowTables && ($token['tag'] == 'td' || $token['tag'] == 'tr' || $token['tag'] == 'th'))
 					$printAsText = true;
 				else
 					if(!$heavyTag)
