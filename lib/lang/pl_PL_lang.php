@@ -1563,8 +1563,8 @@ $languagePack = array(
 'You are not allowed to post threads in this forum.' =>
 'Nie możesz pisać tematów w tym forum.',
 
-'New poll' =>
-'Nowa sonda',
+'Poll' =>
+'Ankieta',
 
 'Enter a thread title and try again.' =>
 'Wpisz tytuł tematu i spróbuj ponownie.',
@@ -1572,11 +1572,11 @@ $languagePack = array(
 'Your thread is unnamed.' =>
 'Ten temat jest nienazwany.',
 
-'Enter a message and a thread title and try again.' =>
-'Wpisz wiadomość i spróbuj ponownie.',
+'You need to enter at least two options to make a poll.' =>
+'Potrzebujesz przynajmniej dwóch opcji aby stworzyć ankietę.',
 
-'Poll' =>
-'Ankieta',
+'Invalid poll.' =>
+'Nieprawidłowa ankieta.',
 
 'Option {2}' =>
 'Opcja {2}',
@@ -1584,14 +1584,20 @@ $languagePack = array(
 'Color' =>
 'Kolor',
 
+'Multivote' =>
+'Głosowanie wielokrotne',
+
 'Poll question' =>
 'Pytanie',
 
 'Number of options' =>
 'Liczba opcji',
 
-'Multivote' =>
-'Głosowanie wielokrotne',
+'Delete poll' =>
+'Usuń ankietę',
+
+'Add poll' =>
+'Stwórz ankietę',
 
 
 // pages/online.php
@@ -2689,6 +2695,12 @@ $languagePack = array(
 
 
 // Strings no longer used
+'New poll' =>
+'Nowa sonda',
+
+'Enter a message and a thread title and try again.' =>
+'Wpisz wiadomość i spróbuj ponownie.',
+
 '{0} found.' =>
 'Znaleziono {0}.',
 
