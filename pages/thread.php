@@ -349,8 +349,8 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 			<tr class=\"cell2\" style=\"display: none;\">
 				<td>
-					<input type=\"submit\" name=\"action\" value=\"".__("Post")."\" /> 
-					<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
+					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> 
+					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 					<select size=\"1\" name=\"mood\">
 						{4}
 					</select>
