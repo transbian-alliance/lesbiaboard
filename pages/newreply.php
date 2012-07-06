@@ -79,7 +79,7 @@ if($_POST['action'] && isset($_POST['ninja']) && $_POST['ninja'] != $ninja)
 if($_POST['text'] && $_POST['action'] == __("Post"))
 {
 	$lastPost = time() - $loguser['lastposttime'];
-	if($lastPost < $minSeconds)
+	if($lastPost < Settings::get("floodProtectionInterval"))
 	{
 		$_POST['action'] = "";
 		Alert(__("You're going too damn fast! Slow down a little."), __("Hold your horses."));

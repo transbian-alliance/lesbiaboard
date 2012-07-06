@@ -129,7 +129,7 @@ function DoPrivateMessageBar()
 function DoSmileyBar($taname = "text")
 {
 	global $smiliesOrdered;
-	$expandAt = 26;
+	$expandAt = 100;
 	LoadSmilies(TRUE);
 	
 
