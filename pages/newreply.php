@@ -4,6 +4,9 @@
 
 $title = __("New reply");
 
+if(!$loguserid) //Not logged in?
+	Kill(__("You must be logged in to post."));
+
 if(isset($_POST['id']))
 	$_GET['id'] = $_POST['id'];
 
