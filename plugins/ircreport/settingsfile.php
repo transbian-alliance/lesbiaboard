@@ -1,4 +1,4 @@
-	<?php
+<?php
 	$settings = array(
 		"host" => array(
 			"type" => "text",
