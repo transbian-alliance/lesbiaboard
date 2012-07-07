@@ -79,7 +79,9 @@ function listPlugin($plugin, $plugindata)
 	
 	print '<tr class="cell'.$cell.'"><td>';
 	print "<b>".$plugindata["name"]."</b><br>";
-	print '<span style="margin-left:30px;">'.$plugindata["description"].'</span>';
+	if($plugindata["author"])
+		$author = '<br />'.__("Made by:")." ".$plugindata["author"];
+	print '<span style="display:block;margin-left:30px;">'.$plugindata["description"].$author.'</span>';
 	print '</td><td>';
 	
 	print '<ul class="pipemenu">';
