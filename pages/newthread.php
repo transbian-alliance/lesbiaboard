@@ -154,6 +154,12 @@ else if(isset($_POST['actionpost']))
 			Alert(__("You need to enter at least two options to make a poll."), __("Invalid poll."));
 			$rejected = true;
 		}
+		
+		if(!$rejected && !$_POST["pollQuestion"])
+		{
+			Alert(__("You need to enter a poll question to make a poll."), __("Invalid poll."));
+			$rejected = true;
+		}
 	}
 	else
 	{
@@ -334,6 +340,7 @@ if($_POST['poll'])
 			</td>
 			<td>
 				<input type=\"text\" id=\"pn\" name=\"pollOptions\" value=\"".htmlspecialchars($_POST['pollOptions'])."\" size=\"2\" maxlength=\"2\" />
+				<input type=\"submit\" name=\"actionsetpoll\" value=\"".__("Set")."\" />
 			</td>
 		</tr>
 		<tr class=\"cell0\">
