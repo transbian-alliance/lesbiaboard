@@ -64,10 +64,7 @@ if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['las
 
 if(isset($_POST['actionpreview']))
 {
-	$layoutblocked = $loguser['globalblock'];
-	if ($loguserid != $loguserid)
-		$layoutblocked = $layoutblocked || FetchResult("SELECT COUNT(*) FROM {$dbpref}blockedlayouts WHERE user=".$loguserid." AND blockee=".$loguserid);
-	$previewPost['layoutblocked'] = $layoutblocked;
+	$previewPost['layoutblocked'] = $loguser['globalblock'];
 	
 	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $loguser['posts']+1;
