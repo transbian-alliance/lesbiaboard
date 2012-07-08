@@ -76,10 +76,7 @@ write("
 
 function DoGeshi($code)
 {
-	$geshi = new GeSHi(trim($code), "html4strict", null);
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	$geshi->enable_classes();
-	return "<span class=\"geshi\">".str_replace("\n", "", $geshi->parse_code())."</span>";
+	return "<code>".htmlspecialchars($code)."</code>";
 }
 
 ?>

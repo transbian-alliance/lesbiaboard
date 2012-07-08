@@ -3,9 +3,34 @@ body
 	background-color: #FFF;
 	color:black;
 }
+
+/* Default border color */
 table, td, tr, th, div
 {
-	border-color:white;
+	border-color:black;
+}
+
+/* Default link colors */
+a:link
+{
+	color: #05d;
+}
+a:visited
+{
+	color: #05d;
+}
+a:active
+{
+	color: #05d;
+}
+a:hover
+{
+	color:#703;
+}
+
+a:hover span
+{
+	color: #703 !important;
 }
 
 table
@@ -48,4 +73,11 @@ div.quote div.quotecontent
 .nc03 { color: #9FBA35; } .nc13 { color: #C53A9E; } .nc23 { color: #F0C413; }
 .nc04 { color: #5555FF; } .nc14 { color: #FF5588; } .nc24 { color: #FF55FF; } 
 .nc05 { color: #FF0000; } .nc15 { color: #FF0000; } .nc25 { color: #FF0000; }
+
+
+div.spoiler div.spoiled
+{
+	background: #FFF;
+	color: #000;
+}
 
