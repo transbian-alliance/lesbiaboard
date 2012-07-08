@@ -126,16 +126,16 @@ if ($_GET['listing'])  {
 			$userPic = "";
 			
 			if($user["picture"] == "#INTERNAL#")
-				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"width: 60px;\" />";
+				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 			else if($user["picture"])
-				$userPic = "<img src=\"".htmlspecialchars($user["picture"])."\" alt=\"\" style=\"width: 60px;\" />";
+				$userPic = "<img src=\"".htmlspecialchars($user["picture"])."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 
 			$cellClass = ($cellClass+1) % 2;
 			$memberList .= format(
 	"
 			<tr class=\"cell{0}\">
 				<td>{1}</td>
-				<td>{2}</td>
+				<td class=\"center\">{2}</td>
 				<td>{3}</td>
 				<td>{4}</td>
 				<td>{5}</td>
