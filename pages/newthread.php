@@ -108,7 +108,7 @@ if(isset($_POST['actionpreview']))
 ", $cellClass, $_POST['pollQuestion'], $pollLines);
 	}
 
-	$previewPost['text'] = $prefill;
+	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $loguser['posts']+1;
 	$previewPost['posts'] = $loguser['posts']+1;
 	$previewPost['id'] = "???";
