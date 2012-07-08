@@ -814,3 +814,7 @@ div#rss
 	background: rgba(0, 0, 0, 0.5);
 }
 
+input[type="checkbox"]
+{
+	vertical-align:middle;
+}
