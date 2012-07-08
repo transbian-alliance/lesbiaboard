@@ -44,7 +44,7 @@ $heavyTags = array(
 );
 
 $singleTags = array(
-	'user', 'forum', 'thread',
+	'user', 'forum', 'thread', 'td', 'tr', 'trh'
 );
 $singleHtmlTags = array(
 	'p', 'br', 'li', 'img', 'link', 'td', 'tr'

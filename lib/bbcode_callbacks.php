@@ -20,6 +20,11 @@ $bbcodeCallbacks = array(
 	"spoiler" => "bbcodeSpoiler",
 	"code" => "bbcodeCode",
 	"source" => "bbcodeCode",
+
+	"table" => "bbcodeTable",
+	"tr" => "bbcodeTableRow",
+	"trh" => "bbcodeTableRowHeader",
+	"td" => "bbcodeTableCell",
 );
 
 //Allow plugins to register their own callbacks (new bbcode tags)
@@ -175,5 +180,42 @@ function bbcodeSpoiler($contents, $arg)
 function bbcodeCode($contents, $arg)
 {
 	return '<div class="codeblock">'.htmlentities($contents).'</div>';
+}
+
+function bbcodeTable($contents, $arg)
+{
+	return "<table class=\"outline margin\">$contents</table>";
+}
+
+function bbcodeTableCell($contents, $arg)
+{
+	global $bbcodeIsTableHeader;
+	
+	if($bbcodeIsTableHeader)
+		return "<th>";
+	else
+		return "<td>";
+}
+
+$bbcodeCellClass = 0;
+
+function bbcodeTableRow($contents, $arg)
+{
+	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	$bbcodeCellClass++;
+	$bbcodeCellClass %= 2;
+		
+	$bbcodeIsTableHeader = false;
+	return "<tr class=\"cell$bbcodeCellClass\">";
+}
+
+function bbcodeTableRowHeader($contents, $arg)
+{
+	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	$bbcodeCellClass++;
+	$bbcodeCellClass %= 2;
+		
+	$bbcodeIsTableHeader = true;
+	return "<tr class=\"header0\">";
 }
 
