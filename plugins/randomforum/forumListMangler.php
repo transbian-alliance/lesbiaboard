@@ -1,11 +1,11 @@
 <?php
 
-if (!$self['forumid']) continue;
-if($forum['id'] == $self['forumid'])
+if (!Settings::pluginGet('forumid')) continue;
+if($forum['id'] == Settings::pluginGet('forumid'))
 {
-	$rndTitles = file_get_contents("./plugins/".$self['dir']."/titles.txt");
+	$rndTitles = file_get_contents("./plugins/".Settings::pluginGet('dir']."/titles.txt");
 	$rndTitles = explode("\n", $rndTitles);
-	$rndDescs = file_get_contents("./plugins/".$self['dir']."/descs.txt");
+	$rndDescs = file_get_contents("./plugins/".Settings::pluginGet('dir']."/descs.txt");
 	$rndDescs = explode("\n", $rndDescs);
 
 	$forum['title'] = $rndTitles[array_rand($rndTitles)];

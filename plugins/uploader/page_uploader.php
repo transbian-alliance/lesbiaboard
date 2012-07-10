@@ -14,8 +14,8 @@ $rootdir = $dataDir."uploader";
 	file_put_contents($rootdir."/.htaccess", "RewriteEngine On\nRewriteRule ^(.+)$ ".$here."get.php?file=$1 [PT,L,QSA]\nRewriteRule ^$ ".$here."get.php?error [PT,L,QSA]");
 }
 
-if($selfsettings['uploaderWhitelist'])
-	$goodfiles = explode(" ", $selfsettings['uploaderWhitelist']);
+if(Settings::pluginGet('uploaderWhitelist'))
+	$goodfiles = explode(" ", Settings::pluginGet('uploaderWhitelist'));
 
 $badfiles = array("html", "htm", "php", "php2", "php3", "php4", "php5", "php6", "htaccess", "htpasswd", "mht", "js", "asp", "aspx", "cgi", "py", "exe", "com", "bat", "pif", "cmd", "lnk", "wsh", "vbs", "vbe", "jse", "wsf", "msc", "pl", "rb", "shtm", "shtml", "stm", "htc");
 
@@ -24,9 +24,9 @@ if(isset($_POST['action']))
 if(isset($_POST['fid']))
 	$_GET['fid'] = $_POST['fid'];
 
-$quota = $selfsettings['uploaderCap'] * 1024 * 1024;
-$pQuota = $selfsettings['personalCap'] * 1024 * 1024;
-$uploaderMaxFileSize = $selfsettings['uploaderMaxFileSize'];
+$quota = Settings::pluginGet('uploaderCap') * 1024 * 1024;
+$pQuota = Settings::pluginGet('personalCap') * 1024 * 1024;
+$uploaderMaxFileSize = Settings::pluginGet('uploaderMaxFileSize');
 $totalsize = foldersize($rootdir);
 
 if(isset($_GET['sort']) && $_GET['sort'] == "filename" || $_GET['sort'] == "date")
@@ -375,7 +375,7 @@ if($loguserid && IsAllowed("useUploader"))
 		</tr>
 	</table>
 </form>
-", BytesToSize($maxSizeMult), $maxSizeMult, $selfsettings['uploaderWhitelist']);
+", BytesToSize($maxSizeMult), $maxSizeMult, Settings::pluginGet('uploaderWhitelist'));
 }
 
 $bar = "&nbsp;0%";

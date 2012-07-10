@@ -15,7 +15,7 @@ if(!is_file($rootdir."/.htaccess"))
 }
 
 if($uploaderWhitelist)
-	$goodfiles = explode(" ", $selfsettings['uploaderWhitelist']);
+	$goodfiles = explode(" ", Settings::pluginGet('uploaderWhitelist'));
 
 $badfiles = array("html", "htm", "php", "php2", "php3", "php4", "php5", "php6", "htaccess", "htpasswd", "mht", "js", "asp", "aspx", "cgi", "py", "exe", "com", "bat", "pif", "cmd", "lnk", "wsh", "vbs", "vbe", "jse", "wsf", "msc", "pl", "rb", "shtm", "shtml", "stm", "htc");
 
@@ -24,11 +24,11 @@ if(isset($_POST['action']))
 if(isset($_POST['fid']))
 	$_GET['fid'] = $_POST['fid'];
 
-$quota = $selfsettings['uploaderCap'] * 1024 * 1024;
-$pQuota = $selfsettings['personalCap'] * 1024 * 1024;
+$quota = Settings::pluginGet('uploaderCap') * 1024 * 1024;
+$pQuota = Settings::pluginGet('personalCap') * 1024 * 1024;
 $totalsize = foldersize($rootdir);
 
-$maxSizeMult = $selfsettings['uploaderMaxFileSize'] * 1024 * 1024;
+$maxSizeMult = Settings::pluginGet('uploaderMaxFileSize') * 1024 * 1024;
 
 if($_GET['action'] == "uploadform")
 {
@@ -81,7 +81,7 @@ if($_GET['action'] == "uploadform")
 				</tr>
 			</table>
 		</form>
-		", BytesToSize($maxSizeMult), $maxSizeMult, $selfsettings['uploaderWhitelist']);
+		", BytesToSize($maxSizeMult), $maxSizeMult, Settings::pluginGet('uploaderWhitelist'));
 	
 	}
 }
@@ -116,9 +116,9 @@ else if($_GET['action'] == __("Upload"))
 				else
 					Alert(__("File is empty."));
 			}
-			else if($_FILES['newfile']['size'] > $selfsettings['uploaderMaxFileSize'] * 1024 * 1024)
+			else if($_FILES['newfile']['size'] > Settings::pluginGet('uploaderMaxFileSize') * 1024 * 1024)
 			{
-				Alert(format(__("File is too large. Maximum size is {0}."), BytesToSize($selfsettings['uploaderMaxFileSize'] * 1024 * 1024)));
+				Alert(format(__("File is too large. Maximum size is {0}."), BytesToSize(Settings::pluginGet('uploaderMaxFileSize') * 1024 * 1024)));
 			}
 			else
 			{

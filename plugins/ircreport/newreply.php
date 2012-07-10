@@ -1,7 +1,7 @@
 <?php
 
-$c1 = $selfsettings["color1"];
-$c2 = $selfsettings["color2"];
+$c1 = Settings::pluginGet("color1");
+$c2 = Settings::pluginGet("color2");
 
 $thename = $loguser["name"];
 if($loguser["displayname"])

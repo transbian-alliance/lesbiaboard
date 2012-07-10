@@ -1,3 +1,3 @@
 <?php
-	print actionLinkTagItem($selfsettings["pagename"], "blog");
+	print actionLinkTagItem(Settings::pluginGet("pagename"), "blog");
 ?>

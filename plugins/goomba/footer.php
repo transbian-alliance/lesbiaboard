@@ -5,10 +5,10 @@ $footerExtensionsA .= Format(
 	<script>
 	(function () {
 		var i = 0;
-		for (; i < " . ((int) $selfsettings['goombas']) . "; ++i) {
+		for (; i < " . ((int) Settings::pluginGet('goombas')) . "; ++i) {
 			setTimeout(function () {
 				new Goomba();
-			}, " . ((float) $selfsettings['interval']) . " * i);
+			}, " . ((float) Settings::pluginGet('interval')) . " * i);
 		}
 	})();
 	</script>

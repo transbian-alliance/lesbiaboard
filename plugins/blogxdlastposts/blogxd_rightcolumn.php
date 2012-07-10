@@ -1,8 +1,8 @@
 <?php
 
 
-$hours = $selfsettings["hours"];
-$limit = $selfsettings["limit"];
+$hours = Settings::pluginGet("hours");
+$limit = Settings::pluginGet("limit");
 
 
 $qPosts = "select 

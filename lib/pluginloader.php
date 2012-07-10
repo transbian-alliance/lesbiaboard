@@ -8,11 +8,9 @@ if ($pluginbuckets[$bucket])
 		if (isset($plugins[$plugin]))
 		{
 			$self = $plugins[$plugin];
-			$selfsettings = Settings::$pluginsettings[$plugin];
 			include("./plugins/".$plugins[$plugin]['dir']."/".$bucket.".php");
 			unset($self);
 		}
 	}
-	unset($self);
 }
 ?>

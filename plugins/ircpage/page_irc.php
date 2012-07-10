@@ -11,9 +11,9 @@ if(!$handle)
 	$guest = "<p>When you've connected to the IRC network, please use the command <kbd>/nick NICKNAME</kbd>.</p>";
 }
 
-$server = $selfsettings["server"];
-$channel = $selfsettings["channel"];
-$port = $selfsettings["port"];
+$server = Settings::pluginGet("server");
+$channel = Settings::pluginGet("channel");
+$port = Settings::pluginGet("port");
 if(isset($_GET['connect']))
 {
 

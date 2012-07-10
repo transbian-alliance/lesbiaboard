@@ -16,7 +16,7 @@ $personal['extrafields'] = array(
 	"name" => "Custom profile fields",
 	"items" => array(),
 );
-for($i = 0; $i < $selfsettings['numberOfFields']; $i++)
+for($i = 0; $i < Settings::pluginGet('numberOfFields'); $i++)
 {
 	$personal['extrafields']['items']['extra'.$i.'t'] = array(
 		"caption" => format(__("Caption for #{0}"), $i+1),

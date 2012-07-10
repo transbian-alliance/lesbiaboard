@@ -44,19 +44,19 @@
 
 class Settings
 {
-	public static $pluginsettings;
+	public static $settingsArray;
 	//Loads ALL the settings.
 
 	public static function load()
 	{
 		global $dbpref;
 	
-		self::$pluginsettings = array();
+		self::$settingsArray = array();
 		$rSettings = Query("select * from {$dbpref}settings");
 		
 		while($setting = Fetch($rSettings))
 		{
-			self::$pluginsettings[$setting["plugin"]][$setting["name"]] = $setting["value"];
+			self::$settingsArray[$setting["plugin"]][$setting["name"]] = $setting["value"];
 		}
 	}
 
@@ -79,8 +79,8 @@ class Settings
 
 	public static function checkPlugin($pluginname)
 	{
-		if(!isset(self::$pluginsettings[$pluginname]))
-			self::$pluginsettings[$pluginname] = array();
+		if(!isset(self::$settingsArray[$pluginname]))
+			self::$settingsArray[$pluginname] = array();
 		
 		$changed = false;		
 
@@ -90,12 +90,12 @@ class Settings
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type, $data["options"]))
+			if(!isset(self::$settingsArray[$pluginname][$name]) || !self::validate(self::$settingsArray[$pluginname][$name], $type, $data["options"]))
 			{
 				if (isset($data["defaultfile"]))
-					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
+					self::$settingsArray[$pluginname][$name] = file_get_contents($data["defaultfile"]);
 				else
-					self::$pluginsettings[$pluginname][$name] = $default;
+					self::$settingsArray[$pluginname][$name] = $default;
 
 				self::saveSetting($pluginname, $name);
 				$changed = true;
@@ -106,7 +106,7 @@ class Settings
 
 	public static function save($pluginname)
 	{
-		foreach(self::$pluginsettings[$pluginname] as $name=>$value)
+		foreach(self::$settingsArray[$pluginname] as $name=>$value)
 			self::saveSetting($pluginname, $name);
 	}
 	
@@ -116,7 +116,7 @@ class Settings
 		Query("insert into {$dbpref}settings (plugin, name, value) values (".
 			"'".justEscape($pluginname)."', ".
 			"'".justEscape($settingname)."', ".
-			"'".justEscape(self::$pluginsettings[$pluginname][$settingname])."') ".
+			"'".justEscape(self::$settingsArray[$pluginname][$settingname])."') ".
 			"on duplicate key update value=VALUES(value)");
 	}
 	
@@ -153,7 +153,12 @@ class Settings
 	
 	public static function get($name)
 	{
-		return self::$pluginsettings["main"][$name];
+		return self::$settingsArray["main"][$name];
+	}
+	public static function pluginGet($name)
+	{
+		global $plugin;
+		return self::$settingsArray[$plugin][$name];
 	}
 }
 ?>
