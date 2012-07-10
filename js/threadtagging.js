@@ -72,7 +72,8 @@ var ThreadTagContainer = function(inside) {
 		var title = title;
 
 		for (var i in this.containerElement.childNodes) {
-			if (this.containerElement.childNodes[i].tagName == "SPAN")
+			if (this.containerElement.childNodes[i].tagName == "SPAN" &&
+				this.containerElement.childNodes[i].childNodes[0].value.trim() != "")
 				title += " [" + this.containerElement.childNodes[i].childNodes[0].value + "]";
 		}
 
@@ -119,18 +120,10 @@ window.addEventListener("load", function(e) {
 	var threadTagContainer = new ThreadTagContainer(threadTitleContainer);
 
 	//Add already existing tags to the list of thread tags
-	var titleText = threadTitleEntry.value;
-	
-	titleText = titleText.split(" ");
-	var newTitleText = new String();
-
-	for (var i = 0; i < titleText.length; i++) {
-		if (titleText[i][0] == "[" && titleText[i].slice(-1)[0] == "]") {
-			threadTagContainer.newTag(titleText[i].substring(1, titleText[i].length - 1));
-			delete titleText[i];
-		}
-	}
-	newThreadTitleEntry.value = titleText.join(" ").trim();
+	newThreadTitleEntry.value = threadTitleEntry.value.replace(/\[(.*?)\]/g, function (full, tag) {
+		threadTagContainer.newTag(tag);
+		return "";
+	});
 	
 	//Locate newTagTitleEntry's parent form
 

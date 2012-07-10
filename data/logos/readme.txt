@@ -6,4 +6,4 @@ You can make theme-specific logos that will override the global logo by adding l
 
 The board looks for *.png, then for *.jpg, then for *.gif
 
-You can also place a custom favicon.gif in here!
+You can also place a custom favicon.gif or .ico in here!

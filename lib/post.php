@@ -1,17 +1,16 @@
 <?php
 //  AcmlmBoard XD support - Post functions
 
-include_once("geshi.php");
 include_once("write.php");
 
 
-function ParseThreadTags(&$title)
+function ParseThreadTags($title)
 {
 	preg_match_all("/\[(.*?)\]/", $title, $matches);
 	foreach($matches[1] as $tag)
 	{
 		$title = str_replace("[".$tag."]", "", $title);
-		$tag = htmlentities(strip_tags(strtolower($tag)));
+		$tag = htmlentities(strtolower($tag));
 
 		//Start at a hue that makes "18" red.
 		$hash = -105;
@@ -25,7 +24,10 @@ function ParseThreadTags(&$title)
 	}
 	if($tags)
 		$tags = " ".$tags;
-	return $tags;
+
+	$title = str_replace("<", "&lt;", $title);		
+	$title = str_replace(">", "&gt;", $title);		
+	return array(trim($title), $tags);
 }
 
 function filterPollColors($input)
@@ -68,7 +70,7 @@ function ApplySmilies($text)
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$smiliesReplaceOrig[] = "/".preg_quote($smilies[$i]['code'], "/")."/";
+			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote($smilies[$i]['code'], "/")."(?!\w)/";
 			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
@@ -78,9 +80,13 @@ function ApplySmilies($text)
 function LoadBlocklayouts()
 {
 	global $blocklayouts, $loguserid, $dbpref;
+
 	if(isset($blocklayouts))
 		return;
+
 	$rBlocks = Query("select * from {blockedlayouts} where blockee = {0}", $loguserid);
+	$blocklayouts = array();
+
 	while($block = Fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
 }
@@ -192,12 +198,14 @@ function postDoReplaceText($s)
 	//Smilies
 	if(!$postNoSmilies)
 		$s = ApplySmilies($s);
-		
-
 
 	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
+
+	$s = preg_replace_callback("@(?<![\]=\"'])https?://[^\s<]+[^<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
+
+	$bucket = "postMangler"; include("./lib/pluginloader.php");
 	
 	return $s;
 }
@@ -211,7 +219,9 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$postNoBr = $noBr;
 	$postPoster = $poster;
 	
-	$s = parseBBCode($postText);
+	$s = $postText;
+	
+	$s = parseBBCode($s);
 
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
@@ -271,8 +281,6 @@ function CheckKosher($matches)
 
 function securityPostFilter($s)
 {
-	global $badTags;
-
 	$s = str_replace("\r\n","\n", $s);
 
 	$s = EatThatPork($s);
@@ -323,7 +331,6 @@ function makePostText($post)
 	$post['posts'] = $rankHax;
 
 	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
 
 	//Post header and footer.
 	//OMFG, more hax.
@@ -368,7 +375,7 @@ $sideBarData = 0;
 //		* metatext: if non-empty, this text is displayed in the metabar instead of 'Sample post' (POST_SAMPLE only)
 function MakePost($post, $type, $params=array())
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt, $dataDir, $dataUrl;
 
 	$sideBarStuff = "";
 
@@ -381,7 +388,7 @@ function MakePost($post, $type, $params=array())
 		$meta .= __(', deleted');
 		if ($post['deletedby'])
 		{
-			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['du_name'], 'displayname'=>$post['du_dn'], 'powerlevel'=>$post['du_power'], 'sex'=>$post['du_sex']));
 			$meta .= __(' by ').$db_link;
 			
 			if ($post['reason'])
@@ -399,15 +406,15 @@ function MakePost($post, $type, $params=array())
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 		write(
 "
-		<table class=\"post margin\" id=\"post{0}\">
+		<table class=\"post margin deletedpost\" id=\"post{0}\">
 			<tr>
 				<td class=\"side userlink\" id=\"{0}\">
 					{1}
 				</td>
-				<td class=\"smallFonts\" style=\"border-left: 0px none; border-right: 0px none;\">
-					{2}
-				</td>
-				<td class=\"smallFonts right\" style=\"border-left: 0px none;\">
+				<td class=\"smallFonts meta right\">
+					<div style=\"float:left\">
+						{2}
+					</div>
 					{3}
 				</td>
 			</tr>
@@ -481,7 +488,13 @@ function MakePost($post, $type, $params=array())
 		$meta = format($message, formatdate($post['date']));
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
-			$meta .= " ".__("in")." ".actionLinkTag($post['threadname'], "thread", $post['thread']);
+		{
+			$thread = array();
+			$thread["id"] = $post["thread"];
+			$thread["title"] = $post["threadname"];
+			
+			$meta .= " ".__("in")." ".makeThreadLink($thread);
+		}
 		//Revisions
 		if($post['revision'])
 		{
@@ -512,12 +525,18 @@ function MakePost($post, $type, $params=array())
 		$sideBarStuff .= $levelRanks[$post['powerlevel']]."<br />";
 	}
 	$sideBarStuff .= GetSyndrome($post['activity']);
-	if($post['picture'])
+
+	if($post['mood'] > 0)
 	{
-		if($post['mood'] > 0 && file_exists("img/avatars/".$post['uid']."_".$post['mood']))
-			$sideBarStuff .= "<img src=\"img/avatars/".$post['uid']."_".$post['mood']."\" alt=\"\" />";
-		else
-			$sideBarStuff .= "<img src=\"".$post['picture']."\" alt=\"\" />";
+		if(file_exists("${dataDir}avatars/".$post['uid']."_".$post['mood']))
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."_".$post['mood']."\" alt=\"\" />";
+	}
+	else
+	{
+		if($post["picture"] == "#INTERNAL#")
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."\" alt=\"\" />";
+		else if($post["picture"])
+			$sideBarStuff .= "<img src=\"".htmlspecialchars($post["picture"])."\" alt=\"\" />";
 	}
 
 	$lastpost = ($post['lastposttime'] ? timeunits(time() - $post['lastposttime']) : "none");

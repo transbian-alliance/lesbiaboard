@@ -123,15 +123,18 @@ if ($_GET['listing'])  {
 			$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
 
 			$userPic = "";
-			if($user['picture'] && $hacks['themenames'] != 3)
-				$userPic = "<img src=\"".str_replace("img/avatars/", "img/avatars/", $user['picture'])."\" alt=\"\" style=\"width: 60px;\" />";
+			
+			if($user["picture"] == "#INTERNAL#")
+				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
+			else if($user["picture"])
+				$userPic = "<img src=\"".htmlspecialchars($user["picture"])."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 
 			$cellClass = ($cellClass+1) % 2;
 			$memberList .= format(
 	"
 			<tr class=\"cell{0}\">
 				<td>{1}</td>
-				<td>{2}</td>
+				<td class=\"center\">{2}</td>
 				<td>{3}</td>
 				<td>{4}</td>
 				<td>{5}</td>
@@ -201,7 +204,7 @@ if (!$isBot)
 {
 	write(
 "
-	<script src=\"".resourceLink("lib/memberlist.js")."\"></script>
+	<script src=\"".resourceLink("js/memberlist.js")."\"></script>
 	<div id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(

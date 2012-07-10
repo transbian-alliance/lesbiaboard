@@ -67,7 +67,6 @@ if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
 
 		$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
-		$links .= "<li>".actionLinkTag(__("Post poll"), "newthread", $fid, "poll=1")."</li>";
 }
 
 $OnlineUsersFid = $fid;
@@ -175,14 +174,14 @@ function ForumJump()
 "
 			{0}
 			<optgroup label=\"{1}\">
-", $optgroup, strip_tags($forum['cname']));
+", $optgroup, htmlspecialchars($forum['cname']));
 			$optgroup = "</optgroup>";
 		}
 
 		$theList .= format(
 "
 				<option value=\"{0}\"{2}>{1}</option>
-",	htmlentities(actionLink("forum", $forum['id'])), strip_tags($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
+",	htmlentities(actionLink("forum", $forum['id'])), htmlspecialchars($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
 	}
 	
 	write(

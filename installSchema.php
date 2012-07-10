@@ -403,7 +403,8 @@ $tables = array
 			"uid" => $genericInt,
 			"voter" => $genericInt,
 			"up" => $bool,
-		)
+		),
+		"special" => "primary key (`uid`, `voter`), key `uid` (`uid`)"
 	),
 	"usergroups" => array(
 		"fields" => array

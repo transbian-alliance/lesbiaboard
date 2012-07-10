@@ -74,6 +74,12 @@ a:hover span
 	color: #FFF !important;
 }
 
+.pagelink
+{
+	padding:5px;
+	display:inline-block;
+}
+
 /* Name color table */
 .nc0x { color: #888888; } .nc1x { color: #888888; } .nc2x { color: #888888; }
 .nc00 { color: #97ACEF; } .nc10 { color: #F185C9; } .nc20 { color: #7C60B0; }
@@ -139,7 +145,7 @@ a:hover span
 table
 {
 	color: #FFF;
-		
+	
 	border-collapse: separate;
 	border-spacing:0;
 	width: 100%;
@@ -158,14 +164,14 @@ table#header
 }
 
 /* All cells have border by default */
-table.post td, table.outline td, table.message td
+table.post>tbody>tr>td, table.outline>tbody>tr>td, table.message>tbody>tr>td
 {
 	font-size: 1em; /* 10pt; */
 	border-width:0px 1px 1px 0px;
 	border-style:solid;
 }
 
-table.post th, table.outline th, table.message th
+table.post>tbody>tr>th, table.outline>tbody>tr>th, table.message>tbody>tr>th
 {
 	border-width: 0px 0px 1px 0px;
 	border-style:solid;
@@ -173,13 +179,13 @@ table.post th, table.outline th, table.message th
 	text-align: left;
 }
 
-table.post th:last-child, table.outline th:last-child, table.message th:last-child
+table.post>tbody>tr>th:last-child, table.outline>tbody>tr>th:last-child, table.message>tbody>tr>th:last-child
 {
 	border-width: 0px 1px 1px 0px;
 	border-style:solid;
 }
 
-.header0 th, .header1 th
+tr.header0>th, tr.header1>th
 {
 	text-align: center!important;
 	font-size: .85em!important; /* 8pt; */
@@ -197,29 +203,26 @@ table.post td.side
 {
 	width: 15%;
 	vertical-align: top;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 0px 1px 0px;
 
 	padding: 0px 4px 4px;
 }
 
 table.post td.post
 {
-	border-width: 0px 1px 1px 0px;
+	padding:5px;
+	border-width: 1px 1px 1px 1px;
 	vertical-align: top;
 	height: 100px;
 }
 
-table.post td.post td
-{
-	border-width: 0;
-}
 
 table.post td.meta
 {
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 1px 0px 0px;
 	padding-right: 4px;
 }
 table.post td.links
@@ -227,13 +230,24 @@ table.post td.links
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0px 1px 1px 0px;
+	border-width: 0px 1px 0px 0px;
 }
 
 table.post td.userlink
 {
 	border-width: 0px 0px 0px 0px;
 }
+
+table.deletedpost td.meta
+{
+	border-width: 0px 1px 1px 0px;
+}
+table.deletedpost td.side
+{
+	border-width: 0px 0px 1px 0px;
+}
+
+
 
 /* Message tables */
 
@@ -471,10 +485,6 @@ textarea
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: #000;
-}
-#header
-{
-	box-shadow: none;	
 }
 
 #body
@@ -804,3 +814,7 @@ div#rss
 	background: rgba(0, 0, 0, 0.5);
 }
 
+input[type="checkbox"]
+{
+	vertical-align:middle;
+}

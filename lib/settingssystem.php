@@ -139,8 +139,12 @@ class Settings
 		if($type == "options")
 			if (!isset($options[$value]))
 				return false;
+		
+		//These should be alphanumeric with underscores.
+		if($type == "layout" || $type == "theme" || $type == "language")
+			if(!preg_match("/^[a-zA-Z_]+$/", $value))
+				return false;
 			
-
 		return true;
 	}
 	

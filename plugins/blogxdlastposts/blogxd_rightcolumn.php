@@ -4,6 +4,7 @@
 $hours = $selfsettings["hours"];
 $limit = $selfsettings["limit"];
 
+
 $qPosts = "select 
 	{posts}.id, {posts}.date, {users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, {threads}.title as ttit, {forums}.title as ftit
 	from {posts} 
@@ -14,8 +15,13 @@ $qPosts = "select
 	order by date desc limit 0, $limit";
 
 $rPosts = Query($qPosts);
+
 while($post = Fetch($rPosts))
 {
+	$thread = array();
+	$thread["title"] = $post["ttit"];
+	$thread["id"] = $post["tid"];
+
 	$c = ($c+1) % 2;
 	$theList .= format(
 "
@@ -36,7 +42,7 @@ while($post = Fetch($rPosts))
 			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
 		</td>
 	</tr>
-", $post['id'], formatdate($post['date']), UserLink($post, "uid"), $post['ftit'], $post['ttit'], $c);
+", $post['id'], formatdate($post['date']), UserLink($post, "uid"), actionLinkTag($post["ftit"], "forum", $post["fid"]), makeThreadLink($thread), $c);
 }
 
 if($theList == "")

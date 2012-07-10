@@ -113,7 +113,7 @@ while($thread = Fetch($rThreads))
 		$forumList .= "<table class='outline margin width100'>";
 		$forumList .= "
 		<tr class=\"header1\" >
-			<th style='text-align:left;'><span style='font-size:15px'>".strip_tags($thread['title'])."</span><span style='font-weight:normal;'>$subtitle</span></th>
+			<th style='text-align:left;'><span style='font-size:15px'>".$tags[0]."</span><span style='font-weight:normal;'>$subtitle</span></th>
 			<th style='text-align:left; width:150px; font-weight:normal;'>Posted by ".UserLink($starter)."<br>$postdate</th>
 		</tr>";
 		$forumList .= "<tr class='cell1'><td colspan='2' style='padding:10px'>$posttext</td></tr>";

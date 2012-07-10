@@ -30,7 +30,7 @@ function find_strings($tokens, $filename)
 					
 					$translation = "";
 					if(isset($languagePack[$string]))
-						$translation = trim($languagePack[$string]);
+						$translation = $languagePack[$string];
 
 					echo var_export($string, true), " =>\n", var_export($translation, true), ",\n\n";
 				}

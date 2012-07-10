@@ -11,11 +11,6 @@ body
 	color: black;
 }
 
-.PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button
-{
-	border-radius: 0px;
-	}
-
 button, input[type="submit"]
 {
 	font-family: "MS Sans Serif";
@@ -66,25 +61,6 @@ input[type="radio"]
 	background: teal;
 	color: white;
 }
-
-table.outline
-{
-	border: 0px none;
-	box-shadow: none;
-}
-
-div.outline
-{
-	box-shadow: none;
-}
-
-.header0, .header1
-{
-}
-
-.outline
-{
-	}
 
 a:link, a:visited
 {

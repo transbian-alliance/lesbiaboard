@@ -15,32 +15,34 @@ function MakeCrumbs($path, $links)
 		$path = $pathPrefix + $path + $pathPostfix;
 	}
 	
+	$first = true;
+	
 	foreach($path as $text=>$link)
 	{
-		$link = str_replace("&","&amp;",$link);
-		if($link)
+		if(is_array($link))
 		{
-			$sep = strpos($text, '<TAGS>');
-			if ($sep === FALSE)
-			{
-				$title = $text;
-				$tags = '';
-			}
-			else
-			{
-				$title = substr($text, 0, $sep);
-				$tags = ' '.substr($text, $sep+6);
-			}
-			if (Settings::get("tagsDirection") === 'Left')
-				$crumbs .= $tags."<a href=\"".$link."\">".$title."</a> &raquo; ";
-			else
-				$crumbs .= "<a href=\"".$link."\">".$title."</a> ".$tags." &raquo; ";
+			$dalink = $text;
+			$tags = $link[1];
+			$text = $link[0];
+			$link = $dalink;
 		}
 		else
-			$crumbs .= str_replace('<TAGS>', '', $text). " &raquo; ";
+			$tags = "";
+
+		$link = str_replace("&","&amp;",$link);
+		
+		if(!$first)
+			$crumbs .= " &raquo; ";
+		$first = false;
+		
+		if(!$tags)
+			$crumbs .= "<a href=\"".$link."\">".$text."</a>";
+		else if (Settings::get("tagsDirection") === 'Left')
+			$crumbs .= $tags." <a href=\"".$link."\">".$text."</a>";
+		else
+			$crumbs .= "<a href=\"".$link."\">".$text."</a> ".$tags;
 	}
-	$crumbs = substr($crumbs, 0, strlen($crumbs) - 8);
-	
+
 	if($links)
 		$links = "<ul class=\"pipemenu smallFonts\">
 			$links
@@ -53,5 +55,19 @@ function MakeCrumbs($path, $links)
 	</div>
 	$crumbs&nbsp;
 </div>";
+}
+
+function makeThreadLink($thread)
+{
+	$tags = ParseThreadTags($thread["title"]);
+	
+	$link = actionLinkTag($tags[0], "thread", $thread["id"]);
+	$tags = $tags[1];
+	
+	if (Settings::get("tagsDirection") === 'Left')
+		return $tags." ".$link;
+	else
+		return $link." ".$tags;
+	
 }
 ?>

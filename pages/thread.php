@@ -5,8 +5,7 @@
 
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];
-
-elseif(isset($_GET['pid']))
+else if(isset($_GET['pid']))
 {
 	$pid = (int)$_GET['pid'];
 	$rPost = Query("select * from {posts} where id={0}", $pid);
@@ -15,11 +14,14 @@ elseif(isset($_GET['pid']))
 	else
 		Kill(__("Unknown post ID."));
 	$tid = $post['thread'];
-} else
+}
+else
 	Kill(__("Thread ID unspecified."));
+
 AssertForbidden("viewThread", $tid);
 
 $rThread = Query("select * from {threads} where id={0}", $tid);
+
 if(NumRows($rThread))
 	$thread = Fetch($rThread);
 else
@@ -49,11 +51,10 @@ if(NumRows($rCategories))
 else
 	Kill(__("Unknown category ID."));
 
-$tags = ParseThreadTags($thread['title']);
-$thread['title'] = strip_tags($thread['title']);
-$title = $thread['title'];
+$threadtags = ParseThreadTags($thread['title']);
+$title = $threadtags[0];
 
-$rViewCounter = Query("update {threads} set views={0} where id={1} limit 1", ($thread['views']+1), $tid);
+Query("update {threads} set views=views+1 where id={0} limit 1", $tid);
 
 if(isset($_GET['vote']))
 {
@@ -135,8 +136,7 @@ write(
 	</script>
 ");
 
-$titleandtags = $thread['title']."<TAGS>".$tags;
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags => actionLink("thread", $tid)), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => $threadtags), $links);
 
 if($thread['poll'])
 {
@@ -262,15 +262,18 @@ $rPosts = Query("	SELECT
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
+				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex
 			FROM 
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {users} u ON u.id = p.user
 				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
-				LEFT JOIN {users} u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
+				LEFT JOIN {users} u2 ON u2.id=pt.user
+				LEFT JOIN {users} u3 ON u3.id=p.deletedby
 			WHERE thread={1} 
 			ORDER BY date ASC LIMIT {2}, {3}", $loguserid, $tid, $from, $ppp);
+
 $numonpage = NumRows($rPosts);
 
 $pagelinks = PageLinks(actionLink("thread", $tid, "from="), $ppp, $from, $total);
@@ -333,8 +336,8 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 			<tr class=\"cell2\" style=\"display: none;\">
 				<td>
-					<input type=\"submit\" name=\"action\" value=\"".__("Post")."\" /> 
-					<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
+					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> 
+					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 					<select size=\"1\" name=\"mood\">
 						{4}
 					</select>

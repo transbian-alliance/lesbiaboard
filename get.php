@@ -19,9 +19,9 @@ if(NumRows($entry))
 	$entry = Fetch($entry);
 
 	if($entry['private'])
-		$path = "uploader/".$entry['user']."/".$entry['filename'];
+		$path = $dataDir."uploader/".$entry['user']."/".$entry['filename'];
 	else
-		$path = "uploader/".$entry['filename'];
+		$path = $dataDir."uploader/".$entry['filename'];
 
 	if(!file_exists($path))
 		die("No such file.");

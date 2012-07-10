@@ -494,8 +494,7 @@ if($_POST['action'] == __("Edit profile"))
 						case "displaypic":
 							if($_POST['remove'.$field])
 							{
-								if(substr($user[$field],0,12) == "img/avatars/")
-									@unlink($user[$field]);
+								@unlink($dataDir."avatars/$userid");
 								$sets[] = $field." = ''";
 								continue;
 							}
@@ -503,7 +502,7 @@ if($_POST['action'] == __("Edit profile"))
 								continue;
 							$res = HandlePicture($field, 0, $item['errorname'], $user['powerlevel'] > 0 || $loguser['powerlevel'] > 0);
 							if($res === true)
-								$sets[] = $field." = 'img/avatars/".$userid."'";
+								$sets[] = $field." = '#INTERNAL#'";
 							else
 							{
 								Kill($res.$retlink);
@@ -512,8 +511,7 @@ if($_POST['action'] == __("Edit profile"))
 						case "minipic":
 							if($_POST['remove'.$field])
 							{
-								if(substr($user[$field],0,12) == "img/minipic/")
-									@unlink($user[$field]);
+								@unlink($dataDir."minipic/$userid");
 								$sets[] = $field." = ''";
 								continue;
 							}
@@ -521,7 +519,7 @@ if($_POST['action'] == __("Edit profile"))
 								continue;
 							$res = HandlePicture($field, 1, $item['errorname']);
 							if($res === true)
-								$sets[] = $field." = 'img/minipics/".$userid.".png'";
+								$sets[] = $field." = '#INTERNAL#'";
 							else
 							{
 								Kill($res.$retlink);
@@ -602,7 +600,7 @@ if ($fallToEditor && $failed)
 
 function HandlePicture($field, $type, $errorname, $allowOversize = false)
 {
-	global $userid;
+	global $userid, $dataDir;
 	if($type == 0)
 	{
 		$extensions = array(".png",".jpg",".gif");
@@ -615,6 +613,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 		$maxDim = 16;
 		$maxSize = 100 * 1024;
 	}
+	
 	$fileName = $_FILES[$field]['name'];
 	$fileSize = $_FILES[$field]['size'];
 	$tempFile = $_FILES[$field]['tmp_name'];
@@ -646,7 +645,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	$oversize = ($width > $maxDim || $height > $maxDim);
 	if ($type == 0)
 	{
-		$targetFile = "img/avatars/".$userid;
+		$targetFile = $dataDir."avatars/".$userid;
 		
 		if($allowOversize || !$oversize)
 		{
@@ -672,7 +671,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	}
 	elseif ($type == 1)
 	{
-		$targetFile = "img/minipics/".$userid.".png";
+		$targetFile = $dataDir."minipics/".$userid;
 		
 		if ($oversize)
 		{

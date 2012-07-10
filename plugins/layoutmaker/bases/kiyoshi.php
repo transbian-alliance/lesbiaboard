@@ -3,6 +3,8 @@
 $cssTemplate = ".mainbar[ID]
 {
 	background: transparent !important;
+	border-top: [BORDER]!important;
+	border-left: [BORDER]!important;
 }
 .topbar[ID]_1, .topbar[ID]_2, .sidebar[ID]
 {
@@ -13,15 +15,6 @@ $cssTemplate = ".mainbar[ID]
 .table[ID]
 {
 	background: [BACKGROUND] !important;
-}
-
-.topbar[ID]_2
-{
-	border-bottom: [BORDER]!important;
-}
-.sidebar[ID]
-{
-	border-right: [BORDER]!important;
 }
 
 .mainbar[ID] div.top, .mainbar[ID] div.bottom

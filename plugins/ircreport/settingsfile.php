@@ -13,12 +13,12 @@
 		"color1" => array(
 			"type" => "integer",
 			"default" => "5",
-			"name" => "Color code 1",
+			"name" => "Color code for highlights",
 		),
 		"color2" => array(
 			"type" => "integer",
 			"default" => "3",
-			"name" => "Color code 2",
+			"name" => "Color code",
 		),
 	);
 ?>

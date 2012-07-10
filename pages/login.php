@@ -12,8 +12,9 @@ elseif($_POST['action'] == __("Log in"))
 {
 	$okay = true;
 	$original = $_POST['pass'];
-	$escapedName = justEscape($_POST['name']);
-	$rUser = Query("select * from {users} where name={0}", $escapedName);
+
+	$rUser = Query("select * from {users} where name={0}", $_POST['name']);
+
 	if(NumRows($rUser))
 	{
 		$user = Fetch($rUser);
@@ -42,7 +43,7 @@ elseif($_POST['action'] == __("Log in"))
 		else
 			setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
 
-		Report("[b]".$escapedName."[/] logged in.", 1);
+		Report("[b]".$_POST['name']."[/] logged in.", 1);
 
 		die(header("Location: ."));
 	}

@@ -44,8 +44,8 @@ if($loguserid && $_GET['action'] == "markallread")
 printRefreshCode();
 write(
 "
-	<table class=\"outline margin width100 smallFonts\" style=\"overflow: auto;\">
-		<tr class=\"header0 cell2 center\" style=\"overflow: auto;\">
+	<table class=\"outline margin width100\" style=\"overflow: auto;\">
+		<tr class=\"cell2 center\" style=\"overflow: auto;\">
 		<td>
 			<div style=\"float: left; width: 25%;\">&nbsp;<br />&nbsp;</div>
 			<div style=\"float: right; width: 25%;\">{1}</div>

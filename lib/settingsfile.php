@@ -78,16 +78,21 @@
 			"default" => "en_US",
 			"name" => "Board language",
 		),
-		"showPoRA" => array (
-			"type" => "boolean",
-			"default" => "1",
-			"name" => "Show Points of Required Attention",
+		"floodProtectionInterval" => array (
+			"type" => "integer",
+			"default" => "10",
+			"name" => "Minimum time between user posts"
 		),
 		"tagsDirection" => array (
 			"type" => "options",
 			"options" => array('Left' => 'Left', 'Right' => 'Right'),
 			"default" => 'Right',
 			"name" => "Direction of thread tags.",
+		),
+		"showPoRA" => array (
+			"type" => "boolean",
+			"default" => "1",
+			"name" => "Show Points of Required Attention",
 		),
 		"PoRATitle" => array (
 			"type" => "text",

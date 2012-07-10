@@ -25,11 +25,6 @@ function OptimizeLayouts($text)
 	return $text;
 }
 
-function usectime()
-{
-	$t = gettimeofday();
-	return $t['sec'] + ($t['usec'] / 1000000);
-}
 
 function GetRainbowColor()
 {
@@ -131,7 +126,7 @@ function DoPrivateMessageBar()
 function DoSmileyBar($taname = "text")
 {
 	global $smiliesOrdered;
-	$expandAt = 26;
+	$expandAt = 100;
 	LoadSmilies(TRUE);
 	
 

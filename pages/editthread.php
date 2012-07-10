@@ -33,7 +33,9 @@ if(!$canMod && $thread['user'] != $loguserid)
 	Kill(__("You are not allowed to edit threads."));
 
 $OnlineUsersFid = $thread['forum'];
+
 $rFora = Query("select minpower from {forums} where id={0}", $thread['forum']);
+
 if(NumRows($rFora))
 	$forum = Fetch($rFora);
 else
@@ -41,11 +43,7 @@ else
 
 $isHidden = (int)($forum['minpower'] > 0);
 
-$thread['title'] = strip_tags($thread['title']);
-$title2 = $thread['title'];
-$tags = ParseThreadTags($title2);
-$titleandtags = $title2."<TAGS>".$tags;
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), $titleandtags=>actionLink("thread", $tid), __("Edit thread")=>""), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"]), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("Edit thread")=>""), $links);
 
 
 if($canMod)
@@ -261,7 +259,7 @@ if($canMod)
 	
 	write(
 "
-	<script src=\"".resourceLink("lib/threadtagging.js")."\"></script>
+	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
 	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin\" style=\"width: 100%;\">
 			<tr class=\"header1\">

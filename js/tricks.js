@@ -227,13 +227,13 @@ function getOnlineUsers()
 
 function showEditProfilePart(newId)
 {
-	tables = document.getElementsByClassName('eptable');
-	for (i=0;i<tables.length;i++) {
+	var tables = document.getElementsByClassName('eptable');
+	for (var i=0;i<tables.length;i++) {
 		tables[i].style.display = "none";
 	}
 	document.getElementById(newId).style.display = "table";
-	tabs = document.getElementsByClassName('tab');
-	for (i=0;i<tabs.length;i++) {
+	var tabs = document.getElementsByClassName('tab');
+	for (var i=0;i<tabs.length;i++) {
 		tabs[i].className = "tab";
 	}
 	document.getElementById(newId+"Button").className = "tab selected";
@@ -534,96 +534,6 @@ function hookUploadCheck(id, type, size)
 			}
 		};
 	}
-}
-
-var fid = 0;
-var hint = true;
-function pickForum(id) {
-	if (hint == true) {
-		$("#hint").remove();
-		hint = false;
-	}
-	$(".f, .c").removeClass("fe_selected");
-	$("#forum"+id).addClass("fe_selected");
-	if ($("#editcontent").is(":hidden")) $("#editcontent").slideDown(250);
-	$("#editcontent").load('./editfora.php?editforum='+id);
-	fid = id;
-}
-
-function changeForumInfo(forum)
-{
-	//<Kawa> Okay, let's see what we got here...
-	xmlHttp = GetXmlHttpObject();
-	var title = document.getElementById("title").value;
-	var description = document.getElementById("description").value;
-	var category = document.getElementById("category").value;
-	var forder = document.getElementById("forder").value;
-	var minpower = document.getElementById("minpower").value;
-	var minpowerthread = document.getElementById("minpowerthread").value;
-	var minpowerreply = document.getElementById("minpowerreply").value;
-
-	var data = "updateforum=1&id="+forum+"&title="+encodeURIComponent(title)+"&description="+encodeURIComponent(description)+"&forder="+forder+"&category="+category+"&minpower="+minpower+"&minpowerthread="+minpowerthread+"&minpowerreply="+minpowerreply;
-	xmlHttp.onreadystatechange = function()
-	{
-		if(xmlHttp.readyState == 4)
-		{
-			if(xmlHttp.responseText.indexOf("Change OK") != -1)
-				$("#flist").load(editforaurl+"forumTable&s"+forum);
-			else
-				alert("Something went wrong.");
-		}
-	}
-	xmlHttp.open("GET", "editfora.php?" + data, true);
-	xmlHttp.send(null);
-}
-
-function deleteForum(fid)
-{
-	xmlHttp = GetXmlHttpObject();
-	xmlHttp.onreadystatechange = function()
-	{
-		if(xmlHttp.readyState == 4)
-		{
-			if(xmlHttp.responseText.indexOf("Deleted OK") != -1)
-			{
-				$("#flist").load(editforaurl+"forumTable");
-				document.getElementById("editcontent").textContent = "";
-			}
-			else
-				alert("Something went wrong." + xmlHttp.responseText);
-		}
-	}
-	xmlHttp.open("GET", "editfora.php?deleteforum="+fid, true);
-	xmlHttp.send(null);
-}
-
-function addForum()
-{
-	xmlHttp = GetXmlHttpObject();
-	var title = document.getElementById("title").value;
-	var description = document.getElementById("description").value;
-	var category = document.getElementById("category").value;
-	var forder = document.getElementById("forder").value;
-	var minpower = document.getElementById("minpower").value;
-	var minpowerthread = document.getElementById("minpowerthread").value;
-	var minpowerreply = document.getElementById("minpowerreply").value;
-
-	var data = "addforum=2&title="+encodeURIComponent(title)+"&description="+encodeURIComponent(description)+"&forder="+forder+"&category="+category+"&minpower="+minpower+"&minpowerthread="+minpowerthread+"&minpowerreply="+minpowerreply;
-	xmlHttp.onreadystatechange = function()
-	{
-		if(xmlHttp.readyState == 4)
-		{
-			if(xmlHttp.responseText.indexOf("Added OK") != -1)
-			{
-				$("#flist").load(editforaurl+"forumTable");
-				document.getElementById("editcontent").textContent = "";
-			}
-			else
-				alert("Something went wrong.");
-		}
-	}
-	xmlHttp.open("GET", "editfora.php?" + data, true);
-	xmlHttp.send(null);
 }
 
 function ReplacePost(id, opened)

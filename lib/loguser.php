@@ -90,10 +90,6 @@ if($loguserid) //Are we logged in?
 		$ourbull = hash('sha256', $loguser['id'].$loguser['password'].$salt.$loguser['pss'], FALSE);
 		if($loguserbull == $ourbull)
 		{
-			$rLastView = "update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3} where id={4}";
-			if(!$ajaxPage)
-				$qLastView = Query($rLastView, time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);
-
 			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
 			// SHA1 with a sufficiently long salt should be enough.
 			$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
@@ -105,9 +101,8 @@ if($loguserid) //Are we logged in?
 
 if($wantGuest)
 {
-	$qGuest = "insert into {guests} (date, ip, lasturl, useragent, bot) values (".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape(getRequestedURL())."', '".justEscape($_SERVER['HTTP_USER_AGENT'])."', ".$isBot.")";
- 	if(!$ajaxPage)
- 		$rGuest = Query($qGuest);
+	$qGuest = Query("insert into {guests} (date, ip, lasturl, useragent, bot) values ({0}, {1}, {2}, {3}, {4})",
+		time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $_SERVER['HTTP_USER_AGENT'], $isBot);
 	
 	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"), 
 		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>!Settings::get("guestLayouts"),
@@ -120,6 +115,17 @@ if($hacks['forcetheme'] != "")
 
 if ($loguserid)
 	$loguserNotifications = getNotifications($loguserid);
-else $loguserNotifications = array();
+else
+	$loguserNotifications = array();
+
+
+function setLastActivity()
+{
+	global $dbpref, $loguserid;
+	
+	Query("update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3} where id={4}",
+		time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);
+
+}
 
 ?>

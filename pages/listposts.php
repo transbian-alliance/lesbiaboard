@@ -18,7 +18,20 @@ $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 $title = __("Post list");
 
-$total = $user['posts'];
+$minpower = $loguser['powerlevel'];
+if($minpower < 0)
+	$minpower = 0;
+	
+
+$qPostCount = "	SELECT 
+				count(p.id)
+			FROM 
+				{$dbpref}posts p 
+				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
+				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
+			WHERE p.user=".$id." AND f.minpower <= ".$minpower;
+$total = FetchResult($qPostCount);
+
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))
 	$from = (int)$_GET['from'];
@@ -27,9 +40,6 @@ else
 
 if(!$ppp) $ppp = 25;
 
-$minpower = $loguser['powerlevel'];
-if($minpower < 0)
-	$minpower = 0;
 
 $rPosts = Query("	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
@@ -37,6 +47,7 @@ $rPosts = Query("	SELECT
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
 				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
 				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
+				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex,
 				t.id thread, t.title threadname,
 				f.id fid
 			FROM 
@@ -44,12 +55,14 @@ $rPosts = Query("	SELECT
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {users} u ON u.id = p.user
 				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
-				LEFT JOIN {users} u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
+				LEFT JOIN {users} u2 ON u2.id=pt.user
+				LEFT JOIN {users} u3 ON u3.id=p.deletedby
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
 				LEFT JOIN {categories} c ON c.id=f.catid
 			WHERE u.id={1} AND f.minpower <= {2}
 			ORDER BY date ASC LIMIT {3}, {4}", $loguserid, $id, $minpower, $from, $ppp);
+
 $numonpage = NumRows($rPosts);
 
 $uname = $user["name"];

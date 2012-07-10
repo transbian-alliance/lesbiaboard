@@ -8,6 +8,7 @@ $bbcodeCallbacks = array(
 	
 	"url" => "bbcodeURL",
 	"img" => "bbcodeImage",
+	"imgs" => "bbcodeImageScale",
 	
 	"user" => "bbcodeUser",
 	"thread" => "bbcodeThread",
@@ -19,6 +20,11 @@ $bbcodeCallbacks = array(
 	"spoiler" => "bbcodeSpoiler",
 	"code" => "bbcodeCode",
 	"source" => "bbcodeCode",
+
+	"table" => "bbcodeTable",
+	"tr" => "bbcodeTableRow",
+	"trh" => "bbcodeTableRowHeader",
+	"td" => "bbcodeTableCell",
 );
 
 //Allow plugins to register their own callbacks (new bbcode tags)
@@ -48,6 +54,11 @@ function bbcodeURL($contents, $arg)
 	return '<a href="'.$dest.'">'.$title.'</a>';
 }
 
+function bbcodeURLAuto($match)
+{
+	return bbcodeURL($match[0], "");
+}
+
 function bbcodeImage($contents, $arg)
 {
 	$dest = $contents;
@@ -59,6 +70,20 @@ function bbcodeImage($contents, $arg)
 	}
 	
 	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
+}
+
+
+function bbcodeImageScale($contents, $arg)
+{
+	$dest = $contents;
+	$title = "";
+	if($arg)
+	{
+		$title = $contents;
+		$dest = $arg;
+	}
+	
+	return '<a href="'.htmlentities($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlentities($dest).'" alt="'.$title.'"/></a>';
 }
 
 
@@ -87,7 +112,7 @@ function bbcodeThread($contents, $arg)
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);
-			$threadLinkCache[$id] = actionLinkTag($thread['title'], "thread", $thread['id']);
+			$threadLinkCache[$id] = makeThreadLink($thread);
 		}
 		else
 			$threadLinkCache[$id] = "&lt;invalid thread ID&gt;";
@@ -154,57 +179,43 @@ function bbcodeSpoiler($contents, $arg)
 
 function bbcodeCode($contents, $arg)
 {
-	if(!$arg)
-	{
-		return '<div class="codeblock">'.htmlentities($contents).'</div>';
-	}
-	else
-	{
-		$language = $arg;
-		$geshi = new GeSHi(trim($contents), $language, null);
-		$geshi->set_header_type(GESHI_HEADER_NONE);
-		$geshi->enable_classes();
-		$geshi->enable_keyword_links(false);
-		
-		$code = str_replace("\n", "", $geshi->parse_code());
-		$code = decodeCrapEntities($code);
-		return "<div class=\"codeblock geshi\">$code</div>";
-	}
+	return '<div class="codeblock">'.htmlentities($contents).'</div>';
 }
 
-//I hoped to be able to keep the new parser free from hax :(
-//But it's not possible.
-//Or is it? ~Dirbaio
-function decodeCrapEntities($s)
+function bbcodeTable($contents, $arg)
 {
-	// parse entities
-	$s = preg_replace_callback(
-		"/&#(\\d+);/u",
-		"_pcreEntityToUtf",
-		$s
-	);
-
-	return $s;
+	return "<table class=\"outline margin\">$contents</table>";
 }
 
-function _pcreEntityToUtf($matches)
+function bbcodeTableCell($contents, $arg)
 {
-	$char = intval(is_array($matches) ? $matches[1] : $matches);
-
-	if ($char < 0x80)
-	{
-		// to prevent insertion of control characters
-		if ($char >= 0x20) return htmlspecialchars(chr($char));
-		else return "&#$char;";
-	}
+	global $bbcodeIsTableHeader;
 	
-	/*
-	else if ($char < 0x8000)
-	{
-		return chr(0xc0 | (0x1f & ($char >> 6))) . chr(0x80 | (0x3f & $char));
-	}
+	if($bbcodeIsTableHeader)
+		return "<th>";
 	else
-	{
-		return chr(0xe0 | (0x0f & ($char >> 12))) . chr(0x80 | (0x3f & ($char >> 6))). chr(0x80 | (0x3f & $char));
-	}*/
+		return "<td>";
 }
+
+$bbcodeCellClass = 0;
+
+function bbcodeTableRow($contents, $arg)
+{
+	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	$bbcodeCellClass++;
+	$bbcodeCellClass %= 2;
+		
+	$bbcodeIsTableHeader = false;
+	return "<tr class=\"cell$bbcodeCellClass\">";
+}
+
+function bbcodeTableRowHeader($contents, $arg)
+{
+	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	$bbcodeCellClass++;
+	$bbcodeCellClass %= 2;
+		
+	$bbcodeIsTableHeader = true;
+	return "<tr class=\"header0\">";
+}
+

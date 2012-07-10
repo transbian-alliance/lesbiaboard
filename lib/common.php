@@ -30,7 +30,15 @@ if (get_magic_quotes_gpc())
 	$_COOKIE = array_map('AutoDeslash', $_COOKIE);
 }
 
+function usectime()
+{
+	$t = gettimeofday();
+	return $t['sec'] + ($t['usec'] / 1000000);
+}
+
+
 include("salt.php");
+include("dirs.php");
 
 include("settingsfile.php");
 include("links.php");
