@@ -30,12 +30,12 @@ function Upgrade()
 	{
 		print "<li>";
 		print $dbpref.$table."&hellip;";
-		$tableStatus = Query("show table status from {0} like {1}", $dbname, $dbpref.$table);
+		$tableStatus = Query("show table status from $dbname like '{".$table."}'");
 		$numRows = NumRows($tableStatus);
 		if($numRows == 0)
 		{
 			print " creating&hellip;";
-			$create = "create table `{$dbpref}".$table."` (\n";
+			$create = "create table `{".$table."}` (\n";
 			$comma = "";
 			foreach($tableSchema['fields'] as $field => $type)
 			{
@@ -53,7 +53,7 @@ function Upgrade()
 			$primaryKey = "";
 			$changes = 0;
 			$foundFields = array();
-			$scan = Query("show columns from `{{1}}{0}`", $table, $dbpref);
+			$scan = Query("show columns from `{".$table."}`");
 			while($field = $scan->fetch_assoc())
 			{
 				$fieldName = $field['Field'];

@@ -11,7 +11,6 @@ require('lib/common.php');
 //TODO: Put this in a proper place.
 function getBirthdaysText()
 {
-	global $dbpref;
 	$rBirthdays = Query("select birthday, id, name, displayname, powerlevel, sex from {users} where birthday > 0 order by name");
 	$birthdays = array();
 	while($user = Fetch($rBirthdays))

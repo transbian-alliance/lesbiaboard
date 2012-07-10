@@ -3,7 +3,7 @@
 
 function OnlineUsers($forum = 0, $update = true)
 {
-	global $loguserid, $dbpref;
+	global $loguserid;
 	$forumClause = "";
 	$browseLocation = __("online");
 	

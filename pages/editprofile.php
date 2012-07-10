@@ -716,7 +716,7 @@ function HandlePassword($field, $item)
 
 function HandleDisplayname($field, $item)
 {
-	global $fallToEditor, $user, $dbpref;
+	global $fallToEditor, $user;
 	if(!IsReallyEmpty($_POST[$field]) || $_POST[$field] == $user['name'])
 	{
 		// unset the display name if it's really empty or the same as the login name.
@@ -746,7 +746,7 @@ function HandleDisplayname($field, $item)
 
 function HandleUsername($field, $item)
 {
-	global $user, $dbpref;
+	global $user;
 	if(!IsReallyEmpty($_POST[$field]))
 		$_POST[$field] = $user[$field];
 

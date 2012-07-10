@@ -148,7 +148,7 @@ printRefreshCode();
 
 function ForumJump()
 {
-	global $fid, $loguser, $dbpref;
+	global $fid, $loguser;
 	
 	$pl = $loguser['powerlevel'];
 	if($pl < 0) $pl = 0;

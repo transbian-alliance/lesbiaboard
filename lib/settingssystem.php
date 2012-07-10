@@ -49,8 +49,6 @@ class Settings
 
 	public static function load()
 	{
-		global $dbpref;
-	
 		self::$pluginsettings = array();
 		$rSettings = Query("select * from {settings}");
 		

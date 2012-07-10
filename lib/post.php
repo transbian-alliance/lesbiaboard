@@ -37,7 +37,7 @@ function filterPollColors($input)
 
 function LoadSmilies($byOrder = FALSE)
 {
-	global $smilies, $smiliesOrdered, $dbpref;
+	global $smilies, $smiliesOrdered;
 	
 	if($byOrder)
 	{
@@ -79,7 +79,7 @@ function ApplySmilies($text)
 
 function LoadBlocklayouts()
 {
-	global $blocklayouts, $loguserid, $dbpref;
+	global $blocklayouts, $loguserid;
 
 	if(isset($blocklayouts))
 		return;
@@ -93,7 +93,7 @@ function LoadBlocklayouts()
 
 function LoadRanks($rankset)
 {
-	global $ranks, $dbpref;
+	global $ranks;
 	if(isset($ranks[$rankset]))
 		return;
 	$ranks[$poster['rankset']] = array();
@@ -140,7 +140,7 @@ function GetToNextRank($poster)
 
 function MakeUserAtLink($matches)
 {
-	global $members, $dbpref;
+	global $members;
 	$username = $matches[1];
 	foreach($members as $id => $data)
 	{

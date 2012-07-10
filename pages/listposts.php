@@ -23,14 +23,16 @@ if($minpower < 0)
 	$minpower = 0;
 	
 
-$qPostCount = "	SELECT 
+$total = FetchResult("
+			SELECT 
 				count(p.id)
 			FROM 
-				{$dbpref}posts p 
-				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
-				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
-			WHERE p.user=".$id." AND f.minpower <= ".$minpower;
-$total = FetchResult($qPostCount);
+				{posts} p 
+				LEFT JOIN {threads} t ON t.id=p.thread
+				LEFT JOIN {forums} f ON f.id=t.forum
+			WHERE p.user={0} AND f.minpower <= {1}", 
+		$id, $minpower);
+
 
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))

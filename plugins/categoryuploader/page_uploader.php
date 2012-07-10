@@ -324,7 +324,6 @@ function foldersize($path)
 
 function getCategory($cat)
 {
-	global $dbpref;
 	if (!is_numeric($cat))
 		Kill('Invalid category');
 

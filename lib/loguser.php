@@ -121,7 +121,7 @@ else
 
 function setLastActivity()
 {
-	global $dbpref, $loguserid;
+	global $loguserid;
 	
 	Query("update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3} where id={4}",
 		time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);

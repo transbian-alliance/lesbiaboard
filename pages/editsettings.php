@@ -175,7 +175,7 @@ function prepare($text)
 
 function makeForumList($fieldname, $selectedID)
 {
-	global $fid, $loguser, $dbpref;
+	global $fid, $loguser;
 	
 	$lastCatID = -1;	
 	$rFora = Query("	SELECT 

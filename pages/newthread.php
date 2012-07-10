@@ -166,7 +166,7 @@ else if(isset($_POST['actionpost']))
 		if($lastPost < Settings::get("floodProtectionInterval"))
 		{
 			//Check for last thread the user posted.
-			$lastThread = Fetch(Query("SELECT * FROM {$dbpref}threads WHERE user=$loguserid ORDER BY id DESC LIMIT 1"));
+			$lastThread = Fetch(Query("SELECT * FROM {threads} WHERE user={0} ORDER BY id DESC LIMIT 1", $loguserid));
 
 			//If it looks similar to this one, assume the user has double-clicked the button.
 			if($lastThread["forum"] == $fid && $lastThread["title"] == $_POST["title"])

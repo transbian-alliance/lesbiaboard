@@ -81,7 +81,7 @@ function TimeUnits($sec)
 
 function DoPrivateMessageBar()
 {
-	global $loguserid, $loguser, $dbpref;
+	global $loguserid, $loguser;
 
 	if($loguserid)
 	{
@@ -206,7 +206,6 @@ function DoPostHelp()
 
 function RecalculateKarma($uid)
 {
-	global $dbpref;
 	$karma = 100;
 	$karmaWeights = array(5, 10, 10, 15, 15);
 	$rKarma = Query("select powerlevel, up from {uservotes} left join {users} on id=voter where uid={0} and powerlevel > -1", $uid);
@@ -236,7 +235,6 @@ function cdate($format, $date = 0)
 
 function Report($stuff, $hidden = 0, $severity = 0)
 {
-	global $dbpref;
 	$full = GetFullURL();
 	$here = substr($full, 0, strrpos($full, "/"))."/";
 	
@@ -253,7 +251,7 @@ function Report($stuff, $hidden = 0, $severity = 0)
 //TODO: This is used for notifications. We should replace this with the coming-soon notifications system ~Dirbaio
 function SendSystemPM($to, $message, $title)
 {
-	global $systemUser, $dbpref;
+	global $systemUser;
 	
 	//Don't send system PMs if no System user was set
 	if($systemUser == 0)

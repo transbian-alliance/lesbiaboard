@@ -64,7 +64,7 @@ function CheckAutobiographer()
 function CheckYearling($marty = 0)
 {
 	//$marty is used to adjust the postcount -- we call this after updating users.posts, but without updating $loguser, and in certain other cases $loguser may actually BE up to date.
-	global $loguser, $loguserid, $dbpref;
+	global $loguser, $loguserid;
 	$daysKnown = (time() - $loguser['regdate']) / 86400;
 	$posts = $loguser['posts'] + $marty;
 	
@@ -84,7 +84,6 @@ function CheckYearling($marty = 0)
 
 function CheckHeart($user, $karma)
 {
-	global $dbpref;
 	//Delete the old karma badge, no matter which color it was.
 	Query("delete from {badges} where owner={0} and (name='Ghandi Incarnate' or name='Dearly Beloved' or name='Karma Chameleon' or name='Heart')", $user);
 	//Now insert the new one.
@@ -101,7 +100,7 @@ function CheckHeart($user, $karma)
 function CheckEditor()
 {
 	//$rev taken from editpost.
-	global $loguserid, $rev, $dbpref;
+	global $loguserid, $rev	;
 	if($rev >= 20)
 	{
 		Query("delete from {badges} where owner={0} and name='Editor'", $loguserid);

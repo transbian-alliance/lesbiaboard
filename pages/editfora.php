@@ -230,7 +230,7 @@ function cell()
 // $fid == -1 means that a new forum should be made :)
 function WriteForumEditContents($fid)
 {
-	global $key, $dbpref;
+	global $key;
 
 	//Get all categories.
 	$rCats = Query("SELECT * FROM {categories}");
@@ -383,7 +383,7 @@ function WriteForumEditContents($fid)
 // $fid == -1 means that a new forum should be made :)
 function WriteCategoryEditContents($cid)
 {
-	global $key, $dbpref;
+	global $key;
 
 	//Get all categories.
 	$rCats = Query("SELECT * FROM {categories}");
@@ -495,7 +495,6 @@ function WriteCategoryEditContents($cid)
 
 function WriteForumTableContents()
 {
-	global $dbpref;
 	$cats = array();
 	$rCats = Query("SELECT * FROM {categories} ORDER BY corder, id");
 	$forums = array();

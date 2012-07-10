@@ -13,7 +13,7 @@ $badfiles = array("html", "htm", "php", "php2", "php3", "php4", "php5", "php6", 
 
 function listCategory($cat)
 {
-	global $loguser, $loguserid, $rootdir, $userSelectUsers, $dbpref;
+	global $loguser, $loguserid, $rootdir, $userSelectUsers;
 	
 	if(isset($_GET['sort']) && $_GET['sort'] == "filename" || $_GET['sort'] == "date")
 		$skey = $_GET['sort'];
@@ -185,7 +185,6 @@ print "</form>";
 
 function getCategory($cat)
 {
-	global $dbpref;
 	if (!is_numeric($cat))
 		Kill('Invalid category');
 

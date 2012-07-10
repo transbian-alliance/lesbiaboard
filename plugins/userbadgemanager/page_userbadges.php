@@ -28,7 +28,7 @@ if($_POST['action'] == __("Add"))
 }
 elseif($_GET['action'] == "delete")
 {
-	Query("delete from {$dbpref}badges where owner = {0} and name = {1}",
+	Query("delete from {badges} where owner = {0} and name = {1}",
 		(int)$_GET['userid'], $_GET['name']);
 	
 	Query($qBadge);

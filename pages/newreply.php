@@ -100,7 +100,7 @@ else if(isset($_POST['actionpost']))
 		if($lastPost < Settings::get("floodProtectionInterval"))
 		{
 			//Check for last post the user posted.
-			$lastPost = Fetch(Query("SELECT * FROM {$dbpref}posts WHERE user=$loguserid ORDER BY date DESC LIMIT 1"));
+			$lastPost = Fetch(Query("SELECT * FROM {posts} WHERE user={0} ORDER BY date DESC LIMIT 1", $loguserid));
 
 			//If it looks similar to this one, assume the user has double-clicked the button.
 			if($lastPost["thread"] == $tid)
@@ -116,7 +116,7 @@ else if(isset($_POST['actionpost']))
 	
 	if(!$rejected)
 	{
-		$ninja = FetchResult("select id from {$dbpref}posts where thread=".$tid." order by date desc limit 0, 1",0,0);
+		$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
 		if(isset($_POST['ninja']) && $_POST['ninja'] != $ninja)
 		{
 			Alert(__("You got ninja'd. You might want to review the post made while you were typing before you submit yours."));
