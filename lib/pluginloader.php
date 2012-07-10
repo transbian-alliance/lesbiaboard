@@ -1,6 +1,10 @@
 <?php
 //Plugin loader -- By Nikolaj
 global $pluginbuckets, $plugins;
+
+$oldplugin = $plugin;
+$oldself = $self;
+
 if ($pluginbuckets[$bucket])
 {
 	foreach ($pluginbuckets[$bucket] as $plugin)
@@ -13,4 +17,7 @@ if ($pluginbuckets[$bucket])
 		}
 	}
 }
+
+$self = $oldself;
+$plugin = $oldplugin;
 ?>
