@@ -60,7 +60,7 @@ class Settings
 		}
 	}
 
-	public static function getForPlugin($pluginname)
+	public static function getSettingsFile($pluginname)
 	{
 		global $plugins;
 		
@@ -84,7 +84,7 @@ class Settings
 		
 		$changed = false;		
 
-		$settings = self::getForPlugin($pluginname);		
+		$settings = self::getSettingsFile($pluginname);		
 		foreach($settings as $name => $data)
 		{
 			$type = $data["type"];
