@@ -89,10 +89,9 @@ if($_GET['action'] == __("Upload"))
 				{
 					$description = htmlspecialchars($_POST['description']);
 
-					$newID = FetchResult("SELECT id+1 FROM {uploader} WHERE (SELECT COUNT(*) FROM {uploader} u2 WHERE u2.id={uploader}.id+1)=0 ORDER BY id ASC LIMIT 1");
-					if($newID < 1) $newID = 1;
+					Query("insert into {uploader} (filename, description, date, user, private) values ({0}, {1}, {2}, {3}, {4})",
+						$fname, $description, time(), $loguserid, $privateFlag);
 
-					Query("insert into {uploader} (id, filename, description, date, user, private) values (".$newID.", '".justEscape($fname)."', '".justEscape($description)."', ".time().", ".$loguserid.",".$privateFlag.")");
 					copy($temp, $targetdir."/".$fname);
 					Alert(format(__("File \"{0}\" has been uploaded."), $fname), __("Okay"));
 					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag); 

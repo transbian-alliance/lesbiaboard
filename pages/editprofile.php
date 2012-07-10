@@ -442,11 +442,11 @@ if($_POST['action'] == __("Edit profile"))
 							break;
 						case "text":
 						case "textarea":
-							$sets[] = $field." = '".justEscape($_POST[$field])."'";
+							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "password":
 							if($_POST[$field])
-								$sets[] = $field." = '".justEscape($_POST[$field])."'";
+								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "select":
 							$num = (int)$_POST[$field];
@@ -464,7 +464,7 @@ if($_POST['action'] == __("Edit profile"))
 						case "datetime":
 							if($_POST[$item['presetname']] != -1)
 								$_POST[$field] = $_POST[$item['presetname']];
-							$sets[] = $field." = '".justEscape($_POST[$field])."'";
+							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "checkbox":
 							$val = (int)($_POST[$field] == "on");
@@ -474,7 +474,7 @@ if($_POST['action'] == __("Edit profile"))
 							break;
 						case "radiogroup":
 							if (array_key_exists($_POST[$field], $item['options']))
-								$sets[] = $field." = '".justEscape($_POST[$field])."'";
+								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "birthday":
 							if($_POST[$field])
@@ -533,9 +533,9 @@ if($_POST['action'] == __("Edit profile"))
 
 	//Force theme names to be alphanumeric to avoid possible directory traversal exploits ~Dirbaio
 	if(preg_match("/^[a-zA-Z0-9_]+$/", $_POST['theme']))
-		$sets[] = "theme = '".justEscape($_POST['theme'])."'";
+		$sets[] = "theme = '".SqlEscape($_POST['theme'])."'";
 	
-	$sets[] = "pluginsettings = '".justEscape(serialize($pluginSettings))."'";
+	$sets[] = "pluginsettings = '".SqlEscape(serialize($pluginSettings))."'";
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
 	$query .= join($sets, ", ")." WHERE id = ".$userid;
@@ -728,7 +728,7 @@ function HandleDisplayname($field, $item)
 		if($dispCheck)
 		{
 			$fallToEditor = true;
-			return format(__("The display name you entered, \"{0}\", is already taken."), justEscape($_POST[$field]));
+			return format(__("The display name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 		}
 		else if(strpos($_POST[$field], ";") !== false)
 		{
@@ -754,7 +754,7 @@ function HandleUsername($field, $item)
 	if($dispCheck)
 	{
 		$fallToEditor = true;
-		return format(__("The login name you entered, \"{0}\", is already taken."), justEscape($_POST[$field]));
+		return format(__("The login name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 	}
 	else if(strpos($_POST[$field], ";") !== false)
 	{

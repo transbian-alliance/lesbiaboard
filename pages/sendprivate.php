@@ -72,9 +72,10 @@ if($_POST['to'])
 	$recipients = explode(";", $_POST['to']);
 	foreach($recipients as $to)
 	{
-		$to = justEscape(trim(htmlentities($to)));
+		$to = trim(htmlentities($to));
 		if($to == "")
 			continue;
+			
 		$rUser = Query("select id from {users} where name={0} or displayname={0}", $to);
 		if(NumRows($rUser))
 		{
@@ -122,7 +123,6 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-			$post = justEscape($post);
 			
 			if($_POST['action'] == __("Save as Draft"))
 			{

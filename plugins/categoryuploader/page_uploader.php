@@ -135,12 +135,11 @@ else if($_GET['action'] == __("Upload"))
 				}
 				else
 				{
-					$description = strip_tags($_POST['description']);
+					$description = htmlspecialchars($_POST['description']);
 
-					$newID = FetchResult("SELECT id+1 FROM {uploader} WHERE (SELECT COUNT(*) FROM {uploader} u2 WHERE u2.id={uploader}.id+1)=0 ORDER BY id ASC LIMIT 1");
-					if($newID < 1) $newID = 1;
+					Query("insert into {uploader} (filename, description, date, user, private) values ({0}, {1}, {2}, {3}, {4})",
+						$fname, $description, time(), $loguserid, $privateFlag);
 
-					Query("insert into {uploader} (id, filename, description, date, user, private, category) values (".$newID.", '".justEscape($fname)."', '".justEscape($description)."', ".time().", ".$loguserid.",".$privateFlag.",".$_POST["cat"].")");
 					copy($temp, $targetdir."/".$fname);
 					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag); 
 

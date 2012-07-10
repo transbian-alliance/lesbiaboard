@@ -115,7 +115,7 @@ if($draftEditor)
 			$recipients = explode(";", $_POST['to']);
 			foreach($recipients as $to)
 			{
-				$to = justEscape(trim(htmlentities($to)));
+				$to = trim(htmlentities($to));
 				if($to == "")
 					continue;
 				$rUser = Query("select id from {users} where name={0} or displayname={0}", $to);
@@ -162,7 +162,6 @@ if($draftEditor)
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-					$post = justEscape($post);
 	
 					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
 					$rPM = Query("update {pmsgs} set userto = {0} where id = {1}", $firstTo, $pmid);
@@ -173,7 +172,6 @@ if($draftEditor)
 				{
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = justEscape($post);
 
 					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
 					$rPM = Query("update {pmsgs} set drafting = 0 where id = {0}", $pmid);

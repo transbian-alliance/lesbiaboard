@@ -86,7 +86,7 @@ function RawQuery($query)
 			die(nl2br(backTrace())."<br>".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
-			<input type=\"submit\" value=\"Click here to re-run the installation sript\" /></form>");
+			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");
 		else
 			die("MySQL Error.");
 	}
@@ -100,7 +100,7 @@ function RawQuery($query)
 		
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
-		$querytext .= "<td>".nl2br(backTrace())."</td>";
+		$querytext .= "<td><div class=\"spoiler\"><button class=\"spoilerbutton named\">Backtrace</button><div class=\"spoiled hidden\">".nl2br(backTrace())."</div></div></td>";
 
 		$querytext .= "</tr>";
 	}

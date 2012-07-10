@@ -176,8 +176,6 @@ if($canMod)
 				$_POST['iconid'] = (int)$_POST['iconid'];
 				if($_POST['iconid'] < 255)
 					$iconurl = "img/icons/icon".$_POST['iconid'].".png";
-				else
-					$iconurl = justEscape($_POST['iconurl']);
 			}
 
 			$rThreads = Query("update {threads} set title={0}, icon={1}, closed={2}, sticky={3} where id={4} limit 1", $_POST['title'], $iconurl, $isClosed, $isSticky, $tid);

@@ -241,7 +241,7 @@ function Report($stuff, $hidden = 0, $severity = 0)
 	$here = substr($full, 0, strrpos($full, "/"))."/";
 	
 	if ($severity == 2)
-		$req = "'".justEscape(base64_encode(serialize($_REQUEST)))."'";
+		$req = base64_encode(serialize($_REQUEST));
 	else
 		$req = 'NULL';
 	
