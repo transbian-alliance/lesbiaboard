@@ -287,7 +287,7 @@ function parseBBCode($text)
 	
 	$parseStatus = 0;
 	
-	$tokens = preg_split('/(\[(?:\w+(?:=".*?"|=[^]]*)|\/\w+)\]|<[^\[\]<>]+>)/S', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
+	$tokens = preg_split('/(\[(?:\w+(?:=".*?"|=[^]]*)?|\/\w+)\]|<[^\[\]<>]+>)/S', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
 	$tokenPtr = 0;
 	$tokens = array_map('parseToken', $tokens);
 	return parse(0);
