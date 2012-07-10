@@ -98,7 +98,7 @@ function parseToken($token)
 		$ind = strpos($tagname, '=');
 		if($ind)
 		{
-			$arg = substr($tagname, $ind+1);
+			$arg = preg_replace('/^"(.*)"/s', '$1', substr($tagname, $ind+1));
 			$tagname = substr($tagname, 0, $ind);
 		}
 
@@ -287,7 +287,7 @@ function parseBBCode($text)
 	
 	$parseStatus = 0;
 	
-	$tokens = preg_split('/(\[[^\[\]<>]+\]|<[^\[\]<>]+>)/', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
+	$tokens = preg_split('/(\[(?:\w+(?:=".*?"|=[^]]*)|\/\w+)\]|<[^\[\]<>]+>)/S', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
 	$tokenPtr = 0;
 	$tokens = array_map('parseToken', $tokens);
 	return parse(0);
