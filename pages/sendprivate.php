@@ -242,7 +242,7 @@ Write(
 				</form>
 			</td>
 			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	$prefill, $trefill, $_POST['to']);
+",	$prefill, $trefill, htmlspecialchars($_POST['to']));
 
 DoSmileyBar();
 DoPostHelp();
