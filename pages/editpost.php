@@ -121,14 +121,14 @@ if($_POST['action'] == __("Edit"))
 		$rev = Fetch($rRev);
 		$rev = $rev[0]; //note: no longer a fetched row.
 		$rev++;
-		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", $pid, $post, $rev, $loguserid, time());
+		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", $pid, $_POST["text"], $rev, $loguserid, time());
 
 		$rPosts = Query("update {posts} set options={0}, mood={1}, currentrevision = currentrevision + 1 where id={2} limit 1", $options, (int)$_POST['mood'], $pid);
 
 		//Update thread lastpostdate if we edited the last post
 		if($wasLastPost)
 		{
-			Query("DELETE FROM {threadsread} WHERE thread={{0}['id']}", $thread);
+			Query("DELETE FROM {threadsread} WHERE thread={0}", $thread['id']);
 		}
 
 		if($forum['minpower'] < 1)

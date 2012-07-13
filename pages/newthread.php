@@ -198,9 +198,13 @@ else if(isset($_POST['actionpost']))
 		}
 		else $iconurl = '';
 
-		$mod = '0, 0';
+		$closed = 0;
+		$sticky = 0;
 		if(CanMod($loguserid, $forum['id']))
-			$mod = (($_POST['lock'] == 'on') ? '1':'0').', '.(($_POST['stick'] == 'on') ? '1':'0');
+		{
+			$closed = ($_POST['lock'] == 'on') ? '1':'0';
+			$sticky = ($_POST['stick'] == 'on') ? '1':'0';
+		}
 		
 		if($_POST['poll'])
 		{
@@ -221,7 +225,7 @@ else if(isset($_POST['actionpost']))
 
 		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) 
 										  values ({0},   {1},  {2},   {3},  {4},          {5},        {2},   {6},     {7})", 
-										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $mod, $pod);
+										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
 		$tid = InsertId();
 
 		$rUsers = Query("update {users} set posts={0}, lastposttime={1} where id={2} limit 1", ($loguser['posts']+1), time(), $loguserid);

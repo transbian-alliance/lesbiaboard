@@ -185,15 +185,15 @@ else if($loguserid && $_GET['action'] == "multimove" && $_POST['del']) //several
 	foreach($_POST['del'] as $fid => $on)
 	{
 		if($loguser['powerlevel'] > 2)
-			$check = FetchResult("select count(*) from {uploader} where id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 		else
-			$check = FetchResult("select count(*) from {uploader} where user = ".$loguserid." and id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
 
 		if($check)
 		{
 			if(!$entry['private'])
 			{
-				$entry = Fetch(Query("update {uploader} set `category` = $newcat where id = ".$fid));
+				Query("update {uploader} set category = {0} where id = {1}", $newcat, $fid);
 				$moved++;
 			}
 		}

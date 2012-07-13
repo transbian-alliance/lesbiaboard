@@ -6,7 +6,10 @@ $limit = $selfsettings["limit"];
 
 
 $qPosts = "select 
-	{posts}.id, {posts}.date, {users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, {threads}.title as ttit, {forums}.title as ftit
+	{posts}.id, {posts}.date, 
+	{users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, 
+	{threads}.title as ttit, {threads}.id as tid, 
+	{forums}.title as ftit, {forums}.id as fid
 	from {posts} 
 	left join {users} on {users}.id = {posts}.user 
 	left join {threads} on {threads}.id = {posts}.thread 
