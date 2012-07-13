@@ -1,5 +1,4 @@
 <?php
-$debugMode = true;
 $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
