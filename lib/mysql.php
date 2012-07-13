@@ -37,9 +37,15 @@ function Query_AddUserInput($match)
 {
 	global $args;
 	$var = $args[$match[1]+1];
+
 	if ($var === NULL) return 'NULL';
-//	else if (is_numeric($var)) return $var;
-	else return '\''.SqlEscape($var).'\'';
+
+	$var = (string) $var;
+	
+	if (ctype_digit($var)) 
+		return $var;
+
+	return '\''.SqlEscape($var).'\'';
 }
 
 /*
