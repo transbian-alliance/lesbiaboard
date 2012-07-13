@@ -40,21 +40,26 @@ if($action == "q")	//Quote
 }
 else if ($action == 'rp') // retrieve post
 {
-	$qPost = "	SELECT
-					p.id, p.date, p.num, p.deleted, p.options, p.mood, p.ip, p.thread,
-					pt.text, pt.text, pt.revision,
-					f.id fid,
-					u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-					(u.globalblock OR !ISNULL(bl.user)) layoutblocked
-				FROM
-					{posts} p
-					LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
-					LEFT JOIN {users} u ON u.id = p.user
-					LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-					LEFT JOIN {threads} t ON t.id=p.thread
-					LEFT JOIN {forums} f ON f.id=t.forum
-				WHERE p.id={0}";
-	$rPost = Query($qPost, $id);
+
+	$rPost = Query("	SELECT 
+				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
+				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
+				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
+				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
+				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
+				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex,
+				f.id fid
+			FROM 
+				{posts} p 
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+				LEFT JOIN {users} u ON u.id = p.user
+				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
+				LEFT JOIN {users} u2 ON u2.id=pt.user
+				LEFT JOIN {users} u3 ON u3.id=p.deletedby
+				LEFT JOIN {threads} t ON t.id=p.thread
+				LEFT JOIN {forums} f ON f.id=t.forum
+			WHERE p.id={0}", $id);
+	
 	if (!NumRows($rPost))
 		die(__("Unknown post ID."));
 	$post = Fetch($rPost);
