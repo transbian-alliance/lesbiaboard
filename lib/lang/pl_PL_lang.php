@@ -1,49 +1,12 @@
 <?php
 $languagePack = array(
 
-// ajaxcallbacks.php
-'Back' =>
-'Zakończ',
-
-'Unknown post ID.' =>
-'Nieznane ID postu.',
-
-'Post is deleted' =>
-'Post jest usunięty',
-
-'No.' =>
-'Nie.',
-
-'Unknown post ID #{0}.' =>
-'Nieznany post numer {0}.',
-
-'Show revision:' =>
-'Lista zmian postu:',
-
-'rev. {0}' =>
-'rew. {0}',
-
-'by {0} on {1}' =>
-'przez {0}, {1}',
-
-'Unknown post ID #{0} or revision missing.' =>
-'Nieznany post numer {0} lub zgubiono zmianę postu.',
-
-'Unknown action.' =>
-'Nieznana akcja.',
-
-
 // footer.php
 'MySQL query' =>
 'MySQL query',
 
 '<!-- English translation by The ABXD Team -->' =>
 '<!-- Polskie tłumaczenie przez GlitchMr -->',
-
-
-// get.php
-'No such file.' =>
-'Nie ma takiego pliku.',
 
 
 // index.php
@@ -54,401 +17,41 @@ $languagePack = array(
 'Wyświetlenia:',
 
 
-// lib/bbcode_callbacks.php
-'Posted by' =>
-'Napisany przez',
+// userpanel.php
+'Edit profile' =>
+'Edytuj profil',
 
-'Sent by' =>
-'Wysłany przez',
+'Private messages' =>
+'Prywatne wiadomości',
 
+'Mood avatars' =>
+'Awatary nastroju',
 
-// lib/browsers.php
-'{0} on {1}' =>
-'{0} na {1}',
+'Log out' =>
+'Wyloguj',
 
+'Register' =>
+'Rejestracja',
 
-// lib/feedback.php
-'Alert' =>
-'Ostrzeżenie',
+'Log in' =>
+'Zaloguj się',
 
-'Error' =>
-'Błąd',
 
+// pages/login.php
+'Invalid user name or password.' =>
+'Niewłaściwa nazwa użytkownika lub hasło.',
 
-// lib/links.php
-'banned' =>
-'zbanowany',
+'User name' =>
+'Nazwa użytkownika',
 
-'local mod' =>
-'lokalny moderator',
+'Password' =>
+'Hasło',
 
-'full mod' =>
-'globalny moderator',
+'This session only' =>
+'Tylko na tą sesję',
 
-'admin' =>
-'admin',
-
-'root' =>
-'root',
-
-'system' =>
-'system',
-
-
-// lib/lists.php
-'by' =>
-'przez',
-
-
-// lib/onlineusers.php
-'online' =>
-'online',
-
-'browsing {0}' =>
-'przegląda {0}',
-
-'user' =>
-'użytkownik',
-
-'guest' =>
-'gość',
-
-'bot' =>
-'bot',
-
-
-// lib/permissions.php
-'You are not allowed to {0}.' =>
-'Nie możesz {0}.',
-
-'add new ranks' =>
-'dodawać nowych zestawów rang',
-
-'block layouts' =>
-'blokować layoutów',
-
-'delete usercomments' =>
-'usuwać komentarzy użytkowników',
-
-'edit the forum categories' =>
-'edytować listy kategorii forum',
-
-'edit the forum list' =>
-'edytować listy forum',
-
-'edit the IP ban list' =>
-'edytować listy banów IP',
-
-'edit Local Moderator assignments' =>
-'przydzielać lokalnych moderatorów do forum',
-
-'edit your mood avatars' =>
-'zmieniać swoich awatarów nastroju',
-
-'edit the PoRA box' =>
-'zmieniać punktów wymaganej uwagi',
-
-'edit posts' =>
-'zmieniać postów',
-
-'edit your profile' =>
-'zmieniać swojego profilu',
-
-'edit the board settings' =>
-'zmieniać ustawień forum',
-
-'edit the smiley list' =>
-'edytować listę uśmieszków',
-
-'edit threads' =>
-'edytować tematów',
-
-'edit users' =>
-'zmieniać użytkowników',
-
-'have a cookie' =>
-'mieć ciasteczek',
-
-'see all posts by a given user' =>
-'widzieć postów danego użytkownika',
-
-'post usercomments' =>
-'pisać komentarzy dla użytkowników',
-
-'reply to threads' =>
-'odpowiadać na tematy',
-
-'start new threads' =>
-'zaczynać nowych tematów',
-
-'optimize the tables' =>
-'optymizować tabelek',
-
-'purge old revisions' =>
-'czytać starych wersji postów',
-
-'recalculate the board counters' =>
-'preliczać statystyk forum',
-
-'use the search function' =>
-'używać funkcji wyszukiwania',
-
-'send private messages' =>
-'wysyłać prywatnych wiadomości',
-
-'view other users\' private messages' =>
-'czytać prywatnych wiadomości innych',
-
-'upload files' =>
-'wrzucać plików',
-
-'see the admin room' =>
-'widzieć pomieszczeń administracyjnych',
-
-'see the avatar library' =>
-'widziać bibiotekę awatarów',
-
-'see the calendar' =>
-'widzieć kalendarz',
-
-'view fora' =>
-'widzieć forum',
-
-'see the Last Known Browser table' =>
-'widzieć tabelę ostatnio widzianych przeglądarek',
-
-'see the memberlist' =>
-'widzieć listę użytkowników',
-
-'see who\'s online' =>
-'widzieć kto jest onliie',
-
-'view private messages' =>
-'czytać prywatnych wiadomości',
-
-'view user profiles' =>
-'czytać profili innych',
-
-'see the rank lists' =>
-'wyświetlać listy rang',
-
-'see the top scores and DB usage' =>
-'wyświetlać osiągnięcia forum i użycie bazy',
-
-'read threads' =>
-'czytać tematy',
-
-'see the uploader' =>
-'używać uploader',
-
-'vote' =>
-'głosować',
-
-'see this forum' =>
-'widzieć tego forum',
-
-'read this thread' =>
-'czytać tego tematu',
-
-'reply in this thread' =>
-'odpowiadać w tym temacie',
-
-'edit this user' =>
-'edytować tego użytkownika',
-
-'Permission denied.' =>
-'Nie masz uprawnień.',
-
-
-// lib/post.php
-'Posted on {0}' =>
-'Napisano {0}',
-
-', deleted' =>
-', usunięte',
-
-' by ' =>
-' przez ',
-
-'Undelete' =>
-'Przywróć',
-
-'View' =>
-'Zobacz',
-
-'ID: {0}' =>
-'ID: {0}',
-
-'Sample post' =>
-'Przykładowy post',
-
-'Post deleted' =>
-'Post usunięty',
-
-'Close' =>
-'Zamknij',
-
-'Link' =>
-'Link',
-
-'Quote' =>
-'Cytat',
-
-'Edit' =>
-'Edytuj',
-
-'Delete' =>
-'Usuń',
-
-'Sent on {0}' =>
-'Wysłano {0}',
-
-'in' =>
-'w',
-
-'Banned' =>
-'Zbanowani',
-
-'Local mod' =>
-'Lokalny moderator',
-
-'Full mod' =>
-'Globalny moderator',
-
-'Administrator' =>
-'Administratorzy',
-
-'Posts:' =>
-'Posty:',
-
-'Since:' =>
-'Od:',
-
-'Last post:' =>
-'Ostatni post:',
-
-'Last view:' =>
-'Ostatnie wyświetlenie:',
-
-'User is <strong>online</strong>' =>
-'Użytkownik jest <strong>online</strong>',
-
-
-// lib/snippets.php
-'You have {0}{1}. {2}Last message{1} from {3} on {4}.' =>
-'Masz {0}{1}. {2}Ostatnia wiadomość{1} od {3} wysłana {4}.',
-
-'new {0}private message' =>
-'nową {0}prywatną wiadomość',
-
-'You {0} have new comments in your {1}profile{2}.' =>
-'Masz {0} nowe komentarze w swoim {1}profilu{2}.',
-
-'Smilies' =>
-'Uśmieszki',
-
-'Post help' =>
-'Pomoc pisania',
-
-'Presentation' =>
-'Prezentacja',
-
-'bold type' =>
-'pogrubienie',
-
-'italic' =>
-'pochylenie',
-
-'underlined' =>
-'podkreślenie',
-
-'strikethrough' =>
-'przekreślenie',
-
-'code block' =>
-'blok kodu',
-
-'spoiler block' =>
-'spoiler',
-
-'colorcoded block, assuming C#' =>
-'pokolorowany blok kodu w C#',
-
-'colorcoded block, specific language' =>
-'pokolorowany blok kodu w ustalonym języku',
-
-'which?' =>
-'jakim?',
-
-'Links' =>
-'Linki',
-
-'insert image' =>
-'wstaw obrazek',
-
-'link to post by ID' =>
-'linkuj do postu przez ID',
-
-'link to user\'s profile by ID' =>
-'linkuj do profilu użytkownika',
-
-'Quotations' =>
-'Cytaty',
-
-'untitled quote' =>
-'cytat bez podania osoby',
-
-'"Posted by &hellip;"' =>
-'"Napisany przez &hellip;"',
-
-'"Post by &hellip;" with link by post ID' =>
-'"Napisany przez &hellip;" z linkiem do ID postu',
-
-'Embeds' =>
-'Zagnieżdzenie',
-
-'Most plain HTML also allowed.' =>
-'Większość HTML też jest dozwolona.',
-
-
-// navigation.php
-'Admin' =>
-'Administrator',
-
-'Main' =>
-'Strona główna',
-
-'FAQ' =>
-'FAQ',
-
-'Member list' =>
-'Użytkownicy',
-
-'Ranks' =>
-'Zestawy rang',
-
-'Avatars' =>
-'Awatary',
-
-'Online users' =>
-'Online',
-
-'Search' =>
-'Szukaj',
-
-'Last posts' =>
-'Ostatnie posty',
-
-
-// pages/404.php
-'404' =>
-'404',
-
-'Error 404 - The page you are looking for was not found.' =>
-'Błąd 404 - Strona nie znaleziona.',
-
-'Return to the board index' =>
-'Powróć do strony głównej',
+'Forgot password?' =>
+'Zapomniałeś hasła?',
 
 
 // pages/addranks.php
@@ -474,54 +77,694 @@ $languagePack = array(
 'Powyższe zestawy obrazków rang zostały importowane.',
 
 
-// pages/admin.php
-'You\'re not an administrator. There is nothing for you here.' =>
-'Nie jesteś administratorem. Nic tutaj nie zobaczysz.',
+// pages/newthread.php
+'New thread' =>
+'Nowy temat',
 
-'Administration' =>
-'Administracja',
+'You must be logged in to post.' =>
+'Musisz być zalogowany aby pisać.',
 
-'Information' =>
-'Informacje',
+'Forum ID unspecified.' =>
+'ID forum nieustalone.',
 
-'Last viewcount milestone' =>
-'Ostatni kamień milowy wyświetleń',
+'You\'re banned.' =>
+'Jesteś zbanowany.',
 
-'Admin tools' =>
-'Narzędzia administratora',
+'Unknown forum ID.' =>
+'Nieznane ID forum.',
 
-'Recalculate statistics' =>
-'Przeliczanie statystyk',
+'This forum is locked.' =>
+'To forum jest zablokowane.',
 
-'Last Known Browsers' =>
-'Ostatnie przeglądarki',
+'You are not allowed to post threads in this forum.' =>
+'Nie możesz pisać tematów w tym forum.',
 
-'Manage IP bans' =>
-'Zarządzanie banami IP',
+'Poll' =>
+'Ankieta',
 
-'Manage local moderator assignments' =>
-'Przydzielanie lokalnych moderatorów do forum',
+'Preview' =>
+'Podgląd',
+
+'Enter a message and try again.' =>
+'Wpisz wiadomość i spróbuj ponownie.',
+
+'Your post is empty.' =>
+'Twój post jest pusty.',
+
+'Enter a thread title and try again.' =>
+'Wpisz tytuł tematu i spróbuj ponownie.',
+
+'Your thread is unnamed.' =>
+'Ten temat jest nienazwany.',
+
+'You need to enter at least two options to make a poll.' =>
+'Potrzebujesz przynajmniej dwóch opcji aby stworzyć ankietę.',
+
+'Invalid poll.' =>
+'Nieprawidłowa ankieta.',
+
+'You need to enter a poll question to make a poll.' =>
+'',
+
+'You\'re going too damn fast! Slow down a little.' =>
+'Jesteś za szybki. ZWOLNIJ!',
+
+'Hold your horses.' =>
+'Chwileczkę...',
+
+'Option {2}' =>
+'Opcja {2}',
+
+'Color' =>
+'Kolor',
+
+'Multivote' =>
+'Głosowanie wielokrotne',
+
+'Poll question' =>
+'Pytanie',
+
+'Number of options' =>
+'Liczba opcji',
+
+'Set' =>
+'Ustaw',
+
+'Delete poll' =>
+'Usuń ankietę',
+
+'Add poll' =>
+'Stwórz ankietę',
+
+'Title' =>
+'Tytuł',
+
+'Icon' =>
+'Ikona',
+
+'None' =>
+'Brak',
+
+'Custom' =>
+'Specjalna',
+
+'[Default avatar]' =>
+'[Domyślny awatar]',
+
+'Close thread' =>
+'Zamknij temat',
+
+'Sticky' =>
+'Przyklejony',
+
+'Post' =>
+'Post',
+
+'Disable post layout' =>
+'Wyłącz layout posta',
+
+'Disable smilies' =>
+'Wyłącz uśmieszki',
+
+'Disable auto-<br>' =>
+'Wyłącz automatyczne <br>',
+
+
+// pages/memberlist.php
+'Member list' =>
+'Użytkownicy',
+
+'Page' =>
+'Strona',
+
+'Nothing matched your search.' =>
+'Nic nie znaleziono.',
+
+'Picture' =>
+'Obrazek',
+
+'Name' =>
+'Nazwa',
+
+'Posts' =>
+'Posty',
+
+'Average' =>
+'Przecietnie',
+
+'Karma' =>
+'Karma',
+
+'Birthday' =>
+'Urodziny',
+
+'Registered on' =>
+'Zarejestrowany',
+
+'Sort by' =>
+'Sortuj według',
+
+'Post count' =>
+'Liczba postów',
+
+'ID' =>
+'ID',
+
+'Registration date' =>
+'Data rejestracji',
+
+'Order' =>
+'Kolejność',
+
+'Descending' =>
+'Malejąco',
+
+'Ascending' =>
+'Rosnąco',
+
+'Sex' =>
+'Płeć',
+
+'(any)' =>
+'(dowolny)',
+
+'N/A' =>
+'Nieznana',
+
+'Female' =>
+'Kobieta',
+
+'Male' =>
+'Mężczyzna',
+
+'Power' =>
+'Poziom mocy',
+
+'Banned' =>
+'Zbanowani',
+
+'Normal' =>
+'Normalni',
+
+'Local Mod' =>
+'Lokalny moderator',
+
+'Full Mod' =>
+'Globalny moderator',
+
+'Admin' =>
+'Administrator',
+
+'Root' =>
+'Root',
+
+'System' =>
+'System',
+
+'Search' =>
+'Szukaj',
+
+'Loading memberlist...' =>
+'Ładowanie listy użytkowników&hellip;',
+
+
+// pages/editfora.php
+'Edit forums' =>
+'Edytuj fora',
+
+'You\'re not allowed to access the forum editor.' =>
+'Nie masz uprawnień by korzystać z edytora forów.',
 
 'Edit forum list' =>
 'Edycja listy forów',
 
-'Manage plugins' =>
-'Zarządzanie wtyczkami',
+'No.' =>
+'Nie.',
 
+'Forum has threads. Move those first.' =>
+'Forum ma tematy. Najpierw je przesuń.',
+
+'No such category.' =>
+'Nie ma takiej kategorii.',
+
+'Unknown action: {0}' =>
+'Nieznana akcja: {0}',
+
+'No categories' =>
+'Brak kategorii',
+
+'Forum not found.' =>
+'Forum nie znalezione.',
+
+'Update' =>
+'Aktualizuj',
+
+'Edit Forum' =>
+'Edytuj forum',
+
+'Delete' =>
+'Usuń',
+
+'New Forum' =>
+'Nowe forum',
+
+'Description goes here. <strong>HTML allowed.</strong>' =>
+'To jest opis forum. <strong>HTML jest dozwolony.</strong>',
+
+'Add' =>
+'Dodaj',
+
+'Description' =>
+'Opis',
+
+'Category' =>
+'Kategoria',
+
+'Listing order' =>
+'Kolejność wyświetlania.',
+
+'Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.' =>
+'Kolejność wyświetlania obowiązuje, chyba że dwa fora mają taką samą kolejność - wtedy ID jest używane do określenia kolejności.',
+
+'Powerlevel required' =>
+'Wymagany poziom mocy',
+
+'to view' =>
+'żeby oglądać',
+
+'to post threads' =>
+'żeby pisać tematy',
+
+'to reply' =>
+'żeby odpowiadać',
+
+'Delete forum' =>
+'Usuń forum',
+
+'Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.' =>
+'Zamiast usuwać forum, możesz chcieć zachować je. Zmień jego nazwę lub opis i zwiększ minimalny poziom mocy żeby odpowiedzieć i stworzyć temat żeby forum było zamknięte.',
+
+'If you still want to delete it, click below:' =>
+'Jeśli nadal chcesz je usunąć, kliknij poniżej:',
+
+'Edit Category' =>
+'Edytuj kategorię',
+
+'New Category' =>
+'Nowa kategoria',
+
+'Delete category' =>
+'Usuń kategorię',
+
+'Be careful when deleting categories. Make sure there are no forums in the category before deleting it.' =>
+'Bądź ostrożny podczas usuwania kategorii. Upewnij się że nie ma forów w tej kategorii przed jej usunięciem.',
+
+'Hint: Click a forum to select it.' =>
+'Podpowiedź: Kliknij na forum aby je wybrać.',
+
+'Add Forum' =>
+'Dodaj forum',
+
+'Add Category' =>
+'Dodaj kategorię',
+
+'No forums in this category.' =>
+'Nie ma forów w tej kategorii.',
+
+'Regular' =>
+'Zwykły użytkownik',
+
+'Local mod' =>
+'Lokalny moderator',
+
+'Full mod' =>
+'Globalny moderator',
+
+
+// pages/managemods.php
+'Manage localmod assignments' =>
+'Przydzielanie lokalnych moderatorów do forum',
+
+'You\'re not an administrator. There is nothing for you here.' =>
+'Nie jesteś administratorem. Nic tutaj nie zobaczysz.',
+
+'Moderators as of {0}' =>
+'Moderatorzy na {0}',
+
+'Mod ID unspecified.' =>
+'ID moderatora nie ustalone.',
+
+'already there' =>
+'już jest',
+
+'Pick a mod, any mod.' =>
+'Wybierz moderatora, dowolnego moderatora.',
+
+
+// pages/editsettings.php
 'Edit settings' =>
 'Zmiana ustawień',
 
-'Edit smilies' =>
-'Edycja emotikonów',
+'You must be an administrator to edit the board settings.' =>
+'Musisz być administratorem aby zmieniać ustawienia tego forum.',
 
-'Optimize tables' =>
-'Optymizacja tabel SQL',
+'Plugin manager' =>
+'Zarządzanie pluginami',
 
-'View log' =>
-'Czytanie logów',
+'Settings were successfully saved!' =>
+'Ustawienia zostały zapisane.',
 
-'Update table structure' =>
-'Aktualizacja struktury bazy danych',
+'Settings were NOT saved because there were invalid values. Please correct them and try again.' =>
+'Ustawienia NIE zostały zapisane ponieważ wprowadzono niepoprawne wartości. Proszę je poprawić i spróbować ponownie.',
+
+'Settings' =>
+'Ustawienia',
+
+'Save and Exit' =>
+'Zapisz i usuń',
+
+'Save' =>
+'Zapisz',
+
+
+// pages/forum.php
+'You are not allowed to browse this forum.' =>
+'Nie możesz przeglądać tego forum.',
+
+'Unknown category ID.' =>
+'Nieznane ID kategorii.',
+
+'Forum ignored. You will no longer see any "New" markers for this forum.' =>
+'Forum zignorowane. Nie będziesz dłużej widział żadnych markerów "New" w tym forum.',
+
+'Forum unignored.' =>
+'Forum nie jest już dłużej ignorowane.',
+
+'Mark forum read' =>
+'Zaznacz forum jako przeczytane',
+
+'Unignore forum' =>
+'Przestań ignorować forum',
+
+'Ignore forum' =>
+'Ignoruj forum',
+
+'Post thread' =>
+'Pisz temat',
+
+'Pages:' =>
+'Strony:',
+
+'Started by' =>
+'Zaczęty przez',
+
+'Replies' =>
+'Odpowiedzi',
+
+'Views' =>
+'Wyświetlenia',
+
+'Last post' =>
+'Ostatni post',
+
+'You cannot start any threads here.' =>
+'Nie możesz zaczynać tutaj tematów.',
+
+'Empty forum' =>
+'Puste forum',
+
+'Would you like to {0}?' =>
+'Czy chciałbyś {0}?',
+
+'post something' =>
+'coś napisać',
+
+'{0} so you can post something.' =>
+'aby coś napisać.',
+
+'Forum Jump:' =>
+'Skok po forach:',
+
+
+// pages/sendprivate.php
+'New PM' =>
+'Nowa prywatna wiadomość',
+
+'You must be logged in to send private messages.' =>
+'Musisz być zalogowany by wysyłać prywatne wiadomości.',
+
+'Unknown user.' =>
+'Nieznany użytkownik.',
+
+'Unknown PM.' =>
+'Nieznana prywatna wiadomość.',
+
+'You can\'t send private messages to yourself.' =>
+'Nie możesz wysyłać prywatnych wiadomości do siebie.',
+
+'Unknown user "{0}"' =>
+'Nieznany użytkownik "{0}".',
+
+'Too many recipients.' =>
+'Zbyt dużo odbiorców.',
+
+'Send' =>
+'Wyślij',
+
+'Save as Draft' =>
+'Zapisz jako szkic',
+
+'Your PM is empty.' =>
+'Twoja prywatna wiadomość jest pusta.',
+
+'Enter a title and try again.' =>
+'Wpisz tytuł i spróbuj ponownie.',
+
+'Your PM is untitled.' =>
+'Twoja prywatna wiadomość jest pusta.',
+
+'Send PM' =>
+'Wyślij prywatną wiadomość',
+
+'To' =>
+'Do',
+
+'Message' =>
+'Wiadomość',
+
+
+// pages/profile.php
+'User ID unspecified.' =>
+'Nie podano ID użytkownika.',
+
+'Unknown user ID.' =>
+'Nieznany ID użytkownika.',
+
+'Layout blocked.' =>
+'Layout zablokowany.',
+
+'Notice' =>
+'Notatka',
+
+'Layout unblocked.' =>
+'Layout odblokowany.',
+
+'Unblock layout' =>
+'Odblokuj layout',
+
+'Block layout' =>
+'Zablokuj layout',
+
+'Private' =>
+'Prywatny',
+
+'None given' =>
+'Nie podano',
+
+'Public' =>
+'Publiczny',
+
+'Show' =>
+'Pokaż',
+
+'This user has been temporarily banned until {0} (GMT). That\'s {1} left.' =>
+'Ten użytkownik jest tymczasowo zbanowano do {0} (GMT). Zostało {1} do końca.',
+
+'To next rank' =>
+'Do następnej rangi',
+
+'Total posts' =>
+'Liczba postów',
+
+'Total threads' =>
+'Liczba tematów',
+
+'Score' =>
+'Punkty',
+
+'Browser' =>
+'Przeglądarka',
+
+'Last known IP' =>
+'Ostatni znany IP',
+
+'General information' =>
+'Podstawowe informacje',
+
+'Email address' =>
+'Adres e-mail',
+
+'Homepage' =>
+'Strona WWW',
+
+'Contact information' =>
+'Informacje kontaktowe',
+
+'Theme' =>
+'Wygląd forum',
+
+'Items per page' =>
+'Ilość rzeczy na stronę',
+
+'post' =>
+'post',
+
+'thread' =>
+'temat',
+
+'Presentation' =>
+'Prezentacja',
+
+'Real name' =>
+'Imię i nazwisko',
+
+'Location' =>
+'Lokalizacja',
+
+'Bio' =>
+'Biografia',
+
+'Personal information' =>
+'Informacje osobiste',
+
+'No comments.' =>
+'Nie ma komentarzy.',
+
+'You are not allowed to post usercomments.' =>
+'Nie możesz pisać komentarzy użytkowników.',
+
+'Comments about {0}' =>
+'Komentarze dotyczące {0}',
+
+'Edit my profile' =>
+'Edytuj mój profil',
+
+'Edit user' =>
+'Edytuj użytkownika',
+
+'Show PMs' =>
+'Pokaż prywatne wiadomości',
+
+'Show posts' =>
+'Pokaż posty',
+
+
+// pages/destroyfuckingeverything.php
+'You\'re not a root user. There is nothing for you here.' =>
+'Nie jesteś rootem. Nie ma tu nic dla ciebie.',
+
+'Are you sure?' =>
+'Czy jesteś pewien?',
+
+'Oh boy.' =>
+'Robisz coś bardzo poważnego.',
+
+'You just destroyed the board.' =>
+'Właśnie zniszczyłeś forum.',
+
+'Congratulations.' =>
+'Gratulacje.',
+
+
+// pages/ranks.php
+'Ranks' =>
+'Zestawy rang',
+
+'No ranksets have been defined.' =>
+'Nie ustalono żadnych zestawów rang.',
+
+'User ranks' =>
+'Zestawy rang',
+
+'Change' =>
+'Zmień',
+
+'Climbing the Ranks Again' =>
+'Wspina się ponownie',
+
+'To get' =>
+'Żeby zdobyć ją',
+
+
+// pages/lastposts.php
+'Nothing has been posted in the last {0}.' =>
+'Nic nie było pisane w czasie {0}.',
+
+'hour' =>
+'godziny',
+
+'Last posts' =>
+'Ostatnie posty',
+
+'Forum' =>
+'Forum',
+
+'Thread' =>
+'Temat',
+
+'User' =>
+'Użytkownik',
+
+'Date' =>
+'Data',
+
+
+// pages/index.php
+'Mark all forums read' =>
+'Zaznacz wszystkie fora jako przeczytane',
+
+'{0} and {1} total' =>
+'{0} i {1} razem',
+
+'{0} today, {1} last hour' =>
+'{0} dzisiaj, {1} ostatniej godziny',
+
+'new post' =>
+'nowy post',
+
+'{0}, {1} active ({2}%)' =>
+'{0}, {1} aktywnych ({2}%)',
+
+'registered user' =>
+'użytkownik',
+
+'Newest: {0}' =>
+'Najnowszy: {0}',
+
+'Moderated by:' =>
+'Moderowany przez:',
+
+'by' =>
+'przez',
+
+'Forum title' =>
+'Tytuł forum',
+
+'Threads' =>
+'Tematy',
+
+'Last Post' =>
+'Ostatni post',
 
 
 // pages/avatarlibrary.php
@@ -558,20 +801,14 @@ $languagePack = array(
 'Both category and image must be chosen to set your avatar.' =>
 'Zarówno kategoria i obrazek muszą być wybrane, aby można było ustawić twój awatar.',
 
+'Error' =>
+'Błąd',
+
 'Category and image are supposed to be numerical!' =>
 'Kategoria i obrazek muszą być liczbami.',
 
 'Unknown image.' =>
 'Nieznany obrazek.',
-
-'Category' =>
-'Kategoria',
-
-'Change' =>
-'Zmień',
-
-'Notice' =>
-'Notatka',
 
 'Please note that anything you choose here will <em>overwrite</em> your previous avatar. Keep a backup in case you want to switch back later &mdash; we can\'t and won\'t help you restore your previous avatar. However, we can help make a backup &mdash; you can save the image to the left.' =>
 'Proszę zauważyć, że wszystko co wybierzesz tutaj <em>nadpisze</em> twojego poprzedniego awatara. Trzymaj kopię na wypadek jakbyś chciał wrócić z powrotem do swojego poprzedniego awatara &mdash; nie możemy i nie pomożemy ci przywrócić awatara. Jednakże, możemy pomóc zrobić ci backup &mdash; po prostu zapisz obrazek po lewej.',
@@ -580,231 +817,405 @@ $languagePack = array(
 'Ponieważ nie jesteś zalogowany, nie możesz wybrać żadnego awatara. Nie krępuj się jednak przeglądać.',
 
 
-// pages/destroyfuckingeverything.php
-'You\'re not a root user. There is nothing for you here.' =>
-'Nie jesteś rootem. Nie ma tu nic dla ciebie.',
+// pages/pluginmanager.php
+'You must be an administrator to manage plugins.' =>
+'Musisz być administratorem, aby zarządzać wtyczkami.',
 
-'Are you sure?' =>
-'Czy jesteś pewien?',
+'Plugin Manager' =>
+'Zarządzanie wtyczkami.',
 
-'Oh boy.' =>
-'Robisz coś bardzo poważnego.',
+'Enabled plugins' =>
+'Uaktywnione wtyczki',
 
-'You just destroyed the board.' =>
-'Właśnie zniszczyłeś forum.',
+'Disabled plugins' =>
+'Wyłączone wtyczki',
 
-'Congratulations.' =>
-'Gratulacje.',
+'Made by:' =>
+'',
 
+'Enable' =>
+'Włącz',
 
-// pages/editavatars.php
-'Mood avatars' =>
-'Awatary nastroju',
+'Disable' =>
+'Wyłącz',
 
-'You must be logged in to edit your avatars.' =>
-'Musisz być zalogowany, aby zmieniać swoje awatary.',
-
-'Rename' =>
-'Zmień nazwę',
-
-'Avatar renamed.' =>
-'Zmieniono nazwę awataru.',
-
-'Okay' =>
-'Okej',
-
-'Avatar deleted.' =>
-'Awatar usunięty.',
-
-'Add' =>
-'Dodaj',
-
-'Invalid file type, must be one of:' =>
-'Nieprawidłowy typ pliku, musi być jednym z następujących:',
-
-'Could not update your avatar for the following reason(s):' =>
-'Nie można zmienić twojego awatara z następujących powodów:',
-
-'Add new' =>
-'Dodaj nowego',
-
-'Name:' =>
-'Nazwa:',
-
-'Image:' =>
-'Obraz:',
+'Settings&hellip;' =>
+'Ustawienia&hellip;',
 
 
-// pages/editfora.php
-'Edit forums' =>
-'Edytuj fora',
+// pages/recalc.php
+'Staff only, please.' =>
+'Tylko dla administracji, proszę.',
 
-'You\'re not allowed to access the forum editor.' =>
-'Nie masz uprawnień by korzystać z edytora forów.',
+'Recalculate statistics' =>
+'Przeliczanie statystyk',
 
-'Forum has threads. Move those first.' =>
-'Forum ma tematy. Najpierw je przesuń.',
+'Actual' =>
+'Aktualna',
 
-'No such category.' =>
-'Nie ma takiej kategorii.',
+'Reported' =>
+'Zgłaszana',
 
-'Unknown action: {0}' =>
-'Nieznana akcja: {0}',
+'Counting user\'s posts&hellip;' =>
+'Liczenie postów użytkowników&hellip;',
 
-'No categories' =>
-'Brak kategorii',
+'Counting thread replies&hellip;' =>
+'Liczenie odpowiedzi na temat&hellip;',
 
-'Forum not found.' =>
-'Forum nie znalezione.',
+'Counting forum threads and posts&hellip;' =>
+'Liczenie tematów i postów w forach&hellip;',
 
-'Update' =>
-'Aktualizuj',
-
-'Edit Forum' =>
-'Edytuj forum',
-
-'New Forum' =>
-'Nowe forum',
-
-'Description goes here. <strong>HTML allowed.</strong>' =>
-'To jest opis forum. <strong>HTML jest dozwolony.</strong>',
-
-'Title' =>
-'Tytuł',
-
-'Description' =>
-'Opis',
-
-'Listing order' =>
-'Kolejność wyświetlania.',
-
-'Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.' =>
-'Kolejność wyświetlania obowiązuje, chyba że dwa fora mają taką samą kolejność - wtedy ID jest używane do określenia kolejności.',
-
-'Powerlevel required' =>
-'Wymagany poziom mocy',
-
-'to view' =>
-'żeby oglądać',
-
-'to post threads' =>
-'żeby pisać tematy',
-
-'to reply' =>
-'żeby odpowiadać',
-
-'Delete forum' =>
-'Usuń forum',
-
-'Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it\'s effectively closed.' =>
-'Zamiast usuwać forum, możesz chcieć zachować je. Zmień jego nazwę lub opis i zwiększ minimalny poziom mocy żeby odpowiedzieć i stworzyć temat żeby forum było zamknięte.',
-
-'If you still want to delete it, click below:' =>
-'Jeśli nadal chcesz je usunąć, kliknij poniżej:',
-
-'Edit Category' =>
-'Edytuj kategorię',
-
-'New Category' =>
-'Nowa kategoria',
-
-'Name' =>
-'Nazwa',
-
-'Delete category' =>
-'Usuń kategorię',
-
-'Be careful when deleting categories. Make sure there are no forums in the category before deleting it.' =>
-'Bądź ostrożny podczas usuwania kategorii. Upewnij się że nie ma forów w tej kategorii przed jej usunięciem.',
-
-'Hint: Click a forum to select it.' =>
-'Podpowiedź: Kliknij na forum aby je wybrać.',
-
-'Add Forum' =>
-'Dodaj forum',
-
-'Add Category' =>
-'Dodaj kategorię',
-
-'No forums in this category.' =>
-'Nie ma forów w tej kategorii.',
-
-'Regular' =>
-'Zwykły użytkownik',
+'All counters reset.' =>
+'Wszystkie liczniki zostały wyzerowane.',
 
 
-// pages/editpost.php
-'Edit post' =>
-'Edytuj post',
+// pages/showprivate.php
+'You must be logged in to view your private messages.' =>
+'Musisz być zalogowany by widzieć prywatne wiadomości.',
 
-'You must be logged in to edit your posts.' =>
-'Musisz być zalogowany aby edytować swoje posty.',
+'No PM specified.' =>
+'Nie ustalono numeru prywatnej wiadomości.',
 
-'Banned users can\'t edit their posts.' =>
-'Zbanowani użytkownicy nie mogą edytować swoich postów.',
+'No snooping for you.' =>
+'To nie twoja wiadomość.',
 
-'Post ID unspecified.' =>
-'Nieustalone ID postu.',
+'Unknown PM' =>
+'Nieznana prywatna wiadomość',
+
+'Send reply' =>
+'Wyślij odpowiedź',
+
+'This PM is still being drafted.' =>
+'Ten PM jest wciąż tworzony.',
+
+'You are snooping.' =>
+'Przeglądasz prywatne wiadomości innych.',
+
+'Discard Draft' =>
+'Zniszcz',
+
+'Update Draft' =>
+'Zaaktualizuj',
+
+'Edit Draft' =>
+'Edytuj szkic',
+
+
+// pages/printthread.php
+'Unknown post ID.' =>
+'Nieznane ID postu.',
+
+'Thread ID unspecified.' =>
+'Numer ID tematu nieustalony.',
 
 'Unknown thread ID.' =>
 'Nieznane ID tematu.',
 
-'Unknown forum ID.' =>
-'Nieznane ID forum.',
 
-'You\'re not allowed to delete posts.' =>
-'Nie możesz usuwać postów.',
+// pages/admin.php
+'Administration' =>
+'Administracja',
 
-'You\'re not allowed to undelete posts.' =>
-'Nie możesz przywracać postów.',
+'Information' =>
+'Informacje',
 
-'This post has been deleted.' =>
-'Ten post został usunięty.',
+'Last viewcount milestone' =>
+'Ostatni kamień milowy wyświetleń',
 
-'You are not allowed to edit posts.' =>
-'Nie możesz edytować postów.',
+'Admin tools' =>
+'Narzędzia administratora',
 
-'This thread is closed.' =>
+'Last Known Browsers' =>
+'Ostatnie przeglądarki',
+
+'Manage IP bans' =>
+'Zarządzanie banami IP',
+
+'Manage local moderator assignments' =>
+'Przydzielanie lokalnych moderatorów do forum',
+
+'Manage plugins' =>
+'Zarządzanie wtyczkami',
+
+'Edit smilies' =>
+'Edycja emotikonów',
+
+'Optimize tables' =>
+'Optymizacja tabel SQL',
+
+'View log' =>
+'Czytanie logów',
+
+'Update table structure' =>
+'Aktualizacja struktury bazy danych',
+
+
+// pages/lastknownbrowsers.php
+'IP' =>
+'IP',
+
+'Last known browser' =>
+'Ostatnia przeglądarka',
+
+
+// pages/lostpass.php
+'No sender specified for reset emails. Please check the board settings.' =>
+'Nie ustalono adresu e-mail używanego do wysyłania wiadomości resetujących hasło. Proszę sprawdź ustawienia forum.',
+
+'This old key cannot be used.' =>
+'Ten stary klucz nie może być użyty.',
+
+'Invalid key' =>
+'Nieprawidłowy klucz',
+
+'Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible.' =>
+'Twoje hasło zostało zmienione na <strong>{0}</strong>. Możesz użyć tego hasło do zalogowania się. Jednakże, proponujemy zmienić je tak szybko jak to tylko możliwe.',
+
+'Password reset' =>
+'Resetowanie hasła',
+
+'Send reset email' =>
+'Wyślij resetujący hasło e-mail',
+
+'To prevent abuse, this function can only be used once an hour.' =>
+'Żeby zapobiec nadużyciu, ta funkcja może być użyta tylko raz na godzinę.',
+
+'Slow down!' =>
+'Zwolnij!',
+
+'Password reset for {0}' =>
+'Resetowania hasła dla {0}',
+
+'A password reset was requested for your user account on {0}.' =>
+'Resetowanie hasła zostało zamówiono dla twojego konta na {0}.',
+
+'If you did not submit this request, this message can be ignored.' =>
+'Jeżeli nie ty prosiłeś o resetowanie hasła, ta wiadomość może być zignorowana.',
+
+'To reset your password, visit the following URL:' =>
+'Żeby zresetować hasło, odwiedź poniższy adres WWW:',
+
+'This link can be used once.' =>
+'Ten link może być użyty tylko raz.',
+
+'Check your email in a moment and follow the link found therein.' =>
+'Sprawdź swoją pocztę i skorzystaj z linku znajdującego się w niej.',
+
+'Reset email sent' =>
+'Wysłano e-mail przypominający hasło',
+
+'Lost password' =>
+'Zgubione hasło',
+
+'If you did not specify an email address in your profile, you are <em>not</em> out of luck. The old method of contacting an administrator from outside the board is still an option.' =>
+'Jeżeli nie ustaliłeś adresu e-mail w profilu, <em>nie</em> jest najgorzej. Stara metoda kontaktowania się z administratorem poza forum nadal jest możliwą opcją.',
+
+
+// pages/ipbans.php
+'IP bans' =>
+'Zarządzanie banami IP',
+
+'Only administrators get to manage IP bans.' =>
+'Tylko administratorzy mogą bawić się w banowanie IP-ków.',
+
+'IP ban manager' =>
+'Zarządzanie banami IP',
+
+'Added.' =>
+'Dodano.',
+
+'Removed.' =>
+'Usunięto.',
+
+'Permanent' =>
+'Na zawsze',
+
+'Reason' =>
+'Powód',
+
+'For' =>
+'Na',
+
+'days' =>
+'dni',
+
+
+// pages/private.php
+'{0} deleted.' =>
+'{0} - usunięto pomyślnie.',
+
+'private message' =>
+'prywatną wiadomość',
+
+'Private message deleted.' =>
+'Prywatne wiadomości usunięte.',
+
+'Show received' =>
+'Wyświetl dostane',
+
+'Show sent' =>
+'Wyświetl wysłane',
+
+'Show drafts' =>
+'Wyświetl szkice',
+
+'Send new PM' =>
+'Wyślij nową prywatną wiadomość',
+
+'There are no messages to display.' =>
+'Nie ma wiadomości do wyświetlenia.',
+
+'delete checked' =>
+'usuń zaznaczone',
+
+'From' =>
+'Do',
+
+
+// pages/editthread.php
+'Edit thread' =>
+'Edytuj temat',
+
+'You must be logged in to edit threads.' =>
+'Musisz być zalogowany by zmieniać tematy.',
+
+'You are not allowed to edit threads.' =>
+'Nie możesz zmieniać tematów.',
+
+'Move' =>
+'Przesuń',
+
+'Could not identify trash forum.' =>
+'Nie można znaleźć kosza.',
+
+'Edit' =>
+'Edytuj',
+
+'Your thread title is empty. Enter a message and try again.' =>
+'Nazwa tematu jest pusta. Wpisz temat i spróbuj ponownie.',
+
+'Extras' =>
+'Specjalne',
+
+'Closed' =>
+'Zamknięty',
+
+
+// pages/register.php
+'Back to main' =>
+'Wróć do strony głównej',
+
+'Try again' =>
+'Spróbuj ponownie',
+
+'Repeat:' =>
+'Powtórz:',
+
+'I have read the {0}FAQ{1}' =>
+'Przeczytałem {0}FAQ{1}',
+
+'The word' =>
+'Słowo',
+
+'It\'s in the FAQ. Read it carefully and you\'ll find out what the word is.' =>
+'Znajduje się w FAQ. Przeczytaj je uważnie i odnajdziesz je.',
+
+'Security' =>
+'Zabezpieczenie',
+
+'New' =>
+'Nowy',
+
+'Log in afterwards' =>
+'Zaloguj po rejestracji',
+
+'Specifying an email address is not exactly a hard requirement, but it will allow you to reset your password should you forget it. By default, your email is not shown.' =>
+'Wpisanie adresu e-mail nie jest wymagane, ale pozwoli ci resetować hasło kiedy go zapomnisz. Domyślnie, nie jest pokazywane.',
+
+'This user name is already taken. Please choose another.' =>
+'Ten nick jest już zajęty. Proszę wybrać inny.',
+
+'The user name must not be empty. Please choose one.' =>
+'Nazwa użytkownika nie może być pusta. Wybierz jakąś.',
+
+'The user name cannot contain semicolons.' =>
+'Nazwa użytkownika nie może zawierać średników.',
+
+'You really should {0}read the FAQ{1}&hellip;' =>
+'Powinieneś naprawdę {0}przeczytać FAQ{1}&hellip;',
+
+'That\'s not the right word. Are you sure you really {0}read the FAQ{1}?' =>
+'To nie jest poprawne słowo. Czy na pewno {0}przeczytałeś FAQ{1}?',
+
+'Your password must be at least four characters long.' =>
+'Hasło musi mieć przynajmniej cztery znaki.',
+
+'The passwords you entered don\'t match.' =>
+'Hasła do siebie nie pasują.',
+
+'You got the CAPTCHA wrong.' =>
+'Źle wpisałeś CAPTCHA.',
+
+
+// pages/newreply.php
+'New reply' =>
+'Nowa odpowiedź',
+
+'You\'re banned. You can\'t post.' =>
+'Jesteś zbanowany. Nie możesz pisać postów.',
+
+'Your power is not enough.' =>
+'Twój poziom mocy jest niewystarczający.',
+
+'This thread is locked.' =>
 'Ten temat jest zamknięty.',
 
-'Your post is too short to have any real meaning. Try a little harder.' =>
-'Twój post jest zbyt krótki, żeby miał jakieś znaczenie. Spróbuj trochę bardziej.',
+'You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button.' =>
+'Zamierzasz pisać w starym temacie. To jest bardzo zły pomysł w większości przypadków. Proszę zastanów się co chcesz zrobić zanim wyślesz wiadomość używając przycisku "Wyślij".',
 
-'I\'m sorry, Dave.' =>
-'Przepraszam, Dave.',
+'You can\'t double post until it\'s been at least one day.' =>
+'Nie możesz pisać podwójnie, chyba że minął przynajmniej jeden dzień.',
 
-'Enter a message and try again.' =>
-'Wpisz wiadomość i spróbuj ponownie.',
+'Sorry' =>
+'',
 
-'Your post is empty.' =>
-'Twój post jest pusty.',
+'You got ninja\'d. You might want to review the post made while you were typing before you submit yours.' =>
+'Ktoś napisał post w tym temacie przed tobą. Zanim wyślesz swój post sprawdź post napisany kiedy ty pisałeś swój post.',
 
-'Preview' =>
-'Podgląd',
+'Post is deleted' =>
+'Post jest usunięty',
 
-'Unknown user ID.' =>
-'Nieznany ID użytkownika.',
+'Open thread' =>
+'Otwórz temat',
 
-'[Default avatar]' =>
-'[Domyślny awatar]',
+'Unstick' =>
+'Odklej temat',
 
-'Edit Post' =>
-'Edytuj post',
+'Quote' =>
+'Cytat',
 
-'Post' =>
-'Post',
-
-'Disable post layout' =>
-'Wyłącz layout posta',
-
-'Disable smilies' =>
-'Wyłącz uśmieszki',
-
-'Disable auto-<br>' =>
-'Wyłącz automatyczne <br>',
+'Link' =>
+'Link',
 
 'Thread review' =>
 'Przegląd tematu',
+
+
+// pages/faq.php
+'Normal user' =>
+'Normalny użytkownik',
+
+'Local moderator' =>
+'Lokalni moderatorzy',
+
+'Full moderator' =>
+'Globalni moderatorzy',
+
+'Administrator' =>
+'Administratorzy',
+
+'Banned user' =>
+'Zbanowany',
 
 
 // pages/editprofile.php
@@ -816,21 +1227,6 @@ $languagePack = array(
 
 'Cannot edit a root user.' =>
 'Nie można edytować roota.',
-
-'Edit profile' =>
-'Edytuj profil',
-
-'None' =>
-'Brak',
-
-'Male' =>
-'Mężczyzna',
-
-'Female' =>
-'Kobieta',
-
-'N/A' =>
-'Nieznana',
 
 '-1 - Banned' =>
 '-1 - Zbanowany',
@@ -849,12 +1245,6 @@ $languagePack = array(
 
 'Login information' =>
 'Informacje logowania',
-
-'User name' =>
-'Nazwa użytkownika',
-
-'Password' =>
-'Hasło',
 
 'Appearance' =>
 'Wygląd',
@@ -910,38 +1300,11 @@ $languagePack = array(
 'Use nice notification banners' =>
 'Użyj miłych banerów informujących',
 
-'Personal information' =>
-'Informacje osobiste',
-
-'Sex' =>
-'Płeć',
-
-'Real name' =>
-'Imię i nazwisko',
-
-'Location' =>
-'Lokalizacja',
-
-'Birthday' =>
-'Urodziny',
-
 '(example: {0})' =>
 '(przykładowo: {0})',
 
-'Bio' =>
-'Biografia',
-
 'Timezone offset' =>
 'Przesunięcie czasu<br>(strefa czasowa)',
-
-'Contact information' =>
-'Informacje kontaktowe',
-
-'Email address' =>
-'Adres e-mail',
-
-'Public' =>
-'Publiczny',
 
 'Homepage URL' =>
 'Adres strony WWW',
@@ -978,9 +1341,6 @@ $languagePack = array(
 
 'Personal' =>
 'Dodatkowe',
-
-'Theme' =>
-'Wygląd forum',
 
 'Tempban' =>
 'Tymczasowy ban',
@@ -1078,9 +1438,6 @@ $languagePack = array(
 'Target time' =>
 'Czas bana',
 
-'Repeat:' =>
-'Powtórz:',
-
 'Remove' =>
 'Usuń',
 
@@ -1091,260 +1448,7 @@ $languagePack = array(
 '[wybierz]',
 
 
-// pages/editsettings.php
-'You must be an administrator to edit the board settings.' =>
-'Musisz być administratorem aby zmieniać ustawienia tego forum.',
-
-'Plugin manager' =>
-'Zarządzanie pluginami',
-
-'Settings were successfully saved!' =>
-'Ustawienia zostały zapisane.',
-
-'Settings were NOT saved because there were invalid values. Please correct them and try again.' =>
-'Ustawienia NIE zostały zapisane ponieważ wprowadzono niepoprawne wartości. Proszę je poprawić i spróbować ponownie.',
-
-'Settings' =>
-'Ustawienia',
-
-'Save and Exit' =>
-'Zapisz i usuń',
-
-'Save' =>
-'Zapisz',
-
-
-// pages/editthread.php
-'Edit thread' =>
-'Edytuj temat',
-
-'You must be logged in to edit threads.' =>
-'Musisz być zalogowany by zmieniać tematy.',
-
-'Thread ID unspecified.' =>
-'Numer ID tematu nieustalony.',
-
-'You are not allowed to edit threads.' =>
-'Nie możesz zmieniać tematów.',
-
-'Move' =>
-'Przesuń',
-
-'Could not identify trash forum.' =>
-'Nie można znaleźć kosza.',
-
-'Your thread title is empty. Enter a message and try again.' =>
-'Nazwa tematu jest pusta. Wpisz temat i spróbuj ponownie.',
-
-'Icon' =>
-'Ikona',
-
-'Custom' =>
-'Specjalna',
-
-'Extras' =>
-'Specjalne',
-
-'Closed' =>
-'Zamknięty',
-
-'Sticky' =>
-'Przyklejony',
-
-
-// pages/faq.php
-'Normal user' =>
-'Normalny użytkownik',
-
-'Local moderator' =>
-'Lokalni moderatorzy',
-
-'Full moderator' =>
-'Globalni moderatorzy',
-
-'Root' =>
-'Root',
-
-'Banned user' =>
-'Zbanowany',
-
-
-// pages/forum.php
-'Forum ID unspecified.' =>
-'ID forum nieustalone.',
-
-'You are not allowed to browse this forum.' =>
-'Nie możesz przeglądać tego forum.',
-
-'Unknown category ID.' =>
-'Nieznane ID kategorii.',
-
-'Forum ignored. You will no longer see any "New" markers for this forum.' =>
-'Forum zignorowane. Nie będziesz dłużej widział żadnych markerów "New" w tym forum.',
-
-'Forum unignored.' =>
-'Forum nie jest już dłużej ignorowane.',
-
-'Mark forum read' =>
-'Zaznacz forum jako przeczytane',
-
-'Unignore forum' =>
-'Przestań ignorować forum',
-
-'Ignore forum' =>
-'Ignoruj forum',
-
-'Post thread' =>
-'Pisz temat',
-
-'Post poll' =>
-'Zrób ankietę',
-
-'Pages:' =>
-'Strony:',
-
-'Started by' =>
-'Zaczęty przez',
-
-'Replies' =>
-'Odpowiedzi',
-
-'Views' =>
-'Wyświetlenia',
-
-'Last post' =>
-'Ostatni post',
-
-'You cannot start any threads here.' =>
-'Nie możesz zaczynać tutaj tematów.',
-
-'Empty forum' =>
-'Puste forum',
-
-'Would you like to {0}?' =>
-'Czy chciałbyś {0}?',
-
-'post something' =>
-'coś napisać',
-
-'{0} so you can post something.' =>
-'aby coś napisać.',
-
-'Log in' =>
-'Zaloguj się',
-
-'Forum Jump:' =>
-'Skok po forach:',
-
-
-// pages/index.php
-'Mark all forums read' =>
-'Zaznacz wszystkie fora jako przeczytane',
-
-'{0} and {1} total' =>
-'{0} i {1} razem',
-
-'thread' =>
-'temat',
-
-'post' =>
-'post',
-
-'{0} today, {1} last hour' =>
-'{0} dzisiaj, {1} ostatniej godziny',
-
-'new post' =>
-'nowy post',
-
-'{0}, {1} active ({2}%)' =>
-'{0}, {1} aktywnych ({2}%)',
-
-'registered user' =>
-'użytkownik',
-
-'Newest: {0}' =>
-'Najnowszy: {0}',
-
-'Moderated by:' =>
-'Moderowany przez:',
-
-'Forum title' =>
-'Tytuł forum',
-
-'Threads' =>
-'Tematy',
-
-'Posts' =>
-'Posty',
-
-'Last Post' =>
-'Ostatni post',
-
-
-// pages/ipbans.php
-'IP bans' =>
-'Zarządzanie banami IP',
-
-'Only administrators get to manage IP bans.' =>
-'Tylko administratorzy mogą bawić się w banowanie IP-ków.',
-
-'IP ban manager' =>
-'Zarządzanie banami IP',
-
-'Added.' =>
-'Dodano.',
-
-'Removed.' =>
-'Usunięto.',
-
-'Permanent' =>
-'Na zawsze',
-
-'IP' =>
-'IP',
-
-'Reason' =>
-'Powód',
-
-'Date' =>
-'Data',
-
-'For' =>
-'Na',
-
-'days' =>
-'dni',
-
-
-// pages/lastknownbrowsers.php
-'ID' =>
-'ID',
-
-'Last known browser' =>
-'Ostatnia przeglądarka',
-
-
-// pages/lastposts.php
-'Nothing has been posted in the last {0}.' =>
-'Nic nie było pisane w czasie {0}.',
-
-'hour' =>
-'godziny',
-
-'Forum' =>
-'Forum',
-
-'Thread' =>
-'Temat',
-
-'User' =>
-'Użytkownik',
-
-
 // pages/listposts.php
-'User ID unspecified.' =>
-'Nie podano ID użytkownika.',
-
 'Post list' =>
 'Lista postów',
 
@@ -1352,255 +1456,48 @@ $languagePack = array(
 'Lista postów',
 
 
-// pages/log.php
-'Log' =>
-'Log',
+// pages/editpost.php
+'Edit post' =>
+'Edytuj post',
 
-'Time' =>
-'Czas',
+'You must be logged in to edit your posts.' =>
+'Musisz być zalogowany aby edytować swoje posty.',
 
-'Event' =>
-'Zdarzenie',
+'Banned users can\'t edit their posts.' =>
+'Zbanowani użytkownicy nie mogą edytować swoich postów.',
 
+'Post ID unspecified.' =>
+'Nieustalone ID postu.',
 
-// pages/login.php
-'Invalid user name or password.' =>
-'Niewłaściwa nazwa użytkownika lub hasło.',
+'You\'re not allowed to delete posts.' =>
+'Nie możesz usuwać postów.',
 
-'This session only' =>
-'Tylko na tą sesję',
+'You\'re not allowed to undelete posts.' =>
+'Nie możesz przywracać postów.',
 
-'Forgot password?' =>
-'Zapomniałeś hasła?',
+'This post has been deleted.' =>
+'Ten post został usunięty.',
 
+'You are not allowed to edit posts.' =>
+'Nie możesz edytować postów.',
 
-// pages/lostpass.php
-'No sender specified for reset emails. Please check the board settings.' =>
-'Nie ustalono adresu e-mail używanego do wysyłania wiadomości resetujących hasło. Proszę sprawdź ustawienia forum.',
-
-'This old key cannot be used.' =>
-'Ten stary klucz nie może być użyty.',
-
-'Invalid key' =>
-'Nieprawidłowy klucz',
-
-'Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible.' =>
-'Twoje hasło zostało zmienione na <strong>{0}</strong>. Możesz użyć tego hasło do zalogowania się. Jednakże, proponujemy zmienić je tak szybko jak to tylko możliwe.',
-
-'Password reset' =>
-'Resetowanie hasła',
-
-'Send reset email' =>
-'Wyślij resetujący hasło e-mail',
-
-'To prevent abuse, this function can only be used once an hour.' =>
-'Żeby zapobiec nadużyciu, ta funkcja może być użyta tylko raz na godzinę.',
-
-'Slow down!' =>
-'Zwolnij!',
-
-'Password reset for {0}' =>
-'Resetowania hasła dla {0}',
-
-'A password reset was requested for your user account on {0}.' =>
-'Resetowanie hasła zostało zamówiono dla twojego konta na {0}.',
-
-'If you did not submit this request, this message can be ignored.' =>
-'Jeżeli nie ty prosiłeś o resetowanie hasła, ta wiadomość może być zignorowana.',
-
-'To reset your password, visit the following URL:' =>
-'Żeby zresetować hasło, odwiedź poniższy adres WWW:',
-
-'This link can be used once.' =>
-'Ten link może być użyty tylko raz.',
-
-'Check your email in a moment and follow the link found therein.' =>
-'Sprawdź swoją pocztę i skorzystaj z linku znajdującego się w niej.',
-
-'Reset email sent' =>
-'Wysłano e-mail przypominający hasło',
-
-'Lost password' =>
-'Zgubione hasło',
-
-'If you did not specify an email address in your profile, you are <em>not</em> out of luck. The old method of contacting an administrator from outside the board is still an option.' =>
-'Jeżeli nie ustaliłeś adresu e-mail w profilu, <em>nie</em> jest najgorzej. Stara metoda kontaktowania się z administratorem poza forum nadal jest możliwą opcją.',
-
-
-// pages/managemods.php
-'Manage localmod assignments' =>
-'Przydzielanie lokalnych moderatorów do forum',
-
-'Moderators as of {0}' =>
-'Moderatorzy na {0}',
-
-'Mod ID unspecified.' =>
-'ID moderatora nie ustalone.',
-
-'already there' =>
-'już jest',
-
-'Pick a mod, any mod.' =>
-'Wybierz moderatora, dowolnego moderatora.',
-
-
-// pages/memberlist.php
-'Page' =>
-'Strona',
-
-'Nothing matched your search.' =>
-'Nic nie znaleziono.',
-
-'Picture' =>
-'Obrazek',
-
-'Average' =>
-'Przecietnie',
-
-'Karma' =>
-'Karma',
-
-'Registered on' =>
-'Zarejestrowany',
-
-'Sort by' =>
-'Sortuj według',
-
-'Post count' =>
-'Liczba postów',
-
-'Registration date' =>
-'Data rejestracji',
-
-'Order' =>
-'Kolejność',
-
-'Descending' =>
-'Malejąco',
-
-'Ascending' =>
-'Rosnąco',
-
-'(any)' =>
-'(dowolny)',
-
-'Power' =>
-'Poziom mocy',
-
-'Normal' =>
-'Normalni',
-
-'Local Mod' =>
-'Lokalny moderator',
-
-'Full Mod' =>
-'Globalny moderator',
-
-'System' =>
-'System',
-
-'Loading memberlist...' =>
-'Ładowanie listy użytkowników&hellip;',
-
-
-// pages/newreply.php
-'New reply' =>
-'Nowa odpowiedź',
-
-'You\'re banned. You can\'t post.' =>
-'Jesteś zbanowany. Nie możesz pisać postów.',
-
-'Your power is not enough.' =>
-'Twój poziom mocy jest niewystarczający.',
-
-'This thread is locked.' =>
+'This thread is closed.' =>
 'Ten temat jest zamknięty.',
 
-'You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button.' =>
-'Zamierzasz pisać w starym temacie. To jest bardzo zły pomysł w większości przypadków. Proszę zastanów się co chcesz zrobić zanim wyślesz wiadomość używając przycisku "Wyślij".',
+'Your post is too short to have any real meaning. Try a little harder.' =>
+'Twój post jest zbyt krótki, żeby miał jakieś znaczenie. Spróbuj trochę bardziej.',
 
-'You got ninja\'d. You might want to review the post made while you were typing before you submit yours.' =>
-'Ktoś napisał post w tym temacie przed tobą. Zanim wyślesz swój post sprawdź post napisany kiedy ty pisałeś swój post.',
+'I\'m sorry, Dave.' =>
+'Przepraszam, Dave.',
 
-'You\'re going too damn fast! Slow down a little.' =>
-'Jesteś za szybki. ZWOLNIJ!',
-
-'Hold your horses.' =>
-'Chwileczkę...',
-
-'Nope, still banned.' =>
-'Nadal jesteś zbanowany.',
-
-'You must be logged in to post.' =>
-'Musisz być zalogowany aby pisać.',
-
-'You can\'t double post until it\'s been at least one day.' =>
-'Nie możesz pisać podwójnie, chyba że minął przynajmniej jeden dzień.',
-
-'Close thread' =>
-'Zamknij temat',
-
-'Open thread' =>
-'Otwórz temat',
-
-'Unstick' =>
-'Odklej temat',
-
-'If you want to post under another account without having to log out, enter that account\'s user name and password here. Leave the password field blank to use the current account ({10}).' =>
-'Jeżeli chcesz pisać pod innym kontem bez wylogowywania się wpisz nazwę konta i hasło tutaj. Zostaw pole na hasło puste, żeby użyć aktualnego konta ({10}).',
-
-
-// pages/newthread.php
-'New thread' =>
-'Nowy temat',
-
-'You\'re banned.' =>
-'Jesteś zbanowany.',
-
-'This forum is locked.' =>
-'To forum jest zablokowane.',
-
-'You are not allowed to post threads in this forum.' =>
-'Nie możesz pisać tematów w tym forum.',
-
-'Poll' =>
-'Ankieta',
-
-'Enter a thread title and try again.' =>
-'Wpisz tytuł tematu i spróbuj ponownie.',
-
-'Your thread is unnamed.' =>
-'Ten temat jest nienazwany.',
-
-'You need to enter at least two options to make a poll.' =>
-'Potrzebujesz przynajmniej dwóch opcji aby stworzyć ankietę.',
-
-'Invalid poll.' =>
-'Nieprawidłowa ankieta.',
-
-'Option {2}' =>
-'Opcja {2}',
-
-'Color' =>
-'Kolor',
-
-'Multivote' =>
-'Głosowanie wielokrotne',
-
-'Poll question' =>
-'Pytanie',
-
-'Number of options' =>
-'Liczba opcji',
-
-'Delete poll' =>
-'Usuń ankietę',
-
-'Add poll' =>
-'Stwórz ankietę',
+'Edit Post' =>
+'Edytuj post',
 
 
 // pages/online.php
+'Online users' =>
+'Online',
+
 'Show visitors from this far back:' =>
 'Pokaż odwiedzających sprzed:',
 
@@ -1635,6 +1532,60 @@ $languagePack = array(
 'Boty',
 
 
+// pages/404.php
+'404' =>
+'404',
+
+'Error 404 - The page you are looking for was not found.' =>
+'Błąd 404 - Strona nie znaleziona.',
+
+'Return to the board index' =>
+'Powróć do strony głównej',
+
+
+// pages/log.php
+'Log' =>
+'Log',
+
+'Time' =>
+'Czas',
+
+'Event' =>
+'Zdarzenie',
+
+
+// pages/editavatars.php
+'You must be logged in to edit your avatars.' =>
+'Musisz być zalogowany, aby zmieniać swoje awatary.',
+
+'Rename' =>
+'Zmień nazwę',
+
+'Avatar renamed.' =>
+'Zmieniono nazwę awataru.',
+
+'Okay' =>
+'Okej',
+
+'Avatar deleted.' =>
+'Awatar usunięty.',
+
+'Invalid file type, must be one of:' =>
+'Nieprawidłowy typ pliku, musi być jednym z następujących:',
+
+'Could not update your avatar for the following reason(s):' =>
+'Nie można zmienić twojego awatara z następujących powodów:',
+
+'Add new' =>
+'Dodaj nowego',
+
+'Name:' =>
+'Nazwa:',
+
+'Image:' =>
+'Obraz:',
+
+
 // pages/optimize.php
 'OK' =>
 'OK',
@@ -1656,187 +1607,6 @@ $languagePack = array(
 
 'Excess trimmed: {1} bytes' =>
 'Usunięto nieużywane {1} bajtów śmieci',
-
-
-// pages/pluginmanager.php
-'You must be an administrator to manage plugins.' =>
-'Musisz być administratorem, aby zarządzać wtyczkami.',
-
-'Plugin Manager' =>
-'Zarządzanie wtyczkami.',
-
-'Enabled plugins' =>
-'Uaktywnione wtyczki',
-
-'Disabled plugins' =>
-'Wyłączone wtyczki',
-
-'Enable' =>
-'Włącz',
-
-'Disable' =>
-'Wyłącz',
-
-'Settings&hellip;' =>
-'Ustawienia&hellip;',
-
-
-// pages/private.php
-'You must be logged in to view your private messages.' =>
-'Musisz być zalogowany by widzieć prywatne wiadomości.',
-
-'{0} deleted.' =>
-'{0} - usunięto pomyślnie.',
-
-'private message' =>
-'prywatną wiadomość',
-
-'Private message deleted.' =>
-'Prywatne wiadomości usunięte.',
-
-'Show received' =>
-'Wyświetl dostane',
-
-'Show sent' =>
-'Wyświetl wysłane',
-
-'Show drafts' =>
-'Wyświetl szkice',
-
-'Send new PM' =>
-'Wyślij nową prywatną wiadomość',
-
-'Private messages' =>
-'Prywatne wiadomości',
-
-'There are no messages to display.' =>
-'Nie ma wiadomości do wyświetlenia.',
-
-'delete checked' =>
-'usuń zaznaczone',
-
-'To' =>
-'Do',
-
-'From' =>
-'Do',
-
-
-// pages/profile.php
-'Layout blocked.' =>
-'Layout zablokowany.',
-
-'Layout unblocked.' =>
-'Layout odblokowany.',
-
-'Unblock layout' =>
-'Odblokuj layout',
-
-'Block layout' =>
-'Zablokuj layout',
-
-'Private' =>
-'Prywatny',
-
-'None given' =>
-'Nie podano',
-
-'Show' =>
-'Pokaż',
-
-'This user has been temporarily banned until {0} (GMT). That\'s {1} left.' =>
-'Ten użytkownik jest tymczasowo zbanowano do {0} (GMT). Zostało {1} do końca.',
-
-'To next rank' =>
-'Do następnej rangi',
-
-'Total posts' =>
-'Liczba postów',
-
-'Total threads' =>
-'Liczba tematów',
-
-'Score' =>
-'Punkty',
-
-'Browser' =>
-'Przeglądarka',
-
-'Last known IP' =>
-'Ostatni znany IP',
-
-'General information' =>
-'Podstawowe informacje',
-
-'Homepage' =>
-'Strona WWW',
-
-'Items per page' =>
-'Ilość rzeczy na stronę',
-
-'No comments.' =>
-'Nie ma komentarzy.',
-
-'You are not allowed to post usercomments.' =>
-'Nie możesz pisać komentarzy użytkowników.',
-
-'Comments about {0}' =>
-'Komentarze dotyczące {0}',
-
-'Edit my profile' =>
-'Edytuj mój profil',
-
-'Edit user' =>
-'Edytuj użytkownika',
-
-'Show PMs' =>
-'Pokaż prywatne wiadomości',
-
-'Send PM' =>
-'Wyślij prywatną wiadomość',
-
-'Show posts' =>
-'Pokaż posty',
-
-
-// pages/ranks.php
-'No ranksets have been defined.' =>
-'Nie ustalono żadnych zestawów rang.',
-
-'User ranks' =>
-'Zestawy rang',
-
-'Set' =>
-'Ustaw',
-
-'Climbing the Ranks Again' =>
-'Wspina się ponownie',
-
-'To get' =>
-'Żeby zdobyć ją',
-
-
-// pages/recalc.php
-'Staff only, please.' =>
-'Tylko dla administracji, proszę.',
-
-'Actual' =>
-'Aktualna',
-
-'Reported' =>
-'Zgłaszana',
-
-'Counting user\'s posts&hellip;' =>
-'Liczenie postów użytkowników&hellip;',
-
-'Counting thread replies&hellip;' =>
-'Liczenie odpowiedzi na temat&hellip;',
-
-'Counting forum threads and posts&hellip;' =>
-'Liczenie tematów i postów w forach&hellip;',
-
-'All counters reset.' =>
-'Wszystkie liczniki zostały wyzerowane.',
 
 
 // pages/records.php
@@ -1883,62 +1653,6 @@ $languagePack = array(
 'Razem',
 
 
-// pages/register.php
-'Register' =>
-'Rejestracja',
-
-'Back to main' =>
-'Wróć do strony głównej',
-
-'Try again' =>
-'Spróbuj ponownie',
-
-'I have read the {0}FAQ{1}' =>
-'Przeczytałem {0}FAQ{1}',
-
-'The word' =>
-'Słowo',
-
-'It\'s in the FAQ. Read it carefully and you\'ll find out what the word is.' =>
-'Znajduje się w FAQ. Przeczytaj je uważnie i odnajdziesz je.',
-
-'Security' =>
-'Zabezpieczenie',
-
-'New' =>
-'Nowy',
-
-'Log in afterwards' =>
-'Zaloguj po rejestracji',
-
-'Specifying an email address is not exactly a hard requirement, but it will allow you to reset your password should you forget it. By default, your email is not shown.' =>
-'Wpisanie adresu e-mail nie jest wymagane, ale pozwoli ci resetować hasło kiedy go zapomnisz. Domyślnie, nie jest pokazywane.',
-
-'This user name is already taken. Please choose another.' =>
-'Ten nick jest już zajęty. Proszę wybrać inny.',
-
-'The user name must not be empty. Please choose one.' =>
-'Nazwa użytkownika nie może być pusta. Wybierz jakąś.',
-
-'The user name cannot contain semicolons.' =>
-'Nazwa użytkownika nie może zawierać średników.',
-
-'You really should {0}read the FAQ{1}&hellip;' =>
-'Powinieneś naprawdę {0}przeczytać FAQ{1}&hellip;',
-
-'That\'s not the right word. Are you sure you really {0}read the FAQ{1}?' =>
-'To nie jest poprawne słowo. Czy na pewno {0}przeczytałeś FAQ{1}?',
-
-'Your password must be at least four characters long.' =>
-'Hasło musi mieć przynajmniej cztery znaki.',
-
-'The passwords you entered don\'t match.' =>
-'Hasła do siebie nie pasują.',
-
-'You got the CAPTCHA wrong.' =>
-'Źle wpisałeś CAPTCHA.',
-
-
 // pages/search.php
 'Google search' =>
 'Wyszukiwanie Google',
@@ -1960,76 +1674,6 @@ $languagePack = array(
 
 'Find entries with <var>foo</var> but not <var>bar</var>' =>
 'Znajdź wyniki z <var>foo</var>, ale bez <var>bar</var>',
-
-
-// pages/sendprivate.php
-'New PM' =>
-'Nowa prywatna wiadomość',
-
-'You must be logged in to send private messages.' =>
-'Musisz być zalogowany by wysyłać prywatne wiadomości.',
-
-'Unknown user.' =>
-'Nieznany użytkownik.',
-
-'Unknown PM.' =>
-'Nieznana prywatna wiadomość.',
-
-'You can\'t send private messages to yourself.' =>
-'Nie możesz wysyłać prywatnych wiadomości do siebie.',
-
-'Unknown user "{0}"' =>
-'Nieznany użytkownik "{0}".',
-
-'Too many recipients.' =>
-'Zbyt dużo odbiorców.',
-
-'Send' =>
-'Wyślij',
-
-'Save as Draft' =>
-'Zapisz jako szkic',
-
-'Your PM is empty.' =>
-'Twoja prywatna wiadomość jest pusta.',
-
-'Enter a title and try again.' =>
-'Wpisz tytuł i spróbuj ponownie.',
-
-'Your PM is untitled.' =>
-'Twoja prywatna wiadomość jest pusta.',
-
-'Message' =>
-'Wiadomość',
-
-
-// pages/showprivate.php
-'No PM specified.' =>
-'Nie ustalono numeru prywatnej wiadomości.',
-
-'No snooping for you.' =>
-'To nie twoja wiadomość.',
-
-'Unknown PM' =>
-'Nieznana prywatna wiadomość',
-
-'Send reply' =>
-'Wyślij odpowiedź',
-
-'This PM is still being drafted.' =>
-'Ten PM jest wciąż tworzony.',
-
-'You are snooping.' =>
-'Przeglądasz prywatne wiadomości innych.',
-
-'Discard Draft' =>
-'Zniszcz',
-
-'Update Draft' =>
-'Zaaktualizuj',
-
-'Edit Draft' =>
-'Edytuj szkic',
 
 
 // pages/thread.php
@@ -2060,6 +1704,9 @@ $languagePack = array(
 'Open' =>
 'Otwórz',
 
+'Close' =>
+'Zamknij',
+
 'Stick' =>
 'Przyklej',
 
@@ -2079,29 +1726,51 @@ $languagePack = array(
 'Szybki-E Post&trade;',
 
 
-// plugins/calendar/page_calendar.php
-'Calendar' =>
-'Kalendarz',
+// navigation.php
+'Main' =>
+'Strona główna',
 
-'{0}\'s birthday ({1})' =>
-'Urodziny {0} ({1} lat)',
+'FAQ' =>
+'FAQ',
+
+'Avatars' =>
+'Awatary',
 
 
-// plugins/categoryuploader/page_uploader.php
+// plugins/profilefields/profileTable.php
+'Other stuff' =>
+'Inne rzeczy',
+
+
+// plugins/profilefields/edituser.php
+'Caption for #{0}' =>
+'Nagłówek dla #{0}',
+
+'Value for #{0}' =>
+'Wartość dla #{0}',
+
+
+// plugins/profilefields/settingsfile.php
+'Number of fields' =>
+'Ilość pól',
+
+
+// plugins/spritedb/topMenu.php
+'Sprite Database' =>
+'',
+
+
+// plugins/uploader/topMenu.php
 'Uploader' =>
 'Uploader',
 
+
+// plugins/uploader/page_uploader.php
+'Sort order' =>
+'Kolejność sortowania',
+
 'Upload' =>
 'Wrzuć',
-
-'The maximum upload size is {0} per file. You can upload the following types: {2}.' =>
-'Maksymalna wielkość pliku to {0}. Możesz wrzucać następujące rozszerzenia: {2}.',
-
-'File is too large.' =>
-'Plik jest za duży.',
-
-'File is not an allowed type.' =>
-'Plik nie ma odpowiedniego rozszerzenia.',
 
 'The file "{0}" already exists. Please delete the old copy before uploading a new one.' =>
 'Plik "{0}" już istnieje. Proszę usunąć starą kopię przed wrzuceniem nowego pliku.',
@@ -2121,31 +1790,20 @@ $languagePack = array(
 'Forbidden file type.' =>
 'Zakazany typ pliku.',
 
+'File "{0}" has been uploaded.' =>
+'Plik "{0}" został wrzucony.',
+
 'You must be logged in to upload.' =>
 'Musisz być zalogowany aby wrzucać pliki.',
 
+'file' =>
+'plik',
+
+'Deleted "{0}".' =>
+'Usunięto "{0}".',
+
 'No such file or not yours to mess with.' =>
 'Nie ma takiego pliku lub nie jest twój.',
-
-'No categories found.' =>
-'Nie znaleziono kategorii.',
-
-'Files' =>
-'Pliki',
-
-'Categories' =>
-'Kategorie',
-
-
-// plugins/categoryuploader/page_uploaderlist.php
-'Sort order' =>
-'Kolejność sortowania',
-
-'The category is empty.' =>
-'Ta kategoria jest pusta.',
-
-'You have no private files.' =>
-'Nie masz prywatnych plików.',
 
 'File' =>
 'Plik',
@@ -2153,13 +1811,40 @@ $languagePack = array(
 'Size' =>
 'Wielkość',
 
-'Move checked to' =>
-'Przesuń zaznaczone do',
+'Private Files' =>
+'Prywatne pliki',
+
+'Your personal folder is empty.' =>
+'Twój prywatny folder jest pusty.',
+
+'Public Files' =>
+'Publiczne pliki',
+
+'The uploader is empty.' =>
+'Uploader jest pusty.',
+
+'The maximum upload size is {0} per file. You can upload the following types: {2}.' =>
+'Maksymalna wielkość pliku to {0}. Możesz wrzucać następujące rozszerzenia: {2}.',
+
+'File is too large.' =>
+'Plik jest za duży.',
+
+'File is not an allowed type.' =>
+'Plik nie ma odpowiedniego rozszerzenia.',
+
+'Status' =>
+'Status',
+
+'Public space usage: {0} of {1}' =>
+'Użycie publicznego miejsca: {0} z {1}',
+
+'Personal folder space usage: {0} of {1}' =>
+'Użycie prywatnego miejsca: {0} z {1}',
 
 
-// plugins/gitpull/adminleft.php
-'Update the board' =>
-'Aktualizacja forum',
+// plugins/groups/topMenu.php
+'Groups' =>
+'Grupy',
 
 
 // plugins/gitpull/page_gitpull.php
@@ -2170,14 +1855,89 @@ $languagePack = array(
 'Aktualizacja forum',
 
 
-// plugins/groups/topMenu.php
-'Groups' =>
-'Grupy',
+// plugins/gitpull/adminleft.php
+'Update the board' =>
+'Aktualizacja forum',
 
 
-// plugins/jul/adminleft.php
-'Firewall log' =>
-'Logi firewalla',
+// plugins/userbadgemanager/page_userbadges.php
+'User Badges Manager' =>
+'Zarządzenie odznakami',
+
+'Please review your settings before adding a user badge.' =>
+'Proszę sprawdź swoje ustawienia zanim kontynuujesz.',
+
+'Bronze' =>
+'Brązowa',
+
+'Silver' =>
+'Srebrna',
+
+'Gold' =>
+'Złota',
+
+'Platinum' =>
+'Platynowa',
+
+'Badge Owner' =>
+'Właściciel odznaki',
+
+'Badge Name' =>
+'Nazwa odznaki',
+
+'Badge Type' =>
+'Typ odznaki',
+
+'User ID' =>
+'ID użytkownika',
+
+'Type' =>
+'Typ',
+
+'Select' =>
+'Wybierz',
+
+
+// plugins/userbadgemanager/adminleft.php
+'Manage User Badges' =>
+'Zarządzaj odznakami',
+
+
+// plugins/minestats/topMenu.php
+'Minecraft stats' =>
+'Statystyki Minecrafta',
+
+
+// plugins/minestats/page_minestats.php
+'Map' =>
+'Mapa',
+
+'Direction' =>
+'Kierunek',
+
+'Order by' =>
+'Porządkuj według',
+
+'Created' =>
+'Stworzonych bloczków',
+
+'Destroyed' =>
+'Usuniętych bloczków',
+
+'Sum of created and destroyed' =>
+'Sumy stworzonych i usuniętych bloczków',
+
+'By player' =>
+'Gracze',
+
+'By block' =>
+'Bloczki',
+
+'Block' =>
+'Blok',
+
+'Player' =>
+'Gracz',
 
 
 // plugins/minestats/mcblocks.php
@@ -2554,147 +2314,408 @@ $languagePack = array(
 'Schody z dżunglowego drewna',
 
 
-// plugins/minestats/page_minestats.php
-'Map' =>
-'Mapa',
-
-'Direction' =>
-'Kierunek',
-
-'Order by' =>
-'Porządkuj według',
-
-'Created' =>
-'Stworzonych bloczków',
-
-'Destroyed' =>
-'Usuniętych bloczków',
-
-'Sum of created and destroyed' =>
-'Sumy stworzonych i usuniętych bloczków',
-
-'By player' =>
-'Gracze',
-
-'By block' =>
-'Bloczki',
-
-'Block' =>
-'Blok',
-
-'Player' =>
-'Gracz',
+// plugins/jul/adminleft.php
+'Firewall log' =>
+'Logi firewalla',
 
 
-// plugins/minestats/topMenu.php
-'Minecraft stats' =>
-'Statystyki Minecrafta',
+// plugins/calendar/page_calendar.php
+'Calendar' =>
+'Kalendarz',
+
+'{0}\'s birthday ({1})' =>
+'Urodziny {0} ({1} lat)',
 
 
-// plugins/multilinguage/edituser.php
+// plugins/buildspage/topMenu.php
+'Downloads' =>
+'',
+
+
+// plugins/categoryuploader/page_uploaderlist.php
+'The category is empty.' =>
+'Ta kategoria jest pusta.',
+
+'You have no private files.' =>
+'Nie masz prywatnych plików.',
+
+'Files' =>
+'Pliki',
+
+'Move checked to' =>
+'Przesuń zaznaczone do',
+
+
+// plugins/categoryuploader/page_uploader.php
+'No categories found.' =>
+'Nie znaleziono kategorii.',
+
+'Categories' =>
+'Kategorie',
+
+
+// plugins/multilinguage/profileTable.php
 'Language' =>
 'Język',
 
 
-// plugins/profilefields/edituser.php
-'Caption for #{0}' =>
-'Nagłówek dla #{0}',
-
-'Value for #{0}' =>
-'Wartość dla #{0}',
+// get.php
+'No such file.' =>
+'Nie ma takiego pliku.',
 
 
-// plugins/profilefields/profileTable.php
-'Other stuff' =>
-'Inne rzeczy',
+// ajaxcallbacks.php
+'Back' =>
+'Zakończ',
+
+'Unknown post ID #{0}.' =>
+'Nieznany post numer {0}.',
+
+'Show revision:' =>
+'Lista zmian postu:',
+
+'rev. {0}' =>
+'rew. {0}',
+
+'by {0} on {1}' =>
+'przez {0}, {1}',
+
+'Unknown post ID #{0} or revision missing.' =>
+'Nieznany post numer {0} lub zgubiono zmianę postu.',
+
+'Unknown action.' =>
+'Nieznana akcja.',
 
 
-// plugins/profilefields/settingsfile.php
-'Number of fields' =>
-'Ilość pól',
+// lib/links.php
+'banned' =>
+'zbanowany',
+
+'local mod' =>
+'lokalny moderator',
+
+'full mod' =>
+'globalny moderator',
+
+'admin' =>
+'admin',
+
+'root' =>
+'root',
+
+'system' =>
+'system',
 
 
-// plugins/uploader/page_uploader.php
-'File "{0}" has been uploaded.' =>
-'Plik "{0}" został wrzucony.',
+// lib/bbcode_callbacks.php
+'Posted by' =>
+'Napisany przez',
 
-'file' =>
-'plik',
-
-'Deleted "{0}".' =>
-'Usunięto "{0}".',
-
-'Private Files' =>
-'Prywatne pliki',
-
-'Your personal folder is empty.' =>
-'Twój prywatny folder jest pusty.',
-
-'Public Files' =>
-'Publiczne pliki',
-
-'The uploader is empty.' =>
-'Uploader jest pusty.',
-
-'Status' =>
-'Status',
-
-'Public space usage: {0} of {1}' =>
-'Użycie publicznego miejsca: {0} z {1}',
-
-'Personal folder space usage: {0} of {1}' =>
-'Użycie prywatnego miejsca: {0} z {1}',
+'Sent by' =>
+'Wysłany przez',
 
 
-// plugins/userbadgemanager/adminleft.php
-'Manage User Badges' =>
-'Zarządzaj odznakami',
+// lib/snippets.php
+'You have {0}{1}. {2}Last message{1} from {3} on {4}.' =>
+'Masz {0}{1}. {2}Ostatnia wiadomość{1} od {3} wysłana {4}.',
+
+'new {0}private message' =>
+'nową {0}prywatną wiadomość',
+
+'You {0} have new comments in your {1}profile{2}.' =>
+'Masz {0} nowe komentarze w swoim {1}profilu{2}.',
+
+'Smilies' =>
+'Uśmieszki',
+
+'Post help' =>
+'Pomoc pisania',
+
+'bold type' =>
+'pogrubienie',
+
+'italic' =>
+'pochylenie',
+
+'underlined' =>
+'podkreślenie',
+
+'strikethrough' =>
+'przekreślenie',
+
+'code block' =>
+'blok kodu',
+
+'spoiler block' =>
+'spoiler',
+
+'colorcoded block, assuming C#' =>
+'pokolorowany blok kodu w C#',
+
+'colorcoded block, specific language' =>
+'pokolorowany blok kodu w ustalonym języku',
+
+'which?' =>
+'jakim?',
+
+'Links' =>
+'Linki',
+
+'insert image' =>
+'wstaw obrazek',
+
+'link to post by ID' =>
+'linkuj do postu przez ID',
+
+'link to user\'s profile by ID' =>
+'linkuj do profilu użytkownika',
+
+'Quotations' =>
+'Cytaty',
+
+'untitled quote' =>
+'cytat bez podania osoby',
+
+'"Posted by &hellip;"' =>
+'"Napisany przez &hellip;"',
+
+'"Post by &hellip;" with link by post ID' =>
+'"Napisany przez &hellip;" z linkiem do ID postu',
+
+'Embeds' =>
+'Zagnieżdzenie',
+
+'Most plain HTML also allowed.' =>
+'Większość HTML też jest dozwolona.',
 
 
-// plugins/userbadgemanager/page_userbadges.php
-'User Badges Manager' =>
-'Zarządzenie odznakami',
+// lib/onlineusers.php
+'online' =>
+'online',
 
-'Please review your settings before adding a user badge.' =>
-'Proszę sprawdź swoje ustawienia zanim kontynuujesz.',
+'browsing {0}' =>
+'przegląda {0}',
 
-'Bronze' =>
-'Brązowa',
+'user' =>
+'użytkownik',
 
-'Silver' =>
-'Srebrna',
+'guest' =>
+'gość',
 
-'Gold' =>
-'Złota',
-
-'Platinum' =>
-'Platynowa',
-
-'Badge Owner' =>
-'Właściciel odznaki',
-
-'Badge Name' =>
-'Nazwa odznaki',
-
-'Badge Type' =>
-'Typ odznaki',
-
-'User ID' =>
-'ID użytkownika',
-
-'Type' =>
-'Typ',
-
-'Select' =>
-'Wybierz',
+'bot' =>
+'bot',
 
 
-// userpanel.php
-'Log out' =>
-'Wyloguj',
+// lib/permissions.php
+'You are not allowed to {0}.' =>
+'Nie możesz {0}.',
+
+'add new ranks' =>
+'dodawać nowych zestawów rang',
+
+'block layouts' =>
+'blokować layoutów',
+
+'delete usercomments' =>
+'usuwać komentarzy użytkowników',
+
+'edit the forum categories' =>
+'edytować listy kategorii forum',
+
+'edit the forum list' =>
+'edytować listy forum',
+
+'edit the IP ban list' =>
+'edytować listy banów IP',
+
+'edit Local Moderator assignments' =>
+'przydzielać lokalnych moderatorów do forum',
+
+'edit your mood avatars' =>
+'zmieniać swoich awatarów nastroju',
+
+'edit the PoRA box' =>
+'zmieniać punktów wymaganej uwagi',
+
+'edit posts' =>
+'zmieniać postów',
+
+'edit your profile' =>
+'zmieniać swojego profilu',
+
+'edit the board settings' =>
+'zmieniać ustawień forum',
+
+'edit the smiley list' =>
+'edytować listę uśmieszków',
+
+'edit threads' =>
+'edytować tematów',
+
+'edit users' =>
+'zmieniać użytkowników',
+
+'have a cookie' =>
+'mieć ciasteczek',
+
+'see all posts by a given user' =>
+'widzieć postów danego użytkownika',
+
+'post usercomments' =>
+'pisać komentarzy dla użytkowników',
+
+'reply to threads' =>
+'odpowiadać na tematy',
+
+'start new threads' =>
+'zaczynać nowych tematów',
+
+'optimize the tables' =>
+'optymizować tabelek',
+
+'purge old revisions' =>
+'czytać starych wersji postów',
+
+'recalculate the board counters' =>
+'preliczać statystyk forum',
+
+'use the search function' =>
+'używać funkcji wyszukiwania',
+
+'send private messages' =>
+'wysyłać prywatnych wiadomości',
+
+'view other users\' private messages' =>
+'czytać prywatnych wiadomości innych',
+
+'upload files' =>
+'wrzucać plików',
+
+'see the admin room' =>
+'widzieć pomieszczeń administracyjnych',
+
+'see the avatar library' =>
+'widziać bibiotekę awatarów',
+
+'see the calendar' =>
+'widzieć kalendarz',
+
+'view fora' =>
+'widzieć forum',
+
+'see the Last Known Browser table' =>
+'widzieć tabelę ostatnio widzianych przeglądarek',
+
+'see the memberlist' =>
+'widzieć listę użytkowników',
+
+'see who\'s online' =>
+'widzieć kto jest onliie',
+
+'view private messages' =>
+'czytać prywatnych wiadomości',
+
+'view user profiles' =>
+'czytać profili innych',
+
+'see the rank lists' =>
+'wyświetlać listy rang',
+
+'see the top scores and DB usage' =>
+'wyświetlać osiągnięcia forum i użycie bazy',
+
+'read threads' =>
+'czytać tematy',
+
+'see the uploader' =>
+'używać uploader',
+
+'vote' =>
+'głosować',
+
+'see this forum' =>
+'widzieć tego forum',
+
+'read this thread' =>
+'czytać tego tematu',
+
+'reply in this thread' =>
+'odpowiadać w tym temacie',
+
+'edit this user' =>
+'edytować tego użytkownika',
+
+'Permission denied.' =>
+'Nie masz uprawnień.',
+
+
+// lib/post.php
+'Posted on {0}' =>
+'Napisano {0}',
+
+', deleted' =>
+', usunięte',
+
+' by ' =>
+' przez ',
+
+'Undelete' =>
+'Przywróć',
+
+'View' =>
+'Zobacz',
+
+'ID: {0}' =>
+'ID: {0}',
+
+'Sample post' =>
+'Przykładowy post',
+
+'Post deleted' =>
+'Post usunięty',
+
+'Sent on {0}' =>
+'Wysłano {0}',
+
+'in' =>
+'w',
+
+'Posts:' =>
+'Posty:',
+
+'Since:' =>
+'Od:',
+
+'Last post:' =>
+'Ostatni post:',
+
+'Last view:' =>
+'Ostatnie wyświetlenie:',
+
+'User is <strong>online</strong>' =>
+'Użytkownik jest <strong>online</strong>',
+
+
+// lib/browsers.php
+'{0} on {1}' =>
+'{0} na {1}',
+
+
+// lib/feedback.php
+'Alert' =>
+'Ostrzeżenie',
 
 
 // Strings no longer used
+'Post poll' =>
+'Zrób ankietę',
+
+'Nope, still banned.' =>
+'Nadal jesteś zbanowany.',
+
+'If you want to post under another account without having to log out, enter that account\'s user name and password here. Leave the password field blank to use the current account ({10}).' =>
+'Jeżeli chcesz pisać pod innym kontem bez wylogowywania się wpisz nazwę konta i hasło tutaj. Zostaw pole na hasło puste, żeby użyć aktualnego konta ({10}).',
+
 'New poll' =>
 'Nowa sonda',
 
