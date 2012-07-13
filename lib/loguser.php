@@ -100,10 +100,6 @@ if($loguserid) //Are we logged in?
 		$ourbull = hash('sha256', $loguser['id'].$loguser['password'].$salt.$loguser['pss'], FALSE);
 		if($loguserbull == $ourbull)
 		{
-			$rLastView = "update {$dbpref}users set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape(getRequestedURL())."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
-			if(!$ajaxPage)
-				$qLastView = Query($rLastView);
-
 			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
 			// SHA1 with a sufficiently long salt should be enough.
 			$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
@@ -130,6 +126,16 @@ if($hacks['forcetheme'] != "")
 
 if ($loguserid)
 	$loguserNotifications = getNotifications($loguserid);
-else $loguserNotifications = array();
+else
+	$loguserNotifications = array();
+
+
+function setLastActivity()
+{
+	global $dbpref, $loguserid;
+	
+	$rLastView = "update {$dbpref}users set lastactivity=".time().", lastip='".$_SERVER['REMOTE_ADDR']."', lasturl='".justEscape(getRequestedURL())."', lastknownbrowser='".justEscape($lastKnownBrowser)."' where id=".$loguserid;
+	$qLastView = Query($rLastView);
+}
 
 ?>
