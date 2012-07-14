@@ -37,13 +37,13 @@ function filterPollColors($input)
 
 function LoadSmilies($byOrder = FALSE)
 {
-	global $smilies, $smiliesOrdered, $dbpref;
+	global $smilies, $smiliesOrdered;
 	
 	if($byOrder)
 	{
 		if(isset($smiliesOrdered))
 			return;
-		$rSmilies = Query("select * from {$dbpref}smilies order by id asc");
+		$rSmilies = Query("select * from {smilies} order by id asc");
 		$smiliesOrdered = array();
 		while($smiley = Fetch($rSmilies))
 			$smiliesOrdered[] = $smiley;
@@ -52,7 +52,7 @@ function LoadSmilies($byOrder = FALSE)
 	{
 		if(isset($smilies))
 			return;
-		$rSmilies = Query("select * from {$dbpref}smilies order by length(code) desc");
+		$rSmilies = Query("select * from {smilies} order by length(code) desc");
 		$smilies = array();
 		while($smiley = Fetch($rSmilies))
 		{
@@ -79,23 +79,25 @@ function ApplySmilies($text)
 
 function LoadBlocklayouts()
 {
-	global $blocklayouts, $loguserid, $dbpref;
+	global $blocklayouts, $loguserid;
+
 	if(isset($blocklayouts))
 		return;
-	$rBlocks = Query("select * from {$dbpref}blockedlayouts where blockee = ".$loguserid);
-	
+
+	$rBlocks = Query("select * from {blockedlayouts} where blockee = {0}", $loguserid);
 	$blocklayouts = array();
+
 	while($block = Fetch($rBlocks))
 		$blocklayouts[$block['user']] = 1;
 }
 
 function LoadRanks($rankset)
 {
-	global $ranks, $dbpref;
+	global $ranks;
 	if(isset($ranks[$rankset]))
 		return;
 	$ranks[$poster['rankset']] = array();
-	$rRanks = Query("select * from {$dbpref}ranks where rset=".$rankset." order by num");
+	$rRanks = Query("select * from {ranks} where rset={0} order by num", $rankset);
 	while($rank = Fetch($rRanks))
 		$ranks[$rankset][$rank['num']] = $rank['text'];
 }
@@ -138,7 +140,7 @@ function GetToNextRank($poster)
 
 function MakeUserAtLink($matches)
 {
-	global $members, $dbpref;
+	global $members;
 	$username = $matches[1];
 	foreach($members as $id => $data)
 	{
@@ -148,7 +150,7 @@ function MakeUserAtLink($matches)
 		}
 	}
 	//Didn't find it in the cache.
-	$rUser = Query("select id, name, displayname, powerlevel, sex from {$dbpref}users where name='".$username."' or displayname='".$username."'");
+	$rUser = Query("select id, name, displayname, powerlevel, sex from {users} where name={0} or displayname={0}", $username);
 	if(NumRows($rUser))
 	{
 		$hit = Fetch($rUser);

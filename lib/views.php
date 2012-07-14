@@ -4,8 +4,7 @@
 //Update view counter
 if(!$isBot)
 {
-	$qViewCounter = "update {$dbpref}misc set views = views + 1";
-	$rViewCounter = Query($qViewCounter);
+	$rViewCounter = Query("update {misc} set views = views + 1");
 	$misc['views']++;
 
 	$viewcountInterval = Settings::get("viewcountInterval");
@@ -16,12 +15,12 @@ if(!$isBot)
 		{
 			$who = UserLink($loguser); //$loguser['name'];
 			//3.0 update: give a badge
-			Query("insert ignore into {$dbpref}badges values(".$loguserid.", 'View ".number_format($misc['views'])."', 0)");
+			Query("insert ignore into {badges} values({0}, {1}, 0)", $loguserid, 'View '.number_format($misc['views']));
 		}
 		else
 			$who = "a guest at ".$_SERVER['REMOTE_ADDR'];
 
-		Query("update {$dbpref}misc set milestone = 'View ".$misc['views']." reached by ".justEscape($who)."'");
+		Query("update {misc} set milestone = {0}", 'View '.$misc['views'].' reached by '.$who);
 	}
 }
 

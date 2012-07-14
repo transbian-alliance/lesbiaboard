@@ -11,17 +11,14 @@ if($loguser['powerlevel'] < 3)
 
 if(!isset($_GET['action']))
 {
-	$qFora = "select * from {$dbpref}forums order by catid, forder";
-	$rFora = Query($qFora);
+	$rFora = Query("select * from {forums} order by catid, forder");
 	while($forum = Fetch($rFora))
 	{
 		$modList = "";
-		$qMods = "select * from {$dbpref}forummods where forum=".$forum['id'];
-		$rMods = Query($qMods);
+		$rMods = Query("select * from {forummods} where forum={0}", $forum['id']);
 		while($mods = Fetch($rMods))
 		{
-			$qMod = "select name, displayname, id, powerlevel, sex from {$dbpref}users where id=".$mods['user'];
-			$rMod = Query($qMod);
+			$rMod = Query("select name, displayname, id, powerlevel, sex from {users} where id={0}", $mods['user']);
 			$mod = Fetch($rMod);
 			$modList .= "<li>".UserLink($mod)."<sup>";
 			$modList .= actionLinkTag("&#x2718;", "managemods", "", "action=delete&fid={$forum['id']}&mid={$mods['user']}");
@@ -58,8 +55,7 @@ elseif($_GET['action'] == "delete")
 	$fid = (int)$_GET['fid'];
 	$mid = (int)$_GET['mid'];
 
-	$qMod = "delete from {$dbpref}forummods where forum=".$fid." and user=".$mid;
-	$rMod = Query($qMod);
+	$rMod = Query("delete from {forummods} where forum={0} and user={1}", $fid, $mid);
 	
 	die(header("Location: ".actionLink("managemods")));
 }
@@ -73,12 +69,10 @@ elseif($_GET['action'] == "add")
 	if(!isset($_GET['mid']))
 	{
 		$modList = "";
-		$qMod = "select * from {$dbpref}users where powerlevel=1 order by name asc";
-		$rMod = Query($qMod);
+		$rMod = Query("select * from {users} where powerlevel=1 order by name asc");
 		while($mod = Fetch($rMod))
 		{
-			$qCheck = "select user from {$dbpref}forummods where forum=".$fid." and user=".$mod['id'];
-			$rCheck = Query($qCheck);
+			$rCheck = Query("select user from {forummods} where forum={0} and user={1}", $fid, $mod['id']);
 			if(NumRows($rCheck))
 				$add = __("already there");
 			else
@@ -105,8 +99,7 @@ elseif($_GET['action'] == "add")
 	else
 	{
 		$mid = (int)$_GET['mid'];
-		$qMod = "insert into {$dbpref}forummods (forum	, user) values (".$fid.", ".$mid.")";
-		$rMod = Query($qMod);
+		$rMod = Query("insert into {forummods} (forum	, user) values ({0}, {1})", $fid, $mid);
 
 		die(header("Location: ".actionLink("managemods")));
 	}

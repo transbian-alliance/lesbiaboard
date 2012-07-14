@@ -30,12 +30,12 @@ function Upgrade()
 	{
 		print "<li>";
 		print $dbpref.$table."&hellip;";
-		$tableStatus = Query("show table status from ".$dbname." like '".$dbpref.$table."'");
+		$tableStatus = Query("show table status from $dbname like '{".$table."}'");
 		$numRows = NumRows($tableStatus);
 		if($numRows == 0)
 		{
 			print " creating&hellip;";
-			$create = "create table `{$dbpref}".$table."` (\n";
+			$create = "create table `{".$table."}` (\n";
 			$comma = "";
 			foreach($tableSchema['fields'] as $field => $type)
 			{
@@ -53,7 +53,7 @@ function Upgrade()
 			$primaryKey = "";
 			$changes = 0;
 			$foundFields = array();
-			$scan = Query("show columns from `{$dbpref}".$table."`");
+			$scan = Query("show columns from `{".$table."}`");
 			while($field = $scan->fetch_assoc())
 			{
 				$fieldName = $field['Field'];
@@ -79,7 +79,7 @@ function Upgrade()
 							print_r($field);
 							print "{ ".$type." }";
 						}
-						Query("ALTER TABLE `{$dbpref}".$table."` CHANGE `".$fieldName."` `".$fieldName."` ".$wantedType);
+						Query("ALTER TABLE `{{0}}` CHANGE `{1}` `{1}` {2}", $table, $fieldName, $wantedType);
 						$changes++;
 					}
 				}
@@ -89,7 +89,7 @@ function Upgrade()
 				if(!in_array($fieldName, $foundFields))
 				{
 					print " \"".$fieldName."\" missing&hellip;";
-					Query("ALTER TABLE `{$dbpref}".$table."` ADD `".$fieldName."` ".$type);
+					Query("ALTER TABLE `{{0}}` ADD `{1}` {2}", $table, $fieldName, $type);
 					$changes++;
 				}
 			}

@@ -12,9 +12,9 @@ elseif($_POST['action'] == __("Log in"))
 {
 	$okay = true;
 	$original = $_POST['pass'];
-	$escapedName = justEscape($_POST['name']);
-	$qUser = "select * from {$dbpref}users where name='".$escapedName."'";
-	$rUser = Query($qUser);
+
+	$rUser = Query("select * from {users} where name={0}", $_POST['name']);
+
 	if(NumRows($rUser))
 	{
 		$user = Fetch($rUser);
@@ -43,14 +43,18 @@ elseif($_POST['action'] == __("Log in"))
 		else
 			setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
 
-		Report("[b]".$escapedName."[/] logged in.", 1);
+		Report("[b]".$_POST['name']."[/] logged in.", 1);
 
 		die(header("Location: ."));
 	}
 }
 
-write(
-"
+$forgotPass = "";
+
+if(Settings::get("mailResetSender") != "")
+	$forgotPass = "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>";
+
+echo "
 	<form action=\"".actionLink("login")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
@@ -87,12 +91,11 @@ write(
 				<td></td>
 				<td>
 					<input type=\"submit\" name=\"action\" value=\"".__("Log in")."\" />
-					{0}
+					$forgotPass
 				</td>
 			</tr>
 		</table>
 	</form>
-",  $mailResetFrom == "" ? "" : "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>"
-);
+";
 
 ?>

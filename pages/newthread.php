@@ -20,8 +20,7 @@ $fid = (int)$_GET['id'];
 if($loguser['powerlevel'] < 0)
 	Kill(__("You're banned."));
 
-$qFora = "select * from {$dbpref}forums where id=".$fid;
-$rFora = Query($qFora);
+$rFora = Query("select * from {forums} where id={0}", $fid);
 if(NumRows($rFora))
 	$forum = Fetch($rFora);
 else
@@ -167,7 +166,7 @@ else if(isset($_POST['actionpost']))
 		if($lastPost < Settings::get("floodProtectionInterval"))
 		{
 			//Check for last thread the user posted.
-			$lastThread = Fetch(Query("SELECT * FROM {$dbpref}threads WHERE user=$loguserid ORDER BY id DESC LIMIT 1"));
+			$lastThread = Fetch(Query("SELECT * FROM {threads} WHERE user={0} ORDER BY id DESC LIMIT 1", $loguserid));
 
 			//If it looks similar to this one, assume the user has double-clicked the button.
 			if($lastThread["forum"] == $fid && $lastThread["title"] == $_POST["title"])
@@ -182,7 +181,7 @@ else if(isset($_POST['actionpost']))
 
 	if(!$rejected)
 	{
-		$post = justEscape($_POST['text']);
+		$post = $_POST['text'];
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -195,50 +194,51 @@ else if(isset($_POST['actionpost']))
 			if($_POST['iconid'] < 255)
 				$iconurl = "img/icons/icon".$_POST['iconid'].".png";
 			else
-				$iconurl = justEscape($_POST['iconurl']);
+				$iconurl = $_POST['iconurl'];
 		}
+		else $iconurl = '';
 
-		$mod = '0, 0';
+		$closed = 0;
+		$sticky = 0;
 		if(CanMod($loguserid, $forum['id']))
-			$mod = (($_POST['lock'] == 'on') ? '1':'0').', '.(($_POST['stick'] == 'on') ? '1':'0');
+		{
+			$closed = ($_POST['lock'] == 'on') ? '1':'0';
+			$sticky = ($_POST['stick'] == 'on') ? '1':'0';
+		}
 		
 		if($_POST['poll'])
 		{
 			$doubleVote = ($_POST['multivote']) ? 1 : 0;
-			$qPoll = "insert into {$dbpref}poll (question, doublevote) values ('".justEscape($_POST['pollQuestion'])."', ".$doubleVote.")";
-			$rPoll = Query($qPoll);
+			$rPoll = Query("insert into {poll} (question, doublevote) values ({0}, {1})", $_POST['pollQuestion'], $doubleVote);
 			$pod = InsertId();
 			for($pops = 0; $pops < $_POST['pollOptions']; $pops++)
 			{
 				if($_POST['pollOption'.$pops])
 				{
 					$pollColor = filterPollColors($_POST['pollColor'.$pops]);
-					$qPollOption = "insert into {$dbpref}poll_choices (poll, choice, color) values (".$pod.", '".justEscape($_POST['pollOption'.$pops])."', '".$pollColor."')";
-					$rPollOption = Query($qPollOption);
+					$rPollOption = Query("insert into {poll_choices} (poll, choice, color) values ({0}, {1}, {2})", $pod, $_POST['pollOption'.$pops], $pollColor);
 				}
 			}
 		}
 		else
 			$pod = 0;
 
-		$qThreads = "insert into {$dbpref}threads (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) values (".$fid.",".$loguserid.",'".justEscape($_POST['title'])."','".$iconurl."',".time().",".$loguserid.", ".$mod.", ".$pod.")";
-		$rThreads = Query($qThreads);
+		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) 
+										  values ({0},   {1},  {2},   {3},  {4},          {5},        {2},   {6},     {7})", 
+										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
 		$tid = InsertId();
 
-		$qUsers = "update {$dbpref}users set posts=".($loguser['posts']+1).", lastposttime=".time()." where id=".$loguserid." limit 1";
-		$rUsers = Query($qUsers);
+		$rUsers = Query("update {users} set posts={0}, lastposttime={1} where id={2} limit 1", ($loguser['posts']+1), time(), $loguserid);
 
-		$qPosts = "insert into {$dbpref}posts (thread, user, date, ip, num, options, mood) values (".$tid.",".$loguserid.",".time().",'".$_SERVER['REMOTE_ADDR']."',".($loguser['posts']+1).", ".$options.", ".(int)$_POST['mood'].")";
-		$rPosts = Query($qPosts);
+		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) 
+									  values ({0},{1},{2},{3},{4}, {5}, {6})", $tid, $loguserid, time(), $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
 		$pid = InsertId();
 
-		$qPostsText = "insert into {$dbpref}posts_text (pid,text) values (".$pid.",'".$post."')";
-		$rPostsText = Query($qPostsText);
+		$rPostsText = Query("insert into {posts_text} (pid,text) values ({0},{1})", $pid, $post);
 
-		$qFora = "update {$dbpref}forums set numthreads=numthreads+1, numposts=numposts+1, lastpostdate=".time().", lastpostuser=".$loguserid.", lastpostid=".$pid." where id=".$fid." limit 1";
-		$rFora = Query($qFora);
+		$rFora = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", time(), $loguserid, $pid, $fid);
 		
-		Query("update {$dbpref}threads set lastpostid = ".$pid." where id = ".$tid);
+		Query("update {threads} set lastpostid = {0} where id = {1}", $pid, $tid);
 		
 		$isHidden = (int)($forum['minpower'] > 0);
 		Report("New ".($_POST['poll'] ? "poll" : "thread")." by [b]".$loguser['name']."[/]: [b]".$_POST['title']."[/] (".$forum['title'].") -> [g]#HERE#?tid=".$tid, $isHidden);
@@ -408,7 +408,7 @@ print $pollSettings;
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
 $moodOptions = "<option ".$moodSelects[0]."value=\"0\">".__("[Default avatar]")."</option>\n";
-$rMoods = Query("select mid, name from {$dbpref}moodavatars where uid=".$loguserid." order by mid asc");
+$rMoods = Query("select mid, name from {moodavatars} where uid={0} order by mid asc", $loguserid);
 while($mood = Fetch($rMoods))
 	$moodOptions .= format(
 "

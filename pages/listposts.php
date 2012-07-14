@@ -9,8 +9,7 @@ if(!isset($_GET['id']))
 
 $id = (int)$_GET['id'];
 
-$qUser = "select * from {$dbpref}users where id=".$id;
-$rUser = Query($qUser);
+$rUser = Query("select * from {users} where id={0}", $id);
 if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
@@ -24,14 +23,16 @@ if($minpower < 0)
 	$minpower = 0;
 	
 
-$qPostCount = "	SELECT 
+$total = FetchResult("
+			SELECT 
 				count(p.id)
 			FROM 
-				{$dbpref}posts p 
-				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
-				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
-			WHERE p.user=".$id." AND f.minpower <= ".$minpower;
-$total = FetchResult($qPostCount);
+				{posts} p 
+				LEFT JOIN {threads} t ON t.id=p.thread
+				LEFT JOIN {forums} f ON f.id=t.forum
+			WHERE p.user={0} AND f.minpower <= {1}", 
+		$id, $minpower);
+
 
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))
@@ -42,7 +43,7 @@ else
 if(!$ppp) $ppp = 25;
 
 
-$qPosts = "	SELECT 
+$rPosts = Query("	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
@@ -52,19 +53,18 @@ $qPosts = "	SELECT
 				t.id thread, t.title threadname,
 				f.id fid
 			FROM 
-				{$dbpref}posts p 
-				LEFT JOIN {$dbpref}posts_text pt ON pt.pid = p.id AND pt.revision = p.currentrevision
-				LEFT JOIN {$dbpref}users u ON u.id = p.user
-				LEFT JOIN {$dbpref}blockedlayouts bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-				LEFT JOIN {$dbpref}users u2 ON u2.id=pt.user
-				LEFT JOIN {$dbpref}users u3 ON u3.id=p.deletedby
-				LEFT JOIN {$dbpref}threads t ON t.id=p.thread
-				LEFT JOIN {$dbpref}forums f ON f.id=t.forum
-				LEFT JOIN {$dbpref}categories c ON c.id=f.catid
-			WHERE u.id=".$id." AND f.minpower <= ".$minpower."
-			ORDER BY date ASC LIMIT ".$from.", ".$ppp;
+				{posts} p 
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
+				LEFT JOIN {users} u ON u.id = p.user
+				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
+				LEFT JOIN {users} u2 ON u2.id=pt.user
+				LEFT JOIN {users} u3 ON u3.id=p.deletedby
+				LEFT JOIN {threads} t ON t.id=p.thread
+				LEFT JOIN {forums} f ON f.id=t.forum
+				LEFT JOIN {categories} c ON c.id=f.catid
+			WHERE u.id={1} AND f.minpower <= {2}
+			ORDER BY date ASC LIMIT {3}, {4}", $loguserid, $id, $minpower, $from, $ppp);
 
-$rPosts = Query($qPosts);
 $numonpage = NumRows($rPosts);
 
 $uname = $user["name"];

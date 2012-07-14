@@ -25,7 +25,7 @@ if($loguser['powerlevel'] > 2)
 else
 	$userid = $loguserid;
 
-$user = Fetch(Query("select * from {$dbpref}users where id=".$userid));
+$user = Fetch(Query("select * from {users} where id={0}", $userid));
 
 $editUserMode = isset($_GET['id']) && $loguser['powerlevel'] > 2;
 if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
@@ -40,7 +40,7 @@ if($user["displayname"])
 	$uname = $user["displayname"];
 MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), $links);
 
-$qRanksets = "select name from {$dbpref}ranksets";
+$qRanksets = "select name from {ranksets}";
 $rRanksets = Query($qRanksets);
 $ranksets[] = __("None");
 while($rankset = Fetch($rRanksets))
@@ -395,7 +395,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 	{
 		SendSystemPM($userid, format(__("You have been temporarily banned until {0} GMT. If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), gmdate("M jS Y, G:[b][/b]i:[b][/b]s", $timeStamp)), __("You have been temporarily banned."));
 	
-		Query("update {$dbpref}users set tempbanpl = ".$user['powerlevel'].", tempbantime = ".$timeStamp.", powerlevel = -1 where id = ".$userid);
+		Query("update {users} set tempbanpl = {0}, tempbantime = {1}, powerlevel = -1 where id = {2}", $user['powerlevel'], $timeStamp, $userid);
 		Redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
 	}
 }
@@ -407,7 +407,7 @@ $fallToEditor = true;
 if($_POST['action'] == __("Edit profile"))
 {
 	$fallToEditor = false;
-	$query = "UPDATE {$dbpref}users SET ";
+	$query = "UPDATE {users} SET ";
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
 	
@@ -442,11 +442,11 @@ if($_POST['action'] == __("Edit profile"))
 							break;
 						case "text":
 						case "textarea":
-							$sets[] = $field." = '".justEscape($_POST[$field])."'";
+							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "password":
 							if($_POST[$field])
-								$sets[] = $field." = '".justEscape($_POST[$field])."'";
+								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "select":
 							$num = (int)$_POST[$field];
@@ -464,7 +464,7 @@ if($_POST['action'] == __("Edit profile"))
 						case "datetime":
 							if($_POST[$item['presetname']] != -1)
 								$_POST[$field] = $_POST[$item['presetname']];
-							$sets[] = $field." = '".justEscape($_POST[$field])."'";
+							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "checkbox":
 							$val = (int)($_POST[$field] == "on");
@@ -474,7 +474,7 @@ if($_POST['action'] == __("Edit profile"))
 							break;
 						case "radiogroup":
 							if (array_key_exists($_POST[$field], $item['options']))
-								$sets[] = $field." = '".justEscape($_POST[$field])."'";
+								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 							break;
 						case "birthday":
 							if($_POST[$field])
@@ -533,9 +533,9 @@ if($_POST['action'] == __("Edit profile"))
 
 	//Force theme names to be alphanumeric to avoid possible directory traversal exploits ~Dirbaio
 	if(preg_match("/^[a-zA-Z0-9_]+$/", $_POST['theme']))
-		$sets[] = "theme = '".justEscape($_POST['theme'])."'";
+		$sets[] = "theme = '".SqlEscape($_POST['theme'])."'";
 	
-	$sets[] = "pluginsettings = '".justEscape(serialize($pluginSettings))."'";
+	$sets[] = "pluginsettings = '".SqlEscape(serialize($pluginSettings))."'";
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
 	$query .= join($sets, ", ")." WHERE id = ".$userid;
@@ -544,7 +544,7 @@ if($_POST['action'] == __("Edit profile"))
 		Query($query);
 		if($loguserid == $userid)
 		{
-			$loguser = Fetch(Query("select * from {$dbpref}users where id=".$loguserid));
+			$loguser = Fetch(Query("select * from {users} where id={0}", $loguserid));
 		}
 		
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
@@ -716,7 +716,7 @@ function HandlePassword($field, $item)
 
 function HandleDisplayname($field, $item)
 {
-	global $fallToEditor, $user, $dbpref;
+	global $fallToEditor, $user;
 	if(!IsReallyEmpty($_POST[$field]) || $_POST[$field] == $user['name'])
 	{
 		// unset the display name if it's really empty or the same as the login name.
@@ -724,11 +724,11 @@ function HandleDisplayname($field, $item)
 	}
 	else
 	{
-		$dispCheck = FetchResult("select count(*) from {$dbpref}users where id != ".$user['id']." and (name = '".justEscape($_POST[$field])."' or displayname = '".justEscape($_POST[$field])."')", 0, 0);
+		$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 		if($dispCheck)
 		{
 			$fallToEditor = true;
-			return format(__("The display name you entered, \"{0}\", is already taken."), justEscape($_POST[$field]));
+			return format(__("The display name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 		}
 		else if(strpos($_POST[$field], ";") !== false)
 		{
@@ -746,15 +746,15 @@ function HandleDisplayname($field, $item)
 
 function HandleUsername($field, $item)
 {
-	global $user, $dbpref;
+	global $user;
 	if(!IsReallyEmpty($_POST[$field]))
 		$_POST[$field] = $user[$field];
 
-	$dispCheck = FetchResult("select count(*) from {$dbpref}users where id != ".$user['id']." and (name = '".justEscape($_POST[$field])."' or displayname = '".justEscape($_POST[$field])."')", 0, 0);
+	$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 	if($dispCheck)
 	{
 		$fallToEditor = true;
-		return format(__("The login name you entered, \"{0}\", is already taken."), justEscape($_POST[$field]));
+		return format(__("The login name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 	}
 	else if(strpos($_POST[$field], ";") !== false)
 	{
@@ -862,7 +862,7 @@ foreach($themes as $themeKey => $themeData)
 	$themeName = $themeData["name"];
 	$themeAuthor = $themeData["author"];
 
-	$qCount = "select count(*) from {$dbpref}users where theme='".$themeKey."'";
+	$qCount = "select count(*) from {users} where theme='".$themeKey."'";
 	$numUsers = FetchResult($qCount);
 	
 	$preview = "themes/".$themeKey."/preview.png";
@@ -1096,7 +1096,7 @@ function IsReallyEmpty($subject)
 function Karma()
 {
 	global $userid;
-	$votes = Query("select uid from {$dbpref}uservotes where voter=".$userid);
+	$votes = Query("select uid from {uservotes} where voter={0}", $userid);
 	if(NumRows($votes))
 		while($karmaChameleon = Fetch($votes))
 			RecalculateKarma($karmaChameleon['uid']);

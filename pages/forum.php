@@ -9,7 +9,7 @@ $fid = (int)$_GET['id'];
 
 if($loguserid && $_GET['action'] == "markasread")
 {
-	Query("REPLACE INTO {$dbpref}threadsread (id,thread,date) SELECT ".$loguserid.", {$dbpref}threads.id, ".time()." FROM {$dbpref}threads WHERE {$dbpref}threads.forum=$fid");
+	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}", $loguserid, time(), $fid);
 }
 
 AssertForbidden("viewForum", $fid);
@@ -17,8 +17,7 @@ AssertForbidden("viewForum", $fid);
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
-$qFora = "select * from {$dbpref}forums where id=".$fid;
-$rFora = Query($qFora);
+$rFora = Query("select * from {forums} where id={0}", $fid);
 if(NumRows($rFora))
 {
 	$forum = Fetch($rFora);
@@ -29,8 +28,7 @@ if(NumRows($rFora))
 
 $title = $forum['title'];
 
-$qCat = "select * from {$dbpref}categories where id=".$forum['catid'];
-$rCat = Query($qCat);
+$rCat = Query("select * from {categories} where id={0}", $forum['catid']);
 if(NumRows($rCat))
 {
 	$cat = Fetch($rCat);
@@ -38,12 +36,12 @@ if(NumRows($rCat))
 	Kill(__("Unknown category ID."));
 
 
-$isIgnored = FetchResult("select count(*) from {$dbpref}ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
+$isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
 if(isset($_GET['ignore']))
 {
 	if(!$isIgnored)
 	{
-		Query("insert into {$dbpref}ignoredforums values (".$loguserid.", ".$fid.")");
+		Query("insert into {ignoredforums} values ({0}, {1})", $loguserid, $fid);
 		Alert(__("Forum ignored. You will no longer see any \"New\" markers for this forum."));
 	}
 }
@@ -51,15 +49,16 @@ else if(isset($_GET['unignore']))
 {
 	if($isIgnored)
 	{
-		Query("delete from {$dbpref}ignoredforums where uid=".$loguserid." and fid=".$fid);
+		Query("delete from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid);
 		Alert(__("Forum unignored."));
 	}
 }
 
 if($loguserid)
 	$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
-	
-$isIgnored = FetchResult("select count(*) from {$dbpref}ignoredforums where uid=".$loguserid." and fid=".$fid, 0, 0) == 1;
+
+$isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
+
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
@@ -89,12 +88,12 @@ $rThreads = Query("	SELECT
 						su.id suid, su.name suname, su.displayname sudisplayname, su.powerlevel supowerlevel, su.sex susex,
 						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
 					FROM 
-						{$dbpref}threads t
-						".($loguserid ? "LEFT JOIN {$dbpref}threadsread tr ON tr.thread=t.id AND tr.id=".$loguserid : '')."
-						LEFT JOIN {$dbpref}users su ON su.id=t.user
-						LEFT JOIN {$dbpref}users lu ON lu.id=t.lastposter
-					WHERE forum=".$fid." 
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT ".$from.", ".$tpp);
+						{threads} t
+						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={3}" : '')."
+						LEFT JOIN {users} su ON su.id=t.user
+						LEFT JOIN {users} lu ON lu.id=t.lastposter
+					WHERE forum={0} 
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1}, {2}", $fid, $from, $tpp, $loguserid);
 
 $numonpage = NumRows($rThreads);
 
@@ -149,7 +148,7 @@ printRefreshCode();
 
 function ForumJump()
 {
-	global $fid, $loguser, $dbpref;
+	global $fid, $loguser;
 	
 	$pl = $loguser['powerlevel'];
 	if($pl < 0) $pl = 0;
@@ -159,10 +158,10 @@ function ForumJump()
 							f.id, f.title, f.catid,
 							c.name cname
 						FROM 
-							{$dbpref}forums f
-							LEFT JOIN {$dbpref}categories c ON c.id=f.catid
-						WHERE f.minpower<=".$pl.(($pl < 1) ? " AND f.hidden=0" : '')."
-						ORDER BY c.corder, c.id, f.forder");
+							{forums} f
+							LEFT JOIN {categories} c ON c.id=f.catid
+						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
+						ORDER BY c.corder, c.id, f.forder", $pl);
 	
 	$theList = "";
 	$optgroup = "";

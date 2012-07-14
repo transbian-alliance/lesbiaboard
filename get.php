@@ -8,9 +8,9 @@ $full = GetFullURL();
 $here = substr($full, 0, strrpos($full, "/"))."/";
 
 if(isset($_GET['id']))
-	$entry = Query("select * from uploader where id = ".(int)$_GET['id']);
+	$entry = Query("select * from uploader where id = {0}", (int)$_GET['id']);
 else if(isset($_GET['file']))
-	$entry = Query("select * from uploader where filename = '".justEscape($_GET['file'])."'");
+	$entry = Query("select * from uploader where filename = {0}", $_GET['file']);
 else
 	die("Nothing specified.");
 

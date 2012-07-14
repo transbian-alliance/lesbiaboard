@@ -20,8 +20,7 @@ AssertForbidden("makeReply", $tid);
 if($loguser['powerlevel'] < 0)
 	Kill(__("You're banned. You can't post."));
 
-$qThread = "select * from {$dbpref}threads where id=".$tid;
-$rThread = Query($qThread);
+$rThread = Query("select * from {threads} where id={0}", $tid);
 if(NumRows($rThread))
 {
 	$thread = Fetch($rThread);
@@ -30,8 +29,7 @@ if(NumRows($rThread))
 else
 	Kill(__("Unknown thread ID."));
 
-$qFora = "select * from {$dbpref}forums where id=".$fid;
-$rFora = Query($qFora);
+$rFora = Query("select * from {forums} where id={0}", $fid);
 if(NumRows($rFora))
 	$forum = Fetch($rFora);
 else
@@ -102,7 +100,7 @@ else if(isset($_POST['actionpost']))
 		if($lastPost < Settings::get("floodProtectionInterval"))
 		{
 			//Check for last post the user posted.
-			$lastPost = Fetch(Query("SELECT * FROM {$dbpref}posts WHERE user=$loguserid ORDER BY date DESC LIMIT 1"));
+			$lastPost = Fetch(Query("SELECT * FROM {posts} WHERE user={0} ORDER BY date DESC LIMIT 1", $loguserid));
 
 			//If it looks similar to this one, assume the user has double-clicked the button.
 			if($lastPost["thread"] == $tid)
@@ -118,7 +116,7 @@ else if(isset($_POST['actionpost']))
 	
 	if(!$rejected)
 	{
-		$ninja = FetchResult("select id from {$dbpref}posts where thread=".$tid." order by date desc limit 0, 1",0,0);
+		$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
 		if(isset($_POST['ninja']) && $_POST['ninja'] != $ninja)
 		{
 			Alert(__("You got ninja'd. You might want to review the post made while you were typing before you submit yours."));
@@ -130,8 +128,7 @@ else if(isset($_POST['actionpost']))
 
 	if(!$rejected)
 	{
-
-		$post = justEscape($_POST['text']);
+		$post = $_POST['text'];
 
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -150,22 +147,24 @@ else if(isset($_POST['actionpost']))
 				$mod.= ", sticky = 0";
 		}
 
-		$qUsers = "update {$dbpref}users set posts=".($loguser['posts']+1).", lastposttime=".time()." where id=".$loguserid." limit 1";
-		$rUsers = Query($qUsers);
 
-		$qPosts = "insert into {$dbpref}posts (thread, user, date, ip, num, options, mood) values (".$tid.",".$loguserid.",".time().",'".$_SERVER['REMOTE_ADDR']."',".($loguser['posts']+1).", ".$options.", ".(int)$_POST['mood'].")";
-		$rPosts = Query($qPosts);
+
+		$rUsers = Query("update {users} set posts=posts+1, lastposttime={0} where id={1} limit 1", 
+			time(), $loguserid);
+
+		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) values ({0},{1},{2},{3},{4}, {5}, {6})", 
+			$tid, $loguserid, time(), $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
 		
 		$pid = InsertId();
 
-		$qPostsText = "insert into {$dbpref}posts_text (pid,text) values (".$pid.",'".$post."')";
-		$rPostsText = Query($qPostsText);
+		$rPostsText = Query("insert into {posts_text} (pid,text) values ({0},{1})", $pid, $post);
 
-		$qFora = "update {$dbpref}forums set numposts=".($forum['numposts']+1).", lastpostdate=".time().", lastpostuser=".$loguserid.", lastpostid=".$pid." where id=".$fid." limit 1";
-		$rFora = Query($qFora);
 
-		$qThreads = "update {$dbpref}threads set lastposter=".$loguserid.", lastpostdate=".time().", replies=".($thread['replies']+1).", lastpostid=".$pid.$mod." where id=".$tid." limit 1";
-		$rThreads = Query($qThreads);
+		$rFora = Query("update {forums} set numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", 
+			time(), $loguserid, $pid, $fid);
+
+		$rThreads = Query("update {threads} set lastposter={0}, lastpostdate={1}, replies=replies+1, lastpostid={2}".$mod." where id={3} limit 1",
+			$loguserid, time(), $pid, $tid);
 
 		Report("New reply by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $isHidden);
 
@@ -175,7 +174,6 @@ else if(isset($_POST['actionpost']))
 	}
 }
 
-
 $prefill = htmlspecialchars($_POST['text']);
 
 if($_GET['link'])
@@ -184,17 +182,16 @@ if($_GET['link'])
 }
 else if($_GET['quote'])
 {
-	$qQuote = "	select 
+	$rQuote = Query("	select 
 					p.id, p.deleted, pt.text,
 					f.minpower,
 					u.name poster
-				from {$dbpref}posts p
-					left join {$dbpref}posts_text pt on pt.pid = p.id and pt.revision = p.currentrevision 
-					left join {$dbpref}threads t on t.id=p.thread
-					left join {$dbpref}forums f on f.id=t.forum
-					left join {$dbpref}users u on u.id=p.user
-				where p.id=".(int)$_GET['quote'];
-	$rQuote = Query($qQuote);
+				from {posts} p
+					left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision 
+					left join {threads} t on t.id=p.thread
+					left join {forums} f on f.id=t.forum
+					left join {users} u on u.id=p.user
+				where p.id={0}", (int)$_GET['quote']);
 	
 	if(NumRows($rQuote))
 	{
@@ -223,14 +220,16 @@ if($_POST['nobr'])
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
 $moodOptions = "<option ".$moodSelects[0]."value=\"0\">".__("[Default avatar]")."</option>\n";
-$rMoods = Query("select mid, name from {$dbpref}moodavatars where uid=".$loguserid." order by mid asc");
+
+$rMoods = Query("select mid, name from {moodavatars} where uid={0} order by mid asc", $loguserid);
+
 while($mood = Fetch($rMoods))
 	$moodOptions .= format(
 "
 	<option {0} value=\"{1}\">{2}</option>
 ",	$moodSelects[$mood['mid']], $mood['mid'], htmlspecialchars($mood['name']));
 
-$ninja = FetchResult("select id from {$dbpref}posts where thread=".$tid." order by date desc limit 0, 1",0,0);
+$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
 
 if(CanMod($loguserid, $fid))
 {
@@ -305,14 +304,10 @@ write("
 	</table>
 ");
 
-$qPosts = "select ";
-$qPosts .=
-	"{$dbpref}posts.id, {$dbpref}posts.date, {$dbpref}posts.num, {$dbpref}posts.deleted, {$dbpref}posts.options, {$dbpref}posts.mood, {$dbpref}posts.ip, {$dbpref}posts_text.text, {$dbpref}posts_text.text, {$dbpref}posts_text.revision, {$dbpref}users.id as uid, {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.rankset, {$dbpref}users.powerlevel, {$dbpref}users.sex, {$dbpref}users.posts";
-$qPosts .= 
-	" from {$dbpref}posts left join {$dbpref}posts_text on {$dbpref}posts_text.pid = {$dbpref}posts.id and {$dbpref}posts_text.revision = {$dbpref}posts.currentrevision left join {$dbpref}users on {$dbpref}users.id = {$dbpref}posts.user";
-$qPosts .= " where thread=".$tid." and deleted=0 order by date desc limit 0, 20";
-
-$rPosts = Query($qPosts);
+$rPosts = Query("select 
+{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.sex, {users}.posts
+from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user
+where thread={0} and deleted=0 order by date desc limit 0, 20", $tid);
 if(NumRows($rPosts))
 {
 	$posts = "";

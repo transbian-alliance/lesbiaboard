@@ -125,8 +125,7 @@ elseif($_POST['action'] == __("Register"))
 	$name = $_POST['name'];
 	$cname = trim(str_replace(" ","", strtolower($name)));
 
-	$qUsers = "select name, displayname from {$dbpref}users";
-	$rUsers = Query($qUsers);
+	$rUsers = Query("select name, displayname from {users}");
 	while($user = Fetch($rUsers))
 	{
 		$uname = trim(str_replace(" ", "", strtolower($user['name'])));
@@ -137,8 +136,7 @@ elseif($_POST['action'] == __("Register"))
 			break;
 	}
 
-	$qIP = "select lastip from {$dbpref}users where lastip='".$_SERVER['REMOTE_ADDR']."'";
-	$rIP = Query($qIP);
+	$rIP = Query("select lastip from {users} where lastip={0}", $_SERVER['REMOTE_ADDR']);
 	$ipKnown = NumRows($rIP);
 
 	if($uname == $cname)
@@ -173,22 +171,20 @@ elseif($_POST['action'] == __("Register"))
 
 	$newsalt = Shake();
 	$sha = hash("sha256", $_POST['pass'].$salt.$newsalt, FALSE);
-	$uid = FetchResult("SELECT id+1 FROM {$dbpref}users WHERE (SELECT COUNT(*) FROM {$dbpref}users u2 WHERE u2.id={$dbpref}users.id+1)=0 ORDER BY id ASC LIMIT 1");
+	$uid = FetchResult("SELECT id+1 FROM {users} WHERE (SELECT COUNT(*) FROM {users} u2 WHERE u2.id={users}.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($uid < 1) $uid = 1;
 
-	$qUsers = "insert into {$dbpref}users (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values (".$uid.", '".justEscape($_POST['name'])."', '".$sha."', '".$newsalt."', ".time().", ".time().", '".$_SERVER['REMOTE_ADDR']."', '".justEscape($_POST['email'])."', ".(int)$_POST['sex'].", '".justEscape(Settings::get("defaultTheme"))."')";
-	$rUsers = Query($qUsers);
+	$rUsers = Query("insert into {users} (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {4}, {4}, {5}, {6}, {7}, {8})", $uid, $_POST['name'], $sha, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], (int)$_POST['sex'], Settings::get("defaultTheme"));
 
 	if($uid == 1)
-		Query("update {$dbpref}users set powerlevel = 4 where id = 1;");
+		Query("update {users} set powerlevel = 4 where id = 1;");
 
 	Report("New user: [b]".$_POST['name']."[/] (#".$uid.") -> [g]#HERE#?uid=".$uid);
 
 	if($_POST['autologin'])
 	{
 		//Fixed: password was stored as SHA256 earlier, but query asks for MD5.
-		$qUser = "select * from {$dbpref}users where name='".justEscape($_POST['name'])."' and password='".$sha."'";
-		$rUser = Query($qUser);
+		$rUser = Query("select * from {users} where name={0} and password={1}", $_POST['name'], $sha);
 		$user = Fetch($rUser);
 
 		$logdata['loguserid'] = $user['id'];

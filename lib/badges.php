@@ -57,59 +57,58 @@ function CheckAutobiographer()
 	if($loguser['realname'] && $loguser['location'] && $loguser['birthday'] && $loguser['bio'] && $loguser['email'] && $loguser['homepageurl'] && $loguser['homepagename'])
 	{
 		//We use INSERT IGNORE here to remain silent.
-		Query("insert ignore into {$dbpref}badges values(".$loguserid.", 'Autobiographer', 0)");
+		Query("insert ignore into {badges} values({0}, 'Autobiographer', 0)", $loguserid);
 	}
 }
 
 function CheckYearling($marty = 0)
 {
 	//$marty is used to adjust the postcount -- we call this after updating users.posts, but without updating $loguser, and in certain other cases $loguser may actually BE up to date.
-	global $loguser, $loguserid, $dbpref;
+	global $loguser, $loguserid;
 	$daysKnown = (time() - $loguser['regdate']) / 86400;
 	$posts = $loguser['posts'] + $marty;
 	
 	if($daysKnown >= 356 * 3 && $posts >= 1000)
 	{
-		Query("delete from {$dbpref}badges where owner=".$loguserid." and (name='Yearling' or name='Oldbie')");
-		Query("insert ignore into {$dbpref}badges values(".$loguserid.", 'The Elder', 3)");
+		Query("delete from {badges} where owner={0} and (name='Yearling' or name='Oldbie')", $loguserid);
+		Query("insert ignore into {badges} values({0}, 'The Elder', 3)", $loguserid);
 	}
 	else if($daysKnown >= 356 * 2 && $posts >= 500)
 	{
-		Query("delete from {$dbpref}badges where owner=".$loguserid." and name='Yearling'");
-		Query("insert ignore into {$dbpref}badges values(".$loguserid.", 'Oldbie', 2)");
+		Query("delete from {badges} where owner={0} and name='Yearling'", $loguserid);
+		Query("insert ignore into {badges} values({0}, 'Oldbie', 2)", $loguserid);
 	}
 	else if($daysKnown >= 356 && $posts >= 100)
-		Query("insert ignore into {$dbpref}badges values(".$loguserid.", 'Yearling', 1)");
+		Query("insert ignore into {badges} values({0}, 'Yearling', 1)", $loguserid);
 }
 
 function CheckHeart($user, $karma)
 {
-	global $dbpref;
 	//Delete the old karma badge, no matter which color it was.
-	Query("delete from {$dbpref}badges where owner=".$user." and (name='Ghandi Incarnate' or name='Dearly Beloved' or name='Karma Chameleon' or name='Heart')");
+	Query("delete from {badges} where owner={0} and (name='Ghandi Incarnate' or name='Dearly Beloved' or name='Karma Chameleon' or name='Heart')", $user);
 	//Now insert the new one.
 	if($karma >= 250)
-		Query("insert into {$dbpref}badges values(".$user.", 'Ghandi Incarnate', 3)");
+		Query("insert into {badges} values({0}, 'Ghandi Incarnate', 3)", $user);
 	else if($karma >= 200)
-		Query("insert into {$dbpref}badges values(".$user.", 'Dearly Beloved', 2)");
+		Query("insert into {badges} values({0}, 'Dearly Beloved', 2)", $user);
 	else if($karma >= 150)
-		Query("insert into {$dbpref}badges values(".$user.", 'Karma Chameleon', 1)");
+		Query("insert into {badges} values({0}, 'Karma Chameleon', 1)", $user);
 	else if($karma >= 120)
-		Query("insert into {$dbpref}badges values(".$user.", 'Heart', 0)");
+		Query("insert into {badges} values({0}, 'Heart', 0)", $user);
 }
 
 function CheckEditor()
 {
 	//$rev taken from editpost.
-	global $loguserid, $rev, $dbpref;
+	global $loguserid, $rev	;
 	if($rev >= 20)
 	{
-		Query("delete from {$dbpref}badges where owner=".$loguserid." and name='Editor'");
-		Query("insert into {$dbpref}badges values(".$loguserid.", 'Synthetek', 1)");
+		Query("delete from {badges} where owner={0} and name='Editor'", $loguserid);
+		Query("insert into {badges} values({0}, 'Synthetek', 1)", $loguserid);
 	}
 	else if($rev >= 10)
 	{
-		Query("insert into {$dbpref}badges values(".$loguserid.", 'Editor', 0)");
+		Query("insert into {badges} values({0}, 'Editor', 0)", $loguserid);
 	}
 }
 

@@ -38,7 +38,7 @@ $tables = array
 );
 
 foreach($tables as $table)
-	Query("truncate ".$table);
+	Query("truncate {0}", $table);
 
 KillFolder("uploader");
 mkdir("uploader");

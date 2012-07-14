@@ -6,16 +6,15 @@ $limit = $selfsettings["limit"];
 
 
 $qPosts = "select 
-	{$dbpref}posts.id, {$dbpref}posts.date, 
-	{$dbpref}users.id as uid, {$dbpref}users.name, {$dbpref}users.displayname, {$dbpref}users.powerlevel, {$dbpref}users.sex, 
-	{$dbpref}threads.title as ttit, {$dbpref}threads.id as tid, 
-	{$dbpref}forums.title as ftit, {$dbpref}forums.id as fid
-	
-	from {$dbpref}posts 
-	left join {$dbpref}users on {$dbpref}users.id = {$dbpref}posts.user 
-	left join {$dbpref}threads on {$dbpref}threads.id = {$dbpref}posts.thread 
-	left join {$dbpref}forums on {$dbpref}threads.forum = {$dbpref}forums.id
-	where {$dbpref}forums.minpower <= ".$loguser['powerlevel']." and {$dbpref}posts.date >= ".(time() - ($hours * 60*60))." 
+	{posts}.id, {posts}.date, 
+	{users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, 
+	{threads}.title as ttit, {threads}.id as tid, 
+	{forums}.title as ftit, {forums}.id as fid
+	from {posts} 
+	left join {users} on {users}.id = {posts}.user 
+	left join {threads} on {threads}.id = {posts}.thread 
+	left join {forums} on {threads}.forum = {forums}.id
+	where {forums}.minpower <= ".$loguser['powerlevel']." and {posts}.date >= ".(time() - ($hours * 60*60))." 
 	order by date desc limit 0, $limit";
 
 $rPosts = Query($qPosts);

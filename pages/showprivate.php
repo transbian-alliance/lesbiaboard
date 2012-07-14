@@ -18,14 +18,13 @@ $pmid = $id;
 if(isset($_GET['snooping']))
 {
 	if($loguser['powerlevel'] > 2)
-		$qPM = "select * from {$dbpref}pmsgs left join {$dbpref}pmsgs_text on pid = {$dbpref}pmsgs.id where {$dbpref}pmsgs.id = ".$id;
+		$qPM = "select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where {pmsgs}.id = {0}";
 	else
 		Kill(__("No snooping for you."));
 }
 else
-	$qPM = "select * from {$dbpref}pmsgs left join {$dbpref}pmsgs_text on pid = {$dbpref}pmsgs.id where (userto = ".$loguserid." or userfrom = ".$loguserid.") and {$dbpref}pmsgs.id = ".$id;
+	$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where (userto = {1} or userfrom = {1}) and {pmsgs}.id = {0}", $id, $loguserid);
 
-$rPM = Query($qPM);
 if(NumRows($rPM))
 	$pm = Fetch($rPM);
 else
@@ -34,8 +33,7 @@ else
 if($pm['drafting'] && $pm['userfrom'] != $loguserid)
 	Kill(__("Unknown PM")); //could say "PM is addresssed to you, but is being drafted", but what they hey?
 
-$qUser = "select * from {$dbpref}users where id = ".$pm['userfrom'];
-$rUser = Query($qUser);
+$rUser = Query("select * from {users} where id = {0}", $pm['userfrom']);
 if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
@@ -44,8 +42,8 @@ $bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
-	$qPM = "update {$dbpref}pmsgs set msgread=1 where id=".$pm['id'];
-	$rPM = Query($qPM);
+	$qPM = "update {pmsgs} set msgread=1 where id={0}";
+	$rPM = Query($qPM, $pm['id']);
 	$links = actionLinkTag(__("Send reply"), "sendprivate", "", "pid=".$pm['id']);
 }
 else if(!isset($_GET['snooping']) && $pm['drafting'])
@@ -79,8 +77,7 @@ if($draftEditor)
 ");
 
 
-	$qUser = "select name from {$dbpref}users where id=".$pm['userto'];
-	$rUser = Query($qUser);
+	$rUser = Query("select name from {users} where id={0}", $pm['userto']);
 	if(!NumRows($rUser))
 	{
 		if($_POST['action'] == __("Send"))
@@ -96,8 +93,8 @@ if($draftEditor)
 	
 	if($_POST['action'] == __("Discard Draft"))
 	{
-		Query("delete from {$dbpref}pmsgs where id = ".$pmid);
-		Query("delete from {$dbpref}pmsgs_text where pid = ".$pmid);
+		Query("delete from {pmsgs} where id = {0}", $pmid);
+		Query("delete from {pmsgs_text} where pid = {0}", $pmid);
 
 		die(header("Location: ".actionLink("private")));
 		exit();
@@ -118,11 +115,10 @@ if($draftEditor)
 			$recipients = explode(";", $_POST['to']);
 			foreach($recipients as $to)
 			{
-				$to = justEscape(trim(htmlentities($to)));
+				$to = trim(htmlentities($to));
 				if($to == "")
 					continue;
-				$qUser = "select id from {$dbpref}users where name='".$to."' or displayname='".$to."'";
-				$rUser = Query($qUser);
+				$rUser = Query("select id from {users} where name={0} or displayname={0}", $to);
 				if(NumRows($rUser))
 				{
 					$user = Fetch($rUser);
@@ -166,12 +162,9 @@ if($draftEditor)
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-					$post = justEscape($post);
 	
-					$qPMT = "update {$dbpref}pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;
-					$rPMT = Query($qPMT);
-					$qPM = "update {$dbpref}pmsgs set userto = ".$firstTo." where id = ".$pmid;
-					$rPM = Query($qPM);
+					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
+					$rPM = Query("update {pmsgs} set userto = {0} where id = {1}", $firstTo, $pmid);
 
                 	die(header("Location: ".actionLink("private", "", "show=2")));
 				}
@@ -179,24 +172,19 @@ if($draftEditor)
 				{
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
-					$post = justEscape($post);
 
-					$qPMT = "update {$dbpref}pmsgs_text set title = '".justEscape($_POST['title'])."', text = '".$post."' where pid = ".$pmid;
-					$rPMT = Query($qPMT);
-					$qPM = "update {$dbpref}pmsgs set drafting = 0 where id = ".$pmid;
-					$rPM = Query($qPM);
+					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
+					$rPM = Query("update {pmsgs} set drafting = 0 where id = {0}", $pmid);
 
 					foreach($recipIDs as $recipient)
 					{
 						if($recipient == $firstTo)
 							continue;
 										
-						$qPM = "insert into {$dbpref}pmsgs (userto, userfrom, date, ip, msgread) values (".$recipient.", ".$loguserid.", ".time().", '".$_SERVER['REMOTE_ADDR']."', 0)";
-						$rPM = Query($qPM);
+						$rPM = Query("insert into {pmsgs} (userto, userfrom, date, ip, msgread) values ({0}, {1}, {2}, {3}, 0)", $recipient, $loguserid, time(), $_SERVER['REMOTE_ADDR']);
 						$pid = insertId();
 
-						$qPMT = "insert into {$dbpref}pmsgs_text (pid,title,text) values (".$pid.", '".justEscape($_POST['title'])."', '".$post."')";
-						$rPMT = Query($qPMT);
+						$rPMT = Query("insert into {pmsgs_text} (pid,title,text) values ({0}, {1}, {2})", $pid, $_POST['title'], $post);
 					}
 
 				die(header("Location: ".actionLink("private", "", "show=1")));

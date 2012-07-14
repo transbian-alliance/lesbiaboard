@@ -135,12 +135,11 @@ else if($_GET['action'] == __("Upload"))
 				}
 				else
 				{
-					$description = strip_tags($_POST['description']);
+					$description = htmlspecialchars($_POST['description']);
 
-					$newID = FetchResult("SELECT id+1 FROM {$dbpref}uploader WHERE (SELECT COUNT(*) FROM {$dbpref}uploader u2 WHERE u2.id={$dbpref}uploader.id+1)=0 ORDER BY id ASC LIMIT 1");
-					if($newID < 1) $newID = 1;
+					Query("insert into {uploader} (filename, description, date, user, private) values ({0}, {1}, {2}, {3}, {4})",
+						$fname, $description, time(), $loguserid, $privateFlag);
 
-					Query("insert into {$dbpref}uploader (id, filename, description, date, user, private, category) values (".$newID.", '".justEscape($fname)."', '".justEscape($description)."', ".time().", ".$loguserid.",".$privateFlag.",".$_POST["cat"].")");
 					copy($temp, $targetdir."/".$fname);
 					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag); 
 
@@ -158,18 +157,18 @@ else if($loguserid && $_GET['action'] == "multidel" && $_POST['del']) //several 
 	foreach($_POST['del'] as $fid => $on)
 	{
 		if($loguser['powerlevel'] > 2)
-			$check = FetchResult("select count(*) from {$dbpref}uploader where id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where id = ".$fid, 0, 0);
 		else
-			$check = FetchResult("select count(*) from {$dbpref}uploader where user = ".$loguserid." and id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where user = ".$loguserid." and id = ".$fid, 0, 0);
 
 		if($check)
 		{
-			$entry = Fetch(Query("select * from {$dbpref}uploader where id = ".$fid));
+			$entry = Fetch(Query("select * from {uploader} where id = ".$fid));
 			if($entry['private'])
 				@unlink($rootdir."/".$entry['user']."/".$entry['filename']);
 			else
 				@unlink($rootdir."/".$entry['filename']);
-			Query("delete from {$dbpref}uploader where id = ".$fid);
+			Query("delete from {uploader} where id = ".$fid);
 			$deleted++;
 		}
 	}
@@ -186,15 +185,15 @@ else if($loguserid && $_GET['action'] == "multimove" && $_POST['del']) //several
 	foreach($_POST['del'] as $fid => $on)
 	{
 		if($loguser['powerlevel'] > 2)
-			$check = FetchResult("select count(*) from {$dbpref}uploader where id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 		else
-			$check = FetchResult("select count(*) from {$dbpref}uploader where user = ".$loguserid." and id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
 
 		if($check)
 		{
 			if(!$entry['private'])
 			{
-				$entry = Fetch(Query("update {$dbpref}uploader set `category` = $newcat where id = ".$fid));
+				Query("update {uploader} set category = {0} where id = {1}", $newcat, $fid);
 				$moved++;
 			}
 		}
@@ -207,18 +206,18 @@ else if($_GET['action'] == "delete") //single file
 	$fid = (int)$_GET['fid'];
 
 	if($loguser['powerlevel'] > 2)
-		$check = FetchResult("select count(*) from {$dbpref}uploader where id = ".$fid, 0, 0);
+		$check = FetchResult("select count(*) from {uploader} where id = ".$fid, 0, 0);
 	else
-		$check = FetchResult("select count(*) from {$dbpref}uploader where user = ".$loguserid." and id = ".$fid, 0, 0);
+		$check = FetchResult("select count(*) from {uploader} where user = ".$loguserid." and id = ".$fid, 0, 0);
 	
 	if($check)
 	{
-		$entry = Fetch(Query("select * from {$dbpref}uploader where id = ".$fid));
+		$entry = Fetch(Query("select * from {uploader} where id = ".$fid));
 		if($entry['private'])
 			@unlink($rootdir."/".$entry['user']."/".$entry['filename']);
 		else
 			@unlink($rootdir."/".$entry['filename']);
-		Query("delete from {$dbpref}uploader where id = ".$fid);
+		Query("delete from {uploader} where id = ".$fid);
 		Report("[b]".$loguser['name']."[/] deleted \"[b]".$entry['filename']."[/]\".", 1);
 		die(header("Location: ".actionLink("uploaderlist", "", "cat=".$_GET["cat"])));
 	}
@@ -231,7 +230,7 @@ else
 					"Uploader"=>actionLink("uploader")), $links);
 
 	$errormsg = __("No categories found.");
-	$entries = Query("select * from {$dbpref}uploader_categories order by ord");
+	$entries = Query("select * from {uploader_categories} order by ord");
 
 	if(NumRows($entries) == 0)
 	{
@@ -265,7 +264,7 @@ else
 				
 		while($entry = Fetch($entries))
 		{
-			$filecount = FetchResult("select count(*) from {$dbpref}uploader where category = ".$entry['id'], 0, 0);
+			$filecount = FetchResult("select count(*) from {uploader} where category = ".$entry['id'], 0, 0);
 		
 			print "<tr class=\"cell$cellClass\"><td>";
 			print actionLinkTag($entry['name'], "uploaderlist", "", "cat=".$entry['id']);
@@ -280,7 +279,7 @@ else
 		
 		if($loguserid)
 		{
-			$filecount = FetchResult("select count(*) from {$dbpref}uploader where uploader.user = ".$loguserid." and uploader.private = 1", 0, 0);
+			$filecount = FetchResult("select count(*) from {uploader} where uploader.user = ".$loguserid." and uploader.private = 1", 0, 0);
 
 			print "<tr class=\"cell$cellClass\"><td>";
 			print actionLinkTag("Private files", "uploaderlist", "", "cat=-1");
@@ -295,7 +294,7 @@ else
 
 			if($loguser['powerlevel'] > 2)
 			{
-				$filecount = FetchResult("select count(*) from {$dbpref}uploader where uploader.private = 1", 0, 0);
+				$filecount = FetchResult("select count(*) from {uploader} where uploader.private = 1", 0, 0);
 
 				print "<tr class=\"cell$cellClass\"><td>";
 				print actionLinkTag("All private files", "uploaderlist", "", "cat=-2");
@@ -325,13 +324,12 @@ function foldersize($path)
 
 function getCategory($cat)
 {
-	global $dbpref;
 	if (!is_numeric($cat))
 		Kill('Invalid category');
 
 	if($cat >= 0)
 	{
-		$qCategory = "select * from {$dbpref}uploader_categories where id=".$cat;
+		$qCategory = "select * from {uploader_categories} where id=".$cat;
 		$rCategory = Query($qCategory);
 		if(NumRows($rCategory) == 0) Kill("Invalid category");
 		$rcat = Fetch($rCategory);

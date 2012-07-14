@@ -7,8 +7,8 @@ AssertForbidden("addRanks");
 if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to import ranksets."));
 
-Query("truncate table {$dbpref}ranks");
-Query("truncate table {$dbpref}ranksets");
+Query("truncate table {ranks}");
+Query("truncate table {ranksets}");
 
 include("ranksets.php");
 
@@ -57,7 +57,7 @@ foreach($ranks as $rankset)
 		</tr>
 ", $description);
 
-	Query("insert into {$dbpref}ranksets (name) values ('".$rankset['name']."')");
+	Query("insert into {ranksets} (name) values ({0})", $rankset['name']);
 
 	foreach($rankset['ranks'] as $val => $text)
 	{
@@ -75,7 +75,7 @@ foreach($ranks as $rankset)
 			</td>
 		</tr>
 ", $val, $img);
-		Query("insert into {$dbpref}ranks (rset, num, text) values (".$index.", ".$val.", '".justEscape($img)."')");
+		Query("insert into {ranks} (rset, num, text) values ({0}, {1}, {2})", $index, $val, $img);
 	}
 }
 

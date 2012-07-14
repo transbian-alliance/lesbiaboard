@@ -122,15 +122,15 @@ function insError($text)
 	Upgrade();
 	
 	print "Adding bare neccesities&hellip;<br />"; 
-	$misc = Query("select * from {$dbpref}misc");
+	$misc = Query("select * from {misc}");
 	if(NumRows($misc) == 0)
-		Query("INSERT INTO `{$dbpref}misc` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
+		Query("INSERT INTO `{misc}` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
 		
-	Query("UPDATE `{$dbpref}misc` SET `version` = 222");
+	Query("UPDATE `{misc}` SET `version` = 222");
 
 	print "Importing smilies&hellip;<br />";
 
-	$smilies = Query("select * from {$dbpref}smilies");
+	$smilies = Query("select * from {smilies}");
 	if(NumRows($smilies) == 0)
 		Import("install/smilies.sql");
 

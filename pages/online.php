@@ -10,12 +10,9 @@ AssertForbidden("viewOnline");
 $time = (int)$_GET['time'];
 if(!$time) $time = 300;
 
-$qUsers  = "select * from {$dbpref}users where lastactivity > ".(time()-$time)." order by lastactivity desc";
-$qGuests = "select * from {$dbpref}guests where date > ".(time()-$time)." and bot = 0 order by date desc";
-$qBots   = "select * from {$dbpref}guests where date > ".(time()-$time)." and bot = 1 order by date desc";
-$rUsers = Query($qUsers);
-$rGuests = Query($qGuests);
-$rBots = Query($qBots);
+$rUsers = Query("select * from {users} where lastactivity > {0} order by lastactivity desc", (time()-$time));
+$rGuests = Query("select * from {guests} where date > {0} and bot = 0 order by date desc", (time()-$time));
+$rBots = Query("select * from {guests} where date > {0} and bot = 1 order by date desc", (time()-$time));
 
 $spans = array(60, 300, 900, 3600, 86400);
 $spanList = "";
@@ -207,8 +204,8 @@ write(
 function IP2C($ip)
 {
 	global $dblink;
-	$q = @$dblink->query("select cc from {$dbpref}ip2c where ip_from <= inet_aton('".$ip."') and ip_to >= inet_aton('".$ip."')") or $r['cc'] = "";
-	if($q) $r = @$q->fetch_array();
+	$q = @Query("select {cc} from ip2c where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
+	if($q) $r = @Fetch($q);
 	if($r['cc'])
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }
