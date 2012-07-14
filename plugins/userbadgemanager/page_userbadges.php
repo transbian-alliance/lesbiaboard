@@ -30,10 +30,20 @@ elseif($_GET['action'] == "delete")
 {
 	Query("delete from {badges} where owner = {0} and name = {1}",
 		(int)$_GET['userid'], $_GET['name']);
-	
-	Query($qBadge);
+
 	Alert(__("Removed."), __("Notice"));
 }
+elseif($_GET['action'] == "deleteall")
+{
+	Query("delete from {badges} where owner = {0}",
+	(int)$_GET['userid']);
+	Alert(__("Removed all badges of the user."), __("Notice"));
+}
+elseif($_GET['action'] == "newbadge")
+{
+	$userID = "value=\"".((int)$_GET['userid'])."\"";
+}
+
 
 // Fetch badges
 $qBadge = "SELECT owner, {badges}.name, color, {users}.name username FROM {badges} JOIN {users} where owner = id";
@@ -45,14 +55,14 @@ while($badges = Fetch($rBadge))
 {
 	$cellClass = ($cellClass+1) % 2;
 	$colors = array(__("Bronze"),__("Silver"),__("Gold"),__("Platinum"));
-	$id = (int) $badges['owner'];
+
 	// userMangler Bucket
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$badgeList .= format(
 "
 	<tr class=\"cell{0}\">
 		<td>
-			{1}
+			<a href=".actionLink("profile", "{2}").">{1}</a>
 		</td>
 		<td>
 			{3}
@@ -90,7 +100,7 @@ write("
 				".__("User ID")."
 			</td>
 			<td class=\"cell0\">
-				<input type=\"text\" name=\"userid\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"userid\" style=\"width: 15%;\" maxlength=\"4\" {1}/>
 			</td>
 		</tr>
 		<tr>
@@ -98,7 +108,7 @@ write("
 				".__("Name")."
 			</td>
 			<td class=\"cell1\">
-				<input type=\"text\" name=\"name\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"name\" style=\"width: 98%;\" maxlength=\"15\" />
 			</td>
 		</tr>
 		<tr>
@@ -123,6 +133,6 @@ write("
 		</tr>
 	</table>
 </form>
-", $badgeList);
+", $badgeList, $userID);
 
 ?>
