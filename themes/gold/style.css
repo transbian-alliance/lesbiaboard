@@ -4,7 +4,7 @@
 
 body
 {
-	background: black url(back.png);
+	background: black url('back.png');
 	background-attachment: fixed;
 	background-repeat: repeat;
 	background-position: top left;
@@ -12,7 +12,7 @@ body
 
 #header
 {
-	background-image: url(post.png);
+	background-image: url('post.png');
 	background-attachment: fixed;
 	background-position: top left;
 }
@@ -24,7 +24,7 @@ body
 
 #header * tr.cell1, #header * tr.cell2
 {
-	background-image: url(headerdark.png);
+	background-image: url('headerdark.png');
 	background-attachment: fixed;
 	background-position: top left;
 	background-repeat:repeat;
@@ -58,7 +58,7 @@ a:hover
 
 table.post td.post
 {
-       background: #222 url(post.png);
+       background: #222 url('post.png');
        background-attachment: fixed;
        background-position: top left;
 }
@@ -66,7 +66,7 @@ table.post td.post
 
 .cell0, table.post
 {
-       background-image: url(back2t1.png), url(cell0.png);
+       background-image: url('back2t1.png'), url('cell0.png');
        background-attachment: scroll, fixed;
        background-position: top left, top left;
        background-repeat: repeat-x, repeat;
@@ -74,7 +74,7 @@ table.post td.post
 
 .cell1
 {
-       background-image: url(back2t1.png), url(cell1.png);
+       background-image: url('back2t1.png'), url('cell1.png');
        background-attachment: scroll, fixed;
        background-position: top left, top left;
        background-repeat: repeat-x, repeat;
@@ -82,7 +82,7 @@ table.post td.post
 
 .cell2
 {
-       background-image: url(back2t1.png), url(cell2.png);
+       background-image: url('back2t1.png'), url('cell2.png');
        background-attachment: scroll, fixed;
        background-position: top left, top left;
        background-repeat: repeat-x, repeat;
@@ -90,7 +90,7 @@ table.post td.post
 
 .header0 th
 {
-	background: #811000 url(header1.png);
+	background: #811000 url('header1.png');
 	background-attachment: fixed;
 	background-position: top left;
 	color: #EEE;
@@ -98,7 +98,7 @@ table.post td.post
 
 .header1 th
 {
-	background: #994400 url(header2.png);
+	background: #994400 url('header2.png');
 	background-attachment: fixed;
 	background-position: top left;
 	color: #DDD;
@@ -106,7 +106,7 @@ table.post td.post
 
 .faq
 {
-	background: #222 url(post.png);
+	background: #222 url('post.png');
 	background-attachment: fixed;
 	background-position: top left;
 }
@@ -114,14 +114,14 @@ table.post td.post
 td.post .codeblock
 {
 	border-color: #c30;
-	background: #000 url(back.png);
+	background: #000 url('back.png');
 	background-attachment: fixed;
 	background-position: top left;
 }
 
 .errort
 {
-	background: #811000 url(header1.png);
+	background: #811000 url('header1.png');
 	background-attachment: fixed;
 	background-position: top left;
 }
@@ -139,7 +139,7 @@ div#tabs
 
 div#tabs button.selected
 {
-	background: #811000 url(header1.png);
+	background: #811000 url('header1.png');
 	background-attachment: fixed;
 	background-position: top left;
 	border-color:#000;
@@ -149,7 +149,7 @@ div#tabs button
 {
 	border: 1px solid #930;
 	border-bottom:1px solid black;
-	background: #811000 url(back.png);
+	background: #811000 url('back.png');
 	background-attachment: fixed;
 	background-position: top left;
 	color: #FFF;
@@ -157,7 +157,7 @@ div#tabs button
 
 button, input[type="submit"]
 {
-	background: #0e2e35 url(forms.png);
+	background: #0e2e35 url('forms.png');
 	background-attachment: fixed;
 	background-position: top left;
 
@@ -167,7 +167,7 @@ button, input[type="submit"]
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
 {
-	background: #0e2e35 url(forms.png);
+	background: #0e2e35 url('forms.png');
 	background-attachment: fixed;
 	background-position: top left;
 
@@ -177,7 +177,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 
 input[type="checkbox"], input[type="radio"]
 {
-	background: #0e2e35 url(forms.png);
+	background: #0e2e35 url('forms.png');
 	background-attachment: fixed;
 	background-position: top left;
 	border: 1px solid #000212;
@@ -198,7 +198,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 .pollbarContainer
 {
 	border: 1px solid #000;
-	background-image: url(transp.png);
+	background-image: url('transp.png');
 	background-attachment: fixed;
 	background-position: top left;
 	text-shadow: none;
@@ -209,7 +209,7 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 .pollbar
 {
 	background-color:#0e2e35; /* This can be overridden to color pollbars */
-	background-image: url(transp.png);
+	background-image: url('transp.png');
 	background-attachment: fixed;
 	background-position: top left;
 	border: 1px solid #000212;
