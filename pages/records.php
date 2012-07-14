@@ -8,6 +8,21 @@ AssertForbidden("viewRecords");
 
 $df = "l, F jS Y, G:i:s";
 
+$maxUsersText = $misc['maxuserstext'];
+if($maxUsersText[0] == ":")
+{
+	$users = explode(":", $maxUsersText);
+	
+	$maxUsersText = "";
+	foreach($users as $user)
+	{
+		if(!$user) continue;
+		if($maxUsersText) 
+			$maxUsersText .= ", ";
+		$maxUsersText .= UserLinkById($user);
+	}
+}
+
 write(
 "
 <table class=\"outline margin width75\">
@@ -50,7 +65,7 @@ write(
 ",	$misc['maxpostsday'], gmdate($df, $misc['maxpostsdaydate']),
 	$misc['maxpostshour'], gmdate($df, $misc['maxpostshourdate']),
 	$misc['maxusers'], gmdate($df, $misc['maxusersdate']),
-	$misc['maxuserstext']);
+	$maxUsersText);
 
 $rStats = Query("show table status");
 while($stat = Fetch($rStats))

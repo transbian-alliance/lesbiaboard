@@ -19,15 +19,18 @@ include("browsers.php");
 //Check the amount of users right now for the records
 $rMisc = Query("select * from {misc}");
 $misc = Fetch($rMisc);
+
 $rOnlineUsers = Query("select id, powerlevel, sex, name from {users} where lastactivity > {0} or lastposttime > {0} order by name", (time()-300));
-$_qRecords = ""; //Thanks for inspiring me to check this out, Blackhole ;)
+
+$_qRecords = "";
 $onlineUsers = "";
 $onlineUserCt = 0;
 while($onlineUser = Fetch($rOnlineUsers))
 {
-	$onlineUsers .= ($onlineUserCt ? ", " : "").UserLink($onlineUser);
+	$onlineUsers .= ":".$onlineUser["id"];
 	$onlineUserCt++;
 }
+
 if($onlineUserCt > $misc['maxusers'])
 {
 	$_qRecords = "maxusers = {0}, maxusersdate = {1}, maxuserstext = {2}";
