@@ -89,17 +89,7 @@ function bbcodeImageScale($contents, $arg)
 
 function bbcodeUser($contents, $arg)
 {
-	global $members;
-	$id = (int)$arg;
-	if(!isset($members[$id]))
-	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id={0}", $id);
-		if(NumRows($rUser))
-			$members[$id] = Fetch($rUser);
-		else
-			return UserLink(array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1));
-	}
-	return UserLink($members[$id]);
+	return UserLinkById((int)$arg);
 }
 
 function bbcodeThread($contents, $arg)

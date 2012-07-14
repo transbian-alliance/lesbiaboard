@@ -152,6 +152,21 @@ function UserLink($user, $field = "id", $showMinipic = false)
 	return $userlink;
 }
 
+function UserLinkById($id)
+{
+	global $userlinkCache;
+	
+	if(!isset($userlinkCache[$id]))
+	{
+		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id={0}", $id);
+		if(NumRows($rUser))
+			$userlinkCache[$id] = Fetch($rUser);
+		else
+			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1);
+	}
+	return UserLink($userlinkCache[$id]);
+}
+
 function PageLinks($url, $epp, $from, $total)
 {
 	$numPages = ceil($total / $epp);
