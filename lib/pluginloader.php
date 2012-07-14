@@ -1,6 +1,6 @@
 <?php
 //Plugin loader -- By Nikolaj
-global $pluginbuckets, $plugins;
+global $pluginbuckets, $plugins, $plugin;
 
 $oldplugin = $plugin;
 $oldself = $self;
