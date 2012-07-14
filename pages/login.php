@@ -49,8 +49,12 @@ elseif($_POST['action'] == __("Log in"))
 	}
 }
 
-write(
-"
+$forgotPass = "";
+
+if(Settings::get("mailResetSender") != "")
+	$forgotPass = "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>";
+
+echo "
 	<form action=\"".actionLink("login")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
@@ -87,12 +91,11 @@ write(
 				<td></td>
 				<td>
 					<input type=\"submit\" name=\"action\" value=\"".__("Log in")."\" />
-					{0}
+					$forgotPass
 				</td>
 			</tr>
 		</table>
 	</form>
-",  $mailResetFrom == "" ? "" : "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>"
-);
+";
 
 ?>
