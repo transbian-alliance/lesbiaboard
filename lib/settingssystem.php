@@ -44,21 +44,21 @@
 
 class Settings
 {
-	public static $pluginsettings;
+	public static $settingsArray;
 	//Loads ALL the settings.
 
 	public static function load()
 	{
-		self::$pluginsettings = array();
+		self::$settingsArray = array();
 		$rSettings = Query("select * from {settings}");
 		
 		while($setting = Fetch($rSettings))
 		{
-			self::$pluginsettings[$setting["plugin"]][$setting["name"]] = $setting["value"];
+			self::$settingsArray[$setting["plugin"]][$setting["name"]] = $setting["value"];
 		}
 	}
 
-	public static function getForPlugin($pluginname)
+	public static function getSettingsFile($pluginname)
 	{
 		global $plugins;
 		
@@ -77,23 +77,23 @@ class Settings
 
 	public static function checkPlugin($pluginname)
 	{
-		if(!isset(self::$pluginsettings[$pluginname]))
-			self::$pluginsettings[$pluginname] = array();
+		if(!isset(self::$settingsArray[$pluginname]))
+			self::$settingsArray[$pluginname] = array();
 		
 		$changed = false;		
 
-		$settings = self::getForPlugin($pluginname);		
+		$settings = self::getSettingsFile($pluginname);		
 		foreach($settings as $name => $data)
 		{
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$pluginsettings[$pluginname][$name]) || !self::validate(self::$pluginsettings[$pluginname][$name], $type, $data["options"]))
+			if(!isset(self::$settingsArray[$pluginname][$name]) || !self::validate(self::$settingsArray[$pluginname][$name], $type, $data["options"]))
 			{
 				if (isset($data["defaultfile"]))
-					self::$pluginsettings[$pluginname][$name] = file_get_contents($data["defaultfile"]);
+					self::$settingsArray[$pluginname][$name] = file_get_contents($data["defaultfile"]);
 				else
-					self::$pluginsettings[$pluginname][$name] = $default;
+					self::$settingsArray[$pluginname][$name] = $default;
 
 				self::saveSetting($pluginname, $name);
 				$changed = true;
@@ -104,7 +104,7 @@ class Settings
 
 	public static function save($pluginname)
 	{
-		foreach(self::$pluginsettings[$pluginname] as $name=>$value)
+		foreach(self::$settingsArray[$pluginname] as $name=>$value)
 			self::saveSetting($pluginname, $name);
 	}
 	
@@ -112,7 +112,7 @@ class Settings
 	{
 		Query("insert into {settings} (plugin, name, value) values ({0}, {1}, {2}) ".
 			"on duplicate key update value=VALUES(value)", 
-			$pluginname, $settingname, self::$pluginsettings[$pluginname][$settingname]);
+			$pluginname, $settingname, self::$settingsArray[$pluginname][$settingname]);
 	}
 	
 	
@@ -148,7 +148,12 @@ class Settings
 	
 	public static function get($name)
 	{
-		return self::$pluginsettings["main"][$name];
+		return self::$settingsArray["main"][$name];
+	}
+	public static function pluginGet($name)
+	{
+		global $plugin;
+		return self::$settingsArray[$plugin][$name];
 	}
 }
 ?>

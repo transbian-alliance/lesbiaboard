@@ -1,6 +1,10 @@
 <?php
 //Plugin loader -- By Nikolaj
 global $pluginbuckets, $plugins;
+
+$oldplugin = $plugin;
+$oldself = $self;
+
 if ($pluginbuckets[$bucket])
 {
 	foreach ($pluginbuckets[$bucket] as $plugin)
@@ -8,11 +12,12 @@ if ($pluginbuckets[$bucket])
 		if (isset($plugins[$plugin]))
 		{
 			$self = $plugins[$plugin];
-			$selfsettings = Settings::$pluginsettings[$plugin];
 			include("./plugins/".$plugins[$plugin]['dir']."/".$bucket.".php");
 			unset($self);
 		}
 	}
-	unset($self);
 }
+
+$self = $oldself;
+$plugin = $oldplugin;
 ?>

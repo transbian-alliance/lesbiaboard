@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '<?php print trim($selfsettings["trackingid"]);?>']);
+  _gaq.push(['_setAccount', '<?php print trim(Settings::pluginGet("trackingid"));?>']);
   _gaq.push(['_trackPageview']);
 
   (function() {

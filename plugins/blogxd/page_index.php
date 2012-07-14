@@ -2,8 +2,8 @@
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
-$qFora = "select * from {forums} where id = ".$selfsettings["forum"];
-$rFora = Query($qFora);
+$rFora = Query("select * from {forums} where id = {0}", Settings::pluginGet("forum"));
+
 if(NumRows($rFora))
 {
 	$forum = Fetch($rFora);
@@ -133,7 +133,7 @@ write('</td><td style="border: 0px none; vertical-align: top; padding-right: 1em
 <table class='outline margin width100'>
 <tr class="header0"><th>&nbsp;</th></tr>
 <tr class='cell1'><td style='padding:16px' colspan='2'>
-<?php echo CleanUpPost($selfsettings["righttext"]);?>
+<?php echo CleanUpPost(Settings::pluginGet("righttext"));?>
 </td></tr></table>
 <?php
 $bucket = "blogxd_rightcolumn"; include("lib/pluginloader.php");

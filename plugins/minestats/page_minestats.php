@@ -1,10 +1,10 @@
 <?php
-$maps = trim($selfsettings['maps']);
+$maps = trim(Settings::pluginGet('maps'));
 if (!preg_match('/^(?:\w+ )*\w+$/', $maps))
 {
 	Kill('Please configure this plugin.');
 }
-$db = @new mysqli($selfsettings['dbserv'], $selfsettings['dbuser'], $selfsettings['dbpass'], $selfsettings['dbname']) or Kill('Couldn\'t get information.');
+$db = @new mysqli(Settings::pluginGet('dbserv'), Settings::pluginGet('dbuser'), Settings::pluginGet('dbpass'), Settings::pluginGet('dbname')) or Kill('Couldn\'t get information.');
 $blocks = require 'plugins/minestats/mcblocks.php';
 $maps = explode(' ', $maps);
 

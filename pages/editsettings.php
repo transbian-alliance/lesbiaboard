@@ -23,8 +23,8 @@ if($plugin == "main")
 else
 	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
 
-$settings = Settings::getForPlugin($plugin);
-$oursettings = Settings::$pluginsettings[$plugin];
+$settings = Settings::getSettingsFile($plugin);
+$oursettings = Settings::$settingsArray[$plugin];
 $invalidsettings = array();
 
 if(isset($_POST["_plugin"]))
