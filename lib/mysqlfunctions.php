@@ -79,7 +79,7 @@ function Upgrade()
 							print_r($field);
 							print "{ ".$type." }";
 						}
-						Query("ALTER TABLE `{{0}}` CHANGE `{1}` `{1}` {2}", $table, $fieldName, $wantedType);
+						Query("ALTER TABLE {".$table."} CHANGE `$fieldName `$fieldName` $wantedType");
 						$changes++;
 					}
 				}
@@ -89,7 +89,7 @@ function Upgrade()
 				if(!in_array($fieldName, $foundFields))
 				{
 					print " \"".$fieldName."\" missing&hellip;";
-					Query("ALTER TABLE `{{0}}` ADD `{1}` {2}", $table, $fieldName, $type);
+					Query("ALTER TABLE {".$table."} ADD `$fieldName` $type");
 					$changes++;
 				}
 			}

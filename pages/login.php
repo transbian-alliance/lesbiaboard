@@ -5,7 +5,8 @@
 if($_POST['action'] == "logout")
 {
 	setcookie("logdata", 0);
-
+	Query("update {users} set loggedin=0 where id={0}", $loguserid);
+	
 	die(header("Location: ."));
 }
 elseif($_POST['action'] == __("Log in"))

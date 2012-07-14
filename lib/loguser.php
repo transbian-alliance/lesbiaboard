@@ -52,7 +52,7 @@ if($_qRecords)
 }
 
 //Delete oldies visitor from the guest list. We may re-add him/her later.
-$rGuests = Query("delete from {guests} where ip={0} or date < {1}", $_SERVER['REMOTE_ADDR'], (time()-300));
+$rGuests = Query("delete from {guests} where date < {0}", (time()-300));
 
 //Lift dated Tempbans
 $rTempban = Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 where tempbantime != 0 and tempbantime < {0}", time());
@@ -101,9 +101,6 @@ if($loguserid) //Are we logged in?
 
 if($wantGuest)
 {
-	$qGuest = Query("insert into {guests} (date, ip, lasturl, useragent, bot) values ({0}, {1}, {2}, {3}, {4})",
-		time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $_SERVER['HTTP_USER_AGENT'], $isBot);
-	
 	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"), 
 		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>!Settings::get("guestLayouts"),
 		'token'=>hash('sha1', rand()));
@@ -118,14 +115,24 @@ if ($loguserid)
 else
 	$loguserNotifications = array();
 
+$loguserLogin = 1;
 
 function setLastActivity()
 {
-	global $loguserid;
+	global $loguserid, $isBot;
 	
-	Query("update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3} where id={4}",
-		time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);
+	Query("delete from {guests} where ip = {0}", $_SERVER['REMOTE_ADDR']);
 
+	if($loguserid == 0)
+	{
+		Query("insert into {guests} (date, ip, lasturl, useragent, bot) values ({0}, {1}, {2}, {3}, {4})",
+			time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $_SERVER['HTTP_USER_AGENT'], $isBot);
+	}
+	else
+	{
+		Query("update {users} set lastactivity={0}, lastip={1}, lasturl={2}, lastknownbrowser={3}, loggedin=1 where id={4}",
+			time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $lastKnownBrowser, $loguserid);
+	}
 }
 
 ?>

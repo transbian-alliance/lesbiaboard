@@ -393,6 +393,7 @@ $tables = array
 			"pluginsettings" => $text,
 			"lostkey" => $var128,
 			"lostkeytimer" => $genericInt,
+			"loggedin" => $bool,
 		),
 		"special" => $keyID.", key `posts` (`posts`), key `name` (`name`), key `lastforum` (`lastforum`), key `lastposttime` (`lastposttime`), key `lastactivity` (`lastactivity`)"
 	),
