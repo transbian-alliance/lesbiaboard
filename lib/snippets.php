@@ -361,4 +361,26 @@ function endsWith($haystack, $needle)
 	$start  = $length * -1; //negative
 	return (substr($haystack, $start) === $needle);
 }
+
+function getPowerlevelName($pl) {
+	$powerlevels = array(
+		0 => __("Normal"),
+		1 => __("Local mod"),
+		2 => __("Full mod"),
+		3 => __("Admin"),
+		4 => __("Root"),
+		5 => __("System")
+	);
+	return $powerlevels[$pl];
+}
+
+function getSexName($sex) {
+	$sexes = array(
+		0 => __("N/A"),
+		1 => __("Female"),
+		2 => __("Male")
+	);
+
+	return $sexes[$sex];
+}
 ?>

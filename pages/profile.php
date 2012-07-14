@@ -150,6 +150,8 @@ $profileParts = array();
 
 $foo = array();
 $foo[__("Name")] = $minipic . htmlspecialchars($user['displayname'] ? $user['displayname'] : $user['name']) . ($user['displayname'] ? " (".$user['name'].")" : "");
+$foo[__("Power")] = getPowerlevelName($user['powerlevel']);
+$foo[__("Sex")] = getSexName($user['sex']);
 if($title)
 	$foo[__("Title")] = $title;
 if($currentRank)
