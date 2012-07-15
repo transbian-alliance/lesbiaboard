@@ -122,7 +122,7 @@ $loguserLogin = 1;
 
 function setLastActivity()
 {
-	global $loguserid, $isBot;
+	global $loguserid, $isBot, $lastKnownBrowser;
 	
 	Query("delete from {guests} where ip = {0}", $_SERVER['REMOTE_ADDR']);
 

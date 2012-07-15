@@ -196,9 +196,9 @@ $profileParts[__("Presentation")] = $foo;
 
 $foo = array();
 if($user['realname'])
-	$foo[__("Real name")] = strip_tags($user['realname']);
+	$foo[__("Real name")] = htmlspecialchars($user['realname']);
 if($user['location'])
-	$foo[__("Location")] = strip_tags($user['location']);
+	$foo[__("Location")] = htmlspecialchars($user['location']);
 if($user['birthday'])
 	$foo[__("Birthday")] = format("{0} ({1} old)", cdate("F j, Y", $user['birthday']), Plural(floor((time() - $user['birthday']) / 86400 / 365.2425), "year"));
 if($user['bio'])
@@ -261,11 +261,11 @@ if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $logus
 	Query("delete from {usercomments} where uid={0} and id={1}", $id, (int)$_GET['cid']);
 }
 
-if($_POST['action'] == __("Post") && IsReallyEmpty(strip_tags($_POST['text'])) && $loguserid 
+if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $loguserid 
 	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'])
 {
 	AssertForbidden("makeComments");
-	$_POST['text'] = strip_tags($_POST['text']);
+
 	$newID = FetchResult("SELECT id+1 FROM {usercomments} WHERE (SELECT COUNT(*) FROM {usercomments} u2 WHERE u2.id={usercomments}.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($newID < 1) $newID = 1;
 	$rComment = Query("insert into {usercomments} (id, uid, cid, date, text) values ({0}, {1}, {2}, {3}, {4})", $newID, $id, $loguserid, time(), $_POST['text']);
