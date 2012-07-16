@@ -205,7 +205,10 @@ if (!$isBot)
 	write(
 "
 	<script src=\"".resourceLink("js/memberlist.js")."\"></script>
-	<div id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
+	<table>
+	<tr>
+	<td id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
+		<label>
 		".__("Sort by").": 
 		".makeSelect("orderBy", array(
 			"" => __("Post count"),
@@ -214,11 +217,15 @@ if (!$isBot)
 			"karma" => __("Karma"),
 			"reg" => __("Registration date")
 		))." &nbsp;
+		</label>
+		<label>
 		".__("Order").":
 		".makeSelect("order", array(
 			"desc" => __("Descending"),
 			"asc" => __("Ascending"),
 		))." &nbsp;
+		</label>
+		<label>
 		".__("Sex").":
 		".makeSelect("sex", array(
 			"" => __("(any)"),
@@ -226,6 +233,8 @@ if (!$isBot)
 			"f" => __("Female"),
 			"m" => __("Male")
 		))." &nbsp;
+		</label>
+		<label>
 		".__("Power").":
 		".makeSelect("power", array(
 			"" => __("(any)"),
@@ -237,13 +246,16 @@ if (!$isBot)
 			4 => __("Root"),
 			5 => __("System")
 		))."
-		<div style=\"float: right;\">
+		</label>
+	</td>
+	<td style=\"text-align: right;\">
 			<form action=\"javascript:refreshMemberlist();\">
-				<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\" />
-				<button id=\"submitQuery\">&rarr;</button>
+				<div style=\"display:inline-block\">
+					<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\" />
+					<button id=\"submitQuery\">&rarr;</button>
+				</div>
 			</form>
-		</div>
-	</div>
+	</td></tr></table>
 ");
 }
 
