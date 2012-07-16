@@ -41,22 +41,12 @@ $rThreads = Query("	SELECT
 
 $numonpage = NumRows($rThreads);
 
-for($i = $tpp; $i < $total; $i+=$tpp)
-	if($i == $from)
-		$pagelinks .= " ".(($i/$tpp)+1);
-	else
-		$pagelinks .= " <a href=\"./?from=".$i."\">".(($i/$tpp)+1)."</a>";
+$pagelinks = PageLinks(actionLink("", "", "from="), 10, $from, $total);
+
 if($pagelinks)
-{
-	if($from == 0)
-		$pagelinks = " 1".$pagelinks;
-	else
-		$pagelinks = "<a href=\"./\">1</a>".$pagelinks;
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
-}
 
 $haveStickies = 0;
-$ppp = 10;
 
 while($thread = Fetch($rThreads))
 {
