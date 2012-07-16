@@ -21,7 +21,7 @@ foreach($tables as $table)
 	$status = __("OK");
 	if($overhead > 0)
 	{
-		Query("OPTIMIZE TABLE `{$table['Name']}`");
+		Query("OPTIMIZE TABLE `{".$table['Name']."}`");
 		$status = "<strong>".__("Optimized")."</strong>";
 	}
 	
