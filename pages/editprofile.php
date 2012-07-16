@@ -407,7 +407,7 @@ $fallToEditor = true;
 if($_POST['action'] == __("Edit profile"))
 {
 	$fallToEditor = false;
-	$query = "UPDATE {users} SET ";
+	$query = "UPDATE {$dbpref}users SET ";
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
 	
