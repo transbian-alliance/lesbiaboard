@@ -541,7 +541,7 @@ if($_POST['action'] == __("Edit profile"))
 	$query .= join($sets, ", ")." WHERE id = ".$userid;
 	if(!$fallToEditor)
 	{
-		Query($query);
+		RawQuery($query);
 		if($loguserid == $userid)
 		{
 			$loguser = Fetch(Query("select * from {users} where id={0}", $loguserid));
