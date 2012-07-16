@@ -140,7 +140,7 @@ class Settings
 		
 		//These should be alphanumeric with underscores.
 		if($type == "layout" || $type == "theme" || $type == "language")
-			if(!preg_match("/^[a-zA-Z_]+$/", $value))
+			if(!preg_match("/^[a-zA-Z0-9_]+$/", $value))
 				return false;
 			
 		return true;
