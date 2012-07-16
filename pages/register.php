@@ -136,8 +136,7 @@ elseif($_POST['action'] == __("Register"))
 			break;
 	}
 
-	$rIP = Query("select lastip from {users} where lastip={0}", $_SERVER['REMOTE_ADDR']);
-	$ipKnown = NumRows($rIP);
+	$ipKnown = FetchResult("select COUNT(*) from {users} where lastip={0}", $_SERVER['REMOTE_ADDR']);
 
 	if($uname == $cname)
 		$err = __("This user name is already taken. Please choose another.").$backtomain;
@@ -145,8 +144,8 @@ elseif($_POST['action'] == __("Register"))
 		$err = __("The user name must not be empty. Please choose one.").$backtomain;
 	else if(strpos($name, ";") !== false)
 		$err = __("The user name cannot contain semicolons.").$backtomain;
-//	elseif($ipKnown)
-//		$err = __("Another user is already using this IP address.").$backtomain;
+	elseif($ipKnown >= 3)
+		$err = __("Another user is already using this IP address.").$backtomain;
 	else if(!$_POST['readFaq'])
 		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
 	else if(Settings::get("registrationWord") != "" && strcasecmp($_POST['theWord'], Settings::get("registrationWord")))
