@@ -81,14 +81,36 @@ else if($action == "tf")	//Theme File
 	if(!file_exists($themeFile))
 		$themeFile = "themes/$theme/style.php";
 
-	if(file_exists("themes/$theme/logo.png"))
-		$layout_logopic = themeResourceLink("logo.png");
-	else if(file_exists("themes/$theme/logo.jpg"))
-		$layout_logopic = themeResourceLink("logo.jpg");
-	else if(file_exists("themes/$theme/logo.gif"))
-		$layout_logopic = themeResourceLink("logo.gif");
+
+function checkForImage(&$image, $external, $file)
+{
+	global $dataDir, $dataUrl;
+	
+	if($image) return;
+	
+	if($external)
+	{		
+		if(file_exists($dataDir.$file))
+			$image = $dataUrl.$file;
+	}
 	else
-		$layout_logopic = resourceLink("img/logo.png");
+	{
+		if(file_exists($file))
+			$image = $file;
+	}
+}
+
+	checkForImage($layout_logopic, true, "logos/logo_$theme.png");
+	checkForImage($layout_logopic, true, "logos/logo_$theme.jpg");
+	checkForImage($layout_logopic, true, "logos/logo_$theme.gif");
+	checkForImage($layout_logopic, true, "logos/logo.png");
+	checkForImage($layout_logopic, true, "logos/logo.jpg");
+	checkForImage($layout_logopic, true, "logos/logo.gif");
+	checkForImage($layout_logopic, false, "themes/$theme/logo.png");
+	checkForImage($layout_logopic, false, "themes/$theme/logo.jpg");
+	checkForImage($layout_logopic, false, "themes/$theme/logo.gif");
+	checkForImage($layout_logopic, false, "themes/$theme/logo.png");
+	checkForImage($layout_logopic, false, "img/logo.png");
 
 	die($themeFile."|".$layout_logopic);
 }
