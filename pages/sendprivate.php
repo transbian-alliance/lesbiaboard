@@ -14,7 +14,7 @@ if(!$loguserid) //Not logged in?
 $pid = (int)$_GET['pid'];
 if($pid)
 {
-	$rPM = Query("select * from {pmsgs} left join pmsgs_text on pid = pmsgs.id where userto = {0} and pmsgs.id = {1}", $loguserid, $pid);
+	$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = pmsgs.id where userto = {0} and pmsgs.id = {1}", $loguserid, $pid);
 	if(NumRows($rPM))
 	{
 		$sauce = Fetch($rPM);

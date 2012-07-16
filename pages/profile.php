@@ -65,6 +65,8 @@ if($loguserid)
 		$vote = (int)$_GET['vote'];
 		if($vote > 1) $vote = 1 ;
 		if($vote < -1) $vote = -1;
+		// TODO: this could be considerably simplified
+		// (INSERT ... ON DUPLICATE KEY UPDATE and primary index on uid+voter)
 		$k = FetchResult("select count(*) from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
 		if($k == 0)
 			$_qKarma = "insert into uservotes (uid, voter, up) values ({0}, {1}, {2})";
@@ -414,7 +416,7 @@ function IsReallyEmpty($subject)
 function IP2C($ip)
 {
 	global $dblink;
-	$q = @Query("select {cc} from ip2c where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
+	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
 	if($q) $r = @Fetch($q);
 	if($r['cc'])
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";

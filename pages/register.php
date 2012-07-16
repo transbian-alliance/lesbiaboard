@@ -177,7 +177,7 @@ elseif($_POST['action'] == __("Register"))
 	$rUsers = Query("insert into {users} (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {4}, {4}, {5}, {6}, {7}, {8})", $uid, $_POST['name'], $sha, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], (int)$_POST['sex'], Settings::get("defaultTheme"));
 
 	if($uid == 1)
-		Query("update {users} set powerlevel = 4 where id = 1;");
+		Query("update {users} set powerlevel = 4 where id = 1");
 
 	Report("New user: [b]".$_POST['name']."[/] (#".$uid.") -> [g]#HERE#?uid=".$uid);
 

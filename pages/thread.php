@@ -253,7 +253,7 @@ if(isset($_GET['from']))
 	$from = $_GET['from'];
 else
 	if(isset($pid))
-		$from = (floor(FetchResult("SELECT COUNT(*) FROM {posts} WHERE thread=".$tid." AND date<=".$post['date']." AND id!=".$pid) / $ppp)) * $ppp;
+		$from = (floor(FetchResult("SELECT COUNT(*) FROM {posts} WHERE thread={1} AND date<={2} AND id!={0}", $pid, $tid, $post['date']) / $ppp)) * $ppp;
 	else
 		$from = 0;
 
