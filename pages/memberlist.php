@@ -64,7 +64,7 @@ if($query != "") {
 if(!(isset($pow) && $pow == 5))
 	$where.= " and powerlevel < 5";
 
-$numUsers = FetchResult("select count(*) from {users} where ".$where);
+$numUsers = FetchResult("select count(*) from {users} where ".$where, null, null, $pow, "%{$query}%");
 
 $rUsers = Query("select * from {users} where ".$where." order by ".$order.", name asc limit {0},{1}", $from, $tpp, $pow, "%{$query}%");
 
