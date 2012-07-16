@@ -48,7 +48,7 @@ if(isset($_POST["_plugin"]))
 			$invalidsettings[$key] = true;
 		}
 		else
-			Settings::$pluginsettings[$plugin][$key] = $value;
+			Settings::$settingsArray[$plugin][$key] = $value;
 	}
 
 	if($valid)
