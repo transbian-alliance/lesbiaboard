@@ -74,6 +74,6 @@ function getOnlineUsersText()
 
 	$onlineUsers = OnlineUsers($OnlineUsersFid);
 
-	return "<span id=\"onlineUsers\">$onlineUsers</span>$refreshCode";
+	return "<div style=\"line-height:18px;\" id=\"onlineUsers\">$onlineUsers</div>$refreshCode";
 }
 ?>
