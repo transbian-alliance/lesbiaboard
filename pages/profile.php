@@ -101,8 +101,12 @@ $averageThreads = sprintf("%1.02f", $threads / $daysKnown);
 
 $score = ((int)$daysKnown * 2) + ($posts * 4) + ($threads * 8) + (($karma - 100) * 3);
 
-if($user['minipic'])
-	$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" style=\"vertical-align: middle;\" />&nbsp;";
+$minipic = "";
+if($user["minipic"] == "#INTERNAL#")
+	$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
+else if($user["minipic"])
+	$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
+
 
 if($user['rankset'])
 {

@@ -356,7 +356,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 		</table>
 	</form>
-",	$ninja, htmlspecialchars($postingAsUser['name']), $_POST['password'], $prefill, $moodOptions, $nopl, $nosm, $tid, $mod, $nobr);
+",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod, $nobr);
 }
 
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
