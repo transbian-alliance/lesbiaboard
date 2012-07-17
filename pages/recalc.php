@@ -82,7 +82,7 @@ while($forum = Fetch($rForum))
 	while($thread = Fetch($rThread))
 	{
 		print "&raquo; ".htmlspecialchars($thread['title'])."<br/>";
-		$lastPost = Fetch(Query("select * from {posts} where thread = {0} order by date desc limit 0,1"), $thread['id']);
+		$lastPost = Fetch(Query("select * from {posts} where thread = {0} order by date desc limit 0,1", $thread['id']));
 		print "&raquo; &raquo; Last post ID is ".$lastPost['id']." by user #".$lastPost['user']."<br/>";
 		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2} where id = {3}", (int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], $thread['id']);
 		if($first)
