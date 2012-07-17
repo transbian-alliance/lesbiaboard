@@ -62,6 +62,7 @@ function Query()
 	$query = $args[0];
 	// expand compacted field lists
 	$query = preg_replace("@(\w+)\.\(\*\)@s", '$1.*', $query);
+	$query = str_replace(".(_userfields)", ".(id,name,displayname,powerlevel,sex)", $query);
 	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
 	// add table prefixes
 	$query = preg_replace("@\{(\w{2,})\}@s", $dbpref.'$1', $query);
@@ -143,6 +144,17 @@ function InsertId()
 {
 	global $dblink;
 	return $dblink->insert_id;
+}
+
+function getDataPrefix($data, $pref)
+{
+	$res = array();
+
+	foreach($data as $key=>$val)
+		if(substr($key, 0, strlen($pref)) == $pref)
+			$res[substr($key, strlen($pref))] = $val;
+
+	return $res;
 }
 
 ?>

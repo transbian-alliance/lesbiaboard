@@ -85,8 +85,8 @@ if(!$tpp) $tpp = 50;
 $rThreads = Query("	SELECT 
 						t.*,
 						".($loguserid ? "tr.date readdate," : '')."
-						su.id suid, su.name suname, su.displayname sudisplayname, su.powerlevel supowerlevel, su.sex susex,
-						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
+						su.(_userfields),
+						lu.(_userfields)
 					FROM 
 						{threads} t
 						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={3}" : '')."

@@ -6,11 +6,11 @@ function listThread($thread, $cellClass)
 	
 	$forumList = "";
 	
-	$user = array('id'=>$thread['suid'], 'name'=>$thread['suname'], 'displayname'=>$thread['sudisplayname'], 'powerlevel'=>$thread['supowerlevel'], 'sex'=>$thread['susex']);
+	$user = getDataPrefix($thread, "su_");
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$starter = $user;
 	
-	$user = array('id'=>$thread['luid'], 'name'=>$thread['luname'], 'displayname'=>$thread['ludisplayname'], 'powerlevel'=>$thread['lupowerlevel'], 'sex'=>$thread['lusex']);
+	$user = getDataPrefix($thread, "lu_");
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$last = $user;
 
