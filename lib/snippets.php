@@ -397,10 +397,10 @@ function formatIP($ip)
 			<input type=\"hidden\" name=\"reason\" value=\"\">
 			<input type=\"hidden\" name=\"days\" value=\"0\">
 			<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
-			<input type=\"submit\" value=\"BAN!!\">
+			<input type=\"submit\" value=\"Ban\">
 		</form>";
 	}
-	return $res;
+	return "<span style=\"white-space:nowrap;\">{$res}</span>";
 }
 
 
