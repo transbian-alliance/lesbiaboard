@@ -63,13 +63,13 @@ if(NumRows($rUsers))
 			</td>
 ".($loguser['powerlevel'] > 0 ? "
 			<td>
-				{6} {7}
+				{6}
 			</td>
 " : "")."
 		</tr>
 	",	$cellClass, $i, UserLink($user), cdate("d-m-y G:i:s", $user['lastactivity']),
 		($user['lastposttime'] ? cdate("d-m-y G:i:s",$user['lastposttime']) : __("Never")),
-		$lastUrl, $user['lastip'], IP2C($user['lastip']));
+		$lastUrl, formatIP($user['lastip']));
 		$i++;
 	}
 }
@@ -95,11 +95,11 @@ if(NumRows($rGuests))
 			<td title=\"{2}\">{3}</td>
 			<td>{4}</td>
 			<td>{5}</td>
-			<td>{6} {7}</td>
+			<td>{6}</td>
 		</tr>
 ",	$cellClass, $i, htmlspecialchars($guest['useragent']),
 	htmlspecialchars(substr($guest['useragent'], 0, 65)), cdate("d-m-y G:i:s", $guest['date']),
-	$lastUrl, $guest['ip'], IP2C($guest['ip']));
+	$lastUrl, formatIP($guest['ip']));
 		$i++;
 	}
 }
@@ -129,7 +129,7 @@ if(NumRows($rBots))
 		</tr>
 ",	$cellClass, $i, htmlspecialchars($bot['useragent']),
 	htmlspecialchars(substr($bot['useragent'], 0, 65)), cdate("d-m-y G:i:s", $bot['date']),
-	$lastUrl, $bot['ip']);
+	$lastUrl, formatIP($bot['ip']));
 		$i++;
 	}
 } else
@@ -199,16 +199,6 @@ write(
 		{2}
 	</table>
 ", $userList, $guestList, $botList);
-
-
-function IP2C($ip)
-{
-	global $dblink;
-	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
-	if($q) $r = @Fetch($q);
-	if($r['cc'])
-		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
-}
 
 function FilterURL($url)
 {

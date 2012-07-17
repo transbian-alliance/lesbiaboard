@@ -54,9 +54,6 @@ if($isMod)
 				{2}
 			</td>
 			<td>
-				{3}
-			</td>
-			<td>
 				{4}
 			</td>
 			<td>
@@ -91,7 +88,7 @@ while($user = Fetch($peeps))
 	$lkb = str_replace("-->", "", str_replace("<!--", " &mdash;", $lkb));
 
 	$cellClass = ($cellClass+1) % 2;
-	$items .= format($format, $cellClass, $user['id'], UserLink($user), IP2C($lip), $lip, $lkb);
+	$items .= format($format, $cellClass, $user['id'], UserLink($user), IP2C($lip), formatIP($lip), $lkb);
 }
 
 if($isMod)
@@ -103,9 +100,6 @@ if($isMod)
 			</th>
 			<th>
 				".__("Name")."
-			</th>
-			<th>
-				&nbsp;
 			</th>
 			<th>
 				".__("IP")."
@@ -137,14 +131,5 @@ else
 		{0}
 	</table>
 ", $items);
-
-function IP2C($ip)
-{
-	global $dblink;
-	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
-	if($q) $r = @Fetch($q);
-	if($r['cc'])
-		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
-}
 
 ?>

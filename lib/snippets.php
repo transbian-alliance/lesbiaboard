@@ -383,4 +383,34 @@ function getSexName($sex) {
 
 	return $sexes[$sex];
 }
+
+function formatIP($ip)
+{
+	global $loguser;
+	
+	$res = $ip;
+	$res .=  " " . IP2C($user['lastip']);
+	if($loguser["powerlevel"] >= 3)
+	{
+		$res = "<form action=\"".actionLink('ipbans')."\" method=\"post\">$res
+			<input type=\"hidden\" name=\"ip\" value=\"$ip\">
+			<input type=\"hidden\" name=\"reason\" value=\"\">
+			<input type=\"hidden\" name=\"days\" value=\"0\">
+			<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
+			<input type=\"submit\" value=\"BAN!!\">
+		</form>";
+	}
+	return $res;
+}
+
+
+function IP2C($ip)
+{
+	global $dblink;
+	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
+	if($q) $r = @Fetch($q);
+	if($r['cc'])
+		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
+}
+
 ?>

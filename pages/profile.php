@@ -171,7 +171,7 @@ $foo[__("Registered on")] = format("{0} ({1} ago)", formatdate($user['regdate'])
 $foo[__("Score")] = $score;
 $foo[__("Browser")] = $user['lastknownbrowser'];
 if($loguser['powerlevel'] > 0)
-	$foo[__("Last known IP")] = $user['lastip'] . " " . IP2C($user['lastip']);	
+	$foo[__("Last known IP")] = formatIP($user['lastip']);	
 $profileParts[__("General information")] = $foo;
 
 $foo = array();
@@ -411,15 +411,6 @@ function IsReallyEmpty($subject)
 {
 	$trimmed = trim(preg_replace("/&.*;/", "", $subject));
 	return strlen($trimmed) != 0;
-}
-
-function IP2C($ip)
-{
-	global $dblink;
-	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
-	if($q) $r = @Fetch($q);
-	if($r['cc'])
-		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 }
 
 

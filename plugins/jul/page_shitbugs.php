@@ -44,19 +44,10 @@ foreach ($shitbugs as $foo)
 				{$date}
 			</td>
 			<td>
-				{$foo['ip']}
+				".formatIP($foo['ip'])."
 			</td>
 			<td>
 				{$userlisting}
-			</td>
-			<td>
-				<form action=\"".actionLink('ipbans')."\" method=\"post\">
-					<input type=\"hidden\" name=\"ip\" value=\"{$foo['ip']}\">
-					<input type=\"hidden\" name=\"reason\" value=\"mean script kiddy\">
-					<input type=\"hidden\" name=\"days\" value=\"0\">
-					<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
-					<input type=\"submit\" value=\"BAN!!\">
-				</form>
 			</td>
 		</tr>
 ";
