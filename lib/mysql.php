@@ -64,7 +64,7 @@ function Query()
 	$query = preg_replace("@(\w+)\.\(\*\)@s", '$1.*', $query);
 	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
 	// add table prefixes
-	$query = preg_replace("@\{(\w{2,})\}@s", $dbpref.'$1', $query);
+	$query = preg_replace("@\{([a-z]\w*)\}@si", $dbpref.'$1', $query);
 	// add the user input
 	$query = preg_replace_callback("@\{(\d+)\}@s", 'Query_AddUserInput', $query);
 
