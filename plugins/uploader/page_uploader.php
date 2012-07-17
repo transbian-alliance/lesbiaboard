@@ -108,18 +108,18 @@ else if($loguserid && $_GET['action'] == "multidel" && $_POST['del']) //several 
 	foreach($_POST['del'] as $fid => $on)
 	{
 		if($loguser['powerlevel'] > 2)
-			$check = FetchResult("select count(*) from {uploader} where id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 		else
-			$check = FetchResult("select count(*) from {uploader} where user = ".$loguserid." and id = ".$fid, 0, 0);
+			$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
 
 		if($check)
 		{
-			$entry = Fetch(Query("select * from {uploader} where id = ".$fid));
+			$entry = Fetch(Query("select * from {uploader} where id = {0}", $fid));
 			if($entry['private'])
 				@unlink($rootdir."/".$entry['user']."/".$entry['filename']);
 			else
 				@unlink($rootdir."/".$entry['filename']);
-			Query("delete from {uploader} where id = ".$fid);
+			Query("delete from {uploader} where id = {0}", $fid);
 			$deleted++;
 		}
 	}
@@ -130,18 +130,18 @@ else if($_GET['action'] == "delete") //single file
 	$fid = (int)$_GET['fid'];
 
 	if($loguser['powerlevel'] > 2)
-		$check = FetchResult("select count(*) from {uploader} where id = ".$fid, 0, 0);
+		$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 	else
-		$check = FetchResult("select count(*) from {uploader} where user = ".$loguserid." and id = ".$fid, 0, 0);
+		$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
 	
 	if($check)
 	{
-		$entry = Fetch(Query("select * from {uploader} where id = ".$fid));
+		$entry = Fetch(Query("select * from {uploader} where id = {0}", $fid));
 		if($entry['private'])
 			@unlink($rootdir."/".$entry['user']."/".$entry['filename']);
 		else
 			@unlink($rootdir."/".$entry['filename']);
-		Query("delete from {uploader} where id = ".$fid);
+		Query("delete from {uploader} where id = {0}", $fid);
 		Report("[b]".$loguser['name']."[/] deleted \"[b]".$entry['filename']."[/]\".", 1);
 		Alert(format(__("Deleted \"{0}\"."), $entry['filename']), __("Okay"));
 	}
@@ -176,7 +176,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 	if($loguser['powerlevel'] > 2)
 		$entries = Query("select {uploader}.*, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex from {uploader} left join {users} on {uploader}.user = {users}.id where {uploader}.private = 1 order by user, ".$skey.$sdir);
 	else
-		$entries = Query("select {uploader}.*, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex from {uploader} left join {users} on {uploader}.user = {users}.id where {uploader}.user = ".$loguserid." and {uploader}.private = 1 order by ".$skey.$sdir);
+		$entries = Query("select {uploader}.*, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex from {uploader} left join {users} on {uploader}.user = {users}.id where {uploader}.user = {0} and {uploader}.private = 1 order by ".$skey.$sdir, $loguserid);
 
 	if(NumRows($entries) == 0)
 	{

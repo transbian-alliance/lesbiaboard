@@ -14,10 +14,10 @@ $qPosts = "select
 	left join {users} on {users}.id = {posts}.user 
 	left join {threads} on {threads}.id = {posts}.thread 
 	left join {forums} on {threads}.forum = {forums}.id
-	where {forums}.minpower <= ".$loguser['powerlevel']." and {posts}.date >= ".(time() - ($hours * 60*60))." 
-	order by date desc limit 0, $limit";
+	where {forums}.minpower <= {0} and {posts}.date >= {1}
+	order by date desc limit 0, {2}";
 
-$rPosts = Query($qPosts);
+$rPosts = Query($qPosts, $loguser['powerlevel'], (time() - ($hours * 60*60)), $limit);
 
 while($post = Fetch($rPosts))
 {

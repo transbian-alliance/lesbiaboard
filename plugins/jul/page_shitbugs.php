@@ -31,7 +31,7 @@ foreach ($shitbugs as $foo)
 	$date = formatdate($foo['date']);
 	
 	$userlisting = '';
-	$users = Query("SELECT name FROM {users} WHERE lastip='{$foo['ip']}' ORDER BY name");
+	$users = Query("SELECT name FROM {users} WHERE lastip={0} ORDER BY name", $foo['ip']);
 	while ($user = Fetch($users))
 		$userlisting .= htmlspecialchars($user['name']).', ';
 		
