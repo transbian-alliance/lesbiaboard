@@ -122,10 +122,10 @@ function doThreadPreview($tid)
 		select 
 			{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, 
 			{posts_text}.text, {posts_text}.text, {posts_text}.revision, 
-			{users}.(_userfields)
+			u.(_userfields)
 		from {posts} 
 		left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision 
-		left join {users} on {users}.id = {posts}.user
+		left join {users} u on u.id = {posts}.user
 		where thread={0} and deleted=0 
 		order by date desc limit 0, 20", $tid);
 	
@@ -136,7 +136,7 @@ function doThreadPreview($tid)
 		{
 			$cellClass = ($cellClass+1) % 2;
 
-			$poster = getDataPrefix($post, "users_");
+			$poster = getDataPrefix($post, "u_");
 			$poster['id'] = $post['uid'];
 
 			$nosm = $post['options'] & 2;

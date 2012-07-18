@@ -63,7 +63,7 @@ $rFora = Query("	SELECT f.*,
 						".($loguserid ? "(NOT ISNULL(i.fid))" : "0")." ignored,
 						(SELECT COUNT(*) FROM {threads} t".($loguserid ? " LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={0}" : "")."
 							WHERE t.forum=f.id AND t.lastpostdate>".($loguserid ? "IFNULL(tr.date,0)" : time()-900).") numnew,
-						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
+						lu.(_userfields)
 					FROM {forums} f
 						LEFT JOIN {categories} c ON c.id=f.catid
 						".($loguserid ? "LEFT JOIN {ignoredforums} i ON i.fid=f.id AND i.uid={0}" : "")."
@@ -71,10 +71,10 @@ $rFora = Query("	SELECT f.*,
 					WHERE f.minpower<={1}".(($pl < 1) ? " AND f.hidden=0" : '')."
 					ORDER BY c.corder, c.id, f.forder, f.id", $loguserid, $pl);
 
-$rMods = Query("SELECT m.forum, u.id, u.name, u.displayname, u.powerlevel, u.sex FROM {forummods} m LEFT JOIN {users} u ON m.user=u.id");
+$rMods = Query("SELECT m.forum, u.(_userfields) FROM {forummods} m LEFT JOIN {users} u ON m.user=u.id");
 $mods = array();
 while($mod = Fetch($rMods))
-	$mods[$mod['forum']][] = $mod;
+	$mods[$mod['forum']][] = getDataPrefix($mod, "u_");
 
 $theList = "";
 while($forum = Fetch($rFora))
@@ -122,7 +122,7 @@ while($forum = Fetch($rFora))
 
 	if($forum['lastpostdate'])
 	{
-		$user = array('id'=>$forum['luid'], 'name'=>$forum['luname'], 'displayname'=>$forum['ludisplayname'], 'powerlevel'=>$forum['lupowerlevel'], 'sex'=>$forum['lusex']);
+		$user = getDataPrefix($forum, "lu_");
 		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		
 		$lastLink = "";

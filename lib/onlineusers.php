@@ -22,10 +22,11 @@ function OnlineUsers($forum = 0, $update = true)
 		$browseLocation = format(__("browsing {0}"), $forumName);
 	}
        
-	$rOnlineUsers = Query("select id,name,displayname,sex,powerlevel,lastactivity,lastposttime,minipic from {users} where (lastactivity > {0} or lastposttime > {0}) and loggedin = 1 ".$forumClause." order by name", time()-300, $forum);
+	$rOnlineUsers = Query("select u.(_userfields) from {users} u where (lastactivity > {0} or lastposttime > {0}) and loggedin = 1 ".$forumClause." order by name", time()-300, $forum);
 	$onlineUserCt = 0;
 	while($user = Fetch($rOnlineUsers))
 	{
+		$user = getDataPrefix($user, "u_");
 		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		$loggedIn = ($user['lastpost'] <= $user['lastview']);
 		$userLink = UserLink($user, "id", true);

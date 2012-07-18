@@ -150,10 +150,10 @@ function MakeUserAtLink($matches)
 		}
 	}
 	//Didn't find it in the cache.
-	$rUser = Query("select id, name, displayname, powerlevel, sex from {users} where name={0} or displayname={0}", $username);
+	$rUser = Query("select u.(_userfields) from {users} u where name={0} or displayname={0}", $username);
 	if(NumRows($rUser))
 	{
-		$hit = Fetch($rUser);
+		$hit = getDataPrefix(Fetch($rUser), "u_");
 		$members[$hit['id']] = $hit;
 		return UserLink($hit);
 	}
@@ -388,7 +388,7 @@ function MakePost($post, $type, $params=array())
 		$meta .= __(', deleted');
 		if ($post['deletedby'])
 		{
-			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['du_name'], 'displayname'=>$post['du_dn'], 'powerlevel'=>$post['du_power'], 'sex'=>$post['du_sex']));
+			$db_link = UserLink(getDataPrefix($post, "du_"));
 			$meta .= __(' by ').$db_link;
 			
 			if ($post['reason'])
@@ -419,7 +419,7 @@ function MakePost($post, $type, $params=array())
 				</td>
 			</tr>
 		</table>
-",	$post['id'], UserLink($post, "uid"), $meta, $links
+",	$post['id'], UserLink(getDataPrefix($post, "u_")), $meta, $links
 );
 		return;
 	}
@@ -500,7 +500,7 @@ function MakePost($post, $type, $params=array())
 		{
 			if ($post['revuser'])
 			{
-				$ru_link = UserLink(array('id'=>$post['revuser'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+				$ru_link = UserLink(getDataPrefix($post, "du_"));
 				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
 			}
 			else
@@ -618,7 +618,7 @@ function MakePost($post, $type, $params=array())
 
 	write($postCode,
 			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
-			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
+			UserLink(getDataPrefix($post, "u_")), $sideBarStuff, $meta, $links,
 			"", $postText, "", "", $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
 }

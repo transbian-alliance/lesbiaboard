@@ -158,9 +158,9 @@ function UserLinkById($id)
 	
 	if(!isset($userlinkCache[$id]))
 	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id={0}", $id);
+		$rUser = Query("select u.(_userfields) from users u where u.id={0}", $id);
 		if(NumRows($rUser))
-			$userlinkCache[$id] = Fetch($rUser);
+			$userlinkCache[$id] = getDataPrefix(Fetch($rUser), "u_");
 		else
 			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1);
 	}

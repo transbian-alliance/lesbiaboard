@@ -34,7 +34,7 @@ if(!$canMod && $thread['user'] != $loguserid)
 
 $OnlineUsersFid = $thread['forum'];
 
-$rFora = Query("select minpower from {forums} where id={0}", $thread['forum']);
+$rFora = Query("select minpower, title from {forums} where id={0}", $thread['forum']);
 
 if(NumRows($rFora))
 	$forum = Fetch($rFora);

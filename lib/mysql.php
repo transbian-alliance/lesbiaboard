@@ -60,12 +60,15 @@ function Query()
 	if (is_array($args[0])) $args = $args[0];
 	
 	$query = $args[0];
+
 	// expand compacted field lists
 	$query = preg_replace("@(\w+)\.\(\*\)@s", '$1.*', $query);
 	$query = str_replace(".(_userfields)", ".(id,name,displayname,powerlevel,sex)", $query);
 	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
+
 	// add table prefixes
 	$query = preg_replace("@\{([a-z]\w*)\}@si", $dbpref.'$1', $query);
+
 	// add the user input
 	$query = preg_replace_callback("@\{(\d+)\}@s", 'Query_AddUserInput', $query);
 
@@ -154,6 +157,7 @@ function getDataPrefix($data, $pref)
 		if(substr($key, 0, strlen($pref)) == $pref)
 			$res[substr($key, strlen($pref))] = $val;
 
+	$res["displayname"] = "TROLOL";
 	return $res;
 }
 

@@ -304,45 +304,5 @@ write("
 	</table>
 ");
 
-$rPosts = Query("select 
-{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.sex, {users}.posts
-from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user
-where thread={0} and deleted=0 order by date desc limit 0, 20", $tid);
-if(NumRows($rPosts))
-{
-	$posts = "";
-	while($post = Fetch($rPosts))
-	{
-		$cellClass = ($cellClass+1) % 2;
+doThreadPreview($tid);
 
-		$poster = $post;
-		$poster['id'] = $post['uid'];
-
-		$nosm = $post['options'] & 2;
-		$nobr = $post['options'] & 4;
-
-		$posts .= Format(
-"
-		<tr>
-			<td class=\"cell2\" style=\"width: 15%; vertical-align: top;\">
-				{1}
-			</td>
-			<td class=\"cell{0}\">
-				<button style=\"float: right;\" onclick=\"insertQuote({2});\">".__("Quote")."</button>
-				<button style=\"float: right;\" onclick=\"insertChanLink({2});\">".__("Link")."</button>
-				{3}
-			</td>
-		</tr>
-",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm, $nobr));
-	}
-	Write(
-"
-	<table class=\"outline margin\">
-		<tr class=\"header0\">
-			<th colspan=\"2\">".__("Thread review")."</th>
-		</tr>
-		{0}
-	</table>
-",	$posts);
-}
-?>
