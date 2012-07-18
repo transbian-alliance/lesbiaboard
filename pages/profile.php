@@ -26,6 +26,13 @@ if($id == $loguserid)
 }
 
 $canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
+$canComment = true;
+
+if($loguser['powerlevel'] < 0)
+{
+	$canDeleteComments = false;
+	$canComment = false;
+}
 
 if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
 {
@@ -268,7 +275,7 @@ if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $logus
 }
 
 if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $loguserid 
-	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'])
+	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'] && $canComment)
 {
 	AssertForbidden("makeComments");
 
@@ -323,7 +330,7 @@ else
 
 //print "lastCID: ".$lastCID;
 
-if($loguserid)
+if($loguserid )
 {
 	$commentField = format(
 "
@@ -338,7 +345,7 @@ if($loguserid)
 ", $id);
 //	if($lastCID == $loguserid)
 //		$commentField = __("You already have the last word.");
-	if(!IsAllowed("makeComments"))
+	if(!IsAllowed("makeComments") || !$canComment)
 		$commentField = __("You are not allowed to post usercomments.");
 }
 
