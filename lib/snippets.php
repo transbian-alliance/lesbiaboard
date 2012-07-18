@@ -376,9 +376,9 @@ function getPowerlevelName($pl) {
 
 function getSexName($sex) {
 	$sexes = array(
-		0 => __("N/A"),
+		0 => __("Male"),
 		1 => __("Female"),
-		2 => __("Male")
+		2 => __("N/A"),
 	);
 
 	return $sexes[$sex];
