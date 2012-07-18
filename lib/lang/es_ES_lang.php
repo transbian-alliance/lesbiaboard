@@ -118,13 +118,13 @@ $languagePack = array(
 'El tema no tiene título',
 
 'You need to enter at least two options to make a poll.' =>
-'',
+'Necesitas introducir dos o más opciones para hacer una encuesta.',
 
 'Invalid poll.' =>
-'',
+'Encuesta inválida',
 
 'You need to enter a poll question to make a poll.' =>
-'',
+'Necesitas introducir una pregunta para hacer una encuesta.',
 
 'You\'re going too damn fast! Slow down a little.' =>
 'Vas demasiado rápido!',
@@ -151,10 +151,10 @@ $languagePack = array(
 'Tipo',
 
 'Delete poll' =>
-'',
+'Eliminar encuesta',
 
 'Add poll' =>
-'',
+'Añadir encuesta',
 
 'Title' =>
 'Título',
@@ -198,7 +198,7 @@ $languagePack = array(
 'Página',
 
 'Nothing matched your search.' =>
-'',
+'No se han encontrado resultados.',
 
 'Picture' =>
 'Imagen',
@@ -225,7 +225,7 @@ $languagePack = array(
 'Ordenar por',
 
 'Post count' =>
-'',
+'Número de posts',
 
 'ID' =>
 'ID',
@@ -246,7 +246,7 @@ $languagePack = array(
 'Sexo',
 
 '(any)' =>
-'',
+'(cualquiera)',
 
 'N/A' =>
 'No especificado',
@@ -279,21 +279,21 @@ $languagePack = array(
 'Fundador',
 
 'System' =>
-'',
+'Sistema',
 
 'Search' =>
 'Buscar',
 
 'Loading memberlist...' =>
-'',
+'Cargando miembros...',
 
 
 // pages/editfora.php
 'Edit forums' =>
-'',
+'Editar foros',
 
 'You\'re not allowed to access the forum editor.' =>
-'',
+'No tienes permiso para acceder al editor de foros',
 
 'Edit forum list' =>
 'Editar lista de foros',
@@ -302,34 +302,34 @@ $languagePack = array(
 'No.',
 
 'Forum has threads. Move those first.' =>
-'',
+'El foro tiene temas, muevelos primero.',
 
 'No such category.' =>
-'',
+'No se encuentra la categoría',
 
 'Unknown action: {0}' =>
-'',
+'Acción desconocida: {0}',
 
 'No categories' =>
-'',
+'No hay categorías',
 
 'Forum not found.' =>
-'',
+'Foro no encontrado',
 
 'Update' =>
 'Actualizar',
 
 'Edit Forum' =>
-'',
+'Editar foro',
 
 'Delete' =>
 'Eliminar',
 
 'New Forum' =>
-'',
+'Nuevo foro',
 
 'Description goes here. <strong>HTML allowed.</strong>' =>
-'',
+'Descripción del foro',
 
 'Add' =>
 'Añadir',
@@ -497,7 +497,7 @@ $languagePack = array(
 'Te apetece {0}?',
 
 'post something' =>
-'',
+'postear algo',
 
 '{0} so you can post something.' =>
 '{0} para poder postear algo.',
@@ -831,7 +831,7 @@ $languagePack = array(
 'Plugins inactivos',
 
 'Made by:' =>
-'',
+'Por:',
 
 'Enable' =>
 'Activar',
@@ -1177,7 +1177,7 @@ $languagePack = array(
 'No puedes hacer un post doble en menos de un día.',
 
 'Sorry' =>
-'',
+'Perdón',
 
 'You got ninja\'d. You might want to review the post made while you were typing before you submit yours.' =>
 'Has sido ninjado. Probablemente quieras revisar el post que alguien ha hecho mientras escribías el tuyo antes de enviarlo.',
@@ -1388,7 +1388,7 @@ $languagePack = array(
 'El nombre visible no puede contener puntos y comas.',
 
 'The display name you entered cannot contain control characters.' =>
-'',
+'El nombre visible no puede tener caracteres de control.',
 
 'The login name you entered, "{0}", is already taken.' =>
 'El nombre de usuario "{0}" ya está en uso.',
@@ -1397,7 +1397,7 @@ $languagePack = array(
 'El nombre de usuario no puede contener puntos y coma.',
 
 'The login name you entered cannot contain control characters.' =>
-'',
+'El nombre de usuario no puede tener caracteres de control',
 
 'If you don\'t know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible.' =>
 'Si no sabes porqué, puedes preguntar a quién crees que ha sido el responsable. Con tranquilidad, si puede ser.',
@@ -1548,10 +1548,10 @@ $languagePack = array(
 'Registro',
 
 'Time' =>
-'',
+'Fecha',
 
 'Event' =>
-'',
+'Evento',
 
 
 // pages/editavatars.php
@@ -1739,20 +1739,20 @@ $languagePack = array(
 
 // plugins/profilefields/profileTable.php
 'Other stuff' =>
-'',
+'Otros',
 
 
 // plugins/profilefields/edituser.php
 'Caption for #{0}' =>
-'',
+'Título #{0}',
 
 'Value for #{0}' =>
-'',
+'Valor #{0}',
 
 
 // plugins/profilefields/settingsfile.php
 'Number of fields' =>
-'',
+'Número de campos',
 
 
 // plugins/spritedb/topMenu.php
@@ -1791,16 +1791,16 @@ $languagePack = array(
 'Tipo de archivo no permitido',
 
 'File "{0}" has been uploaded.' =>
-'',
+'El archivo "{0}" ha sido subido.',
 
 'You must be logged in to upload.' =>
 'Debes haber iniciado sesión para subir archivos.',
 
 'file' =>
-'',
+'archivo',
 
 'Deleted "{0}".' =>
-'',
+'"{0}" ha sido eliminado.',
 
 'No such file or not yours to mess with.' =>
 'Archivo no encontrado, o no tuyo.',
@@ -1812,16 +1812,16 @@ $languagePack = array(
 'Tamaño',
 
 'Private Files' =>
-'',
+'Achivos privados',
 
 'Your personal folder is empty.' =>
-'',
+'Tu carpeta personal está vacía.',
 
 'Public Files' =>
-'',
+'Archivos públicos.',
 
 'The uploader is empty.' =>
-'',
+'No hay archivos.',
 
 'The maximum upload size is {0} per file. You can upload the following types: {2}.' =>
 'Tamaño máximo de archivo: {0}. Tipos permitidos: {2}.',
@@ -1833,13 +1833,13 @@ $languagePack = array(
 'Tipo de archivo no permitido',
 
 'Status' =>
-'',
+'Estado',
 
 'Public space usage: {0} of {1}' =>
-'',
+'Espacio utilizado: {0} de {1}',
 
 'Personal folder space usage: {0} of {1}' =>
-'',
+'Espacio privado utilizado: {0} de {1}',
 
 
 // plugins/groups/topMenu.php
@@ -2329,7 +2329,7 @@ $languagePack = array(
 
 // plugins/buildspage/topMenu.php
 'Downloads' =>
-'',
+'Descargas',
 
 
 // plugins/categoryuploader/page_uploaderlist.php
@@ -2356,7 +2356,7 @@ $languagePack = array(
 
 // plugins/multilinguage/profileTable.php
 'Language' =>
-'',
+'Idioma',
 
 
 // get.php
@@ -2654,10 +2654,10 @@ $languagePack = array(
 'Posteado en {0}',
 
 ', deleted' =>
-'',
+', eliminado',
 
 ' by ' =>
-'',
+' por ',
 
 'Undelete' =>
 'Restaurar',

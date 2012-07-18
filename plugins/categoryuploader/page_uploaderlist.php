@@ -38,13 +38,13 @@ function listCategory($cat)
 	else if($cat == -2 && $loguser['powerlevel'] > 2)
 		$condition = "uploader.private = 1";
 	else
-		$condition = "uploader.private = 0 and uploader.category = $cat";
+		$condition = "uploader.private = 0 and uploader.category = {0}";
 	
 	$errormsg = __("The category is empty.");
 	if($cat < 0)
 		$errormsg = __("You have no private files.");
 		
-	$entries = Query("select {uploader}.*, $userSelectUsers from uploader left join users on uploader.user = users.id where $condition order by ".$skey.$sdir);
+	$entries = Query("select {uploader}.*, $userSelectUsers from uploader left join users on uploader.user = users.id where $condition order by ".$skey.$sdir, $cat);
 
 	$checkbox = "";
 	if($loguserid)
@@ -190,8 +190,7 @@ function getCategory($cat)
 
 	if($cat >= 0)
 	{
-		$qCategory = "select * from {uploader_categories} where id=".$cat;
-		$rCategory = Query($qCategory);
+		$rCategory = Query("select * from {uploader_categories} where id={0}", $cat);
 		if(NumRows($rCategory) == 0) Kill("Invalid category");
 		$rcat = Fetch($rCategory);
 	}

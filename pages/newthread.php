@@ -224,7 +224,7 @@ else if(isset($_POST['actionpost']))
 			$pod = 0;
 
 		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) 
-										  values ({0},   {1},  {2},   {3},  {4},          {5},        {2},   {6},     {7})", 
+										  values ({0},   {1},  {2},   {3},  {4},          {1},        {5},   {6},     {7})", 
 										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
 		$tid = InsertId();
 

@@ -1,8 +1,8 @@
 <?php
 
 	$groups = array();
-	$qGroups = "select name from {groups} left join {groupaffiliations} on {groups}.id = {groupaffiliations}.gid where uid = ".$user['id']." and status = 0";
-	$rGroups = Query($qGroups);
+	$qGroups = "select name from {groups} left join {groupaffiliations} on {groups}.id = {groupaffiliations}.gid where uid = {0} and status = 0";
+	$rGroups = Query($qGroups, $user['id']);
 	while($group = Fetch($rGroups))
 		$groups[] = $group['name'];
 	$groups = implode(", ", $groups);

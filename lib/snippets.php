@@ -376,9 +376,9 @@ function getPowerlevelName($pl) {
 
 function getSexName($sex) {
 	$sexes = array(
-		0 => __("N/A"),
+		0 => __("Male"),
 		1 => __("Female"),
-		2 => __("Male")
+		2 => __("N/A"),
 	);
 
 	return $sexes[$sex];
@@ -397,10 +397,10 @@ function formatIP($ip)
 			<input type=\"hidden\" name=\"reason\" value=\"\">
 			<input type=\"hidden\" name=\"days\" value=\"0\">
 			<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
-			<input type=\"submit\" value=\"BAN!!\">
+			<input type=\"submit\" value=\"Ban\">
 		</form>";
 	}
-	return $res;
+	return "<span style=\"white-space:nowrap;\">{$res}</span>";
 }
 
 

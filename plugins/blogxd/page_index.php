@@ -36,8 +36,8 @@ $rThreads = Query("	SELECT
 						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id=".$loguserid : '')."
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
-					WHERE forum=".$fid." 
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT ".$from.", ".$tpp);
+					WHERE forum={0}
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1}, {2}", $fid, $from, $tpp);
 
 $numonpage = NumRows($rThreads);
 
@@ -76,8 +76,8 @@ while($thread = Fetch($rThreads))
 	"{posts}.thread, {posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.title, {users}.sex, {users}.picture, {users}.posts, {users}.postheader, {users}.signature, {users}.signsep, {users}.globalblock, {users}.lastposttime, {users}.lastactivity, {users}.regdate";
 	$qPosts .= 
 	" from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user";
-	$qPosts .= " where thread=".$thread['id']." order by date asc limit 1";
-	$rPosts = Query($qPosts);
+	$qPosts .= " where thread={0} order by date asc limit 1";
+	$rPosts = Query($qPosts, $thread['id']);
 	$post = Fetch($rPosts);
 	
 	$postdate = formatdate($post['date']);
