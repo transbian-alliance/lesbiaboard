@@ -391,16 +391,9 @@ function formatIP($ip)
 	$res = $ip;
 	$res .=  " " . IP2C($user['lastip']);
 	if($loguser["powerlevel"] >= 3)
-	{
-		$res = "<form action=\"".actionLink('ipbans')."\" method=\"post\">$res
-			<input type=\"hidden\" name=\"ip\" value=\"$ip\">
-			<input type=\"hidden\" name=\"reason\" value=\"\">
-			<input type=\"hidden\" name=\"days\" value=\"0\">
-			<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
-			<input type=\"submit\" value=\"Ban\">
-		</form>";
-	}
-	return "<span style=\"white-space:nowrap;\">{$res}</span>";
+		return actionLinkTag($res, "ipquery", $ip);
+	else
+		return $res;
 }
 
 
