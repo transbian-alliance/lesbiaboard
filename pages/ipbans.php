@@ -13,8 +13,15 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => act
 
 if($_POST['action'] == __("Add"))
 {
-	$rIPBan = Query("insert into {ipbans} (ip, reason, date) values ({0}, {1}, {2})", $_POST['ip'], $_POST['reason'], ((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0));
-	Alert(__("Added."), __("Notice"));
+	if(!filter_var($_POST['ip'], FILTER_VALIDATE_IP))
+		Alert("Invalid IP");
+	else if(isIPBanned($_POST['ip']))
+		Alert("Already banned IP!");
+	else
+	{
+		$rIPBan = Query("insert into {ipbans} (ip, reason, date) values ({0}, {1}, {2})", $_POST['ip'], $_POST['reason'], ((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0));
+		Alert(__("Added."), __("Notice"));
+	}
 }
 elseif($_GET['action'] == "delete")
 {

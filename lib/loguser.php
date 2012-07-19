@@ -63,9 +63,17 @@ $rTempban = Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 wh
 //Lift dated IP Bans
 $rIPBan = Query("delete from {ipbans} where date != 0 and date < {0}", time());
 
-//Do IP Ban check
+
+function isIPBanned($ip)
+{
+	$ip = trim($ip);
+	$rIPBan = Query("select * from {ipbans} where instr({0}, ip)=1", $ip);
+	return NumRows($rIPBan) != 0;
+}
+
 $rIPBan = Query("select * from {ipbans} where instr({0}, ip)=1", $_SERVER['REMOTE_ADDR']);
-if(NumRows($rIPBan))
+
+if(isIPBanned($_SERVER['REMOTE_ADDR']))
 {
 	$ipban = Fetch($rIPBan);
 	print "You have been ".($ipban['date'] ? "" : "<strong>permanently</strong> ")."IP-banned from this board".($ipban['date'] ? " until ".gmdate("M jS Y, G:i:s",$ipban['date'])." (GMT). That's ".TimeUnits($ipban['date']-time())." left" : "").". Attempting to get around this in any way will result in worse things.";
