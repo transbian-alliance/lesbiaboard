@@ -20,5 +20,15 @@
 			"default" => "3",
 			"name" => "Color code",
 		),
+		"reportPassMatches" => array(
+			"type" => "boolean",
+			"default" => false,
+			"name" => "Report number of password matches",
+		),
+		"reportIPMatches" => array(
+			"type" => "boolean",
+			"default" => false,
+			"name" => "Report number of IP matches",
+		),
 	);
 ?>

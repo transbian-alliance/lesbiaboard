@@ -179,9 +179,16 @@ elseif($_POST['action'] == __("Register"))
 		Query("update {users} set powerlevel = 4 where id = 1");
 
 	Report("New user: [b]".$_POST['name']."[/] (#".$uid.") -> [g]#HERE#?uid=".$uid);
+	
+	$user = Fetch(Query("select * from {users} where id={0}", $uid));
+	$user["rawpass"] = $_POST["pass"];
+	
+	$bucket = "newuser"; include("lib/pluginloader.php");
+	
 
 	if($_POST['autologin'])
 	{
+		$sha = hash("sha256", $_POST['pass'].$salt.$newsalt, FALSE);
 		//Fixed: password was stored as SHA256 earlier, but query asks for MD5.
 		$rUser = Query("select * from {users} where name={0} and password={1}", $_POST['name'], $sha);
 		$user = Fetch($rUser);
