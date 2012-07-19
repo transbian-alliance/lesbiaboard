@@ -77,6 +77,8 @@ if(isIPBanned($_SERVER['REMOTE_ADDR']))
 {
 	$ipban = Fetch($rIPBan);
 	print "You have been ".($ipban['date'] ? "" : "<strong>permanently</strong> ")."IP-banned from this board".($ipban['date'] ? " until ".gmdate("M jS Y, G:i:s",$ipban['date'])." (GMT). That's ".TimeUnits($ipban['date']-time())." left" : "").". Attempting to get around this in any way will result in worse things.";
+	$bucket = "ipbanned"; include('lib/pluginloader.php');
+
 	exit();
 }
 
