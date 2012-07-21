@@ -119,7 +119,7 @@ if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$key);
 	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$key);
 	
-	if(strpos($forum['description'],"[trash]") === FALSE)
+	if($forum['id'] != Settings::get('trashForum'))
 		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$key);
 }
 else if($thread['user'] == $loguserid)
