@@ -103,7 +103,6 @@ if(!isset($_POST['action']))
 {
 	$_POST['nopl'] = $post['options'] & 1;
 	$_POST['nosm'] = $post['options'] & 2;
-	$_POST['nobr'] = $post['options'] & 4;
 }
 
 if($_POST['action'] == __("Edit"))
@@ -115,7 +114,6 @@ if($_POST['action'] == __("Edit"))
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
 		if($_POST['nosm']) $options |= 2;
-		if($_POST['nobr']) $options |= 4;
 
 		$rRev = Query("select max(revision) from {posts_text} where pid={0}", $pid);
 		$rev = Fetch($rRev);
@@ -172,7 +170,6 @@ if($_POST['action'] == __("Preview"))
 		$previewPost['options'] = 0;
 		if($_POST['nopl']) $previewPost['options'] |= 1;
 		if($_POST['nosm']) $previewPost['options'] |= 2;
-		if($_POST['nobr']) $previewPost['options'] |= 4;
 		$previewPost['mood'] = (int)$_POST['mood'];
 		MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 	}
@@ -187,8 +184,6 @@ if($_POST['nopl'])
 	$nopl = "checked=\"checked\"";
 if($_POST['nosm'])
 	$nosm = "checked=\"checked\"";
-if($_POST['nobr'])
-	$nobr = "checked=\"checked\"";
 
 if(!isset($_POST['mood']))
 	$_POST['mood'] = $post['mood'];
@@ -232,9 +227,6 @@ Write(
 								</label>
 								<label>
 									<input type=\"checkbox\" name=\"nosm\" {4} />&nbsp;".__("Disable smilies", 1)."
-								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nobr\" {5} />&nbsp;".__("Disable auto-<br>", 1)."
 								</label>
 								<input type=\"hidden\" name=\"id\" value=\"{2}\" />
 								<input type=\"hidden\" name=\"key\" value=\"{6}\" />
@@ -285,7 +277,7 @@ if(NumRows($rPosts))
 				{3}
 			</td>
 		</tr>
-",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm, $nobr));
+",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
 	}
 	Write(
 "

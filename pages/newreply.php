@@ -76,7 +76,6 @@ if(isset($_POST['actionpreview']))
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
-	if($_POST['nobr']) $previewPost['options'] |= 4;
 	MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 }
 else if(isset($_POST['actionpost']))
@@ -133,7 +132,6 @@ else if(isset($_POST['actionpost']))
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
 		if($_POST['nosm']) $options |= 2;
-		if($_POST['nobr']) $options |= 4;
 
 		if(CanMod($loguserid, $forum['id']))
 		{
@@ -214,8 +212,6 @@ if($_POST['nopl'])
 	$nopl = "checked=\"checked\"";
 if($_POST['nosm'])
 	$nosm = "checked=\"checked\"";
-if($_POST['nobr'])
-	$nobr = "checked=\"checked\"";
 
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
@@ -283,9 +279,6 @@ print "
 								<label>
 									<input type=\"checkbox\" name=\"nosm\" $nosm />&nbsp;".__("Disable smilies", 1)."
 								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nobr\" $nobr />&nbsp;".__("Disable auto-<br>", 1)."
-								</label>
 								<input type=\"hidden\" name=\"id\" value=\"$tid\" />
 								$mod
 							</td>
@@ -333,7 +326,7 @@ if(NumRows($rPosts))
 				{3}
 			</td>
 		</tr>
-",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm, $nobr));
+",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
 	}
 	Write(
 "

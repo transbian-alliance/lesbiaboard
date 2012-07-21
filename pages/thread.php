@@ -347,16 +347,13 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 					<label>
 						<input type=\"checkbox\" name=\"nosm\" {6} />&nbsp;".__("Disable smilies", 1)."
 					</label>
-					<label>
-						<input type=\"checkbox\" name=\"nobr\" {9} />&nbsp;".__("Disable auto-<br>", 1)."
-					</label>
 					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
 					{8}
 				</td>
 			</tr>
 		</table>
 	</form>
-",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod, $nobr);
+",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod);
 }
 
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);

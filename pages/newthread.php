@@ -114,7 +114,6 @@ if(isset($_POST['actionpreview']))
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
-	if($_POST['nobr']) $previewPost['options'] |= 4;
 	$previewPost['mood'] = (int)$_POST['mood'];
 	$previewPost['uid'] = $loguserid;
 	$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime");
@@ -186,7 +185,6 @@ else if(isset($_POST['actionpost']))
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
 		if($_POST['nosm']) $options |= 2;
-		if($_POST['nobr']) $options |= 4;
 
 		if($_POST['iconid'])
 		{
@@ -264,8 +262,6 @@ if($_POST['nopl'])
 	$nopl = "checked=\"checked\"";
 if($_POST['nosm'])
 	$nosm = "checked=\"checked\"";
-if($_POST['nobr'])
-	$nobr = "checked=\"checked\"";
 
 $iconNoneChecked = ($_POST['iconid'] == 0) ? "checked=\"checked\"" : "";
 $iconCustomChecked = ($_POST['iconid'] == 255) ? "checked=\"checked\"" : "";
@@ -452,20 +448,16 @@ write(
 								<label>
 									<input type=\"checkbox\" name=\"nosm\" {4} />&nbsp;".__("Disable smilies", 1)."
 								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nobr\" {8} />&nbsp;".__("Disable auto-<br>", 1)."
-								</label>
 								<input type=\"hidden\" name=\"id\" value=\"{5}\" />
 								<input type=\"hidden\" name=\"poll\" value=\"{6}\" />
 								{7}
-								{9}
 							</td>
 						</tr>
 					</table>
 				</form>
 			</td>
 			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	$prefill, $postButton, $moodOptions, $nopl, $nosm, $fid, htmlspecialchars($_POST['poll']), "", $nobr, $mod);
+",	$prefill, $postButton, $moodOptions, $nopl, $nosm, $fid, htmlspecialchars($_POST['poll']), $mod);
 
 DoSmileyBar();
 DoPostHelp();
