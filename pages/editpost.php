@@ -129,8 +129,7 @@ if($_POST['action'] == __("Edit"))
 			Query("DELETE FROM {threadsread} WHERE thread={0}", $thread['id']);
 		}
 
-		if($forum['minpower'] < 1)
-			Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid);
+		Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $forum['minpower']>0);
 
 			die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
 		exit();

@@ -4,7 +4,7 @@ $title = __("Uploader");
 
 AssertForbidden("viewUploader");
 
-$rootdir = "uploader";
+$rootdir = $dataDir."uploader";
 
 if($uploaderWhitelist)
 	$goodfiles = explode(" ", $uploaderWhitelist);
