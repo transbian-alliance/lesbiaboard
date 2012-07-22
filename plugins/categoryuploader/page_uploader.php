@@ -137,7 +137,7 @@ else if($_GET['action'] == __("Upload"))
 				{
 					$description = htmlspecialchars($_POST['description']);
 
-					Query("insert into {uploader} (filename, description, date, user, private) values ({0}, {1}, {2}, {3}, {4}, {5})",
+					Query("insert into {uploader} (filename, description, date, user, private, category) values ({0}, {1}, {2}, {3}, {4}, {5})",
 						$fname, $description, time(), $loguserid, $privateFlag, $_POST['cat']);
 
 					copy($temp, $targetdir."/".$fname);
