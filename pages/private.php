@@ -81,7 +81,7 @@ else
 }
 $whereFrom .= " and drafting = ".$drafting;
 
-$total = FetchResult("select count(*) from {pmsgs} where {0} and deleted != {1}", $whereFrom, $deleted);
+$total = FetchResult("select count(*) from {pmsgs} where {$whereFrom} and deleted != {1}", $user, $deleted);
 
 $ppp = $loguser['postsperpage'];
 
