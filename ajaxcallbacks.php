@@ -53,12 +53,12 @@ else if ($action == 'rp') // retrieve post
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
+				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={1}
 				LEFT JOIN {users} u2 ON u2.id=pt.user
 				LEFT JOIN {users} u3 ON u3.id=p.deletedby
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
-			WHERE p.id={0}", $id);
+			WHERE p.id={0}", $id, $loguserid);
 	
 	if (!NumRows($rPost))
 		die(__("Unknown post ID."));
