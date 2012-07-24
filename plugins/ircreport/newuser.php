@@ -29,7 +29,7 @@ if(Settings::pluginGet("reportIPMatches"))
 {
 	$matchCount = FetchResult("select count(*) from {users} where id != {0} and lastip={1}", $user["id"], $_SERVER["REMOTE_ADDR"]);
 
-//	if($matchCount)
+	if($matchCount)
 		$extra .= "-- ".Plural($matchCount, "IP match")." ";
 }
 
