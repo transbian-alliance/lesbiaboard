@@ -9,6 +9,7 @@ $tables["uploader"] = array
 			"description" => $var1024,
 			"user" => $genericInt,
 			"date" => $genericInt,
+			"downloads" => $genericInt,
 			"private" => $bool,
 			"category" => $genericInt,
 		),

@@ -94,6 +94,9 @@ function listCategory($cat)
 				<th>
 					".__("Uploader")."
 				</th>
+				<th>
+					".__("Downloads")."
+				</th>
 			</tr>
 		";
 
@@ -132,9 +135,12 @@ function listCategory($cat)
 				<td>
 					{6}
 				</td>
+				<td>
+					{8}
+				</td>
 			</tr>
 			",	$cellClass, $entry['id'], $entry['filename'], $delete, $entry['description'],
-				BytesToSize(@filesize($filepath)), UserLink($entry, "user"), $multidel);
+				BytesToSize(@filesize($filepath)), UserLink($entry, "user"), $multidel, $entry["downloads"]);
 		}
 		
 		

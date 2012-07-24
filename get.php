@@ -18,6 +18,9 @@ if(NumRows($entry))
 {
 	$entry = Fetch($entry);
 
+	//Count downloads!
+	Query("update uploader set downloads = downloads+1 where id = {0}", $entry['id']);
+
 	if($entry['private'])
 		$path = $dataDir."uploader/".$entry['user']."/".$entry['filename'];
 	else
