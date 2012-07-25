@@ -9,6 +9,32 @@ function listThread($thread, $cellClass)
 	$starter = getDataPrefix($thread, "su_");
 	$last = getDataPrefix($thread, "lu_");
 
+
+	$NewIcon = "";
+	$newstuff = 0;
+	if($thread['closed'])
+		$NewIcon = "off";
+	if($thread['replies'] >= $misc['hotcount'])
+		$NewIcon .= "hot";
+	if((!$loguserid && $thread['lastpostdate'] > time() - 900) ||
+		($loguserid && $thread['lastpostdate'] > $thread['readdate']) &&
+		!$isIgnored)
+	{
+		$NewIcon .= "new";
+		$newstuff++;
+	}
+	else if(!$thread['closed'] && !$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
+		$NewIcon = "old";
+	
+	if($NewIcon)
+		$NewIcon = "<img src=\"img/status/".$NewIcon.".png\" alt=\"\"/>";
+
+	if($thread['icon'])
+		$ThreadIcon = "<img src=\"".htmlspecialchars($thread['icon'])."\" alt=\"\" class=\"smiley\"/>";
+	else
+		$ThreadIcon = "";
+
+
 	if($thread['sticky'] == 0 && $haveStickies == 1)
 	{
 		$haveStickies = 2;
