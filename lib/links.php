@@ -96,7 +96,7 @@ function UserLink($user, $showMinipic = false)
 	$fname = htmlspecialchars($fname);
 
 	$minipic = "";
-	if($showMinipic)
+	if($showMinipic || Settings::get("alwaysMinipic"))
 	{
 		if($user["minipic"] == "#INTERNAL#")
 			$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";

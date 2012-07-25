@@ -22,12 +22,12 @@
 		),
 		"reportPassMatches" => array(
 			"type" => "boolean",
-			"default" => false,
+			"default" => "0",
 			"name" => "Report number of password matches",
 		),
 		"reportIPMatches" => array(
 			"type" => "boolean",
-			"default" => false,
+			"default" => "0",
 			"name" => "Report number of IP matches",
 		),
 	);

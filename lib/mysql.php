@@ -162,7 +162,7 @@ function getDataPrefix($data, $pref)
 
 
 $fieldLists = array(
-	"userfields" => "id,name,displayname,powerlevel,sex"
+	"userfields" => "id,name,displayname,powerlevel,sex,minipic"
 );
 
 function loadFieldLists()
