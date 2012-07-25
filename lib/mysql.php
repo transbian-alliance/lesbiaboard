@@ -55,7 +55,7 @@ function Query_AddUserInput($match)
  */
 function Query()
 {
-	global $dbpref, $args;
+	global $dbpref, $args, $fieldLists;
 	$args = func_get_args();
 	if (is_array($args[0])) $args = $args[0];
 	
@@ -63,7 +63,7 @@ function Query()
 
 	// expand compacted field lists
 	$query = preg_replace("@(\w+)\.\(\*\)@s", '$1.*', $query);
-	$query = str_replace(".(_userfields)", ".(id,name,displayname,powerlevel,sex)", $query);
+	$query = str_replace(".(_userfields)", ".(".$fieldLists["userfields"].")", $query);
 	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
 
 	// add table prefixes
@@ -158,6 +158,19 @@ function getDataPrefix($data, $pref)
 			$res[substr($key, strlen($pref))] = $val;
 
 	return $res;
+}
+
+
+$fieldLists = array(
+	"userfields" => "id,name,displayname,powerlevel,sex"
+);
+
+function loadFieldLists()
+{
+	global $fieldLists;
+	
+	//Allow plugins to add their own!
+	$bucket = "fieldLists"; include('lib/pluginloader.php');
 }
 
 ?>
