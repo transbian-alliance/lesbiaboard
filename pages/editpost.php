@@ -9,8 +9,6 @@ if(!$loguserid)
 
 if($loguser['powerlevel'] < 0)
 	Kill(__("Banned users can't edit their posts."));
-	
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 
 if(isset($_POST['id']))
 	$_GET['id'] = $_POST['id'];
@@ -21,12 +19,20 @@ if(!isset($_GET['id']))
 $pid = (int)$_GET['id'];
 AssertForbidden("editPost", $pid);
 
-$rPost = Query("select {posts}.*, {posts_text}.text from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision where id={0}", $pid);
+$rPost = Query("
+	SELECT 
+		{posts}.*, 
+		{posts_text}.text 
+	FROM {posts} 
+		LEFT JOIN {posts_text} ON {posts_text}.pid = {posts}.id AND {posts_text}.revision = {posts}.currentrevision
+	WHERE id={0}", $pid);
+
 if(NumRows($rPost))
 {
 	$post = Fetch($rPost);
 	$tid = $post['thread'];
-} else
+}
+else
 	Kill(__("Unknown post ID."));
 
 $rThread = Query("select * from {threads} where id={0}", $tid);
@@ -45,17 +51,14 @@ $fid = $forum['id'];
 AssertForbidden("viewForum", $fid);
 
 //-- Mark as New if last post is edited --
-//print $thread['lastpostdate']."<br/>";
-//print $post['date']."<br/>";
 $wasLastPost = ($thread['lastpostdate'] == $post['date']);
-//print (int)$wasLastPost;
 
 $thread['title'] = htmlspecialchars($thread['title']);
 $fid = $thread['forum'];
 
 if((int)$_GET['delete'] == 1)
 {
-	if ($_GET['key'] != $key) Kill(__("No."));
+	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to delete posts."));
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
@@ -63,7 +66,7 @@ if((int)$_GET['delete'] == 1)
 	die(header("Location: ".actionLink("thread", $tid)));
 } elseif((int)$_GET['delete'] == 2)
 {
-	if ($_GET['key'] != $key) Kill(__("No."));
+	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to undelete posts."));
 	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
@@ -107,7 +110,7 @@ if(!isset($_POST['action']))
 
 if($_POST['action'] == __("Edit"))
 {
-	if ($_POST['key'] != $key) Kill(__("No."));
+	if ($_POST['key'] != $loguser['token']) Kill(__("No."));
 	
 	if($_POST['text'])
 	{
@@ -227,7 +230,7 @@ Write(
 				</form>
 			</td>
 			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	htmlspecialchars($prefill), $moodOptions, $pid, $nopl, $nosm, $nobr, $key);
+",	htmlspecialchars($prefill), $moodOptions, $pid, $nopl, $nosm, $nobr, $loguser['token']);
 
 DoSmileyBar();
 DoPostHelp();

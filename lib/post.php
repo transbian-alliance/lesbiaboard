@@ -402,9 +402,8 @@ function MakePost($post, $type, $params=array())
 		$links = '<ul class="pipemenu">';
 		if(CanMod($loguserid,$params['fid']))
 		{
-			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 			if (IsAllowed("editPost", $post['id']))
-				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
+				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
 			$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
 		}
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
@@ -444,10 +443,9 @@ function MakePost($post, $type, $params=array())
 		{
 			if ($type == POST_DELETED_SNOOP)
 			{
-				$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 				$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
 				if ($editallowed)
-					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
+					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
 				$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",false); return false;\">".__("Close")."</a></li>";
 				$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 			}
@@ -468,8 +466,7 @@ function MakePost($post, $type, $params=array())
 					// TODO: perhaps make delete links not require a key to be passed
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
-					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$key);
+					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$loguser['token']);
 					$links .= "<li><a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a></li>";
 				}
 				if ($canreply && !$params['noreplylinks'])

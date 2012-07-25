@@ -11,7 +11,7 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin Manager") => act
 
 if($_GET["action"] == "enable")
 {
-	if($_GET["key"] != getUserKey())
+	if($_GET["key"] != $loguser['token'])
 		Kill("No.");
 	
 	Query("insert into {enabledplugins} values ({0})", $_GET["id"]);
@@ -19,7 +19,7 @@ if($_GET["action"] == "enable")
 }
 if($_GET["action"] == "disable")
 {
-	if($_GET["key"] != getUserKey())
+	if($_GET["key"] != $loguser['token'])
 		Kill("No.");
 	
 	Query("delete from {enabledplugins} where plugin={0}", $_GET["id"]);
@@ -93,7 +93,7 @@ function listPlugin($plugin, $plugindata)
 		$text = __("Disable");
 		$act = "disable";
 	}
-	print actionLinkTagItem($text, "pluginmanager", $plugin, "action=".$act."&key=".getUserKey());
+	print actionLinkTagItem($text, "pluginmanager", $plugin, "action=".$act."&key=".$loguser['token']);
 	
 	if(in_array("settingsfile", $plugindata["buckets"]))
 	{

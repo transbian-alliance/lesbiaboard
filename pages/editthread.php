@@ -6,8 +6,7 @@ $title = __("Edit thread");
 
 AssertForbidden("editThread");
 
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-if (isset($_REQUEST['action']) && $key != $_REQUEST['key'])
+if (isset($_REQUEST['action']) && $loguser['token'] != $_REQUEST['key'])
 		Kill(__("No."));
 
 if(!$loguserid) //Not logged in?
@@ -317,7 +316,7 @@ if($canMod)
 ",	htmlspecialchars($_POST['title']), $icons, $check[0], $check[1], $iconurl,
 	($thread['closed'] ? " checked=\"checked\"" : ""),
 	($thread['sticky'] ? " checked=\"checked\"" : ""),
-	$tid, $moveToTargets, $key);
+	$tid, $moveToTargets, $loguser['token']);
 }
 else
 {
@@ -343,7 +342,7 @@ else
 			</tr>
 		</table>
 	</form>
-",	htmlspecialchars($_POST['title']), $tid, $key);
+",	htmlspecialchars($_POST['title']), $tid, $loguser['token']);
 }
 
 ?>

@@ -67,8 +67,7 @@ if(isset($_GET['vote']))
 	{
 		$vote = (int)$_GET['vote'];
 		
-		$token = hash('sha256', "{$vote},{$loguserid},{$salt}");
-		if ($token != $_GET['token'])
+		if ($loguser["token"] != $_GET['token'])
 			Kill(__("Invalid token."));
 		
 		$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
@@ -106,21 +105,19 @@ elseif(IsAllowed("makeReply", $tid))
 	$links .= "<li>".__("Thread closed.");
 if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 {
-	$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-	
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 	if($thread['closed'])
-		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$key);
+		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token']);
 	else
-		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$key);
+		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token']);
 	if($thread['sticky'])
-		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$key);
+		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']);
 	else
-		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$key);
-	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$key);
+		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']);
+	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$loguser['token']);
 	
 	if($forum['id'] != Settings::get('trashForum'))
-		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$key);
+		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']);
 }
 else if($thread['user'] == $loguserid)
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
@@ -180,10 +177,7 @@ if($thread['poll'])
 
 			$cellClass = ($cellClass+1) % 2;
 			if($loguserid && !$thread['closed'] && IsAllowed("vote"))
-			{
-				$token = hash('sha256', "{$pops},{$loguserid},{$salt}");
-				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=$token");
-			}
+				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=".$loguser["token"]);
 			else
 				$label = format("{0} {1}", $pc[$pops], $option['choice']);
 			
@@ -252,7 +246,8 @@ else
 	else
 		$from = 0;
 
-$rPosts = Query("	SELECT 
+$rPosts = Query("
+			SELECT 
 				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),

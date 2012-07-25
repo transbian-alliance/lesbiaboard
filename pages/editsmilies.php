@@ -9,8 +9,7 @@ if($loguser['powerlevel'] < 3)
 
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit smilies") => actionLink("editsmilies")), "");
 
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-if (isset($_POST['action']) && $key != $_POST['key'])
+if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 	Kill(__("No."));
 
 if($_POST['action'] == "Apply")
@@ -112,6 +111,6 @@ write(
 
 		</table>
 	</form>
-", $smileyList, $key);
+", $smileyList, $loguser['token']);
 
 ?>

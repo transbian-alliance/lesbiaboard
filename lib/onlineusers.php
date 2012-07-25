@@ -28,7 +28,7 @@ function OnlineUsers($forum = 0, $update = true)
 	{
 		$user = getDataPrefix($user, "u_");
 		$loggedIn = ($user['lastpost'] <= $user['lastview']);
-		$userLink = UserLink($user, "id", true);
+		$userLink = UserLink($user, true);
 
 		if(!$loggedIn)
 			$userLink = "(".$userLink.")";
