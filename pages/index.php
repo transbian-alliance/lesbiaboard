@@ -29,8 +29,8 @@ $stats .= "<br />".format(__("{0} today, {1} last hour"), Plural($newToday, __("
 $numUsers = FetchResult("select count(*) from {users}");
 $numActive = FetchResult("select count(*) from {users} where lastposttime > {0}", (time() - 2592000)); //30 days
 $percent = $numUsers ? ceil((100 / $numUsers) * $numActive) : 0;
-$rLastUser = Query("select id,name,displayname,powerlevel,sex from {users} order by regdate desc limit 1");
-$lastUser = Fetch($rLastUser);
+$rLastUser = Query("select u.(_userfields) from {users} u order by u.regdate desc limit 1");
+$lastUser = getDataPrefix(Fetch($rLastUser), "u_");
 $last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered user")), $numActive, $percent)."<br />".format(__("Newest: {0}"), UserLink($lastUser));
 
 $pl = $loguser['powerlevel'];
@@ -108,13 +108,8 @@ while($forum = Fetch($rFora))
 		$NewIcon = "<img src=\"img/status/new.png\" alt=\"New!\"/>".$newstuff;
 
 	if ($mods[$forum['id']])
-	{
 		foreach($mods[$forum['id']] as $user)
-		{
-			$bucket = "userMangler"; include("./lib/pluginloader.php");
 			$localMods .= UserLink($user). ", ";
-		}
-	}
 
 	if($localMods)
 		$localMods = "<br /><small>".__("Moderated by:")." ".substr($localMods,0,strlen($localMods)-2)."</small>";
@@ -122,7 +117,6 @@ while($forum = Fetch($rFora))
 	if($forum['lastpostdate'])
 	{
 		$user = getDataPrefix($forum, "lu_");
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		
 		$lastLink = "";
 		if($forum['lastpostid'])

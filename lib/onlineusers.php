@@ -27,7 +27,6 @@ function OnlineUsers($forum = 0, $update = true)
 	while($user = Fetch($rOnlineUsers))
 	{
 		$user = getDataPrefix($user, "u_");
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		$loggedIn = ($user['lastpost'] <= $user['lastview']);
 		$userLink = UserLink($user, "id", true);
 

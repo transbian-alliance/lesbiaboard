@@ -157,7 +157,6 @@ function getDataPrefix($data, $pref)
 		if(substr($key, 0, strlen($pref)) == $pref)
 			$res[substr($key, strlen($pref))] = $val;
 
-	$res["displayname"] = "TROLOL";
 	return $res;
 }
 

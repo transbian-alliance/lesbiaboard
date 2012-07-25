@@ -34,7 +34,7 @@ Sentence with a<br />HTML BR tag inbetween
 [quote]Quote block[quote][quote][quote]Sub-quote[/quote]Sub-quote[/quote]Sub-quote[/quote][/quote]
 [quote=Ryuzaki]Quote with attribution[/quote]
 [quote=\"Ryuzaki\" id=\"52\"]Quote with attribution and link[/quote]
-[reply=\"Ryuzaki\"]Reply, attribution and link mandatory.[/quote]
+[reply=\"Ryuzaki\"]Reply, attribution and link mandatory.[/reply]
 
 [code]BB Code
 Second line
@@ -60,7 +60,7 @@ if(!$noSmilies)
 			"\\\" alt=\\\"".$smilies[$i][\'code\']."\\\" />", $s);
 }'."[/code]</pre>
 
-GeSHi colorcoding:
+GeSHi colorcoding (Only available if plugin is enabled):
 [source]void Function()
 {
   Console.Write(\"No language given, C# assumed.\");
@@ -147,10 +147,10 @@ $previewPost['text'] = $preview;
 
 $previewPost['num'] = "???";
 $previewPost['id'] = "???";
-$previewPost['uid'] = $user['id'];
-$copies = explode(",","title,name,picture,sex,powerlevel,avatar,postheader,signature,posts,regdate,lastactivity,lastposttime");
-foreach($copies as $toCopy)
-	$previewPost[$toCopy] = $user[$toCopy];
+
+foreach($user as $key => $value)
+	$previewPost["u_".$key] = $value;
+
 MakePost($previewPost, POST_SAMPLE);
 
 ?>

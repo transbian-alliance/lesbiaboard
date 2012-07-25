@@ -7,14 +7,14 @@ $limit = Settings::pluginGet("limit");
 
 $qPosts = "select 
 	{posts}.id, {posts}.date, 
-	{users}.id as uid, {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, 
+	u.(_userfields),
 	{threads}.title as ttit, {threads}.id as tid, 
 	{forums}.title as ftit, {forums}.id as fid
 	from {posts} 
-	left join {users} on {users}.id = {posts}.user 
+	left join {users} u on u.id = {posts}.user 
 	left join {threads} on {threads}.id = {posts}.thread 
 	left join {forums} on {threads}.forum = {forums}.id
-	where {forums}.minpower <= {0} and {posts}.date >= {1}
+	where {forums}.minpower <= {0} and {posts}.date >= {1} 
 	order by date desc limit 0, {2}";
 
 $rPosts = Query($qPosts, $loguser['powerlevel'], (time() - ($hours * 60*60)), $limit);
@@ -45,7 +45,7 @@ while($post = Fetch($rPosts))
 			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
 		</td>
 	</tr>
-", $post['id'], formatdate($post['date']), UserLink($post, "uid"), actionLinkTag($post["ftit"], "forum", $post["fid"]), makeThreadLink($thread), $c);
+", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), actionLinkTag($post["ftit"], "forum", $post["fid"]), makeThreadLink($thread), $c);
 }
 
 if($theList == "")

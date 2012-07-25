@@ -56,8 +56,6 @@ while($badges = Fetch($rBadge))
 	$cellClass = ($cellClass+1) % 2;
 	$colors = array(__("Bronze"),__("Silver"),__("Gold"),__("Platinum"));
 
-	// userMangler Bucket
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$badgeList .= format(
 "
 	<tr class=\"cell{0}\">

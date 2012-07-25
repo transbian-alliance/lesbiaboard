@@ -19,13 +19,12 @@ print "<style type=\"text/css\">".ApplyParameters($cssTemplate)."</style>";
 
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";
-$previewPost['uid'] = $_POST['ID'];
-$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,rankset,signsep,posts,regdate,lastactivity,lastposttime");
-foreach($copies as $toCopy)
-	$previewPost[$toCopy] = $loguser[$toCopy];
-$previewPost['postheader'] = trim(ApplyParameters($markupTemplateA));
+foreach($loguser as $key => $value)
+	$previewPost["u_".$key] = $value;
+
+$previewPost['u_postheader'] = trim(ApplyParameters($markupTemplateA));
 $previewPost['text'] = Settings::get("profilePreviewText");
-$previewPost['signature'] = trim(ApplyParameters($markupTemplateB));
+$previewPost['u_signature'] = trim(ApplyParameters($markupTemplateB));
 
 MakePost($previewPost, POST_SAMPLE);
 

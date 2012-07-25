@@ -17,7 +17,6 @@ if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
 	Kill(__("Unknown user ID."));
-$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if($id == $loguserid)
 {
@@ -287,7 +286,14 @@ if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $loguserid
 }
 
 
-$rComments = Query("select {users}.name, {users}.displayname, {users}.powerlevel, {users}.sex, {usercomments}.id, {usercomments}.cid, {usercomments}.text from {usercomments} left join {users} on {users}.id = {usercomments}.cid where uid={0} order by {usercomments}.date desc limit 0,10", $id);
+$rComments = Query("SELECT 
+		u.(_userfields),
+		{usercomments}.id, {usercomments}.cid, {usercomments}.text 
+		FROM {usercomments} 
+		LEFT JOIN {users} u ON u.id = {usercomments}.cid 
+		WHERE uid={0} 
+		ORDER BY {usercomments}.date DESC LIMIT 0,10", $id);
+		
 $commentList = "";
 $commentField = "";
 if(NumRows($rComments))
@@ -308,7 +314,7 @@ if(NumRows($rComments))
 								{3}{2}
 							</td>
 						</tr>
-",	UserLink($comment, "cid"), $cellClass, CleanUpPost($comment['text']), $deleteLink);
+",	UserLink(getDataPrefix($comment, "u_")), $cellClass, CleanUpPost($comment['text']), $deleteLink);
 		$commentList = $thisComment . $commentList;
 		if(!isset($lastCID))
 			$lastCID = $comment['cid'];
@@ -380,14 +386,9 @@ $previewPost['text'] = Settings::get("profilePreviewText");
 
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";
-$previewPost['uid'] = $id;
-$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,rankset,signature,signsep,posts,regdate,lastactivity,lastposttime");
+$copies = explode(",","id,title,name,displayname,picture,sex,powerlevel,avatar,postheader,rankset,signature,signsep,posts,regdate,lastactivity,lastposttime,globalblock");
 foreach($copies as $toCopy)
-	$previewPost[$toCopy] = $user[$toCopy];
-
-$previewPost['activity'] = FetchResult("select count(*) from {posts} where user = {0} and date > {1}", $id, (time() - 86400));
-
-$previewPost['layoutblocked'] = $user['globalblock'] || FetchResult("SELECT COUNT(*) FROM {blockedlayouts} WHERE user={0} AND blockee={1}", $user['id'], $loguserid);
+	$previewPost["u_".$toCopy] = $user[$toCopy];
 
 MakePost($previewPost, POST_SAMPLE);
 

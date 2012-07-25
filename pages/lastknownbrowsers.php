@@ -82,7 +82,6 @@ else
 $items = "";
 while($user = Fetch($peeps))
 {
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$lip = $user['lastip'];
 	$lkb = $user['lastknownbrowser'];
 	$lkb = str_replace("-->", "", str_replace("<!--", " &mdash;", $lkb));

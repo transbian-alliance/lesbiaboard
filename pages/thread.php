@@ -241,11 +241,6 @@ if($thread['poll'])
 $rRead = Query("delete from {threadsread} where id={0} and thread={1}", $loguserid, $tid);
 $rRead = Query("insert into {threadsread} (id,thread,date) values ({0}, {1}, {2})", $loguserid, $tid, time());
 
-$activity = array();
-$rActivity = Query("select user, count(*) num from {posts} where date > {0} group by user", (time() - 86400));
-while($act = Fetch($rActivity))
-	$activity[$act['user']] = $act['num'];
-
 $total = $thread['replies'] + 1; //+1 for the OP
 $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
@@ -260,15 +255,13 @@ else
 $rPosts = Query("	SELECT 
 				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.(_userfields), u.rankset, u.title, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
 				du.(_userfields)
 			FROM 
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
 			WHERE thread={1} 
@@ -283,12 +276,6 @@ if(NumRows($rPosts))
 {
 	while($post = Fetch($rPosts))
 	{
-		$user = $post;
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
-		$post = $user;
-		//$poster = $post;
-		//$poster['id'] = $post['uid'];
-		$post['activity'] = $activity[$post['uid']];
 		$post['closed'] = $thread['closed'];
 		MakePost($post, POST_NORMAL, array('tid'=>$tid, 'fid'=>$fid));
 	}

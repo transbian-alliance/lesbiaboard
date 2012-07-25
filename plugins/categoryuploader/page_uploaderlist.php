@@ -34,17 +34,23 @@ function listCategory($cat)
 	print $sortOptions;
 
 	if($cat == -1)
-		$condition = "uploader.user = ".$loguserid." and uploader.private = 1";
+		$condition = "up.user = ".$loguserid." and up.private = 1";
 	else if($cat == -2 && $loguser['powerlevel'] > 2)
-		$condition = "uploader.private = 1";
+		$condition = "up.private = 1";
 	else
-		$condition = "uploader.private = 0 and uploader.category = {0}";
+		$condition = "up.private = 0 and up.category = {0}";
 	
 	$errormsg = __("The category is empty.");
 	if($cat < 0)
 		$errormsg = __("You have no private files.");
 		
-	$entries = Query("select {uploader}.*, $userSelectUsers from uploader left join users on uploader.user = users.id where $condition order by ".$skey.$sdir, $cat);
+	$entries = Query("SELECT
+			up.*, 
+			u.(_userfields) 
+			FROM {uploader} up
+			LEFT JOIN {users} u on up.user = u.id
+			WHERE $condition 
+			ORDER BY ".$skey.$sdir, $cat);
 
 	$checkbox = "";
 	if($loguserid)
@@ -140,7 +146,7 @@ function listCategory($cat)
 				</td>
 			</tr>
 			",	$cellClass, $entry['id'], $entry['filename'], $delete, $entry['description'],
-				BytesToSize(@filesize($filepath)), UserLink($entry, "user"), $multidel, $entry["downloads"]);
+				BytesToSize(@filesize($filepath)), UserLink(getDataPrefix($entry, "u_")), $multidel, $entry["downloads"]);
 		}
 		
 		

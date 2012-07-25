@@ -150,26 +150,18 @@ if($_POST['action'] == __("Preview"))
 		$user = Fetch($rUser);
 	else
 		Kill(__("Unknown user ID."));
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 	if($_POST['text'])
 	{
-		$layoutblocked = $user['globalblock'];
-		if ($post['user'] != $loguserid)
-			$layoutblocked = $layoutblocked || FetchResult("SELECT COUNT(*) FROM {blockedlayouts} WHERE user={0} AND blockee={1}", $post['user'], $loguserid);
-		$previewPost['layoutblocked'] = $layoutblocked;
-		
 		$previewPost['text'] = $prefill;
 		$previewPost['num'] = $post['num'];
 		$previewPost['id'] = $pid;
-		$previewPost['uid'] = $post['user'];
-		$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,posts,regdate,lastactivity,lastposttime,rankset");
-		foreach($copies as $toCopy)
-			$previewPost[$toCopy] = $user[$toCopy];
 		$previewPost['options'] = 0;
 		if($_POST['nopl']) $previewPost['options'] |= 1;
 		if($_POST['nosm']) $previewPost['options'] |= 2;
 		$previewPost['mood'] = (int)$_POST['mood'];
+		foreach($user as $key => $value)
+			$previewPost["u_".$key] = $value;
 		MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 	}
 	else

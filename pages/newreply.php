@@ -62,20 +62,17 @@ if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['las
 
 if(isset($_POST['actionpreview']))
 {
-	$previewPost['layoutblocked'] = $loguser['globalblock'];
-	
 	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $loguser['posts']+1;
 	$previewPost['posts'] = $loguser['posts']+1;
 	$previewPost['id'] = "???";
-	$previewPost['uid'] = $loguserid;
-	$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime,rankset");
-	foreach($copies as $toCopy)
-		$previewPost[$toCopy] = $loguser[$toCopy];
-	$previewPost['mood'] = (int)$_POST['mood'];
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
+	$previewPost['mood'] = (int)$_POST['mood'];
+	foreach($loguser as $key => $value)
+		$previewPost["u_".$key] = $value;
+
 	MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 }
 else if(isset($_POST['actionpost']))

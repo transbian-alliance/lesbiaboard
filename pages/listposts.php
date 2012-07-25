@@ -14,7 +14,6 @@ if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
 	Kill(__("Unknown user ID."));
-$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 $title = __("Post list");
 
@@ -46,8 +45,7 @@ if(!$ppp) $ppp = 25;
 $rPosts = Query("	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.(_userfields), u.rankset, u.title, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
 				du.(_userfields),
 				t.id thread, t.title threadname,
@@ -56,7 +54,6 @@ $rPosts = Query("	SELECT
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
 				LEFT JOIN {threads} t ON t.id=p.thread

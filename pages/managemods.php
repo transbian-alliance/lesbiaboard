@@ -18,8 +18,8 @@ if(!isset($_GET['action']))
 		$rMods = Query("select * from {forummods} where forum={0}", $forum['id']);
 		while($mods = Fetch($rMods))
 		{
-			$rMod = Query("select name, displayname, id, powerlevel, sex from {users} where id={0}", $mods['user']);
-			$mod = Fetch($rMod);
+			$rMod = Query("select u.(_userfields) from {users} u where u.id={0}", $mods['user']);
+			$mod = getDataPrefix(Fetch($rMod), "u_");
 			$modList .= "<li>".UserLink($mod)."<sup>";
 			$modList .= actionLinkTag("&#x2718;", "managemods", "", "action=delete&fid={$forum['id']}&mid={$mods['user']}");
 			$modList .= "</sup></li>";
@@ -99,7 +99,7 @@ elseif($_GET['action'] == "add")
 	else
 	{
 		$mid = (int)$_GET['mid'];
-		$rMod = Query("insert into {forummods} (forum	, user) values ({0}, {1})", $fid, $mid);
+		$rMod = Query("insert into {forummods} (forum, user) values ({0}, {1})", $fid, $mid);
 
 		die(header("Location: ".actionLink("managemods")));
 	}
