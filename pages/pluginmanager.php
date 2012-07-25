@@ -75,7 +75,7 @@ print '</table>';
 
 function listPlugin($plugin, $plugindata)
 {
-	global $cell, $plugins;
+	global $cell, $plugins, $loguser;
 	
 	print '<tr class="cell'.$cell.'"><td>';
 	print "<b>".$plugindata["name"]."</b><br>";
