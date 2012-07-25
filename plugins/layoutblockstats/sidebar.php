@@ -1,6 +1,6 @@
 <?php
 
-if ($post['uid'] == $loguserid)
+if ($post['u_id'] == $loguserid)
 {
 	if (!$GLOBALS["myblockcount"])
 		$GLOBALS["myblockcount"] = 1+FetchResult("SELECT COUNT(*) FROM blockedlayouts WHERE user={0}", $loguserid);
