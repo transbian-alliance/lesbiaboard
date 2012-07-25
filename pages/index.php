@@ -97,7 +97,6 @@ while($forum = Fetch($rFora))
 ", $forum['cname']);
 	}
 
-	$forum['description'] = str_replace("[trash]","",$forum['description']);
 	$newstuff = 0;
 	$NewIcon = "";
 	$localMods = "";

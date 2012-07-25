@@ -41,6 +41,8 @@ function Plural($i, $s)
 
 	if(substr($s,-1) == "y") //Grammar Nazi strikes back!
 		$s = substr($s, 0, strlen($s)-1)."ies"; //query -> queries
+	if(substr($s,-3) == "tch") //Grammar Nazi strikes back again!
+		$s = $s."es"; //match -> matches
 	else
 		$s .= "s"; //record -> records
 

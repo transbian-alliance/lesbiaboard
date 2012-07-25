@@ -118,5 +118,11 @@ Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perha
 }[/source]",
 			"name" => "Post Preview text"		
 		),
+		
+		"trashForum" => array (
+			"type" => "forum",
+			"default" => "1",
+			"name" => "Trash forum",
+		),
 	);
 ?>

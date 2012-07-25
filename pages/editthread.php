@@ -140,7 +140,7 @@ if($canMod)
 	}
 	elseif($_GET['action'] == "trash")
 	{
-		$trashid = FetchResult("select id from {forums} where description like '%[trash]%' limit 1");
+		$trashid = Settings::get('trashForum');
 		if($trashid > 0)
 		{
 			$rThread = Query("update {threads} set forum={0}, closed=1 where id={1} limit 1", $trashid, $tid);
@@ -222,12 +222,6 @@ else //Has custom icon
 }
 
 if(!isset($_POST['iconid'])) $_POST['iconid'] = 0;
-
-$rFora = Query("select title, id from {forums} order by catid, id");
-while($forum = Fetch($rFora))
-{
-	$moveToTargets .= "<option value=\"".$forum['id']."\">".$forum['title']."</option>";
-}
 
 if($canMod)
 {
@@ -312,7 +306,7 @@ if($canMod)
 					<input type=\"submit\" name=\"action\" value=\"".__("Edit")."\"></input>
 					<button onclick=\"window.navigate('".actionLink("editthread", "{7}", "action=delete")."');\">".__("Delete")."</button>
 
-					<select name=\"moveTo\" size=\"1\">{8}</select>
+					".makeForumList('moveto', -1)."
 					<input type=\"submit\" name=\"action\" value=\"".__("Move")."\" />
 					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
 					<input type=\"hidden\" name=\"key\" value=\"{9}\" />

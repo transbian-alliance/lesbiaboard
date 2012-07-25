@@ -70,4 +70,43 @@ function makeThreadLink($thread)
 		return $link." ".$tags;
 	
 }
+
+
+function makeForumList($fieldname, $selectedID)
+{
+	global $fid, $loguser;
+	
+	$lastCatID = -1;	
+	$rFora = Query("	SELECT 
+							f.id, f.title, f.catid,
+							c.name cname
+						FROM 
+							{forums} f
+							LEFT JOIN {categories} c ON c.id=f.catid
+						ORDER BY c.corder, c.id, f.forder");
+	
+	$theList = "";
+	$optgroup = "";
+	while($forum = Fetch($rFora))
+	{
+		if($forum['catid'] != $lastCatID)
+		{
+			$lastCatID = $forum['catid'];
+			$theList .= format(
+"
+			{0}
+			<optgroup label=\"{1}\">
+", $optgroup, htmlspecialchars($forum['cname']));
+			$optgroup = "</optgroup>";
+		}
+
+		$theList .= format(
+"
+				<option value=\"{0}\"{2}>{1}</option>
+", $forum['id'], htmlspecialchars($forum['title']), ($forum['id'] == $selectedID ? " selected=\"selected\"" : ""));
+	}
+	
+	return "<select id=\"$fieldname\" name=\"$fieldname\">$theList</select>";
+}
+
 ?>

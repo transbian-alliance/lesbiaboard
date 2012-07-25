@@ -119,7 +119,7 @@ if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$key);
 	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$key);
 	
-	if(strpos($forum['description'],"[trash]") === FALSE)
+	if($forum['id'] != Settings::get('trashForum'))
 		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$key);
 }
 else if($thread['user'] == $loguserid)
@@ -347,16 +347,13 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 					<label>
 						<input type=\"checkbox\" name=\"nosm\" {6} />&nbsp;".__("Disable smilies", 1)."
 					</label>
-					<label>
-						<input type=\"checkbox\" name=\"nobr\" {9} />&nbsp;".__("Disable auto-<br>", 1)."
-					</label>
 					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
 					{8}
 				</td>
 			</tr>
 		</table>
 	</form>
-",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod, $nobr);
+",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod);
 }
 
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);

@@ -154,7 +154,7 @@ function doThreadPreview($tid)
 					{3}
 				</td>
 			</tr>
-	",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm, $nobr));
+	",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
 		}
 		Write(
 	"

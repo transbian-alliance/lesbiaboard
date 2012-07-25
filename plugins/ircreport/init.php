@@ -7,3 +7,8 @@ function ircReport($stuff)
 	socket_write($sock, $stuff."\n");
 	socket_close($sock);
 }
+
+function ircColor($c)
+{
+	return sprintf('%02d', $c);
+}

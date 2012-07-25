@@ -97,9 +97,9 @@ if($q = $_SERVER['QUERY_STRING'])
 	$thisURL .= "?$q";
 
 include("notifications.php");
+include("pluginsystem.php");
 include("loguser.php");
 include("permissions.php");
-include("pluginsystem.php");
 include("bbcode.php");
 include("bbcode_callbacks.php");
 include("post.php");
