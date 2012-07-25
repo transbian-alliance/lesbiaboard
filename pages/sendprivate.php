@@ -165,19 +165,17 @@ if($_POST['action']==__("Preview"))
 {
 	if($_POST['text'])
 	{
-		$_POST['realtitle'] = $_POST['title']; //store the real PM title in another field...
-		$_POST['num'] = "---";
-		$_POST['posts'] = "---";
-		$_POST['id'] = "???";
-		$_POST['uid'] = $loguserid;
-		$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime");
-		foreach($copies as $toCopy)
-			$_POST[$toCopy] = $loguser[$toCopy];
-		$realtext = $_POST['text'];
-		$_POST['text'] = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $_POST['text']); //to prevent identity confusion
-		MakePost($_POST, POST_SAMPLE, array('metatext'=>__("Preview")));
-		$_POST['title'] = $_POST['realtitle']; //and put it back for the form.
-		$_POST['text'] = $realtext;
+
+		$previewPost['text'] = $_POST["text"];
+		$previewPost['num'] = "---";
+		$previewPost['posts'] = "---";
+		$previewPost['id'] = "???";
+		$previewPost['options'] = 0;
+
+		foreach($loguser as $key => $value)
+			$previewPost["u_".$key] = $value;
+
+		MakePost($previewPost, POST_SAMPLE, array('metatext'=>__("Preview")));
 	}
 }
 

@@ -89,6 +89,11 @@
 			"default" => 'Right',
 			"name" => "Direction of thread tags.",
 		),
+		"alwaysMinipic" => array (
+			"type" => "boolean",
+			"default" => "0",
+			"name" => "Show Minipics everywhere",
+		),
 		"showPoRA" => array (
 			"type" => "boolean",
 			"default" => "1",

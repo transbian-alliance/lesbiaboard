@@ -20,11 +20,11 @@ $i = 1 - $d['wday'];
 $d = getdate(mktime(0, 0, 0, $month + 1, 0, $year));
 $max = $d['mday'];
 
-$users = Query("select birthday, id, name, displayname, sex, powerlevel from  {users} where birthday != 0 order by name");
+$users = Query("select u.(_userfields), u.birthday as u_birthday from {users} u where birthday != 0 order by name");
 $cells = array();
 while($user = Fetch($users))
 {
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
+	$user = getDataPrefix($user, "u_");
 	$d = getdate($user['birthday']);
 	if($d['mon'] == $month)
 	{

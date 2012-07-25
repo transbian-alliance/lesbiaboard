@@ -84,9 +84,11 @@ function themeResourceLink($what)
 	return $boardroot."themes/$theme/$what";
 }
 
-function UserLink($user, $field = "id", $showMinipic = false)
+function UserLink($user, $showMinipic = false)
 {
 	global $hacks, $dataUrl, $dataDir;
+
+	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 	$fpow = $user['powerlevel'];
 	$fsex = $user['sex'];
@@ -94,10 +96,10 @@ function UserLink($user, $field = "id", $showMinipic = false)
 	$fname = htmlspecialchars($fname);
 
 	$minipic = "";
-	if($showMinipic)
+	if($showMinipic || Settings::get("alwaysMinipic"))
 	{
 		if($user["minipic"] == "#INTERNAL#")
-			$minipic = "<img src=\"${dataUrl}minipics/${user[$field]}\" alt=\"\" class=\"minipic\" />&nbsp;";
+			$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
 		else if($user["minipic"])
 			$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
 	}
@@ -148,7 +150,7 @@ function UserLink($user, $field = "id", $showMinipic = false)
 	
 	$bucket = "userLink"; include('lib/pluginloader.php');
 	
-	$userlink = format("<a href=\"".htmlentities(actionLink("profile", "{0}"))."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user[$field], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
+	$userlink = format("<a href=\"".htmlentities(actionLink("profile", "{0}"))."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user["id"], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
 	return $userlink;
 }
 
@@ -158,9 +160,9 @@ function UserLinkById($id)
 	
 	if(!isset($userlinkCache[$id]))
 	{
-		$rUser = Query("select id, name, displayname, powerlevel, sex from users where id={0}", $id);
+		$rUser = Query("SELECT u.(_userfields) FROM {users} u WHERE u.id={0}", $id);
 		if(NumRows($rUser))
-			$userlinkCache[$id] = Fetch($rUser);
+			$userlinkCache[$id] = getDataPrefix(Fetch($rUser), "u_");
 		else
 			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1);
 	}

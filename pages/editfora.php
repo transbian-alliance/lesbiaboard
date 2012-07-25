@@ -32,8 +32,6 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => ac
 if(!isset($_POST["action"]))
 	$_POST["action"] = $_GET["action"];
 
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-
 $noFooter = true;
 
 switch($_POST['action'])
@@ -41,7 +39,7 @@ switch($_POST['action'])
 	case 'updateforum':
 	
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 
 		//Get new forum data
@@ -62,7 +60,7 @@ switch($_POST['action'])
 	case 'updatecategory':
 	
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 
 		//Get new cat data
@@ -78,7 +76,7 @@ switch($_POST['action'])
 		
 	case 'addforum':
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 	
 		//Get new forum data
@@ -103,7 +101,7 @@ switch($_POST['action'])
 	case 'addcategory':
 	
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 
 		//Get new cat data
@@ -123,7 +121,7 @@ switch($_POST['action'])
 		//TODO: Move and delete threads mode.
 
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 		
 		//Get Forum ID
@@ -146,7 +144,7 @@ switch($_POST['action'])
 		//TODO: Do something with the forums left in it?
 		
 		//Check for the key
-		if (isset($_POST['action']) && $key != $_POST['key'])
+		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
 		
 		//Get Cat ID
@@ -230,7 +228,7 @@ function cell()
 // $fid == -1 means that a new forum should be made :)
 function WriteForumEditContents($fid)
 {
-	global $key;
+	global $loguser;
 
 	//Get all categories.
 	$rCats = Query("SELECT * FROM {categories}");
@@ -378,12 +376,12 @@ function WriteForumEditContents($fid)
 	</div>
 	</form>	
 	
-	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $key, $func, $button, $boxtitle, $delbutton);
+	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $loguser['token'], $func, $button, $boxtitle, $delbutton);
 }
 // $fid == -1 means that a new forum should be made :)
 function WriteCategoryEditContents($cid)
 {
-	global $key;
+	global $loguser;
 
 	//Get all categories.
 	$rCats = Query("SELECT * FROM {categories}");
@@ -427,7 +425,7 @@ function WriteCategoryEditContents($cid)
 	
 	print '
 	<form method="post" id="forumform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="'.$key.'">
+	<input type="hidden" name="key" value="'.$loguser['token'].'">
 	<input type="hidden" name="id" value="'.$cid.'">
 	<table class="outline margin">
 		<tr class="header1">
@@ -466,7 +464,7 @@ function WriteCategoryEditContents($cid)
 	</table></form>
 	
 	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="'.$key.'">
+	<input type="hidden" name="key" value="'.$loguser['token'].'">
 	<input type="hidden" name="id" value="'.$cid.'">
 	<div id="deleteforum" style="display:none">
 		<table>
@@ -612,14 +610,3 @@ function PowerSelect($id, $s)
 	return $r;
 }
 
-//Sort array by values in sub-arrays
-//This will not work if the values in the sub-arrays are the same, but since this is made for ordering forums anyway, who cares?
-function sort_by_order($array, $key, $order_column = "forder")
-{
-	$r = array();
-	foreach ($array as $k => $v)
-	{
-		$r[$v[$order_column]] = $v;
-	}
-	return $r;
-}

@@ -26,10 +26,8 @@ if($action == "q")	//Quote
 
 	$quote = Fetch($rQuote);
 
-	//SPY CHECK!
-	//Do we need to translate this line? It's not even displayed in its true form ._.
 	if($quote['minpower'] > $loguser['powerlevel'])
-		$quote['text'] = str_rot13("Pools closed due to not enough power. Prosecutors will be violated.");
+		die("No.");
 
 	if ($quote['deleted'])
 		$quote['text'] = __("Post is deleted");
@@ -40,25 +38,24 @@ if($action == "q")	//Quote
 }
 else if ($action == 'rp') // retrieve post
 {
-
-	$rPost = Query("	SELECT 
+	$rPost = Query("	
+			SELECT 
 				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
-				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex,
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
+				ru.(_userfields),
+				du.(_userfields),
 				f.id fid
 			FROM 
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={1}
-				LEFT JOIN {users} u2 ON u2.id=pt.user
-				LEFT JOIN {users} u3 ON u3.id=p.deletedby
+				LEFT JOIN {users} ru ON ru.id=pt.user
+				LEFT JOIN {users} du ON du.id=p.deletedby
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
-			WHERE p.id={0}", $id, $loguserid);
+			WHERE p.id={0}", $id);
+
 	
 	if (!NumRows($rPost))
 		die(__("Unknown post ID."));
@@ -134,11 +131,11 @@ elseif($action == "srl")	//Show Revision List
 
 
 	$qRevs = "SELECT 
-				revision, user AS revuser, date AS revdate,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+				revision, date AS revdate,
+				ru.(_userfields)
 			FROM 
 				{posts_text}
-				LEFT JOIN {users} u2 ON u2.id = user
+				LEFT JOIN {users} ru ON ru.id = user
 			WHERE pid={0} 
 			ORDER BY revision ASC";
 	$revs = Query($qRevs, $id);
@@ -151,7 +148,7 @@ elseif($action == "srl")	//Show Revision List
 
 			if ($revision['revuser'])
 			{
-				$ru_link = UserLink(array('id'=>$revision['revuser'], 'name'=>$revision['ru_name'], 'displayname'=>$revision['ru_dn'], 'powerlevel'=>$revision['ru_power'], 'sex'=>$revision['ru_sex']));
+				$ru_link = UserLink(getDataPrefix($revision, "ru_"));
 				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($revision['revdate']));
 			}
 			else
@@ -166,20 +163,22 @@ elseif($action == "srl")	//Show Revision List
 }
 elseif($action == "sr")	//Show Revision
 {
-	$qPost = "	SELECT 
-				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, p.thread,
+
+	$rPost = Query("	
+			SELECT 
+				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
+				ru.(_userfields),
+				du.(_userfields)
 			FROM 
 				{posts} p 
-				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = ".(int)$_GET['rev']."
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = {1} 
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee=".$loguserid."
-				LEFT JOIN {users} u2 ON IF(p.deleted, u2.id=p.deletedby, u2.id=pt.user)
-			WHERE pt.pid=".$id;
-			
+				LEFT JOIN {users} ru ON ru.id=pt.user
+				LEFT JOIN {users} du ON du.id=p.deletedby
+			WHERE p.id={0}", $id, (int)$_GET['rev']);
+	
 	$rPost = Query($qPost);
 	if(NumRows($rPost))
 		$post = Fetch($rPost);

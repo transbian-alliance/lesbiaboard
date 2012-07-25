@@ -67,8 +67,7 @@ if(isset($_GET['vote']))
 	{
 		$vote = (int)$_GET['vote'];
 		
-		$token = hash('sha256', "{$vote},{$loguserid},{$salt}");
-		if ($token != $_GET['token'])
+		if ($loguser["token"] != $_GET['token'])
 			Kill(__("Invalid token."));
 		
 		$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
@@ -106,21 +105,19 @@ elseif(IsAllowed("makeReply", $tid))
 	$links .= "<li>".__("Thread closed.");
 if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 {
-	$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-	
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 	if($thread['closed'])
-		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$key);
+		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token']);
 	else
-		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$key);
+		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token']);
 	if($thread['sticky'])
-		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$key);
+		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']);
 	else
-		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$key);
-	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$key);
+		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']);
+	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$loguser['token']);
 	
 	if($forum['id'] != Settings::get('trashForum'))
-		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$key);
+		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']);
 }
 else if($thread['user'] == $loguserid)
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
@@ -180,10 +177,7 @@ if($thread['poll'])
 
 			$cellClass = ($cellClass+1) % 2;
 			if($loguserid && !$thread['closed'] && IsAllowed("vote"))
-			{
-				$token = hash('sha256', "{$pops},{$loguserid},{$salt}");
-				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=$token");
-			}
+				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=".$loguser["token"]);
 			else
 				$label = format("{0} {1}", $pc[$pops], $option['choice']);
 			
@@ -241,11 +235,6 @@ if($thread['poll'])
 $rRead = Query("delete from {threadsread} where id={0} and thread={1}", $loguserid, $tid);
 $rRead = Query("insert into {threadsread} (id,thread,date) values ({0}, {1}, {2})", $loguserid, $tid, time());
 
-$activity = array();
-$rActivity = Query("select user, count(*) num from {posts} where date > {0} group by user", (time() - 86400));
-while($act = Fetch($rActivity))
-	$activity[$act['user']] = $act['num'];
-
 $total = $thread['replies'] + 1; //+1 for the OP
 $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
@@ -257,20 +246,19 @@ else
 	else
 		$from = 0;
 
-$rPosts = Query("	SELECT 
+$rPosts = Query("
+			SELECT 
 				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
-				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
+				ru.(_userfields),
+				du.(_userfields)
 			FROM 
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
-				LEFT JOIN {users} u2 ON u2.id=pt.user
-				LEFT JOIN {users} u3 ON u3.id=p.deletedby
+				LEFT JOIN {users} ru ON ru.id=pt.user
+				LEFT JOIN {users} du ON du.id=p.deletedby
 			WHERE thread={1} 
 			ORDER BY date ASC LIMIT {2}, {3}", $loguserid, $tid, $from, $ppp);
 
@@ -283,12 +271,6 @@ if(NumRows($rPosts))
 {
 	while($post = Fetch($rPosts))
 	{
-		$user = $post;
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
-		$post = $user;
-		//$poster = $post;
-		//$poster['id'] = $post['uid'];
-		$post['activity'] = $activity[$post['uid']];
 		$post['closed'] = $thread['closed'];
 		MakePost($post, POST_NORMAL, array('tid'=>$tid, 'fid'=>$fid));
 	}

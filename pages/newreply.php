@@ -62,20 +62,17 @@ if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['las
 
 if(isset($_POST['actionpreview']))
 {
-	$previewPost['layoutblocked'] = $loguser['globalblock'];
-	
 	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $loguser['posts']+1;
 	$previewPost['posts'] = $loguser['posts']+1;
 	$previewPost['id'] = "???";
-	$previewPost['uid'] = $loguserid;
-	$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime,rankset");
-	foreach($copies as $toCopy)
-		$previewPost[$toCopy] = $loguser[$toCopy];
-	$previewPost['mood'] = (int)$_POST['mood'];
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
+	$previewPost['mood'] = (int)$_POST['mood'];
+	foreach($loguser as $key => $value)
+		$previewPost["u_".$key] = $value;
+
 	MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 }
 else if(isset($_POST['actionpost']))
@@ -297,45 +294,5 @@ write("
 	</table>
 ");
 
-$rPosts = Query("select 
-{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.sex, {users}.posts
-from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user
-where thread={0} and deleted=0 order by date desc limit 0, 20", $tid);
-if(NumRows($rPosts))
-{
-	$posts = "";
-	while($post = Fetch($rPosts))
-	{
-		$cellClass = ($cellClass+1) % 2;
+doThreadPreview($tid);
 
-		$poster = $post;
-		$poster['id'] = $post['uid'];
-
-		$nosm = $post['options'] & 2;
-		$nobr = $post['options'] & 4;
-
-		$posts .= Format(
-"
-		<tr>
-			<td class=\"cell2\" style=\"width: 15%; vertical-align: top;\">
-				{1}
-			</td>
-			<td class=\"cell{0}\">
-				<button style=\"float: right;\" onclick=\"insertQuote({2});\">".__("Quote")."</button>
-				<button style=\"float: right;\" onclick=\"insertChanLink({2});\">".__("Link")."</button>
-				{3}
-			</td>
-		</tr>
-",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
-	}
-	Write(
-"
-	<table class=\"outline margin\">
-		<tr class=\"header0\">
-			<th colspan=\"2\">".__("Thread review")."</th>
-		</tr>
-		{0}
-	</table>
-",	$posts);
-}
-?>

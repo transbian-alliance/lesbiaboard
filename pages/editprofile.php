@@ -11,8 +11,7 @@ if ($loguser['powerlevel'] < 0)
 	Kill(__("Banned users may not edit their profile."));
 }
 
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-if (isset($_POST['action']) && $key != $_POST['key'])
+if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 {
 	Kill(__("No."));
 }
@@ -922,7 +921,7 @@ if($editUserMode && $user['powerlevel'] < 4 && $user['tempbantime'] == 0)
 			</tr>
 		</table>
 	</form>
-", $userid, $key);
+", $userid, $loguser['token']);
 
 Write("<div class=\"margin width0\" id=\"tabs\">");
 foreach($tabs as $id => $tab)
@@ -970,7 +969,7 @@ Write(
 		<input type=\"hidden\" name=\"key\" value=\"{1}\" />
 	</div>
 </form>
-", $id, $key, $editUserFields);
+", $id, $loguser['token'], $editUserFields);
 
 function BuildPage($page, $id)
 {

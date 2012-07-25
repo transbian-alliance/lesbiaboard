@@ -150,10 +150,10 @@ function MakeUserAtLink($matches)
 		}
 	}
 	//Didn't find it in the cache.
-	$rUser = Query("select id, name, displayname, powerlevel, sex from {users} where name={0} or displayname={0}", $username);
+	$rUser = Query("select u.(_userfields) from {users} u where name={0} or displayname={0}", $username);
 	if(NumRows($rUser))
 	{
-		$hit = Fetch($rUser);
+		$hit = getDataPrefix(Fetch($rUser), "u_");
 		$members[$hit['id']] = $hit;
 		return UserLink($hit);
 	}
@@ -298,42 +298,43 @@ function securityPostFilter($s)
 	return $s;
 }
 
-function makePostText($post)
+$activityCache = array();
+function getActivity($id)
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt;
+	global $activityCache;
+	
+	if(!isset($activityCache[$id]))
+		$activityCache[$id] = FetchResult("select count(*) from {posts} where user = {0} and date > {1}", $id, (time() - 86400));
 
-	LoadBlockLayouts();
+	return $activityCache[$id];
+}
 
-	$isBlocked = $post['layoutblocked'] | $loguser['blocklayouts'] | $post['options'] & 1;
+function makePostText($post, $isBlocked)
+{
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt;
+
+	$poster = getDataPrefix($post, "u_");
+
 	$noSmilies = $post['options'] & 2;
 	$noBr = $post['options'] & 4;
 
+	//Do Ampersand Tags
 	$tags = array();
-	$rankHax = $post['posts'];
-	//if($post['num'] == "preview")
-	//	$post['num'] = $post['posts'];
-	//
-	//	Crappy hack to fix what another crappy hack broke
-	$post2 = $post;
-	$post2['posts'] = $post['num'];
-	//Disable tags by commenting/removing this part.
-	// TODO: this could be done only once somewhere else (unless plugins doing stuff like per-user &tags& are desired)
 	$tags = array
 	(
 		"postnum" => $post['num'],
-		"postcount" => $post['posts'],
-		"numdays" => floor((time()-$post['regdate'])/86400),
+		"postcount" => $poster['posts'],
+		"numdays" => floor((time()-$poster['regdate'])/86400),
 		"date" => formatdate($post['date']),
-		"rank" => GetRank($post2),
+		"rank" => GetRank($poster),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
 
-	$post['posts'] = $rankHax;
-
-	$postText = CleanUpPost(ApplyTags($post['text'], $tags), $post['name'], $noSmilies, $noBr);
+	$postText = $post['text'];
+	$postText = ApplyTags($postText, $tags);
+	$postText = CleanUpPost($postText, $poster['name'], $noSmilies, $noBr);
 
 	//Post header and footer.
-	//OMFG, more hax.
 	$magicString = "###POSTTEXTGOESHEREOMG###";
 	$separator = "";
 	
@@ -341,12 +342,12 @@ function makePostText($post)
 		$postLayout = $magicString;
 	else
 	{
-		$postLayout = $post['postheader'].$magicString.$post['signature'];
+		$postLayout = $poster['postheader'].$magicString.$poster['signature'];
 		$postLayout = ApplyTags($postLayout, $tags);
-		$postLayout = CleanUpPost($postLayout, $post['name'], $noSmilies, true);
+		$postLayout = CleanUpPost($postLayout, $poster['name'], $noSmilies, true);
 		
-		if($post['signature'])
-			if(!$post['signsep'])
+		if($poster['signature'])
+			if(!$poster['signsep'])
 				$separator = "<br />_________________________<br />";
 			else
 				$separator = "<br />";
@@ -378,7 +379,10 @@ function MakePost($post, $type, $params=array())
 	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt, $dataDir, $dataUrl;
 
 	$sideBarStuff = "";
-
+	$poster = getDataPrefix($post, "u_");
+	LoadBlockLayouts();
+	$isBlocked = $poster['globalblock'] || $loguser['blocklayouts'] || $post['options'] & 1 || isset($blocklayouts[$poster['id']]);
+	
 	if(isset($_GET['pid']))
 		$highlight = (int)$_GET['pid'];
 
@@ -388,7 +392,7 @@ function MakePost($post, $type, $params=array())
 		$meta .= __(', deleted');
 		if ($post['deletedby'])
 		{
-			$db_link = UserLink(array('id'=>$post['deletedby'], 'name'=>$post['du_name'], 'displayname'=>$post['du_dn'], 'powerlevel'=>$post['du_power'], 'sex'=>$post['du_sex']));
+			$db_link = UserLink(getDataPrefix($post, "du_"));
 			$meta .= __(' by ').$db_link;
 			
 			if ($post['reason'])
@@ -398,9 +402,8 @@ function MakePost($post, $type, $params=array())
 		$links = '<ul class="pipemenu">';
 		if(CanMod($loguserid,$params['fid']))
 		{
-			$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 			if (IsAllowed("editPost", $post['id']))
-				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
+				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
 			$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
 		}
 		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
@@ -419,7 +422,7 @@ function MakePost($post, $type, $params=array())
 				</td>
 			</tr>
 		</table>
-",	$post['id'], UserLink($post, "uid"), $meta, $links
+",	$post['id'], UserLink($poster), $meta, $links
 );
 		return;
 	}
@@ -440,10 +443,9 @@ function MakePost($post, $type, $params=array())
 		{
 			if ($type == POST_DELETED_SNOOP)
 			{
-				$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 				$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
 				if ($editallowed)
-					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$key);
+					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
 				$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",false); return false;\">".__("Close")."</a></li>";
 				$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
 			}
@@ -456,7 +458,7 @@ function MakePost($post, $type, $params=array())
 				if ($canreply && !$params['noreplylinks'])
 					$links .= actionLinkTagItem(__("Quote"), "newreply", $thread, "quote=".$post['id']);
 
-				if ($editallowed && ($canmod || ($post['uid'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
+				if ($editallowed && ($canmod || ($poster['id'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
 					$links .= actionLinkTagItem(__("Edit"), "editpost", $post['id']);
 
 				if ($editallowed && $canmod)
@@ -464,8 +466,7 @@ function MakePost($post, $type, $params=array())
 					// TODO: perhaps make delete links not require a key to be passed
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
-					$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
-					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$key);
+					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$loguser['token']);
 					$links .= "<li><a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a></li>";
 				}
 				if ($canreply && !$params['noreplylinks'])
@@ -500,7 +501,7 @@ function MakePost($post, $type, $params=array())
 		{
 			if ($post['revuser'])
 			{
-				$ru_link = UserLink(array('id'=>$post['revuser'], 'name'=>$post['ru_name'], 'displayname'=>$post['ru_dn'], 'powerlevel'=>$post['ru_power'], 'sex'=>$post['ru_sex']));
+				$ru_link = UserLink(getDataPrefix($post, "du_"));
 				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
 			}
 			else
@@ -517,66 +518,61 @@ function MakePost($post, $type, $params=array())
 	$sideBarStuff .= GetRank($post);
 	if($sideBarStuff)
 		$sideBarStuff .= "<br />";
-	if($post['title'])
-		$sideBarStuff .= strip_tags(CleanUpPost($post['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br><small>")."<br />";
+	if($poster['title'])
+		$sideBarStuff .= strip_tags(CleanUpPost($poster['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br><small>")."<br />";
 	else
 	{
 		$levelRanks = array(-1=>__("Banned"), 0=>"", 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Administrator"));
-		$sideBarStuff .= $levelRanks[$post['powerlevel']]."<br />";
+		$sideBarStuff .= $levelRanks[$poster['powerlevel']]."<br />";
 	}
-	$sideBarStuff .= GetSyndrome($post['activity']);
+	$sideBarStuff .= GetSyndrome(getActivity($poster["id"]));
 
 	if($post['mood'] > 0)
 	{
-		if(file_exists("${dataDir}avatars/".$post['uid']."_".$post['mood']))
-			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."_".$post['mood']."\" alt=\"\" />";
+		if(file_exists("${dataDir}avatars/".$poster['id']."_".$post['mood']))
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$poster['id']."_".$post['mood']."\" alt=\"\" />";
 	}
 	else
 	{
-		if($post["picture"] == "#INTERNAL#")
-			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$post['uid']."\" alt=\"\" />";
-		else if($post["picture"])
-			$sideBarStuff .= "<img src=\"".htmlspecialchars($post["picture"])."\" alt=\"\" />";
+		if($poster["picture"] == "#INTERNAL#")
+			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$poster['id']."\" alt=\"\" />";
+		else if($poster["picture"])
+			$sideBarStuff .= "<img src=\"".htmlspecialchars($poster["picture"])."\" alt=\"\" />";
 	}
 
-	$lastpost = ($post['lastposttime'] ? timeunits(time() - $post['lastposttime']) : "none");
-	$lastview = timeunits(time() - $post['lastactivity']);
+	$lastpost = ($poster['lastposttime'] ? timeunits(time() - $poster['lastposttime']) : "none");
+	$lastview = timeunits(time() - $poster['lastactivity']);
 
 	if(!$params['forcepostnum'] && ($type == POST_PM || $type == POST_SAMPLE))
-		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['posts'];
+		$sideBarStuff .= "<br />\n".__("Posts:")." ".$poster['posts'];
 	else
-		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['num']."/".$post['posts'];
+		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['num']."/".$poster['posts'];
 
-	$sideBarStuff .= "<br />\n".__("Since:")." ".cdate($loguser['dateformat'], $post['regdate'])."<br />";
+	$sideBarStuff .= "<br />\n".__("Since:")." ".cdate($loguser['dateformat'], $poster['regdate'])."<br />";
 
 	$bucket = "sidebar"; include("./lib/pluginloader.php");
 
 	$sideBarStuff .= "<br />\n".__("Last post:")." ".$lastpost;
 	$sideBarStuff .= "<br />\n".__("Last view:")." ".$lastview;
-/*
-	if($hacks['themenames'] == 3)
-	{
-		$sideBarStuff = "";
-		$isBlocked = 1;
-	}*/
 
-	if($post['lastactivity'] > time() - 300)
+	if($poster['lastactivity'] > time() - 300)
 		$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
 
 	if($type == POST_NORMAL)
 		$anchor = "<a name=\"".$post['id']."\" />";
+	
 	if(!$isBlocked)
 	{
-		$pTable = "table".$post['uid'];
-		$row1 = "row".$post['uid']."_1";
-		$row2 = "row".$post['uid']."_2";
-		$topBar1 = "topbar".$post['uid']."_1";
-		$topBar2 = "topbar".$post['uid']."_2";
-		$sideBar = "sidebar".$post['uid'];
-		$mainBar = "mainbar".$post['uid'];
+		$pTable = "table".$poster['id'];
+		$row1 = "row".$poster['id']."_1";
+		$row2 = "row".$poster['id']."_2";
+		$topBar1 = "topbar".$poster['id']."_1";
+		$topBar2 = "topbar".$poster['id']."_2";
+		$sideBar = "sidebar".$poster['id'];
+		$mainBar = "mainbar".$poster['id'];
 	}
 
-	$postText = makePostText($post);
+	$postText = makePostText($post, $isBlocked);
 
 	$postCode =
 "
@@ -618,7 +614,7 @@ function MakePost($post, $type, $params=array())
 
 	write($postCode,
 			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
-			UserLink($post, "uid"), $sideBarStuff, $meta, $links,
+			UserLink($poster), $sideBarStuff, $meta, $links,
 			"", $postText, "", "", $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
 
 }

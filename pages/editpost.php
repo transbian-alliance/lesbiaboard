@@ -9,8 +9,6 @@ if(!$loguserid)
 
 if($loguser['powerlevel'] < 0)
 	Kill(__("Banned users can't edit their posts."));
-	
-$key = hash('sha256', "{$loguserid},{$loguser['pss']},{$salt}");
 
 if(isset($_POST['id']))
 	$_GET['id'] = $_POST['id'];
@@ -21,12 +19,20 @@ if(!isset($_GET['id']))
 $pid = (int)$_GET['id'];
 AssertForbidden("editPost", $pid);
 
-$rPost = Query("select {posts}.*, {posts_text}.text from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision where id={0}", $pid);
+$rPost = Query("
+	SELECT 
+		{posts}.*, 
+		{posts_text}.text 
+	FROM {posts} 
+		LEFT JOIN {posts_text} ON {posts_text}.pid = {posts}.id AND {posts_text}.revision = {posts}.currentrevision
+	WHERE id={0}", $pid);
+
 if(NumRows($rPost))
 {
 	$post = Fetch($rPost);
 	$tid = $post['thread'];
-} else
+}
+else
 	Kill(__("Unknown post ID."));
 
 $rThread = Query("select * from {threads} where id={0}", $tid);
@@ -45,17 +51,14 @@ $fid = $forum['id'];
 AssertForbidden("viewForum", $fid);
 
 //-- Mark as New if last post is edited --
-//print $thread['lastpostdate']."<br/>";
-//print $post['date']."<br/>";
 $wasLastPost = ($thread['lastpostdate'] == $post['date']);
-//print (int)$wasLastPost;
 
 $thread['title'] = htmlspecialchars($thread['title']);
 $fid = $thread['forum'];
 
 if((int)$_GET['delete'] == 1)
 {
-	if ($_GET['key'] != $key) Kill(__("No."));
+	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to delete posts."));
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
@@ -63,7 +66,7 @@ if((int)$_GET['delete'] == 1)
 	die(header("Location: ".actionLink("thread", $tid)));
 } elseif((int)$_GET['delete'] == 2)
 {
-	if ($_GET['key'] != $key) Kill(__("No."));
+	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to undelete posts."));
 	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
@@ -107,7 +110,7 @@ if(!isset($_POST['action']))
 
 if($_POST['action'] == __("Edit"))
 {
-	if ($_POST['key'] != $key) Kill(__("No."));
+	if ($_POST['key'] != $loguser['token']) Kill(__("No."));
 	
 	if($_POST['text'])
 	{
@@ -150,26 +153,18 @@ if($_POST['action'] == __("Preview"))
 		$user = Fetch($rUser);
 	else
 		Kill(__("Unknown user ID."));
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 	if($_POST['text'])
 	{
-		$layoutblocked = $user['globalblock'];
-		if ($post['user'] != $loguserid)
-			$layoutblocked = $layoutblocked || FetchResult("SELECT COUNT(*) FROM {blockedlayouts} WHERE user={0} AND blockee={1}", $post['user'], $loguserid);
-		$previewPost['layoutblocked'] = $layoutblocked;
-		
 		$previewPost['text'] = $prefill;
 		$previewPost['num'] = $post['num'];
 		$previewPost['id'] = $pid;
-		$previewPost['uid'] = $post['user'];
-		$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,posts,regdate,lastactivity,lastposttime,rankset");
-		foreach($copies as $toCopy)
-			$previewPost[$toCopy] = $user[$toCopy];
 		$previewPost['options'] = 0;
 		if($_POST['nopl']) $previewPost['options'] |= 1;
 		if($_POST['nosm']) $previewPost['options'] |= 2;
 		$previewPost['mood'] = (int)$_POST['mood'];
+		foreach($user as $key => $value)
+			$previewPost["u_".$key] = $value;
 		MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 	}
 	else
@@ -235,7 +230,7 @@ Write(
 				</form>
 			</td>
 			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	htmlspecialchars($prefill), $moodOptions, $pid, $nopl, $nosm, $nobr, $key);
+",	htmlspecialchars($prefill), $moodOptions, $pid, $nopl, $nosm, $nobr, $loguser['token']);
 
 DoSmileyBar();
 DoPostHelp();
@@ -247,46 +242,5 @@ Write(
 	</table>
 ");
 
-$rPosts = Query("select 
-{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.sex, {users}.posts
-from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user
-where thread={0} and deleted=0 order by date desc limit 0, 20", $tid);
-if(NumRows($rPosts))
-{
-	$posts = "";
-	while($post = Fetch($rPosts))
-	{
-		$cellClass = ($cellClass+1) % 2;
+doThreadPreview($tid);
 
-		$poster = $post;
-		$poster['id'] = $post['uid'];
-
-		$nosm = $post['options'] & 2;
-		$nobr = $post['options'] & 4;
-
-		$posts .= Format(
-"
-		<tr>
-			<td class=\"cell2\" style=\"width: 15%; vertical-align: top;\">
-				{1}
-			</td>
-			<td class=\"cell{0}\">
-				<button style=\"float: right;\" onclick=\"insertQuote({2});\">".__("Quote")."</button>
-				<button style=\"float: right;\" onclick=\"insertChanLink({2});\">".__("Link")."</button>
-				{3}
-			</td>
-		</tr>
-",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
-	}
-	Write(
-"
-	<table class=\"outline margin\">
-		<tr class=\"header0\">
-			<th colspan=\"2\">".__("Thread review")."</th>
-		</tr>
-		{0}
-	</table>
-",	$posts);
-}
-
-?>

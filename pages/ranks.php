@@ -8,9 +8,9 @@ if($setCount == 0)
 	Kill(__("No ranksets have been defined."));
 
 $users = array();
-$rUsers = Query("select id, name, displayname, powerlevel, sex, posts from {users} order by id asc");
+$rUsers = Query("select u.(_userfields), u.posts as u_posts from {users} u order by id asc");
 while($user = Fetch($rUsers))
-	$users[$user['id']] = $user;
+	$users[$user['u_id']] = getDataPrefix($user, "u_");
 
 $rankset = $loguser['rankset'];
 if($rankset == 0)

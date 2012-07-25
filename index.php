@@ -14,7 +14,6 @@ function getBirthdaysText()
 	$birthdays = array();
 	while($user = Fetch($rBirthdays))
 	{
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
 		$b = $user['birthday'];
 		if(gmdate("m-d", $b) == gmdate("m-d"))
 		{

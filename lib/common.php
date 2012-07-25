@@ -98,6 +98,7 @@ if($q = $_SERVER['QUERY_STRING'])
 
 include("notifications.php");
 include("pluginsystem.php");
+loadFieldLists();
 include("loguser.php");
 include("permissions.php");
 include("bbcode.php");

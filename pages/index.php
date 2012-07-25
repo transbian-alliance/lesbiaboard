@@ -29,8 +29,8 @@ $stats .= "<br />".format(__("{0} today, {1} last hour"), Plural($newToday, __("
 $numUsers = FetchResult("select count(*) from {users}");
 $numActive = FetchResult("select count(*) from {users} where lastposttime > {0}", (time() - 2592000)); //30 days
 $percent = $numUsers ? ceil((100 / $numUsers) * $numActive) : 0;
-$rLastUser = Query("select id,name,displayname,powerlevel,sex from {users} order by regdate desc limit 1");
-$lastUser = Fetch($rLastUser);
+$rLastUser = Query("select u.(_userfields) from {users} u order by u.regdate desc limit 1");
+$lastUser = getDataPrefix(Fetch($rLastUser), "u_");
 $last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered user")), $numActive, $percent)."<br />".format(__("Newest: {0}"), UserLink($lastUser));
 
 $pl = $loguser['powerlevel'];
@@ -63,7 +63,7 @@ $rFora = Query("	SELECT f.*,
 						".($loguserid ? "(NOT ISNULL(i.fid))" : "0")." ignored,
 						(SELECT COUNT(*) FROM {threads} t".($loguserid ? " LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={0}" : "")."
 							WHERE t.forum=f.id AND t.lastpostdate>".($loguserid ? "IFNULL(tr.date,0)" : time()-900).") numnew,
-						lu.id luid, lu.name luname, lu.displayname ludisplayname, lu.powerlevel lupowerlevel, lu.sex lusex
+						lu.(_userfields)
 					FROM {forums} f
 						LEFT JOIN {categories} c ON c.id=f.catid
 						".($loguserid ? "LEFT JOIN {ignoredforums} i ON i.fid=f.id AND i.uid={0}" : "")."
@@ -71,10 +71,10 @@ $rFora = Query("	SELECT f.*,
 					WHERE f.minpower<={1}".(($pl < 1) ? " AND f.hidden=0" : '')."
 					ORDER BY c.corder, c.id, f.forder, f.id", $loguserid, $pl);
 
-$rMods = Query("SELECT m.forum, u.id, u.name, u.displayname, u.powerlevel, u.sex FROM {forummods} m LEFT JOIN {users} u ON m.user=u.id");
+$rMods = Query("SELECT m.forum, u.(_userfields) FROM {forummods} m LEFT JOIN {users} u ON m.user=u.id");
 $mods = array();
 while($mod = Fetch($rMods))
-	$mods[$mod['forum']][] = $mod;
+	$mods[$mod['forum']][] = getDataPrefix($mod, "u_");
 
 $theList = "";
 while($forum = Fetch($rFora))
@@ -108,21 +108,15 @@ while($forum = Fetch($rFora))
 		$NewIcon = "<img src=\"img/status/new.png\" alt=\"New!\"/>".$newstuff;
 
 	if ($mods[$forum['id']])
-	{
 		foreach($mods[$forum['id']] as $user)
-		{
-			$bucket = "userMangler"; include("./lib/pluginloader.php");
 			$localMods .= UserLink($user). ", ";
-		}
-	}
 
 	if($localMods)
 		$localMods = "<br /><small>".__("Moderated by:")." ".substr($localMods,0,strlen($localMods)-2)."</small>";
 
 	if($forum['lastpostdate'])
 	{
-		$user = array('id'=>$forum['luid'], 'name'=>$forum['luname'], 'displayname'=>$forum['ludisplayname'], 'powerlevel'=>$forum['lupowerlevel'], 'sex'=>$forum['lusex']);
-		$bucket = "userMangler"; include("./lib/pluginloader.php");
+		$user = getDataPrefix($forum, "lu_");
 		
 		$lastLink = "";
 		if($forum['lastpostid'])

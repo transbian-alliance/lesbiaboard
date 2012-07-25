@@ -14,7 +14,6 @@ if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
 	Kill(__("Unknown user ID."));
-$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 $title = __("Post list");
 
@@ -46,19 +45,17 @@ if(!$ppp) $ppp = 25;
 $rPosts = Query("	SELECT 
 				p.thread, p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
-				u.id as uid, u.name, u.displayname, u.rankset, u.powerlevel, u.title, u.sex, u.picture, u.posts, u.postheader, u.signature, u.signsep, u.lastposttime, u.lastactivity, u.regdate,
-				(u.globalblock OR !ISNULL(bl.user)) layoutblocked,
-				u2.name AS ru_name, u2.displayname AS ru_dn, u2.powerlevel AS ru_power, u2.sex AS ru_sex,
-				u3.name AS du_name, u3.displayname AS du_dn, u3.powerlevel AS du_power, u3.sex AS du_sex,
+				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
+				ru.(_userfields),
+				du.(_userfields),
 				t.id thread, t.title threadname,
 				f.id fid
 			FROM 
 				{posts} p 
 				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {users} u ON u.id = p.user
-				LEFT JOIN {blockedlayouts} bl ON bl.user=u.id AND bl.blockee={0}
-				LEFT JOIN {users} u2 ON u2.id=pt.user
-				LEFT JOIN {users} u3 ON u3.id=p.deletedby
+				LEFT JOIN {users} ru ON ru.id=pt.user
+				LEFT JOIN {users} du ON du.id=p.deletedby
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
 				LEFT JOIN {categories} c ON c.id=f.catid

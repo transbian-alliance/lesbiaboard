@@ -115,11 +115,10 @@ if(isset($_POST['actionpreview']))
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
 	$previewPost['mood'] = (int)$_POST['mood'];
-	$previewPost['uid'] = $loguserid;
-	$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime");
-	foreach($copies as $toCopy)
-		$previewPost[$toCopy] = $loguser[$toCopy];
-	$previewPost['layoutblocked'] = $loguser['globalblock'];
+
+	foreach($loguser as $key => $value)
+		$previewPost["u_".$key] = $value;
+
 	MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 }
 else if(isset($_POST['actionpost']))

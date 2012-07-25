@@ -124,7 +124,6 @@ if ($_GET['listing'])  {
 	{
 		while($user = Fetch($rUsers))
 		{
-			$bucket = "userMangler"; include("./lib/pluginloader.php");
 			$daysKnown = (time()-$user['regdate'])/86400;
 			$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
 

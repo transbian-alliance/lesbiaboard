@@ -24,7 +24,7 @@ if(isset($_GET['from']))
 else
 	$from = 0;
 
-$peeps = Query("select id, name, displayname, lastip, lastknownbrowser, sex, powerlevel from {users} where powerlevel < 5 order by {0} limit {1}, {2}", $sort, $from, $ppp);
+$peeps = Query("select u.(_userfields), lastip, lastknownbrowser from {users} u where powerlevel < 5 order by {0} limit {1}, {2}", $sort, $from, $ppp);
 
 $numonpage = NumRows($peeps);
 for($i = $ppp; $i < $numUsers; $i+=$ppp)
@@ -82,13 +82,12 @@ else
 $items = "";
 while($user = Fetch($peeps))
 {
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
 	$lip = $user['lastip'];
 	$lkb = $user['lastknownbrowser'];
 	$lkb = str_replace("-->", "", str_replace("<!--", " &mdash;", $lkb));
 
 	$cellClass = ($cellClass+1) % 2;
-	$items .= format($format, $cellClass, $user['id'], UserLink($user), IP2C($lip), formatIP($lip), $lkb);
+	$items .= format($format, $cellClass, $user['id'], UserLink(getDataPrefix($user, "u_")), IP2C($lip), formatIP($lip), $lkb);
 }
 
 if($isMod)

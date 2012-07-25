@@ -25,23 +25,25 @@ else
 $tpp = 5;
 
 print "<h2 style='text-align:center;'>Latest News</h2>";
-
 $rThreads = Query("	SELECT 
-						t.*,
-						".($loguserid ? "tr.date readdate," : '')."
-						$userSelectSU,
-						$userSelectLU
+						t.id, t.title, t.closed, t.replies, t.lastpostid,
+						p.date, p.options, 
+						pt.text, 
+						su.(_userfields),
+						lu.(_userfields)
 					FROM 
 						{threads} t
-						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id=".$loguserid : '')."
+						LEFT JOIN {posts} p ON p.thread=t.id AND p.date=(SELECT MIN(p2.date) FROM {posts} p2 WHERE p2.thread=t.id)
+						LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 					WHERE forum={0}
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1}, {2}", $fid, $from, $tpp);
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1}, {2}", 
+						$fid, $from, $tpp);
 
 $numonpage = NumRows($rThreads);
 
-$pagelinks = PageLinks(actionLink("", "", "from="), 10, $from, $total);
+$pagelinks = PageLinks(actionLink("", "", "from="), $tpp, $from, $total);
 
 if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
@@ -50,13 +52,8 @@ $haveStickies = 0;
 
 while($thread = Fetch($rThreads))
 {
-	$user = UserStructure($thread, "su");
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
-	$starter = $user;
-	
-	$user = UserStructure($thread, "lu");
-	$bucket = "userMangler"; include("./lib/pluginloader.php");
-	$last = $user;
+	$starter = getDataPrefix($thread, "su_");
+	$last = getDataPrefix($thread, "lu_");
 
 	$tags = ParseThreadTags($thread['title']);
 
@@ -71,17 +68,8 @@ while($thread = Fetch($rThreads))
 	$subtitle = strip_tags($thread['subtitle']);
 	if($subtitle != "") $subtitle = '<br>'.$subtitle;
 	
-	$qPosts = "select ";
-	$qPosts .=
-	"{posts}.thread, {posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, {posts_text}.text, {posts_text}.text, {posts_text}.revision, {users}.id as uid, {users}.name, {users}.displayname, {users}.rankset, {users}.powerlevel, {users}.title, {users}.sex, {users}.picture, {users}.posts, {users}.postheader, {users}.signature, {users}.signsep, {users}.globalblock, {users}.lastposttime, {users}.lastactivity, {users}.regdate";
-	$qPosts .= 
-	" from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user";
-	$qPosts .= " where thread={0} order by date asc limit 1";
-	$rPosts = Query($qPosts, $thread['id']);
-	$post = Fetch($rPosts);
-	
-	$postdate = formatdate($post['date']);
-	$posttext = CleanUpPost($post['text'],$post['name'], false, false);
+	$postdate = formatdate($thread['date']);
+	$posttext = CleanUpPost($thread['text'],$thread['u_name'], false, false);
 
 	$comments = Plural($thread['replies'], "comment");
 	$comments = actionLinkTag($comments, "thread", $thread['id']).". ";

@@ -38,7 +38,6 @@ if(NumRows($rUser))
 	$user = Fetch($rUser);
 else
 	Kill(__("Unknown user."));
-$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
@@ -62,10 +61,9 @@ MakeCrumbs(array(("Private messages")=>actionLink("private"), $pmtitle=>""), $li
 $pm['num'] = "preview";
 $pm['posts'] = $user['posts'];
 $pm['id'] = "???";
-$pm['uid'] = $user['id'];
-$copies = explode(",","title,name,displayname,picture,sex,powerlevel,avatar,postheader,signature,signsep,regdate,lastactivity,lastposttime");
-foreach($copies as $toCopy)
-	$pm[$toCopy] = $user[$toCopy];
+
+foreach($user as $key => $value)
+	$pm["u_".$key] = $value;
 
 if($draftEditor)
 {
