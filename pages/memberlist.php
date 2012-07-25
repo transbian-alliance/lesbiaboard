@@ -70,6 +70,8 @@ $rUsers = Query("select * from {users} where ".$where." order by ".$order.", nam
 
 function PageLinks2($url, $epp, $from, $total)
 {
+	if ($total < 1) return '';
+	
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 
@@ -97,11 +99,15 @@ $pagelinks = PageLinks2("javascript:refreshMemberlist(", $tpp, $from, $numUsers)
 if ($_GET['listing'])  {
 	$ajaxPage = true;
 
+	write(
+	"
+		<table class=\"outline margin\">
+	");
+
 	if($pagelinks)
 	{
 		write(
 	"
-		<table class=\"outline margin\">
 			<tr class=\"cell2 smallFonts\">
 				<td colspan=\"2\">
 					".__("Page")."
