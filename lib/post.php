@@ -311,11 +311,13 @@ function getActivity($id)
 
 $layouCache = array();
 
-function makePostText($post, $isBlocked)
+function makePostText($post)
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache, $blocklayouts;
 
+	LoadBlockLayouts();
 	$poster = getDataPrefix($post, "u_");
+	$isBlocked = $poster['globalblock'] || $loguser['blocklayouts'] || $post['options'] & 1 || isset($blocklayouts[$poster['id']]);
 
 	$noSmilies = $post['options'] & 2;
 	$noBr = $post['options'] & 4;
@@ -510,7 +512,7 @@ function MakePost($post, $type, $params=array())
 		{
 			if ($post['revuser'])
 			{
-				$ru_link = UserLink(getDataPrefix($post, "du_"));
+				$ru_link = UserLink(getDataPrefix($post, "ru_"));
 				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($post['revdate']));
 			}
 			else
@@ -581,7 +583,7 @@ function MakePost($post, $type, $params=array())
 		$mainBar = "mainbar".$poster['id'];
 	}
 
-	$postText = makePostText($post, $isBlocked);
+	$postText = makePostText($post);
 
 	$postCode =
 "

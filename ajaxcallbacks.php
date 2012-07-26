@@ -179,7 +179,6 @@ elseif($action == "sr")	//Show Revision
 				LEFT JOIN {users} du ON du.id=p.deletedby
 			WHERE p.id={0}", $id, (int)$_GET['rev']);
 	
-	$rPost = Query($qPost);
 	if(NumRows($rPost))
 		$post = Fetch($rPost);
 	else
