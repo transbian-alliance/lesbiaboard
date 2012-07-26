@@ -309,9 +309,11 @@ function getActivity($id)
 	return $activityCache[$id];
 }
 
+$layouCache = array();
+
 function makePostText($post, $isBlocked)
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache;
 
 	$poster = getDataPrefix($post, "u_");
 
@@ -322,7 +324,8 @@ function makePostText($post, $isBlocked)
 	$tags = array();
 	$tags = array
 	(
-		"postnum" => $post['num'],
+//This tag breaks because of layout caching.
+//		"postnum" => $post['num'],
 		"postcount" => $poster['posts'],
 		"numdays" => floor((time()-$poster['regdate'])/86400),
 		"date" => formatdate($post['date']),
@@ -342,9 +345,15 @@ function makePostText($post, $isBlocked)
 		$postLayout = $magicString;
 	else
 	{
-		$postLayout = $poster['postheader'].$magicString.$poster['signature'];
-		$postLayout = ApplyTags($postLayout, $tags);
-		$postLayout = CleanUpPost($postLayout, $poster['name'], $noSmilies, true);
+		if(!isset($layoutCache[$poster["id"]]))
+		{
+			$postLayout = $poster['postheader'].$magicString.$poster['signature'];
+			$postLayout = ApplyTags($postLayout, $tags);
+			$postLayout = CleanUpPost($postLayout, $poster['name'], $noSmilies, true);
+			$layoutCache[$poster["id"]] = $postLayout;
+		}
+		else
+			$postLayout = $layoutCache[$poster["id"]];
 		
 		if($poster['signature'])
 			if(!$poster['signsep'])
