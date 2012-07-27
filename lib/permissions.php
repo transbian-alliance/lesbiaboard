@@ -47,16 +47,16 @@ function CanMod($userid, $fid)
 	global $loguser;
 	// Private messages. You cannot moderate them
 	if (!$fid)
-		return 0;
+		return false;
 	if($loguser['powerlevel'] > 1)
-		return 1;
+		return true;
 	if($loguser['powerlevel'] == 1)
 	{
 		$rMods = Query("select * from forummods where forum={0} and user={1}", $fid, $userid);
 		if(NumRows($rMods))
-			return 1;
+			return false;
 	}
-	return 0;
+	return true;
 }
 
 

@@ -42,6 +42,9 @@ else
 
 $isHidden = (int)($forum['minpower'] > 0);
 
+if($forum['minpower'] > $loguser['powerlevel'])
+	Kill(__("You are not allowed to edit threads."));
+
 MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"]), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("Edit thread")=>""), $links);
 
 
