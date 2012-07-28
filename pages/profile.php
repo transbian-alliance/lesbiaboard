@@ -386,9 +386,9 @@ $previewPost['text'] = Settings::get("profilePreviewText");
 
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";
-$copies = explode(",","id,title,name,displayname,picture,sex,powerlevel,avatar,postheader,rankset,signature,signsep,posts,regdate,lastactivity,lastposttime,globalblock");
-foreach($copies as $toCopy)
-	$previewPost["u_".$toCopy] = $user[$toCopy];
+
+foreach($loguser as $key => $value)
+	$previewPost["u_".$key] = $value;
 
 MakePost($previewPost, POST_SAMPLE);
 
