@@ -62,7 +62,7 @@ if(isset($_POST['actionpreview']))
 			$votes = 1;
 
 			$cellClass = ($cellClass+1) % 2;
-			$label = format("{1}", $pc[$pops], $option['choice']);
+			$label = format("{1}", $pc[$pops], htmlspecialchars($option['choice']));
 
 			$bar = "";
 			if($totalVotes > 0)
@@ -104,7 +104,7 @@ if(isset($_POST['actionpreview']))
 		</tr>
 		{2}
 	</table>
-", $cellClass, $_POST['pollQuestion'], $pollLines);
+", $cellClass, htmlspecialchars($_POST['pollQuestion']), $pollLines);
 	}
 
 	$previewPost['text'] = $_POST["text"];
