@@ -54,9 +54,9 @@ function CanMod($userid, $fid)
 	{
 		$rMods = Query("select * from forummods where forum={0} and user={1}", $fid, $userid);
 		if(NumRows($rMods))
-			return false;
+			return true;
 	}
-	return true;
+	return false;
 }
 
 
