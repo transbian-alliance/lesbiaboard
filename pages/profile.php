@@ -387,7 +387,7 @@ $previewPost['text'] = Settings::get("profilePreviewText");
 $previewPost['num'] = "preview";
 $previewPost['id'] = "preview";
 
-foreach($loguser as $key => $value)
+foreach($user as $key => $value)
 	$previewPost["u_".$key] = $value;
 
 MakePost($previewPost, POST_SAMPLE);
