@@ -405,6 +405,8 @@ if($loguserid && IsAllowed("sendPM"))
 	$links .= actionLinkTagItem(__("Send PM"), "sendprivate", "", "uid=".$id);
 if(IsAllowed("listPosts"))
 		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id);
+if(IsAllowed("listThreads"))
+		$links .= actionLinkTagItem(__("Show threads"), "listthreads", $id);
 
 $links .= $blockLayoutLink;
 
