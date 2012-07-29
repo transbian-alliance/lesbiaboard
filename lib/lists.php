@@ -1,6 +1,6 @@
 <?php
 
-function listThread($thread, $cellClass)
+function listThread($thread, $cellClass, $listthreads = false)
 {
 	global $haveStickies, $loguserid, $loguser, $misc;
 	
@@ -35,7 +35,7 @@ function listThread($thread, $cellClass)
 		$ThreadIcon = "";
 
 
-	if($thread['sticky'] == 0 && $haveStickies == 1)
+	if($thread['sticky'] == 0 && $haveStickies == 1 && !$listthreads)
 	{
 		$haveStickies = 2;
 		$forumList .= "<tr class=\"header1\"><th colspan=\"7\" style=\"height: 8px;\"></th></tr>";
