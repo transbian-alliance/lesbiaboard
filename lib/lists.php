@@ -1,6 +1,6 @@
 <?php
 
-function listThread($thread, $cellClass, $listthreads = false)
+function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 {
 	global $haveStickies, $loguserid, $loguser, $misc;
 	
@@ -35,7 +35,7 @@ function listThread($thread, $cellClass, $listthreads = false)
 		$ThreadIcon = "";
 
 
-	if($thread['sticky'] == 0 && $haveStickies == 1 && !$listthreads)
+	if($thread['sticky'] == 0 && $haveStickies == 1 && $dostickies)
 	{
 		$haveStickies = 2;
 		$forumList .= "<tr class=\"header1\"><th colspan=\"7\" style=\"height: 8px;\"></th></tr>";
@@ -77,7 +77,7 @@ function listThread($thread, $cellClass, $listthreads = false)
 	$threadlink = makeThreadLink($thread);
 	
 	$forumcell = "";
-	if($listthreads)
+	if($showforum)
 	{
 		$forumcell = "<td class=\"center\">".actionLinkTag(htmlspecialchars($thread["f_title"]), "forum", $thread["f_id"])."</td>";
 	}

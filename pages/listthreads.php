@@ -63,7 +63,7 @@ if(NumRows($rThreads))
 	
 	while($thread = Fetch($rThreads))
 	{
-		$forumList .= listThread($thread, $cellClass, true);
+		$forumList .= listThread($thread, $cellClass, false, true);
 		$cellClass = ($cellClass + 1) % 2;
 	}
 	
