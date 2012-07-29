@@ -55,6 +55,7 @@ var ThreadTagContainer = function(inside) {
 
 		this.tagDestroyButton.addEventListener("click", function() {
 			self.destroy();
+			return false;
 		}, false);
 
 		this.tagHolder.appendChild(this.tagDestroyButton);
@@ -88,6 +89,7 @@ var ThreadTagContainer = function(inside) {
 	
 	this.addButton.addEventListener("click", function(e) {
 		self.newTag();
+		return false;
 	}, false);
 
 	inside.appendChild(this.addButton);
