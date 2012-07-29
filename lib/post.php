@@ -526,7 +526,7 @@ function MakePost($post, $type, $params=array())
 		//</revisions>
 	}
 
-	$sideBarStuff .= GetRank($post);
+	$sideBarStuff .= GetRank($poster);
 	if($sideBarStuff)
 		$sideBarStuff .= "<br />";
 	if($poster['title'])
