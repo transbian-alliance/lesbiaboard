@@ -76,6 +76,11 @@ function listThread($thread, $cellClass, $listthreads = false)
 
 	$threadlink = makeThreadLink($thread);
 	
+	$forumcell = "";
+	if($listthreads)
+	{
+		$forumcell = "<td class=\"center\">".actionLinkTag(htmlspecialchars($thread["f_title"]), "forum", $thread["f_id"])."</td>";
+	}
 	$forumList .= "
 	<tr class=\"cell$cellClass\">
 		<td class=\"cell2 threadIcon\"> $NewIcon</td>
@@ -87,6 +92,7 @@ function listThread($thread, $cellClass, $listthreads = false)
 			$threadlink
 			$pl
 		</td>
+		$forumcell
 		<td class=\"center\">
 			".UserLink($starter)."
 		</td>

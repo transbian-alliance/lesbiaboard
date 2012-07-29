@@ -32,6 +32,7 @@ if(!$tpp) $tpp = 50;
 
 $rThreads = Query("	SELECT 
 						t.*,
+						f.(title, id),
 						".($loguserid ? "tr.date readdate," : '')."
 						su.(_userfields),
 						lu.(_userfields)
@@ -72,7 +73,8 @@ if(NumRows($rThreads))
 		<tr class=\"header1\">
 			<th style=\"width: 20px;\">&nbsp;</th>
 			<th style=\"width: 16px;\">&nbsp;</th>
-			<th style=\"width: 60%;\">".__("Title")."</th>
+			<th style=\"width: 35%;\">".__("Title")."</th>
+			<th style=\"width: 25%;\">".__("Forum")."</th>
 			<th>".__("Started by")."</th>
 			<th>".__("Replies")."</th>
 			<th>".__("Views")."</th>
