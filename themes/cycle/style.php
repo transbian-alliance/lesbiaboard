@@ -8,12 +8,33 @@ $hue = ($min / 2) % 360;
 $sat = 50;
 $hs = $hue.", ".$sat."%";
 
+$hue2 = ($hue + 180) % 360;
+$hs2 = $hue2.", 100%";
+
 $css = "/* AcmlmBoard XD - Daily Cycle */
 @import url('../../css/roundcorners.css');
 
 body
 {
 	background: hsl([huesat], 15%) url(background.png);
+}
+
+a:link
+{
+	color: hsl([huesat2], 60%);
+}
+a:visited
+{
+	color: hsl([huesat2], 60%);
+}
+a:active
+{
+	color: hsl([huesat2], 60%);
+}
+
+a:hover, a:hover span, #header  a:hover, #header a:hover span
+{
+	color: hsl([huesat2], 90%);
 }
 
 .outline
@@ -166,6 +187,7 @@ div#tabs button.selected
 
 ";
 
-print str_replace("[huesat]", $hs, $css);
-
+$css = str_replace("[huesat]", $hs, $css);
+$css = str_replace("[huesat2]", $hs2, $css);
+print $css;
 ?>
