@@ -10,7 +10,7 @@ function ParseThreadTags($title)
 	foreach($matches[1] as $tag)
 	{
 		$title = str_replace("[".$tag."]", "", $title);
-		$tag = htmlentities(strtolower($tag));
+		$tag = htmlspecialchars(strtolower($tag));
 
 		//Start at a hue that makes "18" red.
 		$hash = -105;
@@ -70,7 +70,7 @@ function ApplySmilies($text)
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlentities($smilies[$i]['code']), "/")."(?!\w)/";
+			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
 			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
 		}
 	}
