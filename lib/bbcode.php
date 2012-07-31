@@ -7,7 +7,7 @@ function parseText($text)
 	if($parseStatus <= 1)
 	{
 		$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
-		$text = htmlentities($text, ENT_COMPAT, 'UTF-8');
+		$text = htmlspecialchars($text, ENT_COMPAT, 'UTF-8');
 	}
 
 	if($parseStatus == 0)

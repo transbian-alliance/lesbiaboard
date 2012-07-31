@@ -8,7 +8,7 @@ $hue = ($min / 2) % 360;
 $sat = 50;
 $hs = $hue.", ".$sat."%";
 
-$hue2 = ($hue + 180) % 360;
+$hue2 = ($hue + 120) % 360;
 $hs2 = $hue2.", 100%";
 
 $css = "/* AcmlmBoard XD - Daily Cycle */
