@@ -35,6 +35,12 @@ if(NumRows($rPost))
 else
 	Kill(__("Unknown post ID."));
 
+$rUser = Query("select * from {users} where id={0}", $post['user']);
+if(NumRows($rUser))
+	$user = Fetch($rUser);
+else
+	Kill(__("Unknown user ID."));
+
 $rThread = Query("select * from {threads} where id={0}", $tid);
 if(NumRows($rThread))
 	$thread = Fetch($rThread);
@@ -64,7 +70,8 @@ if((int)$_GET['delete'] == 1)
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
 	
 	die(header("Location: ".actionLink("thread", $tid)));
-} elseif((int)$_GET['delete'] == 2)
+}
+else if((int)$_GET['delete'] == 2)
 {
 	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
 	if(!CanMod($loguserid,$fid))
@@ -91,28 +98,34 @@ write("
 	</script>
 ");
 
-if($_POST['text'])
+if(isset($_POST['actionpreview']))
 {
-	$words = explode(" ", trim($_POST['text']));
-	$wordCount = count($words);
-	if($wordCount < $minWords)
-	{
-		$_POST['action'] = "";
-		Alert(__("Your post is too short to have any real meaning. Try a little harder."), __("I'm sorry, Dave."));
-	}
+	$previewPost['text'] = $_POST["text"];
+	$previewPost['num'] = $post['num'];
+	$previewPost['id'] = $pid;
+	$previewPost['options'] = 0;
+	if($_POST['nopl']) $previewPost['options'] |= 1;
+	if($_POST['nosm']) $previewPost['options'] |= 2;
+	$previewPost['mood'] = (int)$_POST['mood'];
+	foreach($user as $key => $value)
+		$previewPost["u_".$key] = $value;
+	MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
 }
-
-if(!isset($_POST['action']))
-{
-	$_POST['nopl'] = $post['options'] & 1;
-	$_POST['nosm'] = $post['options'] & 2;
-}
-
-if($_POST['action'] == __("Edit"))
+else if(isset($_POST['actionpost']))
 {
 	if ($_POST['key'] != $loguser['token']) Kill(__("No."));
+
+	$rejected = false;
 	
-	if($_POST['text'])
+	if(!$_POST['text'])
+	{
+		Alert(__("Enter a message and try again."), __("Your post is empty."));
+		$rejected = true;
+	}
+
+	//TODO: Call a plugin bucket for plugins to be able to reject threads/posts too!
+	
+	if(!$rejected)
 	{
 		$options = 0;
 		if($_POST['nopl']) $options |= 1;
@@ -128,59 +141,28 @@ if($_POST['action'] == __("Edit"))
 
 		//Update thread lastpostdate if we edited the last post
 		if($wasLastPost)
-		{
 			Query("DELETE FROM {threadsread} WHERE thread={0}", $thread['id']);
-		}
 
 		Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $forum['minpower']>0);
 
-			die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
-		exit();
+		die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
 	}
-	else
-		Alert(__("Enter a message and try again."), __("Your post is empty."));
 }
 
-if($_POST['text'])
+if(isset($_POST['actionpreview']) || isset($_POST['actionpost']))
 {
 	$prefill = $_POST['text'];
+	if($_POST['nopl']) $nopl = "checked=\"checked\"";
+	if($_POST['nosm']) $nosm = "checked=\"checked\"";
 }
-
-if($_POST['action'] == __("Preview"))
+else
 {
-	$rUser = Query("select * from {users} where id={0}", $post['user']);
-	if(NumRows($rUser))
-		$user = Fetch($rUser);
-	else
-		Kill(__("Unknown user ID."));
-
-	if($_POST['text'])
-	{
-		$previewPost['text'] = $prefill;
-		$previewPost['num'] = $post['num'];
-		$previewPost['id'] = $pid;
-		$previewPost['options'] = 0;
-		if($_POST['nopl']) $previewPost['options'] |= 1;
-		if($_POST['nosm']) $previewPost['options'] |= 2;
-		$previewPost['mood'] = (int)$_POST['mood'];
-		foreach($user as $key => $value)
-			$previewPost["u_".$key] = $value;
-		MakePost($previewPost, POST_SAMPLE, array('forcepostnum'=>1, 'metatext'=>__("Preview")));
-	}
-	else
-		Alert(__("Enter a message and try again."), __("Your post is empty."));
+	$prefill = $post['text'];
+	if($post['options'] & 1) $nopl = "checked=\"checked\"";
+	if($post['options'] & 2) $nosm = "checked=\"checked\"";
+	$_POST['mood'] = $post['mood'];
 }
 
-if(!$_POST['text']) $prefill = $post['text'];
-else $prefill = $_POST['text'];
-
-if($_POST['nopl'])
-	$nopl = "checked=\"checked\"";
-if($_POST['nosm'])
-	$nosm = "checked=\"checked\"";
-
-if(!isset($_POST['mood']))
-	$_POST['mood'] = $post['mood'];
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
 $moodOptions = Format("<option {0}value=\"0\">".__("[Default avatar]")."</option>\n", $moodSelects[0]);
@@ -211,8 +193,8 @@ Write(
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								<input type=\"submit\" name=\"action\" value=\"".__("Edit")."\" /> 
-								<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
+								<input type=\"submit\" name=\"actionpost\" value=\"".__("Edit")."\" /> 
+								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 								<select size=\"1\" name=\"mood\">
 									{1}
 								</select>
