@@ -92,7 +92,10 @@ function RawQuery($query)
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");
 		else
+		{
+			trigger_error("MySQL Error.");
 			die("MySQL Error.");
+		}
 	}
 	
 	$queries++;
