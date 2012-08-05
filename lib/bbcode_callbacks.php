@@ -181,31 +181,40 @@ function bbcodeTableCell($contents, $arg)
 {
 	global $bbcodeIsTableHeader;
 	
+	//I think this is not working as intended?
+	$contents = trimbr($contents);
+
 	if($bbcodeIsTableHeader)
-		return "<th>";
+		return "<th>$contents</th>";
 	else
-		return "<td>";
+		return "<td>$contents</td>";
 }
 
 $bbcodeCellClass = 0;
 
 function bbcodeTableRow($contents, $arg)
 {
-	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	global $bbcodeCellClass;
 	$bbcodeCellClass++;
 	$bbcodeCellClass %= 2;
 		
-	$bbcodeIsTableHeader = false;
-	return "<tr class=\"cell$bbcodeCellClass\">";
+	return "<tr class=\"cell$bbcodeCellClass\">$contents</tr>";
 }
 
 function bbcodeTableRowHeader($contents, $arg)
 {
-	global $bbcodeCellClass, $bbcodeIsTableHeader;
+	global $bbcodeCellClass;
 	$bbcodeCellClass++;
 	$bbcodeCellClass %= 2;
-		
-	$bbcodeIsTableHeader = true;
-	return "<tr class=\"header0\">";
+	
+	return "<tr class=\"header0\">$contents</tr>";
 }
 
+function trimbr($string)
+{
+	$string = trim($string);
+	$string = preg_replace('/^(?:<br\s*\/?>\s*)+/', '', $string);
+	$string = preg_replace('/(?:<br\s*\/?>\s*)+$/', '', $string);
+	$string = trim($string);
+	return $string;
+}

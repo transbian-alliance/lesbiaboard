@@ -39,15 +39,21 @@ $tagParseStatus = array(
 	'style' => 2,
 );
 
+$autocloseTags = array(
+	'td' => array('td', 'tr', 'trh', 'table'),
+	'tr' => array('tr', 'trh', 'table'),
+	'trh' => array('tr', 'trh', 'table'),
+);
+
 $heavyTags = array(
 	'code', 'source', 'pre'
 );
 
 $singleTags = array(
-	'user', 'forum', 'thread', 'td', 'tr', 'trh'
+	'user', 'forum', 'thread',
 );
 $singleHtmlTags = array(
-	'p', 'br', 'li', 'img', 'link', 'td', 'tr'
+	'p', 'br', 'li', 'img', 'link',
 );
 
 $goodHtmlTags = array(
@@ -59,13 +65,13 @@ function tokenValidTag($tagname, $bbcode)
 {
 	global $badTags, $bbcodeCallbacks, $goodHtmlTags;
 	
-	if(!$bbcode && in_array(trim(strtolower($tagname)), $badTags))
+	if(!$bbcode && in_array(trim($tagname), $badTags))
 		return false;
 	
-	if($bbcode && !array_key_exists(strtolower($tagname), $bbcodeCallbacks))
+	if($bbcode && !array_key_exists($tagname, $bbcodeCallbacks))
 			return false;
 
-	if(!$bbcode && !in_array(strtolower($tagname), $goodHtmlTags))
+	if(!$bbcode && !in_array($tagname, $goodHtmlTags))
 		return false;
 	
 	return 
@@ -80,7 +86,8 @@ function parseToken($token)
 	if(substr($token, 0, 2) == '[/' && substr($token, strlen($token)-1, 1) == ']')
 	{
 		$tagname = substr($token, 2, strlen($token)-3);
-
+		$tagname = strtolower($tagname);
+		
 		if(!tokenValidTag($tagname, true))
 			return array('type' => 0, 'text' => $token);
 
@@ -102,6 +109,7 @@ function parseToken($token)
 			$tagname = substr($tagname, 0, $ind);
 		}
 
+		$tagname = strtolower($tagname);
 		if(!tokenValidTag($tagname, true))
 			return array('type' => 0, 'text' => $token);
 		
@@ -115,6 +123,8 @@ function parseToken($token)
 	if(substr($token, 0, 2) == '</' && substr($token, strlen($token)-1, 1) == '>')
 	{
 		$tagname = substr($token, 2, strlen($token)-3);
+		$tagname = strtolower($tagname);
+
 		if(!tokenValidTag($tagname, false))
 			return array('type' => 0, 'text' => $token);
 		return array(
@@ -126,6 +136,7 @@ function parseToken($token)
 	if(substr($token, 0, 1) == '<' && substr($token, strlen($token)-1, 1) == '>')
 	{
 		$tagname = substr($token, 1, strlen($token)-2);
+
 		$arg = '';
 		$ind = strpos($tagname, ' ');
 		if($ind)
@@ -134,6 +145,7 @@ function parseToken($token)
 			$tagname = substr($tagname, 0, $ind);
 		}
 		
+		$tagname = strtolower($tagname);
 		if(!tokenValidTag($tagname, false))
 			return array('type' => 0, 'text' => $token);
 		return array(
@@ -149,51 +161,38 @@ function parseToken($token)
 	);
 }
 
-function parse($parenttoken)
+function parse($parentToken)
 {
-	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables;
+	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables, $autocloseTags, $bbcodeIsTableHeader;
 	
-	$contents = '';
-	$finished = false;
-	
-	$textContents = '';
-	
-	$thistag = strtolower($parenttoken['tag']);
-	$singletag = false;
-	
-	if($parenttoken['type'] == 1)
-	{
-		if(in_array($thistag, $singleTags))
-		{
-			$finished = true;
-			$singletag = true;
-		}
-	}
+	$parentTag = $parentToken['tag'];
+
+	//Single tags just can't/aren't supposed to be closed, like [user=xx]	
+	if($parentToken['type'] == 1)
+		$singleTag = in_array($parentTag, $singleTags);
 	else
-	{
-		if(in_array($thistag, $singleHtmlTags))
-		{
-			$finished = true;
-			$singletag = true;
-		}
-	}
+		$singleTag = in_array($parentTag, $singleHtmlTags);
+
+	$finished = $singleTag;
 	
-	//Heavy tags just put everything as text until lol.
-	$heavyTag = $parenttoken != 0 && in_array($thistag, $heavyTags);
+	//Heavy tags just put everything as text until close tag.
+	$heavyTag = $parentToken != 0 && in_array($parentTag, $heavyTags);
 	
 	//Backup parse status
 	$oldParseStatus = $parseStatus;
 	$oldAllowTables = $allowTables;
 	
 	//Force parse status if tag wants to.
-	if($parenttoken != 0)
-		if(array_key_exists($thistag, $tagParseStatus))
-			$parseStatus = $tagParseStatus[$thistag];
+	if($parentToken != 0)
+		if(array_key_exists($parentTag, $tagParseStatus))
+			$parseStatus = $tagParseStatus[$parentTag];
 
-	if($parenttoken['type'] == 3 && $parenttoken['tag'] == 'table')
+	if(($parentToken['type'] == 3 || $parentToken['type'] == 1) && $parentTag == 'table')
 		$allowTables = true;
-
 	
+	if($parentTag == 'trh')
+		$bbcodeIsTableHeader = true;
+
 	while($tokenPtr < count($tokens) && !$finished)
 	{
 		$token = $tokens[$tokenPtr++];
@@ -206,30 +205,38 @@ function parse($parenttoken)
 				$printAsText = true;
 				break;
 			case 1: //BBCode open
-				if(!$heavyTag)
-					$result .= parse($token);
-				break;
 			case 3: //HTML open
-				if(!$allowTables && ($token['tag'] == 'td' || $token['tag'] == 'tr' || $token['tag'] == 'th'))
+				if($parentToken['type'] == $token['type']
+						&& isset($autocloseTags[$parentTag]) 
+						&& in_array($token['tag'], $autocloseTags[$parentTag]))
+				{
+//					$result .= "[AUTO]";
+					$finished = true;
+					$tokenPtr--;
+				}
+				else if(!$allowTables && ($token['tag'] == 'td' || $token['tag'] == 'tr' || $token['tag'] == 'th'))
 					$printAsText = true;
 				else
 					if(!$heavyTag)
 						$result .= parse($token);
 				break;
+				
 			case 2: //BBCode close
-				if($parenttoken != 0 && strtolower($token['tag']) == $thistag && $parenttoken['type'] == 1)
+			case 4: //HTML close
+				if($parentToken != 0 && $parentToken['type']+1 == $token['type'] && $token['tag'] == $parentTag)
 					$finished = true;
+				else if($parentToken != 0 
+						&& $parentToken['type']+1 == $token['type']
+						&& isset($autocloseTags[$parentTag])
+						&& in_array($token['tag'], $autocloseTags[$parentTag]))
+				{
+//					$result .= "[AUTO]";
+					$finished = true;
+					$tokenPtr--;
+				}
 				else
 					$printAsText = true;
 				break;
-			case 4: //HTML close
-				if($parenttoken != 0 && strtolower($token['tag']) == $thistag && $parenttoken['type'] == 3)
-					$finished = true;
-				else
-				{
-					if(!in_array(strtolower($token['tag']), $singleHtmlTags))
-						$printAsText = true;
-				}
 		}
 		
 		if($heavyTag && !$finished)
@@ -246,30 +253,33 @@ function parse($parenttoken)
 		}
 	}
 
-	$contents .= parseText($textcontents);
-	$textcontents = '';
+	if($parentTag == 'trh')
+		$bbcodeIsTableHeader = false;
+
+	if($textcontents)
+		$contents .= parseText($textcontents);
 
 	//Restore saved parse status.
 	$parseStatus = $oldParseStatus;
 	$allowTables = $oldAllowTables;
 	
-	if($parenttoken == 0)
+	if($parentToken == 0)
 		return $contents;
 	
-	if($parenttoken['type'] == 1) //BBCode
+	if($parentToken['type'] == 1) //BBCode
 	{
-		$func = $bbcodeCallbacks[$thistag];
+		$func = $bbcodeCallbacks[$parentTag];
 		if($func)
-			return $func($contents, $parenttoken['attributes']);
+			return $func($contents, $parentToken['attributes']);
 		else
 			return $contents;
 	}
-	else if($parenttoken['type'] == 3) //HTML
+	else if($parentToken['type'] == 3) //HTML
 	{
-		if($singletag)
-			return '<'.$thistag.' '.$parenttoken['attributes'].'>';
+		if($singleTag)
+			return '<'.$parentTag.' '.$parentToken['attributes'].'>';
 		else
-			return '<'.$thistag.' '.$parenttoken['attributes'].'>'.$contents.'</'.$thistag.'>';
+			return '<'.$parentTag.' '.$parentToken['attributes'].'>'.$contents.'</'.$parentTag.'>';
 	}
 	else return 'WTF?';
 }

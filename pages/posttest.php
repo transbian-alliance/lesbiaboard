@@ -93,6 +93,51 @@ Single spoiler: [spoiler]This is a spoiler.[/spoiler]
 Double spoiler: [spoiler]This is a spoiler [spoiler]containing another spoiler[/spoiler] which may not work properly[/spoiler]
 Spoiler in a quote: [quote=Ryuzaki][spoiler]I'm L.[/spoiler][/quote]
 
+Now, for the table stuff!
+HTML table:
+<table>
+	<tr>
+		<td>1</td>
+		<td>2</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>4</td>
+	</tr>
+</table>
+
+HTML table without closing td and tr's:
+<table>
+	<tr>
+		<td>1
+		<td>2
+	<tr>
+		<td>3
+		<td>4
+</table>
+
+BBCode table, first row is header:
+[table]
+	[trh]
+		[td]1[/td]
+		[td]2[/td]
+	[/trh]
+	[tr]
+		[td]3[/td]
+		[td]4[/td]
+	[/tr]
+[/table]
+
+BBCode table without closing td, tr and trh:
+[table]
+	[trh]
+		[td]1
+		[td]2
+	[tr]
+		[td]3
+		[td]4
+[/table]
+
 Youtube embed:
 [youtube]8l0IbaOr6go[/youtube]
 
