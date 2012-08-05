@@ -93,7 +93,7 @@ function RawQuery($query)
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");
 		else
 		{
-			trigger_error("MySQL Error.");
+			trigger_error("MySQL Error.", E_USER_ERROR);
 			die("MySQL Error.");
 		}
 	}
