@@ -10,7 +10,7 @@ if($loguser["displayname"])
 
 if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New thread by\003$c1 "
-		.ircUserColor($thename, $loguser['sex'], $loguser['power'])
+		.ircUserColor($thename, $loguser['sex'], $loguser['powerlevel'])
 		."\003$c2: \003$c1"
 		.$thread["title"]
 		."\003$c2 (".$forum["title"].")"
