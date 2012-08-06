@@ -449,7 +449,7 @@ function deletePost(link)
 	var reason = prompt('Enter a reason for deleting the post, or leave blank for no reason.');
 	if (reason == null) return;
 	
-	var href = link.href + '&reason=' + escape(reason);
+	var href = link.href + '&reason=' + encodeURIComponent(reason);
 	document.location.href = href;
 }
 
