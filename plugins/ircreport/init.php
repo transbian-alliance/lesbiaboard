@@ -23,7 +23,7 @@ function ircUserColor($name, $gender, $power) {
 	else if ($power === 5)
 		$color = 4;
 	
-	return ircColor(15) . $powerChar . ircColor($color) . $name;
+	return "\x0315" . $powerChar . "\x03" . $color . $name;
 }
 
 function ircColor($c)
