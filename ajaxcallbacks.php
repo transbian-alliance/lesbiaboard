@@ -146,13 +146,13 @@ elseif($action == "srl")	//Show Revision List
 	{
 		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$revision["revision"].")\">".format(__("rev. {0}"), $revision["revision"])."</a>";
 
-			if ($revision['revuser'])
-			{
-				$ru_link = UserLink(getDataPrefix($revision, "ru_"));
-				$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($revision['revdate']));
-			}
-			else
-				$revdetail = '';
+		if ($revision['ru_id'])
+		{
+			$ru_link = UserLink(getDataPrefix($revision, "ru_"));
+			$revdetail = " ".format(__("by {0} on {1}"), $ru_link, formatdate($revision['revdate']));
+		}
+		else
+			$revdetail = '';
 		$reply .= $revdetail;
 		$reply .= "<br>";
 	}
