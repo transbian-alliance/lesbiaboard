@@ -384,8 +384,8 @@ write(
 
 $previewPost['text'] = Settings::get("profilePreviewText");
 
-$previewPost['num'] = "preview";
-$previewPost['id'] = "preview";
+$previewPost['num'] = "???";
+$previewPost['id'] = "???";
 
 foreach($user as $key => $value)
 	$previewPost["u_".$key] = $value;

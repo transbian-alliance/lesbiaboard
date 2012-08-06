@@ -17,8 +17,8 @@ else
 
 print "<style type=\"text/css\">".ApplyParameters($cssTemplate)."</style>";
 
-$previewPost['num'] = "preview";
-$previewPost['id'] = "preview";
+$previewPost['num'] = "???";
+$previewPost['id'] = "???";
 foreach($loguser as $key => $value)
 	$previewPost["u_".$key] = $value;
 

@@ -102,7 +102,7 @@ if(isset($_POST['actionpreview']))
 {
 	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $post['num'];
-	$previewPost['id'] = $pid;
+	$previewPost['id'] = "???";
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
