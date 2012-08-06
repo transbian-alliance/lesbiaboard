@@ -8,6 +8,24 @@ function ircReport($stuff)
 	socket_close($sock);
 }
 
+function ircUserColor($name, $gender, $power) {
+	$gColors = array(0 => 12, 1 => 13, 2 => 2);
+	$pChars  = array(1 => "+", 2 => "%", 3 => "$", 4 => "#", 5 => ">");
+
+	$color = $gColors[$gender];
+	if ($power > 0)
+		$powerChar = $pChars[$power];
+	else
+		$powerChar = "";
+
+	if ($power === -1)
+		$color = 14;
+	else if ($power === 5)
+		$color = 4;
+	
+	return ircColor(15) . $powerChar . ircColor($color) . $name;
+}
+
 function ircColor($c)
 {
 	return sprintf('%02d', $c);
