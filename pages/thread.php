@@ -248,7 +248,7 @@ else
 
 $rPosts = Query("
 			SELECT 
-				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
+				p.*,
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
