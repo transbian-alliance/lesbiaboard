@@ -308,7 +308,7 @@ if($canMod)
 					<input type=\"submit\" name=\"action\" value=\"".__("Edit")."\"></input>
 					<button onclick=\"window.navigate('".actionLink("editthread", "{7}", "action=delete")."');\">".__("Delete")."</button>
 
-					".makeForumList('moveto', -1)."
+					".makeForumList('moveTo', -1)."
 					<input type=\"submit\" name=\"action\" value=\"".__("Move")."\" />
 					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
 					<input type=\"hidden\" name=\"key\" value=\"{9}\" />
