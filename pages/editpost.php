@@ -59,7 +59,6 @@ AssertForbidden("viewForum", $fid);
 //-- Mark as New if last post is edited --
 $wasLastPost = ($thread['lastpostdate'] == $post['date']);
 
-$thread['title'] = htmlspecialchars($thread['title']);
 $fid = $thread['forum'];
 
 if((int)$_GET['delete'] == 1)
