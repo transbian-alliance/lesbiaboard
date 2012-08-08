@@ -81,6 +81,9 @@ if($canMod)
 	elseif($_POST['action']==__("Move"))
 	{
 		$moveto = (int)$_POST['moveTo'];
+		$dest = Fetch(Query("select * from {forums} where id={0}", $moveto));
+		if(!$dest)	
+			Kill(__("Unknown forum ID."));
 		
 		//Tweak forum counters
 		$rForum = Query("update {forums} set numthreads=numthreads-1, numposts=numposts-{0} where id={1}", ($thread['replies']+1), $thread['forum']);
