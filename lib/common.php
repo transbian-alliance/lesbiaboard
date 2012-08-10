@@ -37,6 +37,8 @@ function usectime()
 }
 
 
+include("version.php");
+
 include("salt.php");
 include("dirs.php");
 
