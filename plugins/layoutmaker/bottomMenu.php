@@ -1,2 +1,2 @@
 <?php
-$navigation->add(new PipeMenuLinkItem("Layout maker", "layoutmaker"));
+$navigation->add(new PipeMenuLinkEntry("Layout maker", "layoutmaker"));
