@@ -1,3 +1,3 @@
 <?php
 if(isAllowed("viewUploader"))
-	$navigation->add(new PipeMenuLinkItem(__("Uploader"), "uploader"));
+	$navigation->add(new PipeMenuLinkEntry(__("Uploader"), "uploader"));
