@@ -1,7 +1,7 @@
 <?php
 //Layout functions, by Nikolaj
 
-function MakeCrumbs($path, $links)
+function makeCrumbs($path, $links)
 {
 	global $layout_crumbs;
 

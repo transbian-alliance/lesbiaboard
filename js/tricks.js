@@ -536,7 +536,7 @@ function hookUploadCheck(id, type, size)
 	}
 }
 
-function ReplacePost(id, opened)
+function replacePost(id, opened)
 {
 	$.get("ajaxcallbacks.php?a=rp"+(opened ? "&o":"")+"&id="+id, function(data)
 	{

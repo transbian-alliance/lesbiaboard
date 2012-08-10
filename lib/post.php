@@ -35,7 +35,7 @@ function filterPollColors($input)
 	return preg_replace("@[^#0123456789abcdef]@si", "", $input);
 }
 
-function LoadSmilies($byOrder = FALSE)
+function loadSmilies($byOrder = FALSE)
 {
 	global $smilies, $smiliesOrdered;
 	
@@ -61,7 +61,7 @@ function LoadSmilies($byOrder = FALSE)
 	}
 }
 
-function ApplySmilies($text)
+function applySmilies($text)
 {
 	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
 	
@@ -77,7 +77,7 @@ function ApplySmilies($text)
 	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
 }
 
-function LoadBlocklayouts()
+function loadBlockLayouts()
 {
 	global $blocklayouts, $loguserid;
 
@@ -91,7 +91,7 @@ function LoadBlocklayouts()
 		$blocklayouts[$block['user']] = 1;
 }
 
-function LoadRanks($rankset)
+function loadRanks($rankset)
 {
 	global $ranks;
 	if(isset($ranks[$rankset]))
@@ -102,7 +102,7 @@ function LoadRanks($rankset)
 		$ranks[$rankset][$rank['num']] = $rank['text'];
 }
 
-function GetRank($poster)
+function getRank($poster)
 {
 	global $ranks;
 	if($poster['rankset'] == 0)
@@ -120,7 +120,7 @@ function GetRank($poster)
 	}
 }
 
-function GetToNextRank($poster)
+function getToNextRank($poster)
 {
 	global $ranks;
 	if($poster['rankset'] == 0)
@@ -138,7 +138,7 @@ function GetToNextRank($poster)
 	}
 }
 
-function MakeUserAtLink($matches)
+function makeUserAtLink($matches)
 {
 	global $members;
 	$username = $matches[1];
@@ -162,7 +162,7 @@ function MakeUserAtLink($matches)
 }
 
 
-function ApplyNetiquetteToLinks($match)
+function applyNetiquetteToLinks($match)
 {
 	if (substr($match[1], 0, 7) != 'http://')
 		return $match[0];
@@ -174,7 +174,7 @@ function ApplyNetiquetteToLinks($match)
 }
 
 
-function GetSyndrome($activity)
+function getSyndrome($activity)
 {
 	include("syndromes.php");
 	$soFar = "";
@@ -210,7 +210,7 @@ function postDoReplaceText($s)
 	return $s;
 }
 
-function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
+function cleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 {
 	global $postNoSmilies, $postNoBr, $smilies, $postPoster;
 	static $orig, $repl;
@@ -233,7 +233,7 @@ function CleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 }
 
 
-function ApplyTags($text, $tags)
+function applyTags($text, $tags)
 {
 	if(!stristr($text, "&"))
 		return $text;
@@ -252,7 +252,7 @@ function ApplyTags($text, $tags)
 
 $badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
 
-function FilterJS($match)
+function filterJS($match)
 {
 	$url = html_entity_decode($match[2]);
 	if (stristr($url, "javascript:"))
@@ -262,13 +262,13 @@ function FilterJS($match)
 
 //Scans for any numerical entities that decode to the 7-bit printable ASCII range and removes them.
 //This makes a last-minute hack impossible where a javascript: link is given completely in absurd and malformed entities.
-function EatThatPork($s)
+function eatThatPork($s)
 {
-	$s = preg_replace_callback("/(&#)(x*)([a-f0-9]+(?![a-f0-9]))(;*)/i", "CheckKosher", $s);
+	$s = preg_replace_callback("/(&#)(x*)([a-f0-9]+(?![a-f0-9]))(;*)/i", "checkKosher", $s);
 	return $s;
 }
 
-function CheckKosher($matches)
+function checkKosher($matches)
 {
 	$num = ltrim($matches[3], "0");
 	if($matches[2])
@@ -384,7 +384,7 @@ $sideBarData = 0;
 //		* noreplylinks: if set, no links to newreply.php (Quote/ID) are placed in the metabar (POST_NORMAL only)
 //		* forcepostnum: if set, forces sidebar to show "Posts: X/X" (POST_SAMPLE only)
 //		* metatext: if non-empty, this text is displayed in the metabar instead of 'Sample post' (POST_SAMPLE only)
-function MakePost($post, $type, $params=array())
+function makePost($post, $type, $params=array())
 {
 	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt, $dataDir, $dataUrl;
 
@@ -409,14 +409,16 @@ function MakePost($post, $type, $params=array())
 				$meta .= ': '.htmlspecialchars($post['reason']);
 		}
 		
-		$links = '<ul class="pipemenu">';
+		$links = new PipeMenu();
+
 		if(CanMod($loguserid,$params['fid']))
 		{
 			if (IsAllowed("editPost", $post['id']))
-				$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
-			$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
+				$links->add(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
+			$links .= "<li><a href=\"#\" onclick=\"replacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
 		}
-		$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
+
+		$links->add(new PipeMenuHtmlEntry("<li>".format(__("ID: {0}"), $post['id'])."</li></ul>"));
 		write(
 "
 		<table class=\"post margin deletedpost\" id=\"post{0}\">
@@ -432,7 +434,7 @@ function MakePost($post, $type, $params=array())
 				</td>
 			</tr>
 		</table>
-",	$post['id'], UserLink($poster), $meta, $links
+",	$post['id'], userLink($poster), $meta, $links->build()
 );
 		return;
 	}
@@ -448,28 +450,29 @@ function MakePost($post, $type, $params=array())
 		$editallowed = IsAllowed("editPost", $post['id']);
 		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1));
 
-		$links = "";
+		$links = new PipeMenu();
+
 		if (!$isBot)
 		{
 			if ($type == POST_DELETED_SNOOP)
 			{
-				$links = "<ul class=\"pipemenu\"><li>".__("Post deleted")."</li>";
+				$links->add(new PipeMenuTextEntry(__("Post deleted.")));
 				if ($editallowed)
-					$links .= actionLinkTagItem(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']);
-				$links .= "<li><a href=\"#\" onclick=\"ReplacePost(".$post['id'].",false); return false;\">".__("Close")."</a></li>";
-				$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li></ul>";
+				$links->ad(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
+				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",false); return false;\">".__("Close")."</a>"));
+				$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
 			}
 			else if ($type == POST_NORMAL)
 			{
-				$links .= "<ul class=\"pipemenu\">";
+				$links = new PipeMenu();
 
-				$links .= actionLinkTagItem(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']);
+				$links->add(new PipeMenuLinkEntry(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']));
 
 				if ($canreply && !$params['noreplylinks'])
-					$links .= actionLinkTagItem(__("Quote"), "newreply", $thread, "quote=".$post['id']);
+					$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id']));
 
 				if ($editallowed && ($canmod || ($poster['id'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
-					$links .= actionLinkTagItem(__("Edit"), "editpost", $post['id']);
+					$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id']));
 
 				if ($editallowed && $canmod)
 				{
@@ -477,18 +480,16 @@ function MakePost($post, $type, $params=array())
 					//  * POST-form delete confirmation, on separate page, a la Jul?
 					//  * hidden form and Javascript-submit() link?
 					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$loguser['token']);
-					$links .= "<li><a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a></li>";
+					$links->add(new PipeMenuHtmlEntry("<a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a>"));
 				}
 				if ($canreply && !$params['noreplylinks'])
-					$links .= "<li>".format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))."</li>";
+					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))));
 				else
-					$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li>";
+					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
 				if ($loguser['powerlevel'] > 0)
-					$links .= "<li>".$post['ip']."</li>";
+					$links->add(new PipeMenuTextEntry($post['ip']));
 			
 				$bucket = "topbar"; include("./lib/pluginloader.php");
-
-				$links .= "</ul>";
 			}
 		}
 
@@ -612,7 +613,7 @@ function MakePost($post, $type, $params=array())
 					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_${post['id']}\">
 						Hi.
 					</div>
-					$links
+					" . $links->build() . "
 				</td>
 			</tr>
 			<tr class=\"".$row2."\">
