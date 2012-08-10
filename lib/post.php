@@ -415,10 +415,10 @@ function makePost($post, $type, $params=array())
 		{
 			if (IsAllowed("editPost", $post['id']))
 				$links->add(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
-			$links .= "<li><a href=\"#\" onclick=\"replacePost(".$post['id'].",true); return false;\">".__("View")."</a></li>";
+			$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",true); return false;\">".__("View")."</a>"));
 		}
 
-		$links->add(new PipeMenuHtmlEntry("<li>".format(__("ID: {0}"), $post['id'])."</li></ul>"));
+		$links->add(new PipeMenuTextEntry(format(__("ID: {0}"), $post['id'])));
 		write(
 "
 		<table class=\"post margin deletedpost\" id=\"post{0}\">
@@ -439,8 +439,10 @@ function makePost($post, $type, $params=array())
 		return;
 	}
 
+	$links = new PipeMenu();
+
 	if ($type == POST_SAMPLE)
-		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");	// dirty hack
+		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");
 	else
 	{
 		$forum = $params['fid'];
@@ -450,22 +452,18 @@ function makePost($post, $type, $params=array())
 		$editallowed = IsAllowed("editPost", $post['id']);
 		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1));
 
-		$links = new PipeMenu();
-
 		if (!$isBot)
 		{
 			if ($type == POST_DELETED_SNOOP)
 			{
 				$links->add(new PipeMenuTextEntry(__("Post deleted.")));
 				if ($editallowed)
-				$links->ad(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
+					$links->add(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
 				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",false); return false;\">".__("Close")."</a>"));
 				$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
 			}
 			else if ($type == POST_NORMAL)
 			{
-				$links = new PipeMenu();
-
 				$links->add(new PipeMenuLinkEntry(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']));
 
 				if ($canreply && !$params['noreplylinks'])
@@ -494,13 +492,12 @@ function makePost($post, $type, $params=array())
 		}
 
 		if ($type == POST_PM)
-		{
 			$message = __("Sent on {0}");
-		}
-		else {
+		else
 			$message = __("Posted on {0}");
-		}
+
 		$meta = format($message, formatdate($post['date']));
+
 		//Threadlinks for listpost.php
 		if ($params['threadlink'])
 		{
@@ -510,6 +507,7 @@ function makePost($post, $type, $params=array())
 			
 			$meta .= " ".__("in")." ".makeThreadLink($thread);
 		}
+
 		//Revisions
 		if($post['revision'])
 		{
