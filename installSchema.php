@@ -289,6 +289,15 @@ $tables = array
 			"request" => $text,
 		),
 	),
+	"sessions" => array
+	(
+		"fields" => array
+		(
+			"id" => $var256,
+			"user" => $genericInt,
+		),
+		"special" => $keyID.", key `user` (`user`)"
+	),
 	"smilies" => array
 	(
 		"fields" => array
