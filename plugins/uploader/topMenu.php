@@ -1,5 +1,3 @@
-<?
-
-	if(IsAllowed("viewUploader"))
-		print actionLinkTagItem(__("Uploader"), "uploader");
-
+<?php
+if(isAllowed("viewUploader"))
+	$navigation->add(new PipeMenuLinkItem(__("Uploader"), "uploader"));

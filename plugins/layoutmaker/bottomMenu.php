@@ -1,3 +1,2 @@
 <?php
-	print actionLinkTagItem("Layout maker", "layoutmaker");
-?>
+$navigation->add(new PipeMenuLinkItem("Layout maker", "layoutmaker"));
