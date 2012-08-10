@@ -567,12 +567,15 @@ function makePost($post, $type, $params=array())
 
 	$bucket = "sidebar"; include("./lib/pluginloader.php");
 
-	$sideBarStuff .= "<br />\n".__("Last post:")." ".$lastpost;
-	$sideBarStuff .= "<br />\n".__("Last view:")." ".$lastview;
+	if(Settings::get("showExtraSidebar"))
+	{
+		$sideBarStuff .= "<br />\n".__("Last post:")." ".$lastpost;
+		$sideBarStuff .= "<br />\n".__("Last view:")." ".$lastview;
 
-	if($poster['lastactivity'] > time() - 300)
-		$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
-
+		if($poster['lastactivity'] > time() - 300)
+			$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
+	}
+	
 	// OTHER STUFF
 	
 	if($type == POST_NORMAL)

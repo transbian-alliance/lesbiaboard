@@ -94,6 +94,11 @@
 			"default" => "0",
 			"name" => "Show Minipics everywhere",
 		),
+		"showExtraSidebar" => array (
+			"type" => "boolean",
+			"default" => "1",
+			"name" => "Show extra info in post sidebar",
+		),
 		"showPoRA" => array (
 			"type" => "boolean",
 			"default" => "1",
