@@ -29,6 +29,6 @@ Query("UPDATE {users} SET postplusonesgiven = postplusonesgiven+1 WHERE id = {0}
 Query("INSERT INTO {postplusones} (user, post) VALUES ({0}, {1})", $loguserid, $pid);
 $post["postplusones"]++;
 
-print "+".($post["postplusones"]);
+echo formatPlusOnes($post["postplusones"]);
 
 

@@ -323,7 +323,6 @@ function makePostText($post)
 	$noBr = $post['options'] & 4;
 
 	//Do Ampersand Tags
-	$tags = array();
 	$tags = array
 	(
 //This tag breaks because of layout caching.
@@ -486,6 +485,9 @@ function MakePost($post, $type, $params=array())
 					$links .= "<li>".format(__("ID: {0}"), $post['id'])."</li>";
 				if ($loguser['powerlevel'] > 0)
 					$links .= "<li>".$post['ip']."</li>";
+			
+				$bucket = "topbar"; include("./lib/pluginloader.php");
+
 				$links .= "</ul>";
 			}
 		}
@@ -525,6 +527,9 @@ function MakePost($post, $type, $params=array())
 		}
 		//</revisions>
 	}
+	
+
+	// POST SIDEBAR 
 
 	$sideBarStuff .= GetRank($poster);
 	if($sideBarStuff)
@@ -569,6 +574,8 @@ function MakePost($post, $type, $params=array())
 	if($poster['lastactivity'] > time() - 300)
 		$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
 
+	// OTHER STUFF
+	
 	if($type == POST_NORMAL)
 		$anchor = "<a name=\"".$post['id']."\" />";
 	
@@ -583,51 +590,42 @@ function MakePost($post, $type, $params=array())
 		$mainBar = "mainbar".$poster['id'];
 	}
 
+	$highlightClass = "";
+	if($post['id'] == $highlight)
+		$highlightClass = "highlightedPost";
+
 	$postText = makePostText($post);
 
-	$postCode =
-"
-		<table class=\"post margin {14} ".$pTable."\" id=\"post{13}\">
-			<tr class=\"".$row1."\">
-				<td class=\"side userlink {1}\">
-					{0}
-					{5}
+	//PRINT THE POST!
+	
+	echo "
+		<table class=\"post margin $highlightClass $pTable\" id=\"post${post['id']}\">
+			<tr class=\"$row1\">
+				<td class=\"side userlink $topBar1\">
+					$anchor
+					".UserLink($poster)."
 				</td>
-				<td class=\"meta right {2}\">
-					<div style=\"float: left;\" id=\"meta_{13}\">
-						{7}
+				<td class=\"meta right $topBar2\">
+					<div style=\"float: left;\" id=\"meta_${post['id']}\">
+						$meta
 					</div>
-					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_{13}\">
+					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_${post['id']}\">
 						Hi.
 					</div>
-					{8}
+					$links
 				</td>
 			</tr>
 			<tr class=\"".$row2."\">
-				<td class=\"side {3}\">
+				<td class=\"side $sideBar\">
 					<div class=\"smallFonts\">
-						{6}
+						$sideBarStuff
 					</div>
 				</td>
-				<td class=\"post {4}\" id=\"post_{13}\">
-
-					{9}
-					<!-- POST BEGIN -->
-					{10}
-					<!-- POST END -->
-					{12}
-					{11}
-
+				<td class=\"post $mainBar\" id=\"post_${post['id']}\">
+					$postText
 				</td>
 			</tr>
-		</table>
-";
-
-	write($postCode,
-			$anchor, $topBar1, $topBar2, $sideBar, $mainBar,
-			UserLink($poster), $sideBarStuff, $meta, $links,
-			"", $postText, "", "", $post['id'], $post['id'] == $highlight ? "highlightedPost" : "");
-
+		</table>";
 }
 
 ?>
