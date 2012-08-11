@@ -169,6 +169,7 @@ table.post>tbody>tr>td, table.outline>tbody>tr>td, table.message>tbody>tr>td
 	font-size: 1em; /* 10pt; */
 	border-width:0px 1px 1px 0px;
 	border-style:solid;
+	padding:2px 4px 2px 4px;
 }
 
 table.post>tbody>tr>th, table.outline>tbody>tr>th, table.message>tbody>tr>th
@@ -204,13 +205,12 @@ table.post td.side
 	width: 15%;
 	vertical-align: top;
 	border-width: 0px 0px 1px 0px;
-
-	padding: 0px 4px 4px;
+	padding: 4px 10px 4px 10px;
 }
 
 table.post td.post
 {
-	padding:5px;
+	padding:10px;
 	border-width: 1px 1px 1px 1px;
 	vertical-align: top;
 	height: 100px;
@@ -516,11 +516,9 @@ textarea
 	font-style: italic;
 	color: #884;
 }
-.geshi a
-{
-	border-bottom: 1px dotted #888;
-}
 
+/* This should go into the embeds plugin ~Dirbaio */
+/*
 .swf
 {
 	border: 1px outset gray;
@@ -562,7 +560,7 @@ textarea
 .swfbuttonon
 {
 	border: 1px inset silver;
-}
+}*/
 
 .badge
 {
@@ -608,6 +606,7 @@ button.expander
 	margin: 0;
 	float: right;
 }
+
 button.expander:hover
 {
 	border: 1px solid #FFF;
@@ -640,6 +639,7 @@ td.threadIcon
 	border-radius: 8px;
 	width: 75%;
 }
+
 .pollbar
 {
 	border-width:1px; border-style:solid;
@@ -650,79 +650,13 @@ td.threadIcon
 	border-radius: 8px;
 }
 
-.post_container
-{
-	margin: -4px;
-	margin-bottom: 8px;
-	padding: 6px;
-	overflow: hidden;
-}
-.post_about
-{
-	font-size: .8em;
-	clear: left;
-	float: left;
-	padding: 2px;
-	width: 140px;
-}
-.post_topbar
-{
-	margin-left: 152px;
-	font-size: .7em;
-	overflow: hidden;
-	height: 15px;
-	padding: 0px 4px;
-}
-.post_timestamp
-{
-	float: left;
-}
-.post_options
-{
-	float: right;
-}
-.post_user
-{
-	font-size: 1.2em;
-}
-.post_content
-{
-	margin-left: 152px;
-	padding: 2px;
-	margin-top: -1px;
-}
-
-.post_content table, .post_content table tr td
-{
-	border-width: 0;
-}
-
-
-.PoRT .errort
-{
-	text-align: center;
-}
-
-
-.PoRT div.errorc
-{
-	padding:8px;
-}
-.PoRT div.errort
-{
-	padding-left:8px;
-	padding-right:8px;
-	padding-top:2px;
-	padding-bottom:2px;
-}
-
-
 div#tabs
 {
 	position: relative;
 	left: 8px;
 	top: 8px;
 }
+
 div#tabs button
 {
 	border-top-left-radius: 8px;
@@ -736,15 +670,11 @@ div#tabs button.selected
 	border-bottom-width: 0px;
 }
 
-.noborder
-{
-	border-width: 0;
-}
-
 td.threadIcons label > input
 {
 	display: none;
 }
+
 td.threadIcons label > input ~ *
 {
 	background: rgba(255, 255, 255, 0);
@@ -752,6 +682,7 @@ td.threadIcons label > input ~ *
 	border-radius: 4px;
 	padding: 0px 2px;
 }
+
 td.threadIcons label > input:checked ~ *
 {
 	background: rgba(255, 255, 255, .25);
