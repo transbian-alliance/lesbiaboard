@@ -36,7 +36,7 @@
 						<?php print $layout_views; ?>
 					</td>
 					<td class="smallFonts" style="text-align: center; width: 80%;">
-						<?php print $layout_navigation;?>
+						<?php print $layout_navigation->build();?>
 					</td>
 					<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
 						<?php print $layout_time; ?>
@@ -44,7 +44,7 @@
 				</tr>
 				<tr class="cell2">
 					<td class="smallFonts" style="text-align: center">
-						<?php print $layout_userpanel; ?>
+						<?php print $layout_userpanel->build(); ?>
 					</td>
 				</tr>
 				<tr class="cell2">

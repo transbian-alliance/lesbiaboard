@@ -37,7 +37,7 @@
 				</td>
 				<td class="smallFonts" style="text-align: center">
 					<ul class="pipemenu">
-					<?php print $layout_userpanel; ?>
+					<?php print $layout_userpanel->build(); ?>
 					</ul>
 				</td>
 				<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
@@ -47,7 +47,7 @@
 			<tr class="cell1">
 				<td class="smallFonts" style="text-align: center; width: 80%;">
 					<ul class="pipemenu">
-					<?php print $layout_navigation;?>
+					<?php print $layout_navigation->build();?>
 					</ul>
 				</td>
 			</tr>

@@ -24,5 +24,5 @@ $navigation->add(new PipeMenuLinkEntry(__("Last posts"), "lastposts"));
 
 $bucket = "topMenu"; include("./lib/pluginloader.php");
 
-print $navigation->build();
+$layout_navigation = $navigation;
 ?>

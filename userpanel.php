@@ -31,5 +31,5 @@ else
 	$userMenu->add(new PipeMenuLinkEntry(__("Log in"), "login"));
 }
 
-print $userMenu->build();
+$layout_userpanel = $userMenu;
 ?>

@@ -31,7 +31,7 @@
 				<td style="border: 0px none; text-align: right; padding:0px; vertical-align:bottom;" class="smallFonts">
 					<div class="cell1" style="float:right; padding:5px; border-top:1px solid black; border-left:1px solid black;">
 						<ul class="pipemenu">
-							<?php print $layout_userpanel; ?>
+							<?php print $layout_userpanel->build(); ?>
 						</ul>
 					</div>
 				</td>
@@ -56,10 +56,10 @@
 				</th>
 			</tr>
 			<tr class="cell0">
-				<td>
-					<ul class="sidemenu">
-					<?php print $layout_navigation;?>
-					</ul>
+				<td class="sidemenu">
+					<?php 
+						$layout_navigation->setClass("sidemenu"); 
+						print $layout_navigation->build();?>
 				</td>
 			</tr>
 		</table>
