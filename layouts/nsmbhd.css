@@ -3,6 +3,27 @@
 	By Dirbaio
 */
 
+.navigation-fixed
+{
+	position:fixed;
+	top:35px;
+	right:6px;
+}
+.userpanel-fixed
+{
+	position:fixed;
+	top:0px;
+	right:0px;
+	border: 1px solid black;
+}
+
+#userpanel
+{
+	padding:5px;
+	border-top:1px solid black;
+	border-left:1px solid black;
+}
+
 .footer
 {
 	text-align: center;
