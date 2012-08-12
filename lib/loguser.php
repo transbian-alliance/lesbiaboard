@@ -55,13 +55,16 @@ if($_qRecords)
 }
 
 //Delete oldies visitor from the guest list. We may re-add him/her later.
-$rGuests = Query("delete from {guests} where date < {0}", (time()-300));
+Query("delete from {guests} where date < {0}", (time()-300));
 
 //Lift dated Tempbans
-$rTempban = Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 where tempbantime != 0 and tempbantime < {0}", time());
+Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 where tempbantime != 0 and tempbantime < {0}", time());
 
 //Lift dated IP Bans
-$rIPBan = Query("delete from {ipbans} where date != 0 and date < {0}", time());
+Query("delete from {ipbans} where date != 0 and date < {0}", time());
+
+//Delete expired sessions
+Query("delete from {sessions} where expiration != 0 and expiration < {0}", time());
 
 
 function isIPBanned($ip)
@@ -96,7 +99,11 @@ if($_COOKIE['logsession'])
 {
 	$session = Fetch(Query("SELECT * FROM {sessions} WHERE id={0}", sha256($_COOKIE['logsession'].$salt)));
 	if($session)
-		$loguser = Fetch(Query("select * from {users} where id={0}", $session["user"]));
+	{
+		$loguser = Fetch(Query("SELECT * FROM {users} WHERE id={0}", $session["user"]));
+		if($session["autoexpire"])
+			Query("UPDATE {sessions} SET expiration={0} WHERE id={1}", time()+10*60, $session["id"]); //10 minutes
+	}
 }
 
 if($loguser)

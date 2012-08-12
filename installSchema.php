@@ -295,8 +295,15 @@ $tables = array
 		(
 			"id" => $var256,
 			"user" => $genericInt,
+			"expiration" => $genericInt,
+			"autoexpire" => $bool,
+			"iplock" => $bool,
+			"iplockaddr" => $var128,
+			"lastip" => $var128,
+			"lasturl" => $var128,
+			"lasttime" => $genericInt,
 		),
-		"special" => $keyID.", key `user` (`user`)"
+		"special" => $keyID.", key `user` (`user`), key `expiration` (`expiration`)"
 	),
 	"smilies" => array
 	(

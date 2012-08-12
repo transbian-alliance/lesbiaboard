@@ -3,6 +3,7 @@
 
 function backTrace()
 {
+	$output = "";
     $output .= "Backtrace:\n";
     $backtrace = debug_backtrace();
 
@@ -41,7 +42,10 @@ function backTrace()
             }
         }
         $output .= "{$bt['file']}:{$bt['line']}\n";
-        $output .= "     {$bt['class']}{$bt['type']}{$bt['function']}($args)\n";
+        if(!isset($bt["class"])) $bt["class"] = "";
+        if(!isset($bt["type"])) $bt["type"] = "";
+        if(!isset($bt["function"])) $bt["function"] = "";
+        $output .= "    {$bt['class']}{$bt['type']}{$bt['function']}($args)\n";
     }
     return $output;
 }

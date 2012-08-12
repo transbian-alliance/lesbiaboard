@@ -32,13 +32,12 @@ elseif(isset($_POST['actionlogin']))
 		Alert(__("Invalid user name or password."));
 	else
 	{
-		//TODO: Session lengths.
 		//TODO: Tie sessions to IPs if user has enabled it
 		
 		$sessionID = Shake();
 		setcookie("logsession", $sessionID, 0, "", "", false, true);
 		
-		Query("INSERT INTO {sessions} (id, user) VALUES ({0}, {1})", sha256($sessionID.$salt), $user["id"]);
+		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", sha256($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
 		
 		Report("[b]".$user['name']."[/] logged in.", 1);
 
