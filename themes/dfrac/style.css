@@ -59,7 +59,8 @@ table.outline, td, th, .header0, .header1, #body table, #body .faq
 
 #header, #header tr, #header tr td
 {
-	background: rgba(0, 0, 64, .25);
+/*  This causes bad flickering in NSMBHD layout on Firefox ~Dirbaio*/
+/*	background: rgba(0, 0, 64, .25);*/
 	outline: 0;
 	border: 0;
 }

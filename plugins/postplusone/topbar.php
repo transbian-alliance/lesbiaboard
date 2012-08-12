@@ -18,5 +18,6 @@ if($post["id"] != "???")
 
 	$plusOne .= "</span>";
 
-	$links .= "<li>".$plusOne."</li>";
+	$links->add(new PipeMenuHtmlEntry($plusOne));
 }
+

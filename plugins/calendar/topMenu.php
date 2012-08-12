@@ -1,4 +1,4 @@
 <?php
-	if(IsAllowed("viewCalendar") && !$isBot)
-		print actionLinkTagItem(__("Calendar"), "calendar");
+	if(isAllowed("viewCalendar") && !$isBot)
+		$navigation->add(new PipeMenuLinkEntry(__("Calendar"), "calendar"));
 ?>

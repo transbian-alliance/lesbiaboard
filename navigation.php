@@ -1,26 +1,28 @@
-
 <?php
-	if($loguser['powerlevel'] > 2 && IsAllowed("viewAdminRoom"))
-		print actionLinkTagItem(__("Admin"), "admin");
+$navigation = new PipeMenu();
 
-	$bucket = "topMenuStart"; include("./lib/pluginloader.php");
+if($loguser['powerlevel'] >= 3 && isAllowed("viewAdminRoom"))
+	$navigation->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
 
-	print actionLinkTagItem(__("Main"), "index");
-	print actionLinkTagItem(__("FAQ"), "faq");
+$bucket = "topMenuStart"; include("./lib/pluginloader.php");
 
-	if(IsAllowed("viewMembers"))
-		print actionLinkTagItem(__("Member list"), "memberlist");
-	if(IsAllowed("viewRanks"))
-		print actionLinkTagItem(__("Ranks"), "ranks");
-	if(IsAllowed("viewAvatars"))
-		print actionLinkTagItem(__("Avatars"), "avatarlibrary");
-	if(IsAllowed("viewOnline"))
-		print actionLinkTagItem(__("Online users"), "online");
-	if(IsAllowed("search"))
-		print actionLinkTagItem(__("Search"), "search");
+$navigation->add(new PipeMenuLinkEntry(__("Main"), "index"));
+$navigation->add(new PipeMenuLinkEntry(__("FAQ"), "faq"));
 
-	print actionLinkTagItem(__("Last posts"), "lastposts");
+if(isAllowed("viewMembers"))
+	$navigation->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+if(isAllowed("viewRanks"))
+	$navigation->add(new PipeMenuLinkEntry(__("Ranks"), "ranks"));
+if(isAllowed("viewAvatars"))
+	$navigation->add(new PipeMenuLinkEntry(__("Avatars"), "avatarlibrary"));
+if(isAllowed("viewOnline"))
+	$navigation->add(new PipeMenuLinkEntry(__("Online users"), "online"));
+if(isAllowed("search"))
+	$navigation->add(new PipeMenuLinkEntry(__("Search"), "search"));
 
-	$bucket = "topMenu"; include("./lib/pluginloader.php");
+$navigation->add(new PipeMenuLinkEntry(__("Last posts"), "lastposts"));
+
+$bucket = "topMenu"; include("./lib/pluginloader.php");
+
+$layout_navigation = $navigation;
 ?>
-

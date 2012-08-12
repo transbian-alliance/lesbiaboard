@@ -20,7 +20,7 @@ if(getSetting("twitName", true) != "")
 		$result = $content." <small>(".$updateTime.", from ".$source.")</small>";
 	}
 
-	$profileParts['Personal information']['Last Tweet'] = $result;
+	$profileParts[__('Personal information')][__('Last Tweet')] = $result;
 }
 
 ?>

@@ -5,39 +5,39 @@
 
 $title = __("User Badges Manager");
 
-AssertForbidden("editUserBadges");
+assertForbidden("editUserBadges");
 
 if($loguser['powerlevel'] < 3)
-	Kill(__("You're not an administrator. There is nothing for you here."));
+	kill(__("You're not an administrator. There is nothing for you here."));
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("User Badges Manager") => actionLink("userbadges")), "");
+makeCrumbs(array(__("Admin") => actionLink("admin"), __("User Badges Manager") => actionLink("userbadges")), "");
 
 if($_POST['action'] == __("Add"))
 {
 	if($_POST['color'] == -1 || empty($_POST['userid']) || empty($_POST['name']))
 	{
-		Kill(__("Please review your settings before adding a user badge."));
+		kill(__("Please review your settings before adding a user badge."));
 	}
 	else
 	{
-		Query("insert into {badges} values ({0}, {1}, {2})",
+		query("insert into {badges} values ({0}, {1}, {2})",
 		(int)$_POST['userid'], $_POST['name'], (int)$_POST['color']);
 
-		Alert(__("Added."), __("Notice"));
+		alert(__("Added."), __("Notice"));
 	}
 }
 elseif($_GET['action'] == "delete")
 {
-	Query("delete from {badges} where owner = {0} and name = {1}",
+	query("delete from {badges} where owner = {0} and name = {1}",
 		(int)$_GET['userid'], $_GET['name']);
 
-	Alert(__("Removed."), __("Notice"));
+	alert(__("Removed."), __("Notice"));
 }
 elseif($_GET['action'] == "deleteall")
 {
-	Query("delete from {badges} where owner = {0}",
+	query("delete from {badges} where owner = {0}",
 	(int)$_GET['userid']);
-	Alert(__("Removed all badges of the user."), __("Notice"));
+	alert(__("Removed all badges of the user."), __("Notice"));
 }
 elseif($_GET['action'] == "newbadge")
 {
@@ -46,8 +46,8 @@ elseif($_GET['action'] == "newbadge")
 
 
 // Fetch badges
-$qBadge = "SELECT owner, {badges}.name, color, {users}.name username FROM {badges} JOIN {users} where owner = id";
-$rBadge = Query($qBadge);
+$qBadge = "SELECT owner, {badges}.name, color, {users}.name username, {users}.sex sex, {users}.powerlevel powerlevel FROM {badges} JOIN {users} where owner = id";
+$rBadge = query($qBadge);
 
 
 $badgeList = "";
