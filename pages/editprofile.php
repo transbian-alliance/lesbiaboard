@@ -54,23 +54,6 @@ $sexes = array(__("Male"), __("Female"), __("N/A"));
 $powerlevels = array(-1 => __("-1 - Banned"), __("0 - Normal user"), __("1 - Local Mod"), __("2 - Full Mod"), __("3 - Admin"));
 
 $general = array(
-	"login" => array(
-		"name" => __("Login information"),
-		"items" => array(
-			"name" => array(
-				"caption" => __("User name"),
-				"type" => "text",
-				"value" => $user['name'],
-				"length" => 20,
-				"callback" => "HandleUsername",
-			),
-			"password" => array(
-				"caption" => __("Password"),
-				"type" => "password",
-				"callback" => "HandlePassword",
-			),
-		),
-	),
 	"appearance" => array(
 		"name" => __("Appearance"),
 		"items" => array(
@@ -112,23 +95,6 @@ $general = array(
 				"type" => "minipic",
 				"errorname" => "minipic",
 				"hint" => format(__("Maximum size is {0} by {0} pixels."), 16),
-			),
-		),
-	),
-	"admin" => array(
-		"name" => __("Administrative stuff"),
-		"items" => array(
-			"powerlevel" => array(
-				"caption" => __("Power level"),
-				"type" => "select",
-				"options" => $powerlevels,
-				"value" => $user['powerlevel'],
-				"callback" => "HandlePowerlevel",
-			),
-			"globalblock" => array(
-				"caption" => __("Globally block layout"),
-				"type" => "checkbox",
-				"value" => $user['globalblock'],
 			),
 		),
 	),
@@ -263,6 +229,58 @@ $personal = array(
 	),
 );
 
+$account = array(
+	"confirm" => array(
+		"name" => __("Password confirmation"),
+		"items" => array(
+			"info" => array(
+				"caption" => __("Info"),
+				"type" => "label",
+				"value" => __("Enter your password here to be able to edit the settings below")
+			),
+			"currpassword" => array(
+				"caption" => __("Password"),
+				"type" => "passwordonce",
+				"callback" => "HandleCurrPassword",
+			),
+		),
+	),
+	"login" => array(
+		"name" => __("Login information"),
+		"items" => array(
+			"name" => array(
+				"caption" => __("User name"),
+				"type" => "text",
+				"value" => $user['name'],
+				"length" => 20,
+				"callback" => "HandleUsername",
+			),
+			"password" => array(
+				"caption" => __("Password"),
+				"type" => "password",
+				"callback" => "HandlePassword",
+			),
+		),
+	),
+	"admin" => array(
+		"name" => __("Administrative stuff"),
+		"items" => array(
+			"powerlevel" => array(
+				"caption" => __("Power level"),
+				"type" => "select",
+				"options" => $powerlevels,
+				"value" => $user['powerlevel'],
+				"callback" => "HandlePowerlevel",
+			),
+			"globalblock" => array(
+				"caption" => __("Globally block layout"),
+				"type" => "checkbox",
+				"value" => $user['globalblock'],
+			),
+		),
+	),
+);
+
 $layout = array(
 	"postlayout" => array(
 		"name" => __("Post layout"),
@@ -296,25 +314,25 @@ if($user['posts'] < Settings::get("customTitleThreshold") && $user['powerlevel']
 if(!$editUserMode)
 {
 	$general['login']['items']['name']['type'] = "label";
-	unset($general['admin']);
+	unset($account['admin']);
 }
 if($loguser['powerlevel'] > 0)
 {
 	$general['avatar']['items']['picture']['hint'] = __("As a staff member, you can upload pictures of any reasonable size.");
 }
-if($loguser['powerlevel'] == 4 && isset($general['admin']['items']['powerlevel']))
+if($loguser['powerlevel'] == 4 && isset($account['admin']['items']['powerlevel']))
 {
 	if($user['powerlevel'] == 4)
 	{
-		$general['admin']['items']['powerlevel']['type'] = "label";
-		$general['admin']['items']['powerlevel']['value'] = __("4 - Root");
+		$account['admin']['items']['powerlevel']['type'] = "label";
+		$account['admin']['items']['powerlevel']['value'] = __("4 - Root");
 	}
 	else
 	{
-		$general['admin']['items']['powerlevel']['options'][-2] = __("-2 - Slowbanned");
-		$general['admin']['items']['powerlevel']['options'][4] = __("4 - Root");
-		$general['admin']['items']['powerlevel']['options'][5] = __("5 - System");
-		ksort($general['admin']['items']['powerlevel']['options']);
+		$account['admin']['items']['powerlevel']['options'][-2] = __("-2 - Slowbanned");
+		$account['admin']['items']['powerlevel']['options'][4] = __("4 - Root");
+		$account['admin']['items']['powerlevel']['options'][5] = __("5 - System");
+		ksort($account['admin']['items']['powerlevel']['options']);
 	}
 }
 
@@ -328,6 +346,10 @@ $tabs = array(
 	"personal" => array(
 		"name" => __("Personal"),
 		"page" => $personal,
+	),
+	"account" => array(
+		"name" => __("Account settings"),
+		"page" => $account,
 	),
 	"postlayout" => array(
 		"name" => __("Post layout"),
@@ -370,10 +392,6 @@ if (isset($_POST['theme']) && $user['id'] == $loguserid)
 		$logopic = "img/themes/".$theme."/logo.png";
 }
 
-
-
-
-
 /* QUICK-E BAN
  * -----------
  */
@@ -402,7 +420,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 /* QUERY PART
  * ----------
  */
-$fallToEditor = true;
+
 if($_POST['action'] == __("Edit profile"))
 {
 	$fallToEditor = false;
@@ -686,16 +704,14 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 // Special field-specific callbacks
 function HandlePassword($field, $item)
 {
-	global $fallToEditor, $sets, $salt, $user, $loguser, $loguserid;
+	global $sets, $salt, $user, $loguser, $loguserid;
 	if($_POST[$field] != "" && $_POST['repeat'.$field] != "" && $_POST['repeat'.$field] !== $_POST[$field])
 	{
-		$fallToEditor = true;
 		return __("To change your password, you must type it twice without error.");
 	}
-	else if($_POST[$field] != "" && $_POST['repeat'.$field] == "")
-	{
+	
+	if($_POST[$field] != "" && $_POST['repeat'.$field] == "")
 		$_POST[$field] = "";
-	}
 	
 	if($_POST[$field])
 	{
@@ -706,13 +722,14 @@ function HandlePassword($field, $item)
 		
 		//Now logout all the sessions that aren't this one, for security.
 		Query("DELETE FROM {sessions} WHERE id != {0} and user = {1}", sha256($_COOKIE['logsession'].$salt), $user["id"]);
-
 	}
+	
+	return false;
 }
 
 function HandleDisplayname($field, $item)
 {
-	global $fallToEditor, $user;
+	global $user;
 	if(!IsReallyEmpty($_POST[$field]) || $_POST[$field] == $user['name'])
 	{
 		// unset the display name if it's really empty or the same as the login name.
@@ -723,18 +740,18 @@ function HandleDisplayname($field, $item)
 		$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 		if($dispCheck)
 		{
-			$fallToEditor = true;
+			
 			return format(__("The display name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 		}
 		else if(strpos($_POST[$field], ";") !== false)
 		{
 			$user['displayname'] = str_replace(";", "", $_POST[$field]);
-			$fallToEditor = true;
+			
 			return __("The display name you entered cannot contain semicolons.");
 		}
 		else if($_POST[$field] !== ($_POST[$field] = preg_replace('/(?! )[\pC\pZ]/u', '', $_POST[$field])))
 		{
-			$fallToEditor = true;
+			
 			return __("The display name you entered cannot contain control characters.");
 		}
 	}
@@ -749,18 +766,18 @@ function HandleUsername($field, $item)
 	$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 	if($dispCheck)
 	{
-		$fallToEditor = true;
+		
 		return format(__("The login name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 	}
 	else if(strpos($_POST[$field], ";") !== false)
 	{
 		$user['name'] = str_replace(";", "", $_POST[$field]);
-		$fallToEditor = true;
+		
 		return __("The login name you entered cannot contain semicolons.");
 	}
 	else if($_POST[$field] !== ($_POST[$field] = preg_replace('/(?! )[\pC\pZ]/u', '', $_POST[$field])))
 	{
-		$fallToEditor = true;
+		
 		return __("The login name you entered cannot contain control characters.");
 	}
 }
@@ -992,6 +1009,8 @@ function BuildPage($page, $id)
 			if($item['before'])
 				$output .= " ".$item['before'];
 		
+			// Yes, some cases are missing the break; at the end.
+			// This is intentional, but I don't think it's a good idea...
 			switch($item['type'])
 			{
 				case "label":
@@ -1002,12 +1021,15 @@ function BuildPage($page, $id)
 					//$item['value'] = gmdate("F j, Y", $item['value']);
 					$item['value'] = timestamptostring($item['value']);
 				case "password":
+					if($item['type'] == "password")
+						$item['extra'] = "/ ".__("Repeat:")." <input type=\"password\" name=\"repeat".$field."\" size=\"".$item['size']."\" maxlength=\"".$item['length']."\" />";
+				case "passwordonce":
 					if(!isset($item['size']))
 						$item['size'] = 13;
 					if(!isset($item['length']))
 						$item['length'] = 32;
-					if($item['type'] == "password")
-						$item['extra'] = "/ ".__("Repeat:")." <input type=\"password\" name=\"repeat".$field."\" size=\"".$item['size']."\" maxlength=\"".$item['length']."\" />";
+					if($item["type"] == "passwordonce")
+						$item["type"] = "password";
 				case "text":
 					$output .= "<input id=\"".$field."\" name=\"".$field."\" type=\"".$item['type']."\" value=\"".htmlspecialchars($item['value'])."\"";
 					if(isset($item['size']))
