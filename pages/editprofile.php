@@ -1,20 +1,14 @@
 <?php
-$noAutoHeader = true;
 
+//Check Stuff
 if(!$loguserid)
-{
 	Kill(__("You must be logged in to edit your profile."));
-}
 
 if ($loguser['powerlevel'] < 0)
-{
 	Kill(__("Banned users may not edit their profile."));
-}
 
 if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
-{
 	Kill(__("No."));
-}
 
 if(isset($_POST['editusermode']) && $_POST['editusermode'] != 0)
 	$_GET['id'] = $_POST['userid'];
@@ -27,13 +21,13 @@ else
 $user = Fetch(Query("select * from {users} where id={0}", $userid));
 
 $editUserMode = isset($_GET['id']) && $loguser['powerlevel'] > 2;
-if($editUserMode && $user['powerlevel'] == 4 && $loguserid != $userid)
-{
+
+if($editUserMode && $user['powerlevel'] == 4 && $loguser['powerlevel'] != 4 && $loguserid != $userid)
 	Kill(__("Cannot edit a root user."));
-}
 
 AssertForbidden($editUserMode ? "editUser" : "editProfile");
 
+//Breadcrumbs
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
@@ -53,6 +47,7 @@ foreach($timeformats as $format)
 $sexes = array(__("Male"), __("Female"), __("N/A"));
 $powerlevels = array(-1 => __("-1 - Banned"), __("0 - Normal user"), __("1 - Local Mod"), __("2 - Full Mod"), __("3 - Admin"));
 
+//Editprofile.php: Welcome to the Hell of Nested Arrays!
 $general = array(
 	"appearance" => array(
 		"name" => __("Appearance"),
@@ -60,7 +55,6 @@ $general = array(
 			"displayname" => array(
 				"caption" => __("Display name"),
 				"type" => "text",
-				"value" => $user['displayname'],
 				"width" => "98%",
 				"length" => 20,
 				"hint" => __("Leave this empty to use your login name."),
@@ -70,12 +64,10 @@ $general = array(
 				"caption" => __("Rankset"),
 				"type" => "select",
 				"options" => $ranksets,
-				"value" => $user['rankset'],
 			),
 			"title" => array(
 				"caption" => __("Title"),
 				"type" => "text",
-				"value" => $user['title'],
 				"width" => "98%",
 				"length" => 255,
 			),
@@ -104,35 +96,30 @@ $general = array(
 			"threadsperpage" => array(
 				"caption" => __("Threads per page"),
 				"type" => "number",
-				"value" => $user['threadsperpage'],
 				"min" => 50,
 				"max" => 99,
 			),
 			"postsperpage" => array(
 				"caption" => __("Posts per page"),
 				"type" => "number",
-				"value" => $user['postsperpage'],
 				"min" => 20,
 				"max" => 99,
 			),
 			"dateformat" => array(
 				"caption" => __("Date format"),
 				"type" => "datetime",
-				"value" => $user['dateformat'],
 				"presets" => $datelist,
 				"presetname" => "presetdate",
 			),
 			"timeformat" => array(
 				"caption" => __("Time format"),
 				"type" => "datetime",
-				"value" => $user['timeformat'],
 				"presets" => $timelist,
 				"presetname" => "presettime",
 			),
 			"fontsize" => array(
 				"caption" => __("Font scale"),
 				"type" => "number",
-				"value" => $user['fontsize'],
 				"min" => 20,
 				"max" => 200,
 			),
@@ -144,12 +131,10 @@ $general = array(
 			"blocklayouts" => array(
 				"caption" => __("Block all layouts"),
 				"type" => "checkbox",
-				"value" => $user['blocklayouts'],
 			),
 			"usebanners" => array(
 				"caption" => __("Use nice notification banners"),
 				"type" => "checkbox",
-				"value" => $user['usebanners'],
 			),
 		),
 	),
@@ -163,26 +148,22 @@ $personal = array(
 				"caption" => __("Sex"),
 				"type" => "radiogroup",
 				"options" => $sexes,
-				"value" => $user['sex'],
 			),
 			"realname" => array(
 				"caption" => __("Real name"),
 				"type" => "text",
-				"value" => $user['realname'],
 				"width" => "98%",
 				"length" => 60,
 			),
 			"location" => array(
 				"caption" => __("Location"),
 				"type" => "text",
-				"value" => $user['location'],
 				"width" => "98%",
 				"length" => 60,
 			),
 			"birthday" => array(
 				"caption" => __("Birthday"),
 				"type" => "birthday",
-				"value" => $user['birthday'],
 				"width" => "98%",
 				"length" => 60,
 				"extra" => "<span class=\"smallFonts\">".format(__("(example: {0})"), $birthdayExample)."</span>",
@@ -190,38 +171,25 @@ $personal = array(
 			"bio" => array(
 				"caption" => __("Bio"),
 				"type" => "textarea",
-				"value" => $user['bio'],
 			),
 			"timezone" => array(
 				"caption" => __("Timezone offset"),
 				"type" => "timezone",
-				"value" => $user['timezone'],
 			),
 		),
 	),
 	"contact" => array(
 		"name" => __("Contact information"),
 		"items" => array(
-			"email" => array(
-				"caption" => __("Email address"),
-				"type" => "text",
-				"value" => $user['email'],
-				"width" => "50%",
-				"length" => 60,
-				"extra" => "<label><input type=\"checkbox\" name=\"showemail\" ".($user['showemail'] ? "checked=\"checked\"" : "")."/>".__("Public")."</label>",
-				"callback" => "HandleEmail",
-			),
 			"homepageurl" => array(
 				"caption" => __("Homepage URL"),
 				"type" => "text",
-				"value" => $user['homepageurl'],
 				"width" => "98%",
 				"length" => 60,
 			),
 			"homepagename" => array(
 				"caption" => __("Homepage name"),
 				"type" => "text",
-				"value" => $user['homepagename'],
 				"width" => "98%",
 				"length" => 60,
 			),		
@@ -234,14 +202,14 @@ $account = array(
 		"name" => __("Password confirmation"),
 		"items" => array(
 			"info" => array(
-				"caption" => __("Info"),
+				"caption" => "",
 				"type" => "label",
-				"value" => __("Enter your password here to be able to edit the settings below")
+				"value" => __("Enter your password in order to edit account settings")
 			),
 			"currpassword" => array(
 				"caption" => __("Password"),
 				"type" => "passwordonce",
-				"callback" => "HandleCurrPassword",
+				"callback" => "",
 			),
 		),
 	),
@@ -251,7 +219,6 @@ $account = array(
 			"name" => array(
 				"caption" => __("User name"),
 				"type" => "text",
-				"value" => $user['name'],
 				"length" => 20,
 				"callback" => "HandleUsername",
 			),
@@ -262,6 +229,21 @@ $account = array(
 			),
 		),
 	),
+	"email" => array(
+		"name" => __("Email information"),
+		"items" => array(
+			"email" => array(
+				"caption" => __("Email address"),
+				"type" => "text",
+				"width" => "50%",
+				"length" => 60,
+			),
+			"showemail" => array(
+				"caption" => __("Make email public"),
+				"type" => "checkbox",
+			),
+		),
+	),
 	"admin" => array(
 		"name" => __("Administrative stuff"),
 		"items" => array(
@@ -269,13 +251,11 @@ $account = array(
 				"caption" => __("Power level"),
 				"type" => "select",
 				"options" => $powerlevels,
-				"value" => $user['powerlevel'],
 				"callback" => "HandlePowerlevel",
 			),
 			"globalblock" => array(
 				"caption" => __("Globally block layout"),
 				"type" => "checkbox",
-				"value" => $user['globalblock'],
 			),
 		),
 	),
@@ -288,38 +268,39 @@ $layout = array(
 			"postheader" => array(
 				"caption" => __("Header"),
 				"type" => "textarea",
-				"value" => $user['postheader'],
 				"rows" => 16,
 			),
 			"signature" => array(
 				"caption" => __("Footer"),
 				"type" => "textarea",
-				"value" => $user['signature'],
 				"rows" => 16,
 			),
 			"signsep" => array(
 				"caption" => __("Show signature separator"),
 				"type" => "checkbox",
-				"value" => $user['signsep'],
 				"negative" => true,
 			),
 		),
 	),
 );
 
+//Allow plugins to add their own fields
 $bucket = "edituser"; include("lib/pluginloader.php");
 
+//Make some more checks.
 if($user['posts'] < Settings::get("customTitleThreshold") && $user['powerlevel'] < 1 && !$editUserMode)
 	unset($general['appearance']['items']['title']);
+
 if(!$editUserMode)
 {
-	$general['login']['items']['name']['type'] = "label";
+	$account['login']['items']['name']['type'] = "label";
+	$account['login']['items']['name']['value'] = $user["name"];
 	unset($account['admin']);
 }
+
 if($loguser['powerlevel'] > 0)
-{
 	$general['avatar']['items']['picture']['hint'] = __("As a staff member, you can upload pictures of any reasonable size.");
-}
+
 if($loguser['powerlevel'] == 4 && isset($account['admin']['items']['powerlevel']))
 {
 	if($user['powerlevel'] == 4)
@@ -337,7 +318,6 @@ if($loguser['powerlevel'] == 4 && isset($account['admin']['items']['powerlevel']
 }
 
 // Now that we have everything set up, we can link 'em into a set of tabs.
-
 $tabs = array(
 	"general" => array(
 		"name" => __("General"),
@@ -361,26 +341,7 @@ $tabs = array(
 	),
 );
 
-$first = "general";
-foreach($tabs as $id => $tab)
-{
-	if(isset($_GET[$id]))
-	{
-		$first = $id;
-		break;
-	}
-}
-
-
-$failed = false;
-
-if (isset($_POST['savedpost']))
-{
-	$_POST = unserialize(base64_decode($_POST['savedpost']));
-	$_POST['action'] = '';
-	$failed = true;
-}
-
+/*
 if (isset($_POST['theme']) && $user['id'] == $loguserid)
 {
 	$theme = $_POST['theme'];
@@ -390,7 +351,7 @@ if (isset($_POST['theme']) && $user['id'] == $loguserid)
 	$logopic = "img/themes/default/logo.png";
 	if(file_exists("img/themes/".$theme."/logo.png"))
 		$logopic = "img/themes/".$theme."/logo.png";
-}
+}*/
 
 /* QUICK-E BAN
  * -----------
@@ -423,126 +384,145 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 
 if($_POST['action'] == __("Edit profile"))
 {
-	$fallToEditor = false;
+	$failed = false;
+	$passwordEntered = false;
+	
+	if($_POST["currpassword"])
+	{
+		$sha = sha256($_POST["currpassword"].$salt.$loguser['pss']);
+		if($loguser['password'] == $sha)
+			$passwordEntered = true;
+		else
+		{
+			Alert(__("Invalid password"));
+			$failed = true;
+			$selectedTab = "account";
+			$tabs["account"]["page"]["confirm"]["items"]["currpassword"]["fail"] = true;
+		}
+	}
+
 	$query = "UPDATE {$dbpref}users SET ";
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
 	
-	$retlink = "<br /><br /><form action=\"".actionLink("editprofile")."\" method=\"post\"><input type=\"hidden\" name=\"savedpost\" value=\""
-		.htmlspecialchars(base64_encode(serialize($_POST)))
-		."\" /><a href=\"#\" onclick=\"this.parentNode.submit();\">".__("Go back and fix that")."</a></form>";
-	
-	foreach($tabs as $id => $tab)
+	foreach($tabs as $id => &$tab)
 	{
-		if(isset($tab['page']))
+		if(!isset($tab['page'])) continue;
+		if($id == "account" && !$passwordEntered) continue;
+		
+		foreach($tab['page'] as $id => &$section)
 		{
-			foreach($tab['page'] as $id => $section)
+			foreach($section['items'] as $field => &$item)
 			{
-				foreach($section['items'] as $field => $item)
+				if($item['callback'])
 				{
-					if($item['callback'])
+					$ret = $item['callback']($field, $item);
+					if($ret === true)
+						continue;
+					else if($ret != "")
 					{
-						$ret = $item['callback']($field, $item);
-						if($ret === true)
-							continue;
-						else if($ret != "")
-						{
-							Alert($ret.($fallToEditor ? '':$retlink), __('Error'));
-							if(!$fallToEditor)
-								die();
-						}
+						Alert($ret, __('Error'));
+						$failed = true;
+						$selectedTab = $id;
+						$item["fail"] = true;
 					}
+				}
 
-					switch($item['type'])
-					{
-						case "label":
-							break;
-						case "text":
-						case "textarea":
+				switch($item['type'])
+				{
+					case "label":
+						break;
+					case "text":
+					case "textarea":
+						$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
+						break;
+					case "password":
+						if($_POST[$field])
 							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
-							break;
-						case "password":
-							if($_POST[$field])
-								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
-							break;
-						case "select":
-							$num = (int)$_POST[$field];
-							if (array_key_exists($num, $item['options']))
-								$sets[] = $field." = ".$num;
-							break;
-						case "number":
-							$num = (int)$_POST[$field];
-							if($num < 1)
-								$num = $item['min'];
-							elseif($num > $item['max'])
-								$num = $item['max'];
+						break;
+					case "select":
+						$num = (int)$_POST[$field];
+						if (array_key_exists($num, $item['options']))
 							$sets[] = $field." = ".$num;
-							break;
-						case "datetime":
-							if($_POST[$item['presetname']] != -1)
-								$_POST[$field] = $_POST[$item['presetname']];
+						break;
+					case "number":
+						$num = (int)$_POST[$field];
+						if($num < 1)
+							$num = $item['min'];
+						elseif($num > $item['max'])
+							$num = $item['max'];
+						$sets[] = $field." = ".$num;
+						break;
+					case "datetime":
+						if($_POST[$item['presetname']] != -1)
+							$_POST[$field] = $_POST[$item['presetname']];
+						$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
+						break;
+					case "checkbox":
+						$val = (int)($_POST[$field] == "on");
+						if($item['negative'])
+							$val = (int)($_POST[$field] != "on");
+						$sets[] = $field." = ".$val;
+						break;
+					case "radiogroup":
+						if (array_key_exists($_POST[$field], $item['options']))
 							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
-							break;
-						case "checkbox":
-							$val = (int)($_POST[$field] == "on");
-							if($item['negative'])
-								$val = (int)($_POST[$field] != "on");
-							$sets[] = $field." = ".$val;
-							break;
-						case "radiogroup":
-							if (array_key_exists($_POST[$field], $item['options']))
-								$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
-							break;
-						case "birthday":
-							if($_POST[$field])
-							{
-								$val = @stringtotimestamp($_POST[$field]);
-								if($val > time())
-									$val = 0;
-							}
-							else
+						break;
+					case "birthday":
+						if($_POST[$field])
+						{
+							$val = @stringtotimestamp($_POST[$field]);
+							if($val > time())
 								$val = 0;
-							$sets[] = $field." = '".$val."'";
-							break;
-						case "timezone":
-							$val = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
-							$sets[] = $field." = ".$val;
-							break;
-						case "displaypic":
-							if($_POST['remove'.$field])
-							{
-								@unlink($dataDir."avatars/$userid");
-								$sets[] = $field." = ''";
-								continue;
-							}
-							if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
-								continue;
-							$res = HandlePicture($field, 0, $item['errorname'], $user['powerlevel'] > 0 || $loguser['powerlevel'] > 0);
-							if($res === true)
-								$sets[] = $field." = '#INTERNAL#'";
-							else
-							{
-								Kill($res.$retlink);
-							}
-							break;
-						case "minipic":
-							if($_POST['remove'.$field])
-							{
-								@unlink($dataDir."minipic/$userid");
-								$sets[] = $field." = ''";
-								continue;
-							}
-							if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
-								continue;
-							$res = HandlePicture($field, 1, $item['errorname']);
-							if($res === true)
-								$sets[] = $field." = '#INTERNAL#'";
-							else
-							{
-								Kill($res.$retlink);
-							}
-							break;
-					}
+						}
+						else
+							$val = 0;
+						$sets[] = $field." = '".$val."'";
+						break;
+					case "timezone":
+						$val = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
+						$sets[] = $field." = ".$val;
+						break;
+						
+					//TODO: These two are copypasta, fixit
+					case "displaypic":
+						if($_POST['remove'.$field])
+						{
+							@unlink($dataDir."avatars/$userid");
+							$sets[] = $field." = ''";
+							continue;
+						}
+						if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
+							continue;
+						$res = HandlePicture($field, 0, $item['errorname'], $user['powerlevel'] > 0 || $loguser['powerlevel'] > 0);
+						if($res === true)
+							$sets[] = $field." = '#INTERNAL#'";
+						else
+						{
+							Alert($res);
+							$failed = true;
+							$item["fail"] = true;
+						}
+						break;
+					case "minipic":
+						if($_POST['remove'.$field])
+						{
+							@unlink($dataDir."minipic/$userid");
+							$sets[] = $field." = ''";
+							continue;
+						}
+						if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
+							continue;
+						$res = HandlePicture($field, 1, $item['errorname']);
+						if($res === true)
+							$sets[] = $field." = '#INTERNAL#'";
+						else
+						{
+							Alert($res);
+							$failed = true;
+							$item["fail"] = true;
+						}
+						break;
 				}
 			}
 		}
@@ -556,13 +536,11 @@ if($_POST['action'] == __("Edit profile"))
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
 	$query .= join($sets, ", ")." WHERE id = ".$userid;
-	if(!$fallToEditor)
+	if(!$failed)
 	{
 		RawQuery($query);
 		if($loguserid == $userid)
-		{
 			$loguser = Fetch(Query("select * from {users} where id={0}", $loguserid));
-		}
 		
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
 			Karma();
@@ -574,46 +552,47 @@ if($_POST['action'] == __("Edit profile"))
 
 		die(header("Location: ".actionLink("profile", $userid)));
 	}
-	else
-		$failed = true;
 }
 
-if ($fallToEditor && $failed)
+//If failed, get values from $_POST
+//Else, get them from $user
+
+foreach($tabs as &$tab)
 {
-	foreach($tabs as &$tab)
+	if(!isset($tab['page'])) continue;
+
+	foreach($tab['page'] as &$section)
 	{
-		if(isset($tab['page']))
+		foreach($section['items'] as $field => &$item)
 		{
-			foreach($tab['page'] as &$section)
+			if ($item['type'] == "label" || $item['type'] == "password")
+				continue;
+
+			if(!$failed)
 			{
-				foreach($section['items'] as $field => &$item)
-				{
-					if (in_array($item['type'], array('label','password')))
-						continue;
-						
-					if ($field == 'email')
-						$item['extra'] = "<label><input type=\"checkbox\" name=\"showemail\" ".($_POST['showemail'] ? "checked=\"checked\"" : "")."/>".__("Public")."</label>";
-						
-					if ($item['type'] == 'checkbox')
-						$item['value'] = ($_POST[$field] == 'on') ^ $item['negative'];
-					elseif ($item['type'] == 'timezone')
-						$item['value'] = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
-					elseif ($item['type'] == 'birthday')
-						$item['value'] = @stringtotimestamp($_POST['birthday']);
-					else
-						$item['value'] = $_POST[$field];
-				}
-				unset($item);
+				if(!isset($item["value"]))
+					$item["value"] = $user[$field];
 			}
-			unset($section);
+			else
+			{
+				if ($item['type'] == 'checkbox')
+					$item['value'] = ($_POST[$field] == 'on') ^ $item['negative'];
+				elseif ($item['type'] == 'timezone')
+					$item['value'] = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
+				elseif ($item['type'] == 'birthday')
+					$item['value'] = @stringtotimestamp($_POST['birthday']);
+				else
+					$item['value'] = $_POST[$field];
+			}
 		}
+		unset($item);
 	}
-	unset($tab);
-	
-	$loguser['theme'] = $_POST['theme'];
+	unset($section);
 }
+unset($tab);
 
-
+if($failed)
+	$loguser['theme'] = $_POST['theme'];
 
 function HandlePicture($field, $type, $errorname, $allowOversize = false)
 {
@@ -782,12 +761,6 @@ function HandleUsername($field, $item)
 	}
 }
 
-function HandleEmail($field, $item)
-{
-	global $sets;
-	$sets[] = "showemail = ".(int)($_POST['showemail'] == "on");
-}
-
 function HandlePowerlevel($field, $item)
 {
 	global $user, $loguserid, $userid;
@@ -827,10 +800,6 @@ function HandlePowerlevel($field, $item)
 }
 
 
-
-
-
-
 /* EDITOR PART
  * -----------
  */
@@ -868,7 +837,6 @@ if (is_dir($dir))
         closedir($dh);
     }
 }
-
 
 foreach($themes as $themeKey => $themeData)
 {
@@ -937,10 +905,23 @@ if($editUserMode && $user['powerlevel'] < 4 && $user['tempbantime'] == 0)
 	</form>
 ", $userid, $loguser['token']);
 
+if(!isset($selectedTab))
+{
+	$selectedTab = "general";
+	foreach($tabs as $id => $tab)
+	{
+		if(isset($_GET[$id]))
+		{
+			$selectedTab = $id;
+			break;
+		}
+	}
+}
+
 Write("<div class=\"margin width0\" id=\"tabs\">");
 foreach($tabs as $id => $tab)
 {
-	$selected = ($first == $id) ? " selected" : "";
+	$selected = ($selectedTab == $id) ? " selected" : "";
 	Write("
 	<button id=\"{2}Button\" class=\"tab{1}\" onclick=\"showEditProfilePart('{2}');\">{0}</button>
 	", $tab['name'], $selected, $id);
@@ -960,7 +941,7 @@ foreach($tabs as $id => $tab)
 		<tr class=\"header0\"><th>&nbsp;</th></tr>
 		<tr class=\"cell0\"><td class=\"themeselector\">{2}</td></tr>
 	</table>
-",	$id, ($id != $first) ? " style=\"display: none;\"" : "",
+",	$id, ($id != $selectedTab) ? " style=\"display: none;\"" : "",
 	$themeList);
 }
 
@@ -987,8 +968,12 @@ Write(
 
 function BuildPage($page, $id)
 {
-	global $first, $loguser;
-	$display = ($id != $first) ? " style=\"display: none;\"" : "";
+	global $selectedTab, $loguser;
+	
+	//TODO: This should be done in JS.
+	//So that a user who doesn't have Javascript will see all the tabs.
+	$display = ($id != $selectedTab) ? " style=\"display: none;\"" : "";
+
 	$cellClass = 0;
 	$output = "<table class=\"outline margin width50 eptable\" id=\"".$id."\"".$display.">\n";
 	foreach($page as $pageID => $section)
@@ -998,6 +983,7 @@ function BuildPage($page, $id)
 		{
 			$output .= "<tr class=\"cell".$cellClass."\">\n";
 			$output .= "<td>\n";
+			if($item["fail"]) $output .= "FAIL ";
 			if($item['type'] != "checkbox")
 				$output .= "<label for=\"".$field."\">".$item['caption']."</label>\n";
 
