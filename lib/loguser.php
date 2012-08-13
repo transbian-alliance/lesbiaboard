@@ -88,7 +88,7 @@ if(isIPBanned($_SERVER['REMOTE_ADDR']))
 if(FetchResult("select count(*) from {proxybans} where instr({0}, ip)=1", $_SERVER['REMOTE_ADDR']))
 	die("No.");
 
-function sha256($data)
+function doHash($data)
 {
 	return hash('sha256', $data, FALSE);
 }
@@ -97,7 +97,7 @@ $loguser = NULL;
 
 if($_COOKIE['logsession'])
 {
-	$session = Fetch(Query("SELECT * FROM {sessions} WHERE id={0}", sha256($_COOKIE['logsession'].$salt)));
+	$session = Fetch(Query("SELECT * FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt)));
 	if($session)
 	{
 		$loguser = Fetch(Query("SELECT * FROM {users} WHERE id={0}", $session["user"]));

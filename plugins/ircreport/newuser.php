@@ -15,7 +15,7 @@ if(Settings::pluginGet("reportPassMatches"))
 		if($testuser["id"] == $user["id"])
 			continue;
 		
-		$sha = hash("sha256", $user["rawpass"].$salt.$testuser['pss'], FALSE);
+		$sha = doHash($user["rawpass"].$salt.$testuser['pss']);
 		if($testuser['password'] == $sha)
 			$matchCount++;
 	}

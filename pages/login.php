@@ -6,7 +6,7 @@ if($_POST['action'] == "logout")
 {
 	setcookie("logsession", 0);
 	Query("UPDATE {users} SET loggedin = 0 WHERE id={0}", $loguserid);
-	Query("DELETE FROM {sessions} WHERE id={0}", sha256($_COOKIE['logsession'].$salt));
+	Query("DELETE FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt));
 
 	die(header("Location: ."));
 }
@@ -18,7 +18,7 @@ elseif(isset($_POST['actionlogin']))
 	$user = Fetch(Query("select * from {users} where name={0}", $_POST['name']));
 	if($user)
 	{
-		$sha = sha256($pass.$salt.$user['pss']);
+		$sha = doHash($pass.$salt.$user['pss']);
 		if($user['password'] == $sha)
 		{
 			print "badpass";
@@ -32,12 +32,11 @@ elseif(isset($_POST['actionlogin']))
 		Alert(__("Invalid user name or password."));
 	else
 	{
-		//TODO: Tie sessions to IPs if user has enabled it
+		//TODO: Tie sessions to IPs if user has enabled it (or probably not)
 		
 		$sessionID = Shake();
 		setcookie("logsession", $sessionID, 0, "", "", false, true);
-		
-		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", sha256($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
+		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
 		
 		Report("[b]".$user['name']."[/] logged in.", 1);
 

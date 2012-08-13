@@ -11,7 +11,7 @@ if(isset($_GET['key']) && isset($_GET['id']))
 
 	$user = Fetch($user);
 	
-	$sha = hash("sha256", $_GET['key'].$salt.$user["pss"], FALSE);
+	$sha = doHash($_GET['key'].$salt.$user["pss"]);
 	
 	$user = Query("select id, name, password, pss from {users} where id = {0} and lostkey = {1} and lostkeytimer > {2}", (int)$_GET['id'], $sha, (time() - (60*60)));
 
@@ -22,7 +22,7 @@ if(isset($_GET['key']) && isset($_GET['id']))
 
 	$newsalt = Shake();
 	$newPass = randomString(8);
-	$sha = hash("sha256", $newPass.$salt.$newsalt, FALSE);
+	$sha = doHash($newPass.$salt.$newsalt);
 
 	Query("update {users} set lostkey = '', password = {0}, pss = {2} where id = {1}", $sha, (int)$_GET['id'], $newsalt);
 	Kill(format(__("Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible."), $newPass), __("Password reset"));
@@ -44,7 +44,7 @@ else if($_POST['action'] == __("Send reset email"))
 		//Make a RANDOM reset key.
 		$resetKey = Shake();
 		
-		$hashedResetKey = hash("sha256", $resetKey.$salt.$user["pss"], FALSE);
+		$hashedResetKey = doHash($resetKey.$salt.$user["pss"]);
 
 		$from = Settings::get("mailResetSender");
 		$to = $user['email'];

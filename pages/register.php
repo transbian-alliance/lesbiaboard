@@ -169,7 +169,7 @@ elseif($_POST['action'] == __("Register"))
 	}
 
 	$newsalt = Shake();
-	$sha = hash("sha256", $_POST['pass'].$salt.$newsalt, FALSE);
+	$sha = doHash($_POST['pass'].$salt.$newsalt);
 	$uid = FetchResult("SELECT id+1 FROM {users} WHERE (SELECT COUNT(*) FROM {users} u2 WHERE u2.id={users}.id+1)=0 ORDER BY id ASC LIMIT 1");
 	if($uid < 1) $uid = 1;
 
@@ -188,23 +188,13 @@ elseif($_POST['action'] == __("Register"))
 
 	if($_POST['autologin'])
 	{
-		$sha = hash("sha256", $_POST['pass'].$salt.$newsalt, FALSE);
-		//Fixed: password was stored as SHA256 earlier, but query asks for MD5.
-		$rUser = Query("select * from {users} where name={0} and password={1}", $_POST['name'], $sha);
-		$user = Fetch($rUser);
-
-		$logdata['loguserid'] = $user['id'];
-		$logdata['bull'] = hash('sha256', $user['id'].$user['password'].$salt.$newsalt, FALSE);
-		$logdata_s = base64_encode(serialize($logdata));
-
-		setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
-
-		
+		$sessionID = Shake();
+		setcookie("logsession", $sessionID, 0, "", "", false, true);
+		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], 0);
 		die(header("Location: ."));
-	} else
-	{
-		die(header("Location: ".actionLink("login")));
 	}
+	else
+		die(header("Location: ".actionLink("login")));
 }
 
 function MakeOptions($fieldName, $checkedIndex, $choicesList)
