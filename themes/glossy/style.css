@@ -166,6 +166,10 @@ button, input[type="submit"]
 	background-image: url(generic.svg);
 	color: #FFF;
 	-o-transition: 0.2s linear;
+	-moz-transition: 0.2s linear;
+	-webkit-transition: 0.2s linear;
+	-ms-transition: 0.2s linear;
+	transition: 0.2s linear;
 }
 
 button:hover, input[type="submit"]:hover {
@@ -185,6 +189,10 @@ input[type="checkbox"], input[type="radio"]
 	border: 2px solid #288;
 	color: #000;
 	-o-transition: 0.2s linear;
+	-moz-transition: 0.2s linear;
+	-webkit-transition: 0.2s linear;
+	-ms-transition: 0.2s linear;
+	transition: 0.2s linear;
 }
 
 input[type="checkbox"]:checked, input[type="radio"]:checked {
@@ -267,6 +275,10 @@ div#tabs button {
 	border-radius: 8px 8px 0px 0px;
 	background-image: url(generic_gloss.svg);
 	-o-transition: 0.2s linear;
+	-moz-transition: 0.2s linear;
+	-webkit-transition: 0.2s linear;
+	-ms-transition: 0.2s linear;
+	transition: 0.2s linear;
 	background-color: #000;
 }
 
@@ -279,6 +291,10 @@ div#tabs button.selected
 	text-shadow: 1px 1px 5px #000;
 	z-index: 100;
 	-o-transform: scale(1.25);
+	-moz-transform: scale(1.25);
+	-webkit-transform: scale(1.25);
+	-ms-transform: scale(1.25);
+	transform: scale(1.25);
 	top: -2px;
 }
 
