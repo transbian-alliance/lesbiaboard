@@ -102,14 +102,13 @@ function RawQuery($query)
 	
 	if($debugMode)
 	{
-		$querytext .= "<tr class=\"cell0\">";
-		$querytext .= "<td>".nl2br(htmlspecialchars($query))."</td>";
+		require_once 'plugins/sourcetag/geshi.php';
+		$backtrace = debug_backtrace();
+		$querytext .= "<td rowspan=".count($backtrace).">".geshi_highlight(preg_replace('/^\s*/m', "", $query), 'sql', null, true)."</td>";
 		
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
-		$querytext .= "<td><div class=\"spoiler\"><button class=\"spoilerbutton named\">Backtrace</button><div class=\"spoiled hidden\">".nl2br(backTrace())."</div></div></td>";
-
-		$querytext .= "</tr>";
+		$querytext .= nl2br(backTrace($backtrace));
 	}
 	
 	return $res;

@@ -219,9 +219,10 @@ else
 $layout = Settings::get("defaultLayout");
 
 if($debugMode)
-	$layout_contents.="<table class=\"outline margin width100\">$querytext</table>";
+	$layout_contents.="<table class=\"outline margin width100\"><tr class=header0><th colspan=4>List of queries
+	                   <tr class=header1><th>Query<th>Function<th>File<th>Line<tr class=cell0>$querytext</table>";
 
-require("layouts/$layout.php");
+require("layouts/$layout.php");echo $times;
 
 
 ?>
