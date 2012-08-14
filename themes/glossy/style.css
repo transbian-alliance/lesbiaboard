@@ -262,6 +262,10 @@ table.outline tr td:first-child, table.outline tr th:first-child
 	border: 0px none;
 }
 
+#tabs {
+	margin-left: 10px;
+}
+
 div#tabs button {
 	border: 1px solid #288;
 	border-radius: 8px 8px 0px 0px;
