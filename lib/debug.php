@@ -3,6 +3,7 @@
 
 function backTrace($backtrace)
 {
+	require_once 'plugins/sourcetag/geshi.php';
 	foreach ($backtrace as $bt) {
 		$args = '';
 		foreach ($bt['args'] as $a) {
@@ -14,9 +15,9 @@ function backTrace($backtrace)
 			else
 				$args .= var_export($a, true);
 		}
-		$output .= "<td>{$bt['file']}<td>{$bt['line']}<td><code>";
-		$output .= htmlspecialchars("{$bt['class']}{$bt['type']}{$bt['function']}($args)");
-		$output .= "</code><tr class=cell0>";
+		$output .= "<td>{$bt['file']}<td>{$bt['line']}<td>";
+		$output .= geshi_highlight("{$bt['class']}{$bt['type']}{$bt['function']}($args)", 'php-brief', null, true);
+		$output .= "<tr class=cell0>";
 	}
 	return $output;
 }
