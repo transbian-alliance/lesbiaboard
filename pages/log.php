@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 if($loguser['powerlevel'] < 1)
 	Kill("Access denied.");

@@ -1,4 +1,3 @@
-
 <?php
 	if($loguser['powerlevel'] > 2 && IsAllowed("viewAdminRoom"))
 		print actionLinkTagItem(__("Admin"), "admin");
