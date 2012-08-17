@@ -12,8 +12,6 @@
 		print actionLinkTagItem(__("Member list"), "memberlist");
 	if(IsAllowed("viewRanks"))
 		print actionLinkTagItem(__("Ranks"), "ranks");
-	if(IsAllowed("viewAvatars"))
-		print actionLinkTagItem(__("Avatars"), "avatarlibrary");
 	if(IsAllowed("viewOnline"))
 		print actionLinkTagItem(__("Online users"), "online");
 	if(IsAllowed("search"))
