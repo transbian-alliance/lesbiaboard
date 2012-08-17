@@ -21,7 +21,7 @@ function printRefreshCode()
 		</script>
 	");
 }
-function actionLink($action, $id=0, $args="")
+function actionLink($action, $id="", $args="")
 {
 	global $boardroot;
 	if($boardroot == "")
@@ -34,7 +34,7 @@ function actionLink($action, $id=0, $args="")
 	if($action != "index")
 		$res .= "&page=$action";
 	
-	if($id)
+	if($id != "")
 		$res .= "&id=$id";
 	if($args)
 		$res .= "&$args";
