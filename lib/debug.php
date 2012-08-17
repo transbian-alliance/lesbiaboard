@@ -16,7 +16,7 @@ function backTrace($backtrace)
 				$args .= var_export($a, true);
 		}
 		$output .= "<td>{$bt['file']}<td>{$bt['line']}<td>";
-		$output .= geshi_highlight("{$bt['class']}{$bt['type']}{$bt['function']}($args)", 'ruby', null, true);
+		$output .= geshi_highlight("{$bt['class']}{$bt['type']}{$bt['function']}($args)", 'scala', null, true);
 		$output .= "<tr class=cell0>";
 	}
 	return $output;
