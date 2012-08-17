@@ -108,7 +108,7 @@ function RawQuery($query)
 		
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
-		$querytext .= nl2br(backTrace($backtrace));
+		$querytext .= backTrace($backtrace);
 	}
 	
 	return $res;
