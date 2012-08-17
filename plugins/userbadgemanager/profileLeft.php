@@ -8,7 +8,7 @@ if($loguser['powerlevel'] > 3)
 						<th colspan=\"2\">" . __("Badge Manager Panel") . "</th>
 					</tr>
 							<tr>
-								<td align=\"center\">
+								<td class=cell0 align=\"center\">
 									<a href=\"".actionLink("userbadges", "", "userid=" . $id ."&action=newbadge")."\">" . __("Add a new badge for this user") . "</a>
 									&nbsp;&mdash;&nbsp;
 									<a href=\"".actionLink("userbadges", "", "userid=" . $id ."&action=deleteall")."\">" . __("Delete all badges of this user") . "</a>
