@@ -855,6 +855,7 @@ if (is_dir($dir))
     }
 }
 
+asort($themes);
 
 foreach($themes as $themeKey => $themeData)
 {
