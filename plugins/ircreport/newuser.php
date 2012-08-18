@@ -35,7 +35,7 @@ if(Settings::pluginGet("reportIPMatches"))
 
 if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New user: \003$c1"
-		.$user["name"]
+		.ircUserColor($user["name"], $user['sex'], $user['powerlevel'])
 		."\003$c2 $extra-- "
 		.getServerURL()."?uid=".$user["id"]
 		);
