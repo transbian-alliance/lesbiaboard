@@ -91,9 +91,13 @@ div#tabs button.selected
 {
 	background: #410;
 }
-.outline.margin.faq
+.outline.margin.faq, .errort, .errorc
 {
-	border:1px solid black
+	border:1px solid black;
+}
+
+.errorc {
+	border-top: none;
 }
 
 .codeblock {
