@@ -34,21 +34,15 @@ class BadPluginException extends Exception { }
 
 function getPluginData($plugin, $load = true)
 {
-
-	global $pluginpages, $pluginbuckets, $misc;
+	global $pluginpages, $pluginbuckets, $misc, $abxd_version;
 
 	if(!is_dir("./plugins/".$plugin))
 		throw new BadPluginException("Plugin folder is gone");
 	
-	//assume this to prevent plugincide
-	if($misc['version'] < 220)
-		$misc['version'] = 220;
-
 	$plugindata = array();
 	$plugindata['dir'] = $plugin;
 	if(!file_exists("./plugins/".$plugin."/plugin.settings"))
 		throw new BadPluginException(_("Plugin folder doesn't contain plugin.settings"));
-
 
 	$minver = 220; //we introduced these plugins in 2.2.0 so assume this.
 
@@ -71,8 +65,9 @@ function getPluginData($plugin, $load = true)
 			$minver = (int)$setting[1];
 	}
 
-	if($minver > $misc['version'])
+	if($minver > $abxd_version)
 		throw new BadPluginException(_("Plugin meant for a later version"));
+
 	$plugindata["buckets"] = array();
 	$plugindata["pages"] = array();
 	

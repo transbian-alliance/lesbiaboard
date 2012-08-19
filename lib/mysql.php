@@ -53,7 +53,7 @@ function Query_AddUserInput($match)
  * {table} syntax allows for flexible manipulation of table names (namely, adding a DB prefix)
  *
  */
-function Query()
+function query()
 {
 	global $dbpref, $args, $fieldLists;
 	$args = func_get_args();
@@ -75,7 +75,7 @@ function Query()
 	return RawQuery($query);
 }
 
-function RawQuery($query)
+function rawQuery($query)
 {
 	global $queries, $querytext, $loguser, $dblink, $debugMode;
 
@@ -114,17 +114,17 @@ function RawQuery($query)
 	return $res;
 }
 
-function Fetch($result)
+function fetch($result)
 {
 	return $result->fetch_array();
 }
 
-function FetchRow($result)
+function fetchRow($result)
 {
 	return $result->fetch_row();
 }
 
-function FetchResult()
+function fetchResult()
 {
 	$res = Query(func_get_args());
 	if($res->num_rows == 0) return -1;
@@ -132,7 +132,7 @@ function FetchResult()
 }
 
 // based on http://stackoverflow.com/a/3779460/736054
-function Result($res, $row = 0, $field = 0)
+function result($res, $row = 0, $field = 0)
 {
 	$res->data_seek($row);
 	$ceva = array_values($res->fetch_assoc());
@@ -140,12 +140,12 @@ function Result($res, $row = 0, $field = 0)
 	return $rasp;
 }
 
-function NumRows($result)
+function numRows($result)
 {
 	return $result->num_rows;
 }
 
-function InsertId()
+function insertId()
 {
 	global $dblink;
 	return $dblink->insert_id;

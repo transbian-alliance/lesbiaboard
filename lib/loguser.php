@@ -55,13 +55,16 @@ if($_qRecords)
 }
 
 //Delete oldies visitor from the guest list. We may re-add him/her later.
-$rGuests = Query("delete from {guests} where date < {0}", (time()-300));
+Query("delete from {guests} where date < {0}", (time()-300));
 
 //Lift dated Tempbans
-$rTempban = Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 where tempbantime != 0 and tempbantime < {0}", time());
+Query("update {users} set powerlevel = tempbanpl, tempbantime = 0 where tempbantime != 0 and tempbantime < {0}", time());
 
 //Lift dated IP Bans
-$rIPBan = Query("delete from {ipbans} where date != 0 and date < {0}", time());
+Query("delete from {ipbans} where date != 0 and date < {0}", time());
+
+//Delete expired sessions
+Query("delete from {sessions} where expiration != 0 and expiration < {0}", time());
 
 
 function isIPBanned($ip)
@@ -85,34 +88,30 @@ if(isIPBanned($_SERVER['REMOTE_ADDR']))
 if(FetchResult("select count(*) from {proxybans} where instr({0}, ip)=1", $_SERVER['REMOTE_ADDR']))
 	die("No.");
 
-
-$logdata = unserialize(base64_decode($_COOKIE['logdata']));
-$loguserid = (int)$logdata['loguserid'];
-$loguserbull = $logdata['bull'];
-
-$wantGuest = TRUE;
-
-if($loguserid) //Are we logged in?
+function doHash($data)
 {
-	$rLogUser = Query("select * from {users} where id={0}", (int)$loguserid);
-	if(NumRows($rLogUser)) //We have at least one result.
+	return hash('sha256', $data, FALSE);
+}
+
+$loguser = NULL;
+
+if($_COOKIE['logsession'])
+{
+	$session = Fetch(Query("SELECT * FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt)));
+	if($session)
 	{
-		$loguser = Fetch($rLogUser);
-		
-		//Bullcheck
-		$ourbull = hash('sha256', $loguser['id'].$loguser['password'].$salt.$loguser['pss'], FALSE);
-		if($loguserbull == $ourbull)
-		{
-			// Given that tokens are to be included in URLs, they really shouldn't be as long as a SHA256 hash
-			// SHA1 with a sufficiently long salt should be enough.
-			$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
-			
-			$wantGuest = FALSE;
-		}
+		$loguser = Fetch(Query("SELECT * FROM {users} WHERE id={0}", $session["user"]));
+		if($session["autoexpire"])
+			Query("UPDATE {sessions} SET expiration={0} WHERE id={1}", time()+10*60, $session["id"]); //10 minutes
 	}
 }
 
-if($wantGuest)
+if($loguser)
+{
+	$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
+	$loguserid = $loguser["id"];
+}
+else
 {
 	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"), 
 		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>!Settings::get("guestLayouts"),
@@ -120,15 +119,13 @@ if($wantGuest)
 	$loguserid = 0;
 }
 
-if($hacks['forcetheme'] != "")
+/*if($hacks['forcetheme'] != "")
 	$loguser['theme'] = $hacks['forcetheme'];
 
 if ($loguserid)
 	$loguserNotifications = getNotifications($loguserid);
 else
-	$loguserNotifications = array();
-
-$loguserLogin = 1;
+	$loguserNotifications = array();*/
 
 function setLastActivity()
 {

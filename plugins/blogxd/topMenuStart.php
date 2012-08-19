@@ -1,3 +1,3 @@
 <?php
-	print actionLinkTagItem(Settings::pluginGet("pagename"), "blog");
+	$navigation->add(new PipeMenuLinkEntry(Settings::pluginGet("pagename"), "blog"));
 ?>

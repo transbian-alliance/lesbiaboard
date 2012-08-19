@@ -4,8 +4,9 @@
 
 <head>
 	<title><?php print $layout_title?></title>
-	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("layouts/nsmbhd.css");?>" />
 	<?php include("header.php"); ?>
+	<script type="text/javascript" src="<?php print resourceLink("layouts/nsmbhd-scroll.js");?>"></script>
+	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("layouts/nsmbhd.css");?>" />
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
@@ -21,18 +22,18 @@
 					</a>
 				</td>
 				<td style="border: 0px none; text-align: left;">
-							<?php if($layout_pora) { ?>
-							<td style="border: 0px none;">
-								<?php print $layout_pora; ?>
-							</td>
-							<?php } ?>
+							<?php if($layout_pora) {
+								print $layout_pora;
+							 } ?>
 				</td>
 
 				<td style="border: 0px none; text-align: right; padding:0px; vertical-align:bottom;" class="smallFonts">
-					<div class="cell1" style="float:right; padding:5px; border-top:1px solid black; border-left:1px solid black;">
+					<div id="userpanel-placeholder"  style="float:right;">					
+					<div id="userpanel" class="cell1">
 						<ul class="pipemenu">
-							<?php print $layout_userpanel; ?>
+							<?php print $layout_userpanel->build(); ?>
 						</ul>
+					</div>
 					</div>
 				</td>
 			</tr>
@@ -50,16 +51,16 @@
 </div>
 	<div id="sidebar">
 
-		<table class="outline margin" style="width:130px; ">
+		<table id="navigation" class="outline margin" style="width:130px; ">
 			<tr class="header1">
 				<th>Navigation
 				</th>
 			</tr>
 			<tr class="cell0">
-				<td>
-					<ul class="sidemenu">
-					<?php print $layout_navigation;?>
-					</ul>
+				<td class="sidemenu">
+					<?php 
+						$layout_navigation->setClass("sidemenu"); 
+						print $layout_navigation->build();?>
 				</td>
 			</tr>
 		</table>

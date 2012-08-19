@@ -21,7 +21,7 @@ function printRefreshCode()
 		</script>
 	");
 }
-function actionLink($action, $id=0, $args="")
+function actionLink($action, $id="", $args="")
 {
 	global $boardroot;
 	if($boardroot == "")
@@ -34,7 +34,7 @@ function actionLink($action, $id=0, $args="")
 	if($action != "index")
 		$res .= "&page=$action";
 	
-	if($id)
+	if($id != "")
 		$res .= "&id=$id";
 	if($args)
 		$res .= "&$args";
@@ -84,7 +84,7 @@ function themeResourceLink($what)
 	return $boardroot."themes/$theme/$what";
 }
 
-function UserLink($user, $showMinipic = false)
+function userLink($user, $showMinipic = false)
 {
 	global $hacks, $dataUrl, $dataDir;
 
@@ -154,7 +154,7 @@ function UserLink($user, $showMinipic = false)
 	return $userlink;
 }
 
-function UserLinkById($id)
+function userLinkById($id)
 {
 	global $userlinkCache;
 	
@@ -169,7 +169,7 @@ function UserLinkById($id)
 	return UserLink($userlinkCache[$id]);
 }
 
-function PageLinks($url, $epp, $from, $total)
+function pageLinks($url, $epp, $from, $total)
 {
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
@@ -213,7 +213,7 @@ function getFullRequestedURL($https = false)
     return getServerURL($https) . $_SERVER['REQUEST_URI'];
 }
 
-function GetFullURL()
+function getFullURL()
 {
 	return getFullRequestedURL();
 }

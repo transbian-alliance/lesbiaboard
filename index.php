@@ -104,15 +104,8 @@ setLastActivity();
 //=======================
 // Panels and footer
 
-ob_start();
 require('navigation.php');
-$layout_navigation = ob_get_contents();
-ob_end_clean();
-
-ob_start();
 require('userpanel.php');
-$layout_userpanel = ob_get_contents();
-ob_end_clean();
 
 ob_start();
 require('footer.php');

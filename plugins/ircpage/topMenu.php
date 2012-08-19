@@ -1,1 +1,1 @@
-<?php print actionLinkTagItem("IRC Chat", "irc"); ?>
+<?php $navigation->add(new PipeMenuLinkEntry("IRC Chat", "irc")); ?>

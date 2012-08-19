@@ -3,6 +3,8 @@
 global $pluginbuckets, $plugins, $plugin;
 
 $oldplugin = $plugin;
+if(!isset($self))
+	$self = NULL;
 $oldself = $self;
 
 if ($pluginbuckets[$bucket])

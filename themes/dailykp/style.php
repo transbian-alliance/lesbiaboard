@@ -76,23 +76,14 @@ input[type=text], input[type=password], input[type=file], input[type=email], sel
 
 table, td, tr, th
 {
-	border-color: hsl([comp], 50%);
+	border-color: hsl([huesat], 10%);
 }
-
-.pollbarContainer
-{
-	border: 1px solid hsl([huesat], 30%);
-}
-
 
 .post_about, .post_topbar
 {
 	background: hsl([huesat], 16%) url('lines.png');
 }
-.post_about, .post_topbar, .post_content
-{
-	border: 1px solid hsl([huesat], 20%);
-}
+
 
 div#tabs button
 {

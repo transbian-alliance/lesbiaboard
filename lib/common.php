@@ -37,6 +37,8 @@ function usectime()
 }
 
 
+include("version.php");
+
 include("salt.php");
 include("dirs.php");
 
@@ -109,6 +111,9 @@ include("onlineusers.php");
 $theme = $loguser['theme'];
 include("write.php");
 include('lib/layout.php');
+
+//Classes
+include("./class/PipeMenuBuilder.php");
 
 include("lists.php");
 

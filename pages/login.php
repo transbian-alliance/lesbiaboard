@@ -4,47 +4,41 @@
 
 if($_POST['action'] == "logout")
 {
-	setcookie("logdata", 0);
-	Query("update {users} set loggedin=0 where id={0}", $loguserid);
-	
+	setcookie("logsession", 0);
+	Query("UPDATE {users} SET loggedin = 0 WHERE id={0}", $loguserid);
+	Query("DELETE FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt));
+
 	die(header("Location: ."));
 }
-elseif($_POST['action'] == __("Log in"))
+elseif(isset($_POST['actionlogin']))
 {
-	$okay = true;
-	$original = $_POST['pass'];
+	$okay = false;
+	$pass = $_POST['pass'];
 
-	$rUser = Query("select * from {users} where name={0}", $_POST['name']);
-
-	if(NumRows($rUser))
+	$user = Fetch(Query("select * from {users} where name={0}", $_POST['name']));
+	if($user)
 	{
-		$user = Fetch($rUser);
-		$sha = hash("sha256", $original.$salt.$user['pss'], FALSE);
-		if($user['password'] != $sha)
+		$sha = doHash($pass.$salt.$user['pss']);
+		if($user['password'] == $sha)
 		{
-			Report("A visitor from [b]".$_SERVER['REMOTE_ADDR']."[/] tried to log in as [b]".$user['name']."[/].", 1);
-			Alert(__("Invalid user name or password."));
-			$okay = false;
+			print "badpass";
+			$okay = true;
 		}
+		else
+			Report("A visitor from [b]".$_SERVER['REMOTE_ADDR']."[/] tried to log in as [b]".$user['name']."[/].", 1);
 	}
+
+	if(!$okay)
+		Alert(__("Invalid user name or password."));
 	else
 	{
-		Alert(__("Invalid user name or password."));
-		$okay = false;
-	}
-
-	if($okay)
-	{
-		$logdata['loguserid'] = $user['id'];
-		$logdata['bull'] = hash('sha256', $user['id'].$user['password'].$salt.$user['pss'], FALSE);
-		$logdata_s = base64_encode(serialize($logdata));
-
-		if(isset($_POST['session']))
-			setcookie("logdata", $logdata_s, 0, "", "", false, true);
-		else
-			setcookie("logdata", $logdata_s, 2147483647, "", "", false, true);
-
-		Report("[b]".$_POST['name']."[/] logged in.", 1);
+		//TODO: Tie sessions to IPs if user has enabled it (or probably not)
+		
+		$sessionID = Shake();
+		setcookie("logsession", $sessionID, 2147483647, "", "", false, true);
+		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
+		
+		Report("[b]".$user['name']."[/] logged in.", 1);
 
 		die(header("Location: ."));
 	}
@@ -91,7 +85,7 @@ echo "
 			<tr class=\"cell2\">
 				<td></td>
 				<td>
-					<input type=\"submit\" name=\"action\" value=\"".__("Log in")."\" />
+					<input type=\"submit\" name=\"actionlogin\" value=\"".__("Log in")."\" />
 					$forgotPass
 				</td>
 			</tr>

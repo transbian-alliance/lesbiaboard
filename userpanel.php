@@ -1,14 +1,16 @@
 <?php
+$userMenu = new PipeMenu();
+
 if($loguserid)
 {
-	print "<li>".UserLink($loguser)."</li>";
+	$userMenu->add(new PipeMenuHtmlEntry(userLink($loguser)));
     
-	if(IsAllowed("editProfile"))
-		print actionLinkTagItem(__("Edit profile"), "editprofile");
-	if(IsAllowed("viewPM"))
-		print actionLinkTagItem(__("Private messages"), "private");
-	if(IsAllowed("editMoods"))
-		print actionLinkTagItem(__("Mood avatars"), "editavatars");
+	if(isAllowed("editProfile"))
+		$userMenu->add(new PipeMenuLinkEntry(__("Edit profile"), "editprofile"));
+	if(isAllowed("viewPM"))
+		$userMenu->add(new PipeMenuLinkEntry(__("Private messages"), "private"));
+	if(isAllowed("editMoods"))
+		$userMenu->add(new PipeMenuLinkEntry(__("Mood avatars"), "editavatars"));
 
 	$bucket = "bottomMenu"; include("./lib/pluginloader.php");
 
@@ -20,14 +22,14 @@ if($loguserid)
         echo $user_panel;
     }
 
-	print "<li><a href=\"#\" onclick=\"document.forms[0].submit();\">" .  __("Log out") . "</a></li>";
+	$userMenu->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"document.forms[0].submit();\">" .  __("Log out") . "</a>"));
     
 }
 else
 {
-	print actionLinkTagItem(__("Register"), "register");
-	print actionLinkTagItem(__("Log in"), "login");
+	$userMenu->add(new PipeMenuLinkEntry(__("Register"), "register"));
+	$userMenu->add(new PipeMenuLinkEntry(__("Log in"), "login"));
 }
 
-					
+$layout_userpanel = $userMenu;
 ?>
