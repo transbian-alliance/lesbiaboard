@@ -1,10 +1,6 @@
 <?php
 
 
-function var_export_callback($object) {
-	return var_export($object, true);
-}
-
 function backTrace($backtrace)
 {
 	require_once 'plugins/sourcetag/geshi.php';
@@ -16,7 +12,7 @@ function backTrace($backtrace)
 			}
 			if (in_array(strtolower($bt['function']), array('rawquery', 'query', 'fetchresult')) && !$args)
 				if (is_array($a))
-					$args .= "array(".implode(', ', array_merge(array("'...'"), array_map('var_export_callback', array_slice($a, 1)))).")";
+					$args .= var_export(array_merge(array("..."), array_slice($a, 1)), true);
 				else if (is_string($a))
 					$args .= "'...'";
 				else
