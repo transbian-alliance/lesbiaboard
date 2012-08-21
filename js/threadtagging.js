@@ -125,7 +125,7 @@ window.addEventListener("load", function(e) {
 	newThreadTitleEntry.value = threadTitleEntry.value.replace(/\[(.*?)\]/g, function (full, tag) {
 		threadTagContainer.newTag(tag);
 		return "";
-	});
+	}).trim();
 	
 	//Locate newTagTitleEntry's parent form
 

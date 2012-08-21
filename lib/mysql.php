@@ -102,9 +102,11 @@ function rawQuery($query)
 	
 	if($debugMode)
 	{
-		require_once 'plugins/sourcetag/geshi.php';
+		//Syntax highlighting here is a bad idea. (SLOW, and bad if geshi spams warnings and more warnings)
+		//Also this plugin might not be present at all.
+//		require_once 'plugins/sourcetag/geshi.php';
 		$backtrace = debug_backtrace();
-		$querytext .= "<td rowspan=".count($backtrace).">".geshi_highlight(preg_replace('/^\s*/m', "", $query), 'sql', null, true)."</td>";
+		$querytext .= "<td rowspan=".count($backtrace).">".preg_replace('/^\s*/m', "", $query)."</td>";
 		
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
