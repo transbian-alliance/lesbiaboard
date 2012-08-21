@@ -190,8 +190,8 @@ SVG tag:
 
 $previewPost['text'] = $preview;
 
-$previewPost['num'] = "???";
-$previewPost['id'] = "???";
+$previewPost['num'] = "_";
+$previewPost['id'] = "_";
 
 foreach($user as $key => $value)
 	$previewPost["u_".$key] = $value;

@@ -16,7 +16,7 @@ function printRefreshCode()
 		write(
 	"
 		<script type=\"text/javascript\">
-			refreshUrl = ".json_encode(getRefreshActionLink()).";
+			refreshUrl = ".json_encode(htmlspecialchars(getRefreshActionLink())).";
 			window.addEventListener(\"load\",  startPageUpdate, false);
 		</script>
 	");

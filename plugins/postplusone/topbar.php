@@ -2,7 +2,7 @@
 
 global $loguser;
 
-if($post["id"] != "???")
+if($post["id"] != "_")
 {
 	$plusOne = "";
 	

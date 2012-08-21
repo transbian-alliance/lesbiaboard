@@ -209,7 +209,7 @@ if (!$isBot)
 {
 	write(
 "
-	<script src=\"".resourceLink("js/memberlist.js")."\"></script>
+	<script type=\"text/javascript\" src=\"".resourceLink("js/memberlist.js")."\"></script>
 	<table>
 	<tr>
 	<td id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">

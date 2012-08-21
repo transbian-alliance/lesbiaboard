@@ -18,9 +18,9 @@ write("
 				<strong>".__("Google search")."</strong>
 			</div>
 			<div class=\"errorc left cell0\" style=\"padding: 8px; font-size: 150%\">
-				<input type=\"text\" maxlength=\"1024\" name=\"google\" style=\"width: 80%;\">
+				<input type=\"text\" maxlength=\"1024\" name=\"google\" style=\"width: 80%;\" />
 				&nbsp;
-				<input type=\"submit\" value=\"".__("Search")."\">
+				<input type=\"submit\" value=\"".__("Search")."\" />
 			</div>
 		</div>
 	</form>

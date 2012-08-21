@@ -169,7 +169,7 @@ if($_POST['action']==__("Preview"))
 		$previewPost['text'] = $_POST["text"];
 		$previewPost['num'] = "---";
 		$previewPost['posts'] = "---";
-		$previewPost['id'] = "???";
+		$previewPost['id'] = "_";
 		$previewPost['options'] = 0;
 
 		foreach($loguser as $key => $value)
