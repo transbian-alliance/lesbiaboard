@@ -171,6 +171,8 @@ function userLinkById($id)
 
 function pageLinks($url, $epp, $from, $total)
 {
+	$url = htmlspecialchars($url);
+	
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 

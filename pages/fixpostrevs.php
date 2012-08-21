@@ -17,27 +17,27 @@ while ($post = Fetch($posts))
 	$logentry = Fetch(Query("SELECT time,text FROM {reports} WHERE text LIKE 'Post edited by %pid={0}' ORDER BY time DESC LIMIT {1},1", $post['id'], $post['maxrevision']-$post['revision']));
 	if (!$logentry)
 	{
-		echo "no log entry found, skipping<br>";
+		echo "no log entry found, skipping<br />";
 		continue;
 	}
 	
-	echo "log entry found: {$logentry['time']} {$logentry['text']}<br>";
+	echo "log entry found: {$logentry['time']} {$logentry['text']}<br />";
 	
 	$match = array();
 	if (!preg_match('@Post edited by \[b\](.*?)\[/\]@si', $logentry['text'], $match))
 	{
-		echo " * invalid log entry, skipping<br>";
+		echo " * invalid log entry, skipping<br />";
 		continue;
 	}
 	
 	$userid = FetchResult("SELECT id FROM {users} WHERE name={0}", $match[1]);
 	if ($userid == -1)
 	{
-		echo " * user '{$match[1]}' not found, skipping<br>";
+		echo " * user '{$match[1]}' not found, skipping<br />";
 		continue;
 	}
 	
-	echo " * revision {$post['revision']} by {$match[1]} (user ID {$userid}) on {$logentry['time']}, adjusting table entry<br>";
+	echo " * revision {$post['revision']} by {$match[1]} (user ID {$userid}) on {$logentry['time']}, adjusting table entry<br />";
 	Query("UPDATE {posts_text} SET user={0}, date={1} WHERE pid={2} AND revision={3}", $userid, $logentry['time'], $post['id'], $post['revision']);
 }
 

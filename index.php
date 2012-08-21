@@ -24,7 +24,7 @@ function getBirthdaysText()
 	if(count($birthdays))
 		$birthdaysToday = implode(", ", $birthdays);
 	if($birthdaysToday)
-		return "<br>".__("Birthdays today:")." ".$birthdaysToday;
+		return "<br />".__("Birthdays today:")." ".$birthdaysToday;
 	else
 		return "";
 }

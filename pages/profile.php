@@ -124,7 +124,7 @@ if($user['rankset'])
 		$toNextRank = Plural($toNextRank, "post");
 }
 if($user['title'])
-	$title = str_replace("<br />", " &bull; ", strip_tags(CleanUpPost($user['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br><small>"));
+	$title = str_replace("<br />", " &bull; ", strip_tags(CleanUpPost($user['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br /><small>"));
 //$title = "";
 
 if($user['homepageurl'])

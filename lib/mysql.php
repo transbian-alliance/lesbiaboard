@@ -87,7 +87,7 @@ function rawQuery($query)
 	if(!$res)
 	{
 		if($debugMode)
-			die(nl2br(backTrace())."<br>".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
+			die(nl2br(backTrace())."<br />".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");

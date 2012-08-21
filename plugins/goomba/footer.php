@@ -2,7 +2,7 @@
 
 $footerExtensionsA .= Format(
 "
-	<script>
+	<script type="text/javascript">
 	(function () {
 		var i = 0;
 		for (; i < " . ((int) Settings::pluginGet('goombas')) . "; ++i) {

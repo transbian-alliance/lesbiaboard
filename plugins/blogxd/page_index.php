@@ -66,7 +66,7 @@ while($thread = Fetch($rThreads))
 	if($thread['replies'] == 0) $lastLink = "";
 	
 	$subtitle = strip_tags($thread['subtitle']);
-	if($subtitle != "") $subtitle = '<br>'.$subtitle;
+	if($subtitle != "") $subtitle = '<br />'.$subtitle;
 	
 	$postdate = formatdate($thread['date']);
 	$posttext = CleanUpPost($thread['text'],$thread['u_name'], false, false);
@@ -92,7 +92,7 @@ while($thread = Fetch($rThreads))
 		$forumList .= "
 		<tr class=\"header1\" >
 			<th style='text-align:left;'><span style='font-size:15px'>".$tags[0]."</span><span style='font-weight:normal;'>$subtitle</span></th>
-			<th style='text-align:left; width:150px; font-weight:normal;'>Posted by ".UserLink($starter)."<br>$postdate</th>
+			<th style='text-align:left; width:150px; font-weight:normal;'>Posted by ".UserLink($starter)."<br />$postdate</th>
 		</tr>";
 		$forumList .= "<tr class='cell1'><td colspan='2' style='padding:10px'>$posttext</td></tr>";
 		$forumList .= "<tr class='cell0'><td>$comments</td><td style=\"border-left: 0px none;\">$newreply</td></tr>";

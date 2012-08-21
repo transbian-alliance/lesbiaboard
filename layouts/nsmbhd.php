@@ -30,9 +30,7 @@
 				<td style="border: 0px none; text-align: right; padding:0px; vertical-align:bottom;" class="smallFonts">
 					<div id="userpanel-placeholder"  style="float:right;">					
 					<div id="userpanel" class="cell1">
-						<ul class="pipemenu">
-							<?php print $layout_userpanel->build(); ?>
-						</ul>
+						<?php print $layout_userpanel->build(); ?>
 					</div>
 					</div>
 				</td>

@@ -64,13 +64,13 @@ function insError($text)
 	if (!$dblink->select_db($dbname))
 	{
 		insError(
-			"Could not select the database. Try creating it. <br>
+			"Could not select the database. Try creating it. <br />
 			(The installer doesn't create it automatically for you)");
 	}
 
 	$dbcfg = @fopen("lib/database.php", "w+") 
 		or insError(
-			"Could not open the database configuration file (lib/database.php) for writing.<br>
+			"Could not open the database configuration file (lib/database.php) for writing.<br />
 			 Make sure that PHP has access to this file.");
 	
 	fwrite($dbcfg, "<?php\n");
@@ -107,7 +107,7 @@ function insError($text)
 			
 		$sltf = @fopen("lib/salt.php", "w+")
 			or insError(
-				"Could not open \"lib/salt.php\" for writing. <br>
+				"Could not open \"lib/salt.php\" for writing. <br />
 				This has been checked for earlier, so if you see this error now, 
 				something very strange is going on.");
 				
