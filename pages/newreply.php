@@ -143,23 +143,23 @@ else if(isset($_POST['actionpost']))
 		}
 
 
+		$now = time();
 
 		$rUsers = Query("update {users} set posts=posts+1, lastposttime={0} where id={1} limit 1", 
 			time(), $loguserid);
 
 		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) values ({0},{1},{2},{3},{4}, {5}, {6})", 
-			$tid, $loguserid, time(), $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
+			$tid, $loguserid, $now, $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
 		
 		$pid = InsertId();
 
-		$rPostsText = Query("insert into {posts_text} (pid,text) values ({0},{1})", $pid, $post);
-
+		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", $pid, $post, 0, $loguserid, time());
 
 		$rFora = Query("update {forums} set numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", 
-			time(), $loguserid, $pid, $fid);
+			$now, $loguserid, $pid, $fid);
 
 		$rThreads = Query("update {threads} set lastposter={0}, lastpostdate={1}, replies=replies+1, lastpostid={2}".$mod." where id={3} limit 1",
-			$loguserid, time(), $pid, $tid);
+			$loguserid, $now, $pid, $tid);
 
 		Report("New reply by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $isHidden);
 

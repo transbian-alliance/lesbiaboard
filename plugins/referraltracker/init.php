@@ -29,7 +29,7 @@ function cleanUpReferral($referral)
 {
 	$ytid = youtubeIdFromUrl($referral);
 	if($ytid)
-		$referral = "http://youtube.com/v/".$ytid;
+		$referral = "http://www.youtube.com/watch?v=".$ytid;
 		
 	//TODO: Unify google search URLs too?
 	return $referral;
