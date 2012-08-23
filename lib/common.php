@@ -117,5 +117,6 @@ include("./class/PipeMenuBuilder.php");
 
 include("lists.php");
 
+$mainPage = "board";
 $bucket = "init"; include('lib/pluginloader.php');
 

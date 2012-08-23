@@ -35,11 +35,11 @@ function getBirthdaysText()
 
 $page = $_GET["page"];
 if(!isset($page))
-	$page = "index";
+	$page = $mainPage;
 if(!ctype_alnum($page))
-	$page = "index";
+	$page = $mainPage;
 
-if($page == "index")
+if($page == $mainPage)
 {
 	if(isset($_GET['fid']) && (int)$_GET['fid'] > 0 && !isset($_GET['action']))
 		die(header("Location: ".actionLink("forum", (int)$_GET['fid'])));
@@ -215,6 +215,8 @@ if($debugMode)
 	$layout_contents.="<table class=\"outline margin width100\"><tr class=header0><th colspan=4>List of queries
 	                   <tr class=header1><th>Query<th>Function<th>File<th>Line<tr class=cell0>$querytext</table>";
 
+if(!file_exists("layouts/$layout.php"))
+	$layout = "abxd";
 require("layouts/$layout.php");echo $times;
 
 
