@@ -356,7 +356,7 @@ function WriteForumEditContents($fid)
 	<input type="hidden" name="key" value="{8}">
 	<input type="hidden" name="id" value="{6}">
 	<div id="deleteforum" style="display:none">
-		<table>
+		<table class="outline margin">
 			<tr class="header1">
 
 				<th>
@@ -467,7 +467,7 @@ function WriteCategoryEditContents($cid)
 	<input type="hidden" name="key" value="'.$loguser['token'].'">
 	<input type="hidden" name="id" value="'.$cid.'">
 	<div id="deleteforum" style="display:none">
-		<table>
+		<table class="outline margin">
 			<tr class="header1">
 
 				<th>
