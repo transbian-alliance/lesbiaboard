@@ -292,7 +292,7 @@ $rComments = Query("SELECT
 		FROM {usercomments} 
 		LEFT JOIN {users} u ON u.id = {usercomments}.cid 
 		WHERE uid={0} 
-		ORDER BY {usercomments}.date DESC LIMIT 0,10", $id);
+		ORDER BY {usercomments}.date DESC LIMIT 0,16", $id);
 		
 $commentList = "";
 $commentField = "";
