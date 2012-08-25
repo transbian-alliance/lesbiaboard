@@ -120,7 +120,10 @@ else if(isset($_POST['actionpost']))
 		}
 	}
 
-	//TODO: Call a plugin bucket for plugins to be able to reject threads/posts too!
+	if(!$rejected)
+	{
+		$bucket = "checkPost"; include("./lib/pluginloader.php");
+	}
 
 	if(!$rejected)
 	{
