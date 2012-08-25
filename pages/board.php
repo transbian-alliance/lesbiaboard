@@ -14,7 +14,7 @@ else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 $links = "";
 
 if($loguserid)
-	$links = actionLinkTagItem(__("Mark all forums read"), "index", 0, "action=markallread");
+	$links = actionLinkTagItem(__("Mark all forums read"), "board", 0, "action=markallread");
 
 MakeCrumbs(array(), $links);
 
