@@ -29,7 +29,7 @@ if($forum['locked'])
 if($forum['minpowerthread'] > $loguser['powerlevel'])
 	Kill(__("You are not allowed to post threads in this forum."));
 
-if(isset($_POST['actionpreview']) || isset($_POST['actionpost']) || isset($_GET['rulesread']) || $forum["rulespost"] == 0)
+if(isset($_POST['text']) || isset($_GET['rulesread']) || $forum["rulespost"] == 0)
 	include("pages/newthread.php");
 else
 {
