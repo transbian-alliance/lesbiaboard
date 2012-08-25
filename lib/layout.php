@@ -7,7 +7,7 @@ function makeCrumbs($path, $links)
 
 	if(count($path) != 0)
 	{
-		$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink("index"));
+		$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink(0));
 		$pathPostfix = array(); //Not sure how this could be used, but...
 	
 		$bucket = "breadcrumbs"; include("lib/pluginloader.php");
