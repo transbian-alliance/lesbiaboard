@@ -60,7 +60,7 @@ $rPosts = Query("	SELECT
 				LEFT JOIN {forums} f ON f.id=t.forum
 				LEFT JOIN {categories} c ON c.id=f.catid
 			WHERE u.id={1} AND f.minpower <= {2}
-			ORDER BY date ASC LIMIT {3}, {4}", $loguserid, $id, $minpower, $from, $ppp);
+			ORDER BY date ASC LIMIT {3u}, {4u}", $loguserid, $id, $minpower, $from, $ppp);
 
 $numonpage = NumRows($rPosts);
 

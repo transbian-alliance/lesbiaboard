@@ -30,15 +30,26 @@ function Query_ExpandFieldLists($match)
 function Query_AddUserInput($match)
 {
 	global $args;
-	$var = $args[$match[1]+1];
+	$match = $match[1];
+	$format = "_";
+	if(preg_match("/^\d+\w$/", $match))
+	{
+		$format = substr($match, strlen($match)-1, 1);
+		$match = substr($match, 0, strlen($match)-1);
+	}
+	
+	$var = $args[$match+1];
 
 	if ($var === NULL) return 'NULL';
 
-	$var = (string) $var;
-	
-	if (ctype_digit($var)) 
-		return $var;
+	if($format == "_")
+		if(ctype_digit((string)$var))
+			$format = "i";
+		else
+			$format = "s";
 
+	if($format == "i") return (string)((int)$var);
+	if($format == "u") return (string)max((int)$var, 0);
 	return '\''.SqlEscape($var).'\'';
 }
 
@@ -70,7 +81,7 @@ function query()
 	$query = preg_replace("@\{([a-z]\w*)\}@si", $dbpref.'$1', $query);
 
 	// add the user input
-	$query = preg_replace_callback("@\{(\d+)\}@s", 'Query_AddUserInput', $query);
+	$query = preg_replace_callback("@\{(\d+\w?)\}@s", 'Query_AddUserInput', $query);
 
 	return RawQuery($query);
 }

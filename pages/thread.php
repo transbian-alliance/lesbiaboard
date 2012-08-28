@@ -260,7 +260,7 @@ $rPosts = Query("
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
 			WHERE thread={1} 
-			ORDER BY date ASC LIMIT {2}, {3}", $loguserid, $tid, $from, $ppp);
+			ORDER BY date ASC LIMIT {2u}, {3u}", $loguserid, $tid, $from, $ppp);
 
 $numonpage = NumRows($rPosts);
 

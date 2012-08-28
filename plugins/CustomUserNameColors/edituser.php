@@ -8,11 +8,11 @@ if(!function_exists("HandleUsernameColor"))
 
 		if ($loguser['powerlevel'] > 1)
 		{
-			$unc = filterPollColors($_POST['color']);
-			if (strlen($unc) < 3)
-				$unc = "";
-
-			Query("UPDATE {users} SET color={0} WHERE id={1}", $unc, $user["id"]);
+			$unc = $_POST['color'];
+			if($unc != "")
+				$unc = filterPollColors(str_pad($unc, 6, '0'));
+	
+			Query("UPDATE {users} SET color={0s} WHERE id={1}", $unc, $user["id"]);
 		}
 		return true;
 	}

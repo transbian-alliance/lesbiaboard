@@ -93,7 +93,7 @@ $rThreads = Query("	SELECT
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 					WHERE forum={0} 
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1}, {2}", $fid, $from, $tpp, $loguserid);
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1u}, {2u}", $fid, $from, $tpp, $loguserid);
 
 $numonpage = NumRows($rThreads);
 

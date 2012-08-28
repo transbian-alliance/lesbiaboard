@@ -285,6 +285,15 @@ if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $loguserid
 		Query("update {users} set newcomments = 1 where id={0}", $id);
 }
 
+$total = FetchResult("SELECT 
+						count(*)
+					FROM {usercomments} 
+					WHERE uid={0}", $id);
+
+//This is confusing because comments are sorted inversely !?
+$from = (int)$_GET["from"];
+if(!isset($_GET["from"]))
+	$from = $total-16;
 
 $rComments = Query("SELECT 
 		u.(_userfields),
@@ -292,8 +301,10 @@ $rComments = Query("SELECT
 		FROM {usercomments} 
 		LEFT JOIN {users} u ON u.id = {usercomments}.cid 
 		WHERE uid={0} 
-		ORDER BY {usercomments}.date DESC LIMIT 0,20", $id);
+		ORDER BY {usercomments}.date ASC LIMIT {1u},16", $id, $from);
 		
+$pagelinks = PageLinks(actionLink("profile", $id, "from="), 16, $from, $total);
+
 $commentList = "";
 $commentField = "";
 if(NumRows($rComments))
@@ -315,10 +326,13 @@ if(NumRows($rComments))
 							</td>
 						</tr>
 ",	UserLink(getDataPrefix($comment, "u_")), $cellClass, CleanUpPost($comment['text']), $deleteLink);
-		$commentList = $thisComment . $commentList;
+		$commentList = $commentList.$thisComment;
 		if(!isset($lastCID))
 			$lastCID = $comment['cid'];
 	}
+	
+	$pagelinks = "<td colspan=\"2\" class=\"cell1\">$pagelinks</td>";
+	$commentList = "$pagelinks$commentList$pagelinks";
 }
 else
 {

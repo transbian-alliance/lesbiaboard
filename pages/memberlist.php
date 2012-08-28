@@ -66,7 +66,7 @@ if(!(isset($pow) && $pow == 5))
 
 $numUsers = FetchResult("select count(*) from {users} where ".$where, null, null, $pow, "%{$query}%");
 
-$rUsers = Query("select * from {users} where ".$where." order by ".$order.", name asc limit {0},{1}", $from, $tpp, $pow, "%{$query}%");
+$rUsers = Query("select * from {users} where ".$where." order by ".$order.", name asc limit {0u},{1u}", $from, $tpp, $pow, "%{$query}%");
 
 function PageLinks2($url, $epp, $from, $total)
 {
