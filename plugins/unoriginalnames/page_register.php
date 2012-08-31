@@ -9,7 +9,7 @@ while ($name = FetchRow($query))
 		$names[] = $name;
 }
 ?>
-<script>
+<script type="text/javascript">
 $(function () {
 	var names = <?php echo json_encode($names) ?>;
 	$('#un').change(function () {

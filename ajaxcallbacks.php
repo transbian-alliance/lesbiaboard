@@ -141,7 +141,7 @@ elseif($action == "srl")	//Show Revision List
 	$revs = Query($qRevs, $id);
 	
 	
-	$reply = __("Show revision:")."<br>";
+	$reply = __("Show revision:")."<br />";
 	while($revision = Fetch($revs))
 	{
 		$reply .= " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$revision["revision"].")\">".format(__("rev. {0}"), $revision["revision"])."</a>";
@@ -154,7 +154,7 @@ elseif($action == "srl")	//Show Revision List
 		else
 			$revdetail = '';
 		$reply .= $revdetail;
-		$reply .= "<br>";
+		$reply .= "<br />";
 	}
 				
 	$hideTricks = " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$post["currentrevision"]."); hideTricks(".$id.")\">".__("Back")."</a>";

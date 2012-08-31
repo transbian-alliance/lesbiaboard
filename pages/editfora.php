@@ -356,7 +356,7 @@ function WriteForumEditContents($fid)
 	<input type="hidden" name="key" value="{8}">
 	<input type="hidden" name="id" value="{6}">
 	<div id="deleteforum" style="display:none">
-		<table>
+		<table class="outline margin">
 			<tr class="header1">
 
 				<th>
@@ -365,8 +365,8 @@ function WriteForumEditContents($fid)
 			</tr>
 			<tr class="cell0">
 				<td>
-					'.__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.").'<br><br>
-					'.__("If you still want to delete it, click below:").'<br>
+					'.__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.").'<br /><br />
+					'.__("If you still want to delete it, click below:").'<br />
 					<button onclick="deleteForum(\'delete\'); return false;">
 						'.__("Delete forum").'
 					</button>
@@ -467,7 +467,7 @@ function WriteCategoryEditContents($cid)
 	<input type="hidden" name="key" value="'.$loguser['token'].'">
 	<input type="hidden" name="id" value="'.$cid.'">
 	<div id="deleteforum" style="display:none">
-		<table>
+		<table class="outline margin">
 			<tr class="header1">
 
 				<th>
@@ -477,9 +477,9 @@ function WriteCategoryEditContents($cid)
 			<tr class="cell0">
 				<td>
 					'.__("Be careful when deleting categories. Make sure there are no forums in the category before deleting it.").'
-					<br><br>
+					<br /><br />
 					'.__("If you still want to delete it, click below:").'
-					<br>
+					<br />
 					<button onclick="deleteCategory(\'delete\'); return false;">
 						'.__("Delete category").'
 					</button>

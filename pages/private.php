@@ -122,7 +122,7 @@ if(NumRows($rPM))
 		else
 			$img = "";
 
-		$sender = (NumRows($rUser) ? UserLink($user) : "???");
+		$sender = (NumRows($rUser) ? UserLink($user) : "_");
 
 		$check = $snoop ? "" : "<input type=\"checkbox\" name=\"delete[{2}]\" />";
 

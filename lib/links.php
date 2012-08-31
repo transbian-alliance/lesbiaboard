@@ -23,7 +23,7 @@ function printRefreshCode()
 }
 function actionLink($action, $id="", $args="")
 {
-	global $boardroot;
+	global $boardroot, $mainPage;
 	if($boardroot == "")
 		$boardroot = "./";
 
@@ -31,7 +31,7 @@ function actionLink($action, $id="", $args="")
 
 	$res = "";
 	
-	if($action != "index")
+	if($action != $mainPage)
 		$res .= "&page=$action";
 	
 	if($id != "")
@@ -171,6 +171,8 @@ function userLinkById($id)
 
 function pageLinks($url, $epp, $from, $total)
 {
+	$url = htmlspecialchars($url);
+	
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 

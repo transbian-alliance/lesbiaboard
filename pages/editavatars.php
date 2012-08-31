@@ -19,8 +19,8 @@ if(isset($_POST['action']))
 	{
 		Query("delete from {moodavatars} where uid={0} and mid={1}", $loguserid, $mid);
 		Query("update {posts} set mood=0 where user={0} and mood={1}", $loguserid, $mid);
-		if(file_exists("img/avatars/".$loguserid."_".$mid))
-			unlink("img/avatars/".$loguserid."_".$mid);
+		if(file_exists("{$dataDir}avatars/".$loguserid."_".$mid))
+			unlink("{$dataDir}avatars/".$loguserid."_".$mid);
 		Alert(__("Avatar deleted."), __("Okay"));
 	}
 	else if($_POST['action'] == __("Add"))
@@ -57,7 +57,7 @@ if(isset($_POST['action']))
 			if(!$error)
 			{
 				$tmpfile = $_FILES['picture']['tmp_name'];
-				$file = "img/avatars/".$loguserid."_".$mid;
+				$file = "{$dataDir}avatars/".$loguserid."_".$mid;
 				
 				if($_POST['name'] == "")
 					$_POST['name'] = "#".$mid;

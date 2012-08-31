@@ -60,7 +60,7 @@ MakeCrumbs(array(("Private messages")=>actionLink("private"), $pmtitle=>""), $li
 
 $pm['num'] = "preview";
 $pm['posts'] = $user['posts'];
-$pm['id'] = "???";
+$pm['id'] = "_";
 
 foreach($user as $key => $value)
 	$pm["u_".$key] = $value;

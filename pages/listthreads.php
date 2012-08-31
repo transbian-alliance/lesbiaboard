@@ -43,7 +43,7 @@ $rThreads = Query("	SELECT
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 						LEFT JOIN {forums} f ON f.id=t.forum
 					WHERE t.user={0} AND f.minpower <= {1}
-					ORDER BY lastpostdate DESC LIMIT {2}, {3}", $uid, $loguser["powerlevel"], $from, $tpp, $loguserid);
+					ORDER BY lastpostdate DESC LIMIT {2u}, {3u}", $uid, $loguser["powerlevel"], $from, $tpp, $loguserid);
 
 $numonpage = NumRows($rThreads);
 

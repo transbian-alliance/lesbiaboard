@@ -153,7 +153,7 @@ function bbcodeQuoteGeneric($contents, $arg, $text)
 		$id = str_replace('"', '', $id);
 		$id = substr($id, 3);
 		$id = (int)$id;
-		return "<div class='quote'><div class='quoteheader'>$text <a href=\"thread.php?pid=$id#$id\">$who</a></div><div class='quotecontent'>$contents</div></div>";
+		return "<div class='quote'><div class='quoteheader'>$text <a href=\"".actionLink("thread", "", "pid=$id#$id")."\">$who</a></div><div class='quotecontent'>$contents</div></div>";
 	}
 	else
 		return "<div class='quote'><div class='quoteheader'>$text $who</div><div class='quotecontent'>$contents</div></div>";

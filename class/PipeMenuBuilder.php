@@ -18,6 +18,9 @@ class PipeMenu {
 	}
 
 	public function build() {
+		if(count($this->entries) == 0)
+			return "";
+
 		$html = "<ul class=\"" . $this->className . "\">";
 
 		foreach ($this->entries as $entry) {
@@ -47,7 +50,7 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li><a href=\"" . actionLink($this->action, $this->id, $this->args) . "\">" . $this->label . "</a></li>";
+		return "<li><a href=\"" . htmlspecialchars(actionLink($this->action, $this->id, $this->args)) . "\">" . $this->label . "</a></li>";
 	}
 }
 

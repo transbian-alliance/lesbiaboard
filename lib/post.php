@@ -534,7 +534,7 @@ function makePost($post, $type, $params=array())
 	if($sideBarStuff)
 		$sideBarStuff .= "<br />";
 	if($poster['title'])
-		$sideBarStuff .= strip_tags(CleanUpPost($poster['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br><small>")."<br />";
+		$sideBarStuff .= strip_tags(CleanUpPost($poster['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br /><small>")."<br />";
 	else
 	{
 		$levelRanks = array(-1=>__("Banned"), 0=>"", 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Administrator"));

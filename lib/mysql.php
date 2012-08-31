@@ -30,15 +30,26 @@ function Query_ExpandFieldLists($match)
 function Query_AddUserInput($match)
 {
 	global $args;
-	$var = $args[$match[1]+1];
+	$match = $match[1];
+	$format = "_";
+	if(preg_match("/^\d+\w$/", $match))
+	{
+		$format = substr($match, strlen($match)-1, 1);
+		$match = substr($match, 0, strlen($match)-1);
+	}
+	
+	$var = $args[$match+1];
 
 	if ($var === NULL) return 'NULL';
 
-	$var = (string) $var;
-	
-	if (ctype_digit($var)) 
-		return $var;
+	if($format == "_")
+		if(ctype_digit((string)$var))
+			$format = "i";
+		else
+			$format = "s";
 
+	if($format == "i") return (string)((int)$var);
+	if($format == "u") return (string)max((int)$var, 0);
 	return '\''.SqlEscape($var).'\'';
 }
 
@@ -70,7 +81,7 @@ function query()
 	$query = preg_replace("@\{([a-z]\w*)\}@si", $dbpref.'$1', $query);
 
 	// add the user input
-	$query = preg_replace_callback("@\{(\d+)\}@s", 'Query_AddUserInput', $query);
+	$query = preg_replace_callback("@\{(\d+\w?)\}@s", 'Query_AddUserInput', $query);
 
 	return RawQuery($query);
 }
@@ -87,7 +98,7 @@ function rawQuery($query)
 	if(!$res)
 	{
 		if($debugMode)
-			die(nl2br(backTrace())."<br>".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
+			die(nl2br(backTrace())."<br />".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");
@@ -102,9 +113,11 @@ function rawQuery($query)
 	
 	if($debugMode)
 	{
-		require_once 'plugins/sourcetag/geshi.php';
+		//Syntax highlighting here is a bad idea. (SLOW, and bad if geshi spams warnings and more warnings)
+		//Also this plugin might not be present at all.
+//		require_once 'plugins/sourcetag/geshi.php';
 		$backtrace = debug_backtrace();
-		$querytext .= "<td rowspan=".count($backtrace).">".geshi_highlight(preg_replace('/^\s*/m', "", $query), 'sql', null, true)."</td>";
+		$querytext .= "<td rowspan=".count($backtrace).">".preg_replace('/^\s*/m', "", $query)."</td>";
 		
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";

@@ -101,7 +101,7 @@ if(isset($_POST['actionpreview']))
 {
 	$previewPost['text'] = $_POST["text"];
 	$previewPost['num'] = $post['num'];
-	$previewPost['id'] = "???";
+	$previewPost['id'] = "_";
 	$previewPost['options'] = 0;
 	if($_POST['nopl']) $previewPost['options'] |= 1;
 	if($_POST['nosm']) $previewPost['options'] |= 2;
@@ -122,7 +122,10 @@ else if(isset($_POST['actionpost']))
 		$rejected = true;
 	}
 
-	//TODO: Call a plugin bucket for plugins to be able to reject threads/posts too!
+	if(!$rejected)
+	{
+		$bucket = "checkPost"; include("./lib/pluginloader.php");
+	}
 	
 	if(!$rejected)
 	{
@@ -130,17 +133,18 @@ else if(isset($_POST['actionpost']))
 		if($_POST['nopl']) $options |= 1;
 		if($_POST['nosm']) $options |= 2;
 
-		$rRev = Query("select max(revision) from {posts_text} where pid={0}", $pid);
-		$rev = Fetch($rRev);
-		$rev = $rev[0]; //note: no longer a fetched row.
+		$now = time();
+		$rev = fetchResult("select max(revision) from {posts_text} where pid={0}", $pid);
 		$rev++;
-		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", $pid, $_POST["text"], $rev, $loguserid, time());
+		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", 
+							$pid, $_POST["text"], $rev, $loguserid, $now);
 
-		$rPosts = Query("update {posts} set options={0}, mood={1}, currentrevision = currentrevision + 1 where id={2} limit 1", $options, (int)$_POST['mood'], $pid);
+		$rPosts = Query("update {posts} set options={0}, mood={1}, currentrevision = currentrevision + 1 where id={2} limit 1", 
+						$options, (int)$_POST['mood'], $pid);
 
 		//Update thread lastpostdate if we edited the last post
 		if($wasLastPost)
-			Query("DELETE FROM {threadsread} WHERE thread={0}", $thread['id']);
+			Query("update {threads} set lastpostdate={0} WHERE id={1} limit 1", $now, $thread['id']);
 
 		Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $forum['minpower']>0);
 

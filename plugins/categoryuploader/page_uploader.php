@@ -268,11 +268,11 @@ else
 		
 			print "<tr class=\"cell$cellClass\"><td>";
 			print actionLinkTag($entry['name'], "uploaderlist", "", "cat=".$entry['id']);
-			print "<br>";
+			print "<br />";
 			print $entry['description'];
-			print "<br>";
+			print "<br />";
 			print $filecount." files.";
-			print "<br>";
+			print "<br />";
 			print "</td></tr>";
 			$cellClass = ($cellClass+1) % 2;
 		}
@@ -283,11 +283,11 @@ else
 
 			print "<tr class=\"cell$cellClass\"><td>";
 			print actionLinkTag("Private files", "uploaderlist", "", "cat=-1");
-			print "<br>";
+			print "<br />";
 			print "Only for you.";
-			print "<br>";
+			print "<br />";
 			print $filecount." files.";
-			print "<br>";
+			print "<br />";
 			print "</td></tr>";
 
 			$cellClass = ($cellClass+1) % 2;
@@ -298,9 +298,9 @@ else
 
 				print "<tr class=\"cell$cellClass\"><td>";
 				print actionLinkTag("All private files", "uploaderlist", "", "cat=-2");
-				print "<br>";
+				print "<br />";
 				print $filecount." files.";
-				print "<br>";
+				print "<br />";
 				print "</td></tr>";
 			}
 		}
