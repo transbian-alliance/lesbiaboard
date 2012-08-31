@@ -291,7 +291,10 @@ $bucket = "edituser"; include("lib/pluginloader.php");
 if($user['posts'] < Settings::get("customTitleThreshold") && $user['powerlevel'] < 1 && !$editUserMode)
 	unset($general['appearance']['items']['title']);
 
-if(!$editUserMode)
+if ( $editUserMode ) { 
+	unset($account['confirm']);
+}
+else
 {
 	$account['login']['items']['name']['type'] = "label";
 	$account['login']['items']['name']['value'] = $user["name"];
@@ -408,7 +411,7 @@ if($_POST['action'] == __("Edit profile"))
 	foreach($tabs as $id => &$tab)
 	{
 		if(!isset($tab['page'])) continue;
-		if($id == "account" && !$passwordEntered) continue;
+		if($id == "account" && !$passwordEntered && !$editUserMode) continue;
 		
 		foreach($tab['page'] as $id => &$section)
 		{
