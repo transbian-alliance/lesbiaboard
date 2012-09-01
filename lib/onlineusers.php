@@ -24,15 +24,19 @@ function OnlineUsers($forum = 0, $update = true)
        
 	$rOnlineUsers = Query("select u.(_userfields) from {users} u where (lastactivity > {0} or lastposttime > {0}) and loggedin = 1 ".$forumClause." order by name", time()-300, $forum);
 	$onlineUserCt = 0;
+	$onlineUsers = "";
 	while($user = Fetch($rOnlineUsers))
 	{
 		$user = getDataPrefix($user, "u_");
-		$loggedIn = ($user['lastpost'] <= $user['lastview']);
+		if (!isset($user['lastview']) && !isset($user['lastpost']))
+			$loggedIn = true;
+		else
+			$loggedIn = ($user['lastpost'] <= $user['lastview']);
 		$userLink = UserLink($user, true);
 
 		if(!$loggedIn)
 			$userLink = "(".$userLink.")";
-		$onlineUsers.=($onlineUserCt ? ", " : "").$userLink;
+		$onlineUsers .= ($onlineUserCt ? ", " : "").$userLink;
 		$onlineUserCt++;
 	}
 	//$onlineUsers = $onlineUserCt." "user".(($onlineUserCt > 1 || $onlineUserCt == 0) ? "s" : "")." ".$browseLocation.($onlineUserCt ? ": " : ".").$onlineUsers;

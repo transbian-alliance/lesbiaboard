@@ -17,6 +17,7 @@ function makeCrumbs($path, $links)
 	
 	$first = true;
 	
+	$crumbs = "";
 	foreach($path as $text=>$link)
 	{
 		if(is_array($link))
@@ -51,9 +52,9 @@ function makeCrumbs($path, $links)
 	$layout_crumbs = "
 <div class=\"margin\">
 	<div style=\"float: right;\">
-		$links
+		" . (!is_array($links)) . "
 	</div>
-	$crumbs&nbsp;
+	" . (isset($crumbs) ? $crumbs : "") . "&nbsp;
 </div>";
 }
 

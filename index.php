@@ -23,7 +23,7 @@ function getBirthdaysText()
 	}
 	if(count($birthdays))
 		$birthdaysToday = implode(", ", $birthdays);
-	if($birthdaysToday)
+	if(isset($birthdaysToday))
 		return "<br />".__("Birthdays today:")." ".$birthdaysToday;
 	else
 		return "";
@@ -32,8 +32,10 @@ function getBirthdaysText()
 
 //=======================
 // Do the page
-
-$page = $_GET["page"];
+if (isset($_GET['page']))
+	$page = $_GET["page"];
+else
+	$page = "";
 if(!isset($page))
 	$page = $mainPage;
 if(!ctype_alnum($page))
@@ -217,7 +219,7 @@ if($debugMode)
 
 if(!file_exists("layouts/$layout.php"))
 	$layout = "abxd";
-require("layouts/$layout.php");echo $times;
+require("layouts/$layout.php"); echo (isset($times) ? $times : "");
 
 
 ?>

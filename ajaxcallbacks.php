@@ -5,7 +5,11 @@ include("lib/common.php");
 header("Cache-Control: no-cache");
 
 $action = $_GET['a'];
-$id = (int)$_GET['id'];
+//Check if things are defined before using them, damnit!
+if (isset($_GET['id']))
+	$id = (int)$_GET['id'];
+else
+	$id = 0;
 $hideTricks = " <a href=\"javascript:void(0)\" onclick=\"hideTricks(".$id.")\">".__("Back")."</a>";
 if($action == "q")	//Quote
 {

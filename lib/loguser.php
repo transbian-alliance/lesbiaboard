@@ -108,7 +108,7 @@ if($_COOKIE['logsession'])
 
 if($loguser)
 {
-	$loguser['token'] = hash('sha1', "{$loguserid},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
+	$loguser['token'] = hash('sha1', "{$loguser['id']},{$loguser['pss']},{$salt},dr567hgdf546guol89ty896rd7y56gvers9t");
 	$loguserid = $loguser["id"];
 }
 else

@@ -7,7 +7,7 @@ function getRefreshActionLink()
 	if(isset($_GET["from"]))
 		$args .= "&from=".$_GET["from"];
 	
-	return actionLink($_GET["page"], $_GET["id"], $args);
+	return actionLink((isset($_GET["page"]) ? $_GET['page'] : 0), (isset($_GET['id']) ? $_GET["id"] : 0), $args);
 }
 
 function printRefreshCode()

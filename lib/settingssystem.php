@@ -88,7 +88,7 @@ class Settings
 			$type = $data["type"];
 			$default = $data["default"];
 			
-			if(!isset(self::$settingsArray[$pluginname][$name]) || !self::validate(self::$settingsArray[$pluginname][$name], $type, $data["options"]))
+			if(!isset(self::$settingsArray[$pluginname][$name]) || !self::validate(self::$settingsArray[$pluginname][$name], $type, (isset($data["options"]) ? $data["options"] : array())))
 			{
 				if (isset($data["defaultfile"]))
 					self::$settingsArray[$pluginname][$name] = file_get_contents($data["defaultfile"]);
