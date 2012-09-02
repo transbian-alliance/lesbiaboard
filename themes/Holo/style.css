@@ -14,10 +14,10 @@ html {
 
 body
 {
-	background: -webkit-linear-gradient(#000, #0F272F);
-	background: -moz-linear-gradient(#000, #0F272F);
-	background: -o-linear-gradient(#000, #0F272F);
-	background: linear-gradient(#000, #0F272F);
+	background: -webkit-linear-gradient(#000, #272D33);
+	background: -moz-linear-gradient(#000, #272D33);
+	background: -o-linear-gradient(#000, #272D33);
+	background: linear-gradient(#000, #272D33);
 	background-attachment: fixed;
 }
 
