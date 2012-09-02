@@ -50,6 +50,7 @@ body, input, button {
 
 .eptable tr th, :not(post) .header0 th:only-child, .header1 th:only-child {
 	text-align: left !important;
+	padding-left: 4px;
 }
 
 .cell0, .cell1, .cell2, .table.post td.side, table.pst td.userlink, table.post td.meta, table.post td.post, .faq, td, th
