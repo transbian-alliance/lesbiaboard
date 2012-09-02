@@ -179,3 +179,19 @@ div#tabs button:active
 	background: -o-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
 	background: linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
 }
+
+/* Entry-specific hacks */
+
+/* Nicer searchbox */
+button#submitQuery {
+	background: url('./search.png');
+	background-size: 16px 16px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 16px;
+	border-radius: 0px;
+	width: 16px;
+	font-size: 0px;
+	color: transparent;
+	border: 2px solid transparent;
+}
