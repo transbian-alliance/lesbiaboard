@@ -107,9 +107,8 @@ input[type="checkbox"]:after {
 
 button, input[type="submit"]
 {
-	background: #999999;
-	border-radius: 2px;
-	border: 0px none;
+	background: #5D5D5D;
+	border: 1px solid #646464;
 	color: #FFF;
 }
 
