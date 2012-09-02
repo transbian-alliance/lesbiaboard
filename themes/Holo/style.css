@@ -15,6 +15,9 @@ html {
 body
 {
 	background: -webkit-linear-gradient(#000, #0F272F);
+	background: -moz-linear-gradient(#000, #0F272F);
+	background: -o-linear-gradient(#000, #0F272F);
+	background: linear-gradient(#000, #0F272F);
 	background-attachment: fixed;
 }
 
@@ -124,6 +127,9 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	border: 0px none;
 	color: #FFF;
 	background-image: -webkit-linear-gradient(#313131, #313131), -webkit-linear-gradient(#313131, #313131);
+	background-image: -moz-linear-gradient(#313131, #313131), -moz-linear-gradient(#313131, #313131);
+	background-image: -o-linear-gradient(#313131, #313131), -o-linear-gradient(#313131, #313131);
+	background-image: linear-gradient(#313131, #313131), linear-gradient(#313131, #313131);
 	background-size: 1px 4px, 1px 4px;
 	background-repeat: no-repeat, no-repeat;
 	background-position: bottom left, bottom right;
@@ -137,6 +143,9 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 {
 
 	background-image: -webkit-linear-gradient(#33B5E5, #33B5E5), -webkit-linear-gradient(#33B5E5, #33B5E5);
+	background-image: -moz-linear-gradient(#33B5E5, #33B5E5), -moz-linear-gradient(#33B5E5, #33B5E5);
+	background-image: -o-linear-gradient(#33B5E5, #33B5E5), -o-linear-gradient(#33B5E5, #33B5E5);
+	background-image: linear-gradient(#33B5E5, #33B5E5), linear-gradient(#33B5E5, #33B5E5);
 	border-bottom-color: #33B5E5;
 	outline: none;
 }
@@ -157,10 +166,16 @@ div#tabs button {
 div#tabs button.selected
 {
 	background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background: -o-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
 	margin-bottom: 0px;
 }
 
 div#tabs button:active
 {
 	background: -webkit-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
+	background: -moz-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
+	background: -o-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
+	background: linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
 }
