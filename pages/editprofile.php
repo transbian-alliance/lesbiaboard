@@ -31,7 +31,7 @@ AssertForbidden($editUserMode ? "editUser" : "editProfile");
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
-makeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), (isset($links) ? $links : array()));
+makeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), "");
 
 $qRanksets = "select name from {ranksets}";
 $rRanksets = Query($qRanksets);

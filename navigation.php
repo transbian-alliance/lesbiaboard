@@ -13,8 +13,6 @@ if(isAllowed("viewMembers"))
 	$navigation->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
 if(isAllowed("viewRanks"))
 	$navigation->add(new PipeMenuLinkEntry(__("Ranks"), "ranks"));
-if(isAllowed("viewAvatars"))
-	$navigation->add(new PipeMenuLinkEntry(__("Avatars"), "avatarlibrary"));
 if(isAllowed("viewOnline"))
 	$navigation->add(new PipeMenuLinkEntry(__("Online users"), "online"));
 if(isAllowed("search"))

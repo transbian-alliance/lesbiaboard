@@ -1,4 +1,4 @@
 <?php
-	if(IsAllowed("viewAvatars"))
-		print actionLinkTagItem(__("Avatars"), "avatarlibrary");
-?>
+if(isAllowed("viewAvatars"))
+	$navigation->add(new PipeMenuLinkEntry(__("Avatars"), "avatarlibrary"));
+
