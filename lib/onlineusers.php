@@ -28,14 +28,7 @@ function OnlineUsers($forum = 0, $update = true)
 	while($user = Fetch($rOnlineUsers))
 	{
 		$user = getDataPrefix($user, "u_");
-		if (!isset($user['lastview']) && !isset($user['lastpost']))
-			$loggedIn = true;
-		else
-			$loggedIn = ($user['lastpost'] <= $user['lastview']);
 		$userLink = UserLink($user, true);
-
-		if(!$loggedIn)
-			$userLink = "(".$userLink.")";
 		$onlineUsers .= ($onlineUserCt ? ", " : "").$userLink;
 		$onlineUserCt++;
 	}

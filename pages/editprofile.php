@@ -383,12 +383,13 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
  * ----------
  */
 
+$failed = false;
+
 if($_POST['action'] == __("Edit profile"))
 {
-	$failed = false;
 	$passwordEntered = false;
 	
-	if(isset($_POST["currpassword"]))
+	if($_POST["currpassword"] != "")
 	{
 		$sha = doHash($_POST["currpassword"].$salt.$loguser['pss']);
 		if($loguser['password'] == $sha)
@@ -569,7 +570,7 @@ foreach($tabs as &$tab)
 			if ($item['type'] == "label" || $item['type'] == "password")
 				continue;
 
-			if(!isset($failed))
+			if(!$failed)
 			{
 				if(!isset($item["value"]))
 					$item["value"] = $user[$field];
@@ -592,7 +593,7 @@ foreach($tabs as &$tab)
 }
 unset($tab);
 
-if(isset($failed))
+if($failed)
 	$loguser['theme'] = $_POST['theme'];
 
 function HandlePicture($field, $type, $errorname, $allowOversize = false)
@@ -874,8 +875,7 @@ foreach($themes as $themeKey => $themeData)
 		{1}<br />
 		{5}
 	</label>
-",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"),
-	((isset($ii) ? $ii : 0) > 0 ? "border-top: 1px solid black;" : "") );
+",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"), "");
 }
 
 if($editUserMode && $user['powerlevel'] < 4 && $user['tempbantime'] == 0)
@@ -986,7 +986,7 @@ function BuildPage($page, $id)
 		{
 			$output .= "<tr class=\"cell".$cellClass."\">\n";
 			$output .= "<td>\n";
-			if(isset($item["fail"])) $output .= "FAIL ";
+			if(isset($item["fail"])) $output .= "[ERROR] ";
 			if($item['type'] != "checkbox")
 				$output .= "<label for=\"".$field."\">".$item['caption']."</label>\n";
 
@@ -1038,7 +1038,7 @@ function BuildPage($page, $id)
 					break;
 				case "checkbox":
 					$output .= "<label><input id=\"".$field."\" name=\"".$field."\" type=\"checkbox\"";
-					if((isset($item['negative']) && !isset($item['value'])) || (!isset($item['negative']) && $item['value']))
+					if((isset($item['negative']) && !$item['value']) || (!isset($item['negative']) && $item['value']))
 						$output .= " checked=\"checked\"";
 					$output .= " /> ".$item['caption']."</label>\n";
 					break;
