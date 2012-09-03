@@ -52,9 +52,9 @@ function makeCrumbs($path, $links)
 	$layout_crumbs = "
 <div class=\"margin\">
 	<div style=\"float: right;\">
-		" . (!is_array($links)) . "
+		$links
 	</div>
-	" . (isset($crumbs) ? $crumbs : "") . "&nbsp;
+	$crumbs&nbsp;
 </div>";
 }
 
