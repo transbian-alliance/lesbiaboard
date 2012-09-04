@@ -1,4 +1,4 @@
-d<?php
+<?php
 //  AcmlmBoard XD - Private message inbox/outbox viewer
 //  Access: users
 
