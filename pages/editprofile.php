@@ -56,7 +56,7 @@ $general = array(
 				"caption" => __("Display name"),
 				"type" => "text",
 				"width" => "98%",
-				"length" => 20,
+				"length" => 32,
 				"hint" => __("Leave this empty to use your login name."),
 				"callback" => "HandleDisplayname",
 			),
