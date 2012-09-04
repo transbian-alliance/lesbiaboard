@@ -94,7 +94,8 @@ function userLink($user, $showMinipic = false)
 	$fsex = $user['sex'];
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
-
+	$fname = str_replace(" ", "&nbsp;", $fname);
+	
 	$minipic = "";
 	if($showMinipic || Settings::get("alwaysMinipic"))
 	{
