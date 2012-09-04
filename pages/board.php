@@ -162,7 +162,7 @@ write(
 		<th style=\"width: 75%\">".__("Forum title")."</th>
 		<th>".__("Threads")."</th>
 		<th>".__("Posts")."</th>
-		<th style=\"width: 15%\">".__("Last Post")."</th>
+		<th style=\"min-width:150px\">".__("Last post")."</th>
 	</tr>
 	{0}
 </table>

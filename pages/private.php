@@ -1,4 +1,4 @@
-<?php
+d<?php
 //  AcmlmBoard XD - Private message inbox/outbox viewer
 //  Access: users
 
@@ -171,7 +171,7 @@ write(
 			<th style=\"width: 22px;\">&nbsp;</th>
 			<th style=\"width: 75%;\">".__("Title")."</th>
 			<th>{0}</th>
-			<th>".__("Date")."</th>
+			<th style=\"min-width:120px\">".__("Date")."</th>
 		</tr>
 		{1}
 		<tr class=\"header1\">
