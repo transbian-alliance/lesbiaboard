@@ -31,13 +31,14 @@ ul.pipemenu li {
 }
 
 body, input, button {
-	font-family: Roboto, Droid Sans, Tahoma, sans;
+	font-family: Droid Sans, Tahoma, sans;
 }
 
 :not(.post) table:not(.post).margin.outline {
 	border: 0px transparent;
 	background: #111111;
 	border-radius: 2px;
+	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 :not(.post) table:not(.post) tr:first-child th, .eptable tr th, .header0 th, .header1 th {
@@ -85,8 +86,11 @@ table.post td.userlink, table.post td.meta {
 }
 
 :not(.post) .message {
-	background: #333333;
+	background-color: #333333;
+	background-image: -webkit-linear-gradient(-180deg, #333333, #414141, #333333);
 	border-radius: 2px;
+	background-size: 50% 2px;
+	background-repeat: no-repeat;
 }
 :not(.post) .message th {
 	border-bottom: 2px solid #33B5E5 !important;
@@ -97,6 +101,10 @@ table.post td.userlink, table.post td.meta {
 	font-size: 120% !important;
 	padding-left: 8px;
 	padding-right: 8px;
+}
+:not(.post) .message td {
+	padding-top: 8px;
+	padding-bottom: 8px;
 }
 
 input[type="checkbox"]:after {
@@ -111,6 +119,10 @@ button, input[type="submit"]
 	background: #5D5D5D;
 	border: 1px solid #646464;
 	color: #FFF;
+	-webkit-transition: 0.075s linear;
+	-moz-transition: 0.075s linear;
+	-o-transition: 0.075s linear;
+	transition: 0.075s linear;
 }
 
 button:hover, input[type="submit"]:hover {
@@ -130,7 +142,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	background-image: -moz-linear-gradient(#313131, #313131), -moz-linear-gradient(#313131, #313131);
 	background-image: -o-linear-gradient(#313131, #313131), -o-linear-gradient(#313131, #313131);
 	background-image: linear-gradient(#313131, #313131), linear-gradient(#313131, #313131);
-	background-size: 1px 4px, 1px 4px;
+	background-size: 1px 3px, 1px 3px;
 	background-repeat: no-repeat, no-repeat;
 	background-position: bottom left, bottom right;
 	border-bottom: 1px solid #313131;
@@ -161,23 +173,24 @@ div#tabs button {
 	padding-left: 12px;
 	padding-right: 12px;
 	margin-bottom: 0px;
+	-webkit-transition: 0s none;
+	-moz-transition: 0s none;
+	-o-transition: 0s none;
+	transition: 0s none;
 }
 
 div#tabs button.selected
 {
-	background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
-	background: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
-	background: -o-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
-	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background-image: -o-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
+	background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
 	margin-bottom: 0px;
 }
 
 div#tabs button:active
 {
-	background: -webkit-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
-	background: -moz-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
-	background: -o-linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
-	background: linear-gradient(#33819D, #33819D 90%, #33B5E5 90%);
+	background-color: #33819D;
 }
 
 /* Entry-specific hacks */
