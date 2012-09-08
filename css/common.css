@@ -383,7 +383,7 @@ ul.pipemenu
 }
 ul.pipemenu li
 {
-	display: inline;
+	display: inline-block;
 	border-left: 1px solid white;
 	padding-left: 4px;
 	padding-right: 4px;
