@@ -211,3 +211,8 @@ button#submitQuery {
 	color: transparent;
 	border: 2px solid transparent;
 }
+
+/* NSMBHD userpanel */
+#userpanel {
+	background: #111111;
+}
