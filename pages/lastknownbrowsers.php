@@ -24,7 +24,7 @@ if(isset($_GET['from']))
 else
 	$from = 0;
 
-$peeps = Query("select u.(_userfields), lastip, lastknownbrowser from {users} u where powerlevel < 5 order by {0} limit {1}, {2}", $sort, $from, $ppp);
+$peeps = Query("select u.(_userfields), lastip, lastknownbrowser from {users} u where powerlevel < 5 order by {0} limit {1u}, {2u}", $sort, $from, $ppp);
 
 $numonpage = NumRows($peeps);
 for($i = $ppp; $i < $numUsers; $i+=$ppp)
