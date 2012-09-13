@@ -9,7 +9,10 @@ $fid = (int)$_GET['id'];
 
 if($loguserid && $_GET['action'] == "markasread")
 {
-	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}", $loguserid, time(), $fid);
+	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}", 
+		$loguserid, time(), $fid);
+	
+	die(header("Location: ".actionLink("board")));
 }
 
 AssertForbidden("viewForum", $fid);
