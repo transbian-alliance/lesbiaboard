@@ -100,7 +100,7 @@ $links .= actionLinkTagItem(__("Send new PM"), "sendprivate");
 
 MakeCrumbs(array(__("Private messages")=>actionLink("private")), $links);
 
-$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where ".$whereFrom." and deleted != {1} order by date desc limit {2}, {3}", $user, $deleted, $from, $ppp);
+$rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where ".$whereFrom." and deleted != {1} order by date desc limit {2u}, {3u}", $user, $deleted, $from, $ppp);
 $numonpage = NumRows($rPM);
 
 $pagelinks = PageLinks(actionLink("private", "", "$show$userGet&from="), $ppp, $from, $total);
