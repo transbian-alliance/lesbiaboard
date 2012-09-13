@@ -32,7 +32,7 @@ function Query_AddUserInput($match)
 	global $args;
 	$match = $match[1];
 	$format = "_";
-	if(preg_match("/^\d+\w$/", $match))
+	if(preg_match("/^\d+\D$/", $match))
 	{
 		$format = substr($match, strlen($match)-1, 1);
 		$match = substr($match, 0, strlen($match)-1);

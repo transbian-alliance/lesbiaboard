@@ -31,7 +31,7 @@ AssertForbidden($editUserMode ? "editUser" : "editProfile");
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), $links);
+makeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), "");
 
 $qRanksets = "select name from {ranksets}";
 $rRanksets = Query($qRanksets);
@@ -56,7 +56,7 @@ $general = array(
 				"caption" => __("Display name"),
 				"type" => "text",
 				"width" => "98%",
-				"length" => 20,
+				"length" => 32,
 				"hint" => __("Leave this empty to use your login name."),
 				"callback" => "HandleDisplayname",
 			),
@@ -356,6 +356,7 @@ if (isset($_POST['theme']) && $user['id'] == $loguserid)
 /* QUICK-E BAN
  * -----------
  */
+$_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : "");
 if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 {
 	if ($loguser['powerlevel'] < 3) Kill(__('No.'));
@@ -374,7 +375,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 		SendSystemPM($userid, format(__("You have been temporarily banned until {0} GMT. If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), gmdate("M jS Y, G:[b][/b]i:[b][/b]s", $timeStamp)), __("You have been temporarily banned."));
 	
 		Query("update {users} set tempbanpl = {0}, tempbantime = {1}, powerlevel = -1 where id = {2}", $user['powerlevel'], $timeStamp, $userid);
-		Redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
+		redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
 	}
 }
 
@@ -382,12 +383,13 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
  * ----------
  */
 
+$failed = false;
+
 if($_POST['action'] == __("Edit profile"))
 {
-	$failed = false;
 	$passwordEntered = false;
 	
-	if($_POST["currpassword"])
+	if($_POST["currpassword"] != "")
 	{
 		$sha = doHash($_POST["currpassword"].$salt.$loguser['pss']);
 		if($loguser['password'] == $sha)
@@ -873,8 +875,7 @@ foreach($themes as $themeKey => $themeData)
 		{1}<br />
 		{5}
 	</label>
-",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"),
-	($ii > 0 ? "border-top: 1px solid black;" : "") );
+",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"), "");
 }
 
 if($editUserMode && $user['powerlevel'] < 4 && $user['tempbantime'] == 0)
@@ -985,16 +986,16 @@ function BuildPage($page, $id)
 		{
 			$output .= "<tr class=\"cell".$cellClass."\">\n";
 			$output .= "<td>\n";
-			if($item["fail"]) $output .= "FAIL ";
+			if(isset($item["fail"])) $output .= "[ERROR] ";
 			if($item['type'] != "checkbox")
 				$output .= "<label for=\"".$field."\">".$item['caption']."</label>\n";
 
-			if($item['hint'])
+			if(isset($item['hint']))
 				$output .= "<img src=\"img/icons/icon5.png\" title=\"".$item['hint']."\" alt=\"[?]\" />\n";
 			$output .= "</td>\n";
 			$output .= "<td>\n";
 
-			if($item['before'])
+			if(isset($item['before']))
 				$output .= " ".$item['before'];
 		
 			// Yes, some cases are missing the break; at the end.
@@ -1037,7 +1038,7 @@ function BuildPage($page, $id)
 					break;
 				case "checkbox":
 					$output .= "<label><input id=\"".$field."\" name=\"".$field."\" type=\"checkbox\"";
-					if(($item['negative'] && !$item['value']) || (!$item['negative'] && $item['value']))
+					if((isset($item['negative']) && !$item['value']) || (!isset($item['negative']) && $item['value']))
 						$output .= " checked=\"checked\"";
 					$output .= " /> ".$item['caption']."</label>\n";
 					break;
@@ -1080,7 +1081,7 @@ function BuildPage($page, $id)
 					$output .= "<input type=\"text\" name=\"".$field."M\" size=\"2\" maxlength=\"3\" value=\"".floor(abs($item['value']/60)%60)."\" />";
 					break;
 			}
-			if($item['extra'])
+			if(isset($item['extra']))
 				$output .= " ".$item['extra'];
 
 			$output .= "</td>\n"; 

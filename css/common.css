@@ -377,13 +377,14 @@ div.spoiler div.hidden
 ul.pipemenu
 {
 	display: inline;
+	white-space: nowrap;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 ul.pipemenu li
 {
-	display: inline;
+	display: inline-block;
 	border-left: 1px solid white;
 	padding-left: 4px;
 	padding-right: 4px;

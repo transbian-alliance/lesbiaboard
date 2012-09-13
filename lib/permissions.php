@@ -9,7 +9,7 @@ while ($group = fetch($rGroups))
 }
 
 //Do nothing for guests.
-if ($loguserid)
+if (isset($loguserid) && isset($loguser['group']))
 {
 	$rPermissions = query("SELECT * FROM {userpermissions} WHERE uid={0}", $loguserid);
 	$permissions = fetch($rPermissions);

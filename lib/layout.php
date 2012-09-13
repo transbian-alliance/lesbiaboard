@@ -17,6 +17,7 @@ function makeCrumbs($path, $links)
 	
 	$first = true;
 	
+	$crumbs = "";
 	foreach($path as $text=>$link)
 	{
 		if(is_array($link))

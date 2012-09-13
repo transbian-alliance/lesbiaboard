@@ -130,7 +130,7 @@ if(NumRows($rThreads))
 			<th>".__("Started by")."</th>
 			<th>".__("Replies")."</th>
 			<th>".__("Views")."</th>
-			<th>".__("Last post")."</th>
+			<th style=\"min-width:150px\">".__("Last post")."</th>
 		</tr>
 		{0}
 	</table>

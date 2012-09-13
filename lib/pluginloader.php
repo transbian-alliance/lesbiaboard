@@ -7,7 +7,7 @@ if(!isset($self))
 	$self = NULL;
 $oldself = $self;
 
-if ($pluginbuckets[$bucket])
+if (isset($pluginbuckets[$bucket]))
 {
 	foreach ($pluginbuckets[$bucket] as $plugin)
 	{

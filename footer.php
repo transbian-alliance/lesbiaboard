@@ -7,7 +7,7 @@ By Dirbaio, Kawa, Mega-Mario, Nikolaj, GlitchMr et al<br />
 AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 <?php print __("<!-- English translation by The ABXD Team -->")?>
 
-<?php print $footerButtons?>
-<?php print $footerExtensionsB?>
+<?php print (isset($footerButtons) ? $footerButtons : "")?>
+<?php print (isset($footerExtensionsB) ? $footerExtensionsB : "")?>
 
 

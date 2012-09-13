@@ -36,7 +36,7 @@ $last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered us
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;
 
-if($loguserid && $_GET['action'] == "markallread")
+if($loguserid && isset($_GET['action']) && $_GET['action'] == "markallread")
 {
 	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads}", $loguserid, time());
 }
@@ -107,7 +107,7 @@ while($forum = Fetch($rFora))
 	if ($newstuff > 0)
 		$NewIcon = "<img src=\"img/status/new.png\" alt=\"New!\"/>".$newstuff;
 
-	if ($mods[$forum['id']])
+	if (isset($mods[$forum['id']]))
 		foreach($mods[$forum['id']] as $user)
 			$localMods .= UserLink($user). ", ";
 
@@ -162,7 +162,7 @@ write(
 		<th style=\"width: 75%\">".__("Forum title")."</th>
 		<th>".__("Threads")."</th>
 		<th>".__("Posts")."</th>
-		<th style=\"width: 15%\">".__("Last Post")."</th>
+		<th style=\"min-width:150px\">".__("Last post")."</th>
 	</tr>
 	{0}
 </table>

@@ -1,4 +1,5 @@
 <?php
+Kill("This feature is VERRRY DANGEROUS and has been disabled");
 if($loguser['powerlevel'] != 4)
 	Kill(__("You're not a root user. There is nothing for you here."));
 
