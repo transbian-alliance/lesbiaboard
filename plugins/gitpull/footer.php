@@ -2,7 +2,7 @@
 
 function printGitCommit()
 {
-	exec("git describe --tags", $output);
+	exec("git rev-parse --short HEAD", $output);
 	print "Git revision ";
 	print trim($output[0]);
 	print ", branch ";
