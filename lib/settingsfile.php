@@ -57,6 +57,11 @@
 			"default" => "Main",
 			"name" => "Text in breadcrumbs 'main' link",
 		),
+		"menuMainName" => array (
+			"type" => "text",
+			"default" => "Main",
+			"name" => "Text in menu 'main' link",
+		),
 		"mailResetSender" => array (
 			"type" => "text",
 			"default" => "",
