@@ -40,6 +40,7 @@ $tagParseStatus = array(
 );
 
 $autocloseTags = array(
+	'li' => array('li', 'ul', 'ol'),
 	'td' => array('td', 'tr', 'trh', 'table'),
 	'tr' => array('tr', 'trh', 'table'),
 	'trh' => array('tr', 'trh', 'table'),
@@ -53,7 +54,7 @@ $singleTags = array(
 	'user', 'forum', 'thread',
 );
 $singleHtmlTags = array(
-	'p', 'br', 'li', 'img', 'link',
+	'p', 'br', 'img', 'link',
 );
 
 $goodHtmlTags = array(
