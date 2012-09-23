@@ -83,7 +83,6 @@ table.post td.side, table.post td.post {
 table.post td.userlink, table.post td.meta {
 	background: #131313;
 	border-radius: 0px;
-	border-bottom: 2px solid #33B5E5 !important;
 }
 
 :not(.post) table:not(.post) tr:not(:last-child) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
