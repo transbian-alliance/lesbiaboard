@@ -10,7 +10,7 @@ might not work at all. We won't help you if your board breaks from
 using this version of ABXD.
 
 If you are interested more stable software, you may want to download
-[ABXD 2.2.4](http://abxd.dirbaio.net/?page=downloads). It's known to
+[ABXD 2.2.5](http://abxd.dirbaio.net/?page=downloads). It's known to
 work almost everywhere.
 
 ## Installation
