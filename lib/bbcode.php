@@ -47,39 +47,84 @@ $autocloseTags = array(
 );
 
 $heavyTags = array(
-	'code', 'source', 'pre'
+	'code' => 1,
+	'source' => 1,
+	'pre' => 1,
 );
 
 $singleTags = array(
-	'user', 'forum', 'thread',
+	'user' => 1,
+	'forum' => 1,
+	'thread' => 1,
 );
 $singleHtmlTags = array(
-	'p', 'br', 'img', 'link',
+	'p' => 1,
+	'br' => 1,
+	'img' => 1,
+	'link' => 1,
 );
 
 $goodHtmlTags = array(
-	'a', 'b', 'big', 'br', 'button', 'center', 'code', 'dd', 'del', 'div', 'dl', 'dt', 'em', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'input', 'kbd', 'li', 'ol', 'p', 'pre', 's', 'small', 'span', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul', 'link'
+	'a' => 1,
+	'b' => 1,
+	'big' => 1,
+	'br' => 1,
+	'center' => 1,
+	'code' => 1,
+	'dd' => 1,
+	'del' => 1,
+	'div' => 1,
+	'dl' => 1,
+	'dt' => 1,
+	'em' => 1,
+	'font' => 1,
+	'h1' => 1,
+	'h2' => 1,
+	'h3' => 1,
+	'h4' => 1,
+	'h5' => 1,
+	'h6' => 1,
+	'hr' => 1,
+	'i' => 1,
+	'img' => 1,
+	'input' => 1,
+	'kbd' => 1,
+	'li' => 1,
+	'ol' => 1,
+	'p' => 1,
+	'pre' => 1,
+	's' => 1,
+	'small' => 1,
+	'span' => 1,
+	'strong' => 1,
+	'style' => 1,
+	'sub' => 1,
+	'sup' => 1,
+	'table' => 1,
+	'tbody' => 1,
+	'td' => 1,
+	'textarea' => 1,
+	'tfoot' => 1,
+	'th' => 1,
+	'thead' => 1,
+	'tr' => 1,
+	'u' => 1,
+	'ul' => 1,
+	'link' => 1
 );
 
 
 function tokenValidTag($tagname, $bbcode)
 {
-	global $badTags, $bbcodeCallbacks, $goodHtmlTags;
-	
-	if(!$bbcode && in_array(trim($tagname), $badTags))
-		return false;
+	global $bbcodeCallbacks, $goodHtmlTags;
 	
 	if($bbcode && !array_key_exists($tagname, $bbcodeCallbacks))
 			return false;
 
-	if(!$bbcode && !in_array($tagname, $goodHtmlTags))
+	if(!$bbcode && !array_key_exists($tagname, $goodHtmlTags))
 		return false;
 	
-	return 
-		false === strpos($tagname, '>') &&
-		false === strpos($tagname, '<') &&
-		false === strpos($tagname, '[') &&
-		false === strpos($tagname, ']');
+	return true;
 }
 
 function parseToken($token)
@@ -128,14 +173,14 @@ function parse($parentToken)
 
 	//Single tags just can't/aren't supposed to be closed, like [user=xx]	
 	if($parentToken['type'] == 1)
-		$singleTag = in_array($parentTag, $singleTags);
+		$singleTag = array_key_exists($parentTag, $singleTags);
 	else
-		$singleTag = in_array($parentTag, $singleHtmlTags);
+		$singleTag = array_key_exists($parentTag, $singleHtmlTags);
 
 	$finished = $singleTag;
 	
 	//Heavy tags just put everything as text until close tag.
-	$heavyTag = $parentToken != 0 && in_array($parentTag, $heavyTags);
+	$heavyTag = $parentToken != 0 && array_key_exists($parentTag, $heavyTags);
 	
 	//Backup parse status
 	$oldParseStatus = $parseStatus;
