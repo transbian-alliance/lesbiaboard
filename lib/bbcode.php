@@ -88,6 +88,7 @@ function parseToken($token)
 	{
 		$tagname = substr($token, 2, strlen($token)-3);
 		$tagname = strtolower($tagname);
+		$tagname = trim($tagname);
 		
 		if(!tokenValidTag($tagname, true))
 			return array('type' => 0, 'text' => $token);
@@ -101,6 +102,8 @@ function parseToken($token)
 	if(substr($token, 0, 1) == '[' && substr($token, strlen($token)-1, 1) == ']')
 	{
 		$tagname = substr($token, 1, strlen($token)-2);
+		$tagname = strtolower($tagname);
+		$tagname = trim($tagname);
 
 		$arg = '';
 		$ind = strpos($tagname, '=');
@@ -125,6 +128,7 @@ function parseToken($token)
 	{
 		$tagname = substr($token, 2, strlen($token)-3);
 		$tagname = strtolower($tagname);
+		$tagname = trim($tagname);
 
 		if(!tokenValidTag($tagname, false))
 			return array('type' => 0, 'text' => $token);
@@ -137,6 +141,8 @@ function parseToken($token)
 	if(substr($token, 0, 1) == '<' && substr($token, strlen($token)-1, 1) == '>')
 	{
 		$tagname = substr($token, 1, strlen($token)-2);
+		$tagname = strtolower($tagname);
+		$tagname = trim($tagname);
 
 		$arg = '';
 		$ind = strpos($tagname, ' ');
