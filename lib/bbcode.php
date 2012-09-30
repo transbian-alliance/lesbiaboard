@@ -84,87 +84,39 @@ function tokenValidTag($tagname, $bbcode)
 
 function parseToken($token)
 {
-	if(substr($token, 0, 2) == '[/' && substr($token, strlen($token)-1, 1) == ']')
-	{
-		$tagname = substr($token, 2, strlen($token)-3);
-		$tagname = strtolower($tagname);
-		$tagname = trim($tagname);
+	$type = 0;
+	$match = array();
+	$inregex = "(\w+)=?(.*)";
 		
-		if(!tokenValidTag($tagname, true))
-			return array('type' => 0, 'text' => $token);
-
+	if(preg_match('@^\\[/'.$inregex.'\]$@', $token, $match))
+		$type = 2;
+	else if(preg_match('@^\\['.$inregex.'\\]$@', $token, $match))
+		$type = 1;
+	else if(preg_match("@^</$inregex>$@", $token, $match))
+		$type = 4;
+	else if(preg_match("@^<$inregex>$@", $token, $match))
+		$type = 3;
+		
+	if($type == 0)
 		return array(
-			'type' => 2,
-			'tag' => $tagname,
+			'type' => 0,
 			'text' => $token
-		);		
-	}
-	if(substr($token, 0, 1) == '[' && substr($token, strlen($token)-1, 1) == ']')
-	{
-		$tagname = substr($token, 1, strlen($token)-2);
-		$tagname = strtolower($tagname);
-		$tagname = trim($tagname);
-
-		$arg = '';
-		$ind = strpos($tagname, '=');
-		if($ind)
-		{
-			$arg = preg_replace('/^"(.*)"/s', '$1', substr($tagname, $ind+1));
-			$tagname = substr($tagname, 0, $ind);
-		}
-
-		$tagname = strtolower($tagname);
-		if(!tokenValidTag($tagname, true))
-			return array('type' => 0, 'text' => $token);
-		
-		return array(
-			'type' => 1,
-			'tag' => $tagname,
-			'text' => $token,
-			'attributes' => $arg
 		);
-	}
-	if(substr($token, 0, 2) == '</' && substr($token, strlen($token)-1, 1) == '>')
-	{
-		$tagname = substr($token, 2, strlen($token)-3);
-		$tagname = strtolower($tagname);
-		$tagname = trim($tagname);
+	
+	$tagname = strtolower($match[1]);
+	$attrs = trim($match[2]);
 
-		if(!tokenValidTag($tagname, false))
-			return array('type' => 0, 'text' => $token);
+	if(!tokenValidTag($tagname, $type < 3))
 		return array(
-			'type' => 4,
-			'tag' => $tagname,
+			'type' => 0,
 			'text' => $token
-		);		
-	}
-	if(substr($token, 0, 1) == '<' && substr($token, strlen($token)-1, 1) == '>')
-	{
-		$tagname = substr($token, 1, strlen($token)-2);
-		$tagname = strtolower($tagname);
-		$tagname = trim($tagname);
-
-		$arg = '';
-		$ind = strpos($tagname, ' ');
-		if($ind)
-		{
-			$arg = substr($tagname, $ind+1);
-			$tagname = substr($tagname, 0, $ind);
-		}
-		
-		$tagname = strtolower($tagname);
-		if(!tokenValidTag($tagname, false))
-			return array('type' => 0, 'text' => $token);
-		return array(
-			'type' => 3,
-			'tag' => $tagname,
-			'text' => $token,
-			'attributes' => $arg
 		);
-	}
+
 	return array(
-		'type' => 0,
-		'text' => $token
+		'type' => $type,
+		'tag' => $tagname,
+		'text' => $token,
+		'attributes' => $attrs
 	);
 }
 
@@ -310,64 +262,3 @@ function parseBBCode($text)
 	return parse(0);
 }
 
-
-
-//===================
-
-//Not recursive version below.
-//I don'tlike it though. It's way less flexible. And uses an array as stack...
-//So screw it.
-
-/*
-$stack = array();
-$tagcount = array();
-
-function openTag($token)
-{
-	global $tagcount;
-	$tagcount[$token['tag']]++;
-}
-function closeTag($token)
-{
-	global $tagcount;
-	$tagcount[$token['tag']]--;
-}
-
-foreach($tokens as $ind => $token)
-{
-	$good = true;
-	switch($token['type'])
-	{
-		case 0:
-			print $token['text'];
-			break;
-		case 1:
-			array_push($stack, $token['tag']);
-			openTag($token);
-			break;
-		case 2:
-			if(count($stack) == 0)
-				break;
-			
-			$top = $stack[count($stack)-1];
-			if($top != $token['tag'])
-				break;
-
-			closeTag($token);
-			array_pop($stack);
-			break;
-	}
-	
-}
-
-while(count($stack) != 0)
-{
-	$tagname = array_pop($stack);
-	
-	closeTag(array(
-		'type' => 2,
-		'tag' => $tagname,
-		'text' => '[/'.$tagname.']';
-	));
-}
-*/

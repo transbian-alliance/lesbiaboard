@@ -29,7 +29,7 @@ Sentence with a<br />HTML BR tag inbetween
 
 <span style=\"display: none\">If you can see this line, \"display:\" is filtered into nonfunctionality.</span>
 
-<script type="text/javascript">alert(\"Scripts should be filtered.\");</script>
+<script type=\"text/javascript\">alert(\"Scripts should be filtered.\");</script>
 
 [quote]Quote block[quote][quote][quote]Sub-quote[/quote]Sub-quote[/quote]Sub-quote[/quote][/quote]
 [quote=Ryuzaki]Quote with attribution[/quote]
