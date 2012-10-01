@@ -26,6 +26,16 @@ $previewPost['u_postheader'] = trim(ApplyParameters($markupTemplateA));
 $previewPost['text'] = Settings::get("profilePreviewText");
 $previewPost['u_signature'] = trim(ApplyParameters($markupTemplateB));
 
+$is_unoriginal = true;
+foreach ($parameters as $key=>$param)
+{
+	if (isset($param['default']) && $_POST[$key] != $param['default'])
+		$is_unoriginal = false;
+}
+
+if ($is_unoriginal)
+	$previewPost['text'] = '<span style="font-size:150%;font-weight:bold;">Please be original, don\'t just use the default values!</span>';
+
 MakePost($previewPost, POST_SAMPLE);
 
 write("
