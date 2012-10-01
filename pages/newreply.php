@@ -208,10 +208,12 @@ else if($_GET['quote'])
 	}
 }
 
-if($_POST['nopl'])
-	$nopl = "checked=\"checked\"";
-if($_POST['nosm'])
-	$nosm = "checked=\"checked\"";
+function getCheck($name)
+{
+	if(isset($_POST[$name]) && $_POST[$name])
+		return "checked=\"checked\"";
+	else return "";
+}
 
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
@@ -231,14 +233,14 @@ if(CanMod($loguserid, $fid))
 {
 	$mod = "\n\n<!-- Mod options -->\n";
 	if(!$thread['closed'])
-		$mod .= "<label><input type=\"checkbox\" name=\"lock\">&nbsp;".__("Close thread", 1)."</label>\n";
+		$mod .= "<label><input type=\"checkbox\" ".getCheck("lock")." name=\"lock\">&nbsp;".__("Close thread", 1)."</label>\n";
 	else
-		$mod .= "<label><input type=\"checkbox\" name=\"unlock\">&nbsp;".__("Open thread", 1)."</label>\n";
+		$mod .= "<label><input type=\"checkbox\" ".getCheck("unlock")."  name=\"unlock\">&nbsp;".__("Open thread", 1)."</label>\n";
 
 	if(!$thread['sticky'])
-		$mod .= "<label><input type=\"checkbox\" name=\"stick\">&nbsp;".__("Sticky", 1)."</label>\n";
+		$mod .= "<label><input type=\"checkbox\" ".getCheck("stick")."  name=\"stick\">&nbsp;".__("Sticky", 1)."</label>\n";
 	else
-		$mod .= "<label><input type=\"checkbox\" name=\"unstick\">&nbsp;".__("Unstick", 1)."</label>\n";
+		$mod .= "<label><input type=\"checkbox\" ".getCheck("unstick")."  name=\"unstick\">&nbsp;".__("Unstick", 1)."</label>\n";
 
 	$mod .= "\n\n";
 }
@@ -274,10 +276,10 @@ print "
 									$moodOptions
 								</select>
 								<label>
-									<input type=\"checkbox\" name=\"nopl\" $nopl />&nbsp;".__("Disable post layout", 1)."
+									<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
 								</label>
 								<label>
-									<input type=\"checkbox\" name=\"nosm\" $nosm />&nbsp;".__("Disable smilies", 1)."
+									<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
 								</label>
 								<input type=\"hidden\" name=\"id\" value=\"$tid\" />
 								$mod

@@ -103,7 +103,7 @@ $languagePack = array(
 'Encuesta',
 
 'Preview' =>
-'Vista previa.',
+'Vista previa',
 
 'Enter a message and try again.' =>
 'Escribe un mensaje y prueba otra vez.',
@@ -2486,7 +2486,7 @@ $languagePack = array(
 'Embeds',
 
 'Most plain HTML also allowed.' =>
-'HTML también está permitido',
+'También se permite HTML.',
 
 
 // lib/onlineusers.php

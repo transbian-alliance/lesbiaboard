@@ -260,10 +260,12 @@ $trefill = htmlspecialchars($_POST['title']);
 if(!isset($_POST['iconid']))
 	$_POST['iconid'] = 0;
 
-if($_POST['nopl'])
-	$nopl = "checked=\"checked\"";
-if($_POST['nosm'])
-	$nosm = "checked=\"checked\"";
+function getCheck($name)
+{
+	if(isset($_POST[$name]) && $_POST[$name])
+		return "checked=\"checked\"";
+	else return "";
+}
 
 $iconNoneChecked = ($_POST['iconid'] == 0) ? "checked=\"checked\"" : "";
 $iconCustomChecked = ($_POST['iconid'] == 255) ? "checked=\"checked\"" : "";
@@ -415,17 +417,15 @@ while($mood = Fetch($rMoods))
 
 if(CanMod($loguserid, $forum['id']))
 {
-	$mod = "\n\n<!-- Mod options -->\n";
-	$mod .= "<label><input type=\"checkbox\" name=\"lock\">&nbsp;".__("Close thread", 1)."</label>\n";
-	$mod .= "<label><input type=\"checkbox\" name=\"stick\">&nbsp;".__("Sticky", 1)."</label>\n";
-	$mod .= "<!-- More could follow -->\n\n";
+	$mod = "\n\n<!-- Mod options -->asdf\n";
+	$mod .= "<label><input type=\"checkbox\" ".getCheck("lock")." name=\"lock\">&nbsp;".__("Close thread", 1)."</label>\n";
+	$mod .= "<label><input type=\"checkbox\" ".getCheck("stick")."  name=\"stick\">&nbsp;".__("Sticky", 1)."</label>\n";
 }
 
 if(!$_POST['poll'] || $_POST['pollOptions'])
 	$postButton = "<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> ";
 
-write(
-"
+print "
 						<tr class=\"cell0\">
 							<td>
 								<label for=\"post\">
@@ -433,33 +433,32 @@ write(
 								</label>
 							</td>
 							<td>
-								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">{0}</textarea>
+								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
 							</td>
 						</tr>
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								{1}
+								$postButton
 								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 								<select size=\"1\" name=\"mood\">
-									{2}
+									$moodOptions
 								</select>
 								<label>
-									<input type=\"checkbox\" name=\"nopl\" {3} />&nbsp;".__("Disable post layout", 1)."
+									<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
 								</label>
 								<label>
-									<input type=\"checkbox\" name=\"nosm\" {4} />&nbsp;".__("Disable smilies", 1)."
+									<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
 								</label>
-								<input type=\"hidden\" name=\"id\" value=\"{5}\" />
-								<input type=\"hidden\" name=\"poll\" value=\"{6}\" />
-								{7}
+								<input type=\"hidden\" name=\"id\" value=\"$fid\" />
+								<input type=\"hidden\" name=\"poll\" value=\"".htmlspecialchars($_POST['poll'])."\" />
+								$mod
 							</td>
 						</tr>
 					</table>
 				</form>
 			</td>
-			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	$prefill, $postButton, $moodOptions, $nopl, $nosm, $fid, htmlspecialchars($_POST['poll']), $mod);
+			<td style=\"width: 200px; vertical-align: top; border: none;\">";
 
 DoSmileyBar();
 DoPostHelp();
