@@ -8,5 +8,3 @@ img/logos/*.jpg
 img/logos/*.ico
 !plugins/uploader/
 downloads/
-*~
-.directory
