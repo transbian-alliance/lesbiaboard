@@ -69,6 +69,7 @@ $goodHtmlTags = array(
 	'b' => 1,
 	'big' => 1,
 	'br' => 1,
+	'caption' => 1,
 	'center' => 1,
 	'code' => 1,
 	'dd' => 1,
