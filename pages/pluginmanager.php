@@ -15,6 +15,8 @@ if($_GET["action"] == "enable")
 		Kill("No.");
 	
 	Query("insert into {enabledplugins} values ({0})", $_GET["id"]);
+	Upgrade();
+
 	die(header("location: ".actionLink("pluginmanager")));
 }
 if($_GET["action"] == "disable")
