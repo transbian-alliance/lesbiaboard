@@ -1,12 +1,7 @@
 "use strict";
-/* Spoiler buttons for posts
-   -------------------------
-   Used to be a simple one-way trick.
- */ 
 
-$(document).ready(function() {
-	$(".spoilerbutton").click(toggleSpoiler);
-});
+
+//Spoiler buttons
 
 function toggleSpoiler()
 {
@@ -136,28 +131,6 @@ function GetXmlHttpObject()
 	if (xmlHttp != null) return xmlHttp;
 	xmlHttp = new XMLHttpRequest();
 	return xmlHttp;
-}
-
-
-/* Flashloops */
-function startFlash(id)
-{
-	var url = document.getElementById("swf" + id + "url").innerHTML;
-	var mainPanel = document.getElementById("swf" + id + "main");
-	var playButton = document.getElementById("swf" + id + "play");
-	var stopButton = document.getElementById("swf" + id + "stop");
-	mainPanel.innerHTML = '<object data="' + url + '" style="width: 100%; height: 100%;"><embed src="' + url + '" style="width: 100%; height: 100%;"></embed></object>';
-	playButton.className = "swfbuttonon";
-	stopButton.className = "swfbuttonoff";
-}
-function stopFlash(id)
-{
-	var mainPanel = document.getElementById("swf" + id + "main");
-	var playButton = document.getElementById("swf" + id + "play");
-	var stopButton = document.getElementById("swf" + id + "stop");
-	mainPanel.innerHTML = '';
-	playButton.className = "swfbuttonoff";
-	stopButton.className = "swfbuttonon";
 }
 
 
@@ -543,3 +516,8 @@ function replacePost(id, opened)
 		$("#post"+id).replaceWith(data);
 	});
 }
+
+$(document).ready(function() {
+	$(".spoilerbutton").click(toggleSpoiler);
+});
+

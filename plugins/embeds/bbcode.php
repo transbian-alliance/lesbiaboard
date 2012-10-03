@@ -5,10 +5,45 @@ $bbcodeCallbacks["swf"] = "bbcodeFlash";
 $bbcodeCallbacks["video"] = "bbcodeVideo";
 $bbcodeCallbacks["tindeck"] = "bbcodeTindeck";
 $bbcodeCallbacks["svg"] = "bbcodeSvg";
+$tagParseStatus["swf"] = 2;
+$tagParseStatus["youtube"] = 2;
+$tagParseStatus["video"] = 2;
+$tagParseStatus["tindeck"] = 2;
+$tagParseStatus["svg"] = 2;
+
+
+
+function getYoutubeIdFromUrl($url) {
+    $pattern = 
+        '%^# Match any youtube URL
+        (?:https?://)?  # Optional scheme. Either http or https
+        (?:www\.)?      # Optional www subdomain
+        (?:             # Group host alternatives
+          youtu\.be/    # Either youtu.be,
+        | youtube\.com  # or youtube.com
+          (?:           # Group path alternatives
+            /embed/     # Either /embed/
+          | /v/         # or /v/
+          | /watch\?v=  # or /watch\?v=
+          )             # End path alternatives.
+        )               # End host alternatives.
+        ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
+        $%x'
+        ;
+    $result = preg_match($pattern, $url, $matches);
+    if (false !== $result) {
+        return $matches[1];
+    }
+    return false;
+}
 
 function bbcodeYoutube($contents, $arg)
 {
 	$contents = trim($contents);
+	$id = getYoutubeIdFromUrl($contents);
+	if($id)
+		$contents = $id;
+		
 	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
 		return "[Invalid youtube video ID]";
 	
@@ -62,32 +97,18 @@ function bbcodeFlash($contents, $arg)
 	if(count($args) == 2)
 	{
 		$width = $args[0];
-		$height = $args[0];
+		$height = $args[1];
 	}
-	
-	if(strlen($contents) < 4)
-		return "[user tried to use an URL too short to be a valid .SWF file.]";
 
-	if(strtolower(substr($contents, -4)) !== ".swf")
-		$contents .= ".swf";
-
-	return format(
-"
-	<div class=\"swf\" style=\"width: {0}px;\">
-		<div class=\"swfmain\" id=\"swf{4}main\" style=\"width: {1}px; height: {2}px;\">
+	return "
+	<div class=\"swf\" style=\"width: ".($width + 4)."px;\">
+		<div class=\"swfmain\" id=\"swf{$flashloops}main\" style=\"width: {$width}px; height: {$height}px;\">
 		</div>
 		<div class=\"swfcontrol\">
-			<span class=\"swfbuttonoff\" id=\"swf{4}play\" onclick=\"startFlash({4}); return false;\">
-				&#x25BA;
-			</span>
-			<span class=\"swfbuttonon\" id=\"swf{4}stop\" onclick=\"stopFlash({4}); return false;\">
-				&#x25A0;
-			</span>
-			<span class=\"swfurl\" id=\"swf{4}url\">
-				{3}
-			</span>
+			<button type=\"button\" style=\"height:25px\" class=\"startFlash\" id=\"swfa$flashloops\">&#x25BA;</button>
+			<button type=\"button\" style=\"height:25px\" class=\"stopFlash\" id=\"swfb$flashloops\">&#x25A0;</button>
+			<span style=\"display:none;\" id=\"swf{$flashloops}url\">".htmlspecialchars($contents)."</span>
 		</div>
-	</div>
-", $width + 4, $width, $height, $contents, $flashloops);
+	</div>";
 }
 ?>

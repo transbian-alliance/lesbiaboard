@@ -1,20 +1,21 @@
+
 /* Flashloops */
-function startFlash(id)
+function startFlashClicked()
 {
-	var url = $("swf" + id + "url").innerHTML;
-	var mainPanel = $("swf" + id + "main");
-	var playButton = $("swf" + id + "play");
-	var stopButton = $("swf" + id + "stop");
-	mainPanel.innerHTML = '<object data="' + url + '" style="width: 100%; height: 100%;"><embed src="' + url + '" style="width: 100%; height: 100%;" allowscriptaccess=\"never\"></embed></object>';
-	playButton.className = "swfbuttonon";
-	stopButton.className = "swfbuttonoff";
+	var id = this.id.substr(4);
+	var url = document.getElementById("swf" + id + "url").innerHTML;
+	var mainPanel = document.getElementById("swf" + id + "main");
+	mainPanel.innerHTML = '<object data="' + url + '" style="width: 100%; height: 100%;"><embed src="' + url + '" style="width: 100%; height: 100%;"></embed></object>';
 }
-function stopFlash(id)
+function stopFlashClicked()
 {
-	var mainPanel = $("swf" + id + "main");
-	var playButton = $("swf" + id + "play");
-	var stopButton = $("swf" + id + "stop");
+	var id = this.id.substr(4);
+	var mainPanel = document.getElementById("swf" + id + "main");
 	mainPanel.innerHTML = '';
-	playButton.className = "swfbuttonoff";
-	stopButton.className = "swfbuttonon";
 }
+
+$(document).ready(function() {
+	$(".startFlash").click(startFlashClicked);
+	$(".stopFlash").click(stopFlashClicked);
+});
+
