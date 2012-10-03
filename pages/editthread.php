@@ -78,30 +78,6 @@ if($canMod)
 			
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
-	elseif($_POST['action']==__("Move"))
-	{
-		$moveto = (int)$_POST['moveTo'];
-		$dest = Fetch(Query("select * from {forums} where id={0}", $moveto));
-		if(!$dest)	
-			Kill(__("Unknown forum ID."));
-		
-		//Tweak forum counters
-		$rForum = Query("update {forums} set numthreads=numthreads-1, numposts=numposts-{0} where id={1}", ($thread['replies']+1), $thread['forum']);
-		$rForum = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+{0} where id={1}", ($thread['replies']+1), $moveto);
-
-
-		$rThread = Query("update {threads} set forum={0} where id={1}", (int)$_POST['moveTo'], $tid);
-		
-		// Tweak forum counters #2
-		Query("	UPDATE {forums} LEFT JOIN {threads}
-				ON {forums}.id={threads}.forum AND {threads}.lastpostdate=(SELECT MAX(nt.lastpostdate) FROM {threads} nt WHERE nt.forum={forums}.id)
-				SET {forums}.lastpostdate=IFNULL({threads}.lastpostdate,0), {forums}.lastpostuser=IFNULL({threads}.lastposter,0), {forums}.lastpostid=IFNULL({threads}.lastpostid,0)
-				WHERE {forums}.id={0} OR {forums}.id={1}", $thread['forum'], $moveto);
-		
-		Report("[b]".$loguser['name']."[/] moved thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
-			
-		die(header("Location: ".actionLink("thread", $tid)));
-	}
 	elseif($_GET['action']=="delete")
 	{
 		$rPosts = Query("select id,user from {posts} where thread={0}", $tid);
@@ -170,6 +146,29 @@ if($canMod)
 
 	if($_POST['action'] == __("Edit"))
 	{
+
+		if($thread["forum"] != $_POST["moveTo"])
+		{
+			$moveto = (int)$_POST['moveTo'];
+			$dest = Fetch(Query("select * from {forums} where id={0}", $moveto));
+			if(!$dest)	
+				Kill(__("Unknown forum ID."));
+		
+			//Tweak forum counters
+			$rForum = Query("update {forums} set numthreads=numthreads-1, numposts=numposts-{0} where id={1}", ($thread['replies']+1), $thread['forum']);
+			$rForum = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+{0} where id={1}", ($thread['replies']+1), $moveto);
+
+			$rThread = Query("update {threads} set forum={0} where id={1}", (int)$_POST['moveTo'], $tid);
+		
+			// Tweak forum counters #2
+			Query("	UPDATE {forums} LEFT JOIN {threads}
+					ON {forums}.id={threads}.forum AND {threads}.lastpostdate=(SELECT MAX(nt.lastpostdate) FROM {threads} nt WHERE nt.forum={forums}.id)
+					SET {forums}.lastpostdate=IFNULL({threads}.lastpostdate,0), {forums}.lastpostuser=IFNULL({threads}.lastposter,0), {forums}.lastpostid=IFNULL({threads}.lastpostid,0)
+					WHERE {forums}.id={0} OR {forums}.id={1}", $thread['forum'], $moveto);
+		
+			Report("[b]".$loguser['name']."[/] moved thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
+		}
+		
 		$isClosed = (isset($_POST['isClosed']) ? 1 : 0);
 		$isSticky = (isset($_POST['isSticky']) ? 1 : 0);
 
@@ -188,7 +187,6 @@ if($canMod)
 			Report("[b]".$loguser['name']."[/] edited thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
 			die(header("Location: ".actionLink("thread", $tid)));
-			exit();
 		}
 		else
 			Alert(__("Your thread title is empty. Enter a message and try again."));
@@ -254,8 +252,7 @@ if($canMod)
 		$iconurl = htmlspecialchars($_POST['iconurl']);
 	}
 	
-	write(
-"
+	echo "
 	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
 	<form action=\"".actionLink("editthread")."\" method=\"post\">
 		<table class=\"outline margin\" style=\"width: 100%;\">
@@ -269,7 +266,7 @@ if($canMod)
 					<label for=\"tit\">".__("Title")."</label>
 				</td>
 				<td id=\"threadTitleContainer\">
-					<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"{0}\" />
+					<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"".htmlspecialchars($_POST['title'])."\" />
 				</td>
 			</tr>
 			<tr class=\"cell1\">
@@ -278,51 +275,51 @@ if($canMod)
 				</td>
 				<td class=\"threadIcons\">
 					<label>
-						<input type=\"radio\" {2} id=\"noicon\" name=\"iconid\" value=\"0\">
+						<input type=\"radio\" {$check[0]} id=\"noicon\" name=\"iconid\" value=\"0\">
 						".__("None")."
 					</label>
-					{1}
+					$icons
 					<br/>
 					<label>
-						<input type=\"radio\" {3} name=\"iconid\" value=\"255\" />
+						<input type=\"radio\" {$check[1]} name=\"iconid\" value=\"255\" />
 						<span>".__("Custom")."</span>
 					</label>
-					<input type=\"text\" name=\"iconurl\" style=\"width: 50%;\" maxlength=\"100\" value=\"{4}\" />
+					<input type=\"text\" name=\"iconurl\" style=\"width: 50%;\" maxlength=\"100\" value=\"".htmlspecialchars($iconurl)."\" />
 				</td>
 			</tr>
-			<tr class=\"cell2\">
+			<tr class=\"cell0\">
 				<td>
 					".__("Extras")."
 				</td>
 				<td>
 					<label>
-						<input type=\"checkbox\" name=\"isClosed\" {5} />
+						<input type=\"checkbox\" name=\"isClosed\" ".($thread['closed'] ? " checked=\"checked\"" : "")." />
 						".__("Closed")."
 					</label>
 					<label>
-						<input type=\"checkbox\" name=\"isSticky\" {6} />
+						<input type=\"checkbox\" name=\"isSticky\" ".($thread['sticky'] ? " checked=\"checked\"" : "")." />
 						".__("Sticky")."
 					</label>
+				</td>
+			</tr>
+			<tr class=\"cell1\">
+				<td>
+					".__("Move")."
+				</td>
+				<td>
+					".makeForumList('moveTo', $thread["forum"])."
 				</td>
 			</tr>
 			<tr class=\"cell2\">
 				<td></td>
 				<td>
 					<input type=\"submit\" name=\"action\" value=\"".__("Edit")."\"></input>
-					<button onclick=\"window.navigate('".actionLink("editthread", "{7}", "action=delete")."');\">".__("Delete")."</button>
-
-					".makeForumList('moveTo', -1)."
-					<input type=\"submit\" name=\"action\" value=\"".__("Move")."\" />
-					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
-					<input type=\"hidden\" name=\"key\" value=\"{9}\" />
+					<input type=\"hidden\" name=\"id\" value=\"$tid\" />
+					<input type=\"hidden\" name=\"key\" value=\"".$loguser['token']."\" />
 				</td>
 			</tr>
 		</table>
-	</form>
-",	htmlspecialchars($_POST['title']), $icons, $check[0], $check[1], $iconurl,
-	($thread['closed'] ? " checked=\"checked\"" : ""),
-	($thread['sticky'] ? " checked=\"checked\"" : ""),
-	$tid, $moveToTargets, $loguser['token']);
+	</form>";
 }
 else
 {
