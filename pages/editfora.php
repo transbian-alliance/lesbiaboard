@@ -187,7 +187,36 @@ switch($_POST['action'])
 		WriteCategoryEditContents($cid);
 		dieAjax("");
 		break;
-		
+
+	case 'deletemod':
+		if(!isset($_GET['fid']))
+			Kill(__("Forum ID unspecified."));
+		if(!isset($_GET['mid']))
+			Kill(__("Mod ID unspecified."));
+
+		$fid = (int)$_GET['fid'];
+		$mid = (int)$_GET['mid'];
+
+		query("delete from {forummods} where forum={0} and user={1}", $fid, $mid);
+		dieAjax("Ok");
+		break;
+	case 'addmod':
+		if(!isset($_GET['fid']))
+			Kill(__("Forum ID unspecified."));
+		if(!isset($_GET['mid']))
+			Kill(__("Mod ID unspecified."));
+
+		$fid = (int)$_GET['fid'];
+		$mid = (int)$_GET['mid'];
+
+		$rUser = Fetch(Query("SELECT powerlevel FROM {users} WHERE id={0}", $mid));
+		if(!$rUser || $rUser["powerlevel"] != 1)
+			dieAjax("Invalid user ID: $mid");
+
+		$rMod = Query("insert into {forummods} (forum, user) values ({0}, {1})", $fid, $mid);
+		dieAjax("Ok");
+		break;
+	
 	case '': //No action, do main code
 		break;
 	
@@ -257,12 +286,65 @@ function WriteForumEditContents($fid)
 		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
 		$forder = $forum['forder'];
 		$func = "changeForumInfo";
-		$button = __("Update");
+		$button = __("Save");
 		$boxtitle = __("Edit Forum");
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
 				".__("Delete")."
 			</button>";
+
+		$localmods = "";
+
+		$rMods = query("SELECT u.(_userfields)
+						FROM {forummods} m
+						LEFT JOIN {users} u ON u.id = m.user
+						WHERE m.forum={0}
+						ORDER BY m.user", $fid);
+		
+		$addedMods = array();
+		
+		if(!numRows($rMods))
+			$localmods .= "(No local moderators assigned to this forum)<br /><br />";
+		else
+		{
+			$localmods .= "<ul>";
+			while($mod = fetch($rMods))
+			{
+				$mod = getDataPrefix($mod, "u_");
+				$localmods .= "<li>".UserLink($mod);
+				$mid = $mod["id"];
+				$addedMods[$mid] = 1;
+				$localmods .= " <sup><a href=\"\" onclick=\"deleteMod($mid); return false;\">&#x2718;</a></li>";
+			}
+			$localmods .= "</ul>";
+		}
+
+		$rMods = query("SELECT u.(_userfields)
+						FROM {users} u
+						WHERE u.powerlevel = 1
+						ORDER BY u.id");
+		$canAddMods = false;
+		$addmod = "Add a mod: ";
+		$addmod .= "<select name=\"addmod\" id=\"addmod\">";
+		
+		while($mod = fetch($rMods))
+		{
+			$mod = getDataPrefix($mod, "u_");
+			if(isset($addedMods[$mod["id"]])) continue;
+			$canAddMods = true;
+			$mid = $mod["id"];
+			$mname = $mod["displayname"];
+			if(!$mname)
+				$mname = $mod["name"];
+			$addmod .= "<option value=\"$mid\">$mname ($mid)</option>";
+		}
+		
+		$addmod .= "</select>";
+		$addmod .= "<button type=\"button\" onclick=\"addMod(); return false;\">Add</button>";
+		if(!$canAddMods)
+			$addmod = "<br>No moderators available for adding.<br>To add a mod, set his powerlevel to Local Mod first.";
+		
+		$localmods .= $addmod;
 	}
 	else
 	{
@@ -277,106 +359,116 @@ function WriteForumEditContents($fid)
 		$button = __("Add");
 		$boxtitle = __("New Forum");
 		$delbutton = "";
+		$localmods = "(Create the forum before managing mods)";
 	}
 	
-	Write('
-	<form method="post" id="forumform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="{8}">
-	<input type="hidden" name="id" value="{6}">
-	<table class="outline margin">
-		<tr class="header1">
-			<th colspan="2">
-				{11}
+	echo "
+	<form method=\"post\" id=\"forumform\" action=\"".actionLink("editfora")."\">
+	<input type=\"hidden\" name=\"key\" value=\"".$loguser['token']."\">
+	<input type=\"hidden\" name=\"id\" value=\"$fid\">
+	<table class=\"outline margin\">
+		<tr class=\"header1\">
+			<th colspan=\"2\">
+				$boxtitle
 			</th>
 		</tr>
-		<tr class="cell1">
-			<td style="width: 25%;">
-				'.__("Title").'
+		<tr class=\"cell1\">
+			<td style=\"width: 25%;\">
+				".__("Title")."
 			</td>
 			<td>
-				<input type="text" style="width: 98%;" name="title" value="{0}" />
+				<input type=\"text\" style=\"width: 98%;\" name=\"title\" value=\"$title\" />
 			</td>
 		</tr>
-		<tr class="cell1">
+		<tr class=\"cell1\">
 
 			<td>
-				'.__("Description").'
+				".__("Description")."
 			</td>
 			<td>
-				<input type="text" style="width: 98%;" name="description" value="{1}" />
-			</td>
-		</tr>
-		<tr class="cell0">
-			<td>
-				'.__("Category").'
-			</td>
-			<td>
-				{2}
+				<input type=\"text\" style=\"width: 98%;\" name=\"description\" value=\"$description\" />
 			</td>
 		</tr>
-		<tr class="cell1">
+		<tr class=\"cell0\">
 			<td>
-				'.__("Listing order").'
+				".__("Category")."
 			</td>
 			<td>
-				<input type="text" size="2" name="forder" value="{7}" />
-				<img src="img/icons/icon5.png" title="'.__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.").'" alt="[?]" />
+				$catselect
 			</td>
 		</tr>
-		<tr class="cell0">
+		<tr class=\"cell1\">
 			<td>
-				'.__("Powerlevel required").'
+				".__("Listing order")."
+			</td>
+			<td>
+				<input type=\"text\" size=\"2\" name=\"forder\" value=\"$forder\" />
+				<img src=\"img/icons/icon5.png\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
+			</td>
+		</tr>
+		<tr class=\"cell0\">
+			<td>
+				".__("Powerlevel required")."
 			</td>
 			<td>
 
-				{3}
-				'.__("to view").'
+				$minpower
+				".__("to view")."
 				<br />
-				{4}
-				'.__("to post threads").'
+				$minpowerthread
+				".__("to post threads")."
 				<br />
-				{5}
-				'.__("to reply").'
+				$minpowerreply
+				".__("to reply")."
 			</td>
 		</tr>
-		<tr class="cell2">
+		<tr class=\"cell0\">
+			<td>
+				".__("Local moderators")."
+			</td>
+			<td>
+				$localmods
+			</td>
+		</tr>
+
+		<tr class=\"cell2\">
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="{9}(); return false;">
-					{10}
+				<button onclick=\"$func(); return false;\">
+					$button
 				</button>
-				{12}
+				$delbutton
 			</td>
 		</tr>
 	</table></form>
 	
-	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="{8}">
-	<input type="hidden" name="id" value="{6}">
-	<div id="deleteforum" style="display:none">
-		<table class="outline margin">
-			<tr class="header1">
+	<form method=\"post\" id=\"deleteform\" action=\"".actionLink("editfora")."\">
+	<input type=\"hidden\" name=\"key\" value=\"{8}\">
+	<input type=\"hidden\" name=\"id\" value=\"{6}\">
+	<div id=\"deleteforum\" style=\"display:none\">
+		<table class=\"outline margin\">
+			<tr class=\"header1\">
 
 				<th>
-					'.__("Delete forum").'
+					".__("Delete forum")."
 				</th>
 			</tr>
-			<tr class="cell0">
+			<tr class=\"cell0\">
 				<td>
-					'.__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.").'<br /><br />
-					'.__("If you still want to delete it, click below:").'<br />
-					<button onclick="deleteForum(\'delete\'); return false;">
-						'.__("Delete forum").'
+					".__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.")."<br /><br />
+					".__("If you still want to delete it, click below:")."<br />
+					<button onclick=\"deleteForum(\'delete\'); return false;\">
+						".__("Delete forum")."
 					</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-	</form>	
+	</form>";
 	
-	', $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $loguser['token'], $func, $button, $boxtitle, $delbutton);
+//	, $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $loguser['token'], $func, $button, $boxtitle, $delbutton);
 }
 // $fid == -1 means that a new forum should be made :)
 function WriteCategoryEditContents($cid)
@@ -406,7 +498,7 @@ function WriteCategoryEditContents($cid)
 		$corder = $cat['corder'];
 
 		$func = "changeCategoryInfo";
-		$button = __("Update");
+		$button = __("Save");
 		$boxtitle = __("Edit Category");
 		$delbutton = "
 			<button onclick='showDeleteForum(); return false;'>
@@ -423,71 +515,70 @@ function WriteCategoryEditContents($cid)
 		$delbutton = "";
 	}
 	
-	print '
-	<form method="post" id="forumform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="'.$loguser['token'].'">
-	<input type="hidden" name="id" value="'.$cid.'">
-	<table class="outline margin">
-		<tr class="header1">
-			<th colspan="2">
-				'.$boxtitle.'
+	echo "<form method=\"post\" id=\"forumform\" action=\"".actionLink("editfora")."\">
+	<input type=\"hidden\" name=\"key\" value=\"".$loguser["token"]."\">
+	<input type=\"hidden\" name=\"id\" value=\"$cid\">
+	<table class=\"outline margin\">
+		<tr class=\"header1\">
+			<th colspan=\"2\">
+				$boxtitle
 			</th>
 		</tr>
-		<tr class="cell1">
-			<td style="width: 25%;">
-				'.__("Name").'
+		<tr class=\"cell1\">
+			<td style=\"width: 25%;\">
+				".__("Name")."
 			</td>
 			<td>
-				<input type="text" style="width: 98%;" name="name" value="'.$name.'" />
+				<input type=\"text\" style=\"width: 98%;\" name=\"name\" value=\"$name\" />
 			</td>
 		</tr>
-		<tr class="cell0">
+		<tr class=\"cell0\">
 			<td>
-				'.__("Listing order").'
+				".__("Listing order")."
 			</td>
 			<td>
-				<input type="text" size="2" name="corder" value="'.$corder.'" />
-				<img src="img/icons/icon5.png" title="'.__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.").'" alt="[?]" />
+				<input type=\"text\" size=\"2\" name=\"corder\" value=\"$corder\" />
+				<img src=\"img/icons/icon5.png\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
 			</td>
 		</tr>
-		<tr class="cell2">
+		<tr class=\"cell2\">
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button onclick="'.$func.'(); return false;">
-					'.$button.'
+				<button onclick=\"$func(); return false;\">
+					$button
 				</button>
-				'.$delbutton.'
+				$delbutton
 			</td>
 		</tr>
 	</table></form>
 	
-	<form method="post" id="deleteform" action="'.actionLink("editfora").'">
-	<input type="hidden" name="key" value="'.$loguser['token'].'">
-	<input type="hidden" name="id" value="'.$cid.'">
-	<div id="deleteforum" style="display:none">
-		<table class="outline margin">
-			<tr class="header1">
+	<form method=\"post\" id=\"deleteform\" action=\"".actionLink("editfora")."\">
+	<input type=\"hidden\" name=\"key\" value=\"".$loguser["token"]."\">
+	<input type=\"hidden\" name=\"id\" value=\"$cid\">
+	<div id=\"deleteforum\" style=\"display:none\">
+		<table class=\"outline margin\">
+			<tr class=\"header1\">
 
 				<th>
-					'.__("Delete category").'
+					".__("Delete category")."
 				</th>
 			</tr>
-			<tr class="cell0">
+			<tr class=\"cell0\">
 				<td>
-					'.__("Be careful when deleting categories. Make sure there are no forums in the category before deleting it.").'
+					".__("Be careful when deleting categories. Make sure there are no forums in the category before deleting it.")."
 					<br /><br />
-					'.__("If you still want to delete it, click below:").'
+					".__("If you still want to delete it, click below:")."
 					<br />
-					<button onclick="deleteCategory(\'delete\'); return false;">
-						'.__("Delete category").'
+					<button onclick=\"deleteCategory(\"delete\"); return false;\">
+						".__("Delete category")."
 					</button>
 				</td>
 			</tr>
 		</table>
 	</div>
-	</form>';
+	</form>";
 }
 
 
@@ -541,7 +632,7 @@ function WriteForumTableContents()
 		print '
 	<tbody id="cat'.$cat['id'].'" class="c">
 		<tr class="cell'.cell().'">
-			<td class="c" onmousedown="pickCategory('.$cat['id'].');">
+			<td class="c" style="cursor: pointer;" onmousedown="pickCategory('.$cat['id'].');">
 				<strong>'.$cat['name'].'</strong>
 			</td>
 		</tr>';
@@ -553,7 +644,7 @@ function WriteForumTableContents()
 				$sel = $_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : '';
 				print '
 		<tr class="cell'.cell().'" style="cursor: hand;">
-			<td style="padding-left: 24px;'.$sel.'" class="f" onmousedown="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
+			<td  style="cursor: pointer; padding-left: 24px;'.$sel.'" class="f" onmousedown="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
 				'.$cf['title'].'<br />
 				<small style="opacity: 0.75;">'.$cf['description'].'</small>
 			</td>
@@ -565,7 +656,7 @@ function WriteForumTableContents()
 				print '
 		<tr class="cell'.cell().'" style="cursor: hand;">
 			<td style="padding-left: 24px;" class="f">
-				'.__("No forums in this category.").'
+				".__("No forums in this category.")."
 			</td>
 		</tr>';
 		}

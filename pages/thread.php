@@ -311,12 +311,12 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 					".__("Quick-E Post&trade;")."
 				</th>
 			</tr>
-			<tr class=\"cell0\" style=\"display: none;\">
+			<tr class=\"cell0\">
 				<td>
 					<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">{3}</textarea>
 				</td>
 			</tr>
-			<tr class=\"cell2\" style=\"display: none;\">
+			<tr class=\"cell2\">
 				<td>
 					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> 
 					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />

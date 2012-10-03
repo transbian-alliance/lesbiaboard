@@ -61,8 +61,7 @@ Write("
 cell2(actionLinkTag(__("Recalculate statistics"), "recalc"));
 cell2(actionLinkTag(__("Last Known Browsers"), "lastknownbrowsers"));
 cell2(actionLinkTag(__("Manage IP bans"), "ipbans"));
-cell2(actionLinkTag(__("Manage local moderator assignments"), "managemods"));
-cell2(actionLinkTag(__("Edit forum list"), "editfora"));
+cell2(actionLinkTag(__("Manage forum list"), "editfora"));
 cell2(actionLinkTag(__("Manage plugins"), "pluginmanager"));
 cell2(actionLinkTag(__("Edit settings"), "editsettings"));
 cell2(actionLinkTag(__("Edit smilies"), "editsmilies"));
