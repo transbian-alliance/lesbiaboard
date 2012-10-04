@@ -313,7 +313,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 			<tr class=\"cell0\">
 				<td>
-					<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">{3}</textarea>
+					<textarea id=\"text\" name=\"text\" rows=\"8\" style=\"width: 98%;\">{3}</textarea>
 				</td>
 			</tr>
 			<tr class=\"cell2\">
