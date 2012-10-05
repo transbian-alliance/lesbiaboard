@@ -51,6 +51,10 @@ table, td, tr, th, div
 	border-color:black;
 }
 
+:not(.post) td:not(.post), table, tr, th, div {
+	cursor: default;
+}
+
 /* Default link colors */
 a:link
 {
@@ -709,4 +713,57 @@ input[type="checkbox"]
 label
 {
 	display:inline-block;
+}
+
+div.overlayShade {
+	background: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	-webkit-animation-name: fadeIn;
+	-webkit-animation-duration: 1s;
+
+}
+
+@-webkit-keyframes fadeIn {
+	from {
+		background: rgba(0, 0, 0, 0);
+	}
+	to {
+		background: rgba(0, 0, 0, 0.5);
+	}
+}
+
+div.overlayShade div.message {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4em;
+	-webkit-animation-name: overlayScaleIn;
+	-webkit-animation-duration: 0.25s;
+}
+
+@-webkit-keyframes overlayScaleIn {
+	from {
+		opacity: 0;
+		-webkit-transform: scale(0.75);
+	}
+	to {
+		oacpty: 1;
+		-webkit-transform: scale(1);
+	}
+}
+
+div.overlayShade div.overlayContent {
+	padding: 16px;
+}
+
+div.overlayShade div.buttonContainer {
+	text-align: right;
+}
+
+div.overlayShade div.buttonContainer button {
+	margin: 8px;
 }
