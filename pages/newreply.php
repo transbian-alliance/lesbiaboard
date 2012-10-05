@@ -249,7 +249,7 @@ print "
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"".actionLink("newreply")."\" method=\"post\">
+				<form name=\"postform\" action=\"".actionLink("newreply")."\" method=\"post\">
 					<input type=\"hidden\" name=\"ninja\" value=\"$ninja\" />
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
@@ -297,6 +297,9 @@ write("
 			</td>
 		</tr>
 	</table>
+	<script type=\"text/javascript\">
+		document.postform.text.focus();
+	</script>
 ");
 
 doThreadPreview($tid);

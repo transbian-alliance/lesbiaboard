@@ -367,7 +367,7 @@ print "
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"".actionLink("newthread")."\" method=\"post\">
+				<form name=\"postform\" action=\"".actionLink("newthread")."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">
@@ -467,6 +467,9 @@ write("
 			</td>
 		</tr>
 	</table>
+	<script type=\"text/javascript\">
+		document.postform.text.focus();
+	</script>
 ");
 
 ?>

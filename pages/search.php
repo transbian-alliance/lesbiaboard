@@ -14,7 +14,7 @@ echo "	<table>
 			<td style=\"width: 70%; border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;\">";
 			
 echo "
-	<form action=\"".actionLink("search")."\" method=\"post\">
+	<form name=\"searchform\"  action=\"".actionLink("search")."\" method=\"post\">
 		<table class=\"outline margin\">
 			<tr class=\"header0\"><th>
 				<strong>".__("Google search")."</strong>
@@ -26,52 +26,56 @@ echo "
 			</td></tr>
 		</table>
 	</form>
+	<script type=\"text/javascript\">
+		document.searchform.google.focus();
+	</script>
 ";
 
+if($loguser['powerlevel'] >= 1)
+{
+	echo "
+		<form action=\"".actionLink("search")."\" method=\"post\">
+			<table class=\"outline margin\">
+				<tr class=\"header0\"><th>
+					<strong>".__("Internal search")."</strong>
+				</th></tr>
+				<tr><td class=\"cell0\">
+					<input type=\"text\" maxlength=\"1024\" name=\"q\" style=\"width: 80%;\" value=\"".htmlspecialchars($_POST['q'])."\">
+					&nbsp;
+					<input type=\"submit\" value=\"".__("Search")."\">
+				</td></tr>
+			</table>
+		</form>
+	";
 
-echo "
-	<form action=\"".actionLink("search")."\" method=\"post\">
-		<table class=\"outline margin\">
-			<tr class=\"header0\"><th>
-				<strong>".__("Internal search")."</strong>
-			</th></tr>
-			<tr><td class=\"cell0\">
-				<input type=\"text\" maxlength=\"1024\" name=\"q\" style=\"width: 80%;\" value=\"".htmlspecialchars($_POST['q'])."\">
-				&nbsp;
-				<input type=\"submit\" value=\"".__("Search")."\">
-			</td></tr>
-		</table>
-	</form>";
+	echo "	</td>
+			<td style=\"border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;\">";
 
-echo "	</td>
-		<td style=\"border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;\">";
-
-echo "
-		<table class=\"outline margin\">
-			<tr class=\"header0\"><th>
-				".__("Search help")."
-			</th></tr>
-			<tr><td class=\"cell0\">
-				".__("Internal search checks both thread titles and post text, returning results from both.")."
-				<dl>
-					<dt><samp>foo bar</samp></dt>
-					<dd>".__("Find entries with either term")."</dd>
-					<dt><samp>\"foo bar\"</samp></dt>
-					<dd>".__("Find entries with full phrase")."</dd>
-					<dt><samp>+foo -bar</samp></dt>
-					<dd>".__("Find entries with <var>foo</var> but not <var>bar</var>")."</dd>
-				</dl>
-			</td></tr>
-		</table>";
+	echo "
+			<table class=\"outline margin\">
+				<tr class=\"header0\"><th>
+					".__("Search help")."
+				</th></tr>
+				<tr><td class=\"cell0\">
+					".__("Internal search checks both thread titles and post text, returning results from both.")."
+					<dl>
+						<dt><samp>foo bar</samp></dt>
+						<dd>".__("Find entries with either term")."</dd>
+						<dt><samp>\"foo bar\"</samp></dt>
+						<dd>".__("Find entries with full phrase")."</dd>
+						<dt><samp>+foo -bar</samp></dt>
+						<dd>".__("Find entries with <var>foo</var> but not <var>bar</var>")."</dd>
+					</dl>
+				</td></tr>
+			</table>";
+}
 
 echo "</td></tr></table>";
 
 
 if($loguser['powerlevel'] < 1)
-{
-	echo("</div>");
 	throw new KillException();
-}
+
 if(isset($_POST['q']))
 {
 	$searchQuery = $_POST["q"];
