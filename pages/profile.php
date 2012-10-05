@@ -215,6 +215,42 @@ if($user['birthday'])
 	$foo[__("Birthday")] = format("{0} ({1} old)", cdate("F j, Y", $user['birthday']), Plural(floor((time() - $user['birthday']) / 86400 / 365.2425), "year"));
 if($user['bio'])
 	$foo[__("Bio")] = CleanUpPost($user['bio']);
+
+if($user['lastposttime'])
+{
+
+	$lastPost = Fetch(Query("
+		SELECT 
+			p.id as pid,
+			{threads}.title AS ttit, {threads}.id AS tid, 
+			{forums}.title AS ftit, {forums}.id AS fid, {forums}.minpower
+		FROM {posts} p
+			LEFT JOIN {users} u on u.id = p.user
+			LEFT JOIN {threads} on {threads}.id = p.thread 
+			LEFT JOIN {forums} on {threads}.forum = {forums}.id
+		WHERE p.user={0}
+		ORDER BY p.date DESC
+		LIMIT 0, 1", $user["id"]));
+	$thread = array();
+	$thread["title"] = $lastPost["ttit"];
+	$thread["id"] = $lastPost["tid"];
+	
+	if($lastPost["minpower"] > $loguser["powerlevel"])
+		$place = __("a restricted forum.");
+	else
+	{
+		$pid = $lastPost["pid"];
+		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
+		$place .= " &raquo; ".actionLinkTag($pid, "thread", "", "pid=$pid#$pid");
+	}
+	$foo[__("Last post:")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) . 
+								"<br>".__("in")." ".$place;
+}
+else
+	$foo[__("Last post:")] = __("Never");
+
+$foo[__("Last view:")] = format("{0} ({1} ago)", formatdate($user['lastactivity']), TimeUnits(time() - $user['lastactivity']));
+
 if(count($foo))
 	$profileParts[__("Personal information")] = $foo;
 
