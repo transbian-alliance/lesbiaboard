@@ -12,7 +12,7 @@ function Alert($s, $t="")
 	if($t=="")
 		$t = __("Alert");
 
-	print '<table class="message margin">
+	print '<table class="message outline margin">
 		<tr class="header0"><th>'.$t.'</th></tr>
 		<tr class="cell0"><td>'.$s.'</td></tr>
 	</table>';
