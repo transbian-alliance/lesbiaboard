@@ -42,7 +42,6 @@ include("salt.php");
 include("dirs.php");
 
 include("settingsfile.php");
-include("links.php");
 
 include("debug.php");
 include("mysql.php");
@@ -53,6 +52,7 @@ Settings::checkPlugin("main");
 include("feedback.php");
 include("language.php");
 include("snippets.php");
+include("links.php");
 
 class KillException extends Exception { }
 date_default_timezone_set("GMT");

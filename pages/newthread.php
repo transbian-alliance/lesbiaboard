@@ -472,4 +472,10 @@ write("
 	</script>
 ");
 
+print "
+	<script type=\"text/javascript\">
+			window.addEventListener(\"load\",  hookUpControls, false);
+	</script>
+";
+
 ?>

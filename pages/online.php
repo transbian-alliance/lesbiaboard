@@ -44,33 +44,31 @@ if(NumRows($rUsers))
 		else
 			$lastUrl = __("None");
 
-		$userList .= format(
-	"
-		<tr class=\"cell{0}\">
+		$userList .= "
+		<tr class=\"cell$cellClass\">
 			<td>
-				{1}
+				$i
 			</td>
 			<td>
-				{2}
+				".UserLink($user)."
 			</td>
 			<td>
-				{3}
+				".cdate("d-m-y G:i:s", $user['lastactivity'])."
 			</td>
 			<td>
-				{4}
+				".($user['lastposttime'] ? cdate("d-m-y G:i:s",$user['lastposttime']) : __("Never"))."
 			</td>
 			<td>
-				{5}
-			</td>
-".($loguser['powerlevel'] > 0 ? "
+				$lastUrl
+			</td>";
+		if($loguser['powerlevel'] > 0)
+			$userList .= "
 			<td>
-				{6}
-			</td>
-" : "")."
-		</tr>
-	",	$cellClass, $i, UserLink($user), cdate("d-m-y G:i:s", $user['lastactivity']),
-		($user['lastposttime'] ? cdate("d-m-y G:i:s",$user['lastposttime']) : __("Never")),
-		$lastUrl, formatIP($user['lastip']));
+				".formatIP($user['lastip'])."
+			</td>";
+		$userList .= "
+		</tr>";
+
 		$i++;
 	}
 }

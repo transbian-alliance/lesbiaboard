@@ -84,9 +84,11 @@ function themeResourceLink($what)
 	return $boardroot."themes/$theme/$what";
 }
 
+$powerlevels = array(-1 => " [".__("banned")."]", 0 => "", 1 => " [".__("local mod")."]", 2 => " [".__("full mod")."]", 3 => " [".__("admin")."]", 4 => " [".__("root")."]", 5 => " [".__("system")."]");
+
 function userLink($user, $showMinipic = false)
 {
-	global $hacks, $dataUrl, $dataDir;
+	global $dataUrl, $dataDir, $powerlevels;
 
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
@@ -95,6 +97,7 @@ function userLink($user, $showMinipic = false)
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
 	$fname = str_replace(" ", "&nbsp;", $fname);
+	$textname = $fname;
 	
 	$minipic = "";
 	if($showMinipic || Settings::get("alwaysMinipic"))
@@ -108,13 +111,13 @@ function userLink($user, $showMinipic = false)
 	$fname = $minipic.$fname;
 	
 	if($fpow < 0) $fpow = -1;
+	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
 
+/*
 	if($hacks['alwayssamepower'])
 		$fpow = $hacks['alwayssamepower'] - 1;
 	if($hacks['alwayssamesex'])
 		$fsex = $hacks['alwayssamesex'];
-
-	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
 
 	if($hacks['themenames'] == 1)
 	{
@@ -146,12 +149,11 @@ function userLink($user, $showMinipic = false)
 			$classing = " class=\"nc22\"";
 		}
 	}
-	
-	$levels = array(-1 => " [".__("banned")."]", 0 => "", 1 => " [".__("local mod")."]", 2 => " [".__("full mod")."]", 3 => " [".__("admin")."]", 4 => " [".__("root")."]", 5 => " [".__("system")."]");
+	*/
 	
 	$bucket = "userLink"; include('lib/pluginloader.php');
-	
-	$userlink = format("<a href=\"".htmlentities(actionLink("profile", "{0}"))."\"><span{1} title=\"{3} ({0}){4}\">{2}</span></a>", $user["id"], $classing, $fname, str_replace(" ", "&nbsp;", htmlspecialchars($user['name'])), $levels[$user['powerlevel']]);
+	$title = $textname . " (".$user["id"].") ".$powerlevels[$user['powerlevel']];
+	$userlink = actionLinkTag("<span$classing title=\"$title\">$fname</span>", "profile", $user["id"]);
 	return $userlink;
 }
 
