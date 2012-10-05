@@ -33,7 +33,7 @@ if($loguser['powerlevel'] < 1)
 }
 
 write("
-	<form action=\"".actionLink("search")."\" method=\"get\">
+	<form action=\"".actionLink("search")."\" method=\"post\">
 		<div class=\"outline PoRT margin\" style=\"margin: 16px; width: 100%; float: none;\">
 			<div class=\"errort\">
 				<strong>".__("Internal search")."</strong>
@@ -66,10 +66,10 @@ write("
 
 ");
 
-if(isset($_GET['q']))
+if(isset($_POST['q']))
 {
 	$totalResults = 0;
-	$bool = htmlspecialchars($_GET['q']);
+	$bool = htmlspecialchars($_POST['q']);
 	$t = explode(" ", $bool);
 	$terms = array();
 	foreach($t as $term)
@@ -85,7 +85,15 @@ if(isset($_GET['q']))
 	}
 	$final = "";
 
-	$search = Query("SELECT `{threads}`.`title`, `{threads}`.`user`, `name`, `displayname`, `sex`, `powerlevel` FROM `{threads}` LEFT JOIN `{users}` ON `{users}`.`id`=`{threads}`.`user` WHERE MATCH(`{threads}`.`title`) AGAINST({0} IN BOOLEAN MODE) ORDER BY `{threads}`.`lastpostdate` DESC LIMIT 0,100", $bool);
+	$search = Query("
+		SELECT 
+			t.title, t.user, 
+			u.(_userfields)
+		FROM {threads} t
+			LEFT JOIN {users} u ON u.id=t.user
+		WHERE MATCH(t.title) AGAINST({0} IN BOOLEAN MODE)
+		ORDER BY t.lastpostdate DESC
+		LIMIT 0,100", $bool);
 
 	if(NumRows($search))
 	{
@@ -104,7 +112,7 @@ if(isset($_GET['q']))
 			<a href=\"./?tid={1}\">{0}</a>
 		</td>
 	</tr>
-", $snippet, $result['id'], UserLink($result, "user"), $tags);
+", $snippet, $result['id'], UserLink(getDataPrefix($result, "u_")), $tags);
 		}
 		
 		if($results != "")
@@ -116,7 +124,7 @@ if(isset($_GET['q']))
 		<th colspan=\"4\">Thread title results</th>
 	</tr>
 	<tr class=\"header1\">
-		<th>User</th>
+		<th style=\"width:15%\">User</th>
 		<th>Thread</th>
 	</tr>
 	{0}
@@ -126,7 +134,18 @@ if(isset($_GET['q']))
 		}
 	}
 
-	$search = Query("SELECT `text`, `pid`, `{threads}`.`title`, `thread`, `{posts}`.`user`, `name`, `displayname`, `sex`, `powerlevel` FROM `{posts_text}` LEFT JOIN `{posts}` ON `{posts_text}`.`pid`=`posts`.`id` LEFT JOIN `{threads}` ON `{threads}`.`id`=`{posts}`.`thread` LEFT JOIN `{users}` ON `{users}`.`id`=`{posts}`.`user` WHERE `{posts_text}`.`revision`=`posts`.`currentrevision` AND MATCH(`text`) AGAINST({0} IN BOOLEAN MODE) ORDER BY `{posts}`.`date` DESC LIMIT 0,100", $bool);
+	$search = Query("
+		SELECT 
+			pt.text, pt.pid, 
+			t.title, t.id,
+			u.(_userfields) 
+		FROM {posts_text} pt
+			LEFT JOIN {posts} p ON pt.pid = p.id 
+			LEFT JOIN {threads} t ON t.id = p.thread 
+			LEFT JOIN {users} u ON u.id = p.user 
+		WHERE pt.revision = p.currentrevision AND MATCH(pt.text) AGAINST({0} IN BOOLEAN MODE) 
+		ORDER BY p.date DESC 
+		LIMIT 0,100", $bool);
 
 	if(NumRows($search))
 	{
@@ -152,7 +171,7 @@ if(isset($_GET['q']))
 			&raquo;&nbsp;<a href=\"./?pid={1}\">{1}</a>
 		</td>
 	</tr>
-", $snippet, $result['pid'], $result['title'], UserLink($result, "user"), $result['thread']);
+", $snippet, $result['pid'], $result['title'], UserLink(getDataPrefix($result, "u_")), $result['thread']);
 		}
 
 		if($results != "")
@@ -231,7 +250,7 @@ function MakeSnippet($text, $terms, $title = false)
 		if($line == "")
 			continue;
 		$pat2 = "/(".$terms.")/i";
-		$line = preg_replace($pat2, "<strong style=\"text-shadow: 0px 0px 2px white\">\\1</strong>", $line);
+		$line = preg_replace($pat2, "<strong>\\1</strong>", $line);
 		$line = preg_replace("/\~#\~(.*?)\~#\~/", "<span style=\"color: #6f6;\">&lt;!--\\1--&gt;</span>", $line);
 		if(!$title)
 			$extract .= "&bull; ".$line."<br />";
