@@ -109,7 +109,8 @@ if(isset($_POST['q']))
 		{
 			$snippet = MakeSnippet($result['title'], $terms, true);
 			$userlink = UserLink(getDataPrefix($result, "u_"));
-			$url = actionLink("thread", $result["id"]);
+			$threadlink = makeThreadLink($result);
+			
 			if($snippet != "")
 			{
 				$totalResults++;
@@ -119,7 +120,7 @@ if(isset($_POST['q']))
 			$userlink
 		</td>
 		<td>
-			<a href=\"$url\">$snippet</a>
+			$threadlink
 		</td>
 	</tr>";
 			}
@@ -160,7 +161,7 @@ if(isset($_POST['q']))
 //			$result['text'] = str_replace("<!--", "~#~", str_replace("-->", "~#~", $result['text']));
 			$snippet = MakeSnippet($result['text'], $terms);
 			$userlink = UserLink(getDataPrefix($result, "u_"));
-			$url = actionLink("thread", $result["id"]);
+			$threadlink = makeThreadLink($result);
 			$posturl = actionLink("thread", "", "pid=".$result['pid']."#".$result['pid']);
 
 			if($snippet != "")
@@ -175,7 +176,7 @@ if(isset($_POST['q']))
 			$snippet
 		</td>
 		<td class=\"smallFonts\">
-			<a href=\"$url\">{$result['title']}</a>
+			$threadlink
 		</td>
 		<td class=\"smallFonts\">
 			&raquo;&nbsp;<a href=\"$posturl\">{$result['pid']}</a>
