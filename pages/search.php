@@ -68,8 +68,9 @@ write("
 
 if(isset($_POST['q']))
 {
+	$searchQuery = $_POST["q"];
 	$totalResults = 0;
-	$bool = htmlspecialchars($_POST['q']);
+	$bool = htmlspecialchars($searchQuery);
 	$t = explode(" ", $bool);
 	$terms = array();
 	foreach($t as $term)
@@ -87,7 +88,7 @@ if(isset($_POST['q']))
 
 	$search = Query("
 		SELECT 
-			t.title, t.user, 
+			t.id, t.title, t.user, 
 			u.(_userfields)
 		FROM {threads} t
 			LEFT JOIN {users} u ON u.id=t.user
@@ -100,25 +101,26 @@ if(isset($_POST['q']))
 		$results = "";
 		while($result = Fetch($search))
 		{
-			$snippet = MakeSnippet(htmlspecialchars($result['title']), $terms, true);
+			$snippet = MakeSnippet($result['title'], $terms, true);
+			$userlink = UserLink(getDataPrefix($result, "u_"));
+			$url = actionLink("thread", $result["id"]);
 			if($snippet != "")
-				$results .= Format(
-"
+			{
+				$totalResults++;
+				$results .= "
 	<tr class=\"cell0\">
 		<td class=\"smallFonts\">
-			{2}
+			$userlink
 		</td>
 		<td>
-			<a href=\"./?tid={1}\">{0}</a>
+			<a href=\"$url\">$snippet</a>
 		</td>
-	</tr>
-", $snippet, $result['id'], UserLink(getDataPrefix($result, "u_")), $tags);
+	</tr>";
+			}
 		}
 		
 		if($results != "")
-		{
-			$final .= Format(
-"
+			$final .= "
 <table class=\"outline margin\">
 	<tr class=\"header0\">
 		<th colspan=\"4\">Thread title results</th>
@@ -127,11 +129,8 @@ if(isset($_POST['q']))
 		<th style=\"width:15%\">User</th>
 		<th>Thread</th>
 	</tr>
-	{0}
-</table>
-", $results);
-			$totalResults += NumRows($search);
-		}
+	$results
+</table>";
 	}
 
 	$search = Query("
@@ -152,32 +151,36 @@ if(isset($_POST['q']))
 		$results = "";
 		while($result = Fetch($search))
 		{
-			$result['text'] = str_replace("<!--", "~#~", str_replace("-->", "~#~", $result['text']));
-			$snippet = MakeSnippet(htmlspecialchars($result['text']), $terms);
+//			$result['text'] = str_replace("<!--", "~#~", str_replace("-->", "~#~", $result['text']));
+			$snippet = MakeSnippet($result['text'], $terms);
+			$userlink = UserLink(getDataPrefix($result, "u_"));
+			$url = actionLink("thread", $result["id"]);
+			$posturl = actionLink("thread", "", "pid=".$result['pid']."#".$result['pid']);
+
 			if($snippet != "")
-				$results .= Format(
-"
+			{
+				$totalResults++;
+				$results .= "
 	<tr class=\"cell0\">
 		<td class=\"smallFonts\">
-			{3}
+			$userlink
 		</td>
 		<td>
-			{0}
+			$snippet
 		</td>
 		<td class=\"smallFonts\">
-			<a href=\"./?tid={4}\">{2}</a>
+			<a href=\"$url\">{$result['title']}</a>
 		</td>
 		<td class=\"smallFonts\">
-			&raquo;&nbsp;<a href=\"./?pid={1}\">{1}</a>
+			&raquo;&nbsp;<a href=\"$posturl\">{$result['pid']}</a>
 		</td>
-	</tr>
-", $snippet, $result['pid'], $result['title'], UserLink(getDataPrefix($result, "u_")), $result['thread']);
+	</tr>";
+			}
 		}
 
 		if($results != "")
 		{
-			$final .= Format(
-"
+			$final .= "
 <table class=\"outline margin\">
 	<tr class=\"header0\">
 		<th colspan=\"4\">Text results</th>
@@ -188,15 +191,13 @@ if(isset($_POST['q']))
 		<th>Thread</th>
 		<th>ID</th>
 	</tr>
-	{0}
-</table>
-", $results);
-			$totalResults += NumRows($search);
+	$results
+</table>";
 		}
 	}
 
 	if($totalResults == 0)
-		Alert(Format("No results for \"{0}\".", htmlspecialchars($_GET['q'])), "Search");
+		Alert(Format("No results for \"{0}\".", htmlspecialchars($searchQuery)), "Search");
 	else
 		Write("
 <div class=\"outline header2 cell2 margin\" style=\"text-align: center; font-size: 130%;\">
