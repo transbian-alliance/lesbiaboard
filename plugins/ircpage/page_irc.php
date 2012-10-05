@@ -1,6 +1,7 @@
 <?php
 
 $title = "IRC Chat";
+MakeCrumbs(array(__("IRC Chat")=>actionLink("irc")), $links);
 
 $bad = array("~", "&", "@", "?", "!", ".", ",", "=", "+", "%", "*");
 $handle = str_replace(" ", "", $loguser['name']);

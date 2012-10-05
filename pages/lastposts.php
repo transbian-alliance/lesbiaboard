@@ -1,5 +1,7 @@
 <?php
 
+$title = __("Last posts");
+MakeCrumbs(array(__("Last posts")=>actionLink("lastposts")), $links);
 
 $hours = 72;
 

@@ -1,6 +1,7 @@
 <?php
 
 $title = __("Ranks");
+MakeCrumbs(array(__("Ranks")=>actionLink("ranks")), $links);
 AssertForbidden("viewRanks");
 
 $setCount = FetchResult("select count(*) from {ranksets}");

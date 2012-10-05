@@ -1,6 +1,7 @@
 <?php
 
 $title = __("Mood avatars");
+MakeCrumbs(array(__("Mood avatars")=>actionLink("editavatars")), $links);
 
 AssertForbidden("editMoods");
 

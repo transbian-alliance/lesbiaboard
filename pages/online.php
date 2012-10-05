@@ -4,6 +4,7 @@
 
 
 $title = __("Online users");
+MakeCrumbs(array(__("Online users")=>actionLink("online")), $links);
 
 AssertForbidden("viewOnline");
 
