@@ -260,7 +260,7 @@ function WriteForumEditContents($fid)
 	global $loguser;
 
 	//Get all categories.
-	$rCats = Query("SELECT * FROM {categories}");
+	$rCats = Query("SELECT * FROM {categories} ORDER BY corder, id");
 
 	$cats = array();
 	while ($cat = Fetch($rCats))
