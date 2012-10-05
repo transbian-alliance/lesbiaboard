@@ -50,7 +50,7 @@ if(Settings::get("mailResetSender") != "")
 	$forgotPass = "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>";
 
 echo "
-	<form action=\"".actionLink("login")."\" method=\"post\">
+	<form name=\"loginform\" action=\"".actionLink("login")."\" method=\"post\">
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">
@@ -91,6 +91,9 @@ echo "
 			</tr>
 		</table>
 	</form>
+	<script type=\"text/javascript\">
+		document.loginform.name.focus();
+	</script>
 ";
 
 ?>
