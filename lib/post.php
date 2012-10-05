@@ -247,14 +247,16 @@ function applyTags($text, $tags)
 	return $s;
 }
 
-//This function is CRITICAL for the post security.
+//The functions below are CRITICAL for the post security.
 //Should always run LAST and on the WHOLE post.
-
-$badTags = array('script','iframe','frame','blink','textarea','noscript','meta','xmp','plaintext','marquee','embed','object');
 
 function filterJS($match)
 {
 	$url = html_entity_decode($match[2]);
+	$url = str_replace(" ", "", $url);
+	$url = str_replace("\t", "", $url);
+	$url = str_replace("\r", "", $url);
+	$url = str_replace("\n", "", $url);
 	if (stristr($url, "javascript:"))
 		return "";
 	return $match[0];
