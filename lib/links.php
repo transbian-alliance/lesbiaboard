@@ -84,11 +84,22 @@ function themeResourceLink($what)
 	return $boardroot."themes/$theme/$what";
 }
 
+function getMinipicTag($user)
+{
+	global $dataUrl;
+	$minipic = "";
+	if($user["minipic"] == "#INTERNAL#")
+		$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
+	else if($user["minipic"])
+		$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
+	return $minipic;
+}
+
 $powerlevels = array(-1 => " [".__("banned")."]", 0 => "", 1 => " [".__("local mod")."]", 2 => " [".__("full mod")."]", 3 => " [".__("admin")."]", 4 => " [".__("root")."]", 5 => " [".__("system")."]");
 
 function userLink($user, $showMinipic = false)
 {
-	global $dataUrl, $dataDir, $powerlevels;
+	global $powerlevels;
 
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
@@ -97,15 +108,11 @@ function userLink($user, $showMinipic = false)
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
 	$fname = str_replace(" ", "&nbsp;", $fname);
-	$textname = $fname;
 	
 	$minipic = "";
 	if($showMinipic || Settings::get("alwaysMinipic"))
+		$minipic = getMinipicTag($user);
 	{
-		if($user["minipic"] == "#INTERNAL#")
-			$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
-		else if($user["minipic"])
-			$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
 	}
 	
 	$fname = $minipic.$fname;
@@ -152,7 +159,7 @@ function userLink($user, $showMinipic = false)
 	*/
 	
 	$bucket = "userLink"; include('lib/pluginloader.php');
-	$title = $textname . " (".$user["id"].") ".$powerlevels[$user['powerlevel']];
+	$title = htmlspecialchars($user['name']) . " (".$user["id"].") ".$powerlevels[$user['powerlevel']];
 	$userlink = actionLinkTag("<span$classing title=\"$title\">$fname</span>", "profile", $user["id"]);
 	return $userlink;
 }

@@ -24,49 +24,44 @@ if($id == $loguserid)
 	$loguser['newcomments'] = false;
 }
 
-$canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments");
-$canComment = true;
+$canDeleteComments = ($id == $loguserid || $loguser['powerlevel'] > 2) && IsAllowed("deleteComments") && $loguser['powerlevel'] >= 0;
+$canComment = $loguser['powerlevel'] >= 0;
+$canVote = $loguserid && ($loguser['powerlevel'] > 0 || ((time()-$loguser['regdate'])/86400) > 9)
+			 && IsAllowed("vote") && $loguserid != $id;
 
-if($loguser['powerlevel'] < 0)
+if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $loguser['token']))
 {
-	$canDeleteComments = false;
-	$canComment = false;
-}
-
-if(isset($_GET['block']) && $loguserid && $_GET['token'] == $loguser['token'])
-{
-	AssertForbidden("blockLayouts");
-	$block = (int)$_GET['block'];
-	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
-	$isBlocked = NumRows($rBlock);
-	if($block && !$isBlocked)
+	if(isset($_GET['block']))
 	{
-		$rBlock = Query("insert into {blockedlayouts} (user, blockee) values ({0}, {1})", $id, $loguserid);
-		Alert(__("Layout blocked."), __("Notice"));
-	}
-	elseif(!$block && $isBlocked)
-	{
-		$rBlock = Query("delete from {blockedlayouts} where user={0} and blockee={1} limit 1", $id, $loguserid);
-		Alert(__("Layout unblocked."), __("Notice"));
-	}
-}
-
-$canVote = ($loguser['powerlevel'] > 0 || ((time()-$loguser['regdate'])/86400) > 9) && IsAllowed("vote");
-if($loguserid == $id) $canVote = FALSE;
-
-if($loguserid)
-{
-	if(IsAllowed("blockLayouts"))
-	{
+		AssertForbidden("blockLayouts");
+		$block = (int)$_GET['block'];
 		$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 		$isBlocked = NumRows($rBlock);
-		if($isBlocked)
-			$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
-		else
-			$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
+		if($block && !$isBlocked)
+			$rBlock = Query("insert into {blockedlayouts} (user, blockee) values ({0}, {1})", $id, $loguserid);
+		elseif(!$block && $isBlocked)
+			$rBlock = Query("delete from {blockedlayouts} where user={0} and blockee={1} limit 1", $id, $loguserid);
+		die(header("Location: ".actionLink("profile", $id)));
+	}
+	if($canDeleteComments && $_GET['action'] == "delete")
+	{
+		AssertForbidden("deleteComments");
+		Query("delete from {usercomments} where uid={0} and id={1}", $id, (int)$_GET['cid']);
+		die(header("Location: ".actionLink("profile", $id)));
 	}
 
-	if(isset($_GET['vote']) && $canVote && $_GET['token'] == $loguser['token'])
+	if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $canComment)
+	{
+		AssertForbidden("makeComments");
+		$newID = FetchResult("SELECT id+1 FROM {usercomments} WHERE (SELECT COUNT(*) FROM {usercomments} u2 WHERE u2.id={usercomments}.id+1)=0 ORDER BY id ASC LIMIT 1");
+		if($newID < 1) $newID = 1;
+		$rComment = Query("insert into {usercomments} (id, uid, cid, date, text) values ({0}, {1}, {2}, {3}, {4})", $newID, $id, $loguserid, time(), $_POST['text']);
+		if($loguserid != $id)
+			Query("update {users} set newcomments = 1 where id={0}", $id);
+		die(header("Location: ".actionLink("profile", $id)));
+	}
+
+	if(isset($_GET['vote']) && $canVote)
 	{
 		$vote = (int)$_GET['vote'];
 		if($vote > 1) $vote = 1 ;
@@ -80,40 +75,42 @@ if($loguserid)
 			$_qKarma = "update {uservotes} set up={2} where uid={0} and voter={1}";
 		$rKarma = Query($_qKarma, $id, $loguserid, $vote);
 		$user['karma'] = RecalculateKarma($id);
+		die(header("Location: ".actionLink("profile", $id)));
 	}
+}
 
-	$k = FetchResult("select up from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
-	
-	$karmalinks = "";
-	if($k != 1)
-		$karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1&token={$loguser['token']}");
-		
-	if($k != 0)
-		$karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0&token={$loguser['token']}");
-		
-	$karmaLinks = "<small>[$karmaLinks]</small>";
+if(IsAllowed("blockLayouts") && $loguserid)
+{
+	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
+	$isBlocked = NumRows($rBlock);
+	if($isBlocked)
+		$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
+	else
+		$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
 }
 
 $karma = $user['karma'];
-if(!$canVote)
+if($canVote)
+{
+	$k = FetchResult("select up from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
+	
+	$karmalinks = "";
+	if($k != 1) $karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1&token={$loguser['token']}");
+	if($k != 0) $karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0&token={$loguser['token']}");
+		
+	$karmaLinks = "<small>[$karmaLinks]</small>";
+}
+else
 	$karmaLinks = "";
 
 $daysKnown = (time()-$user['regdate'])/86400;
-
 $posts = FetchResult("select count(*) from {posts} where user={0}", $id);
-
 $threads = FetchResult("select count(*) from {threads} where user={0}", $id);
-
 $averagePosts = sprintf("%1.02f", $user['posts'] / $daysKnown);
 $averageThreads = sprintf("%1.02f", $threads / $daysKnown);
-
 $score = ((int)$daysKnown * 2) + ($posts * 4) + ($threads * 8) + (($karma - 100) * 3);
 
-$minipic = "";
-if($user["minipic"] == "#INTERNAL#")
-	$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
-else if($user["minipic"])
-	$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
+$minipic = getMinipicTag($user);
 
 
 if($user['rankset'])
@@ -125,7 +122,6 @@ if($user['rankset'])
 }
 if($user['title'])
 	$title = str_replace("<br />", " &bull; ", strip_tags(CleanUpPost($user['title'], "", true), "<b><strong><i><em><span><s><del><img><a><br /><small>"));
-//$title = "";
 
 if($user['homepageurl'])
 {
@@ -133,17 +129,14 @@ if($user['homepageurl'])
 		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
 		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
+	$homepage = securityPostFilter($homepage);
 }
 
 $emailField = __("Private");
 if($user['email'] == "")
-{
 	$emailField = __("None given");
-}
 elseif($user['showemail'])
-{
 	$emailField = "<span id=\"emailField\">".__("Public")." <button style=\"font-size: 0.7em;\" onclick=\"$(this.parentNode).load('ajaxcallbacks.php?a=em&amp;id=".$id."');\">".__("Show")."</button></span>";
-}
 
 if($user['tempbantime'])
 {
@@ -155,7 +148,6 @@ if($user['tempbantime'])
 ",	gmdate("M jS Y, G:i:s",$user['tempbantime']), TimeUnits($user['tempbantime'] - time())
 	);
 }
-
 
 
 $profileParts = array();
@@ -218,7 +210,7 @@ $profileParts[__("General information")] = $foo;
 $foo = array();
 $foo[__("Email address")] = $emailField;
 if($homepage)
-	$foo[__("Homepage")] = securityPostFilter($homepage);
+	$foo[__("Homepage")] = $homepage;
 $profileParts[__("Contact information")] = $foo;
 
 $foo = array();
@@ -303,23 +295,6 @@ write("
 			</td>
 ");
 
-if($canDeleteComments && $_GET['action'] == "delete" && $_GET['token'] == $loguser['token'])
-{
-	AssertForbidden("deleteComments");
-	Query("delete from {usercomments} where uid={0} and id={1}", $id, (int)$_GET['cid']);
-}
-
-if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $loguserid 
-	/*&& $loguserid != $lastCID*/ && $_POST['token'] == $loguser['token'] && $canComment)
-{
-	AssertForbidden("makeComments");
-
-	$newID = FetchResult("SELECT id+1 FROM {usercomments} WHERE (SELECT COUNT(*) FROM {usercomments} u2 WHERE u2.id={usercomments}.id+1)=0 ORDER BY id ASC LIMIT 1");
-	if($newID < 1) $newID = 1;
-	$rComment = Query("insert into {usercomments} (id, uid, cid, date, text) values ({0}, {1}, {2}, {3}, {4})", $newID, $id, $loguserid, time(), $_POST['text']);
-	if($loguserid != $id)
-		Query("update {users} set newcomments = 1 where id={0}", $id);
-}
 
 $cpp = 15;
 $total = FetchResult("SELECT 
