@@ -39,6 +39,7 @@ if($pl < 0) $pl = 0;
 if($loguserid && isset($_GET['action']) && $_GET['action'] == "markallread")
 {
 	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads}", $loguserid, time());
+	die(header("Location: ".actionLink("board")));
 }
 
 printRefreshCode();
