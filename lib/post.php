@@ -203,7 +203,7 @@ function postDoReplaceText($s)
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
 
-	$s = preg_replace_callback("@(?<![\]=\"'])https?://(?:[^\s&]|&quot;|&amp;)+(?<!&quot;)[^&<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
+	$s = preg_replace_callback("@(?<![\]=\"'])https?://(?:[^\s<&]|&quot;|&amp;)+(?<!&quot;)[^&<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
 
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
 	
