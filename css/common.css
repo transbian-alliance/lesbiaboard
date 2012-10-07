@@ -51,10 +51,6 @@ table, td, tr, th, div
 	border-color:black;
 }
 
-:not(.post) td:not(.post), table, tr, th, div {
-	cursor: default;
-}
-
 /* Default link colors */
 a:link
 {
