@@ -1,4 +1,4 @@
-<? 
+<?php
 $title = __("New thread");
 
 AssertForbidden("makeThread");
