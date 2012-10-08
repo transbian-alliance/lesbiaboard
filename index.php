@@ -2,9 +2,9 @@
 $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
-	
+
 $boardroot = preg_replace('{/[^/]*$}', '/', $_SERVER['SCRIPT_NAME']);
-	
+
 require('lib/common.php');
 
 //TODO: Put this in a proper place.
@@ -62,7 +62,7 @@ try {
 		{
 			$plugin = $pluginpages[$page];
 			$self = $plugins[$plugin];
-			
+
 			$page = "./plugins/".$self['dir']."/page_".$page.".php";
 			if(!file_exists($page))
 				throw new Exception(404);
@@ -156,11 +156,11 @@ if($title != "")
 function checkForImage(&$image, $external, $file)
 {
 	global $dataDir, $dataUrl;
-	
+
 	if($image) return;
-	
+
 	if($external)
-	{		
+	{
 		if(file_exists($dataDir.$file))
 			$image = $dataUrl.$file;
 	}
@@ -203,7 +203,7 @@ if(Settings::get("showPoRA"))
 				<tr class="header0"><th>'.Settings::get("PoRATitle").'</th></tr>
 				<tr class="cell0"><td>'.Settings::get("PoRAText").'</td></tr>
 			</table>
-		</div>';	
+		</div>';
 }
 else
 	$layout_pora = "";

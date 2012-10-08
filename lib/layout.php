@@ -9,14 +9,14 @@ function makeCrumbs($path, $links)
 	{
 		$pathPrefix = array(Settings::get("breadcrumbsMainName") => actionLink(0));
 		$pathPostfix = array(); //Not sure how this could be used, but...
-	
+
 		$bucket = "breadcrumbs"; include("lib/pluginloader.php");
 
 		$path = $pathPrefix + $path + $pathPostfix;
 	}
-	
+
 	$first = true;
-	
+
 	$crumbs = "";
 	foreach($path as $text=>$link)
 	{
@@ -31,11 +31,11 @@ function makeCrumbs($path, $links)
 			$tags = "";
 
 		$link = str_replace("&","&amp;",$link);
-		
+
 		if(!$first)
 			$crumbs .= " &raquo; ";
 		$first = false;
-		
+
 		if(!$tags)
 			$crumbs .= "<a href=\"".$link."\">".$text."</a>";
 		else if (Settings::get("tagsDirection") === 'Left')
@@ -48,7 +48,7 @@ function makeCrumbs($path, $links)
 		$links = "<ul class=\"pipemenu smallFonts\">
 			$links
 		</ul>";
-	
+
 	$layout_crumbs = "
 <div class=\"margin\">
 	<div style=\"float: right;\">
@@ -61,31 +61,31 @@ function makeCrumbs($path, $links)
 function makeThreadLink($thread)
 {
 	$tags = ParseThreadTags($thread["title"]);
-	
+
 	$link = actionLinkTag($tags[0], "thread", $thread["id"]);
 	$tags = $tags[1];
-	
+
 	if (Settings::get("tagsDirection") === 'Left')
 		return $tags." ".$link;
 	else
 		return $link." ".$tags;
-	
+
 }
 
 
 function makeForumList($fieldname, $selectedID)
 {
 	global $fid, $loguser;
-	
-	$lastCatID = -1;	
-	$rFora = Query("	SELECT 
+
+	$lastCatID = -1;
+	$rFora = Query("	SELECT
 							f.id, f.title, f.catid,
 							c.name cname
-						FROM 
+						FROM
 							{forums} f
 							LEFT JOIN {categories} c ON c.id=f.catid
 						ORDER BY c.corder, c.id, f.forder");
-	
+
 	$theList = "";
 	$optgroup = "";
 	while($forum = Fetch($rFora))
@@ -106,7 +106,7 @@ function makeForumList($fieldname, $selectedID)
 				<option value=\"{0}\"{2}>{1}</option>
 ", $forum['id'], htmlspecialchars($forum['title']), ($forum['id'] == $selectedID ? " selected=\"selected\"" : ""));
 	}
-	
+
 	return "<select id=\"$fieldname\" name=\"$fieldname\">$theList</select>";
 }
 

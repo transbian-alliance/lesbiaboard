@@ -9,9 +9,9 @@ $fid = (int)$_GET['id'];
 
 if($loguserid && $_GET['action'] == "markasread")
 {
-	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}", 
+	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}",
 		$loguserid, time(), $fid);
-	
+
 	die(header("Location: ".actionLink("board")));
 }
 
@@ -81,23 +81,23 @@ else
 
 if(!$tpp) $tpp = 50;
 
-$rThreads = Query("	SELECT 
+$rThreads = Query("	SELECT
 						t.*,
 						".($loguserid ? "tr.date readdate," : '')."
 						su.(_userfields),
 						lu.(_userfields)
-					FROM 
+					FROM
 						{threads} t
 						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={3}" : '')."
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
-					WHERE forum={0} 
+					WHERE forum={0}
 					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1u}, {2u}", $fid, $from, $tpp, $loguserid);
 
 $numonpage = NumRows($rThreads);
 
 $pagelinks = PageLinks(actionLink("forum", $fid, "from="), $tpp, $from, $total);
-		
+
 if($pagelinks)
 	echo "<div class=\"smallFonts pages\">".__("Pages:")." ".$pagelinks."</div>";
 
@@ -105,17 +105,17 @@ $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
 
 if(NumRows($rThreads))
-{	
+{
 	$forumList = "";
 	$haveStickies = 0;
 	$cellClass = 0;
-	
+
 	while($thread = Fetch($rThreads))
 	{
 		$forumList .= listThread($thread, $cellClass);
 		$cellClass = ($cellClass + 1) % 2;
 	}
-	
+
 	Write(
 "
 	<table class=\"outline margin width100\">
@@ -148,20 +148,20 @@ printRefreshCode();
 function ForumJump()
 {
 	global $fid, $loguser;
-	
+
 	$pl = $loguser['powerlevel'];
 	if($pl < 0) $pl = 0;
-	
-	$lastCatID = -1;	
-	$rFora = Query("	SELECT 
+
+	$lastCatID = -1;
+	$rFora = Query("	SELECT
 							f.id, f.title, f.catid,
 							c.name cname
-						FROM 
+						FROM
 							{forums} f
 							LEFT JOIN {categories} c ON c.id=f.catid
 						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
 						ORDER BY c.corder, c.id, f.forder", $pl);
-	
+
 	$theList = "";
 	$optgroup = "";
 	while($forum = Fetch($rFora))
@@ -182,7 +182,7 @@ function ForumJump()
 				<option value=\"{0}\"{2}>{1}</option>
 ",	htmlentities(actionLink("forum", $forum['id'])), htmlspecialchars($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
 	}
-	
+
 	write(
 "
 	<label>

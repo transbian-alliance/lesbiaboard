@@ -49,7 +49,7 @@ $parameters = array
 	"COLOR" => array("label"=>"Color", "type"=>"color", "default"=>"#FFFFFF"),
 	"FONT" => array("label"=>"Font", "type"=>"string", "default"=>"Lucida Sans Unicode"),
 	"URL" => array("label"=>"Image URL", "type"=>"string", "default"=>"http://helmet.kafuka.org/cynthbiopic.png"),
-	
+
 	"TEXTFX" => array("label"=>"Text effect", "type"=>"textfx"),
 	"BOXSHADOW" => array("label"=>"Shadow", "type"=>"boxshadow"),
 

@@ -82,13 +82,13 @@ if($draftEditor)
 			Kill(__("Unknown user."));
 	}
 	$user = Fetch($rUser);
-	
+
 	if($_POST['action'] == __("Preview"))
 	{
 		$pm['text'] = $_POST['text'];
 		$pmtitle = $_POST['title'];
 	}
-	
+
 	if($_POST['action'] == __("Discard Draft"))
 	{
 		Query("delete from {pmsgs} where id = {0}", $pmid);
@@ -103,7 +103,7 @@ if($draftEditor)
 		$to = substr($pm['text'], 17, strpos($pm['text'], "### -->") - 18);
 		$pm['text'] = substr($pm['text'], strpos($pm['text'], "### -->") + 7);
 	}
-	
+
 	if($_POST['action'] == __("Send") || $_POST['action'] == __("Update Draft"))
 	{
 		$recipIDs = array();
@@ -160,7 +160,7 @@ if($draftEditor)
 					$post = $pm['text'];
 					$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 						$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-	
+
 					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
 					$rPM = Query("update {pmsgs} set userto = {0} where id = {1}", $firstTo, $pmid);
 
@@ -178,7 +178,7 @@ if($draftEditor)
 					{
 						if($recipient == $firstTo)
 							continue;
-										
+
 						$rPM = Query("insert into {pmsgs} (userto, userfrom, date, ip, msgread) values ({0}, {1}, {2}, {3}, 0)", $recipient, $loguserid, time(), $_SERVER['REMOTE_ADDR']);
 						$pid = insertId();
 
@@ -239,10 +239,10 @@ if($draftEditor)
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" /> 
+								<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" />
 								<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
-								<input type=\"submit\" name=\"action\" value=\"".__("Update Draft")."\" /> 
-								<input type=\"submit\" name=\"action\" value=\"".__("Discard Draft")."\" /> 
+								<input type=\"submit\" name=\"action\" value=\"".__("Update Draft")."\" />
+								<input type=\"submit\" name=\"action\" value=\"".__("Discard Draft")."\" />
 								<input type=\"hidden\" name=\"id\" value=\"{3}\" />
 							</td>
 						</tr>

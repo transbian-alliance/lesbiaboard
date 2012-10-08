@@ -44,7 +44,7 @@ if(isset($_GET['gfx']))
 	{
 		$r = rand(100, 255);
 		$g = rand(100, 255);
-		$b = rand(100,255);   
+		$b = rand(100,255);
 		$colors[$i] = imagecolorallocate($im, $r, $g, $b);
 		$colord[$i] = imagecolorallocate($im, ($r/1.5), ($g/1.5), ($b/1.5));
 	}

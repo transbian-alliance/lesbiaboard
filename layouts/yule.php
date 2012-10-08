@@ -9,7 +9,7 @@
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
-	
+
 <div class="outline margin" id="header" style="margin: 8px">
 		<table class="outline">
 			<tr>
@@ -57,13 +57,13 @@
 				</td>
 			</tr>
 		</table>
-	</div>	
-	
+	</div>
+
 	<div id="main" style="padding-left:8px; padding-right:8px;">
 <form action="<?php print actionLink('login'); ?>" method="post" id="logout">
 		<input type="hidden" name="action" value="logout" />
 	</form>
-	
+
 	<?php print $layout_bars; ?>
 	<?php print $layout_crumbs;?>
 	<?php print $layout_contents;?>

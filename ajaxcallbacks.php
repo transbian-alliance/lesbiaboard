@@ -42,17 +42,17 @@ if($action == "q")	//Quote
 }
 else if ($action == 'rp') // retrieve post
 {
-	$rPost = Query("	
-			SELECT 
-				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
+	$rPost = Query("
+			SELECT
+				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip,
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
 				du.(_userfields),
 				f.id fid
-			FROM 
-				{posts} p 
-				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+			FROM
+				{posts} p
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {users} u ON u.id = p.user
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
@@ -60,7 +60,7 @@ else if ($action == 'rp') // retrieve post
 				LEFT JOIN {forums} f ON f.id=t.forum
 			WHERE p.id={0}", $id);
 
-	
+
 	if (!NumRows($rPost))
 		die(__("Unknown post ID."));
 	$post = Fetch($rPost);
@@ -86,11 +86,11 @@ else if($action == "tf")	//Theme File
 function checkForImage(&$image, $external, $file)
 {
 	global $dataDir, $dataUrl;
-	
+
 	if($image) return;
-	
+
 	if($external)
-	{		
+	{
 		if(file_exists($dataDir.$file))
 			$image = $dataUrl.$file;
 	}
@@ -134,17 +134,17 @@ elseif($action == "srl")	//Show Revision List
 		die(__("No.")." ".$hideTricks);
 
 
-	$qRevs = "SELECT 
+	$qRevs = "SELECT
 				revision, date AS revdate,
 				ru.(_userfields)
-			FROM 
+			FROM
 				{posts_text}
 				LEFT JOIN {users} ru ON ru.id = user
-			WHERE pid={0} 
+			WHERE pid={0}
 			ORDER BY revision ASC";
 	$revs = Query($qRevs, $id);
-	
-	
+
+
 	$reply = __("Show revision:")."<br />";
 	while($revision = Fetch($revs))
 	{
@@ -160,7 +160,7 @@ elseif($action == "srl")	//Show Revision List
 		$reply .= $revdetail;
 		$reply .= "<br />";
 	}
-				
+
 	$hideTricks = " <a href=\"javascript:void(0)\" onclick=\"showRevision(".$id.",".$post["currentrevision"]."); hideTricks(".$id.")\">".__("Back")."</a>";
 	$reply .= $hideTricks;
 	die($reply);
@@ -168,21 +168,21 @@ elseif($action == "srl")	//Show Revision List
 elseif($action == "sr")	//Show Revision
 {
 
-	$rPost = Query("	
-			SELECT 
-				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip, 
+	$rPost = Query("
+			SELECT
+				p.id, p.date, p.num, p.deleted, p.deletedby, p.reason, p.options, p.mood, p.ip,
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
 				du.(_userfields)
-			FROM 
-				{posts} p 
-				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = {1} 
+			FROM
+				{posts} p
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = {1}
 				LEFT JOIN {users} u ON u.id = p.user
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
 			WHERE p.id={0}", $id, (int)$_GET['rev']);
-	
+
 	if(NumRows($rPost))
 		$post = Fetch($rPost);
 	else

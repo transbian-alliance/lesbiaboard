@@ -25,20 +25,20 @@ else
 $tpp = 5;
 
 print "<h2 style='text-align:center;'>Latest News</h2>";
-$rThreads = Query("	SELECT 
+$rThreads = Query("	SELECT
 						t.id, t.title, t.closed, t.replies, t.lastpostid,
-						p.date, p.options, 
-						pt.text, 
+						p.date, p.options,
+						pt.text,
 						su.(_userfields),
 						lu.(_userfields)
-					FROM 
+					FROM
 						{threads} t
 						LEFT JOIN {posts} p ON p.thread=t.id AND p.date=(SELECT MIN(p2.date) FROM {posts} p2 WHERE p2.thread=t.id)
-						LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+						LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 					WHERE forum={0}
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1u}, {2u}", 
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1u}, {2u}",
 						$fid, $from, $tpp);
 
 $numonpage = NumRows($rThreads);
@@ -62,12 +62,12 @@ while($thread = Fetch($rThreads))
 	$lastLink = "";
 	if($thread['lastpostid'])
 		$lastLink = " ".actionLinkTag("&raquo;", "thread", "", "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
-		
+
 	if($thread['replies'] == 0) $lastLink = "";
-	
+
 	$subtitle = strip_tags($thread['subtitle']);
 	if($subtitle != "") $subtitle = '<br />'.$subtitle;
-	
+
 	$postdate = formatdate($thread['date']);
 	$posttext = CleanUpPost($thread['text'],$thread['u_name'], false, false);
 
@@ -79,7 +79,7 @@ while($thread = Fetch($rThreads))
 
 	$newreply = actionLinkTag("Post a comment", "newreply", $thread['id']);
 
-	
+
 	if($thread['sticky'])
 	{
 		$forumList .= "<table class='outline margin width100'>";

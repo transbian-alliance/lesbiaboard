@@ -5,7 +5,7 @@
 	TEMPORARY ABXD download page -- Mega-Mario
 	This shouldn't stay in the repo, you don't want
 	every ABXD board to have a copy of this bundled
-	
+
 	Let's turn this into a plugin, then! ~Dirbaio
 */
 
@@ -21,28 +21,28 @@ else $downloads = unserialize($downloads);
 if (isset($_POST['upload']) && $loguser['powerlevel'] > 2)
 {
 	if (!trim($_POST['name'])) Kill("You must enter a name.");
-	
+
 	$filename = $_FILES['file']['name'];
 	$tmpfile = $_FILES['file']['tmp_name'];
 	if (!file_exists($tmpfile)) Kill("File upload failed.");
-	
+
 	$ext = substr($filename, strlen($filename)-3);
 	$allowed_ext = array('zip', 'rar');
 	if (!in_array($ext, $allowed_ext)) Kill("Invalid filetype.");
-	
+
 	$file = fopen($tmpfile, 'rb');
 	$tag = fread($file, 4);
 	fclose($file);
-	
+
 	$allowed_tag = array("PK\x03\x04", "Rar!");
 	if (!in_array($tag, $allowed_tag)) Kill("Invalid filetype.");
-	
+
 	copy($tmpfile, 'downloads/'.$filename);
-	
+
 	$thedl = array('file'=>'downloads/'.$filename, 'name'=>$_POST['name'], 'desc'=>$_POST['desc']);
 	$downloads = array_merge(array($thedl), $downloads);
 	file_put_contents('downloads/listing.dat', serialize($downloads));
-	
+
 	Alert("Upload successful.", "Notice");
 }
 

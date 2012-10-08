@@ -55,7 +55,7 @@ if($_GET['action'] == __("Upload"))
 			$privateFlag = 1;
 		}
 		$totalsize = foldersize($targetdir);
-		
+
 		$files = scandir($targetdir);
 		if(in_array($_FILES['newfile']['name'], $files))
 			Alert(format(__("The file \"{0}\" already exists. Please delete the old copy before uploading a new one."), $_FILES['newfile']['name']));
@@ -94,7 +94,7 @@ if($_GET['action'] == __("Upload"))
 
 					copy($temp, $targetdir."/".$fname);
 					Alert(format(__("File \"{0}\" has been uploaded."), $fname), __("Okay"));
-					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag); 
+					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag);
 				}
 			}
 		}
@@ -133,7 +133,7 @@ else if($_GET['action'] == "delete") //single file
 		$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 	else
 		$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
-	
+
 	if($check)
 	{
 		$entry = Fetch(Query("select * from {uploader} where id = {0}", $fid));
@@ -259,7 +259,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 		}
 	}
 	$private .= "</table>";
-	
+
 
 }
 

@@ -86,7 +86,7 @@ if(NumRows($rGuests))
 			$lastUrl = "<a href=\"".FilterURL($guest['lasturl'])."\">".FilterURL($guest['lasturl'])."</a>";
 		else
 			$lastUrl = __("None");
-		
+
 		$guestList .= format(
 "
 		<tr class=\"cell{0}\">

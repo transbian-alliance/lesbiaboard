@@ -79,7 +79,7 @@ else if(isset($_POST['actionpost']))
 {
 	//Now check if the post is acceptable.
 	$rejected = false;
-	
+
 	if(!$_POST['text'])
 	{
 		Alert(__("Enter a message and try again."), __("Your post is empty."));
@@ -109,7 +109,7 @@ else if(isset($_POST['actionpost']))
 			Alert(__("You're going too damn fast! Slow down a little."), __("Hold your horses."));
 		}
 	}
-	
+
 	if(!$rejected)
 	{
 		$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
@@ -148,17 +148,17 @@ else if(isset($_POST['actionpost']))
 
 		$now = time();
 
-		$rUsers = Query("update {users} set posts=posts+1, lastposttime={0} where id={1} limit 1", 
+		$rUsers = Query("update {users} set posts=posts+1, lastposttime={0} where id={1} limit 1",
 			time(), $loguserid);
 
-		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) values ({0},{1},{2},{3},{4}, {5}, {6})", 
+		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) values ({0},{1},{2},{3},{4}, {5}, {6})",
 			$tid, $loguserid, $now, $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
-		
+
 		$pid = InsertId();
 
 		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", $pid, $post, 0, $loguserid, time());
 
-		$rFora = Query("update {forums} set numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", 
+		$rFora = Query("update {forums} set numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1",
 			$now, $loguserid, $pid, $fid);
 
 		$rThreads = Query("update {threads} set lastposter={0}, lastpostdate={1}, replies=replies+1, lastpostid={2}".$mod." where id={3} limit 1",
@@ -180,17 +180,17 @@ if($_GET['link'])
 }
 else if($_GET['quote'])
 {
-	$rQuote = Query("	select 
+	$rQuote = Query("	select
 					p.id, p.deleted, pt.text,
 					f.minpower,
 					u.name poster
 				from {posts} p
-					left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision 
+					left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision
 					left join {threads} t on t.id=p.thread
 					left join {forums} f on f.id=t.forum
 					left join {users} u on u.id=p.user
 				where p.id={0}", (int)$_GET['quote']);
-	
+
 	if(NumRows($rQuote))
 	{
 		$quote = Fetch($rQuote);
@@ -199,7 +199,7 @@ else if($_GET['quote'])
 		//Do we need to translate this line? It's not even displayed in its true form ._.
 		if($quote['minpower'] > $loguser['powerlevel'])
 			$quote['text'] = str_rot13("Pools closed due to not enough power. Prosecutors will be violated.");
-			
+
 		if ($quote['deleted'])
 			$quote['text'] = __("Post is deleted");
 
@@ -270,7 +270,7 @@ print "
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> 
+								<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
 								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 								<select size=\"1\" name=\"mood\">
 									$moodOptions
@@ -289,7 +289,7 @@ print "
 				</form>
 			</td>
 			<td style=\"width: 20%; vertical-align: top; border: none;\">";
-			
+
 DoSmileyBar();
 DoPostHelp();
 

@@ -4,7 +4,7 @@ function hookUpMemberlistControls() {
 	$("#orderBy,#order,#sex,#power").change(function(e) {
 		refreshMemberlist();
 	});
-	
+
 	$("#submitQuery").click(function() {
 		refreshMemberlist();
 	});

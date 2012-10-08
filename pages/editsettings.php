@@ -31,17 +31,17 @@ if(isset($_POST["_plugin"]))
 {
 	//Save the settings.
 	$valid = true;
-		
+
 	foreach($_POST as $key => $value)
 	{
 		if($key == "_plugin") continue;
-		
+
 		//Don't accept unexisting settings.
-		if(!isset($settings[$key])) continue; 
-		
+		if(!isset($settings[$key])) continue;
+
 		//Save the entered settings for re-editing
 		$oursettings[$key] = $value;
-		
+
 		if(!Settings::validate($value, $settings[$key]["type"], $settings[$key]["options"]))
 		{
 			$valid = false;
@@ -89,14 +89,14 @@ foreach($settings as $name => $data)
 	$friendlyname = $name;
 	if(isset($data["name"]))
 		$friendlyname = $data["name"];
-	
+
 	$type = $data["type"];
 	$help = $data["help"];
 	$options = $data["options"];
 	$value = $oursettings[$name];
-	
+
 	$input = "[Bad setting type]";
-	
+
 	$value = htmlspecialchars($value);
 
 	if($type == "boolean")
@@ -119,14 +119,14 @@ foreach($settings as $name => $data)
 		$input = makeLayoutList($name, $value);
 	if($type == "language")
 		$input = makeLangList($name, $value);
-	
+
 	$invalidicon = "";
 	if($invalidsettings[$name])
 		$invalidicon = "[INVALID]";
-	
+
 	if($help)
 		$help = "<img src=\"img/icons/icon4.png\" title=\"$help\" alt=\"[!]\" />";
-	
+
 	print "<tr class=\"cell$class\">
 				<td>
 					<label for=\"$name\">$friendlyname</label>

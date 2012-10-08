@@ -6,7 +6,7 @@ $c2 = ircColor(Settings::pluginGet("color2"));
 $thename = $loguser["name"];
 if($loguser["displayname"])
 	$thename = $loguser["displayname"];
-	
+
 if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New reply by\003$c1 "
 		.ircUserColor($thename, $loguser['sex'], $loguser['powerlevel'])
@@ -16,4 +16,4 @@ if ($forum['minpower'] <= 0)
 		." -- "
 		.getServerURL()."?pid=".$pid
 		);
-	
+

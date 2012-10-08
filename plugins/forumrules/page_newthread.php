@@ -35,22 +35,22 @@ else
 {
 	$OnlineUsersFid = $fid;
 	MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
-	
+
 
 	$rPosts = Query("
-			SELECT 
+			SELECT
 				pt.text
-			FROM 
-				{posts} p 
-				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+			FROM
+				{posts} p
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 			WHERE p.id={0}", $forum["rulespost"]);
 	$post = Fetch($rPosts);
-	
+
 	echo "<div class=\"faq outline margin\" style=\"width: 60%; overflow: auto; margin: auto;\">";
 	echo "<h3>Please read the ", htmlspecialchars($forum["title"]), " forum rules before posting a new thread.</h3><br><br>";
 	echo CleanUpPost($post["text"]);
 	echo "<br><br><br><h3>", actionLinkTag("I've read the rules, continue.", "newthread", $_GET["id"], "rulesread=1"),"</h3>";
 	echo "</div>";
 
-		
+
 }

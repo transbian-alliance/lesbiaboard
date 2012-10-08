@@ -19,7 +19,7 @@ function bbcodeCodeHighlight($contents, $arg)
 		$geshi->set_header_type(GESHI_HEADER_NONE);
 		$geshi->enable_classes();
 		$geshi->enable_keyword_links(false);
-		
+
 		$code = str_replace("\n", "", $geshi->parse_code());
 		$code = decodeCrapEntities($code);
 		return "<div class=\"codeblock geshi\">$code</div>";
@@ -51,7 +51,7 @@ function _pcreEntityToUtf($matches)
 		if ($char >= 0x20) return htmlspecialchars(chr($char));
 		else return "&#$char;";
 	}
-	
+
 	/*
 	else if ($char < 0x8000)
 	{

@@ -5,18 +5,18 @@ $bbcodeCallbacks = array(
 	"i" => "bbcodeItalics",
 	"u" => "bbcodeUnderline",
 	"s" => "bbcodeStrikethrough",
-	
+
 	"url" => "bbcodeURL",
 	"img" => "bbcodeImage",
 	"imgs" => "bbcodeImageScale",
-	
+
 	"user" => "bbcodeUser",
 	"thread" => "bbcodeThread",
 	"forum" => "bbcodeForum",
-	
+
 	"quote" => "bbcodeQuote",
 	"reply" => "bbcodeReply",
-	
+
 	"spoiler" => "bbcodeSpoiler",
 	"code" => "bbcodeCode",
 	"source" => "bbcodeCode",
@@ -50,7 +50,7 @@ function bbcodeURL($contents, $arg)
 
 	if($arg)
 		$dest = htmlentities($arg);
-	
+
 	return '<a href="'.$dest.'">'.$title.'</a>';
 }
 
@@ -68,7 +68,7 @@ function bbcodeImage($contents, $arg)
 		$title = $contents;
 		$dest = $arg;
 	}
-	
+
 	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
 }
 
@@ -82,7 +82,7 @@ function bbcodeImageScale($contents, $arg)
 		$title = $contents;
 		$dest = $arg;
 	}
-	
+
 	return '<a href="'.htmlentities($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlentities($dest).'" alt="'.$title.'"/></a>';
 }
 
@@ -142,9 +142,9 @@ function bbcodeQuoteGeneric($contents, $arg, $text)
 {
 	if(!$arg)
 		return "<div class='quote'><div class='quotecontent'>$contents</div></div>";
-	
+
 	$arg = explode(" ", $arg);
-	
+
 	$who = $arg[0];
 	$who = str_replace('"', '', $who);
 	if(count($arg) == 2)
@@ -180,7 +180,7 @@ function bbcodeTable($contents, $arg)
 function bbcodeTableCell($contents, $arg)
 {
 	global $bbcodeIsTableHeader;
-	
+
 	//I think this is not working as intended?
 	$contents = trimbr($contents);
 
@@ -197,7 +197,7 @@ function bbcodeTableRow($contents, $arg)
 	global $bbcodeCellClass;
 	$bbcodeCellClass++;
 	$bbcodeCellClass %= 2;
-		
+
 	return "<tr class=\"cell$bbcodeCellClass\">$contents</tr>";
 }
 
@@ -206,7 +206,7 @@ function bbcodeTableRowHeader($contents, $arg)
 	global $bbcodeCellClass;
 	$bbcodeCellClass++;
 	$bbcodeCellClass %= 2;
-	
+
 	return "<tr class=\"header0\">$contents</tr>";
 }
 

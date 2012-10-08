@@ -54,28 +54,28 @@ if($canMod)
 	{
 		$rThread = Query("update {threads} set closed=1 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] closed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
-	
+
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
 	elseif($_GET['action']=="open")
 	{
 		$rThread = Query("update {threads} set closed=0 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] opened thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
-			
+
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
 	elseif($_GET['action']=="stick")
 	{
 		$rThread = Query("update {threads} set sticky=1 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] stickied thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
-			
+
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
 	elseif($_GET['action']=="unstick")
 	{
 		$rThread = Query("update {threads} set sticky=0 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] unstuck thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
-			
+
 		die(header("Location: ".actionLink("thread", $tid)));
 	}
 	elseif($_GET['action']=="delete")
@@ -100,7 +100,7 @@ if($canMod)
 
 		//Decrease forum threadcount
 		$rForum = Query("update {forums} set numthreads = numthreads - 1 where id={0}", $thread['forum']);
-		
+
 		// Update the forum's lastpost stuff
 		Query("	UPDATE {forums} LEFT JOIN {threads}
 				ON {forums}.id={threads}.forum AND {threads}.lastpostdate=(SELECT MAX(nt.lastpostdate) FROM {threads} nt WHERE nt.forum={forums}.id)
@@ -116,7 +116,7 @@ if($canMod)
 		}
 
 		Report("[b]".$loguser['name']."[/] deleted thread [b]".$thread['title']."[/]", $isHidden);
-			
+
 		die(header("Location: ".actionLink("forum", $thread['forum'])));
 	}
 	elseif($_GET['action'] == "trash")
@@ -129,7 +129,7 @@ if($canMod)
 			//Tweak forum counters
 			$rForum = Query("update {forums} set numthreads=numthreads-1, numposts=numposts-{0} where id={1}", ($thread['replies']+1), $thread['forum']);
 			$rForum = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+{0} where id={1}", ($thread['replies']+1), $trashid);
-			
+
 			// Tweak forum counters #2
 			Query("	UPDATE {forums} LEFT JOIN {threads}
 					ON {forums}.id={threads}.forum AND {threads}.lastpostdate=(SELECT MAX(nt.lastpostdate) FROM {threads} nt WHERE nt.forum={forums}.id)
@@ -151,24 +151,24 @@ if($canMod)
 		{
 			$moveto = (int)$_POST['moveTo'];
 			$dest = Fetch(Query("select * from {forums} where id={0}", $moveto));
-			if(!$dest)	
+			if(!$dest)
 				Kill(__("Unknown forum ID."));
-		
+
 			//Tweak forum counters
 			$rForum = Query("update {forums} set numthreads=numthreads-1, numposts=numposts-{0} where id={1}", ($thread['replies']+1), $thread['forum']);
 			$rForum = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+{0} where id={1}", ($thread['replies']+1), $moveto);
 
 			$rThread = Query("update {threads} set forum={0} where id={1}", (int)$_POST['moveTo'], $tid);
-		
+
 			// Tweak forum counters #2
 			Query("	UPDATE {forums} LEFT JOIN {threads}
 					ON {forums}.id={threads}.forum AND {threads}.lastpostdate=(SELECT MAX(nt.lastpostdate) FROM {threads} nt WHERE nt.forum={forums}.id)
 					SET {forums}.lastpostdate=IFNULL({threads}.lastpostdate,0), {forums}.lastpostuser=IFNULL({threads}.lastposter,0), {forums}.lastpostid=IFNULL({threads}.lastpostid,0)
 					WHERE {forums}.id={0} OR {forums}.id={1}", $thread['forum'], $moveto);
-		
+
 			Report("[b]".$loguser['name']."[/] moved thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 		}
-		
+
 		$isClosed = (isset($_POST['isClosed']) ? 1 : 0);
 		$isSticky = (isset($_POST['isSticky']) ? 1 : 0);
 
@@ -251,7 +251,7 @@ if($canMod)
 		$check[1] = "checked=\"checked\" ";
 		$iconurl = htmlspecialchars($_POST['iconurl']);
 	}
-	
+
 	echo "
 	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
 	<form action=\"".actionLink("editthread")."\" method=\"post\">

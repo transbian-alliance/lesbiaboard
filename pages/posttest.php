@@ -172,7 +172,7 @@ SVG tag:
 	<path d="M 44.428599,35.937565 L 153.22815,24.86671 L 196.19462,61.993562 L 212.7728,220.53848 L 65.300428,235.54448 L 44.428599,35.937565 z" id="pageShadow" style="fill: #000000; fill-opacity: 0.41489366; stroke: none; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-opacity: 1; filter: url(#shadowFilter)" />
 
 	<path d="M 45.428599,31.937565 L 154.22815,20.86671 L 197.19462,57.993562 L 213.7728,216.53848 L 66.300428,231.54448 L 45.428599,31.937565 z" id="pageSheet" style="fill: url(#pageGradient); fill-opacity: 1; stroke: #000000; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 4; stroke-dasharray: none; stroke-opacity: 1" />
-	
+
 	<text x="60.40575" y="91.327873" transform="matrix(0.9458458,-9.6244218e-2,0.1093876,1.0461241,0,0)" id="writing" xml:space="preserve" style="font-size: 21.09502411px; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; text-align: start; line-height: 125%; writing-mode: lr-tb; text-anchor: start; fill: #008800; fill-opacity: 1; stroke: none; stroke-width: 1px; stroke-linecap: butt; stroke-linejoin: miter; stroke-opacity: 1; font-family: Calibri">
 		<tspan x="60.40575" y="91.327873" id="line1">/* This is a</tspan>
 		<tspan x="60.40575" y="117.69666" id="line2">document! */</tspan>

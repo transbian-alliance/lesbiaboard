@@ -11,7 +11,7 @@ if(!function_exists("HandleUsernameColor"))
 			$unc = $_POST['color'];
 			if($unc != "")
 				$unc = filterPollColors(str_pad($unc, 6, '0'));
-	
+
 			Query("UPDATE {users} SET color={0s} WHERE id={1}", $unc, $user["id"]);
 		}
 		return true;

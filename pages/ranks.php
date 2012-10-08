@@ -110,7 +110,7 @@ for($i = 0; $i < count($ranks); $i++)
 		$members = join(", ", $members);
 
 	$cellClass = ($cellClass+1) % 2;
-	
+
 	$ranklist .= format(
 "
 	<tr class=\"cell{0}\">

@@ -34,7 +34,7 @@ function insError($text)
 
 	print "Starting ABXD installation.<br />";
 	print "Writing database configuration file&hellip;<br />";
-		
+
 	if(isset($_POST['dbserv']))
 	{
 		$dbserv = $_POST['dbserv'];
@@ -45,13 +45,13 @@ function insError($text)
 	}
 	else
 		include("lib/database.php");
-	
+
 	$dblink = @new mysqli($dbserv, $dbuser, $dbpass);
-	
+
 	if ($dblink->connect_error)
 	{
 		insError(
-			"Could not connect to the MySQL server. Are you sure you entered 
+			"Could not connect to the MySQL server. Are you sure you entered
 			the right things in the SQL credentials page?<br />
 			The following info was supplied:<br />
 			Server: ".$dbserv."<br />
@@ -60,7 +60,7 @@ function insError($text)
 			Database: ".$dbname."<br />
 			SQL error: ".$dblink->connect_error);
 	}
-			
+
 	if (!$dblink->select_db($dbname))
 	{
 		insError(
@@ -68,11 +68,11 @@ function insError($text)
 			(The installer doesn't create it automatically for you)");
 	}
 
-	$dbcfg = @fopen("lib/database.php", "w+") 
+	$dbcfg = @fopen("lib/database.php", "w+")
 		or insError(
 			"Could not open the database configuration file (lib/database.php) for writing.<br />
 			 Make sure that PHP has access to this file.");
-	
+
 	fwrite($dbcfg, "<?php\n");
 	fwrite($dbcfg, "//  AcmlmBoard XD support - Database settings\n\n");
 	fwrite($dbcfg, '$dbserv = ' . var_export($dbserv, true) . ";\n");
@@ -85,7 +85,7 @@ function insError($text)
 
 	include("lib/debug.php");
 	include("lib/mysql.php");
-	
+
 	$shakeIt = false;
 	if(!is_file("lib/salt.php"))
 		$shakeIt = true;
@@ -95,7 +95,7 @@ function insError($text)
 		if(!isset($salt))
 			$shakeIt = true;
 	}
-	
+
 	if($shakeIt)
 	{
 		print "Generating security salt&hellip;<br />";
@@ -104,28 +104,28 @@ function insError($text)
 		$chct = strlen($cset) - 1;
 		while (strlen($salt) < 16)
 			$salt .= $cset[mt_rand(0, $chct)];
-			
+
 		$sltf = @fopen("lib/salt.php", "w+")
 			or insError(
 				"Could not open \"lib/salt.php\" for writing. <br />
-				This has been checked for earlier, so if you see this error now, 
+				This has been checked for earlier, so if you see this error now,
 				something very strange is going on.");
-				
+
 		fwrite($sltf, "<?php \$salt = \"".$salt."\" ?>");
 		fclose($sltf);
 	}
 	else
 		print "NOT generating security salt. (Already present)<br />";
-		
-	
+
+
 	print "Creating or updating tables&hellip;<br />";
 	Upgrade();
-	
-	print "Adding bare neccesities&hellip;<br />"; 
+
+	print "Adding bare neccesities&hellip;<br />";
 	$misc = Query("select * from {misc}");
 	if(NumRows($misc) == 0)
 		Query("INSERT INTO `{misc}` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
-		
+
 	Query("UPDATE `{misc}` SET `version` = 222");
 
 	print "Importing smilies&hellip;<br />";
@@ -139,11 +139,11 @@ function insError($text)
 		print "Creating starting fora&hellip;<br />";
 		Import("install/installDefaults.sql");
 	}
-	
+
 	$output = ob_get_clean();
-	
+
 	//Finished!
-	
+
 	if ($existingSettings)
 		print "<h3>Board update successful.</h3><br /><br />
 			<a href=\"../index.php\">Go back to the board</a>";

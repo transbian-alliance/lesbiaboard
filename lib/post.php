@@ -25,8 +25,8 @@ function ParseThreadTags($title)
 	if($tags)
 		$tags = " ".$tags;
 
-	$title = str_replace("<", "&lt;", $title);		
-	$title = str_replace(">", "&gt;", $title);		
+	$title = str_replace("<", "&lt;", $title);
+	$title = str_replace(">", "&gt;", $title);
 	return array(trim($title), $tags);
 }
 
@@ -38,7 +38,7 @@ function filterPollColors($input)
 function loadSmilies($byOrder = FALSE)
 {
 	global $smilies, $smiliesOrdered;
-	
+
 	if($byOrder)
 	{
 		if(isset($smiliesOrdered))
@@ -64,7 +64,7 @@ function loadSmilies($byOrder = FALSE)
 function applySmilies($text)
 {
 	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
-	
+
 	if (!isset($smiliesReplaceOrig))
 	{
 		$smiliesReplaceOrig = $smiliesReplaceNew = array();
@@ -187,14 +187,14 @@ function getSyndrome($activity)
 function postDoReplaceText($s)
 {
 	global $postNoSmilies, $postNoBr, $postPoster, $smilies;
-	
+
 	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
 	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
 	if($postPoster)
 		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
 
 	LoadSmilies();
-	
+
 	//Smilies
 	if(!$postNoSmilies)
 		$s = ApplySmilies($s);
@@ -206,7 +206,7 @@ function postDoReplaceText($s)
 	$s = preg_replace_callback("@(?<![\]=\"'])https?://(?:[^\s<&]|&quot;|&amp;)+(?<!&quot;)[^&<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
 
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
-	
+
 	return $s;
 }
 
@@ -214,13 +214,13 @@ function cleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 {
 	global $postNoSmilies, $postNoBr, $smilies, $postPoster;
 	static $orig, $repl;
-	
+
 	$postNoSmilies = $noSmilies;
 	$postNoBr = $noBr;
 	$postPoster = $poster;
-	
+
 	$s = $postText;
-	
+
 	$s = parseBBCode($s);
 
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
@@ -228,7 +228,7 @@ function cleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
 	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
 
 	$s = securityPostFilter($s);
-	
+
 	return $s;
 }
 
@@ -304,7 +304,7 @@ $activityCache = array();
 function getActivity($id)
 {
 	global $activityCache;
-	
+
 	if(!isset($activityCache[$id]))
 		$activityCache[$id] = FetchResult("select count(*) from {posts} where user = {0} and date > {1}", $id, (time() - 86400));
 
@@ -343,7 +343,7 @@ function makePostText($post)
 	//Post header and footer.
 	$magicString = "###POSTTEXTGOESHEREOMG###";
 	$separator = "";
-	
+
 	if($isBlocked)
 		$postLayout = $magicString;
 	else
@@ -357,14 +357,14 @@ function makePostText($post)
 		}
 		else
 			$postLayout = $layoutCache[$poster["id"]];
-		
+
 		if($poster['signature'])
 			if(!$poster['signsep'])
 				$separator = "<br />_________________________<br />";
 			else
 				$separator = "<br />";
 	}
-	
+
 	$postText = str_replace($magicString, "<!-- LOL -->".$postText.$separator, $postLayout);
 	return $postText;
 }
@@ -394,7 +394,7 @@ function makePost($post, $type, $params=array())
 	$poster = getDataPrefix($post, "u_");
 	LoadBlockLayouts();
 	$isBlocked = $poster['globalblock'] || $loguser['blocklayouts'] || $post['options'] & 1 || isset($blocklayouts[$poster['id']]);
-	
+
 	if(isset($_GET['pid']))
 		$highlight = (int)$_GET['pid'];
 
@@ -406,11 +406,11 @@ function makePost($post, $type, $params=array())
 		{
 			$db_link = UserLink(getDataPrefix($post, "du_"));
 			$meta .= __(' by ').$db_link;
-			
+
 			if ($post['reason'])
 				$meta .= ': '.htmlspecialchars($post['reason']);
 		}
-		
+
 		$links = new PipeMenu();
 
 		if(CanMod($loguserid,$params['fid']))
@@ -488,7 +488,7 @@ function makePost($post, $type, $params=array())
 					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
 				if ($loguser['powerlevel'] > 0)
 					$links->add(new PipeMenuTextEntry($post['ip']));
-			
+
 				$bucket = "topbar"; include("./lib/pluginloader.php");
 			}
 		}
@@ -506,7 +506,7 @@ function makePost($post, $type, $params=array())
 			$thread = array();
 			$thread["id"] = $post["thread"];
 			$thread["title"] = $post["threadname"];
-			
+
 			$meta .= " ".__("in")." ".makeThreadLink($thread);
 		}
 
@@ -528,9 +528,9 @@ function makePost($post, $type, $params=array())
 		}
 		//</revisions>
 	}
-	
 
-	// POST SIDEBAR 
+
+	// POST SIDEBAR
 
 	$sideBarStuff .= GetRank($poster);
 	if($sideBarStuff)
@@ -577,12 +577,12 @@ function makePost($post, $type, $params=array())
 		if($poster['lastactivity'] > time() - 300)
 			$sideBarStuff .= "<br />\n".__("User is <strong>online</strong>");
 	}
-	
+
 	// OTHER STUFF
-	
+
 	if($type == POST_NORMAL)
 		$anchor = "<a name=\"".$post['id']."\" />";
-	
+
 	if(!$isBlocked)
 	{
 		$pTable = "table".$poster['id'];
@@ -601,7 +601,7 @@ function makePost($post, $type, $params=array())
 	$postText = makePostText($post);
 
 	//PRINT THE POST!
-	
+
 	echo "
 		<table class=\"post margin $highlightClass $pTable\" id=\"post${post['id']}\">
 			<tr class=\"$row1\">

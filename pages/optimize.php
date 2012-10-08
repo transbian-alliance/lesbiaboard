@@ -24,7 +24,7 @@ foreach($tables as $table)
 		Query("OPTIMIZE TABLE `{".$table['Name']."}`");
 		$status = "<strong>".__("Optimized")."</strong>";
 	}
-	
+
 	$tablelist .= format(
 "
 	<tr class=\"cell{0}\">

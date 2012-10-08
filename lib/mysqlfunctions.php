@@ -19,10 +19,10 @@ function Import($sqlFile)
 function Upgrade()
 {
 	global $dbname, $dbpref;
-	
+
 	//Load the board tables.
 	include("installSchema.php");
-	
+
 	//Allow plugins to add their own tables!
 	$rPlugins = Query("select * from {enabledplugins}");
 

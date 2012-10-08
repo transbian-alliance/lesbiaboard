@@ -113,7 +113,7 @@ if($loguser)
 }
 else
 {
-	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"), 
+	$loguser = array("name"=>"", "powerlevel"=>0, "threadsperpage"=>50, "postsperpage"=>20, "theme"=>Settings::get("defaultTheme"),
 		"dateformat"=>"m-d-y", "timeformat"=>"h:i A", "fontsize"=>80, "timezone"=>0, "blocklayouts"=>!Settings::get("guestLayouts"),
 		'token'=>hash('sha1', rand()));
 	$loguserid = 0;
@@ -130,7 +130,7 @@ else
 function setLastActivity()
 {
 	global $loguserid, $isBot, $lastKnownBrowser;
-	
+
 	Query("delete from {guests} where ip = {0}", $_SERVER['REMOTE_ADDR']);
 
 	if($loguserid == 0)

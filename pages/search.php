@@ -12,7 +12,7 @@ AssertForbidden("search");
 echo "	<table>
 		<tr>
 			<td style=\"width: 70%; border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;\">";
-			
+
 echo "
 	<form name=\"searchform\"  action=\"".actionLink("search")."\" method=\"post\">
 		<table class=\"outline margin\">
@@ -97,8 +97,8 @@ if(isset($_POST['q']))
 	$final = "";
 
 	$search = Query("
-		SELECT 
-			t.id, t.title, t.user, 
+		SELECT
+			t.id, t.title, t.user,
 			u.(_userfields)
 		FROM {threads} t
 			LEFT JOIN {users} u ON u.id=t.user
@@ -114,7 +114,7 @@ if(isset($_POST['q']))
 			$snippet = MakeSnippet($result['title'], $terms, true);
 			$userlink = UserLink(getDataPrefix($result, "u_"));
 			$threadlink = makeThreadLink($result);
-			
+
 			if($snippet != "")
 			{
 				$totalResults++;
@@ -129,7 +129,7 @@ if(isset($_POST['q']))
 	</tr>";
 			}
 		}
-		
+
 		if($results != "")
 			$final .= "
 <table class=\"outline margin\">
@@ -145,16 +145,16 @@ if(isset($_POST['q']))
 	}
 
 	$search = Query("
-		SELECT 
-			pt.text, pt.pid, 
+		SELECT
+			pt.text, pt.pid,
 			t.title, t.id,
-			u.(_userfields) 
+			u.(_userfields)
 		FROM {posts_text} pt
-			LEFT JOIN {posts} p ON pt.pid = p.id 
-			LEFT JOIN {threads} t ON t.id = p.thread 
-			LEFT JOIN {users} u ON u.id = p.user 
-		WHERE pt.revision = p.currentrevision AND MATCH(pt.text) AGAINST({0} IN BOOLEAN MODE) 
-		ORDER BY p.date DESC 
+			LEFT JOIN {posts} p ON pt.pid = p.id
+			LEFT JOIN {threads} t ON t.id = p.thread
+			LEFT JOIN {users} u ON u.id = p.user
+		WHERE pt.revision = p.currentrevision AND MATCH(pt.text) AGAINST({0} IN BOOLEAN MODE)
+		ORDER BY p.date DESC
 		LIMIT 0,100", $bool);
 
 	if(NumRows($search))
@@ -225,7 +225,7 @@ function MakeSnippet($text, $terms, $title = false)
 	$text = strip_tags($text);
 	if(!$title)
 		$text = preg_replace("/(\[\/?)(\w+)([^\]]*\])/i", "", $text);
-	
+
 	$lines = explode("\n", $text);
 	$terms = implode("|", $terms);
 	$contextlines = 3;
@@ -238,7 +238,7 @@ function MakeSnippet($text, $terms, $title = false)
 		if($contextlines == 0)
 			break;
 		$lineno++;
-		
+
 		if($title)
 			$line = htmlspecialchars($line);
 		else

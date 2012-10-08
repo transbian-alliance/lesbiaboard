@@ -9,17 +9,17 @@ if(Settings::pluginGet("reportPassMatches"))
 {
 	$rLogUser = Query("select id, pss, password from {users} where 1");
 	$matchCount = 0;
-	
+
 	while($testuser = Fetch($rLogUser))
 	{
 		if($testuser["id"] == $user["id"])
 			continue;
-		
+
 		$sha = doHash($user["rawpass"].$salt.$testuser['pss']);
 		if($testuser['password'] == $sha)
 			$matchCount++;
 	}
-	
+
 	if($matchCount)
 		$extra .= "-- ".Plural($matchCount, "password match")." ";
 }

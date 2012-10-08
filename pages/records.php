@@ -12,12 +12,12 @@ $maxUsersText = $misc['maxuserstext'];
 if($maxUsersText[0] == ":")
 {
 	$users = explode(":", $maxUsersText);
-	
+
 	$maxUsersText = "";
 	foreach($users as $user)
 	{
 		if(!$user) continue;
-		if($maxUsersText) 
+		if($maxUsersText)
 			$maxUsersText .= ", ";
 		$maxUsersText .= UserLinkById($user);
 	}

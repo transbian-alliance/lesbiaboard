@@ -12,12 +12,12 @@
 	{
 		$d = $p['description'];
 		if($p['author'])
-			$d = "By ".$p['author'].". ".$d; 
+			$d = "By ".$p['author'].". ".$d;
 		write("
 				&bull; <span title=\"{1}\">{0}</span><br />
 ", $p['name'], $d);
 	}
-	
+
 	write("
 			</td>
 		</tr>

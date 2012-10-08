@@ -90,7 +90,7 @@ foreach($knownOSes as $code => $name)
 
 	{
 		$os = $name;
-		
+
 		if(strpos($name, "%") !== FALSE)
 		{
 			$versionStart = strpos($ua, $code) + strlen($code);
@@ -106,7 +106,7 @@ foreach($knownOSes as $code => $name)
 	}
 }
 
-$lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->"; 
+$lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->";
 
 function GetVersion($ua, $versionStart)
 {

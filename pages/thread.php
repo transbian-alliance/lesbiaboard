@@ -66,10 +66,10 @@ if(isset($_GET['vote']))
 	if($thread['poll'])
 	{
 		$vote = (int)$_GET['vote'];
-		
+
 		if ($loguser["token"] != $_GET['token'])
 			Kill(__("Invalid token."));
-		
+
 		$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
 		if($doublevote)
 		{
@@ -115,7 +115,7 @@ if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 	else
 		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']);
 	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$loguser['token']);
-	
+
 	if($forum['id'] != Settings::get('trashForum'))
 		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']);
 }
@@ -163,10 +163,10 @@ if($thread['poll'])
 			$options[] = $option;
 
 		foreach($options as $option)
-		{			
+		{
 			if($option['color'] == "")
 				$option['color'] = $defaultColors[($pops + 9) % 15];
-				
+
 			$option['choice'] = htmlspecialchars($option['choice']);
 
 			$rVotes = Query("select * from {pollvotes} where poll={0} and choice={1}", $thread['poll'], $pops);
@@ -180,7 +180,7 @@ if($thread['poll'])
 				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=".$loguser["token"]);
 			else
 				$label = format("{0} {1}", $pc[$pops], $option['choice']);
-			
+
 			$bar = "&nbsp;0";
 			if($totalVotes > 0)
 			{
@@ -247,19 +247,19 @@ else
 		$from = 0;
 
 $rPosts = Query("
-			SELECT 
+			SELECT
 				p.*,
 				pt.text, pt.revision, pt.user AS revuser, pt.date AS revdate,
 				u.(_userfields), u.(rankset,title,picture,posts,postheader,signature,signsep,lastposttime,lastactivity,regdate,globalblock),
 				ru.(_userfields),
 				du.(_userfields)
-			FROM 
-				{posts} p 
-				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision 
+			FROM
+				{posts} p
+				LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 				LEFT JOIN {users} u ON u.id = p.user
 				LEFT JOIN {users} ru ON ru.id=pt.user
 				LEFT JOIN {users} du ON du.id=p.deletedby
-			WHERE thread={1} 
+			WHERE thread={1}
 			ORDER BY date ASC LIMIT {2u}, {3u}", $loguserid, $tid, $from, $ppp);
 
 $numonpage = NumRows($rPosts);
@@ -279,8 +279,8 @@ if(NumRows($rPosts))
 if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning))
 {
 	$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
-	
-	//Quick reply goes here		
+
+	//Quick reply goes here
 	if(CanMod($loguserid, $fid))
 	{
 		//print $thread['closed'];
@@ -318,7 +318,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 			<tr class=\"cell2\">
 				<td>
-					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> 
+					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
 					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 					<select size=\"1\" name=\"mood\">
 						{4}

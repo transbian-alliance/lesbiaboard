@@ -15,9 +15,9 @@ if($user["displayname"])
 
 MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $uid), __("List of threads")=>""), $links);
 
-$total = FetchResult("SELECT 
+$total = FetchResult("SELECT
 						count(*)
-					FROM 
+					FROM
 						{threads} t
 						LEFT JOIN {forums} f ON f.id=t.forum
 					WHERE t.user={0} AND f.minpower <= {1}", $uid, $loguser["powerlevel"]);
@@ -30,13 +30,13 @@ else
 
 if(!$tpp) $tpp = 50;
 
-$rThreads = Query("	SELECT 
+$rThreads = Query("	SELECT
 						t.*,
 						f.(title, id),
 						".($loguserid ? "tr.date readdate," : '')."
 						su.(_userfields),
 						lu.(_userfields)
-					FROM 
+					FROM
 						{threads} t
 						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={4}" : '')."
 						LEFT JOIN {users} su ON su.id=t.user
@@ -48,7 +48,7 @@ $rThreads = Query("	SELECT
 $numonpage = NumRows($rThreads);
 
 $pagelinks = PageLinks(actionLink("listthreads", $uid, "from="), $tpp, $from, $total);
-		
+
 if($pagelinks)
 	echo "<div class=\"smallFonts pages\">".__("Pages:")." ".$pagelinks."</div>";
 
@@ -56,17 +56,17 @@ $ppp = $loguser['postsperpage'];
 if(!$ppp) $ppp = 20;
 
 if(NumRows($rThreads))
-{	
+{
 	$forumList = "";
 	$haveStickies = 1;
 	$cellClass = 0;
-	
+
 	while($thread = Fetch($rThreads))
 	{
 		$forumList .= listThread($thread, $cellClass, false, true);
 		$cellClass = ($cellClass + 1) % 2;
 	}
-	
+
 	Write(
 "
 	<table class=\"outline margin width100\">

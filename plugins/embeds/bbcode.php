@@ -14,7 +14,7 @@ $tagParseStatus["svg"] = 2;
 
 
 function getYoutubeIdFromUrl($url) {
-    $pattern = 
+    $pattern =
         '%^# Match any youtube URL
         (?:https?://)?  # Optional scheme. Either http or https
         (?:www\.)?      # Optional www subdomain
@@ -43,10 +43,10 @@ function bbcodeYoutube($contents, $arg)
 	$id = getYoutubeIdFromUrl($contents);
 	if($id)
 		$contents = $id;
-		
+
 	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
 		return "[Invalid youtube video ID]";
-	
+
 	$args = "";
 
 	if($arg == "loop")
@@ -72,13 +72,13 @@ function bbcodeSvg($contents, $arg)
 	  ."\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
 	  ."<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"\\1\" height=\"\\2\" onload=\"InitSMIL(evt)\">'";
 	$svgout="'</svg>'";
-	
+
 	$svglist1 = array("\\\"","\\\\","\\'");
 	$svglist2 = array("\"","\\","\'");
 
-	//I don't even understand what this code is even doing. 
+	//I don't even understand what this code is even doing.
 	//I wouldn't be surprised if it doesnt work ~Dirbaio
-	
+
 	return '\''."<embed src=\"data:image/svg+xml;base64,"
   .'\''.".base64_encode($svgin.".'str_replace($svglist1,$svglist2,\'\\3\')'.".$svgout).".'"'
   ."\\\" type=\\\"image/svg+xml\\\" width=".'\''.$width.'\' height=\''.$height.'\''." />\"";
@@ -89,10 +89,10 @@ function bbcodeFlash($contents, $arg)
 {
 	global $flashloops;
 	$flashloops++;
-	
+
 	$width = 400;
 	$height = 300;
-	
+
 	$args = explode(" ", $arg);
 	if(count($args) == 2)
 	{

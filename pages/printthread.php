@@ -98,7 +98,7 @@ if($thread['poll'])
 					$voters[] = $vote['user'];
 
 			$label = format("{0} {1}", $pc[$pops], $option['choice']);
-			
+
 			if($totalVotes > 0)
 			{
 				$width = 100 * ($votes / $totalVotes);
@@ -138,9 +138,9 @@ if($thread['poll'])
 	}
 }
 
-$rPosts = Query("select 
+$rPosts = Query("select
 {posts}.id, {posts}.date, {posts}.deleted, {posts}.options, {posts}.num, {posts_text}.text, {posts_text}.revision, {users}.name, {users}.displayname, {users}.rankset, {users}.posts
-from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user 
+from {posts} left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision left join {users} on {users}.id = {posts}.user
 where thread={0} order by date asc", $tid);
 
 if(NumRows($rPosts))
@@ -150,7 +150,7 @@ if(NumRows($rPosts))
 		$noSmiles = $post['options'] & 2;
 		$noBr = $post['options'] & 4;
 		$text = $post['text'];
-		
+
 		$text = preg_replace("'\[spoiler\](.*?)\[/spoiler\]'si","&laquo;Spoiler&raquo;", $text);
 		$text = preg_replace("'\[video\](.*?)\[/video\]'si","&laquo;HTML5 video&raquo;", $text);
 		$text = preg_replace("'\[youtube\](.*?)\[/youtube\]'si","&laquo;YouTube video&raquo;", $text);
@@ -177,7 +177,7 @@ if(NumRows($rPosts))
 		);
 		$post['posts'] = $rankHax;
 		$text = ApplyTags($text, $tags);
-		
+
 		write(
 "
 	<hr />

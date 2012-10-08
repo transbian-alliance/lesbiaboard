@@ -3,19 +3,19 @@
 function killhaxxor($log = 1)
 {
 	global $loguserid;
-	
+
 	if ($log)
 	{
 		$shitbugs = @file_get_contents('shitbugs.dat');
 		$shitbugs = $shitbugs ? unserialize($shitbugs) : array();
-		
+
 		$entry = array('ip' => $_SERVER['REMOTE_ADDR'], 'date' => time(), 'banflags' => (1 << rand(0,10)));
 		$shitbugs = array_merge(array($entry), $shitbugs);
 		@file_put_contents('shitbugs.dat', serialize($shitbugs));
-		
+
 		setcookie('loguserid', $loguserid ? -$loguserid : -1337, time()+99999999);
 	}
-	
+
 	echo
 "<!doctype html>
 <html>
@@ -26,7 +26,7 @@ function killhaxxor($log = 1)
 		Your request has been denied.
 	</body>
 </html>";
-	
+
 	die();
 }
 

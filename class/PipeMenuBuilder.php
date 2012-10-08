@@ -12,7 +12,7 @@ class PipeMenu {
 	public function getClass() {
 		return $this->className;
 	}
-	
+
 	public function add($entry) {
 		$this->entries[] = $entry;
 	}

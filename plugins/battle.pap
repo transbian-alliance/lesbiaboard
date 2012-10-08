@@ -58,5 +58,5 @@ register("postManglers", "BattleSystem_Goggles");
 //register("profileLeft", "bl4r");
 register("profileRight", "BattleSystem_ProfileRight");
 //register("headers", "BattleSystem_Header");
-	
+
 ?>

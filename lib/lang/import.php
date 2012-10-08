@@ -20,5 +20,5 @@ foreach($languagePack as $key => $val)
 	print $key."\t\t";
 	foreach($langnames as $langname)
 		print $langs[$langname][$key]."\t";
-	print "\n";	
+	print "\n";
 }

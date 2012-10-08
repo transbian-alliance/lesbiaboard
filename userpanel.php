@@ -4,7 +4,7 @@ $userMenu = new PipeMenu();
 if($loguserid)
 {
 	$userMenu->add(new PipeMenuHtmlEntry(userLink($loguser)));
-    
+
 	if(isAllowed("editProfile"))
 		$userMenu->add(new PipeMenuLinkEntry(__("Edit profile"), "editprofile"));
 	if(isAllowed("viewPM"))
@@ -16,14 +16,14 @@ if($loguserid)
 
 	if(!isset($_POST['id']) && isset($_GET['id']))
 		$_POST['id'] = (int)$_GET['id'];
-        
+
 	if (isset($user_panel))
 	{
         echo $user_panel;
     }
 
 	$userMenu->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"document.forms[0].submit();\">" .  __("Log out") . "</a>"));
-    
+
 }
 else
 {

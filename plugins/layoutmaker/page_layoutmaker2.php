@@ -28,7 +28,7 @@ foreach($parameters as $id => $settings)
 	$extrasA = "";
 	$extrasB = "";
 	$input = "type=\"text\"";
-	
+
 	if($id == "ID")
 		$settings['default'] = $loguserid;
 
@@ -42,7 +42,7 @@ foreach($parameters as $id => $settings)
 				</select>
 ", $id);
 	}
-	
+
 	switch($settings['type'])
 	{
 		case "int":
@@ -310,7 +310,7 @@ write(
 	<tr>
 		<td class="cell2">
 			<label>
-				<input type="checkbox" id="border_usecolor" onchange="backgroundUpdate()"> 
+				<input type="checkbox" id="border_usecolor" onchange="backgroundUpdate()">
 					Color
 			</label>
 		</td>
@@ -338,10 +338,10 @@ function Update()
 {
 	if (loading)
 		return;
-		
+
 	if(xmlHttp == null)
 		xmlHttp = new XMLHttpRequest();
-	
+
 	var previewDiv = document.getElementById("preview");
 
 	xmlHttp.onreadystatechange = function()
@@ -352,20 +352,20 @@ function Update()
 			loading = 0;
 		}
 	};
-	
+
 	var url = "<?php print actionLink("lmbackend"); ?>";
 	var data = "<?php
 
 $params = "base=".$base."&";
 foreach($parameters as $id => $settings)
 {
-	$params .= $id."=\" + encodeURIComponent(document.getElementById(\"".$id."\").value) + \"&"; 
+	$params .= $id."=\" + encodeURIComponent(document.getElementById(\"".$id."\").value) + \"&";
 }
 $params = substr($params, 0, strlen($params) - 5).";";
 print $params;
 
 	?>
-	
+
 	loading = 1;
 	xmlHttp.open("POST",url,true);
 	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

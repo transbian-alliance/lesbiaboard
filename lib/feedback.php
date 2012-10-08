@@ -29,10 +29,10 @@ function Kill($s, $t="")
 function dieAjax($what)
 {
 	global $ajaxPage;
-	
+
 	echo $what;
 	$ajaxPage = true;
 	throw new KillException();
 }
- 
+
 ?>

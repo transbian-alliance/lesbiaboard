@@ -40,8 +40,8 @@ if($_GET['action'] == "uploadform")
 	$cat = getCategory($_GET["cat"]);
 
 	MakeCrumbs(array(
-					"Uploader"=>actionLink("uploader"), 
-					$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]), 
+					"Uploader"=>actionLink("uploader"),
+					$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]),
 					"Upload new file" => actionLink("uploader", "", "action=uploadforum&cat=".$cat["id"])), $links);
 
 	if($loguserid && IsAllowed("useUploader"))
@@ -82,7 +82,7 @@ if($_GET['action'] == "uploadform")
 			</table>
 		</form>
 		", BytesToSize($maxSizeMult), $maxSizeMult, Settings::pluginGet('uploaderWhitelist'));
-	
+
 	}
 }
 
@@ -102,7 +102,7 @@ else if($_GET['action'] == __("Upload"))
 			$privateFlag = 1;
 		}
 		$totalsize = foldersize($targetdir);
-		
+
 		mkdir($targetdir);
 		$files = scandir($targetdir);
 		if(in_array($_FILES['newfile']['name'], $files))
@@ -141,7 +141,7 @@ else if($_GET['action'] == __("Upload"))
 						$fname, $description, time(), $loguserid, $privateFlag, $_POST['cat']);
 
 					copy($temp, $targetdir."/".$fname);
-					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag); 
+					Report("[b]".$loguser['name']."[/] uploaded file \"[b]".$fname."[/]\"".($privateFlag ? " (privately)" : ""), $privateFlag);
 
 					die(header("Location: ".actionLink("uploaderlist", "", "cat=".$_POST["cat"])));
 				}
@@ -176,7 +176,7 @@ else if($loguserid && $_GET['action'] == "multidel" && $_POST['del']) //several 
 }
 else if($loguserid && $_GET['action'] == "multimove" && $_POST['del']) //several files
 {
-	
+
 	$moved = 0;
 	$newcat = $_POST['destcat'];
 	if (!is_numeric($newcat))
@@ -209,7 +209,7 @@ else if($_GET['action'] == "delete") //single file
 		$check = FetchResult("select count(*) from {uploader} where id = {0}", $fid);
 	else
 		$check = FetchResult("select count(*) from {uploader} where user = {0} and id = {1}", $loguserid, $fid);
-	
+
 	if($check)
 	{
 		$entry = Fetch(Query("select * from {uploader} where id = {0}", $fid));
@@ -252,7 +252,7 @@ else
 	}
 	else
 	{
-		print 
+		print
 		"
 		<table class=\"outline margin width50\">
 			<tr class=\"header0\">
@@ -261,11 +261,11 @@ else
 		";
 
 		$cellClass = 0;
-				
+
 		while($entry = Fetch($entries))
 		{
 			$filecount = FetchResult("select count(*) from {uploader} where category = {0}", $entry['id']);
-		
+
 			print "<tr class=\"cell$cellClass\"><td>";
 			print actionLinkTag($entry['name'], "uploaderlist", "", "cat=".$entry['id']);
 			print "<br />";
@@ -276,7 +276,7 @@ else
 			print "</td></tr>";
 			$cellClass = ($cellClass+1) % 2;
 		}
-		
+
 		if($loguserid)
 		{
 			$filecount = FetchResult("select count(*) from {uploader} where uploader.user = {0} and uploader.private = 1", $loguserid);

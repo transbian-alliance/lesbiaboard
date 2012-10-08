@@ -93,11 +93,11 @@ $karma = $user['karma'];
 if($canVote)
 {
 	$k = FetchResult("select up from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
-	
+
 	$karmalinks = "";
 	if($k != 1) $karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1&token={$loguser['token']}");
 	if($k != 0) $karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0&token={$loguser['token']}");
-		
+
 	$karmaLinks = "<small>[$karmaLinks]</small>";
 }
 else
@@ -171,13 +171,13 @@ if($user['lastposttime'])
 {
 
 	$lastPost = Fetch(Query("
-		SELECT 
+		SELECT
 			p.id as pid,
-			{threads}.title AS ttit, {threads}.id AS tid, 
+			{threads}.title AS ttit, {threads}.id AS tid,
 			{forums}.title AS ftit, {forums}.id AS fid, {forums}.minpower
 		FROM {posts} p
 			LEFT JOIN {users} u on u.id = p.user
-			LEFT JOIN {threads} on {threads}.id = p.thread 
+			LEFT JOIN {threads} on {threads}.id = p.thread
 			LEFT JOIN {forums} on {threads}.forum = {forums}.id
 		WHERE p.user={0}
 		ORDER BY p.date DESC
@@ -185,7 +185,7 @@ if($user['lastposttime'])
 	$thread = array();
 	$thread["title"] = $lastPost["ttit"];
 	$thread["id"] = $lastPost["tid"];
-	
+
 	if($lastPost["minpower"] > $loguser["powerlevel"])
 		$place = __("a restricted forum.");
 	else
@@ -194,7 +194,7 @@ if($user['lastposttime'])
 		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
 		$place .= " &raquo; ".actionLinkTag($pid, "thread", "", "pid=$pid#$pid");
 	}
-	$foo[__("Last post:")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) . 
+	$foo[__("Last post:")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) .
 								"<br>".__("in")." ".$place;
 }
 else
@@ -204,7 +204,7 @@ $foo[__("Last view:")] = format("{0} ({1} ago)", formatdate($user['lastactivity'
 $foo[__("Score")] = $score;
 $foo[__("Browser")] = $user['lastknownbrowser'];
 if($loguser['powerlevel'] > 0)
-	$foo[__("Last known IP")] = formatIP($user['lastip']);	
+	$foo[__("Last known IP")] = formatIP($user['lastip']);
 $profileParts[__("General information")] = $foo;
 
 $foo = array();
@@ -297,23 +297,23 @@ write("
 
 
 $cpp = 15;
-$total = FetchResult("SELECT 
+$total = FetchResult("SELECT
 						count(*)
-					FROM {usercomments} 
+					FROM {usercomments}
 					WHERE uid={0}", $id);
 
 $from = (int)$_GET["from"];
 if(!isset($_GET["from"]))
 	$from = $total-$cpp;
 
-$rComments = Query("SELECT 
+$rComments = Query("SELECT
 		u.(_userfields),
-		{usercomments}.id, {usercomments}.cid, {usercomments}.text 
-		FROM {usercomments} 
-		LEFT JOIN {users} u ON u.id = {usercomments}.cid 
-		WHERE uid={0} 
+		{usercomments}.id, {usercomments}.cid, {usercomments}.text
+		FROM {usercomments}
+		LEFT JOIN {users} u ON u.id = {usercomments}.cid
+		WHERE uid={0}
 		ORDER BY {usercomments}.date ASC LIMIT {1u},{2u}", $id, $from, $cpp);
-		
+
 $pagelinks = PageLinks(actionLink("profile", $id, "from="), $cpp, $from, $total);
 
 $commentList = "";
@@ -341,7 +341,7 @@ if(NumRows($rComments))
 		if(!isset($lastCID))
 			$lastCID = $comment['cid'];
 	}
-	
+
 	$pagelinks = "<td colspan=\"2\" class=\"cell1\">$pagelinks</td>";
 	if($total > $cpp)
 		$commentList = "$pagelinks$commentList$pagelinks";

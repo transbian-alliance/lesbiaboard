@@ -7,12 +7,12 @@ var Overlay = function(options) {
 		hasButtons: false,
 		buttons: []
 	};
-	
+
 	//TODO: Merge options and defaults
-	
+
 	var shade = document.createElement("div");
 	shade.className = "overlayShade";
-	
+
 	var body = document.getElementsByTagName("body")[0];
 	body.appendChild(shade);
 

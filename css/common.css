@@ -86,7 +86,7 @@ a:hover span
 .nc01 { color: #D8E8FE; } .nc11 { color: #FFB3F3; } .nc21 { color: #EEB9BA; }
 .nc02 { color: #AFFABE; } .nc12 { color: #C762F2; } .nc22 { color: #47B53C; }
 .nc03 { color: #FFEA95; } .nc13 { color: #C53A9E; } .nc23 { color: #F0C413; }
-.nc04 { color: #5555FF; } .nc14 { color: #FF5588; } .nc24 { color: #FF55FF; } 
+.nc04 { color: #5555FF; } .nc14 { color: #FF5588; } .nc24 { color: #FF55FF; }
 .nc05 { color: #FF0000; } .nc15 { color: #FF0000; } .nc25 { color: #FF0000; }
 
 
@@ -145,7 +145,7 @@ a:hover span
 table
 {
 	color: #FFF;
-	
+
 	border-collapse: separate;
 	border-spacing:0;
 	width: 100%;
@@ -334,9 +334,9 @@ div.quote div.quoteheader
 	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
 	padding:4px;
 	margin-left:10px;
-	margin-right:10px;	
+	margin-right:10px;
 	margin-top:5px;
-	margin-bottom:5px;	
+	margin-bottom:5px;
 }
 
 form
@@ -352,9 +352,9 @@ form
 div.spoiler
 {
 	margin-left:10px;
-	margin-right:10px;	
+	margin-right:10px;
 	margin-top:5px;
-	margin-bottom:5px;	
+	margin-bottom:5px;
 
 }
 div.spoiler button
@@ -477,7 +477,7 @@ textarea
 #pmNotice:hover
 {
 	opacity: 1;
-	background: #FFC;	
+	background: #FFC;
 }
 #pmNotice a span, #pmNotice a
 {
@@ -525,7 +525,7 @@ textarea
 	font-size: 10px;
 	color: #FFF;
 	margin: 0;
-	padding: 0px 3px;	
+	padding: 0px 3px;
 }
 .bronze
 {

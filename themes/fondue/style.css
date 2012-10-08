@@ -123,12 +123,12 @@ table.outline tr:first-child
 }
 
 table.outline tr:first-child th:first-child
-{ 
+{
 	border-top-left-radius: 0px;
 }
 
 table.outline tr:first-child th:last-child
-{ 
+{
 	border-top-right-radius: 0px;
 }
 

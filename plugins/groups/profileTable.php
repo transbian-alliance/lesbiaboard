@@ -6,7 +6,7 @@
 	while($group = Fetch($rGroups))
 		$groups[] = $group['name'];
 	$groups = implode(", ", $groups);
-	
+
 	if($groups)
 		$profileParts['General information']['Groups'] = $groups;
 

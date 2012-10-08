@@ -1,5 +1,5 @@
 <?php
-		
+
 	$settings = array(
 		"boardname" => array (
 			"type" => "text",
@@ -119,7 +119,7 @@
 			"default" => "Welcome to your new ABXD Board!",
 			"name" => "PoRA text",
 		),
-		
+
 		"profilePreviewText" => array (
 			"type" => "textbbcode",
 			"default" => "This is a sample post. You [b]probably[/b] [i]already[/i] [u]know[/u] what this is for.
@@ -131,9 +131,9 @@ Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perha
     printf(\"Hello World!
 \");
 }[/source]",
-			"name" => "Post Preview text"		
+			"name" => "Post Preview text"
 		),
-		
+
 		"trashForum" => array (
 			"type" => "forum",
 			"default" => "1",

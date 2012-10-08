@@ -1,6 +1,6 @@
 <?php
 	$settings = array(
-	
+
 		"trackingid" => array(
 			"type" => "text",
 			"name" => "Analytics Tracking ID",

@@ -5,16 +5,16 @@ $hours = Settings::pluginGet("hours");
 $limit = Settings::pluginGet("limit");
 
 
-$qPosts = "select 
-	{posts}.id, {posts}.date, 
+$qPosts = "select
+	{posts}.id, {posts}.date,
 	u.(_userfields),
-	{threads}.title as ttit, {threads}.id as tid, 
+	{threads}.title as ttit, {threads}.id as tid,
 	{forums}.title as ftit, {forums}.id as fid
-	from {posts} 
-	left join {users} u on u.id = {posts}.user 
-	left join {threads} on {threads}.id = {posts}.thread 
+	from {posts}
+	left join {users} u on u.id = {posts}.user
+	left join {threads} on {threads}.id = {posts}.thread
 	left join {forums} on {threads}.forum = {forums}.id
-	where {forums}.minpower <= {0} and {posts}.date >= {1} 
+	where {forums}.minpower <= {0} and {posts}.date >= {1}
 	order by date desc limit 0, {2}";
 
 $rPosts = Query($qPosts, $loguser['powerlevel'], (time() - ($hours * 60*60)), $limit);

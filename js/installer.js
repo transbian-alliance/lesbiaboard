@@ -21,7 +21,7 @@ $(function() {
 		if (page > 1) {
 			page--;
 			setStep(page);
-		} 
+		}
 		if (page == 1) $("#nextPageButton").attr("disabled");
 		$("#nextPageButton").removeAttr("disabled");
 
@@ -30,7 +30,7 @@ $(function() {
 		if (page < numPages) {
 			page++;
 			setStep(page);
-		} 
+		}
 		if (page == numPages) $("#nextPageButton").attr("disabled");
 		$("#prevPageButton").removeAttr("disabled");
 	});

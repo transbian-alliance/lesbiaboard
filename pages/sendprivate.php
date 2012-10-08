@@ -75,7 +75,7 @@ if($_POST['to'])
 		$to = trim(htmlentities($to));
 		if($to == "")
 			continue;
-			
+
 		$rUser = Query("select id from {users} where name={0} or displayname={0}", $to);
 		if(NumRows($rUser))
 		{
@@ -123,7 +123,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 			$post = preg_replace("'/me '","[b]* ".$loguser['name']."[/b] ", $post); //to prevent identity confusion
 			if($wantDraft)
 				$post = "<!-- ###MULTIREP:".$_POST['to']." ### -->".$post;
-			
+
 			if($_POST['action'] == __("Save as Draft"))
 			{
 				$rPM = Query("insert into {pmsgs} (userto, userfrom, date, ip, msgread, drafting) values ({0}, {1}, {2}, {3}, 0, {4})", $firstTo, $loguserid, time(), $_SERVER['REMOTE_ADDR'], $wantDraft);
@@ -223,9 +223,9 @@ Write(
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" /> 
+								<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" />
 								<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
-								<input type=\"submit\" name=\"action\" value=\"".__("Save as Draft")."\" /> 
+								<input type=\"submit\" name=\"action\" value=\"".__("Save as Draft")."\" />
 							</td>
 						</tr>
 					</table>

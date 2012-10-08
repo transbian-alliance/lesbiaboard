@@ -55,13 +55,13 @@ $parameters = array
 	"FONT" => array("label"=>"Font", "type"=>"font", "default"=>"Lucida Sans Unicode"),
 	"URL" => array("label"=>"Image URL", "type"=>"string", "default"=>"http://helmet.kafuka.org/cynthbiopic.png"),
 	"SIZE" => array("label"=>"Image width", "type"=>"int", "default"=>"256"),
-	
+
 	"TEXTFX" => array("label"=>"Text effect", "type"=>"textfx"),
 
 	"MARGINTYPE" => array("hidden"=>"1"),
 	"PADDINGTYPE" => array("hidden"=>"1"),
 	"RADIUSTYPE" => array("hidden"=>"1"),
-	
+
 );
 
 ?>

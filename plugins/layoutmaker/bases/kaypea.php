@@ -44,7 +44,7 @@ $parameters = array
 	"RADIUS" => array("label"=>"Corner radius", "type"=>"range", "min"=>"0", "max"=>"16", "default"=>"8", "pxem"=>"1"),
 	"COLOR" => array("label"=>"Color", "type"=>"color", "default"=>"#FFFFFF"),
 	"FONT" => array("label"=>"Font", "type"=>"font", "default"=>"Lucida Sans Unicode"),
-	
+
 	"TEXTFX" => array("label"=>"Text effect", "type"=>"textfx"),
 
 	"MARGINTYPE" => array("hidden"=>"1"),

@@ -81,9 +81,9 @@ if($_GET['action'] == "set")
 
 				//Set your profile
 				Query("update users set picture={0} where id={1} limit 1", 'img/avatars/'.$loguserid, $loguserid);
-				
+
 				Report("[b]".$loguser['name']."[/] switched avatars to [b]\"".$avalib[$fid]['content'][$_GET['img']]."\"[/] -> [g]#HERE#?uid=".$loguserid, 1);
-				
+
 				die(header("Location: profile.php?id".$loguserid));
 			}
 }

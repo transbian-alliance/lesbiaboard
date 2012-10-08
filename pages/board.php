@@ -10,7 +10,7 @@ else if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
 else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 	die(header("Location: thread.php?pid=".(int)$_GET['pid']."#".(int)$_GET['pid']));
 
-   
+
 $links = "";
 
 if($loguserid)
@@ -59,7 +59,7 @@ write(
 ",	$stats, $last);
 
 $lastCatID = -1;
-$rFora = Query("	SELECT f.*, 
+$rFora = Query("	SELECT f.*,
 						c.name cname,
 						".($loguserid ? "(NOT ISNULL(i.fid))" : "0")." ignored,
 						(SELECT COUNT(*) FROM {threads} t".($loguserid ? " LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={0}" : "")."
@@ -118,7 +118,7 @@ while($forum = Fetch($rFora))
 	if($forum['lastpostdate'])
 	{
 		$user = getDataPrefix($forum, "lu_");
-		
+
 		$lastLink = "";
 		if($forum['lastpostid'])
 			$lastLink = actionLinkTag("&raquo;", "thread", 0, "pid=".$forum['lastpostid']."#".$forum['lastpostid']);
@@ -128,7 +128,7 @@ while($forum = Fetch($rFora))
 		$lastLink = "----";
 
 
-	$theList .= 
+	$theList .=
 "
 		<tr class=\"cell1\">
 			<td class=\"cell2 threadIcon newMarker\">

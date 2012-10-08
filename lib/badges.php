@@ -12,7 +12,7 @@ SILVER
 	Citizen Patrol		Knows how to backseat mod the right way
 	Yearling			Active member for a year, with at least 100 posts
 GOLD
-	Oldbie				Active member for two years, with at least 300 posts 
+	Oldbie				Active member for two years, with at least 300 posts
 	Popular				Got 200 User Comments
 PLATINUM
 	Hadn't come up with that then.
@@ -53,7 +53,7 @@ function CheckAutobiographer()
 {
 	//Assume $loguser is already up-to-date. This is done by editprofile when $loguserid == $userid.
 	global $loguser, $loguserid;
-	
+
 	if($loguser['realname'] && $loguser['location'] && $loguser['birthday'] && $loguser['bio'] && $loguser['email'] && $loguser['homepageurl'] && $loguser['homepagename'])
 	{
 		//We use INSERT IGNORE here to remain silent.
@@ -67,7 +67,7 @@ function CheckYearling($marty = 0)
 	global $loguser, $loguserid;
 	$daysKnown = (time() - $loguser['regdate']) / 86400;
 	$posts = $loguser['posts'] + $marty;
-	
+
 	if($daysKnown >= 356 * 3 && $posts >= 1000)
 	{
 		Query("delete from {badges} where owner={0} and (name='Yearling' or name='Oldbie')", $loguserid);

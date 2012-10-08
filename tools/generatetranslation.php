@@ -8,7 +8,7 @@ if (php_sapi_name() !== 'cli')
 function find_strings($tokens, $filename)
 {
 	global $messages, $languagePack;
-	
+
 	$filenameInserted = false;
 	// Now search for __() calls
 	foreach ($tokens as $id => $token)
@@ -27,7 +27,7 @@ function find_strings($tokens, $filename)
 						echo "\n// $filename\n";
 						$filenameInserted = true;
 					}
-					
+
 					$translation = "";
 					if(isset($languagePack[$string]))
 						$translation = $languagePack[$string];
@@ -82,7 +82,7 @@ function updateLanguage($lang)
 	$langFile = "../lib/lang/".$lang."_lang.php";
 	if(file_exists($langFile))
 		include $langFile;
-	
+
 	echo "<?php\n\$languagePack = array(\n";
 
 	recurse('find_strings');

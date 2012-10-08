@@ -157,7 +157,7 @@ function startOnlineUsers()
 	//var onlineUsersBar = $('.header0').get(1);
 	//onlineUsersBar.id="onlineUsersBar";
 	var tmrid = window.setInterval("getOnlineUsers();", 10000);
-	
+
 	$(window).blur(function() {
 		if (tmrid != -9999)
 		{
@@ -310,10 +310,10 @@ var refreshUrl = "";
 function startPageUpdate()
 {
 	var tmrid = window.setInterval("doPageUpdate();", 30000);
-	
+
 	$(window).blur(function() {
 		if (tmrid != -9999) {
-			window.clearInterval(tmrid); 
+			window.clearInterval(tmrid);
 			tmrid = -9999;
 		}
 	});
@@ -421,7 +421,7 @@ function deletePost(link)
 {
 	var reason = prompt('Enter a reason for deleting the post, or leave blank for no reason.');
 	if (reason == null) return;
-	
+
 	var href = link.href + '&reason=' + encodeURIComponent(reason);
 	document.location.href = href;
 }

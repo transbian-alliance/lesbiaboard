@@ -41,7 +41,7 @@ function pickCategory(id) {
 function changeForumInfo()
 {
 	var postdata = $("#forumform").serialize();
-	$.post(geteditforaurl()+"updateforum", postdata, function(data) {	
+	$.post(geteditforaurl()+"updateforum", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -49,7 +49,7 @@ function changeForumInfo()
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
@@ -57,7 +57,7 @@ function changeForumInfo()
 function changeCategoryInfo()
 {
 	var postdata = $("#forumform").serialize();
-	$.post(geteditforaurl()+"updatecategory", postdata, function(data) {	
+	$.post(geteditforaurl()+"updatecategory", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -65,15 +65,15 @@ function changeCategoryInfo()
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
 function addForum()
 {
 	var postdata = $("#forumform").serialize();
-	
-	$.post(geteditforaurl()+"addforum", postdata, function(data) {	
+
+	$.post(geteditforaurl()+"addforum", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -81,15 +81,15 @@ function addForum()
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
 function addCategory()
 {
 	var postdata = $("#forumform").serialize();
-	
-	$.post(geteditforaurl()+"addcategory", postdata, function(data) {	
+
+	$.post(geteditforaurl()+"addcategory", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -97,7 +97,7 @@ function addCategory()
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
@@ -106,7 +106,7 @@ function deleteForum(what)
 	var postdata = $("#deleteform").serialize();
 
 /*	var msg = "sent to hell.";
-	
+
 	if(what == "delete")
 		msg = "DELETED COMPLETELY!";
 	if(what == "trash")
@@ -124,7 +124,7 @@ function deleteForum(what)
 	if(!confirm("Are you sure that you want to delete the forum?"))
 		return;
 
-	$.post(geteditforaurl()+"deleteforum", postdata, function(data) {	
+	$.post(geteditforaurl()+"deleteforum", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -132,7 +132,7 @@ function deleteForum(what)
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
@@ -144,7 +144,7 @@ function deleteCategory(what)
 	if(!confirm("Are you sure that you want to delete the category?"))
 		return;
 
-	$.post(geteditforaurl()+"deletecategory", postdata, function(data) {	
+	$.post(geteditforaurl()+"deletecategory", postdata, function(data) {
 		data = $.trim(data);
 		if(data == "Ok")
 		{
@@ -152,7 +152,7 @@ function deleteCategory(what)
 			$("#editcontent").html("");
 		}
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
@@ -183,7 +183,7 @@ function deleteMod(mid)
 		if(data == "Ok")
 			loadEditForum();
 		else
-			alert("Error: "+data);		
+			alert("Error: "+data);
 	});
 }
 
@@ -195,6 +195,6 @@ function addMod(mid)
 		if(data == "Ok")
 			loadEditForum();
 		else
-			alert("Error: "+data);		
-	});	
+			alert("Error: "+data);
+	});
 }

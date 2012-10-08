@@ -28,7 +28,7 @@ for($i = 0; $i < $langcount; $i++)
 {
 	$lang = $langs[$i+2];
 	$langname = $headervals[$i+2];
-	
+
 	$outhandle = fopen($langname."_lang.php", "w");
 
 	fwrite($outhandle, '<?php

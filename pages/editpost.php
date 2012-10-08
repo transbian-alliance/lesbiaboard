@@ -20,10 +20,10 @@ $pid = (int)$_GET['id'];
 AssertForbidden("editPost", $pid);
 
 $rPost = Query("
-	SELECT 
-		{posts}.*, 
-		{posts_text}.text 
-	FROM {posts} 
+	SELECT
+		{posts}.*,
+		{posts_text}.text
+	FROM {posts}
 		LEFT JOIN {posts_text} ON {posts_text}.pid = {posts}.id AND {posts_text}.revision = {posts}.currentrevision
 	WHERE id={0}", $pid);
 
@@ -67,7 +67,7 @@ if((int)$_GET['delete'] == 1)
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to delete posts."));
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
-	
+
 	die(header("Location: ".actionLink("thread", $tid)));
 }
 else if((int)$_GET['delete'] == 2)
@@ -76,7 +76,7 @@ else if((int)$_GET['delete'] == 2)
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to undelete posts."));
 	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
-	
+
 	die(header("Location: ".actionLink("thread", $tid)));
 }
 
@@ -88,7 +88,7 @@ if(!CanMod($loguserid, $fid) && $post['user'] != $loguserid)
 
 if($thread['closed'] && !CanMod($loguserid, $fid))
 	Kill(__("This thread is closed."));
-	
+
 MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("Edit post")=>""), $links);
 
 write("
@@ -115,7 +115,7 @@ else if(isset($_POST['actionpost']))
 	if ($_POST['key'] != $loguser['token']) Kill(__("No."));
 
 	$rejected = false;
-	
+
 	if(!$_POST['text'])
 	{
 		Alert(__("Enter a message and try again."), __("Your post is empty."));
@@ -126,7 +126,7 @@ else if(isset($_POST['actionpost']))
 	{
 		$bucket = "checkPost"; include("./lib/pluginloader.php");
 	}
-	
+
 	if(!$rejected)
 	{
 		$options = 0;
@@ -136,10 +136,10 @@ else if(isset($_POST['actionpost']))
 		$now = time();
 		$rev = fetchResult("select max(revision) from {posts_text} where pid={0}", $pid);
 		$rev++;
-		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})", 
+		$rPostsText = Query("insert into {posts_text} (pid,text,revision,user,date) values ({0}, {1}, {2}, {3}, {4})",
 							$pid, $_POST["text"], $rev, $loguserid, $now);
 
-		$rPosts = Query("update {posts} set options={0}, mood={1}, currentrevision = currentrevision + 1 where id={2} limit 1", 
+		$rPosts = Query("update {posts} set options={0}, mood={1}, currentrevision = currentrevision + 1 where id={2} limit 1",
 						$options, (int)$_POST['mood'], $pid);
 
 		//Update thread lastpostdate if we edited the last post
@@ -196,7 +196,7 @@ Write(
 						<tr class=\"cell2\">
 							<td></td>
 							<td>
-								<input type=\"submit\" name=\"actionpost\" value=\"".__("Edit")."\" /> 
+								<input type=\"submit\" name=\"actionpost\" value=\"".__("Edit")."\" />
 								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 								<select size=\"1\" name=\"mood\">
 									{1}

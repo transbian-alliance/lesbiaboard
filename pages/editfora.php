@@ -8,8 +8,8 @@ $title = __("Edit forums");
 if ($loguser['powerlevel'] < 3) Kill(__("You're not allowed to access the forum editor."));
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => actionLink("editfora")), "");
 
-/** 
-	Okay. Much like the category editor, now the action is specified by $_POST["action"]. 
+/**
+	Okay. Much like the category editor, now the action is specified by $_POST["action"].
 
 	Possible actions are:
 	- updateforum: Updates the settings of a forum in the DB.
@@ -19,9 +19,9 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => ac
 		- "trash": TRASHES all the threads (move to trash and close)
 		- "move": MOVES the threads to forum ID $_POST["threadsmove"]
 		- "leave": LEAVES all the threads untouched in the DB (like the old forum editor. Not recommended. Will cause "invisible posts" that will still count towards user's postcounts)
-	
+
 	- forumtable: Returns the forum table for the left panel.
-	- editforum: Returns the HTML code for the forum settings in right panel. 
+	- editforum: Returns the HTML code for the forum settings in right panel.
 		- editforumnew: Returns the forum edit box to create a new forum. This way the huge HTML won't be duplicated in the code.
 		- editforum: Returns the forum edit box to edit a forum.
 
@@ -37,7 +37,7 @@ $noFooter = true;
 switch($_POST['action'])
 {
 	case 'updateforum':
-	
+
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
@@ -50,15 +50,15 @@ switch($_POST['action'])
 		$forder = (int)$_POST['forder'];
 		$minpower = (int)$_POST['minpower'];
 		$minpowerthread = (int)$_POST['minpowerthread'];
-		$minpowerreply = (int)$_POST['minpowerreply']; 
-		
+		$minpowerreply = (int)$_POST['minpowerreply'];
+
 		//Send it to the DB
 		Query("UPDATE {forums} SET title = {0}, description = {1}, catid = {2}, forder = {3}, minpower = {4}, minpowerthread = {5}, minpowerreply = {6} WHERE id = {7}", $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply, $id);
 		dieAjax("Ok");
 
 		break;
 	case 'updatecategory':
-	
+
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
@@ -67,18 +67,18 @@ switch($_POST['action'])
 		$id = (int)$_POST['id'];
 		$name = $_POST['name'];
 		$corder = (int)$_POST['corder'];
-		
+
 		//Send it to the DB
 		Query("UPDATE {categories} SET name = {0}, corder = {1} WHERE id = {2}", $name, $corder, $id);
 		dieAjax("Ok");
 
 		break;
-		
+
 	case 'addforum':
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
-	
+
 		//Get new forum data
 		$title = $_POST['title'];
 		$description = $_POST['description'];
@@ -95,11 +95,11 @@ switch($_POST['action'])
 
 		//Add the actual forum
 		Query("INSERT INTO {forums} (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", $newID, $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply);
-		
+
 		dieAjax("Ok");
 
 	case 'addcategory':
-	
+
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
@@ -108,7 +108,7 @@ switch($_POST['action'])
 		$id = (int)$_POST['id'];
 		$name = $_POST['name'];
 		$corder = (int)$_POST['corder'];
-		
+
 		//Send it to the DB
 
 		//Add the actual forum
@@ -123,67 +123,67 @@ switch($_POST['action'])
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
-		
+
 		//Get Forum ID
 		$id = (int)$_POST['id'];
-		
+
 		//Check that forum exists
 		$rForum = Query("SELECT * FROM {forums} WHERE id={0}", $id);
 		if (!NumRows($rForum))
 			dieAjax("No such forum.");
-		
+
 		//Check that forum has threads.
 		$forum = Fetch($rForum);
 		if($forum['numthreads'] > 0)
 			dieAjax(__("Forum has threads. Move those first."));
-			
+
 		//Delete
 		Query("DELETE FROM `{forums}` WHERE `id` = {0}", $id);
 		dieAjax("Ok");
 	case 'deletecategory':
 		//TODO: Do something with the forums left in it?
-		
+
 		//Check for the key
 		if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 			Kill(__("No."));
-		
+
 		//Get Cat ID
 		$id = (int)$_POST['id'];
-		
+
 		//Check that forum exists
 		$rCat = Query("SELECT * FROM {categories} WHERE id={0}", $id);
 		if (!NumRows($rCat))
 			dieAjax(__("No such category."));
-		
+
 		//Delete
 		Query("DELETE FROM `{categories}` WHERE `id` = {0}", $id);
 		dieAjax("Ok");
-		
+
 	case 'forumtable':
 		writeForumTableContents();
 		dieAjax("");
 		break;
-		
+
 	case 'editforumnew':
 	case 'editforum':
-	
+
 		//Get forum ID
 		$fid = (int)$_GET["fid"];
 		if($_POST['action'] == 'editforumnew')
 			$fid = -1;
-			
+
 		WriteForumEditContents($fid);
 		dieAjax("");
 		break;
 
 	case 'editcategorynew':
 	case 'editcategory':
-	
+
 		//Get cat ID
 		$cid = (int)$_GET["cid"];
 		if($_POST['action'] == 'editcategorynew')
 			$cid = -1;
-			
+
 		WriteCategoryEditContents($cid);
 		dieAjax("");
 		break;
@@ -216,10 +216,10 @@ switch($_POST['action'])
 		$rMod = Query("insert into {forummods} (forum, user) values ({0}, {1})", $fid, $mid);
 		dieAjax("Ok");
 		break;
-	
+
 	case '': //No action, do main code
 		break;
-	
+
 	default: //Unrecognized action
 		dieAjax(format(__("Unknown action: {0}"), $_POST["action"]));
 }
@@ -265,7 +265,7 @@ function WriteForumEditContents($fid)
 	$cats = array();
 	while ($cat = Fetch($rCats))
 		$cats[$cat['id']] = $cat;
-	
+
 	if(count($cats) == 0)
 		$cats[0] = __("No categories");
 
@@ -300,9 +300,9 @@ function WriteForumEditContents($fid)
 						LEFT JOIN {users} u ON u.id = m.user
 						WHERE m.forum={0}
 						ORDER BY m.user", $fid);
-		
+
 		$addedMods = array();
-		
+
 		if(!numRows($rMods))
 			$localmods .= "(No local moderators assigned to this forum)<br /><br />";
 		else
@@ -326,7 +326,7 @@ function WriteForumEditContents($fid)
 		$canAddMods = false;
 		$addmod = "Add a mod: ";
 		$addmod .= "<select name=\"addmod\" id=\"addmod\">";
-		
+
 		while($mod = fetch($rMods))
 		{
 			$mod = getDataPrefix($mod, "u_");
@@ -338,12 +338,12 @@ function WriteForumEditContents($fid)
 				$mname = $mod["name"];
 			$addmod .= "<option value=\"$mid\">$mname ($mid)</option>";
 		}
-		
+
 		$addmod .= "</select>";
 		$addmod .= "<button type=\"button\" onclick=\"addMod(); return false;\">Add</button>";
 		if(!$canAddMods)
 			$addmod = "<br>No moderators available for adding.<br>To add a mod, set his powerlevel to Local Mod first.";
-		
+
 		$localmods .= $addmod;
 	}
 	else
@@ -361,7 +361,7 @@ function WriteForumEditContents($fid)
 		$delbutton = "";
 		$localmods = "(Create the forum before managing mods)";
 	}
-	
+
 	echo "
 	<form method=\"post\" id=\"forumform\" action=\"".actionLink("editfora")."\">
 	<input type=\"hidden\" name=\"key\" value=\"".$loguser['token']."\">
@@ -443,7 +443,7 @@ function WriteForumEditContents($fid)
 			</td>
 		</tr>
 	</table></form>
-	
+
 	<form method=\"post\" id=\"deleteform\" action=\"".actionLink("editfora")."\">
 	<input type=\"hidden\" name=\"key\" value=\"{8}\">
 	<input type=\"hidden\" name=\"id\" value=\"{6}\">
@@ -467,7 +467,7 @@ function WriteForumEditContents($fid)
 		</table>
 	</div>
 	</form>";
-	
+
 //	, $title, $description, $catselect, $minpower, $minpowerthread, $minpowerreply, $fid, $forder, $loguser['token'], $func, $button, $boxtitle, $delbutton);
 }
 // $fid == -1 means that a new forum should be made :)
@@ -481,7 +481,7 @@ function WriteCategoryEditContents($cid)
 	$cats = array();
 	while ($cat = Fetch($rCats))
 		$cats[$cat['id']] = $cat;
-	
+
 	if(count($cats) == 0)
 		$cats[0] = "No categories";
 
@@ -514,7 +514,7 @@ function WriteCategoryEditContents($cid)
 		$boxtitle = __("New Category");
 		$delbutton = "";
 	}
-	
+
 	echo "<form method=\"post\" id=\"forumform\" action=\"".actionLink("editfora")."\">
 	<input type=\"hidden\" name=\"key\" value=\"".$loguser["token"]."\">
 	<input type=\"hidden\" name=\"id\" value=\"$cid\">
@@ -553,7 +553,7 @@ function WriteCategoryEditContents($cid)
 			</td>
 		</tr>
 	</table></form>
-	
+
 	<form method=\"post\" id=\"deleteform\" action=\"".actionLink("editfora")."\">
 	<input type=\"hidden\" name=\"key\" value=\"".$loguser["token"]."\">
 	<input type=\"hidden\" name=\"id\" value=\"$cid\">
@@ -604,7 +604,7 @@ function WriteForumTableContents()
 	}
 	$hint = $cats ? __("Hint: Click a forum to select it.") : '';
 	$newforum = $cats ? '<button onclick="newForum();">'.__("Add Forum").'</button>' : '';
-	
+
 	$buttons = '
 	<tr class="cell2">
 		<td>
@@ -626,7 +626,7 @@ function WriteForumTableContents()
 	{
 		$cats[$forum['catid']]['forums'][$forum['id']] = $forum;
 	}
-	
+
 	foreach ($cats as $cat)
 	{
 		print '
@@ -636,7 +636,7 @@ function WriteForumTableContents()
 				<strong>'.$cat['name'].'</strong>
 			</td>
 		</tr>';
-		
+
 		if(isset($cat['forums'])) //<Kawa> empty categories look BAD.
 		{
 			foreach ($cat['forums'] as $cf)

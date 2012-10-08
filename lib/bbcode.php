@@ -3,7 +3,7 @@
 function parseText($text)
 {
 	global $parseStatus, $postNoSmilies, $postNoBr, $postPoster;
-	
+
 	if($parseStatus <= 1)
 	{
 		$text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
@@ -14,10 +14,10 @@ function parseText($text)
 	{
 		if(!$postNoBr)
 			$text = nl2br($text);
-		
+
 		$text = postDoReplaceText($text);
 	}
-	
+
 	return $text;
 }
 
@@ -118,13 +118,13 @@ $goodHtmlTags = array(
 function tokenValidTag($tagname, $bbcode)
 {
 	global $bbcodeCallbacks, $goodHtmlTags;
-	
+
 	if($bbcode && !array_key_exists($tagname, $bbcodeCallbacks))
 			return false;
 
 	if(!$bbcode && !array_key_exists($tagname, $goodHtmlTags))
 		return false;
-	
+
 	return true;
 }
 
@@ -133,7 +133,7 @@ function parseToken($token)
 	$type = 0;
 	$match = array();
 	$inregex = "(\w+)=?(.*)";
-		
+
 	if(preg_match('@^\\[/'.$inregex.'\]$@', $token, $match))
 		$type = 2;
 	else if(preg_match('@^\\['.$inregex.'\\]$@', $token, $match))
@@ -142,13 +142,13 @@ function parseToken($token)
 		$type = 4;
 	else if(preg_match("@^<$inregex>$@", $token, $match))
 		$type = 3;
-		
+
 	if($type == 0)
 		return array(
 			'type' => 0,
 			'text' => $token
 		);
-	
+
 	$tagname = strtolower($match[1]);
 	$attrs = trim($match[2]);
 
@@ -169,24 +169,24 @@ function parseToken($token)
 function parse($parentToken)
 {
 	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables, $autocloseTags, $bbcodeIsTableHeader;
-	
+
 	$parentTag = $parentToken['tag'];
 
-	//Single tags just can't/aren't supposed to be closed, like [user=xx]	
+	//Single tags just can't/aren't supposed to be closed, like [user=xx]
 	if($parentToken['type'] == 1)
 		$singleTag = array_key_exists($parentTag, $singleTags);
 	else
 		$singleTag = array_key_exists($parentTag, $singleHtmlTags);
 
 	$finished = $singleTag;
-	
+
 	//Heavy tags just put everything as text until close tag.
 	$heavyTag = $parentToken != 0 && array_key_exists($parentTag, $heavyTags);
-	
+
 	//Backup parse status
 	$oldParseStatus = $parseStatus;
 	$oldAllowTables = $allowTables;
-	
+
 	//Force parse status if tag wants to.
 	if($parentToken != 0)
 		if(array_key_exists($parentTag, $tagParseStatus))
@@ -194,14 +194,14 @@ function parse($parentToken)
 
 	if(($parentToken['type'] == 3 || $parentToken['type'] == 1) && $parentTag == 'table')
 		$allowTables = true;
-	
+
 	if($parentTag == 'trh')
 		$bbcodeIsTableHeader = true;
 
 	while($tokenPtr < count($tokens) && !$finished)
 	{
 		$token = $tokens[$tokenPtr++];
-		
+
 		$printAsText = false;
 		$result = '';
 		switch($token['type'])
@@ -212,7 +212,7 @@ function parse($parentToken)
 			case 1: //BBCode open
 			case 3: //HTML open
 				if($parentToken['type'] == $token['type']
-						&& isset($autocloseTags[$parentTag]) 
+						&& isset($autocloseTags[$parentTag])
 						&& in_array($token['tag'], $autocloseTags[$parentTag]))
 				{
 //					$result .= "[AUTO]";
@@ -225,12 +225,12 @@ function parse($parentToken)
 					if(!$heavyTag)
 						$result .= parse($token);
 				break;
-				
+
 			case 2: //BBCode close
 			case 4: //HTML close
 				if($parentToken != 0 && $parentToken['type']+1 == $token['type'] && $token['tag'] == $parentTag)
 					$finished = true;
-				else if($parentToken != 0 
+				else if($parentToken != 0
 						&& $parentToken['type']+1 == $token['type']
 						&& isset($autocloseTags[$parentTag])
 						&& in_array($token['tag'], $autocloseTags[$parentTag]))
@@ -243,10 +243,10 @@ function parse($parentToken)
 					$printAsText = true;
 				break;
 		}
-		
+
 		if($heavyTag && !$finished)
 			$printAsText = true;
-		
+
 		if($printAsText)
 			$textcontents .= $token['text'];
 		else
@@ -267,10 +267,10 @@ function parse($parentToken)
 	//Restore saved parse status.
 	$parseStatus = $oldParseStatus;
 	$allowTables = $oldAllowTables;
-	
+
 	if($parentToken == 0)
 		return $contents;
-	
+
 	if($parentToken['type'] == 1) //BBCode
 	{
 		$func = $bbcodeCallbacks[$parentTag];
@@ -289,8 +289,8 @@ function parse($parentToken)
 	else return 'WTF?';
 }
 
-/* 
-$parsestatus: 
+/*
+$parsestatus:
 0 - HTML Entites, Smilies. nl2br
 1 - HTML Entites
 2 - nothing.
@@ -299,9 +299,9 @@ $parsestatus:
 function parseBBCode($text)
 {
 	global $tokens, $tokenPtr, $parseStatus;
-	
+
 	$parseStatus = 0;
-	
+
 	$tokens = preg_split('/(\[(?:\w+(?:=".*?"|=[^]]*)?|\/\w+)\]|<[^\[\]<>]+>)/S', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
 	$tokenPtr = 0;
 	$tokens = array_map('parseToken', $tokens);

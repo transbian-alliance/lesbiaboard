@@ -127,7 +127,7 @@ if(NumRows($rPM))
 		$check = $snoop ? "" : "<input type=\"checkbox\" name=\"delete[{2}]\" />";
 
 		$delLink = $snoop == "" ? "<sup>&nbsp;".actionLinkTag("&#x2718;", "private", "", "del=".$pm['id'].$show)."</sup>" : "";
-		
+
 		$pms .= format(
 "
 		<tr class=\"cell{0}\">

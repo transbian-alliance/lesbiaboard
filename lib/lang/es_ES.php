@@ -38,7 +38,7 @@ function PluralWord($s)
 {
 	if($s == "MySQL")
 		return $s;
-		
+
 	return $s."s";
 }
 

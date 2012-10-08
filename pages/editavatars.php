@@ -30,7 +30,7 @@ if(isset($_POST['action']))
 		if($highest < 1)
 			$highest = 1;
 		$mid = $highest + 1;
-		
+
 		//Begin copypasta from edituser/editprofile_avatar...
 		if($fname = $_FILES['picture']['name'])
 		{
@@ -59,11 +59,11 @@ if(isset($_POST['action']))
 			{
 				$tmpfile = $_FILES['picture']['tmp_name'];
 				$file = "{$dataDir}avatars/".$loguserid."_".$mid;
-				
+
 				if($_POST['name'] == "")
 					$_POST['name'] = "#".$mid;
 
-				Query("insert into {moodavatars} (uid, mid, name) values ({0}, {1}, {2})", $loguserid, $mid, $_POST['name']); 
+				Query("insert into {moodavatars} (uid, mid, name) values ({0}, {1}, {2})", $loguserid, $mid, $_POST['name']);
 
 				if($loguser['powerlevel'])	//Are we at least a local mod?
 					copy($tmpfile,$file);	//Then ignore the 100x100 rule.
@@ -144,7 +144,7 @@ write(
 				<form method=\"post\" action=\"".actionLink("editavatars")."\" enctype=\"multipart/form-data\">
 					<label for=\"newName\">".__("Name:")."</label>
 					<input type=\"text\" id=\"newName\" name=\"name\" style=\"width: 60%;\" /><br />
-					
+
 					<label for=\"pic\">".__("Image:")."</label>
 					<input type=\"file\" id=\"pic\" name=\"picture\"  style=\"width: 75%;\" />
 

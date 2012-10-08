@@ -13,7 +13,7 @@ if($_GET["action"] == "enable")
 {
 	if($_GET["key"] != $loguser['token'])
 		Kill("No.");
-	
+
 	Query("insert into {enabledplugins} values ({0})", $_GET["id"]);
 	Upgrade();
 
@@ -23,7 +23,7 @@ if($_GET["action"] == "disable")
 {
 	if($_GET["key"] != $loguser['token'])
 		Kill("No.");
-	
+
 	Query("delete from {enabledplugins} where plugin={0}", $_GET["id"]);
 	die(header("location: ".actionLink("pluginmanager")));
 }
@@ -51,7 +51,7 @@ if($pluginsDir !== FALSE)
 			{
 				continue;
 			}
-			
+
 			$pluginDatas[$plugin] = $plugindata;
 			if(isset($plugins[$plugin]))
 				$enabledplugins[$plugin] = $plugindata["name"];
@@ -61,7 +61,7 @@ if($pluginsDir !== FALSE)
 	}
 
 }
-	
+
 asort($enabledplugins);
 asort($disabledplugins);
 
@@ -78,16 +78,16 @@ print '</table>';
 function listPlugin($plugin, $plugindata)
 {
 	global $cell, $plugins, $loguser;
-	
+
 	print '<tr class="cell'.$cell.'"><td>';
 	print "<b>".$plugindata["name"]."</b><br />";
 	if($plugindata["author"])
 		$author = '<br />'.__("Made by:")." ".$plugindata["author"];
 	print '<span style="display:block;margin-left:30px;">'.$plugindata["description"].$author.'</span>';
 	print '</td><td>';
-	
+
 	print '<ul class="pipemenu">';
-	
+
 	$text = __("Enable");
 	$act = "enable";
 	if(isset($plugins[$plugin]))
@@ -96,7 +96,7 @@ function listPlugin($plugin, $plugindata)
 		$act = "disable";
 	}
 	print actionLinkTagItem($text, "pluginmanager", $plugin, "action=".$act."&key=".$loguser['token']);
-	
+
 	if(in_array("settingsfile", $plugindata["buckets"]))
 	{
 		if(isset($plugins[$plugin]))
@@ -104,7 +104,7 @@ function listPlugin($plugin, $plugindata)
 	}
 	print '</ul>';
 	print '</td></tr>';
-	
+
 	$cell++;
 	$cell %= 2;
 }

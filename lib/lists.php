@@ -3,7 +3,7 @@
 function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 {
 	global $haveStickies, $loguserid, $loguser, $misc;
-	
+
 	$forumList = "";
 
 	$starter = getDataPrefix($thread, "su_");
@@ -25,7 +25,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	}
 	else if(!$thread['closed'] && !$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 		$NewIcon = "old";
-	
+
 	if($NewIcon)
 		$NewIcon = "<img src=\"img/status/".$NewIcon.".png\" alt=\"\"/>";
 
@@ -75,7 +75,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		$lastLink = " ".actionLinkTag("&raquo;", "thread", 0, "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
 
 	$threadlink = makeThreadLink($thread);
-	
+
 	$forumcell = "";
 	if($showforum)
 	{
@@ -106,23 +106,23 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 			".formatdate($thread['lastpostdate'])."<br />
 			".__("by")." ".UserLink($last)." {$lastLink}</td>
 	</tr>";
-	
+
 	return $forumList;
 }
 
 function doThreadPreview($tid)
-{	
+{
 	$rPosts = Query("
-		select 
-			{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip, 
-			{posts_text}.text, {posts_text}.text, {posts_text}.revision, 
+		select
+			{posts}.id, {posts}.date, {posts}.num, {posts}.deleted, {posts}.options, {posts}.mood, {posts}.ip,
+			{posts_text}.text, {posts_text}.text, {posts_text}.revision,
 			u.(_userfields)
-		from {posts} 
-		left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision 
+		from {posts}
+		left join {posts_text} on {posts_text}.pid = {posts}.id and {posts_text}.revision = {posts}.currentrevision
 		left join {users} u on u.id = {posts}.user
-		where thread={0} and deleted=0 
+		where thread={0} and deleted=0
 		order by date desc limit 0, 20", $tid);
-	
+
 	if(NumRows($rPosts))
 	{
 		$posts = "";

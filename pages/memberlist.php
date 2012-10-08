@@ -71,7 +71,7 @@ $rUsers = Query("select * from {users} where ".$where." order by ".$order.", nam
 function PageLinks2($url, $epp, $from, $total)
 {
 	if ($total < 1) return '';
-	
+
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 
@@ -90,7 +90,7 @@ function PageLinks2($url, $epp, $from, $total)
 		else
 			$pageLinks[] = "<a href=\"".$url.(($p-1) * $epp).")\">".$p."</a>";
 	}
-	
+
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), " ").$next.$last;
 }
 
@@ -128,7 +128,7 @@ if ($_GET['listing'])  {
 			$user['average'] = sprintf("%1.02f", $user['posts'] / $daysKnown);
 
 			$userPic = "";
-			
+
 			if($user["picture"] == "#INTERNAL#")
 				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 			else if($user["picture"])
@@ -214,7 +214,7 @@ if (!$isBot)
 	<tr>
 	<td id=\"userFilter\" style=\"margin-bottom: 1em; margin-left: auto; margin-right: auto; padding: 1em; padding-bottom: 0.5em; padding-top: 0.5em;\">
 		<label>
-		".__("Sort by").": 
+		".__("Sort by").":
 		".makeSelect("orderBy", array(
 			"" => __("Post count"),
 			"id" => __("ID"),

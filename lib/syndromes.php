@@ -10,7 +10,7 @@ $syndromes = array
 	10 => array("Actually active", "#53C373"),
 	20 => array("$aff'Activity Syndrome'", "#69D989"),
 	30 => array("$aff'Activity Syndrome' +", "#83F3A3"),
-	
+
 	50 => array("$aff'Mountain Dew Voltage' Syndrome", "#8E83EE"),
 
 	9001 => array("$aff'Goku Syndrome'", "#FF5353"),

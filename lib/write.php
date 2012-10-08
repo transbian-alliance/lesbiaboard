@@ -31,7 +31,7 @@ if(!function_exists('format'))
 			$splicethis = preg_replace("'\{([0-9]+)\}'", "&#x7B;\\1&#x7D;", $args[$i]);
 			$output = str_replace("{".($i-1)."}", $splicethis, $output);
 		}
-		print $output;	
+		print $output;
 	}
 }
 

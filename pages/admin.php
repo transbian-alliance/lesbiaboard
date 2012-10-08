@@ -35,7 +35,7 @@ Write("
 		</tr>
 ");
 cell2(Format("
-			
+
 				".__("Last viewcount milestone")."
 			</td>
 			<td style=\"width: 60%;\">

@@ -20,10 +20,10 @@ function Query_ExpandFieldLists($match)
 	$ret = array();
 	$prefix = $match[1];
 	$fields = preg_split('@\s*,\s*@', $match[2]);
-	
+
 	foreach ($fields as $f)
 		$ret[] = $prefix.'.'.$f.' AS '.$prefix.'_'.$f;
-		
+
 	return implode(',', $ret);
 }
 
@@ -37,7 +37,7 @@ function Query_AddUserInput($match)
 		$format = substr($match, strlen($match)-1, 1);
 		$match = substr($match, 0, strlen($match)-1);
 	}
-	
+
 	$var = $args[$match+1];
 
 	if ($var === NULL) return 'NULL';
@@ -69,7 +69,7 @@ function query()
 	global $dbpref, $args, $fieldLists;
 	$args = func_get_args();
 	if (is_array($args[0])) $args = $args[0];
-	
+
 	$query = $args[0];
 
 	// expand compacted field lists
@@ -108,9 +108,9 @@ function rawQuery($query)
 			die("MySQL Error.");
 		}
 	}
-	
+
 	$queries++;
-	
+
 	if($debugMode)
 	{
 		//Syntax highlighting here is a bad idea. (SLOW, and bad if geshi spams warnings and more warnings)
@@ -118,12 +118,12 @@ function rawQuery($query)
 //		require_once 'plugins/sourcetag/geshi.php';
 		$backtrace = debug_backtrace();
 		$querytext .= "<td rowspan=".count($backtrace).">".preg_replace('/^\s*/m', "", $query)."</td>";
-		
+
 //derp, timing queries this way doesn't return accurate results since it's async
 //		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
 		$querytext .= backTrace($backtrace);
 	}
-	
+
 	return $res;
 }
 
@@ -183,7 +183,7 @@ $fieldLists = array(
 function loadFieldLists()
 {
 	global $fieldLists;
-	
+
 	//Allow plugins to add their own!
 	$bucket = "fieldLists"; include('lib/pluginloader.php');
 }

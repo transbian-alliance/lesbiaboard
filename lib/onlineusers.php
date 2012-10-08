@@ -6,7 +6,7 @@ function OnlineUsers($forum = 0, $update = true)
 	global $loguserid;
 	$forumClause = "";
 	$browseLocation = __("online");
-	
+
 	if ($update)
 	{
 		if ($loguserid)
@@ -14,14 +14,14 @@ function OnlineUsers($forum = 0, $update = true)
 		else
 			Query("UPDATE {guests} SET lastforum={0} WHERE ip={1}", $forum, $_SERVER['REMOTE_ADDR']);
 	}
-       
+
 	if($forum)
 	{
 		$forumClause = " and lastforum={1}";
 		$forumName = FetchResult("SELECT title FROM {forums} WHERE id={0}", $forum);
 		$browseLocation = format(__("browsing {0}"), $forumName);
 	}
-       
+
 	$rOnlineUsers = Query("select u.(_userfields) from {users} u where (lastactivity > {0} or lastposttime > {0}) and loggedin = 1 ".$forumClause." order by name", time()-300, $forum);
 	$onlineUserCt = 0;
 	$onlineUsers = "";
@@ -42,7 +42,7 @@ function OnlineUsers($forum = 0, $update = true)
 		$onlineUsers .= " | ".Plural($guests,__("guest"));
 	if($bots)
 		$onlineUsers .= " | ".Plural($bots,__("bot"));
-	       
+
 //	$onlineUsers = "<div style=\"display: inline-block; height: 16px; overflow: hidden; padding: 0px; line-height: 16px;\">".$onlineUsers."</div>";
 	return $onlineUsers;
 }
@@ -52,12 +52,12 @@ function OnlineUsers($forum = 0, $update = true)
 function getOnlineUsersText()
 {
 	global $OnlineUsersFid;
-	
+
 	$refreshCode = "";
 
 	if(!isset($OnlineUsersFid))
 		$OnlineUsersFid = 0;
-		
+
 	if(Settings::get("ajax"))
 	{
 		$refreshCode = format(

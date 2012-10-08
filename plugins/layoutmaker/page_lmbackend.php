@@ -110,7 +110,7 @@ function hex2rgb($color)
 function ApplyParameters($input)
 {
 	global $parameters;
-	
+
 	$textfx = array
 	(
 		"",
@@ -154,7 +154,7 @@ function ApplyParameters($input)
 			$output .= $line ."\n";
 		}
 	}
-	
+
 	return $output;
 }
 

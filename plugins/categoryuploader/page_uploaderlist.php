@@ -14,17 +14,17 @@ $badfiles = array("html", "htm", "php", "php2", "php3", "php4", "php5", "php6", 
 function listCategory($cat)
 {
 	global $loguser, $loguserid, $rootdir, $userSelectUsers;
-	
+
 	if(isset($_GET['sort']) && $_GET['sort'] == "filename" || $_GET['sort'] == "date")
 		$skey = $_GET['sort'];
 	else
 		$skey = "date";
 
 	$sortOptions = "<div class=\"margin smallFonts\">".__("Sort order").": <ul class=\"pipemenu\">";
-	$sortOptions .= ($skey == "filename") 
+	$sortOptions .= ($skey == "filename")
 			?"<li>".__("Name")."</li>"
 			:actionLinkTagItem(__("Name"), "uploaderlist", "", "cat=${_GET["cat"]}&sort=filename");
-	$sortOptions .= ($skey == "date") 
+	$sortOptions .= ($skey == "date")
 			?"<li>".__("Date")."</li>"
 			:actionLinkTagItem(__("Date"), "uploaderlist", "", "cat=${_GET["cat"]}&sort=date");
 	$sortOptions .= "</ul></div>";
@@ -39,17 +39,17 @@ function listCategory($cat)
 		$condition = "up.private = 1";
 	else
 		$condition = "up.private = 0 and up.category = {0}";
-	
+
 	$errormsg = __("The category is empty.");
 	if($cat < 0)
 		$errormsg = __("You have no private files.");
-		
+
 	$entries = Query("SELECT
-			up.*, 
-			u.(_userfields) 
+			up.*,
+			u.(_userfields)
 			FROM {uploader} up
 			LEFT JOIN {users} u on up.user = u.id
-			WHERE $condition 
+			WHERE $condition
 			ORDER BY ".$skey.$sdir, $cat);
 
 	$checkbox = "";
@@ -76,13 +76,13 @@ function listCategory($cat)
 	}
 	else
 	{
-		print 
+		print
 		"
 		<table class=\"outline margin\">
 			<tr class=\"header0\">
 				<th colspan=\"7\">".__("Files")."</th>
 			</tr>
-			
+
 		";
 
 		print 	"
@@ -120,12 +120,12 @@ function listCategory($cat)
 				$multidel = "<td><input type=\"checkbox\" name=\"del[".$entry['id']."]\" /></td>";
 			}
 			$cellClass = ($cellClass+1) % 2;
-			
+
 			$filepath = $rootdir."/".$entry['filename'];
 			if($entry['private'])
 				$filepath = $rootdir."/".$entry['user']."/".$entry['filename'];
-				
-			print format(			
+
+			print format(
 			"
 			<tr class=\"cell{0}\">
 				{7}
@@ -148,13 +148,13 @@ function listCategory($cat)
 			",	$cellClass, $entry['id'], $entry['filename'], $delete, $entry['description'],
 				BytesToSize(@filesize($filepath)), UserLink(getDataPrefix($entry, "u_")), $multidel, $entry["downloads"]);
 		}
-		
-		
+
+
 		if($loguserid)
 		{
 			$entries = Query("select * from {uploader_categories} order by ord");
 			$movelist = "";
-			
+
 			while($entry = Fetch($entries))
 			{
 				$movelist .= "<option value='${entry["id"]}'>${entry["name"]}</option>";
@@ -186,8 +186,8 @@ if(!$loguserid)
 	$links = "";
 
 MakeCrumbs(array(
-				"Uploader"=>actionLink("uploader"), 
-				$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]), 
+				"Uploader"=>actionLink("uploader"),
+				$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]),
 				), $links);
 
 print "<form method=\"post\" action=\"".actionLink("uploader", "", "cat=${_GET["cat"]}")."\">";

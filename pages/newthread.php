@@ -58,7 +58,7 @@ if(isset($_POST['actionpreview']))
 		{
 			if($option['color'] == "")
 				$option['color'] = $defaultColors[($pops + 9) % 16];
-			
+
 			$votes = 1;
 
 			$cellClass = ($cellClass+1) % 2;
@@ -72,7 +72,7 @@ if(isset($_POST['actionpreview']))
 				$bar = format("<div class=\"pollbar\" style=\"background: {0}; width: {1}%;\" title=\"{2}\">&nbsp;{3}</div>", $option['color'], $width, $alt, $votes);
 				if($width == 0)
 					$bar = "&nbsp;".$votes;
-			}			
+			}
 
 			$pollLines .= format(
 "
@@ -128,7 +128,7 @@ else if(isset($_POST['actionpost']))
 
 	//Now check if the thread is acceptable.
 	$rejected = false;
-	
+
 	if(!$_POST['text'])
 	{
 		Alert(__("Enter a message and try again."), __("Your post is empty."));
@@ -145,13 +145,13 @@ else if(isset($_POST['actionpost']))
 		for($pops = 0; $pops < $_POST['pollOptions']; $pops++)
 			if($_POST['pollOption'.$pops])
 				$optionCount++;
-				
+
 		if($optionCount < 2)
 		{
 			Alert(__("You need to enter at least two options to make a poll."), __("Invalid poll."));
 			$rejected = true;
 		}
-		
+
 		if(!$rejected && !$_POST["pollQuestion"])
 		{
 			Alert(__("You need to enter a poll question to make a poll."), __("Invalid poll."));
@@ -205,7 +205,7 @@ else if(isset($_POST['actionpost']))
 			$closed = ($_POST['lock'] == 'on') ? '1':'0';
 			$sticky = ($_POST['stick'] == 'on') ? '1':'0';
 		}
-		
+
 		if($_POST['poll'])
 		{
 			$doubleVote = ($_POST['multivote']) ? 1 : 0;
@@ -223,23 +223,23 @@ else if(isset($_POST['actionpost']))
 		else
 			$pod = 0;
 
-		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll) 
-										  values ({0},   {1},  {2},   {3},  {4},          {1},        {5},   {6},     {7})", 
+		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll)
+										  values ({0},   {1},  {2},   {3},  {4},          {1},        {5},   {6},     {7})",
 										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
 		$tid = InsertId();
 
 		$rUsers = Query("update {users} set posts={0}, lastposttime={1} where id={2} limit 1", ($loguser['posts']+1), time(), $loguserid);
 
-		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood) 
+		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood)
 									  values ({0},{1},{2},{3},{4}, {5}, {6})", $tid, $loguserid, time(), $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
 		$pid = InsertId();
 
 		$rPostsText = Query("insert into {posts_text} (pid,text) values ({0},{1})", $pid, $post);
 
 		$rFora = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", time(), $loguserid, $pid, $fid);
-		
+
 		Query("update {threads} set lastpostid = {0} where id = {1}", $pid, $tid);
-		
+
 		$isHidden = (int)($forum['minpower'] > 0);
 		Report("New ".($_POST['poll'] ? "poll" : "thread")." by [b]".$loguser['name']."[/]: [b]".$_POST['title']."[/] (".$forum['title'].") -> [g]#HERE#?tid=".$tid, $isHidden);
 
@@ -287,7 +287,7 @@ while(is_file("img/icons/icon".$i.".png"))
 
 if($_POST["addpoll"])
 	$_POST["poll"] = 1;
-	
+
 if($_POST["deletepoll"])
 	$_POST["poll"] = 0;
 
@@ -390,15 +390,15 @@ print "
 							</td>
 							<td class=\"threadIcons\">
 								<label>
-									<input type=\"radio\" $iconNoneChecked name=\"iconid\" value=\"0\" /> 
+									<input type=\"radio\" $iconNoneChecked name=\"iconid\" value=\"0\" />
 									<span>".__("None")."</span>
-								</label> 
+								</label>
 								$icons
 								<br />
 								<label>
-									<input type=\"radio\" $iconCustomChecked name=\"iconid\" value=\"255\" /> 
+									<input type=\"radio\" $iconCustomChecked name=\"iconid\" value=\"255\" />
 									<span>".__("Custom")."</span>
-								</label> 
+								</label>
 								<input type=\"text\" id=\"iconurl\" name=\"iconurl\" style=\"width: 50%;\" maxlength=\"100\" value=\"".htmlspecialchars($_POST['iconurl'])."\" />
 							</td>
 						</tr>";

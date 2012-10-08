@@ -77,7 +77,7 @@ $cssTemplate = "
 }
 .mainbar[ID] div.quotecontent
 {
-    border:0px!important; 
+    border:0px!important;
 }
 
 .mainbar[ID] a:link

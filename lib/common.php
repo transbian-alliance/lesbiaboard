@@ -22,7 +22,7 @@ if (get_magic_quotes_gpc())
 		else
 			return $val;
 	}
-	
+
 	$_REQUEST = array_map('AutoDeslash', $_REQUEST);
 	$_GET = array_map('AutoDeslash', $_GET);
 	$_POST = array_map('AutoDeslash', $_POST);

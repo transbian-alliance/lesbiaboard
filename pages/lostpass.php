@@ -10,9 +10,9 @@ if(isset($_GET['key']) && isset($_GET['id']))
 		Kill(__("This old key cannot be used."), __("Invalid key"));
 
 	$user = Fetch($user);
-	
+
 	$sha = doHash($_GET['key'].$salt.$user["pss"]);
-	
+
 	$user = Query("select id, name, password, pss from {users} where id = {0} and lostkey = {1} and lostkeytimer > {2}", (int)$_GET['id'], $sha, (time() - (60*60)));
 
 	if(NumRows($user) == 0)
@@ -26,33 +26,33 @@ if(isset($_GET['key']) && isset($_GET['id']))
 
 	Query("update {users} set lostkey = '', password = {0}, pss = {2} where id = {1}", $sha, (int)$_GET['id'], $newsalt);
 	Kill(format(__("Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible."), $newPass), __("Password reset"));
-	
+
 }
 else if($_POST['action'] == __("Send reset email"))
 {
 	if($_POST['mail'] != $_POST['mail2'])
 		Kill(__("The e-mail addresses you entered don't match, try again."));
-		
+
 	$user = Query("select id, name, password, email, lostkeytimer, pss from {users} where name = {0} and email = {1}", $_POST['name'], $_POST['mail']);
 	if(NumRows($user) != 0)
 	{
-                //Do not disclose info about user e-mail. 
+                //Do not disclose info about user e-mail.
 		$user = Fetch($user);
 		if($user['lostkeytimer'] > time() - (60*60)) //wait an hour between attempts
 			Kill(__("To prevent abuse, this function can only be used once an hour."), __("Slow down!"));
 
 		//Make a RANDOM reset key.
 		$resetKey = Shake();
-		
+
 		$hashedResetKey = doHash($resetKey.$salt.$user["pss"]);
 
 		$from = Settings::get("mailResetSender");
 		$to = $user['email'];
 		$subject = format(__("Password reset for {0}"), $user['name']);
 		$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".absoluteActionLink("lostpass", $user['id'], "key=$resetKey")."\n\n".__("This link can be used once.");
-			
+
 		$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP";
-	
+
 		mail($to, $subject, wordwrap($message, 70), $headers);
 
 		Query("update {users} set lostkey = {0}, lostkeytimer = {1} where id = {2}", $hashedResetKey, time(), $user['id']);
@@ -107,7 +107,7 @@ else
 		</table>
 	</form>
 ");
-	
+
 }
 
 function randomString($len, $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")

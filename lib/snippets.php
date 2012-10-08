@@ -102,7 +102,7 @@ function DoPrivateMessageBar()
 			"<a href=\"".actionLink("showprivate", $last['id'])."\">",
 			UserLink($user), formatdate($last['date']));
 		}
-		
+
 		if($loguser['newcomments'])
 		{
 			$content .= format(
@@ -128,14 +128,14 @@ function DoSmileyBar($taname = "text")
 	global $smiliesOrdered;
 	$expandAt = 100;
 	LoadSmilies(TRUE);
-	
+
 
 	print '<table class="message margin">
 		<tr class="header0"><th>'.__("Smilies").'</th></tr>
 		<tr class="cell0"><td id=\"smiliesContainer\">';
-	
+
 	if(count($smiliesOrdered) > $expandAt)
-		write("<button class=\"expander\" id=\"smiliesExpand\" onclick=\"expandSmilies();\">&#x25BC;</button>"); 
+		write("<button class=\"expander\" id=\"smiliesExpand\" onclick=\"expandSmilies();\">&#x25BC;</button>");
 	print "<div class=\"smilies\" id=\"commonSet\">";
 	for($i = 0; $i < count($smiliesOrdered) - 1; $i++)
 	{
@@ -237,13 +237,13 @@ function Report($stuff, $hidden = 0, $severity = 0)
 {
 	$full = GetFullURL();
 	$here = substr($full, 0, strrpos($full, "/"))."/";
-	
+
 	if ($severity == 2)
 		$req = base64_encode(serialize($_REQUEST));
 	else
 		$req = 'NULL';
-	
-	Query("insert into {reports} (ip,user,time,text,hidden,severity,request) 
+
+	Query("insert into {reports} (ip,user,time,text,hidden,severity,request)
 		values ({0}, {1}, {2}, {3}, {4}, {5}, {6})", $_SERVER['REMOTE_ADDR'], (int)$loguserid, time(), str_replace("#HERE#", $here, $stuff), $hidden, $severity, $req);
 	Query("delete from {reports} where time < {0}", (time() - (60*60*24*30)));
 }
@@ -252,7 +252,7 @@ function Report($stuff, $hidden = 0, $severity = 0)
 function SendSystemPM($to, $message, $title)
 {
 	global $systemUser;
-	
+
 	//Don't send system PMs if no System user was set
 	if($systemUser == 0)
 		return;
@@ -260,7 +260,7 @@ function SendSystemPM($to, $message, $title)
 	$rPM = Query("insert into {pmsgs} (userto, userfrom, date, ip, msgread) values ({0}, {1}, {2}, '127.0.0.1', 0)", $to, $systemUser, time());
 	$pid = InsertId();
 	$rPM = Query("insert into {pmsgs_text} (pid, text, title) values ({0}, {1}, {2})", $pid, $message, $title);
-	
+
 	//print "PM sent.";
 }
 
@@ -328,7 +328,7 @@ function makeThemeArrays()
 function getdateformat()
 {
 	global $loguserid, $loguser;
-	
+
 	if($loguserid)
 		return $loguser['dateformat'].", ".$loguser['timeformat'];
 	else
@@ -382,7 +382,7 @@ function getSexName($sex) {
 function formatIP($ip)
 {
 	global $loguser;
-	
+
 	$res = $ip;
 	$res .=  " " . IP2C($user['lastip']);
 	if($loguser["powerlevel"] >= 3)

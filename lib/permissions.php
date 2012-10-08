@@ -15,7 +15,7 @@ if (isset($loguserid) && isset($loguser['group']))
 	$permissions = fetch($rPermissions);
 	$permissions['permissions'] = unserialize($permissions['permissions']);
 	if (is_array($groups[$loguser['group']]['permissions']))
-		$loguser['permissions'] = array_merge($groups[$loguser['group']]['permissions'], $permissions); //$permissions overrides the group permissions here.	
+		$loguser['permissions'] = array_merge($groups[$loguser['group']]['permissions'], $permissions); //$permissions overrides the group permissions here.
 	if ($loguser['powerlevel'] == 4) $loguser['group'] == "root"; //Just in case.
 }
 
@@ -74,7 +74,7 @@ function AssertForbidden($to, $specifically = 0)
 		if(in_array($specific, $forbidden))
 			$caught = 2;
 	}
-	
+
 	if($caught)
 	{
 		$not = __("You are not allowed to {0}.");

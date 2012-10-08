@@ -32,7 +32,7 @@ var ThreadTagContainer = function(inside) {
 		}
 
 		this.tagElement.style.background = this.calculateBackgroundColor();
-		
+
 		this.tagElement.addEventListener("keyup", function(e) {
 			self.text = this.value; //Just to make it look cleaner.
 			this.style.background = self.calculateBackgroundColor();
@@ -86,7 +86,7 @@ var ThreadTagContainer = function(inside) {
 	this.addButton = document.createElement("button");
 	this.addButton.innerHTML = "Add tag";
 	this.addButton.type = "button";
-	
+
 	this.addButton.addEventListener("click", function(e) {
 		self.newTag();
 		return false;
@@ -98,7 +98,7 @@ var ThreadTagContainer = function(inside) {
 window.addEventListener("load", function(e) {
 	//First of all get a shortcut to the table cell we want
 	var threadTitleContainer = document.getElementById('threadTitleContainer');
-	
+
 	//Iterate over the cell's object looking for an input box
 	//When we find it, make a nice reference to it
 	//... What we are doing here is not really that useful in the context of newthread, but it is in editthread.
@@ -126,7 +126,7 @@ window.addEventListener("load", function(e) {
 		threadTagContainer.newTag(tag);
 		return "";
 	}).trim();
-	
+
 	//Locate newTagTitleEntry's parent form
 
 	var parentNode = threadTitleContainer.parentNode;

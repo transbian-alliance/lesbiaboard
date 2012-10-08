@@ -192,7 +192,7 @@ $personal = array(
 				"type" => "text",
 				"width" => "98%",
 				"length" => 60,
-			),		
+			),
 		),
 	),
 );
@@ -360,7 +360,7 @@ $_POST['action'] = (isset($_POST['action']) ? $_POST['action'] : "");
 if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 {
 	if ($loguser['powerlevel'] < 3) Kill(__('No.'));
-	
+
 	if($user['powerlevel'] == 4)
 	{
 		Kill(__("Trying to ban a root user?"));
@@ -373,7 +373,7 @@ if($_POST['action'] == __("Tempban") && $user['tempbantime'] == 0)
 	else
 	{
 		SendSystemPM($userid, format(__("You have been temporarily banned until {0} GMT. If you don't know why this happened, feel free to ask the one most likely to have done this. Calmly, if possible."), gmdate("M jS Y, G:[b][/b]i:[b][/b]s", $timeStamp)), __("You have been temporarily banned."));
-	
+
 		Query("update {users} set tempbanpl = {0}, tempbantime = {1}, powerlevel = -1 where id = {2}", $user['powerlevel'], $timeStamp, $userid);
 		redirect(format(__("User has been banned for {0}."), TimeUnits($timeStamp - time())), actionLink("profile", $userid), __("that user's profile"));
 	}
@@ -388,7 +388,7 @@ $failed = false;
 if($_POST['action'] == __("Edit profile"))
 {
 	$passwordEntered = false;
-	
+
 	if($_POST["currpassword"] != "")
 	{
 		$sha = doHash($_POST["currpassword"].$salt.$loguser['pss']);
@@ -406,12 +406,12 @@ if($_POST['action'] == __("Edit profile"))
 	$query = "UPDATE {$dbpref}users SET ";
 	$sets = array();
 	$pluginSettings = unserialize($user['pluginsettings']);
-	
+
 	foreach($tabs as $id => &$tab)
 	{
 		if(!isset($tab['page'])) continue;
 		if($id == "account" && !$passwordEntered) continue;
-		
+
 		foreach($tab['page'] as $id => &$section)
 		{
 			foreach($section['items'] as $field => &$item)
@@ -485,7 +485,7 @@ if($_POST['action'] == __("Edit profile"))
 						$val = ((int)$_POST[$field.'H'] * 3600) + ((int)$_POST[$field.'M'] * 60) * ((int)$_POST[$field.'H'] < 0 ? -1 : 1);
 						$sets[] = $field." = ".$val;
 						break;
-						
+
 					//TODO: These two are copypasta, fixit
 					case "displaypic":
 						if($_POST['remove'.$field])
@@ -533,7 +533,7 @@ if($_POST['action'] == __("Edit profile"))
 	//Force theme names to be alphanumeric to avoid possible directory traversal exploits ~Dirbaio
 	if(preg_match("/^[a-zA-Z0-9_]+$/", $_POST['theme']))
 		$sets[] = "theme = '".SqlEscape($_POST['theme'])."'";
-	
+
 	$sets[] = "pluginsettings = '".SqlEscape(serialize($pluginSettings))."'";
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
@@ -543,7 +543,7 @@ if($_POST['action'] == __("Edit profile"))
 		RawQuery($query);
 		if($loguserid == $userid)
 			$loguser = Fetch(Query("select * from {users} where id={0}", $loguserid));
-		
+
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
 			Karma();
 
@@ -611,12 +611,12 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 		$maxDim = 16;
 		$maxSize = 100 * 1024;
 	}
-	
+
 	$fileName = $_FILES[$field]['name'];
 	$fileSize = $_FILES[$field]['size'];
 	$tempFile = $_FILES[$field]['tmp_name'];
 	list($width, $height, $fileType) = getimagesize($tempFile);
-	
+
 	if ($type == 0 && ($width > 300 || $height > 300))
 		return __("That avatar is definitely too big. The avatar field is meant for an avatar, not a wallpaper.");
 
@@ -644,7 +644,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	if ($type == 0)
 	{
 		$targetFile = $dataDir."avatars/".$userid;
-		
+
 		if($allowOversize || !$oversize)
 		{
 			//Just copy it over.
@@ -670,7 +670,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	elseif ($type == 1)
 	{
 		$targetFile = $dataDir."minipics/".$userid;
-		
+
 		if ($oversize)
 		{
 			//Don't allow minipics over $maxDim for anypony.
@@ -690,21 +690,21 @@ function HandlePassword($field, $item)
 	{
 		return __("To change your password, you must type it twice without error.");
 	}
-	
+
 	if($_POST[$field] != "" && $_POST['repeat'.$field] == "")
 		$_POST[$field] = "";
-	
+
 	if($_POST[$field])
 	{
 		$newsalt = Shake();
 		$sha = doHash($_POST[$field].$salt.$newsalt);
 		$_POST[$field] = $sha;
 		$sets[] = "pss = '".$newsalt."'";
-		
+
 		//Now logout all the sessions that aren't this one, for security.
 		Query("DELETE FROM {sessions} WHERE id != {0} and user = {1}", doHash($_COOKIE['logsession'].$salt), $user["id"]);
 	}
-	
+
 	return false;
 }
 
@@ -721,18 +721,18 @@ function HandleDisplayname($field, $item)
 		$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 		if($dispCheck)
 		{
-			
+
 			return format(__("The display name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 		}
 		else if(strpos($_POST[$field], ";") !== false)
 		{
 			$user['displayname'] = str_replace(";", "", $_POST[$field]);
-			
+
 			return __("The display name you entered cannot contain semicolons.");
 		}
 		else if($_POST[$field] !== ($_POST[$field] = preg_replace('/(?! )[\pC\pZ]/u', '', $_POST[$field])))
 		{
-			
+
 			return __("The display name you entered cannot contain control characters.");
 		}
 	}
@@ -747,18 +747,18 @@ function HandleUsername($field, $item)
 	$dispCheck = FetchResult("select count(*) from {users} where id != {0} and (name = {1} or displayname = {1})", $user['id'], $_POST[$field]);
 	if($dispCheck)
 	{
-		
+
 		return format(__("The login name you entered, \"{0}\", is already taken."), SqlEscape($_POST[$field]));
 	}
 	else if(strpos($_POST[$field], ";") !== false)
 	{
 		$user['name'] = str_replace(";", "", $_POST[$field]);
-		
+
 		return __("The login name you entered cannot contain semicolons.");
 	}
 	else if($_POST[$field] !== ($_POST[$field] = preg_replace('/(?! )[\pC\pZ]/u', '', $_POST[$field])))
 	{
-		
+
 		return __("The login name you entered cannot contain control characters.");
 	}
 }
@@ -771,7 +771,7 @@ function HandlePowerlevel($field, $item)
 	{
 		$newPL = (int)$_POST['powerlevel'];
 		$oldPL = $user['powerlevel'];
-		
+
 		if($newPL == 5)
 			; //Do nothing -- System won't pick up the phone.
 		else if($newPL == -1)
@@ -798,7 +798,7 @@ function HandlePowerlevel($field, $item)
 			else if($oldPL < $newPL)
 				SendSystemPM($id, __("Congratulations. Don't forget to review the rules regarding your newfound powers."), __("You have been promoted."));
 		}
-	}	
+	}
 }
 
 
@@ -821,12 +821,12 @@ if (is_dir($dir))
             if(filetype($dir . $file) != "dir") continue;
             if($file == ".." || $file == ".") continue;
             $infofile = $dir.$file."/themeinfo.txt";
-            
+
             if(file_exists($infofile))
             {
 		        $themeinfo = file_get_contents($infofile);
 		        $themeinfo = explode("\n", $themeinfo, 2);
-		        
+
 		        $themes[$file]["name"] = trim($themeinfo[0]);
 		        $themes[$file]["author"] = trim($themeinfo[1]);
 		    }
@@ -849,23 +849,23 @@ foreach($themes as $themeKey => $themeData)
 
 	$qCount = "select count(*) from {users} where theme='".$themeKey."'";
 	$numUsers = FetchResult($qCount);
-	
+
 	$preview = "themes/".$themeKey."/preview.png";
 	if(is_file($preview))
 		$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 	else
 		$preview = "<img src=\"./img/nopreview.png\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
-	
+
 	if($themeAuthor)
 		$byline = "<br />".nl2br($themeAuthor);
 	else
 		$byline = "";
-	
+
 	if($themeKey == $user['theme'])
 		$selected = " checked=\"checked\"";
 	else
 		$selected = "";
-	
+
 	$themeList .= format(
 "
 	<input style=\"display: none;\" type=\"radio\" name=\"theme\" value=\"{3}\"{4} id=\"{3}\" onchange=\"ChangeTheme(this.value);\" />
@@ -972,7 +972,7 @@ Write(
 function BuildPage($page, $id)
 {
 	global $selectedTab, $loguser;
-	
+
 	//TODO: This should be done in JS.
 	//So that a user who doesn't have Javascript will see all the tabs.
 	$display = ($id != $selectedTab) ? " style=\"display: none;\"" : "";
@@ -997,7 +997,7 @@ function BuildPage($page, $id)
 
 			if(isset($item['before']))
 				$output .= " ".$item['before'];
-		
+
 			// Yes, some cases are missing the break; at the end.
 			// This is intentional, but I don't think it's a good idea...
 			switch($item['type'])
@@ -1084,7 +1084,7 @@ function BuildPage($page, $id)
 			if(isset($item['extra']))
 				$output .= " ".$item['extra'];
 
-			$output .= "</td>\n"; 
+			$output .= "</td>\n";
 			$output .= "</tr>\n";
 			$cellClass = ($cellClass + 1) % 2;
 		}

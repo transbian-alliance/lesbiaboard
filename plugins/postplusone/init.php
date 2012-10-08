@@ -18,6 +18,6 @@ function formatPlusOnes($plusones)
 			background-color:rgba(0, 50, 0, 0.8);
 			border: 1px solid #3F0;";
 	}
-	
+
 	return "<span style=\"$style\"><span style=\"$style2\">+$plusones</span></span>";
 }

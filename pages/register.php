@@ -179,12 +179,12 @@ elseif($_POST['action'] == __("Register"))
 		Query("update {users} set powerlevel = 4 where id = 1");
 
 	Report("New user: [b]".$_POST['name']."[/] (#".$uid.") -> [g]#HERE#?uid=".$uid);
-	
+
 	$user = Fetch(Query("select * from {users} where id={0}", $uid));
 	$user["rawpass"] = $_POST["pass"];
-	
+
 	$bucket = "newuser"; include("lib/pluginloader.php");
-	
+
 
 	if($_POST['autologin'])
 	{

@@ -38,7 +38,7 @@ function getPluginData($plugin, $load = true)
 
 	if(!is_dir("./plugins/".$plugin))
 		throw new BadPluginException("Plugin folder is gone");
-	
+
 	$plugindata = array();
 	$plugindata['dir'] = $plugin;
 	if(!file_exists("./plugins/".$plugin."/plugin.settings"))
@@ -60,7 +60,7 @@ function getPluginData($plugin, $load = true)
 			registerSetting(substr($setting[0],1), $setting[1]);
 		else
 			$plugindata[$setting[0]] = $setting[1];
-			
+
 		if($setting[0] == "minversion")
 			$minver = (int)$setting[1];
 	}
@@ -70,7 +70,7 @@ function getPluginData($plugin, $load = true)
 
 	$plugindata["buckets"] = array();
 	$plugindata["pages"] = array();
-	
+
 	$dir = "./plugins/".$plugindata['dir'];
 	$pdir = @opendir($dir);
 	while($f = readdir($pdir))
@@ -91,7 +91,7 @@ function getPluginData($plugin, $load = true)
 			}
 		}
 	}
-	
+
 	return $plugindata;
 }
 
@@ -100,7 +100,7 @@ $rPlugins = Query("select * from {enabledplugins}");
 while($plugin = Fetch($rPlugins))
 {
 	$plugin = $plugin["plugin"];
-	
+
 	try
 	{
 		$plugins[$plugin] = getPluginData($plugin);
@@ -110,7 +110,7 @@ while($plugin = Fetch($rPlugins))
 		Report(Format("Disabled plugin \"{0}\" -- {1}", $plugin, $e->getMessage()));
 		Query("delete from {enabledplugins} where plugin={0}", $plugin);
 	}
-	
+
 	Settings::checkPlugin($plugin);
 }
 

@@ -3,10 +3,10 @@
 function getRefreshActionLink()
 {
 	$args = "ajax=1";
-	
+
 	if(isset($_GET["from"]))
 		$args .= "&from=".$_GET["from"];
-	
+
 	return actionLink((isset($_GET["page"]) ? $_GET['page'] : 0), (isset($_GET['id']) ? $_GET["id"] : 0), $args);
 }
 
@@ -30,10 +30,10 @@ function actionLink($action, $id="", $args="")
 	$bucket = "linkMangler"; include('lib/pluginloader.php');
 
 	$res = "";
-	
+
 	if($action != $mainPage)
 		$res .= "&page=$action";
-	
+
 	if($id != "")
 		$res .= "&id=$id";
 	if($args)
@@ -44,7 +44,7 @@ function actionLink($action, $id="", $args="")
 		debug_print_backtrace();
 		Kill("Found &amp;amp; in link");
 	}
-			 
+
 	if($res == "")
 		return $boardroot;
 	else
@@ -108,15 +108,15 @@ function userLink($user, $showMinipic = false)
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
 	$fname = str_replace(" ", "&nbsp;", $fname);
-	
+
 	$minipic = "";
 	if($showMinipic || Settings::get("alwaysMinipic"))
 		$minipic = getMinipicTag($user);
 	{
 	}
-	
+
 	$fname = $minipic.$fname;
-	
+
 	if($fpow < 0) $fpow = -1;
 	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
 
@@ -157,7 +157,7 @@ function userLink($user, $showMinipic = false)
 		}
 	}
 	*/
-	
+
 	$bucket = "userLink"; include('lib/pluginloader.php');
 	$title = htmlspecialchars($user['name']) . " (".$user["id"].") ".$powerlevels[$user['powerlevel']];
 	$userlink = actionLinkTag("<span$classing title=\"$title\">$fname</span>", "profile", $user["id"]);
@@ -167,7 +167,7 @@ function userLink($user, $showMinipic = false)
 function userLinkById($id)
 {
 	global $userlinkCache;
-	
+
 	if(!isset($userlinkCache[$id]))
 	{
 		$rUser = Query("SELECT u.(_userfields) FROM {users} u WHERE u.id={0}", $id);
@@ -182,7 +182,7 @@ function userLinkById($id)
 function pageLinks($url, $epp, $from, $total)
 {
 	$url = htmlspecialchars($url);
-	
+
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 
@@ -201,7 +201,7 @@ function pageLinks($url, $epp, $from, $total)
 		else
 			$pageLinks[] = "<a class=\"pagelink\"  href=\"".$url.(($p-1) * $epp)."\">".$p."</a>";
 	}
-	
+
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), "").$next.$last;
 }
 
