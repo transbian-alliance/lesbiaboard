@@ -88,7 +88,7 @@ function query()
 
 function rawQuery($query)
 {
-	global $queries, $querytext, $loguser, $dblink, $debugMode;
+	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref;
 
 //	if($debugMode)
 //		$queryStart = usectime();
@@ -97,11 +97,28 @@ function rawQuery($query)
 
 	if(!$res)
 	{
+		if($logSqlErrors)
+		{
+			$thequery = sqlEscape($query);
+			$ip = sqlEscape($_SERVER["REMOTE_ADDR"]);
+			$time = time();
+			if(!$loguserid) $loguserid = 0;
+			$get = sqlEscape(var_export($_GET, true));
+			$post = sqlEscape(var_export($_POST, true));
+			$cookie = sqlEscape(var_export($_COOKIE, true));
+			$logQuery = "INSERT INTO {$dbpref}queryerrors (`user`,`ip`,`time`,`query`,`get`,`post`,`cookie`) VALUES ($loguserid, '$ip', $time, '$thequery', '$get', '$post', '$cookie')";
+			echo $logQuery;
+			$res = @$dblink->query($logQuery);
+		}
 		if($debugMode)
-			die(nl2br(backTrace())."<br />".$dblink->error."<br />Query was: <code>".$query."</code><br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
+			die(nl2br(backTrace()).
+				"<br /><br />".htmlspecialchars($dblink->error).
+				"<br /><br />Query was: <code>".htmlspecialchars($query)."</code>");
+/*				<br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
-			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");
+			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");*/
+			
 		else
 		{
 			trigger_error("MySQL Error.", E_USER_ERROR);
@@ -113,14 +130,8 @@ function rawQuery($query)
 
 	if($debugMode)
 	{
-		//Syntax highlighting here is a bad idea. (SLOW, and bad if geshi spams warnings and more warnings)
-		//Also this plugin might not be present at all.
-//		require_once 'plugins/sourcetag/geshi.php';
 		$backtrace = debug_backtrace();
 		$querytext .= "<td rowspan=".count($backtrace).">".preg_replace('/^\s*/m', "", $query)."</td>";
-
-//derp, timing queries this way doesn't return accurate results since it's async
-//		$querytext .= "<td>".sprintf("%1.3f",usectime()-$queryStart)."</td>";
 		$querytext .= backTrace($backtrace);
 	}
 

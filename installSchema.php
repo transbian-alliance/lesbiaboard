@@ -257,6 +257,21 @@ $tables = array
 		),
 		"special" => $keyID
 	),
+	"queryerrors" => array
+	(
+		"fields" => array
+		(
+			"id" => $AI,		
+			"user" => $genericInt,	
+			"ip" => "varchar(16)".$notNull,
+			"time" => $genericInt,	
+			"query" => $text,
+			"get" => $text,
+			"post" => $text,
+			"cookie" => $text
+		),
+		"special" => $keyID
+	),
 	"ranks" => array
 	(
 		"fields" => array
