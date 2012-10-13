@@ -1,7 +1,7 @@
 <?php
 
 $title = "IRC Chat";
-MakeCrumbs(array(__("IRC Chat")=>actionLink("irc")), $links);
+makeCrumbs(array(__("IRC Chat")=>actionLink("irc")), $links);
 
 $bad = array("~", "&", "@", "?", "!", ".", ",", "=", "+", "%", "*");
 $handle = str_replace(" ", "", $loguser['name']);
@@ -19,7 +19,8 @@ if(isset($_GET['connect']))
 {
 
 	write("
-	<div class=\"faq outline margin\" style=\"width: 90%; margin: 2em auto; padding: 2em; text-align: center;\">
+	<div class=\"message\" style=\"width: 90%; margin: 2em auto; text-align: center;\">
+		<h3 style=\"text-align: left;\">IRC chat</h3>
 		<applet code=\"IRCApplet.class\" codebase=\"plugins/ircpage/pjirc/\"
 		archive=\"irc.jar,pixx.jar\" width=\"100%\" height=\"500\">
 		<param name=\"CABINETS\" value=\"irc.cab,securedirc.cab,pixx.cab\">
@@ -49,23 +50,25 @@ if(isset($_GET['connect']))
 
 		<param name=\"command1\" value=\"/join {2}\">
 
-		</applet>
+		</applet><br />
+		<small style=\"float: right; opacity: 0.5;\">We recommend you get a stand-alone client such as <a href=\"http://hexchat.org\">HexChat</a> if you plan on frequently joining IRC</small>
+		<br />
 	</div>
 ", $handle, $server, $channel, $port);
 }
 else
 {
 	write("
-	<div class=\"faq outline margin\" style=\"width: 75%; margin: 2em auto; padding: 2em; text-align: center;\">
-		<h3>IRC chat</h3><br />We advice you to get a real IRC client such as <strong>XChat</strong> (or <strong>XChat-WDK</strong> if you are using Windows).<br />If you don't want to get a real IRC client, you can use the client on the board.
-		<p>
-			<strong>Server:</strong> {1}:{4}<br />
-			<strong>Channel:</strong> {2}<br />
-			<strong>Nickname:</strong> {0}
-		</p>
-		<p>
-			<a href=\"".actionLink("irc", "", "connect")."\">Use the on-board Java IRC client.</a>
-		</p>
+	<div class=\"message margin\" style=\"width: 75%; margin: 2em auto; text-align: center;\">
+	<h3 style=\"text-align: left;\">IRC chat</h3><br />
+		<strong>Server:</strong> {1}:{4}<br />
+		<strong>Channel:</strong> {2}<br />
+		<strong>Nickname:</strong> {0}<br />
+		<br />
+		<a href=\"".actionLink("irc", "", "connect")."\"><button>".__("Use the board's IRC applet")."</button></a><br />
+		<br />
+		<small style=\"opacity: 0.5;\">(We recommend you get a stand-alone client such as <a href=\"http://hexchat.org\">HexChat</a> if you plan on frequently joining IRC)</small>
+		<br /><br />
 		{3}
 	</div>
 ", $handle, $server, $channel, $guest, $port);
