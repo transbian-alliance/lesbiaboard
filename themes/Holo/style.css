@@ -173,7 +173,7 @@ select {
 	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
 	background-size: 8px 8px;
 	background-position: bottom right;
-	-moz-appearance: push-button;
+	-moz-appearance: button;
 	-webkit-appearance: push-button;
 	-o-appearance: push-button;
 	appearance: push-button;
@@ -200,9 +200,10 @@ select:active {
 
 input[type="checkbox"] {
 	-webkit-appearance: push-button;
-	-moz-appearance: push-button;
+	-moz-appearance: button;
 	-o-appearance: push-button;
 	-ms-appearance: push-button;
+	background-color: rgba(0, 0, 0, 0);
 	appearance: push-button;
 	border: 0px solid rgba(0, 0, 0, 0) !important;
 	color: transparent;
