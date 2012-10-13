@@ -180,19 +180,7 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 
 	if(NumRows($entries) == 0)
 	{
-		$private = format(
-	"
-		<table class=\"outline margin\">
-			<tr class=\"header1\">
-				<th colspan=\"7\">".__("Private Files")."</th>
-			</tr>
-			<tr class=\"cell1\">
-				<td colspan=\"4\">
-					".__("Your personal folder is empty.")."
-				</td>
-			</tr>
-		</table>
-	");
+		$private = "";
 	}
 	else
 	{
@@ -346,7 +334,8 @@ if($loguserid && IsAllowed("useUploader"))
 <script type=\"text/javascript\">
 	window.addEventListener(\"load\", function() { hookUploadCheck(\"newfile\", 1, {1}) }, false);
 </script>
-<form action=\"".actionLink("uploader")."\" method=\"post\" enctype=\"multipart/form-data\">
+<button style=\"float: right;\" onclick=\"var uploadForm = document.getElementById(&quot;uploadForm&quot;); uploadForm.style.display = (uploadForm.style.display == 'none' ? 'block' : 'none');\">Upload new file</button>
+<form action=\"".actionLink("uploader")."\" method=\"post\" enctype=\"multipart/form-data\" id=\"uploadForm\" style=\"display: none;\">
 	<table class=\"outline margin\">
 		<tr class=\"header0\">
 			<th colspan=\"4\">".__("Upload")."</th>
@@ -373,6 +362,7 @@ if($loguserid && IsAllowed("useUploader"))
 			</td>
 		</tr>
 	</table>
+	<br />
 </form>
 ", BytesToSize($maxSizeMult), $maxSizeMult, Settings::pluginGet('uploaderWhitelist'));
 }
