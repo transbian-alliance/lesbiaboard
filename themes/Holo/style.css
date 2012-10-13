@@ -200,6 +200,10 @@ select:active {
 
 input[type="checkbox"] {
 	-webkit-appearance: push-button;
+	-moz-appearance: push-button;
+	-o-appearance: push-button;
+	-ms-appearance: push-button;
+	appearance: push-button;
 	border: 0px solid rgba(0, 0, 0, 0) !important;
 	color: transparent;
 	width: 20px;
