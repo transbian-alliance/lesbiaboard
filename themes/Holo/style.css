@@ -166,6 +166,84 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	outline: none;
 }
 
+select {
+	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-size: 8px 8px;
+	background-position: bottom right;
+	-moz-appearance: push-button;
+	-webkit-appearance: push-button;
+	-o-appearance: push-button;
+	appearance: push-button;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+select:focus {
+	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+	background-image: -ms-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+}
+
+select:active {
+	background-color: #33B5E5;
+	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	border-bottom: 1px solid #313131;
+}
+
+input[type="checkbox"] {
+	-webkit-appearance: push-button;
+	border: 0px solid rgba(0, 0, 0, 0) !important;
+	color: transparent;
+	width: 20px;
+	height: 20px;
+	background: url(./checkbox_normal.png);
+	margin: 0px 0px;
+}
+
+input[type="checkbox"]:checked {
+	background: url(./checkbox_checked_normal.png);
+}
+
+input[type="checkbox"]:focus {
+	background-image: url(./checkbox_focus.png), url(./checkbox_normal.png);
+	background-position: top left, 2px 1px;
+	margin-top: -1px;
+	margin-bottom: -1px;
+	margin-left: -2px;
+	margin-right: -1px;
+	width: 23px;
+	height: 22px;
+}
+
+input[type="checkbox"]:focus:checked {
+	background-image: url(./checkbox_checked_focus.png), url(checkbox_checked_normal.png);
+	background-position: top left, 2px 2px;
+	height: 23px;
+	margin-top: -2px;
+}
+
+input[type="checkbox"]:active {
+	margin: -8px -8px;
+	background: url(./checkbox_active.png);
+	width: 36px;
+	height: 36px;
+}
+
+input[type="checkbox"]:active:checked {
+	margin: -8px -8px;
+	background-image: url(./checkbox_checked_active.png);
+	width: 36px;
+	height: 36px;
+}
+
 div#tabs button, table.post td.meta ul.pipemenu li {
 	text-transform: uppercase;
 	border-radius: 0px;
