@@ -1,1 +1,0 @@
-a:1:{i:0;a:6:{s:4:"name";s:5:"color";s:5:"value";s:1:"5";s:4:"text";s:1:"1";s:8:"category";s:1:"1";s:11:"description";s:9:"resgcscds";s:4:"html";s:36:"<span style="color: #{V}">{T}</span>";}}
