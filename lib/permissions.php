@@ -1,4 +1,6 @@
 <?php
+
+/*
 //Improved permissions system ~Nina
 $groups = array();
 $rGroups = query("SELECT * FROM {usergroups}");
@@ -36,6 +38,8 @@ function checkAllowed($p)
 	}
 	else return $loguser['permissions'][$p];
 }
+
+*/
 
 
 //Functions from old permissions system.

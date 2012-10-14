@@ -56,8 +56,6 @@ else if(isset($_GET['unignore']))
 if($loguserid)
 	$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
 
-$isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
-
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
@@ -65,7 +63,7 @@ if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 	else
 		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
 
-		$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
+	$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
 }
 
 $OnlineUsersFid = $fid;

@@ -66,17 +66,9 @@ Query("delete from {ipbans} where date != 0 and date < {0}", time());
 //Delete expired sessions
 Query("delete from {sessions} where expiration != 0 and expiration < {0}", time());
 
-
-function isIPBanned($ip)
-{
-	$ip = trim($ip);
-	$rIPBan = Query("select * from {ipbans} where instr({0}, ip)=1", $ip);
-	return NumRows($rIPBan) != 0;
-}
-
 $rIPBan = Query("select * from {ipbans} where instr({0}, ip)=1", $_SERVER['REMOTE_ADDR']);
 
-if(isIPBanned($_SERVER['REMOTE_ADDR']))
+if(numRows($rIPBan))
 {
 	$ipban = Fetch($rIPBan);
 	print "You have been ".($ipban['date'] ? "" : "<strong>permanently</strong> ")."IP-banned from this board".($ipban['date'] ? " until ".gmdate("M jS Y, G:i:s",$ipban['date'])." (GMT). That's ".TimeUnits($ipban['date']-time())." left" : "").". Attempting to get around this in any way will result in worse things.";

@@ -18,20 +18,21 @@ if($loguserid)
 
 MakeCrumbs(array(), $links);
 
-$numThreads = FetchResult("select count(*) from {threads}");
-$numPosts = FetchResult("select count(*) from {posts}");
-$stats = Format(__("{0} and {1} total"), Plural($numThreads, __("thread")), Plural($numPosts, __("post")));
+$statData = Fetch(Query("SELECT
+	(SELECT COUNT(*) FROM {threads}) AS numThreads,
+	(SELECT COUNT(*) FROM {posts}) AS numPosts,
+	(SELECT COUNT(*) FROM {users}) AS numUsers,
+	(select count(*) from {posts} where date > {0}) AS newToday,
+	(select count(*) from {posts} where date > {1}) AS newLastHour,
+	(select count(*) from {users} where lastposttime > {2}) AS numActive",
+	 time() - 86400, time() - 3600, time() - 2592000));
 
-$newToday = FetchResult("select count(*) from {posts} where date > {0}", (time() - 86400));
-$newLastHour = FetchResult("select count(*) from {posts} where date > {0}", (time() - 3600));
-$stats .= "<br />".format(__("{0} today, {1} last hour"), Plural($newToday, __("new post")), $newLastHour);
+$stats = Format(__("{0} and {1} total"), Plural($statData["numThreads"], __("thread")), Plural($statData["numPosts"], __("post")));
+$stats .= "<br />".format(__("{0} today, {1} last hour"), Plural($statData["newToday"], __("new post")), $statData["newLastHour"]);
 
-$numUsers = FetchResult("select count(*) from {users}");
-$numActive = FetchResult("select count(*) from {users} where lastposttime > {0}", (time() - 2592000)); //30 days
-$percent = $numUsers ? ceil((100 / $numUsers) * $numActive) : 0;
-$rLastUser = Query("select u.(_userfields) from {users} u order by u.regdate desc limit 1");
-$lastUser = getDataPrefix(Fetch($rLastUser), "u_");
-$last = format(__("{0}, {1} active ({2}%)"), Plural($numUsers, __("registered user")), $numActive, $percent)."<br />".format(__("Newest: {0}"), UserLink($lastUser));
+$percent = $statData["numUsers"] ? ceil((100 / $statData["numUsers"]) * $statData["numActive"]) : 0;
+$lastUser = getDataPrefix(Fetch(Query("select u.(_userfields) from {users} u order by u.regdate desc limit 1")), "u_");
+$last = format(__("{0}, {1} active ({2}%)"), Plural($statData["numUsers"], __("registered user")), $statData["numActive"], $percent)."<br />".format(__("Newest: {0}"), UserLink($lastUser));
 
 $pl = $loguser['powerlevel'];
 if($pl < 0) $pl = 0;

@@ -35,8 +35,12 @@ function OnlineUsers($forum = 0, $update = true)
 	//$onlineUsers = $onlineUserCt." "user".(($onlineUserCt > 1 || $onlineUserCt == 0) ? "s" : "")." ".$browseLocation.($onlineUserCt ? ": " : ".").$onlineUsers;
 	$onlineUsers = Plural($onlineUserCt, __("user"))." ".$browseLocation.($onlineUserCt ? ": " : ".").$onlineUsers;
 
-	$guests = FetchResult("select count(*) from {guests} where bot=0 and date > {0}".$forumClause, (time() - 300), $forum);
-	$bots = FetchResult("select count(*) from {guests} where bot=1 and date > {0}".$forumClause, (time() - 300), $forum);
+	$data = Fetch(Query("select 
+		(select count(*) from {guests} where bot=0 and date > {0} $forumClause) as guests,
+		(select count(*) from {guests} where bot=1 and date > {0} $forumClause) as bots
+		", (time() - 300), $forum));
+	$guests = $data["guests"];
+	$bots = $data["bots"];
 
 	if($guests)
 		$onlineUsers .= " | ".Plural($guests,__("guest"));

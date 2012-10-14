@@ -107,7 +107,6 @@ function rawQuery($query)
 			$post = sqlEscape(var_export($_POST, true));
 			$cookie = sqlEscape(var_export($_COOKIE, true));
 			$logQuery = "INSERT INTO {$dbpref}queryerrors (`user`,`ip`,`time`,`query`,`get`,`post`,`cookie`) VALUES ($loguserid, '$ip', $time, '$thequery', '$get', '$post', '$cookie')";
-			echo $logQuery;
 			$res = @$dblink->query($logQuery);
 		}
 		if($debugMode)
