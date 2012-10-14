@@ -19,8 +19,12 @@ function backTrace($backtrace)
 			else
 				$args .= var_export($a, true);
 		}
-		$output .= "<td>{$bt['file']}<td>{$bt['line']}<td>";
-		$output .= "{$bt['class']}{$bt['type']}{$bt['function']}($args)";
+		$bt["file"] = substr($bt["file"], strlen($_SERVER["DOCUMENT_ROOT"]));
+		
+		if(strlen($args) > 50)
+			$args = substr($args, 0, 50)."...";
+		$output .= "<td>".htmlspecialchars($bt['file'])."<td>".htmlspecialchars($bt['line'])."<td>";
+		$output .= htmlspecialchars("{$bt['class']}{$bt['type']}{$bt['function']}($args)");
 		$output .= "<tr class=cell0>";
 	}
 	return $output;

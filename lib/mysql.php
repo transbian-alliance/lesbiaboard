@@ -131,7 +131,7 @@ function rawQuery($query)
 	if($debugMode)
 	{
 		$backtrace = debug_backtrace();
-		$querytext .= "<td rowspan=".count($backtrace).">".preg_replace('/^\s*/m', "", $query)."</td>";
+		$querytext .= "<td rowspan=".count($backtrace)."><pre style=\"white-space:pre-wrap;\">".htmlspecialchars(preg_replace('/^\s*/m', "", $query))."</pre></td>";
 		$querytext .= backTrace($backtrace);
 	}
 
