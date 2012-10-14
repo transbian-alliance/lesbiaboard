@@ -68,7 +68,7 @@ if((int)$_GET['delete'] == 1)
 		Kill(__("You're not allowed to delete posts."));
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
 
-	die(header("Location: ".actionLink("thread", $tid)));
+	die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
 }
 else if((int)$_GET['delete'] == 2)
 {
@@ -77,7 +77,7 @@ else if((int)$_GET['delete'] == 2)
 		Kill(__("You're not allowed to undelete posts."));
 	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
 
-	die(header("Location: ".actionLink("thread", $tid)));
+	die(header("Location: ".actionLink("thread", 0, "pid=$pid#$pid")));
 }
 
 if ($post['deleted'])
