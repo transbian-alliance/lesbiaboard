@@ -53,9 +53,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 	if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $canComment)
 	{
 		AssertForbidden("makeComments");
-		$newID = FetchResult("SELECT id+1 FROM {usercomments} WHERE (SELECT COUNT(*) FROM {usercomments} u2 WHERE u2.id={usercomments}.id+1)=0 ORDER BY id ASC LIMIT 1");
-		if($newID < 1) $newID = 1;
-		$rComment = Query("insert into {usercomments} (id, uid, cid, date, text) values ({0}, {1}, {2}, {3}, {4})", $newID, $id, $loguserid, time(), $_POST['text']);
+		$rComment = Query("insert into {usercomments} (uid, cid, date, text) values ({0}, {1}, {2}, {3})", $id, $loguserid, time(), $_POST['text']);
 		if($loguserid != $id)
 			Query("update {users} set newcomments = 1 where id={0}", $id);
 		die(header("Location: ".actionLink("profile", $id)));
