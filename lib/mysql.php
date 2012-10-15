@@ -88,7 +88,7 @@ function query()
 
 function rawQuery($query)
 {
-	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref;
+	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref, $loguserid;
 
 //	if($debugMode)
 //		$queryStart = usectime();
@@ -97,6 +97,8 @@ function rawQuery($query)
 
 	if(!$res)
 	{
+		$theError = $dblink->error;
+		
 		if($logSqlErrors)
 		{
 			$thequery = sqlEscape($query);
@@ -106,12 +108,13 @@ function rawQuery($query)
 			$get = sqlEscape(var_export($_GET, true));
 			$post = sqlEscape(var_export($_POST, true));
 			$cookie = sqlEscape(var_export($_COOKIE, true));
-			$logQuery = "INSERT INTO {$dbpref}queryerrors (`user`,`ip`,`time`,`query`,`get`,`post`,`cookie`) VALUES ($loguserid, '$ip', $time, '$thequery', '$get', '$post', '$cookie')";
+			$theError = sqlEscape($theError);
+			$logQuery = "INSERT INTO {$dbpref}queryerrors (`user`,`ip`,`time`,`query`,`get`,`post`,`cookie`, `error`) VALUES ($loguserid, '$ip', $time, '$thequery', '$get', '$post', '$cookie', '$theError')";
 			$res = @$dblink->query($logQuery);
 		}
 		if($debugMode)
 			die(nl2br(backTrace()).
-				"<br /><br />".htmlspecialchars($dblink->error).
+				"<br /><br />".htmlspecialchars($theError).
 				"<br /><br />Query was: <code>".htmlspecialchars($query)."</code>");
 /*				<br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />

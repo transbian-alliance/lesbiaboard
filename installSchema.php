@@ -266,7 +266,8 @@ $tables = array
 			"query" => $text,
 			"get" => $text,
 			"post" => $text,
-			"cookie" => $text
+			"cookie" => $text,
+			"error" => $text
 		),
 		"special" => $keyID
 	),
