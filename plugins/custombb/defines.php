@@ -1,5 +1,28 @@
 <?php
 
+class BBCodeCallback {
+	static $bb_regexpes = array(
+		BB_NONE   => '',
+		BB_TEXT   =>'(.*)',
+		BB_ID     =>'(\w*)',
+		BB_NUMBER =>'([0-9]*)',
+		BB_COLOR  =>'\#?([0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?)'
+	);
+	private $bbcode;
+
+	public function __construct($bbcode) {
+		$this->bbcode = $bbcode;
+	}
+
+	public function callback($content, $arg) {
+		$re = self::$bb_regexpes;
+		$content = preg_replace("(^{$re[$this->bbcode['text']]}$)", '$1', $content, 1, $con1);
+		$arg = preg_replace("(^{$re[$this->bbcode['value']]}$)", '$1', $arg, 1, $con2);
+		if (!$con1 || !$con2) return "[{$this->bbcode['name']}=".htmlspecialchars($arg)."]${content}[/{$this->bbcode[name]}]";
+		return str_replace(array('{V}', '{T}'), array(htmlspecialchars($arg), $content), $this->bbcode['html']);
+	}
+}
+
 // This file contains all useful stuff...
 
 define('BB_NULL', 0);
