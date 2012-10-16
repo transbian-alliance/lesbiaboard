@@ -1,5 +1,15 @@
 <?php
 
+// BBCode parser core.
+// Parses BBCode and HTML intelligently so the output is reasonably well-formed, and doesn't contain evil stuff.
+
+/*
+	$parsestatus:
+	0 - HTML Entites, Smilies. nl2br
+	1 - HTML Entites
+	2 - nothing.
+*/
+
 function parseText($text)
 {
 	global $parseStatus, $postNoSmilies, $postNoBr, $postPoster;
@@ -289,12 +299,6 @@ function parse($parentToken)
 	else return 'WTF?';
 }
 
-/*
-$parsestatus:
-0 - HTML Entites, Smilies. nl2br
-1 - HTML Entites
-2 - nothing.
-*/
 
 function parseBBCode($text)
 {

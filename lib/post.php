@@ -35,48 +35,6 @@ function filterPollColors($input)
 	return preg_replace("@[^#0123456789abcdef]@si", "", $input);
 }
 
-function loadSmilies($byOrder = FALSE)
-{
-	global $smilies, $smiliesOrdered;
-
-	if($byOrder)
-	{
-		if(isset($smiliesOrdered))
-			return;
-		$rSmilies = Query("select * from {smilies} order by id asc");
-		$smiliesOrdered = array();
-		while($smiley = Fetch($rSmilies))
-			$smiliesOrdered[] = $smiley;
-	}
-	else
-	{
-		if(isset($smilies))
-			return;
-		$rSmilies = Query("select * from {smilies} order by length(code) desc");
-		$smilies = array();
-		while($smiley = Fetch($rSmilies))
-		{
-			$smilies[] = $smiley;
-		}
-	}
-}
-
-function applySmilies($text)
-{
-	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
-
-	if (!isset($smiliesReplaceOrig))
-	{
-		$smiliesReplaceOrig = $smiliesReplaceNew = array();
-		for ($i = 0; $i < count($smilies); $i++)
-		{
-			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
-			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
-		}
-	}
-	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
-}
-
 function loadBlockLayouts()
 {
 	global $blocklayouts, $loguserid;
@@ -138,42 +96,6 @@ function getToNextRank($poster)
 	}
 }
 
-function makeUserAtLink($matches)
-{
-	global $members;
-	$username = $matches[1];
-	foreach($members as $id => $data)
-	{
-		if($data['name'] == $username)
-		{
-			return UserLink($members[$data['id']]);
-		}
-	}
-	//Didn't find it in the cache.
-	$rUser = Query("select u.(_userfields) from {users} u where name={0} or displayname={0}", $username);
-	if(NumRows($rUser))
-	{
-		$hit = getDataPrefix(Fetch($rUser), "u_");
-		$members[$hit['id']] = $hit;
-		return UserLink($hit);
-	}
-	else
-		return $username; //Return the actual name attempted.
-}
-
-
-function applyNetiquetteToLinks($match)
-{
-	if (substr($match[1], 0, 7) != 'http://')
-		return $match[0];
-
-	if (stripos($match[1], 'http://'.$_SERVER['SERVER_NAME']) === 0)
-		return $match[0];
-
-	return $match[0].' target="_blank"';
-}
-
-
 function getSyndrome($activity)
 {
 	include("syndromes.php");
@@ -183,55 +105,6 @@ function getSyndrome($activity)
 			$soFar = "<em style=\"color: ".$syndrome[1].";\">".$syndrome[0]."</em><br />";
 	return $soFar;
 }
-
-function postDoReplaceText($s)
-{
-	global $postNoSmilies, $postNoBr, $postPoster, $smilies;
-
-	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
-	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
-	if($postPoster)
-		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
-
-	LoadSmilies();
-
-	//Smilies
-	if(!$postNoSmilies)
-		$s = ApplySmilies($s);
-
-	include("macros.php");
-	foreach($macros as $macro => $img)
-		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
-
-	$s = preg_replace_callback("@(?<![\]=\"'])https?://(?:[^\s<&]|&quot;|&amp;)+(?<!&quot;)[^&<.,!?):\"'\s]@si", 'bbcodeURLAuto', $s);
-
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
-
-	return $s;
-}
-
-function cleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)
-{
-	global $postNoSmilies, $postNoBr, $smilies, $postPoster;
-	static $orig, $repl;
-
-	$postNoSmilies = $noSmilies;
-	$postNoBr = $noBr;
-	$postPoster = $poster;
-
-	$s = $postText;
-
-	$s = parseBBCode($s);
-
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*\"(.*?)\"@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*'(.*?)'@si", 'ApplyNetiquetteToLinks', $s);
-	$s = preg_replace_callback("@<a[^>]+href\s*=\s*([^\"'][^\s>]*)@si", 'ApplyNetiquetteToLinks', $s);
-
-	$s = securityPostFilter($s);
-
-	return $s;
-}
-
 
 function applyTags($text, $tags)
 {
@@ -247,58 +120,6 @@ function applyTags($text, $tags)
 	return $s;
 }
 
-//The functions below are CRITICAL for the post security.
-//Should always run LAST and on the WHOLE post.
-
-function filterJS($match)
-{
-	$url = html_entity_decode($match[2]);
-	$url = str_replace(" ", "", $url);
-	$url = str_replace("\t", "", $url);
-	$url = str_replace("\r", "", $url);
-	$url = str_replace("\n", "", $url);
-	if (stristr($url, "javascript:"))
-		return "";
-	return $match[0];
-}
-
-//Scans for any numerical entities that decode to the 7-bit printable ASCII range and removes them.
-//This makes a last-minute hack impossible where a javascript: link is given completely in absurd and malformed entities.
-function eatThatPork($s)
-{
-	$s = preg_replace_callback("/(&#)(x*)([a-f0-9]+(?![a-f0-9]))(;*)/i", "checkKosher", $s);
-	return $s;
-}
-
-function checkKosher($matches)
-{
-	$num = ltrim($matches[3], "0");
-	if($matches[2])
-		$num = hexdec($num);
-	if($num < 127)
-		return ""; //"&#xA4;";
-	else
-		return "&#x".dechex($num).";";
-}
-
-function securityPostFilter($s)
-{
-	$s = str_replace("\r\n","\n", $s);
-
-	$s = EatThatPork($s);
-
-	$s = preg_replace("@(on)(\w+?\s*?)=@si", '$1$2&#x3D;', $s);
-
-	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);
-	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
-	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
-
-	$s = preg_replace_callback("@(href|src)\s*=\s*\"([^\"]+)\"@si", "FilterJS", $s);
-	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
-	$s = preg_replace_callback("@(href|src)\s*=\s*([^\s>]+)@si", "FilterJS", $s);
-
-	return $s;
-}
 
 $activityCache = array();
 function getActivity($id)

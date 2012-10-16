@@ -70,8 +70,10 @@ include("pluginsystem.php");
 loadFieldLists();
 include("loguser.php");
 include("permissions.php");
-include("bbcode.php");
+include("bbcode_parser.php");
+include("bbcode_text.php");
 include("bbcode_callbacks.php");
+include("bbcode_main.php");
 include("post.php");
 include("onlineusers.php");
 
