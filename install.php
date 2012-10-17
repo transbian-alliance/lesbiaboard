@@ -130,7 +130,6 @@ if (isset($_POST['dbhost']))
 			$smilies = Query("select * from {smilies}");var_dump(NumRows($smilies));exit;
 			if(NumRows($smilies) == 0)
 				Import("install/smilies.sql");
-exit;
 			$shakeIt = false;
 			if(is_file("lib/salt.php"))
 			{
