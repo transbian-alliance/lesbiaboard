@@ -78,6 +78,11 @@
 			"default" => "abxd",
 			"name" => "Board layout",
 		),
+		"showGender" => array (
+			"type" => "boolean",
+			"default" => "1",
+			"name" => "Color usernames based on gender"
+		),
 		"defaultLanguage" => array (
 			"type" => "language",
 			"default" => "en_US",

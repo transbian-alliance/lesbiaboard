@@ -116,7 +116,10 @@ function userLink($user, $showMinipic = false)
 	}
 
 	$fname = $minipic.$fname;
-
+	
+	if(!Settings::get("showGender"))
+		$fsex = 2;
+	
 	if($fpow < 0) $fpow = -1;
 	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
 
