@@ -104,7 +104,6 @@ function addCategory()
 function deleteForum(what)
 {
 	var postdata = $("#deleteform").serialize();
-
 /*	var msg = "sent to hell.";
 
 	if(what == "delete")

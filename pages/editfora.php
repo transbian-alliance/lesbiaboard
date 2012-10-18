@@ -445,8 +445,8 @@ function WriteForumEditContents($fid)
 	</table></form>
 
 	<form method=\"post\" id=\"deleteform\" action=\"".actionLink("editfora")."\">
-	<input type=\"hidden\" name=\"key\" value=\"{8}\">
-	<input type=\"hidden\" name=\"id\" value=\"{6}\">
+	<input type=\"hidden\" name=\"key\" value=\"".$loguser['token']."\">
+	<input type=\"hidden\" name=\"id\" value=\"$fid\">
 	<div id=\"deleteforum\" style=\"display:none\">
 		<table class=\"outline margin\">
 			<tr class=\"header1\">
@@ -459,7 +459,7 @@ function WriteForumEditContents($fid)
 				<td>
 					".__("Instead of deleting a forum, you might want to consider archiving it: Change its name or description to say so, and raise the minimum powerlevel to reply and create threads so it's effectively closed.")."<br /><br />
 					".__("If you still want to delete it, click below:")."<br />
-					<button onclick=\"deleteForum(\'delete\'); return false;\">
+					<button onclick=\"deleteForum('delete'); return false;\">
 						".__("Delete forum")."
 					</button>
 				</td>
@@ -571,7 +571,7 @@ function WriteCategoryEditContents($cid)
 					<br /><br />
 					".__("If you still want to delete it, click below:")."
 					<br />
-					<button onclick=\"deleteCategory(\"delete\"); return false;\">
+					<button onclick=\"deleteCategory('delete'); return false;\">
 						".__("Delete category")."
 					</button>
 				</td>
