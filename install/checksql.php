@@ -11,10 +11,16 @@ $dblink->options(MYSQLI_OPT_CONNECT_TIMEOUT, 2);
 if (!@$dblink->real_connect($sqlServ, $sqlUser, $sqlPass, null))
 	echo "Connect error ({$dblink->connect_errno}): {$dblink->connect_error}";
 elseif (isset($_POST['create']))
+{
+	if(!preg_match("/[A-Za-z][A-Za-z0-9_]*/", $sqlData))
+		die("Invalid database name entered.");
 	if ($dblink->query("CREATE DATABASE $sqlData"))
 		echo "Database was created successfully!<!--ABXD-->";
 	else
 		echo "Failed to create database...";
+}
+elseif(!preg_match("/[A-Za-z][A-Za-z0-9_]*/", $sqlData))
+		die("Invalid database name entered.");
 elseif (!$dblink->select_db($sqlData))
 	echo "The database was not found. <a href='javascript:create()'>Would you like to create one?</a>";
 else
