@@ -1,5 +1,9 @@
 <?php
 error_reporting(~E_NOTICE);
+
+if (file_exists('lib/database.php') || file_exists('../lib/database.php'))
+	die("Board is already installed.");
+
 $sqlServ = $_POST['dbhost'];
 $sqlUser = $_POST['dbuser'];
 $sqlPass = $_POST['dbpass'];
