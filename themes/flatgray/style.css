@@ -56,17 +56,20 @@ table.post td.post {
 }
 
 
-button, input[type="submit"], select {
+button, input[type="submit"], select, input[type="checkbox"], input[type="radio"] {
 	border: 1px solid hsl(0, 0%, 50%);
 	background-color: hsl(0, 0%, 18%);
 	color: #E0E0E0;
+
+}
+
+select {
 	-webkit-appearance: push-button;
 	-moz-appearance: push-button;
 	appearance: push-button;
 }
 
-
-button:hover, input[type="submit"]:hover, select:hover {
+button:hover, input[type="submit"]:hover, select:hover, input[type="checkbox"]:hover, input[type="radio"]:hover {
 	background-color: hsl(0, 0%, 25%);
 	border: 1px solid hsl(0, 0%, 57%);
 }
@@ -78,6 +81,16 @@ select {
 	background-size: 16px 16px;
 	background-repeat: no-repeat;
 	background-position: bottom right;
+	padding-right: 14px;
+}
+
+select:focus {
+	outline: none;
+}
+
+option {
+	background: hsl(0, 0%, 18%);
+	color: #E0E0E0;
 }
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], textarea {
@@ -93,7 +106,7 @@ input[type="radio"] {
 
 input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, textarea:focus {
 	border-bottom-color: hsl(0, 0%, 50%);
-	utline: 0px none rgba(0, 0, 0, 0);
+	outline: none;
 }
 
 div#tabs button {
