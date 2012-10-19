@@ -63,9 +63,3 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	color: white;
 }
 
-div#tabs
-{
-	position: relative;
-	left: 8px;
-	top: 8px;
-}

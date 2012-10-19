@@ -20,11 +20,6 @@ body
 	background: #11112b;
 }
 
-.PoRT, .pollbarContainer, .pollbar, table.post, .post_about, .post_topbar, .post_content, .PoRT .errort, .PoRT .errorc, table.post td.side, table.post td.userlink, table.post td.meta, table.post td.post, table.outline, table.outline tr:first-child th:first-child, table.outline tr:first-child th:last-child, div#tabs button
-{
-	border-radius: 0px;
-}
-
 .outline
 {
 		box-shadow: 0px 0px 0px;
@@ -88,10 +83,9 @@ input, select, textarea, button
 	color: white;
 }
 
-div#tabs
-{
-	position: relative;
-	left: 8px;
+div#tabs {
+	padding-left: 8px;
+	margin-bottom: 0px;
 }
 
 div#tabs button
