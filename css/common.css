@@ -616,6 +616,7 @@ div#tabs
 	margin-bottom: -1px;
 	padding: 0px 0px;
 	padding-left: 4px;
+	cursor: default;
 }
 
 div#tabs button
@@ -766,4 +767,8 @@ div.overlayShade div.buttonContainer {
 
 div.overlayShade div.buttonContainer button {
 	margin: 8px;
+}
+
+.postToolbar {
+	cursor: default;
 }
