@@ -87,3 +87,8 @@ table.outline tr:first-child th:last-child
 {
 	border-radius: 8px;
 }
+
+div#tabs button {
+	border-top-left-radius: 8px;
+	border-top-right-radius: 32px;
+}
