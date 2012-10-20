@@ -77,6 +77,9 @@ function makeForumList($fieldname, $selectedID)
 {
 	global $fid, $loguser;
 
+	$pl = $loguser['powerlevel'];
+	if($pl < 0) $pl = 0;
+
 	$lastCatID = -1;
 	$rFora = Query("	SELECT
 							f.id, f.title, f.catid,
@@ -84,7 +87,8 @@ function makeForumList($fieldname, $selectedID)
 						FROM
 							{forums} f
 							LEFT JOIN {categories} c ON c.id=f.catid
-						ORDER BY c.corder, c.id, f.forder");
+						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
+						ORDER BY c.corder, c.id, f.forder, f.id", $pl);
 
 	$theList = "";
 	$optgroup = "";
