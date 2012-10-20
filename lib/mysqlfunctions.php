@@ -89,7 +89,7 @@ function Upgrade()
 							print_r($field);
 							print "{ ".$type." }";
 						}
-						Query("ALTER TABLE {".$table."} CHANGE `$fieldName `$fieldName` $wantedType");
+						Query("ALTER TABLE {".$table."} CHANGE `$fieldName` `$fieldName` $wantedType");
 						$changes++;
 					}
 				}

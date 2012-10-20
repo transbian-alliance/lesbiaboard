@@ -13,11 +13,11 @@ function hookUpMemberlistControls() {
 }
 
 function refreshMemberlist(page) {
-	var orderBy = document.getElementById("orderBy").value;
-	var order   = document.getElementById(  "order").value;
-	var sex     = document.getElementById(    "sex").value;
-	var power   = document.getElementById(  "power").value;
-	var query   = document.getElementById(  "query").value;
+	var orderBy = $("#orderBy").val();
+	var order   = $(  "#order").val();
+	var sex     = $(    "#sex").val();
+	var power   = $(  "#power").val();
+	var query   = $(  "#query").val();
 	if (typeof page == "undefined")
 		page = 0;
 

@@ -132,18 +132,6 @@ td.post .codeblock
 	color: #EEE;
 }
 
-div#tabs
-{
-	margin-bottom: 6px;
-}
-
-div#tabs button.selected
-{
-	background: #811000 url('header1.png');
-	background-attachment: fixed;
-	background-position: top left;
-	border-color:#000;
-}
 
 div#tabs button
 {
@@ -153,6 +141,14 @@ div#tabs button
 	background-attachment: fixed;
 	background-position: top left;
 	color: #FFF;
+}
+
+div#tabs button.selected
+{
+	background: #811000 url('header1.png');
+	background-attachment: fixed;
+	background-position: top left;
+	border-color:#000;
 }
 
 button, input[type="submit"]

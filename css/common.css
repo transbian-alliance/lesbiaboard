@@ -606,17 +606,22 @@ td.threadIcon
 	border-radius: 8px;
 }
 
+.eptable {
+	margin: 0px 0px !important;
+}
+
 div#tabs
 {
-	position: relative;
-	left: 8px;
-	top: 8px;
+	margin: 0px 0px;
+	margin-bottom: -1px;
+	padding: 0px 0px;
+	padding-left: 4px;
+	cursor: default;
 }
 
 div#tabs button
 {
-	border-top-left-radius: 8px;
-	border-top-right-radius: 32px;
+	margin: 0px;
 	padding-right: 16px;
 }
 div#tabs button.selected
@@ -762,4 +767,8 @@ div.overlayShade div.buttonContainer {
 
 div.overlayShade div.buttonContainer button {
 	margin: 8px;
+}
+
+.postToolbar {
+	cursor: default;
 }

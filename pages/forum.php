@@ -158,7 +158,7 @@ function ForumJump()
 							{forums} f
 							LEFT JOIN {categories} c ON c.id=f.catid
 						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
-						ORDER BY c.corder, c.id, f.forder", $pl);
+						ORDER BY c.corder, c.id, f.forder, f.id", $pl);
 
 	$theList = "";
 	$optgroup = "";

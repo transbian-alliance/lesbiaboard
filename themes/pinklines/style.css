@@ -120,20 +120,23 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 	box-shadow: 0px 0px 4px hsl(0, 50%, 45%);
 }
 
+div#tabs {
+	margin-bottom: 0px;
+}
+
 div#tabs button {
-	margin-bottom: 2px;
 	border-radius: 0px;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 div#tabs button.selected
 {
-	margin-bottom: 0px;
 	background: hsl(0, 50%, 45%);
 }
 
 .themeselector input:checked + label, .fe_selected {
 	background: hsl(0, 0%, 15%);
-	}
-
+}

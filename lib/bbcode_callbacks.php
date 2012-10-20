@@ -56,7 +56,11 @@ function bbcodeURL($contents, $arg)
 
 function bbcodeURLAuto($match)
 {
-	return bbcodeURL($match[0], "");
+        $text = $match[0];
+	// This is almost like lcfirst() from PHP 5.3.0
+	$match[0][0] = strtolower($text[0]);
+	if ($match[0][0] === "w") $match[0] = "http://$match[0]";
+	return bbcodeURL($text, $match[0]);
 }
 
 function bbcodeImage($contents, $arg)

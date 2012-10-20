@@ -199,11 +199,8 @@ h3
 	color: green;
 }
 
-div#tabs
-{
-	position: relative;
-	left: 8px;
-	top: 9px;
+div#tabs {
+	margin-bottom: 0px;
 }
 
 div#tabs button

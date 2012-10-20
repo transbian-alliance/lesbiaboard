@@ -227,27 +227,28 @@ input[type="radio"]
 	border-radius: 8px;
 }
 
-div#tabs
-{
-	position: relative;
-	left: 8px;
-	top: 7px;
+div#tabs {
+	margin-bottom: 1px;
 }
 
 div#tabs button
 {
 	border: 1px solid rgba(160, 160, 255, 0.175);
+	border-bottom: 0px none;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 32px;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 	padding-right: 16px;
+	margin-bottom: 0px;
 }
 
 div#tabs button.selected
 {
 	position: static;
 	z-index: -100;
-	border-bottom: 0px none;
+	border-bottom: 1px solid #181826;
+	padding-bottom: 1px;
+	margin-bottom: -1px;
 }
 
