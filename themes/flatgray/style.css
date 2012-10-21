@@ -65,7 +65,8 @@ button, input[type="submit"], select, input[type="checkbox"], input[type="radio"
 
 select {
 	-webkit-appearance: push-button;
-	-moz-appearance: push-button;
+	-moz-appearance: button;
+	-o-appearance: button;
 	appearance: push-button;
 }
 
@@ -95,8 +96,7 @@ option {
 
 input[type="text"], input[type="password"], input[type="file"], input[type="email"], textarea {
 	background: hsl(0, 0%, 18%);
-	border: 0px none;
-	border-bottom: 1px solid hsl(0, 0%, 25%);
+	border: 1px solid hsl(0, 0%, 25%);
 	color: #E0E0E0;
 }
 
@@ -105,7 +105,7 @@ input[type="radio"] {
 }
 
 input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, textarea:focus {
-	border-bottom-color: hsl(0, 0%, 50%);
+	border-color: hsl(0, 0%, 50%);
 	outline: none;
 }
 
@@ -130,3 +130,10 @@ div#tabs button.selected {
 	box-shadow: none;
 	border: 0px none;
 }
+
+td.threadIcons label > input:checked ~ * {
+	background: hsl(0, 0%, 25%);
+	border-radius: 0px;
+	border: 1px solid hsl(0, 0%, 50%);
+}
+	
