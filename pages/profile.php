@@ -439,7 +439,7 @@ if($user["displayname"])
 	$uname = $user["displayname"];
 MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $id)), $links);
 
-$title = "Profile for ".htmlspecialchars($user['name']);
+$title = format(__("Profile for {0}"), htmlspecialchars($user['displayname'] ? $user['displayname'] : $user['name']));
 
 function IsReallyEmpty($subject)
 {
