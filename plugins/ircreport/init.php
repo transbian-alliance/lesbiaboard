@@ -10,7 +10,7 @@ function ircReport($stuff)
 
 function ircUserColor($name, $gender, $power) {
 	$gColors = array(0 => 12, 1 => 13, 2 => '02');
-	$pChars  = array(1 => "+", 2 => "%", 3 => "$", 4 => "#", 5 => ">");
+	$pChars  = array(1 => "%", 2 => "@", 3 => "&", 4 => "~", 5 => "+");
 
 	$color = $gColors[$gender];
 	if ($power > 0)
