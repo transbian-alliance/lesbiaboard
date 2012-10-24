@@ -189,10 +189,15 @@ function pageLinks($url, $epp, $from, $total)
 	$numPages = ceil($total / $epp);
 	$page = ceil($from / $epp) + 1;
 
-	$first = ($from) ? "<a class=\"pagelink\" href=\"".$url."0\">&#x00AB;</a> " : "";
-	$prev = ($from) ? "<a class=\"pagelink\"  href=\"".$url.($from - $epp)."\">&#x2039;</a> " : "";
-	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.($from + $epp)."\">&#x203A;</a>" : "";
-	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.(($numPages * $epp) - $epp)."\">&#x00BB;</a>" : "";
+	$first = ($from > 0) ? "<a class=\"pagelink\" href=\"".$url."0\">&#x00AB;</a> " : "";
+	$prev = $from - $epp;
+	if($prev < 0) $prev = 0;
+	$prev = ($from > 0) ? "<a class=\"pagelink\"  href=\"".$url.$prev."\">&#x2039;</a> " : "";
+	$next = $from + $epp;
+	$last = ($numPages * $epp) - $epp;
+	if($next > $last) $next = $last;
+	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.$next."\">&#x203A;</a>" : "";
+	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.$last."\">&#x00BB;</a>" : "";
 
 	$pageLinks = array();
 	for($p = $page - 5; $p < $page + 10; $p++)
