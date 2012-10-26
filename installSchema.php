@@ -94,7 +94,7 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,
-			"ip" => "varchar(32)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"date" => $genericInt,
 			"lasturl" => "varchar(100)".$notNull,
 			"lastforum" => $genericInt,
@@ -124,7 +124,7 @@ $tables = array
 	(
 		"fields" => array
 		(
-			"ip" => "varchar(16)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"reason" => "varchar(100)".$notNull,			
 			"date" => $genericInt,			
 		),
@@ -168,7 +168,7 @@ $tables = array
 			"userto" => $genericInt,
 			"userfrom" => $genericInt,
 			"date" => $genericInt,
-			"ip" => "varchar(16)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"msgread" => $bool,
 			"deleted" => "tinyint(4) NOT NULL DEFAULT '0'",
 			"drafting" => $bool,
@@ -225,7 +225,7 @@ $tables = array
 			"thread" => $genericInt,
 			"user" => $genericInt,
 			"date" => $genericInt,
-			"ip" => "varchar(16)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"num" => $genericInt,
 			"deleted" => $bool,
 			"deletedby" => $genericInt,
@@ -253,7 +253,7 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,			
-			"ip" => "varchar(16)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 		),
 		"special" => $keyID
 	),
@@ -263,7 +263,7 @@ $tables = array
 		(
 			"id" => $AI,		
 			"user" => $genericInt,	
-			"ip" => "varchar(16)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"time" => $genericInt,	
 			"query" => $text,
 			"get" => $text,
@@ -296,7 +296,7 @@ $tables = array
 	(
 		"fields" => array
 		(
-			"ip" => "varchar(15)".$notNull,
+			"ip" => "varchar(40)".$notNull,
 			"user" => $genericInt,
 			"time" => $genericInt,
 			"text" => "varchar(1024)".$notNull,
@@ -402,7 +402,7 @@ $tables = array
 			"homepagename" => "varchar(100)".$notNull,			
 			"lastposttime" => $genericInt,
 			"lastactivity" => $genericInt,
-			"lastip" => "varchar(16)".$notNull,
+			"lastip" => "varchar(40)".$notNull,
 			"lasturl" => $var128,
 			"lastforum" => $genericInt,
 			"postsperpage" => "int(8) NOT NULL DEFAULT '20'",
