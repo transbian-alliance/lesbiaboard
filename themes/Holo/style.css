@@ -19,6 +19,15 @@ body {
 	background-attachment: fixed;
 }
 
+#header {
+	background: #111111;
+	border-bottom: 2px solid #33B5E5;
+}
+
+#header table, #header td, #header tr {
+	box-shadow: none;
+}
+
 *::selection {
 	background: #33B5E5;
 	color: black;
@@ -47,9 +56,11 @@ body, input, button {
 }
 
 :not(.post) table:not(.post).margin.outline {
-	border: 0px transparent;
+	border: 0px none transparent;
 	background: #111111;
 	border-radius: 2px;
+	border: 1px inset #212121;
+	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
 :not(.post) table:not(.post) tr:first-child th, .eptable tr th, .header0 th, .header1 th {
@@ -137,8 +148,7 @@ button:active, input[type="submit"]:active {
 	background: #33B5E5;
 }
 
-input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea
-{
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea {
 	background-color: transparent;
 	border: 0px none;
 	color: #FFF;
@@ -155,8 +165,7 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	padding-right: 2px;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus
-{
+input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
 
 	background-image: -webkit-linear-gradient(#33B5E5, #33B5E5), -webkit-linear-gradient(#33B5E5, #33B5E5);
 	background-image: -moz-linear-gradient(#33B5E5, #33B5E5), -moz-linear-gradient(#33B5E5, #33B5E5);
@@ -179,6 +188,7 @@ select {
 	appearance: none;
 	padding-left: 2px;
 	padding-right: 2px;
+	border-radius: 0px !important;
 }
 
 select:focus {
