@@ -6,9 +6,8 @@
 header('HTTP/1.1 404 Not Found');
 header('Status: 404 Not Found');
 
-$title = __('404');
+$title = __("404 - " . __("Not found"));
 
-Kill(__('Error 404 - The page you are looking for was not found.').'<br />
-	<a href=".">'.__('Return to the board index').'</a>');
-
+Kill(__('The page you are looking for was not found.').'<br /><br />
+	<a href=".">'.__('Return to the board index').'</a>', "404 - " . __("Not found"));
 ?>
