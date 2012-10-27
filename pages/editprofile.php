@@ -842,6 +842,11 @@ if (is_dir($dir))
 
 asort($themes);
 
+$themeList .= "
+	<div style=\"text-align: right;\">
+		<input type=\"text\" placeholder=\"".__("Search")."\" id=\"search\" onkeydown=\"searchThemes(this.value);\" />
+	</div>";
+
 foreach($themes as $themeKey => $themeData)
 {
 	$themeName = $themeData["name"];
@@ -868,13 +873,15 @@ foreach($themes as $themeKey => $themeData)
 
 	$themeList .= format(
 "
-	<input style=\"display: none;\" type=\"radio\" name=\"theme\" value=\"{3}\"{4} id=\"{3}\" onchange=\"ChangeTheme(this.value);\" />
-	<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\" onmousedown=\"void();\" for=\"{3}\">
-		{2} <br />
-		<strong>{0}</strong>
-		{1}<br />
-		{5}
-	</label>
+	<div style=\"display: inline-block;\" class=\"theme\" title=\"{0}\">
+		<input style=\"display: none;\" type=\"radio\" name=\"theme\" value=\"{3}\"{4} id=\"{3}\" onchange=\"ChangeTheme(this.value);\" />
+		<label style=\"display: inline-block; clear: left; padding: 0.5em; {6} width: 260px; vertical-align: top\" onmousedown=\"void();\" for=\"{3}\">
+			{2}<br />
+			<strong>{0}</strong>
+			{1}<br />
+			{5}
+		</label>
+	</div>
 ",	$themeName, $byline, $preview, $themeKey, $selected, Plural($numUsers, "user"), "");
 }
 
@@ -941,7 +948,7 @@ foreach($tabs as $id => $tab)
 	elseif($id == "theme")
 		Write("
 	<table class=\"outline margin width100 eptable\" id=\"{0}\"{1}>
-		<tr class=\"header0\"><th>&nbsp;</th></tr>
+		<tr class=\"header0\"><th>".__("Theme")."</th></tr>
 		<tr class=\"cell0\"><td class=\"themeselector\">{2}</td></tr>
 	</table>
 ",	$id, ($id != $selectedTab) ? " style=\"display: none;\"" : "",
