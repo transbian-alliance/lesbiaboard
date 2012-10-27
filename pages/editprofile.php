@@ -844,7 +844,7 @@ asort($themes);
 
 $themeList .= "
 	<div style=\"text-align: right;\">
-		<input type=\"text\" placeholder=\"".__("Search")."\" id=\"search\" onkeydown=\"searchThemes(this.value);\" />
+		<input type=\"text\" placeholder=\"".__("Search")."\" id=\"search\" onkeypress=\"searchThemes(this.value);\" />
 	</div>";
 
 foreach($themes as $themeKey => $themeData)
