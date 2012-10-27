@@ -92,7 +92,7 @@ table.post td.side, table.post td.post {
 table.post td.userlink, table.post td.meta {
 	background: #131313;
 	border-radius: 0px;
-	border-bottom: 2px solid #33B5E5 !important;
+	border-bottom: 2px solid #33B5E5;
 }
 
 :not(.post) table:not(.post) tr:not(:last-child) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
@@ -322,7 +322,7 @@ div#tabs button:active, table.post td.meta ul.pipemenu li:active {
 /* Entry-specific hacks */
 
 /* Nicer searchbox */
-button#submitQuery {
+/*button#submitQuery {
 	background: url('./search.png');
 	background-size: 16px 16px;
 	background-repeat: no-repeat;
@@ -333,6 +333,14 @@ button#submitQuery {
 	font-size: 0px;
 	color: transparent;
 	border: 2px solid transparent;
+}*/
+
+button#submitQuery {
+	display: none;
+}
+
+input[placeholder="Search"]:placeholder {
+	padding-left: 16px;
 }
 
 .postToolbar, div.tabs {
