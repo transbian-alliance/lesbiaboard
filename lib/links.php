@@ -97,7 +97,7 @@ function getMinipicTag($user)
 
 $powerlevels = array(-1 => " [".__("banned")."]", 0 => "", 1 => " [".__("local mod")."]", 2 => " [".__("full mod")."]", 3 => " [".__("admin")."]", 4 => " [".__("root")."]", 5 => " [".__("system")."]");
 
-function userLink($user, $showMinipic = false)
+function userLink($user, $showMinipic = false, $customID = false)
 {
 	global $powerlevels;
 
@@ -122,6 +122,9 @@ function userLink($user, $showMinipic = false)
 	
 	if($fpow < 0) $fpow = -1;
 	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
+
+	if ($customID)
+		$classing .= " id=\"$customID\"";
 
 /*
 	if($hacks['alwayssamepower'])

@@ -17,6 +17,14 @@ class PipeMenu {
 		$this->entries[] = $entry;
 	}
 
+	public function pop() {
+		array_pop($this->entries);
+	}
+
+	public function shift() {
+		array_shift($this->entries);
+	}
+
 	public function build() {
 		if(count($this->entries) == 0)
 			return "";
