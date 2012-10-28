@@ -32,8 +32,10 @@
 					<td>
 						<div class="userDropdownContainer">
 						<?php print userLink($loguser, true);
-							$layout_userpanel->shift();
-							$layout_userpanel->setClass("userMenu");
+							if ($loguserid) {
+								$layout_userpanel->shift();
+								$layout_userpanel->setClass("userMenu");
+							}
 							print $layout_userpanel->build();
 							$layout_navigation->setClass("mainMenu");
 							?>
