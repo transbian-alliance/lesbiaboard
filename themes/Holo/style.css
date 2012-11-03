@@ -430,3 +430,16 @@ input[placeholder="Search"]:placeholder {
 .userMenu li a {
 	color: #FFF;
 }
+
+#pmNotice, #pmNotice:hover {
+	background: #002E3E;
+	color: #FFF;
+	opacity: 1;
+	line-height: 24px;
+	font-size: 12pt !important;
+	border-bottom: 2px solid #33B5E5;
+	box-shadow: 0px 0px 2px #000;
+}
+
+#pmNotice a			{ color: #33B5E5; }
+#pmNotice a:hover	{ color: #FFF; }
