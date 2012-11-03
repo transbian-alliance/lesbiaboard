@@ -237,7 +237,7 @@ if($user['realname'])
 if($user['location'])
 	$foo[__("Location")] = htmlspecialchars($user['location']);
 if($user['birthday'])
-	$foo[__("Birthday")] = format("{0} ({1} old)", cdate("F j, Y", $user['birthday']), Plural(floor((time() - $user['birthday']) / 86400 / 365.2425), "year"));
+	$foo[__("Birthday")] = formatBirthday($user['birthday']);
 if($user['bio'])
 	$foo[__("Bio")] = CleanUpPost($user['bio']);
 

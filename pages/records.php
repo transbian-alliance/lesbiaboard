@@ -23,6 +23,15 @@ if($maxUsersText[0] == ":")
 	}
 }
 
+// Awesome way of calculating the mean birth date.
+// I'm not sure if there's any problems with overflows and all. 
+// But it seems to work fine :3
+
+$sumAge = FetchResult("SELECT SUM(birthday) FROM {users} WHERE birthday != 0");
+$countAge = FetchResult("SELECT COUNT(*) FROM {users} WHERE birthday != 0");
+$avgAge = (int)($sumAge / $countAge);
+$avgAge = formatBirthday($avgAge);
+
 write(
 "
 <table class=\"outline margin width75\">
@@ -59,6 +68,14 @@ write(
 		<td></td>
 		<td>
 			{6}
+		</td>
+	</tr>
+	<tr class=\"cell0\">
+		<td>
+			".__("Average age of members")."
+		</td>
+		<td>
+			".$avgAge."
 		</td>
 	</tr>
 </table>
