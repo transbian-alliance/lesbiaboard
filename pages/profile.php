@@ -192,13 +192,13 @@ if($user['lastposttime'])
 		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
 		$place .= " &raquo; ".actionLinkTag($pid, "thread", "", "pid=$pid#$pid");
 	}
-	$foo[__("Last post:")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) .
+	$foo[__("Last post")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) .
 								"<br>".__("in")." ".$place;
 }
 else
-	$foo[__("Last post:")] = __("Never");
+	$foo[__("Last post")] = __("Never");
 
-$foo[__("Last view:")] = format("{0} ({1} ago)", formatdate($user['lastactivity']), TimeUnits(time() - $user['lastactivity']));
+$foo[__("Last view")] = format("{0} ({1} ago)", formatdate($user['lastactivity']), TimeUnits(time() - $user['lastactivity']));
 $foo[__("Score")] = $score;
 $foo[__("Browser")] = $user['lastknownbrowser'];
 if($loguser['powerlevel'] > 0)
