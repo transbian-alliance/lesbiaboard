@@ -79,7 +79,7 @@ $languagePack = array(
 'Usuń wszystkie odznaki tego użytkownika',
 
 
-// plugins/blogxd/page_index.php
+// plugins/blogxd/page_blog.php
 'You are not allowed to browse this forum.' =>
 'Nie możesz przeglądać tego forum.',
 
@@ -111,6 +111,42 @@ $languagePack = array(
 
 'Date' =>
 'Data',
+
+
+// plugins/twitter/profileTable.php
+'Personal information' =>
+'Informacje osobiste',
+
+'Last Tweet' =>
+'Ostatni tweet',
+
+
+// plugins/forumrules/page_newthread.php
+'New thread' =>
+'Nowy temat',
+
+'You must be logged in to post.' =>
+'Musisz być zalogowany aby pisać.',
+
+'Forum ID unspecified.' =>
+'ID forum nieustalone.',
+
+'You\'re banned.' =>
+'Jesteś zbanowany.',
+
+'This forum is locked.' =>
+'To forum jest zablokowane.',
+
+'You are not allowed to post threads in this forum.' =>
+'Nie możesz pisać tematów w tym forum.',
+
+
+// plugins/siteperf/footer.php
+'Page rendered in {0} seconds with {1}' =>
+'Strona zrenderowana w {0} sekund z {1}',
+
+'MySQL query' =>
+'zapytaniem SQL',
 
 
 // plugins/multilinguage/profileTable.php
@@ -189,9 +225,6 @@ $languagePack = array(
 'Private Files' =>
 'Prywatne pliki',
 
-'Your personal folder is empty.' =>
-'Twój prywatny folder jest pusty.',
-
 'Public Files' =>
 'Publiczne pliki',
 
@@ -223,6 +256,95 @@ $languagePack = array(
 'Użycie prywatnego miejsca: {0} z {1}',
 
 
+// plugins/custombb/page_custombb.php
+'Custom BBCode' =>
+'Custom BBCode',
+
+'Sorry, but no...' =>
+'Przepraszam, ale nie',
+
+'BBCode was removed correctly' =>
+'Tag BBCode został usunięty poprawnie',
+
+'This BBCode is hardcoded into board. Sorry...' =>
+'Ten tag BBCode jest zakodowany w forum. Przepraszam.',
+
+'Modify BBCode' =>
+'Zmodyfikuj BBCode',
+
+'Add new BBCode' =>
+'Stwórz nowe tagi',
+
+'BBCode Name' =>
+'Nazwa tagu',
+
+'Type of value after =' =>
+'Typ wartości po =',
+
+'Nothing' =>
+'Nic',
+
+'Full text' =>
+'Pełny tekst',
+
+'ID (for example Youtube)' =>
+'ID (na przykład Youtube)',
+
+'Number' =>
+'Liczba',
+
+'Color (#f00 or #f00f00)' =>
+'Kolor (#foo lub #f00f00)',
+
+'Type of text inside BBCode' =>
+'Typ tekstu w środku tagu BBCode',
+
+'Category' =>
+'Kategoria',
+
+'None' =>
+'Brak',
+
+'Links' =>
+'Linki',
+
+'Quotations' =>
+'Cytaty',
+
+'Embeds' =>
+'Zagnieżdzenie',
+
+'Category description' =>
+'',
+
+'HTML code inserted by BBCode' =>
+'',
+
+'(Type {V} for value and {T} for text - it will be replaced by board.)' =>
+'',
+
+'Submit' =>
+'',
+
+'Result' =>
+'',
+
+'Actions' =>
+'',
+
+'Modify' =>
+'',
+
+'Are you sure you want to remove that BBCode?' =>
+'',
+
+'Seriously?' =>
+'',
+
+'Delete' =>
+'Usuń',
+
+
 // plugins/calendar/topMenu.php
 'Calendar' =>
 'Kalendarz',
@@ -231,6 +353,22 @@ $languagePack = array(
 // plugins/calendar/page_calendar.php
 '{0}\'s birthday ({1})' =>
 'Urodziny {0} ({1} lat)',
+
+
+// plugins/minwordcount/checkPost.php
+'If you have nothing interesting to post, just don\'t post.' =>
+'Jeżeli nie masz niczego interesującego do napisania to nie pisz.',
+
+'Your post is too short.' =>
+'Twój post jest za krótki.',
+
+
+// plugins/ircpage/page_irc.php
+'IRC Chat' =>
+'IRC',
+
+'Use the board\'s IRC applet' =>
+'Użyj apletu IRC forum',
 
 
 // plugins/profilefields/profileTable.php
@@ -249,6 +387,88 @@ $languagePack = array(
 // plugins/profilefields/settingsfile.php
 'Number of fields' =>
 'Ilość pól',
+
+
+// plugins/postplusone/page_plusone.php
+'Thread is closed' =>
+'Temat jest zamknięty',
+
+'You already +1\'d this' =>
+'Już użyłeś +1 w tym poście',
+
+
+// plugins/postplusone/profileTable.php
+'General information' =>
+'Podstawowe informacje',
+
+'Total +1s received' =>
+'Suma otrzymanych +1',
+
+'Total +1s given' =>
+'Suma rozdanych +1',
+
+
+// plugins/layoutblockstats/profileTable.php
+'Layout blocks' =>
+'Blokady layoutu',
+
+
+// plugins/avatarlibrary/topMenu.php
+'Avatars' =>
+'Awatary',
+
+
+// plugins/avatarlibrary/page_avatarlibrary.php
+'Avatar library' =>
+'Biblioteka awatarów',
+
+'Could not open avatar library.' =>
+'Nie można otworzyć biblioteki awatarów.',
+
+'There was nothing to index. Make sure there are actually images in the avatar library directory and try again.' =>
+'Nie ma nic do indeksowania. Sprawdź czy obrazki znajdują się w bibliotece awatarów i spróbuj ponownie.',
+
+'The avatar library has been rebuilt.' =>
+'Biblioteka awatarów została odbudowana.',
+
+'All done' =>
+'Zrobione',
+
+'Could not open avatar library file. Please {0}rebuild{1} it.' =>
+'Nie można otworzyć pliku biblioteki awatarów. Proszę {0}odbudować{1} ją.',
+
+'The avatar library is empty.' =>
+'Biblioteka awatarów jest pusta.',
+
+'Unknown category.' =>
+'Nieznana kategoria.',
+
+'You must be logged in to set your avatar.' =>
+'Musisz być zalogowany, aby ustawić swój awatar.',
+
+'Haaaah, no.' =>
+'Hahaha, nie...',
+
+'Both category and image must be chosen to set your avatar.' =>
+'Zarówno kategoria i obrazek muszą być wybrane, aby można było ustawić twój awatar.',
+
+'Error' =>
+'Błąd',
+
+'Category and image are supposed to be numerical!' =>
+'Kategoria i obrazek muszą być liczbami.',
+
+'Unknown image.' =>
+'Nieznany obrazek.',
+
+'Change' =>
+'Zmień',
+
+'Please note that anything you choose here will <em>overwrite</em> your previous avatar. Keep a backup in case you want to switch back later &mdash; we can\'t and won\'t help you restore your previous avatar. However, we can help make a backup &mdash; you can save the image to the left.' =>
+'Proszę zauważyć, że wszystko co wybierzesz tutaj <em>nadpisze</em> twojego poprzedniego awatara. Trzymaj kopię na wypadek jakbyś chciał wrócić z powrotem do swojego poprzedniego awatara &mdash; nie możemy i nie pomożemy ci przywrócić awatara. Jednakże, możemy pomóc zrobić ci backup &mdash; po prostu zapisz obrazek po lewej.',
+
+'Because you are not logged in, you cannot select any avatars. Feel free to browse, though.' =>
+'Ponieważ nie jesteś zalogowany, nie możesz wybrać żadnego awatara. Nie krępuj się jednak przeglądać.',
 
 
 // plugins/gitpull/adminleft.php
@@ -273,6 +493,9 @@ $languagePack = array(
 
 'Files' =>
 'Pliki',
+
+'Downloads' =>
+'Liczba pobrań',
 
 'Move checked to' =>
 'Przesuń zaznaczone do',
@@ -808,6 +1031,9 @@ $languagePack = array(
 '<strong>{4}</strong>, on {5} GMT' =>
 '<strong>{4}</strong>, {5} GMT',
 
+'Average age of members' =>
+'Średni wiek użytkowników',
+
 'Table Status' =>
 'Status tabel',
 
@@ -834,14 +1060,14 @@ $languagePack = array(
 
 
 // pages/login.php
-'Log in' =>
-'Zaloguj się',
-
 'Invalid user name or password.' =>
 'Niewłaściwa nazwa użytkownika lub hasło.',
 
 'Forgot password?' =>
 'Zapomniałeś hasła?',
+
+'Log in' =>
+'Zaloguj się',
 
 'User name' =>
 'Nazwa użytkownika',
@@ -924,9 +1150,6 @@ $languagePack = array(
 'You are not allowed to edit threads.' =>
 'Nie możesz zmieniać tematów.',
 
-'Move' =>
-'Przesuń',
-
 'Could not identify trash forum.' =>
 'Nie można znaleźć kosza.',
 
@@ -938,9 +1161,6 @@ $languagePack = array(
 
 'Icon' =>
 'Ikona',
-
-'None' =>
-'Brak',
 
 'Custom' =>
 'Specjalna',
@@ -954,64 +1174,8 @@ $languagePack = array(
 'Sticky' =>
 'Przyklejony',
 
-'Delete' =>
-'Usuń',
-
-
-// pages/avatarlibrary.php
-'Avatar library' =>
-'Biblioteka awatarów',
-
-'Could not open avatar library.' =>
-'Nie można otworzyć biblioteki awatarów.',
-
-'There was nothing to index. Make sure there are actually images in the avatar library directory and try again.' =>
-'Nie ma nic do indeksowania. Sprawdź czy obrazki znajdują się w bibliotece awatarów i spróbuj ponownie.',
-
-'The avatar library has been rebuilt.' =>
-'Biblioteka awatarów została odbudowana.',
-
-'All done' =>
-'Zrobione',
-
-'Could not open avatar library file. Please {0}rebuild{1} it.' =>
-'Nie można otworzyć pliku biblioteki awatarów. Proszę {0}odbudować{1} ją.',
-
-'The avatar library is empty.' =>
-'Biblioteka awatarów jest pusta.',
-
-'Unknown category.' =>
-'Nieznana kategoria.',
-
-'You must be logged in to set your avatar.' =>
-'Musisz być zalogowany, aby ustawić swój awatar.',
-
-'Haaaah, no.' =>
-'Hahaha, nie...',
-
-'Both category and image must be chosen to set your avatar.' =>
-'Zarówno kategoria i obrazek muszą być wybrane, aby można było ustawić twój awatar.',
-
-'Error' =>
-'Błąd',
-
-'Category and image are supposed to be numerical!' =>
-'Kategoria i obrazek muszą być liczbami.',
-
-'Unknown image.' =>
-'Nieznany obrazek.',
-
-'Category' =>
-'Kategoria',
-
-'Change' =>
-'Zmień',
-
-'Please note that anything you choose here will <em>overwrite</em> your previous avatar. Keep a backup in case you want to switch back later &mdash; we can\'t and won\'t help you restore your previous avatar. However, we can help make a backup &mdash; you can save the image to the left.' =>
-'Proszę zauważyć, że wszystko co wybierzesz tutaj <em>nadpisze</em> twojego poprzedniego awatara. Trzymaj kopię na wypadek jakbyś chciał wrócić z powrotem do swojego poprzedniego awatara &mdash; nie możemy i nie pomożemy ci przywrócić awatara. Jednakże, możemy pomóc zrobić ci backup &mdash; po prostu zapisz obrazek po lewej.',
-
-'Because you are not logged in, you cannot select any avatars. Feel free to browse, though.' =>
-'Ponieważ nie jesteś zalogowany, nie możesz wybrać żadnego awatara. Nie krępuj się jednak przeglądać.',
+'Move' =>
+'Przesuń',
 
 
 // pages/editpost.php
@@ -1030,6 +1194,9 @@ $languagePack = array(
 'Unknown post ID.' =>
 'Nieznane ID postu.',
 
+'Unknown user ID.' =>
+'Nieznany ID użytkownika.',
+
 'You\'re not allowed to delete posts.' =>
 'Nie możesz usuwać postów.',
 
@@ -1045,23 +1212,14 @@ $languagePack = array(
 'This thread is closed.' =>
 'Ten temat jest zamknięty.',
 
-'Your post is too short to have any real meaning. Try a little harder.' =>
-'Twój post jest zbyt krótki, żeby miał jakieś znaczenie. Spróbuj trochę bardziej.',
-
-'I\'m sorry, Dave.' =>
-'Przepraszam, Dave.',
+'Preview' =>
+'Podgląd',
 
 'Enter a message and try again.' =>
 'Wpisz wiadomość i spróbuj ponownie.',
 
 'Your post is empty.' =>
 'Twój post jest pusty.',
-
-'Preview' =>
-'Podgląd',
-
-'Unknown user ID.' =>
-'Nieznany ID użytkownika.',
 
 '[Default avatar]' =>
 '[Domyślny awatar]',
@@ -1078,31 +1236,10 @@ $languagePack = array(
 'Disable smilies' =>
 'Wyłącz uśmieszki',
 
-'Disable auto-<br>' =>
-'Wyłącz automatyczne <br>',
-
-'Quote' =>
-'Cytat',
-
-'Link' =>
-'Link',
-
-'Thread review' =>
-'Przegląd tematu',
-
 
 // pages/forum.php
-'Forum ID unspecified.' =>
-'ID forum nieustalone.',
-
 'Unknown category ID.' =>
 'Nieznane ID kategorii.',
-
-'Forum ignored. You will no longer see any "New" markers for this forum.' =>
-'Forum zignorowane. Nie będziesz dłużej widział żadnych markerów "New" w tym forum.',
-
-'Forum unignored.' =>
-'Forum nie jest już dłużej ignorowane.',
 
 'Mark forum read' =>
 'Zaznacz forum jako przeczytane',
@@ -1145,6 +1282,23 @@ $languagePack = array(
 
 'Forum Jump:' =>
 'Skok po forach:',
+
+
+// pages/ipquery.php
+'IP ban manager' =>
+'Zarządzanie banami IP',
+
+'Never' =>
+'Nigdy',
+
+'No users' =>
+'Nie ma użytkowników',
+
+'Last view' =>
+'Ostatnia wizyta',
+
+'URL' =>
+'Adres WWW',
 
 
 // pages/memberlist.php
@@ -1278,9 +1432,6 @@ $languagePack = array(
 '3 - Admin' =>
 '3 - Administrator',
 
-'Login information' =>
-'Informacje logowania',
-
 'Appearance' =>
 'Wygląd',
 
@@ -1301,15 +1452,6 @@ $languagePack = array(
 
 'Minipic' =>
 'Miniobrazek',
-
-'Administrative stuff' =>
-'Rzeczy administracyjne',
-
-'Power level' =>
-'Poziom mocy',
-
-'Globally block layout' =>
-'Globalnie zablokuj layout',
 
 'Threads per page' =>
 'Tematy na stronę',
@@ -1335,9 +1477,6 @@ $languagePack = array(
 'Use nice notification banners' =>
 'Użyj miłych banerów informujących',
 
-'Personal information' =>
-'Informacje osobiste',
-
 'Real name' =>
 'Imię i nazwisko',
 
@@ -1356,17 +1495,38 @@ $languagePack = array(
 'Contact information' =>
 'Informacje kontaktowe',
 
-'Email address' =>
-'Adres e-mail',
-
-'Public' =>
-'Publiczny',
-
 'Homepage URL' =>
 'Adres strony WWW',
 
 'Homepage name' =>
 'Nazwa strony WWW',
+
+'Password confirmation' =>
+'Potwierdzenie hasła',
+
+'Enter your password in order to edit account settings' =>
+'Proszę wpisać swoje hasło aby zmienić ustawienia konta',
+
+'Login information' =>
+'Informacje logowania',
+
+'Email information' =>
+'E-mail',
+
+'Email address' =>
+'Adres e-mail',
+
+'Make email public' =>
+'Udostępnij e-mail publicznie',
+
+'Administrative stuff' =>
+'Rzeczy administracyjne',
+
+'Power level' =>
+'Poziom mocy',
+
+'Globally block layout' =>
+'Globalnie zablokuj layout',
 
 'Post layout' =>
 'Layout postu',
@@ -1398,6 +1558,9 @@ $languagePack = array(
 'Personal' =>
 'Dodatkowe',
 
+'Account settings' =>
+'Ustawienia konta',
+
 'Theme' =>
 'Wygląd forum',
 
@@ -1422,8 +1585,8 @@ $languagePack = array(
 'that user\'s profile' =>
 'profilu tego użytkownika',
 
-'Go back and fix that' =>
-'Wróć i napraw to',
+'Invalid password' =>
+'Nieprawidłowe hasło',
 
 'That avatar is definitely too big. The avatar field is meant for an avatar, not a wallpaper.' =>
 'Ten awatar jest stanowczo za dużo. Pole na awatar jest przeznaczone na awatar, a nie na tapetę.',
@@ -1510,50 +1673,6 @@ $languagePack = array(
 '[wybierz]',
 
 
-// pages/index.php
-'Mark all forums read' =>
-'Zaznacz wszystkie fora jako przeczytane',
-
-'{0} and {1} total' =>
-'{0} i {1} razem',
-
-'thread' =>
-'temat',
-
-'post' =>
-'post',
-
-'{0} today, {1} last hour' =>
-'{0} dzisiaj, {1} ostatniej godziny',
-
-'new post' =>
-'nowy post',
-
-'{0}, {1} active ({2}%)' =>
-'{0}, {1} aktywnych ({2}%)',
-
-'registered user' =>
-'użytkownik',
-
-'Newest: {0}' =>
-'Najnowszy: {0}',
-
-'Moderated by:' =>
-'Moderowany przez:',
-
-'by' =>
-'przez',
-
-'Forum title' =>
-'Tytuł forum',
-
-'Threads' =>
-'Tematy',
-
-'Last Post' =>
-'Ostatni post',
-
-
 // pages/editavatars.php
 'Mood avatars' =>
 'Awatary nastroju',
@@ -1587,11 +1706,11 @@ $languagePack = array(
 
 
 // pages/404.php
-'404' =>
-'404',
+'404 - Not found' =>
+'404 - nie znaleziono',
 
-'Error 404 - The page you are looking for was not found.' =>
-'Błąd 404 - Strona nie znaleziona.',
+'The page you are looking for was not found.' =>
+'Strona której szukasz nie została znaleziona.',
 
 'Return to the board index' =>
 'Powróć do strony głównej',
@@ -1600,9 +1719,6 @@ $languagePack = array(
 // pages/newreply.php
 'New reply' =>
 'Nowa odpowiedź',
-
-'You must be logged in to post.' =>
-'Musisz być zalogowany aby pisać.',
 
 'You\'re banned. You can\'t post.' =>
 'Jesteś zbanowany. Nie możesz pisać postów.',
@@ -1710,23 +1826,11 @@ $languagePack = array(
 'Show visitors from this far back:' =>
 'Pokaż odwiedzających sprzed:',
 
-'Never' =>
-'Nigdy',
-
-'No users' =>
-'Nie ma użytkowników',
-
 'No guests' =>
 'Nie ma gości',
 
 'No bots' =>
 'Nie ma botów',
-
-'Last view' =>
-'Ostatnia wizyta',
-
-'URL' =>
-'Adres WWW',
 
 '#' =>
 '#',
@@ -1745,12 +1849,6 @@ $languagePack = array(
 'User ID unspecified.' =>
 'Nie podano ID użytkownika.',
 
-'Layout blocked.' =>
-'Layout zablokowany.',
-
-'Layout unblocked.' =>
-'Layout odblokowany.',
-
 'Unblock layout' =>
 'Odblokuj layout',
 
@@ -1759,6 +1857,9 @@ $languagePack = array(
 
 'None given' =>
 'Nie podano',
+
+'Public' =>
+'Publiczny',
 
 'This user has been temporarily banned until {0} (GMT). That\'s {1} left.' =>
 'Ten użytkownik jest tymczasowo zbanowano do {0} (GMT). Zostało {1} do końca.',
@@ -1775,6 +1876,12 @@ $languagePack = array(
 'Total threads' =>
 'Liczba tematów',
 
+'a restricted forum.' =>
+'forum z restrykcjami.',
+
+'in' =>
+'w',
+
 'Score' =>
 'Punkty',
 
@@ -1784,14 +1891,17 @@ $languagePack = array(
 'Last known IP' =>
 'Ostatni znany IP',
 
-'General information' =>
-'Podstawowe informacje',
-
 'Homepage' =>
 'Strona WWW',
 
 'Items per page' =>
 'Ilość rzeczy na stronę',
+
+'post' =>
+'post',
+
+'thread' =>
+'temat',
 
 'No comments.' =>
 'Nie ma komentarzy.',
@@ -1817,22 +1927,19 @@ $languagePack = array(
 'Show posts' =>
 'Pokaż posty',
 
+'Show threads' =>
+'Pokaż tematy',
 
-// pages/managemods.php
-'Manage localmod assignments' =>
-'Przydzielanie lokalnych moderatorów do forum',
+'Profile for {0}' =>
+'Profil użytkownika {0}',
 
-'Moderators as of {0}' =>
-'Moderatorzy na {0}',
 
-'Mod ID unspecified.' =>
-'ID moderatora nie ustalone.',
+// pages/tagsearch.php
+'Tag {0} was not found in any thread.' =>
+'Tag {0} nie został znaleziony w żadnym temacie.',
 
-'already there' =>
-'już jest',
-
-'Pick a mod, any mod.' =>
-'Wybierz moderatora, dowolnego moderatora.',
+'No threads found.' =>
+'Nie znaleziono tematów.',
 
 
 // pages/editsmilies.php
@@ -1846,9 +1953,6 @@ $languagePack = array(
 
 'Only administrators get to manage IP bans.' =>
 'Tylko administratorzy mogą bawić się w banowanie IP-ków.',
-
-'IP ban manager' =>
-'Zarządzanie banami IP',
 
 'Permanent' =>
 'Na zawsze',
@@ -1879,11 +1983,8 @@ $languagePack = array(
 'Manage IP bans' =>
 'Zarządzanie banami IP',
 
-'Manage local moderator assignments' =>
-'Przydzielanie lokalnych moderatorów do forum',
-
-'Edit forum list' =>
-'Edycja listy forów',
+'Manage forum list' =>
+'Zarządzaj listą forów',
 
 'Manage plugins' =>
 'Zarządzanie wtyczkami',
@@ -1899,18 +2000,6 @@ $languagePack = array(
 
 
 // pages/newthread.php
-'New thread' =>
-'Nowy temat',
-
-'You\'re banned.' =>
-'Jesteś zbanowany.',
-
-'This forum is locked.' =>
-'To forum jest zablokowane.',
-
-'You are not allowed to post threads in this forum.' =>
-'Nie możesz pisać tematów w tym forum.',
-
 'Poll' =>
 'Ankieta',
 
@@ -2086,11 +2175,23 @@ $languagePack = array(
 'You\'re not allowed to access the forum editor.' =>
 'Nie masz uprawnień by korzystać z edytora forów.',
 
+'Edit forum list' =>
+'Edycja listy forów',
+
+'Title can\'t be empty.' =>
+'Tytuł nie może być pusty.',
+
+'Name can\'t be empty.' =>
+'Nazwa nie może być pusta.',
+
 'Forum has threads. Move those first.' =>
 'Forum ma tematy. Najpierw je przesuń.',
 
 'No such category.' =>
 'Nie ma takiej kategorii.',
+
+'Mod ID unspecified.' =>
+'ID moderatora nie ustalone.',
 
 'Unknown action: {0}' =>
 'Nieznana akcja: {0}',
@@ -2100,9 +2201,6 @@ $languagePack = array(
 
 'Forum not found.' =>
 'Forum nie znalezione.',
-
-'Update' =>
-'Aktualizuj',
 
 'Edit Forum' =>
 'Edytuj forum',
@@ -2130,6 +2228,9 @@ $languagePack = array(
 
 'to reply' =>
 'żeby odpowiadać',
+
+'Local moderators' =>
+'Lokalni moderatorzy',
 
 'Delete forum' =>
 'Usuń forum',
@@ -2298,6 +2399,52 @@ $languagePack = array(
 'Zapisz jako szkic',
 
 
+// pages/listthreads.php
+'Thread list' =>
+'Lista tematów',
+
+'List of threads' =>
+'Lista tematów',
+
+
+// pages/board.php
+'Mark all forums read' =>
+'Zaznacz wszystkie fora jako przeczytane',
+
+'{0} and {1} total' =>
+'{0} i {1} razem',
+
+'{0} today, {1} last hour' =>
+'{0} dzisiaj, {1} ostatniej godziny',
+
+'new post' =>
+'nowy post',
+
+'{0}, {1} active ({2}%)' =>
+'{0}, {1} aktywnych ({2}%)',
+
+'registered user' =>
+'użytkownik',
+
+'Newest: {0}' =>
+'Najnowszy: {0}',
+
+'No registered users' =>
+'Nie ma zarejestrowanych użytkowników',
+
+'Moderated by:' =>
+'Moderowany przez:',
+
+'by' =>
+'przez',
+
+'Forum title' =>
+'Tytuł forum',
+
+'Threads' =>
+'Tematy',
+
+
 // pages/pluginmanager.php
 'You must be an administrator to manage plugins.' =>
 'Musisz być administratorem, aby zarządzać wtyczkami.',
@@ -2361,6 +2508,17 @@ $languagePack = array(
 'bot',
 
 
+// lib/lists.php
+'Quote' =>
+'Cytat',
+
+'Link' =>
+'Link',
+
+'Thread review' =>
+'Przegląd tematu',
+
+
 // lib/browsers.php
 '{0} on {1}' =>
 '{0} na {1}',
@@ -2388,14 +2546,11 @@ $languagePack = array(
 'Sample post' =>
 'Przykładowy post',
 
-'Post deleted' =>
-'Post usunięty',
+'Post deleted.' =>
+'Post usunięty.',
 
 'Sent on {0}' =>
 'Wysłano {0}',
-
-'in' =>
-'w',
 
 'by {0} on {1}' =>
 'przez {0}, {1}',
@@ -2618,9 +2773,6 @@ $languagePack = array(
 'which?' =>
 'jakim?',
 
-'Links' =>
-'Linki',
-
 'insert image' =>
 'wstaw obrazek',
 
@@ -2630,9 +2782,6 @@ $languagePack = array(
 'link to user\'s profile by ID' =>
 'linkuj do profilu użytkownika',
 
-'Quotations' =>
-'Cytaty',
-
 'untitled quote' =>
 'cytat bez podania osoby',
 
@@ -2641,9 +2790,6 @@ $languagePack = array(
 
 '"Post by &hellip;" with link by post ID' =>
 '"Napisany przez &hellip;" z linkiem do ID postu',
-
-'Embeds' =>
-'Zagnieżdzenie',
 
 'Most plain HTML also allowed.' =>
 'Większość HTML też jest dozwolona.',
@@ -2688,20 +2834,11 @@ $languagePack = array(
 
 
 // navigation.php
-'Main' =>
-'Strona główna',
-
 'FAQ' =>
 'FAQ',
 
-'Avatars' =>
-'Awatary',
-
 
 // footer.php
-'MySQL query' =>
-'MySQL query',
-
 '<!-- English translation by The ABXD Team -->' =>
 '<!-- Polskie tłumaczenie przez GlitchMr -->',
 
@@ -2724,6 +2861,69 @@ $languagePack = array(
 
 
 // Strings no longer used
+'Your personal folder is empty.' =>
+'Twój prywatny folder jest pusty.',
+
+'Make new BBCode' =>
+'Stwórz nowe tagi BBCode',
+
+404 =>
+'404',
+
+'Error 404 - The page you are looking for was not found.' =>
+'Błąd 404 - Strona nie znaleziona.',
+
+'Your post is too short to have any real meaning. Try a little harder.' =>
+'Twój post jest zbyt krótki, żeby miał jakieś znaczenie. Spróbuj trochę bardziej.',
+
+'I\'m sorry, Dave.' =>
+'Przepraszam, Dave.',
+
+'Disable auto-<br>' =>
+'Wyłącz automatyczne <br>',
+
+'Forum ignored. You will no longer see any "New" markers for this forum.' =>
+'Forum zignorowane. Nie będziesz dłużej widział żadnych markerów "New" w tym forum.',
+
+'Forum unignored.' =>
+'Forum nie jest już dłużej ignorowane.',
+
+'Go back and fix that' =>
+'Wróć i napraw to',
+
+'Last Post' =>
+'Ostatni post',
+
+'Layout blocked.' =>
+'Layout zablokowany.',
+
+'Layout unblocked.' =>
+'Layout odblokowany.',
+
+'Manage localmod assignments' =>
+'Przydzielanie lokalnych moderatorów do forum',
+
+'Moderators as of {0}' =>
+'Moderatorzy na {0}',
+
+'already there' =>
+'już jest',
+
+'Pick a mod, any mod.' =>
+'Wybierz moderatora, dowolnego moderatora.',
+
+'Manage local moderator assignments' =>
+'Przydzielanie lokalnych moderatorów do forum',
+
+'Update' =>
+'Aktualizuj',
+
+'Post deleted' =>
+'Post usunięty',
+
+'Main' =>
+'Strona główna',
+
 'Post poll' =>
 'Zrób ankietę',
 
