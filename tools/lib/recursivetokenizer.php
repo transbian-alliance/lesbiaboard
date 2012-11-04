@@ -14,7 +14,7 @@ function recurse($callback, $ignore_whitespace = true)
 		if ($file->isFile())
 		{
 			$filename = $file->getPathName();
-			if (strpos($file, '.php') !== FALSE)
+			if (substr($file, -4) === '.php')
 			{
 				$file = token_get_all(file_get_contents($filename));
 				$tokens = array();
