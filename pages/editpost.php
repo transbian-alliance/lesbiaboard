@@ -53,6 +53,9 @@ if(NumRows($rFora))
 	$forum = Fetch($rFora);
 else
 	Kill(__("Unknown forum ID."));
+
+if ($loguser['powerlevel'] < $forum['minpower'])
+	Kill(__("You are not allowed to browse this forum."));
 $fid = $forum['id'];
 AssertForbidden("viewForum", $fid);
 
