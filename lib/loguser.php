@@ -93,7 +93,7 @@ function doHash($data)
 
 $loguser = NULL;
 
-if($_COOKIE['logsession'])
+if($_COOKIE['logsession'] && !$ipban)
 {
 	$session = Fetch(Query("SELECT * FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt)));
 	if($session)
@@ -127,9 +127,11 @@ else
 
 function setLastActivity()
 {
-	global $loguserid, $isBot, $lastKnownBrowser;
+	global $loguserid, $isBot, $lastKnownBrowser, $ipban;
 
 	Query("delete from {guests} where ip = {0}", $_SERVER['REMOTE_ADDR']);
+
+	if($ipban) return;
 
 	if($loguserid == 0)
 	{
