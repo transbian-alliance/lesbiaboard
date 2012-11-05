@@ -41,25 +41,16 @@ while($ipban = Fetch($rIPBan))
 		$date = formatdate($ipban['date'])." (".TimeUnits($ipban['date']-time())." left)";
 	else
 		$date = __("Permanent");
-	$banList .= format("
-	<tr class=\"cell{0}\">
-		<td>
-			{1}
-		</td>
-		<td>
-			{2}
-		</td>
-		<td>
-			{3}
-		</td>
-		<td>
-			<a href=\"".actionLink("ipbans", "", "ip={1}&action=delete")."\">&#x2718;</a>
-		</td>
-	</tr>
-", $cellClass, $ipban['ip'], $ipban['reason'], $date);
+	$banList .= "
+	<tr class=\"cell$cellClass\">
+		<td>".htmlspecialchars($ipban['ip'])."</td>
+		<td>".htmlspecialchars($ipban['reason'])."</td>
+		<td>$date</td>
+		<td><a href=\"".actionLink("ipbans", "", "ip=".htmlspecialchars($ipban['reason'])."&action=delete")."\">&#x2718;</a></td>
+	</tr>";
 }
 
-write("
+print "
 <table class=\"outline margin width50\">
 	<tr class=\"header1\">
 		<th>".__("IP")."</th>
@@ -67,7 +58,7 @@ write("
 		<th>".__("Date")."</th>
 		<th>&nbsp;</th>
 	</tr>
-	{0}
+	$banList
 </table>
 
 <form action=\"".actionLink("ipbans")."\" method=\"post\">
@@ -108,8 +99,7 @@ write("
 			</td>
 		</tr>
 	</table>
-</form>
-", $banList);
+</form>";
 
 
 ?>
