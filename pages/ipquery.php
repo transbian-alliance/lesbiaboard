@@ -66,7 +66,7 @@ echo "<form id=\"banform\" action=\"".actionLink('ipbans')."\" method=\"post\">$
 	<input type=\"hidden\" name=\"ip\" value=\"$ip\">
 	<input type=\"hidden\" name=\"reason\" value=\"".htmlentities($ipBanComment)."\">
 	<input type=\"hidden\" name=\"days\" value=\"0\">
-	<input type=\"hidden\" name=\"action\" value=\"".__('Add')."\">
+	<input type=\"hidden\" name=\"actionadd\" value=\"yes, do it!\">
 </form>";
 
 echo "

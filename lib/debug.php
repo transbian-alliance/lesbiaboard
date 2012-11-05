@@ -1,8 +1,9 @@
 <?php
 
 
-function backTrace($backtrace)
+function backTrace()
 {
+	$backtrace = debug_backtrace();
 	foreach ($backtrace as $bt) {
 		$args = '';
 		foreach ($bt['args'] as $a) {
@@ -23,9 +24,9 @@ function backTrace($backtrace)
 		
 		if(strlen($args) > 50)
 			$args = substr($args, 0, 50)."...";
-		$output .= "<td>".htmlspecialchars($bt['file'])."<td>".htmlspecialchars($bt['line'])."<td>";
+		$output .= htmlspecialchars($bt['file']).":".htmlspecialchars($bt['line'])." &nbsp; ";
 		$output .= htmlspecialchars("{$bt['class']}{$bt['type']}{$bt['function']}($args)");
-		$output .= "<tr class=cell0>";
+		$output .= "<br />";
 	}
 	return $output;
 }

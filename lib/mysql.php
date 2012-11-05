@@ -88,7 +88,7 @@ function query()
 
 function rawQuery($query)
 {
-	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref, $loguserid;
+	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref, $loguserid, $mysqlCellClass;
 
 //	if($debugMode)
 //		$queryStart = usectime();
@@ -121,20 +121,17 @@ function rawQuery($query)
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");*/
 			
-		else
-		{
-			trigger_error("MySQL Error.", E_USER_ERROR);
-			die("MySQL Error.");
-		}
+		trigger_error("MySQL Error.", E_USER_ERROR);
+		die("MySQL Error.");
 	}
 
 	$queries++;
 
 	if($debugMode)
 	{
-		$backtrace = debug_backtrace();
-		$querytext .= "<td rowspan=".count($backtrace)."><pre style=\"white-space:pre-wrap;\">".htmlspecialchars(preg_replace('/^\s*/m', "", $query))."</pre></td>";
-		$querytext .= backTrace($backtrace);
+		$mysqlCellClass = ($mysqlCellClass+1)%2;
+		$querytext .= "<tr class=\"cell$mysqlCellClass\"><td><pre style=\"white-space:pre-wrap;\">".htmlspecialchars(preg_replace('/^\s*/m', "", $query))."</pre></td><td>";
+		$querytext .= backTrace();
 	}
 
 	return $res;

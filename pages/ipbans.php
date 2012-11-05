@@ -11,11 +11,13 @@ if($loguser['powerlevel'] < 3)
 
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => actionLink("ipbans")), "");
 
-if($_POST['action'] == __("Add"))
+if(isset($_POST['actionadd']))
 {
-	if(!filter_var($_POST['ip'], FILTER_VALIDATE_IP))
-		Alert("Invalid IP");
-	else if(isIPBanned($_POST['ip']))
+	//This doesn't allow you to ban IP ranges...
+	//if(!filter_var($_POST['ip'], FILTER_VALIDATE_IP))
+	//	Alert("Invalid IP");
+	//else
+	if(isIPBanned($_POST['ip']))
 		Alert("Already banned IP!");
 	else
 	{
@@ -39,8 +41,7 @@ while($ipban = Fetch($rIPBan))
 		$date = formatdate($ipban['date'])." (".TimeUnits($ipban['date']-time())." left)";
 	else
 		$date = __("Permanent");
-	$banList .= format(
-"
+	$banList .= format("
 	<tr class=\"cell{0}\">
 		<td>
 			{1}
@@ -81,7 +82,7 @@ write("
 				".__("IP")."
 			</td>
 			<td class=\"cell0\">
-				<input type=\"text\" name=\"ip\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"ip\" style=\"width: 98%;\" maxlength=\"45\" />
 			</td>
 		</tr>
 		<tr>
@@ -89,7 +90,7 @@ write("
 				".__("Reason")."
 			</td>
 			<td class=\"cell1\">
-				<input type=\"text\" name=\"reason\" style=\"width: 98%;\" maxlength=\"25\" />
+				<input type=\"text\" name=\"reason\" style=\"width: 98%;\" maxlength=\"100\" />
 			</td>
 		</tr>
 		<tr>
@@ -103,7 +104,7 @@ write("
 		<tr class=\"cell2\">
 			<td></td>
 			<td>
-				<input type=\"submit\" name=\"action\" value=\"".__("Add")."\" />
+				<input type=\"submit\" name=\"actionadd\" value=\"".__("Add")."\" />
 			</td>
 		</tr>
 	</table>
