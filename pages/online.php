@@ -2,11 +2,13 @@
 //  AcmlmBoard XD - Realtime visitor statistics page
 //  Access: all
 
-
 $title = __("Online users");
 MakeCrumbs(array(__("Online users")=>actionLink("online")), $links);
 
 AssertForbidden("viewOnline");
+
+// This can (and will) be turned into a permission.
+$showIPs = $loguser['powerlevel'] > 0;
 
 $time = (int)$_GET['time'];
 if(!$time) $time = 300;
@@ -46,28 +48,13 @@ if(NumRows($rUsers))
 
 		$userList .= "
 		<tr class=\"cell$cellClass\">
-			<td>
-				$i
-			</td>
-			<td>
-				".UserLink($user)."
-			</td>
-			<td>
-				".cdate("d-m-y G:i:s", $user['lastactivity'])."
-			</td>
-			<td>
-				".($user['lastposttime'] ? cdate("d-m-y G:i:s",$user['lastposttime']) : __("Never"))."
-			</td>
-			<td>
-				$lastUrl
-			</td>";
-		if($loguser['powerlevel'] > 0)
-			$userList .= "
-			<td>
-				".formatIP($user['lastip'])."
-			</td>";
-		$userList .= "
-		</tr>";
+			<td>$i</td>
+			<td>".UserLink($user)."</td>
+			<td>".($user['lastposttime'] ? cdate("d-m-y G:i:s",$user['lastposttime']) : __("Never"))."</td>
+			<td>".cdate("d-m-y G:i:s", $user['lastactivity'])."</td>
+			<td>$lastUrl</td>";
+		if($showIPs) $userList .= "<td>".formatIP($user['lastip'])."</td>";
+		$userList .= "</tr>";
 
 		$i++;
 	}
@@ -75,9 +62,15 @@ if(NumRows($rUsers))
 else
 	$userList = "<tr class=\"cell0\"><td colspan=\"6\">".__("No users")."</td></tr>";
 
-$guestList = "";
-if(NumRows($rGuests))
+
+
+function listGuests($rGuests, $noMsg)
 {
+	global $showIPs;
+	
+	if(!NumRows($rGuests))
+		return "<tr class=\"cell0\"><td colspan=\"6\">$noMsg</td></tr>";
+		
 	$i = 1;
 	while($guest = Fetch($rGuests))
 	{
@@ -87,52 +80,23 @@ if(NumRows($rGuests))
 		else
 			$lastUrl = __("None");
 
-		$guestList .= format(
-"
-		<tr class=\"cell{0}\">
-			<td>{1}</td>
-			<td title=\"{2}\">{3}</td>
-			<td>{4}</td>
-			<td>{5}</td>
-			<td>{6}</td>
-		</tr>
-",	$cellClass, $i, htmlspecialchars($guest['useragent']),
-	htmlspecialchars(substr($guest['useragent'], 0, 65)), cdate("d-m-y G:i:s", $guest['date']),
-	$lastUrl, formatIP($guest['ip']));
+		$guestList .= "
+		<tr class=\"cell$cellClass\">
+			<td>$i</td>
+			<td colspan=\"2\" title=\"".htmlspecialchars($guest['useragent'])."\">".htmlspecialchars(substr($guest['useragent'], 0, 65))."</td>
+			<td>".cdate("d-m-y G:i:s", $guest['date'])."</td>
+			<td>$lastUrl</td>";
+		if($showIPs) $guestList .= "<td>".formatIP($guest['ip'])."</td>";
+		$guestList .= "</tr>";
+
 		$i++;
 	}
+
+	return $guestList;
 }
-else
-	$guestList = "<tr class=\"cell0\"><td colspan=\"5\">".__("No guests")."</td></tr>";
 
-$botList = "";
-if(NumRows($rBots))
-{
-	$i = 1;
-	while($bot = Fetch($rBots))
-	{
-		$cellClass = ($cellClass+1) % 2;
-		if($bot['date'])
-			$lastUrl = "<a href=\"".FilterURL($bot['lasturl'])."\">".FilterURL($bot['lasturl'])."</a>";
-		else
-			$lastUrl = __("None");
-
-		$botList .= format(
-"
-		<tr class=\"cell{0}\">
-			<td>{1}</td>
-			<td title=\"{2}\">{3}</td>
-			<td>{4}</td>
-			<td>{5}</td>
-			<td>{6}</td>
-		</tr>
-",	$cellClass, $i, htmlspecialchars($bot['useragent']),
-	htmlspecialchars(substr($bot['useragent'], 0, 65)), cdate("d-m-y G:i:s", $bot['date']),
-	$lastUrl, formatIP($bot['ip']));
-		$i++;
-	}
-} else
-	$botList = "<tr class=\"cell0\"><td colspan=\"5\">".__("No bots")."</td></tr>";
+$guestList = listGuests($rGuests, __("No guests"));
+$botList = listGuests($rBots, __("No bots"));
 
 write(
 "
@@ -150,48 +114,30 @@ write(
 				".__("Name")."
 			</th>
 			<th style=\"width: 140px;\">
-				".__("Last view")."
+				".__("Last post")."
 			</th>
 			<th style=\"width: 140px;\">
-				".__("Last post")."
+				".__("Last view")."
 			</th>
 			<th>
 				".__("URL")."
 			</th>
-".($loguser['powerlevel'] > 0 ? "
+".($showIPs ? "
 			<th style=\"width: 140px;\">
 				".__("IP")."
 			</th>
 " : "")."
 		</tr>
 		{0}
-	</table>
-	<table class=\"outline margin\">
-		<tr class=\"header1\">
-			<th style=\"width: 30px;\">
-				".__("#")."
-			</th>
-			<th>
-				".__("User agent")."
-			</th>
-			<th style=\"width: 140px;\">
-				".__("Last view")."
-			</th>
-			<th>
-				".__("URL")."
-			</th>
-			<th style=\"width: 140px;\">
-				".__("IP")."
-			</th>
-		</tr>
+
 		<tr class=\"header0\">
-			<th colspan=\"5\">
+			<th colspan=\"6\">
 				".__("Guests")."
 			</th>
 		</tr>
 		{1}
 		<tr class=\"header0\">
-			<th colspan=\"5\">
+			<th colspan=\"6\">
 				".__("Bots")."
 			</th>
 		</tr>
