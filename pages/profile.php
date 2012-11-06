@@ -123,10 +123,14 @@ if($user['title'])
 
 if($user['homepageurl'])
 {
+	$nofollow = "";
+	if(Settings::get("nofollow"))
+		$nofollow = "rel=\"nofollow\"";
+			
 	if($user['homepagename'])
-		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
+		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
-		$homepage = "<a target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
+		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
 	$homepage = securityPostFilter($homepage);
 }
 
@@ -165,21 +169,21 @@ $foo[__("Total posts")] = format("{0} ({1} per day)", $posts, $averagePosts);
 $foo[__("Total threads")] = format("{0} ({1} per day)", $threads, $averageThreads);
 $foo[__("Registered on")] = format("{0} ({1} ago)", formatdate($user['regdate']), TimeUnits($daysKnown*86400));
 
-if($user['lastposttime'])
-{
+$lastPost = Fetch(Query("
+	SELECT
+		p.id as pid, p.date as date,
+		{threads}.title AS ttit, {threads}.id AS tid,
+		{forums}.title AS ftit, {forums}.id AS fid, {forums}.minpower
+	FROM {posts} p
+		LEFT JOIN {users} u on u.id = p.user
+		LEFT JOIN {threads} on {threads}.id = p.thread
+		LEFT JOIN {forums} on {threads}.forum = {forums}.id
+	WHERE p.user={0}
+	ORDER BY p.date DESC
+	LIMIT 0, 1", $user["id"]));
 
-	$lastPost = Fetch(Query("
-		SELECT
-			p.id as pid,
-			{threads}.title AS ttit, {threads}.id AS tid,
-			{forums}.title AS ftit, {forums}.id AS fid, {forums}.minpower
-		FROM {posts} p
-			LEFT JOIN {users} u on u.id = p.user
-			LEFT JOIN {threads} on {threads}.id = p.thread
-			LEFT JOIN {forums} on {threads}.forum = {forums}.id
-		WHERE p.user={0}
-		ORDER BY p.date DESC
-		LIMIT 0, 1", $user["id"]));
+if($lastPost)
+{
 	$thread = array();
 	$thread["title"] = $lastPost["ttit"];
 	$thread["id"] = $lastPost["tid"];
@@ -192,7 +196,7 @@ if($user['lastposttime'])
 		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
 		$place .= " &raquo; ".actionLinkTag($pid, "thread", "", "pid=$pid#$pid");
 	}
-	$foo[__("Last post")] = format("{0} ({1} ago)", formatdate($user['lastposttime']), TimeUnits(time() - $user['lastposttime'])) .
+	$foo[__("Last post")] = format("{0} ({1} ago)", formatdate($lastPost["date"]), TimeUnits(time() - $lastPost["date"])) .
 								"<br>".__("in")." ".$place;
 }
 else
@@ -237,7 +241,7 @@ if($user['realname'])
 if($user['location'])
 	$foo[__("Location")] = htmlspecialchars($user['location']);
 if($user['birthday'])
-	$foo[__("Birthday")] = formatBirthday($user['birthday']);
+	$floo[__("Birthday")] = formatBirthday($user['birthday']);
 if($user['bio'])
 	$foo[__("Bio")] = CleanUpPost($user['bio']);
 

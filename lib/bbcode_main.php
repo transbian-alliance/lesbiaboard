@@ -9,7 +9,12 @@ function applyNetiquetteToLinks($match)
 	if (stripos($match[1], 'http://'.$_SERVER['SERVER_NAME']) === 0)
 		return $match[0];
 
-	return $match[0].' target="_blank"';
+	$res = $match[0];
+	$res .= ' target="_blank"';
+	var_dump(Settings::get("nofollow"));
+	if(Settings::get("nofollow"))
+		$res .= ' rel="nofollow"';
+	return $res;
 }
 
 function cleanUpPost($postText, $poster = "", $noSmilies = false, $noBr = false)

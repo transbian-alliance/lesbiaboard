@@ -93,6 +93,11 @@
 			"default" => "10",
 			"name" => "Minimum time between user posts"
 		),
+		"nofollow" => array (
+			"type" => "boolean",
+			"default" => "1",
+			"name" => "Add rel=nofollow to all user-posted links"
+		),
 		"tagsDirection" => array (
 			"type" => "options",
 			"options" => array('Left' => 'Left', 'Right' => 'Right'),
