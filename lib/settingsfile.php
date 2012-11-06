@@ -95,7 +95,7 @@
 		),
 		"nofollow" => array (
 			"type" => "boolean",
-			"default" => "1",
+			"default" => "0",
 			"name" => "Add rel=nofollow to all user-posted links"
 		),
 		"tagsDirection" => array (
