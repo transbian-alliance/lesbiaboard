@@ -11,7 +11,6 @@ function applyNetiquetteToLinks($match)
 
 	$res = $match[0];
 	$res .= ' target="_blank"';
-	var_dump(Settings::get("nofollow"));
 	if(Settings::get("nofollow"))
 		$res .= ' rel="nofollow"';
 	return $res;
