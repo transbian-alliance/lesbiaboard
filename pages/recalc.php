@@ -70,9 +70,6 @@ while($forum = Fetch($rFora))
 print "<tr class=\"header0\"><th colspan=\"4\">".__("All counters reset.")."</th></tr>";
 print "</table>";
 
-
-
-
 $rForum = Query("select * from {forums}");
 while($forum = Fetch($rForum))
 {
@@ -90,5 +87,7 @@ while($forum = Fetch($rForum))
 		$first = 0;
 	}
 }
+
+$bucket = "recalc"; include("./lib/pluginloader.php");
 
 ?>
