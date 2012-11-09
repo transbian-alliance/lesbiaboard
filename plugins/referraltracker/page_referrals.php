@@ -8,7 +8,7 @@ echo
 	<tr class="header1"><th>URL</th><th>Hit count</th></tr>
 ';
 
-$refs = Query("SELECT referral,count FROM {referrals} ORDER BY count DESC");
+$refs = Query("SELECT referral,count FROM {referrals} ORDER BY count DESC LIMIT 200");
 if (!NumRows($refs))
 	echo '	<tr class="cell0"><td colspan="2">No referrals recorded.</td></tr>
 ';
