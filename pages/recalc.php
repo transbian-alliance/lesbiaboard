@@ -60,7 +60,7 @@ reportFix(__("Counting user's karma&hellip;"), $aff);
 
 startFix();
 query("UPDATE {threads} t SET replies =
-			(SELECT COUNT(*) FROM {posts} p WHERE p.thread = t.id)
+			(SELECT COUNT(*) FROM {posts} p WHERE p.thread = t.id) - 1
 		");
 reportFix(__("Counting thread replies&hellip;"));
 
