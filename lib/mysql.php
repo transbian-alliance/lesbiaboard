@@ -174,6 +174,12 @@ function insertId()
 	return $dblink->insert_id;
 }
 
+function affectedRows()
+{
+	global $dblink;
+	return $dblink->affected_rows;
+}
+
 function getDataPrefix($data, $pref)
 {
 	$res = array();

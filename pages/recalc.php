@@ -6,88 +6,105 @@ AssertForbidden("recalculate");
 
 if($loguser['powerlevel'] < 1)
 		Kill(__("Staff only, please."));
+
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Recalculate statistics") => actionLink("recalc")), "");
 
-print "<table class=\"outline margin width50\">";
-
-print "<tr class=\"header1\"><th>".__("Name")."</th><th>".__("Actual")."</th><th>".__("Reported")."</th><th>&nbsp;</th></tr>";
-
-print "<tr class=\"header0\"><th colspan=\"4\">".__("Counting user's posts&hellip;")."</th></tr>";
-$rUsers = Query("select * from {users}");
-while($user = Fetch($rUsers))
+function startFix()
 {
-	$cellClass = ($cellClass+1) % 2;
-	print "<tr class=\"cell".$cellClass."\">";
-	print "<td>".htmlspecialchars($user['name'])."</td>";
-	$posts = FetchResult("select count(*) from {posts} where user={0}", $user['id']);
-	print "<td>".$posts."</td><td>".$user['posts']."</td>";
-	print "<td style=\"background: ".($posts==$user['posts'] ? "green" : "red").";\"></td>";
-	print "</tr>";
-
-	$rUser = Query("update {users} set posts={0} where id={1} limit 1", $posts, $user['id']);
-	RecalculateKarma($user['id']);
+	global $fixtime;
+	$fixtime = usectime();
 }
 
-print "<tr class=\"header0\"><th colspan=\"4\">".__("Counting thread replies&hellip;")."</th></tr>";
-$rThreads = Query("select * from {threads}");
-while($thread = Fetch($rThreads))
+function reportFix($what, $aff = -1)
 {
-	$thread['title'] = htmlspecialchars($thread['title']);
-	$cellClass = ($cellClass+1) % 2;
-	print "<tr class=\"cell".$cellClass."\">";
-	print "<td>".$thread['title']."</td>";
-	$posts = FetchResult("select count(*) from {posts} where thread={0}", $thread['id']);
-	print "<td>".($posts-1)."</td><td>".$thread['replies']."</td>";
-	print "<td style=\"background: ".($posts-1==$thread['replies'] ? "green" : "red").";\"></td>";
-	print "</tr>";
-
-	$rThread = Query("update {threads} set replies={0} where id={1} limit 1", ($posts-1), $thread['id']);
+	global $fixtime;
+	
+	if($aff = -1)
+		$aff = affectedRows();
+	echo $what, " ", format(__("{0} rows affected."), $aff), " time: ", sprintf('%1.3f', usectime()-$fixtime), "<br />";
 }
 
-print "<tr class=\"header0\"><th colspan=\"4\">".__("Counting forum threads and posts&hellip;")."</th></tr>";
-$rFora = Query("select * from {forums}");
-while($forum = Fetch($rFora))
+$debugMode = false;
+
+startFix();
+query("UPDATE {users} u SET posts =
+			(SELECT COUNT(*) FROM {posts} p WHERE p.user = u.id)
+		");
+reportFix(__("Counting user's posts&hellip;"));
+
+//This is beautiful query, but doesn't work because it's reading from the same table it's updating.
+//I'll do it the dumb way.
+/*query("UPDATE {users} u SET karma =
+			5 * (SELECT COUNT(*) FROM {uservotes} v 
+			LEFT JOIN {users} u2 on u2.id = v.voter
+			WHERE v.uid = u.id AND u2.powerlevel = 0 ) + 
+			10 * (SELECT COUNT(*) FROM {uservotes} v 
+			LEFT JOIN {users} u2 on u2.id = v.voter
+			WHERE v.uid = u.id AND u2.powerlevel = 1 OR u2.powerlevel = 2 ) + 
+			15 * (SELECT COUNT(*) FROM {uservotes} v 
+			LEFT JOIN {users} u2 on u2.id = v.voter
+			WHERE v.uid = u.id AND u2.powerlevel >= 3 ) 
+		");
+reportFix(__("Counting user's karma&hellip;"));
+*/
+
+startFix();
+$aff = 0;
+$users = query("select id from users");
+while($user = fetch($users))
 {
-	$cellClass = ($cellClass+1) % 2;
-	print "<tr class=\"cell".$cellClass."\">";
-	print "<td>".$forum['title']."</td>";
-	$rThreads = Query("select * from {threads} where forum={0}", $forum['id']);
-	$threads = NumRows($rThreads);
-
-	$postcount = 0;
-	while($thread = Fetch($rThreads))
-	{
-		$posts = FetchResult("select count(*) from {posts} where thread={0}", $thread['id']);
-		$postcount += $posts;
-	}
-	print "<td>".$threads." / ".$postcount."</td><td>".$forum['numthreads']." / ".$forum['numposts']."</td>";
-	print "<td style=\"background: ".($threads==$forum['numthreads'] && $postcount==$forum['numposts'] ? "green" : "red").";\"></td>";
-	print "</tr>";
-
-	$rForum = Query("update {forums} set numposts={0}, numthreads={1} where id={2} limit 1", $postcount, $threads, $forum['id']);
+	RecalculateKarma($user["id"]);
+	$aff += affectedRows();
 }
+reportFix(__("Counting user's karma&hellip;"), $aff);
 
-print "<tr class=\"header0\"><th colspan=\"4\">".__("All counters reset.")."</th></tr>";
-print "</table>";
+startFix();
+query("UPDATE {threads} t SET replies =
+			(SELECT COUNT(*) FROM {posts} p WHERE p.thread = t.id)
+		");
+reportFix(__("Counting thread replies&hellip;"));
 
+startFix();
+query("UPDATE {forums} f SET numthreads =
+			(SELECT COUNT(*) FROM {threads} t WHERE t.forum = f.id)
+		");
+reportFix(__("Counting forum threads&hellip;"));
+
+startFix();
+query("UPDATE {forums} f SET numposts =
+			(SELECT SUM(replies) FROM {threads} t WHERE t.forum = f.id)
+		");
+reportFix(__("Counting forum posts&hellip;"));
+
+startFix();
+//For some reason, this beautiful query will set MySQL to use 100% CPU and never finishes.
+/*query("UPDATE {threads} t SET 
+			lastpostid = (SELECT p.id FROM {posts} p WHERE p.thread = t.id ORDER BY date DESC LIMIT 0,1), 
+			lastposter = (SELECT p.user FROM {posts} p WHERE p.thread = t.id ORDER BY date DESC LIMIT 0,1), 
+			lastpostdate = (SELECT p.date FROM {posts} p WHERE p.thread = t.id ORDER BY date DESC LIMIT 0,1)
+		");*/
+
+$aff = 0;
 $rForum = Query("select * from {forums}");
 while($forum = Fetch($rForum))
 {
-	print $forum['title']."<br/>";
 	$rThread = Query("select * from {threads} where forum = {0} order by lastpostdate desc", $forum['id']);
 	$first = 1;
 	while($thread = Fetch($rThread))
 	{
-		print "&raquo; ".htmlspecialchars($thread['title'])."<br/>";
 		$lastPost = Fetch(Query("select * from {posts} where thread = {0} order by date desc limit 0,1", $thread['id']));
-		print "&raquo; &raquo; Last post ID is ".$lastPost['id']." by user #".$lastPost['user']."<br/>";
 		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2} where id = {3}", (int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], $thread['id']);
+		$aff += affectedRows();
 		if($first)
+		{
 			Query("update {forums} set lastpostid = {0}, lastpostuser = {1}, lastpostdate = {2} where id = {3}", (int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], $forum['id']);
+			$aff += affectedRows();
+		}
 		$first = 0;
 	}
 }
+reportFix(__("Updating threads last posts&hellip;"));
 
 $bucket = "recalc"; include("./lib/pluginloader.php");
+print "<br />All done!<br />";
 
-?>

@@ -11,6 +11,6 @@ $tables["postplusones"] = array
 			"user" => $genericInt,
 			"post" => $genericInt,
 		),
-		"special" => "primary key (`user`, `post`)"
+		"special" => "primary key (`user`, `post`), key `user` (`user`), key `post` (`post`)"
 	);
 
