@@ -72,7 +72,7 @@ reportFix(__("Counting forum threads&hellip;"));
 
 startFix();
 query("UPDATE {forums} f SET numposts =
-			(SELECT SUM(replies) FROM {threads} t WHERE t.forum = f.id)
+			(SELECT SUM(replies+1) FROM {threads} t WHERE t.forum = f.id)
 		");
 reportFix(__("Counting forum posts&hellip;"));
 
