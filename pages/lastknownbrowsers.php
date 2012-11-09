@@ -2,6 +2,9 @@
 
 $title = "Last known browsers";
 
+if($loguser['powerlevel'] < 3)
+	Kill(__("You're not an administrator. There is nothing for you here."));
+
 $isMod = $loguser['powerlevel'] > 0;
 $sort = "id asc";
 $ual = "";
