@@ -135,8 +135,11 @@ function setLastActivity()
 
 	if($loguserid == 0)
 	{
+		$ua = "";
+		if(isset($_SERVER['HTTP_USER_AGENT']))
+			$ua = $_SERVER['HTTP_USER_AGENT'];
 		Query("insert into {guests} (date, ip, lasturl, useragent, bot) values ({0}, {1}, {2}, {3}, {4})",
-			time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $_SERVER['HTTP_USER_AGENT'], $isBot);
+			time(), $_SERVER['REMOTE_ADDR'], getRequestedURL(), $ua, $isBot);
 	}
 	else
 	{
