@@ -103,9 +103,80 @@ function Upgrade()
 					$changes++;
 				}
 			}
+			$newindexes = array();
+			preg_match_all('@((primary|unique|fulltext)\s*)?key\s+(`(\w+)`\s+)?\(([\w`,\s]+)\)@si', $tableSchema['special'], $idxs, PREG_SET_ORDER);
+			foreach ($idxs as $idx)
+			{
+				$name = $idx[4] ? $idx[4] : 'PRIMARY';
+				$newindexes[$name]['type'] = $idx[2];
+				$newindexes[$name]['fields'] = preg_replace('@\s+@s', '', $idx[5]);
+			}
+			$curindexes = array();
+			$idxs = Query("SHOW INDEX FROM `{".$table."}`");
+			while ($idx = Fetch($idxs))
+			{
+				$name = $idx['Key_name'];
+				
+				if ($name == 'PRIMARY')
+					$curindexes[$name]['type'] = 'primary';
+				else if ($idx['Non_unique'] == 0)
+					$curindexes[$name]['type'] = 'unique';
+				else if ($idx['Index_type'] == 'FULLTEXT')
+					$curindexes[$name]['type'] = 'fulltext';
+				else
+					$curindexes[$name]['type'] = '';
+					
+				$curindexes[$name]['fields'] = ($curindexes[$name]['fields'] ? $curindexes[$name]['fields'].',' : '').'`'.$idx['Column_name'].'`';
+			}
+			if (!compareIndexes($curindexes, $newindexes))
+			{
+				$changes++;
+				print "<br>Recreating indexes...<br>";
+				foreach ($curindexes as $name=>$idx)
+				{
+					print " - removing index {$name} ({$idx['type']}, {$idx['fields']})<br>";
+					if ($idx['type'] == 'primary')
+						Query("ALTER TABLE `{".$table."}` DROP PRIMARY KEY");
+					else
+						Query("ALTER TABLE `{".$table."}` DROP INDEX `".$name."`");
+				}
+				foreach ($newindexes as $name=>$idx)
+				{
+					print " - adding index {$name} ({$idx['type']}, {$idx['fields']})<br>";
+					if ($idx['type'] == 'primary')
+						$add = 'PRIMARY KEY';
+					else if ($idx['type'] == 'unique')
+						$add = 'UNIQUE `'.$name.'`';
+					else if ($idx['type'] == 'fulltext')
+						$add = 'FULLTEXT `'.$name.'`';
+					else
+						$add = 'INDEX `'.$name.'`';
+						
+					Query("ALTER TABLE `{".$table."}` ADD ".$add." (".$idx['fields'].")");
+				}
+			}
 			if($changes == 0)
 				print " OK.";
 		}
 		print "</li>";
 	}
+}
+
+function compareIndexes($a, $b)
+{
+	if (count($a) != count($b)) return false;
+	
+	foreach ($b as $k=>$v)
+	{
+		if (!array_key_exists($k, $a)) return false;
+	}
+	
+	foreach ($a as $k=>$v)
+	{
+		if (!array_key_exists($k, $b)) return false;
+		if ($v['type'] != $b[$k]['type'] ) return false;
+		if ($v['fields'] != $b[$k]['fields']) return false;
+	}
+	
+	return true;
 }
