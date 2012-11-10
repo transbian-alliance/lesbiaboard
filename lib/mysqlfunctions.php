@@ -134,6 +134,12 @@ function Upgrade()
 				print "<br>Recreating indexes...<br>";
 				foreach ($curindexes as $name=>$idx)
 				{
+					if ($newindexes[$name]['type'] == $idx['type'] && $newindexes[$name]['fields'] == $idx['fields'])
+					{
+						unset($newindexes[$name]);
+						continue;
+					}
+					
 					print " - removing index {$name} ({$idx['type']}, {$idx['fields']})<br>";
 					if ($idx['type'] == 'primary')
 						Query("ALTER TABLE `{".$table."}` DROP PRIMARY KEY");
