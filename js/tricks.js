@@ -35,7 +35,7 @@ function toggleSpoiler()
  */
 function insertQuote(pid)
 {
-	$.get("ajaxcallbacks.php", "a=q&id="+pid, function(data)
+	$.get(boardroot+"ajaxcallbacks.php", "a=q&id="+pid, function(data)
 	{
 		var editor = $("#text")[0]; //we want the HTMLTextElement kthx
 		editor.focus();
@@ -180,9 +180,9 @@ function startOnlineUsers()
 
 function getOnlineUsers()
 {
-	//$("#onlineUsers").load("ajaxcallbacks.php", "a=ou&f=" + onlineFID + "&salt=" + Date())
-	//$("#viewCount").load("ajaxcallbacks.php", "a=vc&f=" + onlineFID + "&salt=" + Date())
-	$.get("ajaxcallbacks.php", "a=vc", function(data)
+	//$("#onlineUsers").load(boardroot+"ajaxcallbacks.php", "a=ou&f=" + onlineFID + "&salt=" + Date())
+	//$("#viewCount").load(boardroot+"ajaxcallbacks.php", "a=vc&f=" + onlineFID + "&salt=" + Date())
+	$.get(boardroot+"ajaxcallbacks.php", "a=vc", function(data)
 	{
 	    var viewCount = $("#viewCount");
 	    var oldCount = viewCount[0].innerHTML;
@@ -191,7 +191,7 @@ function getOnlineUsers()
 			viewCount.html(data);
 		}
 	});
-	$.get("ajaxcallbacks.php", "a=ou&f=" + onlineFID, function(data)
+	$.get(boardroot+"ajaxcallbacks.php", "a=ou&f=" + onlineFID, function(data)
 	{
 	    var onlineUsers = $("#onlineUsers");
 	    var oldOnline = onlineUsers[0].innerHTML;
@@ -343,7 +343,7 @@ function doPageUpdate()
 // Live theme changer by Mega-Mario
 function ChangeTheme(newtheme)
 {
-	$.get("ajaxcallbacks.php", "a=tf&t="+newtheme, function(data)
+	$.get(boardroot+"ajaxcallbacks.php", "a=tf&t="+newtheme, function(data)
 	{
 		var stuff = data.split('|');
 		$("#theme_css")[0].href = stuff[0];
@@ -403,7 +403,7 @@ function hideTricks(pid)
 function showRevisions(pid)
 {
 	$("#meta_"+pid).hide(200);//, function()
-	$("#dyna_"+pid).load("ajaxcallbacks.php", "a=srl&id="+pid, function()
+	$("#dyna_"+pid).load(boardroot+"ajaxcallbacks.php", "a=srl&id="+pid, function()
 	{
 		$("#dyna_"+pid).show(200);
 	});
@@ -412,7 +412,7 @@ function showRevisions(pid)
 function showRevision(pid, rev)
 {
 	var post = $("#post_"+pid);
-	$.get("ajaxcallbacks.php", "a=sr&id="+pid+"&rev="+rev, function(data)
+	$.get(boardroot+"ajaxcallbacks.php", "a=sr&id="+pid+"&rev="+rev, function(data)
 	{
 		post.fadeOut(200, function()
 		{
@@ -516,7 +516,7 @@ function hookUploadCheck(id, type, size)
 
 function replacePost(id, opened)
 {
-	$.get("ajaxcallbacks.php?a=rp"+(opened ? "&o":"")+"&id="+id, function(data)
+	$.get(boardroot+"ajaxcallbacks.php?a=rp"+(opened ? "&o":"")+"&id="+id, function(data)
 	{
 		$("#post"+id).replaceWith(data);
 	});

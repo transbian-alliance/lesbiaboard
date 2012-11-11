@@ -6,7 +6,10 @@ var hint = true;
 
 function geteditforaurl()
 {
-	return document.location + "&action=";
+	if((document.location+"").indexOf("?") == -1) 
+		return document.location + "?action=";
+	else
+		return document.location + "&action=";
 }
 
 function loadEditForum()

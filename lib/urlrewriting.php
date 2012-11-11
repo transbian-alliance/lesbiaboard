@@ -55,6 +55,10 @@ $name = urlNamify($name);
 if($name != $_GET["rewriteurlname"])
 	$valid = false;
 
+//Small hack.
+if($page == "thread" && isset($_GET["pid"]))
+	$valid = true;
+
 //If URL is not valid, we have to redirect to the correct one!
 if(!$valid)
 {

@@ -229,7 +229,7 @@ switch($_POST['action'])
 
 //Main code.
 
-print '<script src="js/editfora.js" type="text/javascript"></script>';
+print '<script src="'.resourceLink('js/editfora.js').'" type="text/javascript"></script>';
 
 Write('
 <div id="editcontent" style="float: right; width: 45%;">
@@ -404,7 +404,7 @@ function WriteForumEditContents($fid)
 			</td>
 			<td>
 				<input type=\"text\" size=\"2\" name=\"forder\" value=\"$forder\" />
-				<img src=\"img/icons/icon5.png\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
+				<img src=\"".resourceLink("img/icons/icon5.png")."\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
 			</td>
 		</tr>
 		<tr class=\"cell0\">
@@ -539,7 +539,7 @@ function WriteCategoryEditContents($cid)
 			</td>
 			<td>
 				<input type=\"text\" size=\"2\" name=\"corder\" value=\"$corder\" />
-				<img src=\"img/icons/icon5.png\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
+				<img src=\"".resourceLink("img/icons/icon5.png")."\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
 			</td>
 		</tr>
 		<tr class=\"cell2\">
