@@ -399,21 +399,25 @@ function formatIP($ip)
 		return $res;
 }
 
-
+function ip2long_better($ip)
+{ 
+	$v = explode('.', $ip); 
+	return ($v[0]*16777216)+($v[1]*65536)+($v[2]*256)+$v[3];
+}
 //TODO: Optimize it so that it can be made with a join in online.php and other places.
 function IP2C($ip)
 {
 	global $dblink;
 	//This nonsense is because ips can be greater than 2^31, which will be interpreted as negative numbers by PHP.
-	$ip = ip2long($ip);
+	$ipl = ip2long($ip);
 	$r = Fetch(Query("SELECT * 
 				 FROM {ip2c}
 				 WHERE ip_from <= {0s} 
 				 ORDER BY ip_from DESC
 				 LIMIT 1", 
-				 sprintf("%u", $ip)));
-	
-	if($r && ($r["ip_to"] - (1<<31)) >= ($ip - (1<<31)))
+				 sprintf("%u", $ipl)));
+
+	if($r && $r["ip_to"] >= ip2long_better($ip))
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 	else
 		return "";
