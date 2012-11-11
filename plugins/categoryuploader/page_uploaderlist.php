@@ -130,7 +130,7 @@ function listCategory($cat)
 			<tr class=\"cell{0}\">
 				{7}
 				<td>
-					<a href=\"get.php?id={1}\">{2}</a>{3}
+					<a href=\"{$boardroot}get.php?id={1}\">{2}</a>{3}
 				</td>
 				<td>
 					{4}
