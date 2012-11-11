@@ -204,8 +204,7 @@ if($thread['poll'])
 	</table>";
 }
 
-$rRead = Query("delete from {threadsread} where id={0} and thread={1}", $loguserid, $tid);
-$rRead = Query("insert into {threadsread} (id,thread,date) values ({0}, {1}, {2})", $loguserid, $tid, time());
+$rRead = Query("insert into {threadsread} (id,thread,date) values ({0}, {1}, {2}) on duplicate key update date={2}", $loguserid, $tid, time());
 
 $total = $thread['replies'] + 1; //+1 for the OP
 $ppp = $loguser['postsperpage'];
