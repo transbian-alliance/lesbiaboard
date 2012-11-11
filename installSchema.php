@@ -33,6 +33,8 @@ $tables = array
 		),
 		"special" => "unique key `mainkey` (`plugin`,`name`)"
 	),
+	
+	//Weird column names: An entry means that "blockee" has blocked the layout of "user"
 	"blockedlayouts" => array
 	(
 		"fields" => array
@@ -40,7 +42,7 @@ $tables = array
 			"user" => $genericInt,
 			"blockee" => $genericInt,
 		),
-		"special" => "key `user` (`user`)"
+		"special" => "key `mainkey` (`blockee`, `user`)"
 	),
 	"categories" => array
 	(
@@ -58,7 +60,7 @@ $tables = array
 		(
 			"plugin" => $var256,
 		),
-		"special" => "key `plugin` (`plugin`)"
+		"special" => "unique key `plugin` (`plugin`)"
 	),
 	"forummods" => array
 	(
@@ -67,6 +69,7 @@ $tables = array
 			"forum" => $genericInt,
 			"user" => $genericInt,			
 		),
+		"special" => "key `mainkey` (`forum`, `user`)"
 	),
 	"forums" => array
 	(
@@ -101,7 +104,7 @@ $tables = array
 			"useragent" => "varchar(100)".$notNull,			
 			"bot" => $bool,
 		),
-		"special" => $keyID
+		"special" => $keyID.", key `ip` (`ip`), key `bot` (`bot`)"
 	),
 	"ignoredforums" => array
 	(
@@ -110,6 +113,7 @@ $tables = array
 			"uid" => $genericInt,
 			"fid" => $genericInt,			
 		),
+		"special" => "key `mainkey` (`uid`, `fid`)"
 	),
 	"ip2c" => array
 	(
@@ -119,6 +123,7 @@ $tables = array
 			"ip_to" => "bigint(12) NOT NULL DEFAULT '0'",
 			"cc" => "varchar(2) DEFAULT ''",			
 		),
+		"special" => "key `ip_from` (`ip_from`)"
 	),
 	"ipbans" => array
 	(
@@ -128,7 +133,7 @@ $tables = array
 			"reason" => "varchar(100)".$notNull,			
 			"date" => $genericInt,			
 		),
-		"special" => "unique key `ip` (`ip`)"
+		"special" => "unique key `ip` (`ip`), key `date` (`date`)"
 	),
 	"misc" => array
 	(
@@ -145,8 +150,6 @@ $tables = array
 			"maxpostshour" => $genericInt,
 			"maxpostshourdate" => $genericInt,
 			"milestone" => $text,
-			"porabox" => $text,
-			"poratitle" => "varchar(100)".$notNull,
 		),
 	),
 	"moodavatars" => array
@@ -158,7 +161,7 @@ $tables = array
 			"mid" => $genericInt,			
 			"name" => $var256,
 		),
-		"special" => $keyID
+		"special" => $keyID, "key `mainkey` (`uid`, `mid`)"
 	),
 	"pmsgs" => array
 	(
@@ -173,7 +176,7 @@ $tables = array
 			"deleted" => "tinyint(4) NOT NULL DEFAULT '0'",
 			"drafting" => $bool,
 		),
-		"special" => $keyID.", key `userto` (`userto`), key `userfrom` (`userfrom`), key `msgread` (`msgread`)"
+		"special" => $keyID.", key `userto` (`userto`), key `userfrom` (`userfrom`), key `msgread` (`msgread`), key `date` (`date`)"
 	),
 	"pmsgs_text" => array
 	(
@@ -205,6 +208,7 @@ $tables = array
 			"choice" => $genericInt,
 			"user" => $genericInt,
 		),
+		"special" => "key `vote` (`poll`, `user`)"
 	),
 	"poll_choices" => array
 	(
@@ -215,7 +219,7 @@ $tables = array
 			"choice" => $var256,
 			"color" => "varchar(25)".$notNull,
 		),
-		"special" => $keyID
+		"special" => $keyID.", key `poll` (`poll`)"
 	),
 	"posts" => array
 	(
@@ -246,7 +250,7 @@ $tables = array
 			"user" => $genericInt,
 			"date" => $genericInt,
 		),
-		"special" => "fulltext key `text` (`text`)"
+		"special" => "fulltext key `text` (`text`), key `pidrevision` (`pid`, `revision`)"
 	),
 	"proxybans" => array
 	(
@@ -255,7 +259,7 @@ $tables = array
 			"id" => $AI,			
 			"ip" => "varchar(45)".$notNull,
 		),
-		"special" => $keyID
+		"special" => $keyID.", unique key `ip` (`ip`)"
 	),
 	"queryerrors" => array
 	(
@@ -349,7 +353,7 @@ $tables = array
 			"sticky" => $bool,
 			"poll" => $genericInt,
 		),
-		"special" => $keyID.", key `forum` (`forum`), key `user` (`user`), key `sticky` (`sticky`), key `pollid` (`poll`), key `lastpostdate` (`lastpostdate`), fulltext key `title` (`title`)"
+		"special" => $keyID.", key `forum` (`forum`), key `user` (`user`), key `sticky` (`sticky`), key `lastpostdate` (`lastpostdate`), fulltext key `title` (`title`)"
 	),
 	"threadsread" => array
 	(
@@ -361,6 +365,8 @@ $tables = array
 		),
 		"special" => "primary key (`id`, `thread`)"
 	),
+	// cid = user who commented
+	// uid = user whose profile received the comment
 	"usercomments" => array
 	(
 		"fields" => array
@@ -371,7 +377,7 @@ $tables = array
 			"text" => $text,
 			"date" => $genericInt,
 		),
-		"special" => $keyID
+		"special" => $keyID,", key `uid` (`uid`), key `date` (`date`)"
 	),
 	"users" => array
 	(
@@ -437,7 +443,7 @@ $tables = array
 			"voter" => $genericInt,
 			"up" => $bool,
 		),
-		"special" => "primary key (`uid`, `voter`), key `uid` (`uid`)"
+		"special" => "primary key (`uid`, `voter`)"
 	),
 	"usergroups" => array(
 		"fields" => array

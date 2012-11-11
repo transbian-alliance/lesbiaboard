@@ -387,7 +387,7 @@ function formatIP($ip)
 	global $loguser;
 
 	$res = $ip;
-	$res .=  " " . IP2C($user['lastip']);
+	$res .=  " " . IP2C($ip);
 	if($loguser["powerlevel"] >= 3)
 		return actionLinkTag($res, "ipquery", $ip);
 	else
@@ -395,13 +395,23 @@ function formatIP($ip)
 }
 
 
+//TODO: Optimize it so that it can be made with a join in online.php and other places.
 function IP2C($ip)
 {
 	global $dblink;
-	$q = @Query("select cc from {ip2c} where ip_from <= inet_aton({0}) and ip_to >= inet_aton({0})", $ip) or $r['cc'] = "";
-	if($q) $r = @Fetch($q);
-	if($r['cc'])
+	//This nonsense is because ips can be greater than 2^31, which will be interpreted as negative numbers by PHP.
+	$ip = ip2long($ip);
+	$r = Fetch(Query("SELECT * 
+				 FROM {ip2c}
+				 WHERE ip_from <= {0} 
+				 ORDER BY ip_from DESC
+				 LIMIT 1", 
+				 sprintf("%u", $ip)));
+	
+	if($r && ($r["ip_to"] - (1<<31)) >= ($ip - (1<<31)))
 		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
+	else
+		return "";
 }
 
 ?>

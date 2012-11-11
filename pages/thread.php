@@ -63,33 +63,30 @@ if(isset($_GET['vote']))
 		Kill(__("You can't vote without logging in."));
 	if($thread['closed'])
 		Kill(__("Poll's closed!"));
-	if($thread['poll'])
+	if(!$thread['poll'])
+		Kill(__("This is not a poll."));
+	if ($loguser["token"] != $_GET['token'])
+		Kill(__("Invalid token."));
+
+	$vote = (int)$_GET['vote'];
+
+	$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
+	if($doublevote)
 	{
-		$vote = (int)$_GET['vote'];
-
-		if ($loguser["token"] != $_GET['token'])
-			Kill(__("Invalid token."));
-
-		$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
-		if($doublevote)
-		{
-			//Multivote.
-			$existing = FetchResult("select count(*) from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
-			if ($existing)
-				Query("delete from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
-			else
-				Query("insert into {pollvotes} (poll, choice, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
-		}
+		//Multivote.
+		$existing = FetchResult("select count(*) from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
+		if ($existing)
+			Query("delete from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
 		else
-		{
-			//Single vote only?
-			//Remove any old votes by this user on this poll, then add a new one.
-			Query("delete from {pollvotes} where poll={0} and user={1}", $thread['poll'], $loguserid);
 			Query("insert into {pollvotes} (poll, choice, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
-		}
 	}
 	else
-		Kill(__("This is not a poll."));
+	{
+		//Single vote only?
+		//Remove any old votes by this user on this poll, then add a new one.
+		Query("delete from {pollvotes} where poll={0} and user={1}", $thread['poll'], $loguserid);
+		Query("insert into {pollvotes} (poll, choice, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
+	}
 }
 
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
