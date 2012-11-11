@@ -113,7 +113,7 @@ while($forum = Fetch($rFora))
 	$ignoreClass = $forum['ignored'] ? " class=\"ignored\"" : "";
 
 	if ($newstuff > 0)
-		$NewIcon = "<img src=\"img/status/new.png\" alt=\"New!\"/>".$newstuff;
+		$NewIcon = "<img src=\"".resourceLink("img/status/new.png")."\" alt=\"New!\"/>".$newstuff;
 
 	if (isset($mods[$forum['id']]))
 		foreach($mods[$forum['id']] as $user)
