@@ -3,7 +3,6 @@ $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
 
-$boardroot = preg_replace('{/[^/]*$}', '/', $_SERVER['SCRIPT_NAME']);
 require('lib/common.php');
 
 //TODO: Put this in a proper place.

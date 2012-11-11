@@ -7,6 +7,8 @@ error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
 if(!is_file("lib/database.php"))
 	die(header("Location: install.php"));
 
+$boardroot = preg_replace('{/[^/]*$}', '/', $_SERVER['SCRIPT_NAME']);
+
 // Deslash GPC variables if we have magic quotes on
 if (get_magic_quotes_gpc())
 {
