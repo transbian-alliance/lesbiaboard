@@ -40,10 +40,11 @@ while($post = Fetch($rPosts))
 			{1}
 		</td>
 		<td>
-			&raquo; ".actionLinkTag("{0}", "thread", "", "pid={0}#{0}")."
+			&raquo; ".actionLinkTag("{0}", "post", "{0}")."
 		</td>
 	</tr>
-", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), actionLinkTag($post["ftit"], "forum", $post["fid"]), makeThreadLink($thread), $c);
+", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), 
+	actionLinkTag($post["ftit"], "forum", $post["fid"], "", $post["ftit"]), makeThreadLink($thread), $c);
 }
 
 if($theList == "")

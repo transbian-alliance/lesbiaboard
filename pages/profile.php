@@ -193,7 +193,7 @@ if($lastPost)
 	else
 	{
 		$pid = $lastPost["pid"];
-		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
+		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"], "", $lastPost["ftit"]).")";
 		$place .= " &raquo; ".actionLinkTag($pid, "post", $pid);
 	}
 	$foo[__("Last post")] = format("{0} ({1} ago)", formatdate($lastPost["date"]), TimeUnits(time() - $lastPost["date"])) .

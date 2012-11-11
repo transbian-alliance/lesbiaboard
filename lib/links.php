@@ -210,7 +210,7 @@ function userLinkById($id)
 function makeThreadLink($thread)
 {
 	$tags = ParseThreadTags($thread["title"]);
-
+	setUrlName("thread", $thread["id"], $tags[0]);
 	$link = actionLinkTag($tags[0], "thread", $thread["id"], "", $tags[0]);
 	$tags = $tags[1];
 

@@ -9,6 +9,8 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	$starter = getDataPrefix($thread, "su_");
 	$last = getDataPrefix($thread, "lu_");
 
+	$threadlink = makeThreadLink($thread);
+
 
 	$NewIcon = "";
 	$newstuff = 0;
@@ -78,7 +80,6 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	if($thread['lastpostid'])
 		$lastLink = " ".actionLinkTag("&raquo;", "post", $thread['lastpostid']);
 
-	$threadlink = makeThreadLink($thread);
 
 	$forumcell = "";
 	if($showforum)
