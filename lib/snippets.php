@@ -418,7 +418,7 @@ function IP2C($ip)
 				 sprintf("%u", $ipl)));
 
 	if($r && $r["ip_to"] >= ip2long_better($ip))
-		return " <img src=\"img/flags/".strtolower($r['cc']).".png\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
+		return " <img src=\"".resourceLink("img/flags/".strtolower($r['cc']).".png")."\" alt=\"".$r['cc']."\" title=\"".$r['cc']."\" />";
 	else
 		return "";
 }
