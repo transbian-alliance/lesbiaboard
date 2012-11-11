@@ -4,11 +4,11 @@
 
 if($_POST['action'] == "logout")
 {
-	setcookie("logsession", 0);
+		setcookie("logsession", "", 2147483647, $boardroot, "", false, true);
 	Query("UPDATE {users} SET loggedin = 0 WHERE id={0}", $loguserid);
 	Query("DELETE FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt));
 
-	die(header("Location: ."));
+	die(header("Location: $boardroot"));
 }
 elseif(isset($_POST['actionlogin']))
 {
@@ -35,12 +35,12 @@ elseif(isset($_POST['actionlogin']))
 		//TODO: Tie sessions to IPs if user has enabled it (or probably not)
 
 		$sessionID = Shake();
-		setcookie("logsession", $sessionID, 2147483647, "", "", false, true);
+		setcookie("logsession", $sessionID, 2147483647, $boardroot, "", false, true);
 		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
 
 		Report("[b]".$user['name']."[/] logged in.", 1);
 
-		die(header("Location: ."));
+		die(header("Location: $boardroot"));
 	}
 }
 
