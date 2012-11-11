@@ -139,7 +139,7 @@ function rawQuery($query)
 
 function fetch($result)
 {
-	return $result->fetch_array();
+	return $result->fetch_assoc();
 }
 
 function fetchRow($result)

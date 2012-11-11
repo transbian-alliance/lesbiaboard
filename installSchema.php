@@ -204,11 +204,11 @@ $tables = array
 	(
 		"fields" => array
 		(
-			"poll" => $genericInt,
-			"choice" => $genericInt,
 			"user" => $genericInt,
+			"choiceid" => $genericInt,
+			"poll" => $genericInt,
 		),
-		"special" => "key `vote` (`poll`, `user`)"
+		"special" => "key `lol` (`user`, `choiceid`), key `poll` (`poll`)"
 	),
 	"poll_choices" => array
 	(

@@ -71,21 +71,22 @@ if(isset($_GET['vote']))
 	$vote = (int)$_GET['vote'];
 
 	$doublevote = FetchResult("select doublevote from {poll} where id={0}", $thread['poll']);
+	$existing = FetchResult("select count(*) from {pollvotes} where poll={0} and choiceid={1} and user={2}", $thread['poll'], $vote, $loguserid);
 	if($doublevote)
 	{
 		//Multivote.
-		$existing = FetchResult("select count(*) from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
 		if ($existing)
-			Query("delete from {pollvotes} where poll={0} and choice={1} and user={2}", $thread['poll'], $vote, $loguserid);
+			Query("delete from {pollvotes} where poll={0} and choiceid={1} and user={2}", $thread['poll'], $vote, $loguserid);
 		else
-			Query("insert into {pollvotes} (poll, choice, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
+			Query("insert into {pollvotes} (poll, choiceid, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
 	}
 	else
 	{
 		//Single vote only?
 		//Remove any old votes by this user on this poll, then add a new one.
 		Query("delete from {pollvotes} where poll={0} and user={1}", $thread['poll'], $loguserid);
-		Query("insert into {pollvotes} (poll, choice, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
+		if(!$existing)
+			Query("insert into {pollvotes} (poll, choiceid, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
 	}
 }
 
@@ -134,78 +135,70 @@ MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread"
 
 if($thread['poll'])
 {
-	$rPoll = Query("select * from {poll} where id={0}", $thread['poll']);
-	if(NumRows($rPoll))
+	$poll = Fetch(Query("SELECT p.*,
+							(SELECT COUNT(DISTINCT user) FROM {pollvotes} pv WHERE pv.poll = p.id) as users,
+							(SELECT COUNT(*) FROM {pollvotes} pv WHERE pv.poll = p.id) as votes
+						 FROM {poll} p
+						 WHERE p.id={0}", $thread['poll']));
+						 
+	if(!$poll)
+		Kill(__("Poll not found"));
+
+	$totalVotes = $poll["users"];
+
+	$rOptions = Query("SELECT pc.*,
+							(SELECT COUNT(*) FROM {pollvotes} pv WHERE pv.poll = {0} AND pv.choiceid = pc.id) as votes,
+							(SELECT COUNT(*) FROM {pollvotes} pv WHERE pv.poll = {0} AND pv.choiceid = pc.id AND pv.user = {1}) as myvote
+					   FROM {poll_choices} pc
+					   WHERE poll={0}", $thread['poll'], $loguserid);
+	$pops = 0;
+	$noColors = 0;
+	$defaultColors = array(
+				  "#0000B6","#00B600","#00B6B6","#B60000","#B600B6","#B66700","#B6B6B6",
+		"#676767","#6767FF","#67FF67","#67FFFF","#FF6767","#FF67FF","#FFFF67","#FFFFFF",);
+
+	while($option = Fetch($rOptions))
 	{
-		$poll = Fetch($rPoll);
+		if($option['color'] == "")
+			$option['color'] = $defaultColors[($option["id"] + 9) % 15];
 
-		$rCheck = Query("select * from {pollvotes} where poll={0} and user={1}", $thread['poll'], $loguserid);
-		if(NumRows($rCheck))
+		$chosen = $option["myvote"]? "&#x2714;":"";
+
+		$cellClass = ($cellClass+1) % 2;
+		if($loguserid && !$thread['closed'] && IsAllowed("vote"))
+			$label = $chosen." ".actionLinkTag(htmlspecialchars($option['choice']), "thread", $thread['id'], "vote=".$option["id"]."&token=".$loguser["token"]);
+		else
+			$label = $chosen." ".htmlspecialchars($option['choice']);
+		$votes = $option["votes"];
+		$bar = "&nbsp;0";
+		if($totalVotes > 0)
 		{
-			while($check = Fetch($rCheck))
-				$pc[$check['choice']] = "&#x2714; "; //use &#x2605; for a star
+			$width = 100 * ($votes / $totalVotes);
+			$alt = format("{0}&nbsp;of&nbsp;{1},&nbsp;{2}%", $votes, $totalVotes, $width);
+			$bar = format("<div class=\"pollbar\" style=\"background-color: {0}; width: {1}%;\" title=\"{2}\">&nbsp;{3}</div>", $option['color'], $width, $alt, $votes);
+			if($width == 0)
+				$bar = "&nbsp;".$votes;
 		}
 
-		$totalVotes = FetchResult("select count(*) from {pollvotes} where poll={0}", $thread['poll']);
+		$pollLines .= "
+	<tr class=\"cell$cellClass\">
+		<td>
+			$label
+		</td>
+		<td class=\"width75\">
+			<div class=\"pollbarContainer\">
+				$bar
+			</div>
+		</td>
+	</tr>";
+	}
+	
+	$voters = $poll["users"];
+	$bottom = format($voters == 1 ? __("{0} user has voted so far.") : __("{0} users have voted so far."), $voters);
+	if($poll["doublevote"])
+		$bottom .= " ".format(__("Total votes: {0}."), $poll["votes"])." ".__("Multi-voting is enabled.");
 
-		$rOptions = Query("select * from {poll_choices} where poll={0}", $thread['poll']);
-		$pops = 0;
-		$options = array();
-		$voters = array();
-		$noColors = 0;
-		$defaultColors = array(
-					  "#0000B6","#00B600","#00B6B6","#B60000","#B600B6","#B66700","#B6B6B6",
-			"#676767","#6767FF","#67FF67","#67FFFF","#FF6767","#FF67FF","#FFFF67","#FFFFFF",);
-		while($option = Fetch($rOptions))
-			$options[] = $option;
-
-		foreach($options as $option)
-		{
-			if($option['color'] == "")
-				$option['color'] = $defaultColors[($pops + 9) % 15];
-
-			$option['choice'] = htmlspecialchars($option['choice']);
-
-			$rVotes = Query("select * from {pollvotes} where poll={0} and choice={1}", $thread['poll'], $pops);
-			$votes = NumRows($rVotes);
-			while($vote = Fetch($rVotes))
-				if(!in_array($vote['user'], $voters))
-					$voters[] = $vote['user'];
-
-			$cellClass = ($cellClass+1) % 2;
-			if($loguserid && !$thread['closed'] && IsAllowed("vote"))
-				$label = $pc[$pops]." ".actionLinkTag($option['choice'], "thread", $thread['id'], "vote=$pops&token=".$loguser["token"]);
-			else
-				$label = format("{0} {1}", $pc[$pops], $option['choice']);
-
-			$bar = "&nbsp;0";
-			if($totalVotes > 0)
-			{
-				$width = 100 * ($votes / $totalVotes);
-				$alt = format("{0}&nbsp;of&nbsp;{1},&nbsp;{2}%", $votes, $totalVotes, $width);
-				$bar = format("<div class=\"pollbar\" style=\"background-color: {0}; width: {1}%;\" title=\"{2}\">&nbsp;{3}</div>", $option['color'], $width, $alt, $votes);
-				if($width == 0)
-					$bar = "&nbsp;".$votes;
-			}
-
-			$pollLines .= format(
-"
-		<tr class=\"cell{0}\">
-			<td>
-				{1}
-			</td>
-			<td class=\"width75\">
-				<div class=\"pollbarContainer\">
-					{2}
-				</div>
-			</td>
-		</tr>
-", $cellClass, $label, $bar);
-			$pops++;
-		}
-		$voters = count($voters);
-		write(
-"
+	echo "
 	<table class=\"outline margin\">
 		<tr class=\"header0\">
 			<th colspan=\"2\">
@@ -214,19 +207,16 @@ if($thread['poll'])
 		</tr>
 		<tr class=\"cell0\">
 			<td colspan=\"2\">
-				{1}
+				".htmlspecialchars($poll['question'])."
 			</td>
 		</tr>
-		{2}
-		<tr class=\"cell0\">
+		$pollLines
+		<tr class=\"cell$cellClass\">
 			<td colspan=\"2\" class=\"smallFonts\">
-				{3}
+				$bottom
 			</td>
 		</tr>
-	</table>
-",	$cellClass, htmlspecialchars($poll['question']), $pollLines,
-	format($voters == 1 ? __("{0} user has voted so far") : __("{0} users have voted so far"), $voters));
-	}
+	</table>";
 }
 
 $rRead = Query("delete from {threadsread} where id={0} and thread={1}", $loguserid, $tid);
