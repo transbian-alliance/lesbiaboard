@@ -164,7 +164,7 @@ function checkForImage(&$image, $external, $file)
 	else
 	{
 		if(file_exists($file))
-			$image = $file;
+			$image = resourceLink($file);
 	}
 }
 
@@ -179,12 +179,10 @@ checkForImage($layout_logopic, false, "themes/$theme/logo.jpg");
 checkForImage($layout_logopic, false, "themes/$theme/logo.gif");
 checkForImage($layout_logopic, false, "themes/$theme/logo.png");
 checkForImage($layout_logopic, false, "img/logo.png");
-$layout_logopic = resourceLink($layout_logopic);
 
 checkForImage($layout_favicon, true, "logos/favicon.gif");
 checkForImage($layout_favicon, true, "logos/favicon.ico");
 checkForImage($layout_favicon, false, "img/favicon.ico");
-$layout_favicon = resourceLink($layout_favicon);
 
 $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))
