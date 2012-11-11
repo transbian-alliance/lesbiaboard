@@ -1,5 +1,22 @@
 <?php
 //  AcmlmBoard XD support - Handy snippets
+
+function endsWith($a, $b){
+	return substr($a, strlen($a) - strlen($b)) == $b;
+}
+
+function endsWithIns($a, $b){
+	return endsWith(strtolower($a), strtolower($b));
+}
+
+function startsWith($a, $b){
+	return substr($a, 0, strlen($b)) == $b;
+}
+
+function startsWithIns($a, $b){
+	return startsWith(strtolower($a), strtolower($b));
+}
+
 include_once("write.php");
 
 function OptimizeLayouts($text)
@@ -142,7 +159,7 @@ function DoSmileyBar($taname = "text")
 		if($i == $expandAt)
 			print "</div><div class=\"smilies\" id=\"expandedSet\">";
 		$s = $smiliesOrdered[$i];
-		print "<img src=\"img/smilies/".$s['image']."\" alt=\"".htmlentities($s['code'])."\" title=\"".htmlentities($s['code'])."\" onclick=\"insertSmiley(' ".str_replace("'", "\'", $s['code'])." ');\" />";
+		print "<img src=\"".resourceLink("img/smilies/".$s['image'])."\" alt=\"".htmlentities($s['code'])."\" title=\"".htmlentities($s['code'])."\" onclick=\"insertSmiley(' ".str_replace("'", "\'", $s['code'])." ');\" />";
 	}
 
 	print '</div></td></tr></table>';
@@ -348,18 +365,6 @@ function formatBirthday($b)
 {
 	return format("{0} ({1} old)", cdate("F j, Y", $b), Plural(floor((time() - $b) / 86400 / 365.2425), "year"));
 }
-function endsWith($haystack, $needle)
-{
-	$length = strlen($needle);
-	if ($length == 0)
-	{
-		return true;
-	}
-
-	$start  = $length * -1; //negative
-	return (substr($haystack, $start) === $needle);
-}
-
 function getPowerlevelName($pl) {
 	$powerlevels = array(
 		0 => __("Normal"),

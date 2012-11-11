@@ -27,10 +27,14 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		$NewIcon = "old";
 
 	if($NewIcon)
-		$NewIcon = "<img src=\"img/status/".$NewIcon.".png\" alt=\"\"/>";
+		$NewIcon = "<img src=\"".resourceLink("img/status/".$NewIcon.".png")."\" alt=\"\"/>";
 
 	if($thread['icon'])
+	{
+		if(startsWith($thread['icon'], "img/"))
+			$thread['icon'] = resourceLink($thread['icon']);
 		$ThreadIcon = "<img src=\"".htmlspecialchars($thread['icon'])."\" alt=\"\" class=\"smiley\"/>";
+	}
 	else
 		$ThreadIcon = "";
 
@@ -42,7 +46,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	}
 	if($thread['sticky'] && $haveStickies == 0) $haveStickies = 1;
 
-	$poll = ($thread['poll'] ? "<img src=\"img/poll.png\" alt=\"Poll\"/> " : "");
+	$poll = ($thread['poll'] ? "<img src=\"".resourceLink("img/poll.png")."\" alt=\"Poll\"/> " : "");
 
 
 	$n = 4;
@@ -79,7 +83,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	$forumcell = "";
 	if($showforum)
 	{
-		$forumcell = "<td class=\"center\">".actionLinkTag(htmlspecialchars($thread["f_title"]), "forum", $thread["f_id"])."</td>";
+		$forumcell = "<td class=\"center\">".actionLinkTag(htmlspecialchars($thread["f_title"]), "forum", $thread["f_id"], "", $thread["f_title"])."</td>";
 	}
 	$forumList .= "
 	<tr class=\"cell$cellClass\">

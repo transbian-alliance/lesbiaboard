@@ -16,7 +16,7 @@ function Goomba() {
 		this.direction = 1;
 	}
 	this.step = 0;
-	this.audio = new Audio("plugins/goomba/goomba.ogg");
+	this.audio = new Audio(resourceLink("plugins/goomba/goomba.ogg"));
 	setInterval(function () {
 		if(self.stomped) return;
 		self.position += self.direction;

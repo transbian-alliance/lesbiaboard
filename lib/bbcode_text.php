@@ -38,7 +38,7 @@ function applySmilies($text)
 		for ($i = 0; $i < count($smilies); $i++)
 		{
 			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
-			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"img/smilies/".$smilies[$i]['image']."\" />";
+			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"".resourceLink("img/smilies/".$smilies[$i]['image'])."\" />";
 		}
 	}
 	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);

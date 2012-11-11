@@ -54,7 +54,9 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => ParseThreadTags($thread['title']), __("New reply")=>""), $links);
+$tags = ParseThreadTags($thread['title']);
+setUrlName("thread", $thread["id"], $thread["title"]);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"], "", $forum["title"]), actionLink("thread", $tid) => $tags, __("New reply")=>""), $links);
 
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 	Alert(__("You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button."));
@@ -249,7 +251,7 @@ print "
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form name=\"postform\" action=\"".actionLink("newreply")."\" method=\"post\">
+				<form name=\"postform\" action=\"".actionLink("newreply", $tid)."\" method=\"post\">
 					<input type=\"hidden\" name=\"ninja\" value=\"$ninja\" />
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">

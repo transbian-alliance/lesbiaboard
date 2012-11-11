@@ -18,7 +18,7 @@
 					<table>
 						<tr>
 							<td style="border: 0px none; text-align: <?php echo $layout_pora ? 'left' : 'center' ?>;">
-								<a href="./">
+								<a href="<?php echo $boardroot;?>">
 									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" />
 								</a>
 							</td>

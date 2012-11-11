@@ -43,13 +43,16 @@ if(NumRows($rFora))
 else
 	Kill(__("Unknown forum ID."));
 
-$rCategories = Query("select * from {categories} where id={0}", $forum['catid']);
-if(NumRows($rCategories))
+if(isset($_GET['pid']))
 {
-	$category = Fetch($rCategories);
+	$ppp = $loguser['postsperpage'];
+	if(!$ppp) $ppp = 20;
+	$from = (floor(FetchResult("SELECT COUNT(*) FROM {posts} WHERE thread={1} AND date<={2} AND id!={0}", $pid, $tid, $post['date']) / $ppp)) * $ppp;
+	$url = actionLink("thread", $thread["id"], $from?"from=$from":"", $thread["title"])."#".$pid;
+	die(header("Location: ".$url));
 }
-else
-	Kill(__("Unknown category ID."));
+setUrlName("newreply", $tid, $thread["title"]);
+setUrlName("editthread", $tid, $thread["title"]);
 
 $threadtags = ParseThreadTags($thread['title']);
 $title = $threadtags[0];
@@ -131,7 +134,7 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), actionLink("thread", $tid) => $threadtags), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid, "", $forum['title']), actionLink("thread", $tid) => $threadtags), $links);
 
 if($thread['poll'])
 {
@@ -228,10 +231,7 @@ if(!$ppp) $ppp = 20;
 if(isset($_GET['from']))
 	$from = $_GET['from'];
 else
-	if(isset($pid))
-		$from = (floor(FetchResult("SELECT COUNT(*) FROM {posts} WHERE thread={1} AND date<={2} AND id!={0}", $pid, $tid, $post['date']) / $ppp)) * $ppp;
-	else
-		$from = 0;
+	$from = 0;
 
 $rPosts = Query("
 			SELECT

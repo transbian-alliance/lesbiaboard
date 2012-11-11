@@ -13,7 +13,7 @@ $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
 
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $uid), __("List of threads")=>""), $links);
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $uid, "", $user["name"]), __("List of threads")=>""), $links);
 
 $total = FetchResult("SELECT
 						count(*)

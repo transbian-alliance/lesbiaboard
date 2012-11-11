@@ -43,7 +43,7 @@ $rThreads = Query("	SELECT
 
 $numonpage = NumRows($rThreads);
 
-$pagelinks = PageLinks(actionLink("", "", "from="), $tpp, $from, $total);
+$pagelinks = PageLinks(actionLink("blog", "", "from="), $tpp, $from, $total);
 
 if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
@@ -72,12 +72,12 @@ while($thread = Fetch($rThreads))
 	$posttext = CleanUpPost($thread['text'],$thread['u_name'], false, false);
 
 	$comments = Plural($thread['replies'], "comment");
-	$comments = actionLinkTag($comments, "thread", $thread['id']).". ";
+	$comments = actionLinkTag($comments, "thread", $thread['id'], "", $thread["title"]).". ";
 
 	if($thread['replies'] != 0)
 		$comments .="Last comment by ".UserLink($last).". $lastLink";
 
-	$newreply = actionLinkTag("Post a comment", "newreply", $thread['id']);
+	$newreply = actionLinkTag("Post a comment", "newreply", $thread['id'], "", $thread["title"]);
 
 
 	if($thread['sticky'])

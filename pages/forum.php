@@ -37,6 +37,7 @@ if(NumRows($rCat))
 	$cat = Fetch($rCat);
 } else
 	Kill(__("Unknown category ID."));
+setUrlName("newthread", $fid, $forum["title"]);
 
 
 $isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
@@ -54,7 +55,7 @@ else if(isset($_GET['unignore']))
 }
 
 if($loguserid)
-	$links .= actionLinkTagItem(__("Mark forum read"), "forum", 0, "action=markasread&id=$fid");
+	$links .= actionLinkTagItem(__("Mark forum read"), "forum", $fid, "action=markasread");
 
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
@@ -67,7 +68,6 @@ if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 }
 
 $OnlineUsersFid = $fid;
-
 MakeCrumbs(array($forum['title']=>actionLink("forum", $fid)), $links);
 
 $total = $forum['numthreads'];

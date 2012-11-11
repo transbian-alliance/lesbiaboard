@@ -1,5 +1,5 @@
 <?php
 
 $dataDir = "data/";
-$dataUrl = "data/";
+$dataUrl = $boardroot."data/";
 

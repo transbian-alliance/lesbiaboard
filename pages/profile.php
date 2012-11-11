@@ -422,7 +422,7 @@ MakePost($previewPost, POST_SAMPLE);
 
 
 if(IsAllowed("editProfile") && $loguserid == $id)
-	$links .= actionLinkTagItem(__("Edit my profile"), "editprofile", $id);
+	$links .= actionLinkTagItem(__("Edit my profile"), "editprofile");
 else if(IsAllowed("editUser") && $loguser['powerlevel'] > 2)
 	$links .= actionLinkTagItem(__("Edit user"), "editprofile", $id);
 
@@ -432,9 +432,9 @@ if(IsAllowed("snoopPM") && $loguser['powerlevel'] > 2)
 if($loguserid && IsAllowed("sendPM"))
 	$links .= actionLinkTagItem(__("Send PM"), "sendprivate", "", "uid=".$id);
 if(IsAllowed("listPosts"))
-		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id);
+		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id, "", $user["name"]);
 if(IsAllowed("listThreads"))
-		$links .= actionLinkTagItem(__("Show threads"), "listthreads", $id);
+		$links .= actionLinkTagItem(__("Show threads"), "listthreads", $id, "", $user["name"]);
 
 $links .= $blockLayoutLink;
 

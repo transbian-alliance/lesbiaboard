@@ -4,7 +4,6 @@ if(isset($_GET["ajax"]))
 	$ajaxPage = true;
 
 $boardroot = preg_replace('{/[^/]*$}', '/', $_SERVER['SCRIPT_NAME']);
-
 require('lib/common.php');
 
 //TODO: Put this in a proper place.
@@ -35,8 +34,6 @@ function getBirthdaysText()
 if (isset($_GET['page']))
 	$page = $_GET["page"];
 else
-	$page = "";
-if(!isset($page))
 	$page = $mainPage;
 if(!ctype_alnum($page))
 	$page = $mainPage;
@@ -182,10 +179,12 @@ checkForImage($layout_logopic, false, "themes/$theme/logo.jpg");
 checkForImage($layout_logopic, false, "themes/$theme/logo.gif");
 checkForImage($layout_logopic, false, "themes/$theme/logo.png");
 checkForImage($layout_logopic, false, "img/logo.png");
+$layout_logopic = resourceLink($layout_logopic);
 
 checkForImage($layout_favicon, true, "logos/favicon.gif");
 checkForImage($layout_favicon, true, "logos/favicon.ico");
 checkForImage($layout_favicon, false, "img/favicon.ico");
+$layout_favicon = resourceLink($layout_favicon);
 
 $layout_themefile = "themes/$theme/style.css";
 if(!file_exists($layout_themefile))

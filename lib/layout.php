@@ -58,21 +58,6 @@ function makeCrumbs($path, $links)
 </div>";
 }
 
-function makeThreadLink($thread)
-{
-	$tags = ParseThreadTags($thread["title"]);
-
-	$link = actionLinkTag($tags[0], "thread", $thread["id"]);
-	$tags = $tags[1];
-
-	if (Settings::get("tagsDirection") === 'Left')
-		return $tags." ".$link;
-	else
-		return $link." ".$tags;
-
-}
-
-
 function makeForumList($fieldname, $selectedID)
 {
 	global $fid, $loguser;

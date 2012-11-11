@@ -1,5 +1,10 @@
 "use strict";
 
+var boardroot = "";
+function resourceLink(url)
+{
+	return boardroot + url;
+}
 
 //Spoiler buttons
 
@@ -239,7 +244,7 @@ function ConstructToolbar()
 		//{ label: "a", title: "Small", insert: "small", html: true },
 		{ label: "-" },
 		{ label: "url", title: "Link", style: "color: blue; text-decoration: underline", insert: "url" },
-		{ label: "<img src=\"img/stdimg.png\" style=\"height: 0.9em;\" />", title: "Image", insert: "img" },
+		{ label: "<img src=\""+resourceLink("img/stdimg.png")+"\" style=\"height: 0.9em;\" />", title: "Image", insert: "img" },
 		{ label: "-" },
 		{ label: "&ldquo; &rdquo;", title: "Quote", insert: "quote" },
 		{ label: "&hellip;", title: "Spoiler", style: "opacity: 0.25", insert: "spoiler" },

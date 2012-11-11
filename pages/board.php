@@ -143,7 +143,7 @@ while($forum = Fetch($rFora))
 			</td>
 			<td>
 				<h4 $ignoreClass>".
-					actionLinkTag($forum['title'], "forum",  $forum['id']) . "
+					actionLinkTag($forum['title'], "forum",  $forum['id'], "", $forum['title']) . "
 				</h4>
 				<span $ignoreClass class=\"nom\">
 					{$forum['description']}

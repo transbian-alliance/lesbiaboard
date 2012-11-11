@@ -856,10 +856,11 @@ foreach($themes as $themeKey => $themeData)
 	$numUsers = FetchResult($qCount);
 
 	$preview = "themes/".$themeKey."/preview.png";
-	if(is_file($preview))
-		$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
-	else
-		$preview = "<img src=\"./img/nopreview.png\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
+	if(!is_file($preview))
+		$preview = "img/nopreview.png";
+	$preview = resourceLink($preview);
+
+	$preview = "<img src=\"".$preview."\" alt=\"".$themeName."\" style=\"margin-bottom: 0.5em\" />";
 
 	if($themeAuthor)
 		$byline = "<br />".nl2br($themeAuthor);
@@ -998,7 +999,7 @@ function BuildPage($page, $id)
 				$output .= "<label for=\"".$field."\">".$item['caption']."</label>\n";
 
 			if(isset($item['hint']))
-				$output .= "<img src=\"img/icons/icon5.png\" title=\"".$item['hint']."\" alt=\"[?]\" />\n";
+				$output .= "<img src=\"".resourceLink("img/icons/icon5.png")."\" title=\"".$item['hint']."\" alt=\"[?]\" />\n";
 			$output .= "</td>\n";
 			$output .= "<td>\n";
 

@@ -21,46 +21,68 @@ function printRefreshCode()
 		</script>
 	");
 }
-function actionLink($action, $id="", $args="")
+
+function urlNamify($urlname)
 {
-	global $boardroot, $mainPage;
-	if($boardroot == "")
-		$boardroot = "./";
+	$urlname = strtolower($urlname);
+	$urlname = str_replace("&", "and", $urlname);
+	$urlname = preg_replace("/[^a-zA-Z0-9]/", "-", $urlname);
+	$urlname = preg_replace("/-+/", "-", $urlname);
+	$urlname = preg_replace("/^-/", "", $urlname);
+	$urlname = preg_replace("/-$/", "", $urlname);
+	return $urlname;
+}
 
-	$bucket = "linkMangler"; include('lib/pluginloader.php');
+$urlNameCache = array();
+function setUrlName($action, $id, $urlname)
+{
+	global $urlNameCache;
+	$urlNameCache[$action."_".$id] = $urlname;
+}
 
-	$res = "";
+if($urlRewriting)
+	include("urlrewriting.php");
+else
+{
 
-	if($action != $mainPage)
-		$res .= "&page=$action";
-
-	if($id != "")
-		$res .= "&id=$id";
-	if($args)
-		$res .= "&$args";
-
-	if(strpos($res, "&amp"))
+	function actionLink($action, $id="", $args="", $urlname="")
 	{
-		debug_print_backtrace();
-		Kill("Found &amp;amp; in link");
+		global $boardroot, $mainPage;
+		if($boardroot == "")
+			$boardroot = "./";
+
+		$bucket = "linkMangler"; include('lib/pluginloader.php');
+
+		$res = "";
+
+		if($action != $mainPage)
+			$res .= "&page=$action";
+
+		if($id != "")
+			$res .= "&id=".urlencode($id);
+		if($args)
+			$res .= "&$args";
+
+		if(strpos($res, "&amp"))
+		{
+			debug_print_backtrace();
+			Kill("Found &amp;amp; in link");
+		}
+
+		if($res == "")
+			return $boardroot;
+		else
+			return $boardroot."?".substr($res, 1);
 	}
-
-	if($res == "")
-		return $boardroot;
-	else
-		return $boardroot."?".substr($res, 1);
-
-//Possible URL Rewriting :D
-//	return "$boardroot/$action/$id?$args";
 }
 
-function actionLinkTag($text, $action, $id=0, $args="")
+function actionLinkTag($text, $action, $id=0, $args="", $urlname="")
 {
-	return '<a href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a>';
+	return '<a href="'.htmlentities(actionLink($action, $id, $args, $urlname)).'">'.$text.'</a>';
 }
-function actionLinkTagItem($text, $action, $id=0, $args="")
+function actionLinkTagItem($text, $action, $id=0, $args="", $urlname="")
 {
-	return '<li><a href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a></li>';
+	return '<li><a href="'.htmlentities(actionLink($action, $id, $args, $urlname)).'">'.$text.'</a></li>';
 }
 
 function actionLinkTagConfirm($text, $prompt, $action, $id=0, $args="")
@@ -166,7 +188,7 @@ function userLink($user, $showMinipic = false, $customID = false)
 
 	$bucket = "userLink"; include('lib/pluginloader.php');
 	$title = htmlspecialchars($user['name']) . " (".$user["id"].") ".$powerlevels[$user['powerlevel']];
-	$userlink = actionLinkTag("<span$classing title=\"$title\">$fname</span>", "profile", $user["id"]);
+	$userlink = actionLinkTag("<span$classing title=\"$title\">$fname</span>", "profile", $user["id"], "", $user["name"]);
 	return $userlink;
 }
 
@@ -183,6 +205,20 @@ function userLinkById($id)
 			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1);
 	}
 	return UserLink($userlinkCache[$id]);
+}
+
+function makeThreadLink($thread)
+{
+	$tags = ParseThreadTags($thread["title"]);
+
+	$link = actionLinkTag($tags[0], "thread", $thread["id"], "", $tags[0]);
+	$tags = $tags[1];
+
+	if (Settings::get("tagsDirection") === 'Left')
+		return $tags." ".$link;
+	else
+		return $link." ".$tags;
+
 }
 
 function pageLinks($url, $epp, $from, $total)

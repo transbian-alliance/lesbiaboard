@@ -38,7 +38,7 @@ if(!isset($_POST['poll']) || isset($_GET['poll']))
 
 $OnlineUsersFid = $fid;
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
+MakeCrumbs(array($forum['title']=>actionLink("forum", $fid, "", $forum["title"]), __("New thread")=>""), $links);
 
 if(isset($_POST['actionpreview']))
 {
@@ -275,13 +275,11 @@ $icons = "";
 while(is_file("img/icons/icon".$i.".png"))
 {
 	$checked = ($_POST['iconid'] == $i) ? "checked=\"checked\" " : "";
-	$icons .= format(
-"
+	$icons .= "
 							<label>
-								<input type=\"radio\" {0} name=\"iconid\" value=\"{1}\" />
-								<img src=\"img/icons/icon{1}.png\" alt=\"Icon {1}\" onclick=\"javascript:void()\" />
-							</label>
-", $checked, $i);
+								<input type=\"radio\" $checked name=\"iconid\" value=\"{1}\" />
+								<img src=\"".resourceLink("img/icons/icon$i.png")."\" alt=\"Icon {1}\" onclick=\"javascript:void()\" />
+							</label>";
 	$i++;
 }
 
@@ -367,7 +365,7 @@ print "
 	<table style=\"width: 100%;\">
 		<tr>
 			<td style=\"vertical-align: top; border: none;\">
-				<form name=\"postform\" action=\"".actionLink("newthread")."\" method=\"post\">
+				<form name=\"postform\" action=\"".actionLink("newthread", $fid)."\" method=\"post\">
 					<table class=\"outline margin width100\">
 						<tr class=\"header1\">
 							<th colspan=\"2\">
