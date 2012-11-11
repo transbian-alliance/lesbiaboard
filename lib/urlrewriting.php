@@ -43,21 +43,22 @@ if($_GET["rewritten"] == 0 && isset($_GET["page"]))
 //Find out the correct name.
 $name = "";
 $page = $_GET["page"];
-if($page === "") $page == $mainPage;
-if($page == "profile" || $page == "listthreads" || $page === "listposts")
-	$name = FetchResult("SELECT name FROM {users} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
-if($page == "thread" || $page == "editthread" || $page === "newreply")
-	$name = FetchResult("SELECT title FROM {threads} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
-if($page == "forum" || $page == "newthread")
-	$name = FetchResult("SELECT title FROM {forums} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
+$name = "";
 
-$name = urlNamify($name);
-if($name != $_GET["rewriteurlname"])
-	$valid = false;
+if($_GET["id"])
+{
+	if($page === "") $page == $mainPage;
+	if($page == "profile" || $page == "listthreads" || $page === "listposts")
+		$name = FetchResult("SELECT name FROM {users} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
+	if($page == "thread" || $page == "editthread" || $page === "newreply")
+		$name = FetchResult("SELECT title FROM {threads} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
+	if($page == "forum" || $page == "newthread")
+		$name = FetchResult("SELECT title FROM {forums} WHERE id={0} LIMIT 1", (int)$_GET["id"]);
 
-//Small hack.
-if($page == "thread" && isset($_GET["pid"]))
-	$valid = true;
+	$name = urlNamify($name);
+	if($name != $_GET["rewriteurlname"])
+		$valid = false;
+}
 
 //If URL is not valid, we have to redirect to the correct one!
 if(!$valid)
