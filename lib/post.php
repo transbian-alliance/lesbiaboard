@@ -273,7 +273,7 @@ function makePost($post, $type, $params=array())
 		$canmod = CanMod($loguserid, $forum);
 		$replyallowed = IsAllowed("makeReply", $thread);
 		$editallowed = IsAllowed("editPost", $post['id']);
-		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1));
+		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1)) && $loguserid;
 
 		if (!$isBot)
 		{
