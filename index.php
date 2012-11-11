@@ -46,7 +46,7 @@ if($page == $mainPage)
 	if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
 		die(header("Location: ".actionLink("profile", (int)$_GET['uid'])));
 	if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
-		die(header("Location: ".actionLink("thread", "", "pid=".(int)$_GET['pid']."#".(int)$_GET['pid'])));
+		die(header("Location: ".actionLink("post", (int)$_GET['pid'])));
 }
 
 ob_start();
