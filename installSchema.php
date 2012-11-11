@@ -161,7 +161,7 @@ $tables = array
 			"mid" => $genericInt,			
 			"name" => $var256,
 		),
-		"special" => $keyID, "key `mainkey` (`uid`, `mid`)"
+		"special" => $keyID. "key `mainkey` (`uid`, `mid`)"
 	),
 	"pmsgs" => array
 	(
@@ -377,7 +377,7 @@ $tables = array
 			"text" => $text,
 			"date" => $genericInt,
 		),
-		"special" => $keyID,", key `uid` (`uid`), key `date` (`date`)"
+		"special" => $keyID.", key `uid` (`uid`), key `date` (`date`)"
 	),
 	"users" => array
 	(
