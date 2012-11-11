@@ -408,7 +408,7 @@ function IP2C($ip)
 	$ip = ip2long($ip);
 	$r = Fetch(Query("SELECT * 
 				 FROM {ip2c}
-				 WHERE ip_from <= {0} 
+				 WHERE ip_from <= {0s} 
 				 ORDER BY ip_from DESC
 				 LIMIT 1", 
 				 sprintf("%u", $ip)));
