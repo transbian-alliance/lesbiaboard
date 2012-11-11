@@ -73,6 +73,8 @@ if(!$valid)
 		$params .= urlencode($key)."=".urlencode($val);
 	}
 	$newUrl = actionLink($page, $_GET["id"], $params, $name);
+	header("HTTP/1.1 301 Moved Permanently");
+	header("Status: 301 Moved Permanently");
 	die(header("Location: ".$newUrl));
 }
 
