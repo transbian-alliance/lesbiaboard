@@ -189,7 +189,7 @@ elseif($_POST['action'] == __("Register"))
 	if($_POST['autologin'])
 	{
 		$sessionID = Shake();
-		setcookie("logsession", $sessionID, 0, "", "", false, true);
+		setcookie("logsession", $sessionID, 0, $boardroot, "", false, true);
 		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], 0);
 		die(header("Location: ."));
 	}
