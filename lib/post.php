@@ -287,7 +287,7 @@ function makePost($post, $type, $params=array())
 			}
 			else if ($type == POST_NORMAL)
 			{
-				$links->add(new PipeMenuLinkEntry(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']));
+				$links->add(new PipeMenuLinkEntry(__("Link"), "post", $post['id']));
 
 				if ($canreply && !$params['noreplylinks'])
 					$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id']));

@@ -128,7 +128,7 @@ while($forum = Fetch($rFora))
 
 		$lastLink = "";
 		if($forum['lastpostid'])
-			$lastLink = actionLinkTag("&raquo;", "thread", 0, "pid=".$forum['lastpostid']."#".$forum['lastpostid']);
+			$lastLink = actionLinkTag("&raquo;", "post", $forum['lastpostid']);
 		$lastLink = format("<span class=\"nom\">{0}<br />".__("by")." </span>{1} {2}", formatdate($forum['lastpostdate']), UserLink($user), $lastLink);
 	}
 	else

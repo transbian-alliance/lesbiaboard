@@ -170,7 +170,7 @@ else if(isset($_POST['actionpost']))
 
 		$bucket = "newreply"; include("lib/pluginloader.php");
 
-		die(header("Location: ".actionLink("thread", 0, "pid=".$pid."#".$pid)));
+		die(header("Location: ".actionLink("post", $pid)));
 	}
 }
 

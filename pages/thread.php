@@ -5,16 +5,6 @@
 
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];
-else if(isset($_GET['pid']))
-{
-	$pid = (int)$_GET['pid'];
-	$rPost = Query("select * from {posts} where id={0}", $pid);
-	if(NumRows($rPost))
-		$post = Fetch($rPost);
-	else
-		Kill(__("Unknown post ID."));
-	$tid = $post['thread'];
-}
 else
 	Kill(__("Thread ID unspecified."));
 
@@ -43,14 +33,6 @@ if(NumRows($rFora))
 else
 	Kill(__("Unknown forum ID."));
 
-if(isset($_GET['pid']))
-{
-	$ppp = $loguser['postsperpage'];
-	if(!$ppp) $ppp = 20;
-	$from = (floor(FetchResult("SELECT COUNT(*) FROM {posts} WHERE thread={1} AND date<={2} AND id!={0}", $pid, $tid, $post['date']) / $ppp)) * $ppp;
-	$url = actionLink("thread", $thread["id"], $from?"from=$from":"", $thread["title"])."#".$pid;
-	die(header("Location: ".$url));
-}
 setUrlName("newreply", $tid, $thread["title"]);
 setUrlName("editthread", $tid, $thread["title"]);
 

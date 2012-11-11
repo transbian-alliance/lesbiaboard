@@ -76,7 +76,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 
 	$lastLink = "";
 	if($thread['lastpostid'])
-		$lastLink = " ".actionLinkTag("&raquo;", "thread", 0, "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
+		$lastLink = " ".actionLinkTag("&raquo;", "post", $thread['lastpostid']);
 
 	$threadlink = makeThreadLink($thread);
 

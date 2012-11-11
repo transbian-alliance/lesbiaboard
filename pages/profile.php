@@ -194,7 +194,7 @@ if($lastPost)
 	{
 		$pid = $lastPost["pid"];
 		$place = makeThreadLink($thread)." (".actionLinkTag($lastPost["ftit"], "forum", $lastPost["fid"]).")";
-		$place .= " &raquo; ".actionLinkTag($pid, "thread", "", "pid=$pid#$pid");
+		$place .= " &raquo; ".actionLinkTag($pid, "post", $pid);
 	}
 	$foo[__("Last post")] = format("{0} ({1} ago)", formatdate($lastPost["date"]), TimeUnits(time() - $lastPost["date"])) .
 								"<br>".__("in")." ".$place;

@@ -61,7 +61,7 @@ while($thread = Fetch($rThreads))
 
 	$lastLink = "";
 	if($thread['lastpostid'])
-		$lastLink = " ".actionLinkTag("&raquo;", "thread", "", "pid=".$thread['lastpostid']."#".$thread['lastpostid']);
+		$lastLink = " ".actionLinkTag("&raquo;", "post", $thread['lastpostid']);
 
 	if($thread['replies'] == 0) $lastLink = "";
 
