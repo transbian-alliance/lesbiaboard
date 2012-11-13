@@ -113,8 +113,8 @@ $minipic = getMinipicTag($user);
 
 if($user['rankset'])
 {
-	$currentRank = GetRank($user);
-	$toNextRank = GetToNextRank($user);
+	$currentRank = GetRank($user["rankset"], $user["posts"]);
+	$toNextRank = GetToNextRank($user["rankset"], $user["posts"]);
 	if($toNextRank)
 		$toNextRank = Plural($toNextRank, "post");
 }

@@ -49,53 +49,6 @@ function loadBlockLayouts()
 		$blocklayouts[$block['user']] = 1;
 }
 
-function loadRanks($rankset)
-{
-	global $ranks;
-	if(isset($ranks[$rankset]))
-		return;
-	$ranks[$poster['rankset']] = array();
-	$rRanks = Query("select * from {ranks} where rset={0} order by num", $rankset);
-	while($rank = Fetch($rRanks))
-		$ranks[$rankset][$rank['num']] = $rank['text'];
-}
-
-function getRank($poster)
-{
-	global $ranks;
-	if($poster['rankset'] == 0)
-		return "";
-	LoadRanks($poster['rankset']);
-	$thisSet = $ranks[$poster['rankset']];
-	if(!is_array($thisSet))
-		return "";
-	$ret = "";
-	foreach($thisSet as $num => $text)
-	{
-		if($num > $poster['posts'])
-			return $ret;
-		$ret = $text;
-	}
-}
-
-function getToNextRank($poster)
-{
-	global $ranks;
-	if($poster['rankset'] == 0)
-		return "";
-	LoadRanks($poster['rankset']);
-	$thisSet = $ranks[$poster['rankset']];
-	if(!is_array($thisSet))
-		return 0;
-	$ret = 0;
-	foreach($thisSet as $num => $text)
-	{
-		$ret = $num - $poster['posts'];
-		if($num > $poster['posts'])
-			return $ret;
-	}
-}
-
 function getSyndrome($activity)
 {
 	include("syndromes.php");
@@ -153,7 +106,7 @@ function makePostText($post)
 		"postcount" => $poster['posts'],
 		"numdays" => floor((time()-$poster['regdate'])/86400),
 		"date" => formatdate($post['date']),
-		"rank" => GetRank($poster),
+		"rank" => GetRank($poster["rankset"], $poster["posts"]),
 	);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
 
@@ -353,7 +306,7 @@ function makePost($post, $type, $params=array())
 
 	// POST SIDEBAR
 
-	$sideBarStuff .= GetRank($poster);
+	$sideBarStuff .= GetRank($poster["rankset"], $poster["posts"]);
 	if($sideBarStuff)
 		$sideBarStuff .= "<br />";
 	if($poster['title'])

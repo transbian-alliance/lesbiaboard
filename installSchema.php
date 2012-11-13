@@ -277,25 +277,6 @@ $tables = array
 		),
 		"special" => $keyID
 	),
-	"ranks" => array
-	(
-		"fields" => array
-		(
-			"rset" => $genericInt,
-			"num" => $genericInt,
-			"text" => $var256,
-		),
-		"special" => "key `count` (`num`)"
-	),
-	"ranksets" => array
-	(
-		"fields" => array
-		(
-			"id" => $AI,
-			"name" => "varchar(50)".$notNull,
-		),
-		"special" => $keyID
-	),
 	"reports" => array
 	(
 		"fields" => array
@@ -398,7 +379,7 @@ $tables = array
 			"signature" => $text,
 			"bio" => $text,
 			"sex" => "tinyint(2) NOT NULL DEFAULT '2'",
-			"rankset" => $smallerInt,
+			"rankset" => $var128,
 			"realname" => "varchar(60)".$notNull,
 			"lastknownbrowser" => $text,
 			"location" => $var128,

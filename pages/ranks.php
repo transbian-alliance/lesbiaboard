@@ -4,8 +4,8 @@ $title = __("Ranks");
 MakeCrumbs(array(__("Ranks")=>actionLink("ranks")), $links);
 AssertForbidden("viewRanks");
 
-$setCount = FetchResult("select count(*) from {ranksets}");
-if($setCount == 0)
+loadRanksets();
+if(count($ranksetData) == 0)
 	Kill(__("No ranksets have been defined."));
 
 $users = array();
@@ -14,24 +14,18 @@ while($user = Fetch($rUsers))
 	$users[$user['u_id']] = getDataPrefix($user, "u_");
 
 $rankset = $loguser['rankset'];
-if($rankset == 0)
-	$rankset = 1;
+if(!$rankset)
+{
+	$rankset = array_keys($ranksetData);
+	$rankset = $rankset[0];
+}
 if(isset($_POST['rankset']))
-	$rankset = (int)$_POST['rankset'];
+	$rankset = $_POST['rankset'];
 
-$ranks = array();
-$rRanks = Query("select num, text from {ranks} where rset={0} order by num asc", $rankset);
-while($rank = Fetch($rRanks))
-	$ranks[] = $rank;
-
-$rSets = Query("select * from {ranksets} order by id asc");
 $selected[$rankset] = " selected = \"selected\"";
 $ranksets = "";
-while($set = Fetch($rSets))
-	$ranksets .= format(
-"
-					<option value=\"{0}\"{1}>{2}</option>
-",	$set['id'], $selected[$set['id']], $set['name']);
+foreach($ranksetNames as $name => $title)
+	$ranksets .= "<option value=\"$name\" {$selected[$name]}>$title</option>";
 
 write(
 "
@@ -57,7 +51,7 @@ write(
 </form>
 ", $ranksets);
 
-
+/*
 //Handle climbing the ranks again
 //$users[1]['posts'] = 6000;
 $climbingAgain = array();
@@ -88,7 +82,9 @@ if(count($climbingAgain))
 ", join(", ", $climbingAgain));
 else
 	$climbingAgain = "";
+*/
 
+$ranks = $ranksetData[$rankset];
 
 $ranklist = "";
 for($i = 0; $i < count($ranks); $i++)
@@ -103,7 +99,12 @@ for($i = 0; $i < count($ranks); $i++)
 		if($user['posts'] >= $rank['num'] && $user['posts'] < $nextRank['num'])
 			$members[] = UserLink($user);
 	}
-	$rankText = ($loguser['powerlevel'] > 0 || $loguser['posts'] >= $rank['num'] || count($members) > 0) ? str_replace("<br />", " ", $rank['text']) : "???";
+	$showRank = $loguser['powerlevel'] > 0 || $loguser['posts'] >= $rank['num'] || count($members) > 0;
+	if($showRank)
+		$rankText = getRankHtml($rankset, $rank);
+	else
+		$rankText = "???";
+
 	if(count($members) == 0)
 		$members = "&nbsp;";
 	else

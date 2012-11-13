@@ -69,6 +69,7 @@ include("pluginsystem.php");
 loadFieldLists();
 include("loguser.php");
 include("permissions.php");
+include("ranksets.php");
 include("bbcode_parser.php");
 include("bbcode_text.php");
 include("bbcode_callbacks.php");

@@ -33,11 +33,11 @@ if($user["displayname"])
 	$uname = $user["displayname"];
 makeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), "");
 
-$qRanksets = "select name from {ranksets}";
-$rRanksets = Query($qRanksets);
-$ranksets[] = __("None");
-while($rankset = Fetch($rRanksets))
-	$ranksets[] = $rankset['name'];
+loadRanksets();
+$ranksets = $ranksetNames;
+$ranksets = array_reverse($ranksets);
+$ranksets[""] = __("None");
+$ranksets = array_reverse($ranksets);
 
 foreach($dateformats as $format)
 	$datelist[$format] = ($format ? $format.' ('.cdate($format).')':'');
@@ -443,9 +443,9 @@ if($_POST['action'] == __("Edit profile"))
 							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 						break;
 					case "select":
-						$num = (int)$_POST[$field];
-						if (array_key_exists($num, $item['options']))
-							$sets[] = $field." = ".$num;
+						$val = $_POST[$field];
+						if (array_key_exists($val, $item['options']))
+							$sets[] = $field." = '".sqlEscape($val)."'";
 						break;
 					case "number":
 						$num = (int)$_POST[$field];
