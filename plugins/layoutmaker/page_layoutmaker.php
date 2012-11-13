@@ -6,9 +6,7 @@ foreach($bases as $base)
 {
 	$picture = '';
 	if (file_exists('plugins/layoutmaker/bases/'.$base['name'].'.png'))
-	{
-		$picture = "<img src=\"plugins/layoutmaker/bases/".$base['name'].".png\" />";
-	}
+		$picture = "<img src=\"".resourceLink("plugins/layoutmaker/bases/".$base['name'].".png")."\" />";
 	$cellClass = ($cellClass + 1) % 2;
 	$offers .= "
 	<tr class=\"cell$cellClass\">

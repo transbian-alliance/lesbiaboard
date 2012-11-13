@@ -11,7 +11,7 @@ if(isset($_POST['action']) && $_POST['action'] == "Install")
 
 	$path = "layoutmaker/".$loguserid.".css";
 	file_put_contents($path, $_POST['css']);
-
+	$path = resourceLink($path);
 	$head = "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$path."\" />\n".$_POST['header'];
 	$foot = $_POST['footer'];
 

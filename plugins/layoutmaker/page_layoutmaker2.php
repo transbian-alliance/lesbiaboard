@@ -13,8 +13,8 @@ else
 
 write(
 "
-	<link rel=\"stylesheet\" type=\"text/css\" href=\"plugins/layoutmaker/layoutmaker.css\" />
-	<script type=\"text/javascript\" src=\"js/jscolor/jscolor.js\"></script>
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"".resourceLink("plugins/layoutmaker/layoutmaker.css")."\" />
+	<script type=\"text/javascript\" src=\"".resourceLink("js/jscolor/jscolor.js")."\"></script>
 ");
 
 $parmFields = "";

@@ -8,7 +8,7 @@ $cssTemplate = "
     border-color: [BORDERCOLOR]!important;
     border-width: 1px 0px 0px 1px!important;
     text-align: center;
-    background-color:black!important;
+    background:black!important;
     color:[SIDEBARCOLOR]!important;
     text-shadow: 0px 0px 3px [SIDEBARGLOWCOLOR];
 }
@@ -19,7 +19,7 @@ $cssTemplate = "
 .topbar[ID]_2
 {
     border-radius:0px!important;
-    background-color:black!important;
+    background:black!important;
     color:[SIDEBARCOLOR]!important;
     text-shadow: 0px 0px 3px [SIDEBARGLOWCOLOR];
     border-color: [BORDERCOLOR]!important;
@@ -45,7 +45,7 @@ $cssTemplate = "
 .sidebar[ID]
 {
     border-radius:0px!important;
-    background-color:black!important;
+    background:black!important;
     text-align: center;
 
     color:[SIDEBARCOLOR]!important;
@@ -57,7 +57,7 @@ $cssTemplate = "
 .mainbar[ID]
 {
     border-radius:0px!important;
-    background-color:black!important;
+    background:black!important;
     color:[COLOR]!important;
     text-shadow: 0px 0px 3px [GLOWCOLOR];
     border-color: [BORDERCOLOR]!important;
@@ -69,7 +69,7 @@ $cssTemplate = "
 
 .mainbar[ID] div.quote
 {
-    background-color:rgba([QUOTECOLOR_RGB], 0.2)!important;
+    background:rgba([QUOTECOLOR_RGB], 0.2)!important;
     border-color:rgba([QUOTECOLOR_RGB], 0.7)!important;
     border:1px solid!important;
     color:[QUOTECOLOR]!important;
@@ -98,7 +98,7 @@ $cssTemplate = "
 .mainbar[ID] div.spoiler
 {
     text-align:center!important;
-    background-color:rgba([QUOTECOLOR_RGB], 0.2)!important;
+    background:rgba([QUOTECOLOR_RGB], 0.2)!important;
     border-color:rgba([QUOTECOLOR_RGB], 0.7)!important;
     border:1px solid!important;
     color:[QUOTECOLOR]!important;
@@ -107,7 +107,7 @@ $cssTemplate = "
 
 .mainbar[ID] div.geshi
 {
-    background-color:rgba([QUOTECOLOR_RGB], 0.2)!important;
+    background:rgba([QUOTECOLOR_RGB], 0.2)!important;
     background-image:none;
     border-color:rgba([QUOTECOLOR_RGB], 0.7)!important;
     border:1px solid!important;
@@ -119,7 +119,7 @@ $cssTemplate = "
 .mainbar[ID] div.spoiler button
 {
     width:100% !important;
-    background-color:rgba(0, 0, 0, 0.4)!important;
+    background:rgba(0, 0, 0, 0.4)!important;
     border-color:rgba([QUOTECOLOR_RGB], 0.7)!important;
     border:1px solid!important;
     color:[QUOTECOLOR]!important;
