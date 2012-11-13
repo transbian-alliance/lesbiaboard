@@ -8,49 +8,46 @@ loadRanksets();
 if(count($ranksetData) == 0)
 	Kill(__("No ranksets have been defined."));
 
-$users = array();
-$rUsers = Query("select u.(_userfields), u.posts as u_posts from {users} u order by id asc");
-while($user = Fetch($rUsers))
-	$users[$user['u_id']] = getDataPrefix($user, "u_");
-
-$rankset = $loguser['rankset'];
-if(!$rankset)
+if(!isset($_GET["id"]))
 {
-	$rankset = array_keys($ranksetData);
-	$rankset = $rankset[0];
+	$rankset = $loguser['rankset'];
+	if(!$rankset || !isset($ranksetData[$rankset]))
+	{
+		$rankset = array_keys($ranksetData);
+		$rankset = $rankset[0];
+	}
+	
+	die(header("Location: ".actionLink("ranks", $rankset)));
 }
-if(isset($_POST['rankset']))
-	$rankset = $_POST['rankset'];
 
-$selected[$rankset] = " selected = \"selected\"";
-$ranksets = "";
-foreach($ranksetNames as $name => $title)
-	$ranksets .= "<option value=\"$name\" {$selected[$name]}>$title</option>";
+$rankset = $_GET['id'];
+if(!isset($ranksetData[$rankset]))
+	Kill(__("Rankset not found."));
 
-write(
-"
-<form action=\"".actionLink("ranks")."\" method=\"post\" id=\"myForm\">
-	<table class=\"outline margin width25\">
-		<tr class=\"header0\">
-			<th colspan=\"2\">
-				".__("User ranks")."
-			</th>
-		</tr>
-		<tr class=\"cell0\">
-			<td>
-				".__("Set")."
-			</td>
-			<td>
-				<select name=\"rankset\" size=\"1\" onchange=\"myForm.submit();\">
-					{0}
-				</select>
-				<input type=\"submit\" value=\"".__("Change")."\" />
-			</td>
-		</tr>
-	</table>
-</form>
-", $ranksets);
+if(count($ranksetNames) > 1)
+{
+	$ranksets = new PipeMenu();
+	foreach($ranksetNames as $name => $title)
+		if($name == $rankset)
+			$ranksets->add(new PipeMenuTextEntry($title));
+		else
+			$ranksets->add(new PipeMenuLinkEntry($title, "ranks", $name));
 
+
+	echo "
+		<table class=\"outline margin width25\">
+			<tr class=\"header0\">
+				<th colspan=\"2\">
+					".__("Ranksets")."
+				</th>
+			</tr>
+			<tr class=\"cell0\">
+				<td>
+					".$ranksets->build()."
+				</td>
+		</table>";
+}
+	
 /*
 //Handle climbing the ranks again
 //$users[1]['posts'] = 6000;
@@ -83,6 +80,11 @@ if(count($climbingAgain))
 else
 	$climbingAgain = "";
 */
+
+$users = array();
+$rUsers = Query("select u.(_userfields), u.posts as u_posts from {users} u order by id asc");
+while($user = Fetch($rUsers))
+	$users[$user['u_id']] = getDataPrefix($user, "u_");
 
 $ranks = $ranksetData[$rankset];
 
