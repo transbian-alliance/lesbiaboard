@@ -3,6 +3,13 @@
 //  Access: all
 
 
+if(isset($_GET['pid']))
+{
+	header("HTTP/1.1 301 Moved Permanently");
+	header("Status: 301 Moved Permanently");
+	die(header("Location: ".actionLink("post", $_GET["pid"])));
+}
+
 if(isset($_GET['id']))
 	$tid = (int)$_GET['id'];
 else
