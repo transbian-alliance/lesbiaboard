@@ -220,23 +220,41 @@ function makeThreadLink($thread)
 		return $link." ".$tags;
 
 }
+function makeFromUrl($url, $from)
+{
+	if($from == 0)
+	{
+		//This is full of hax.
+		$url = str_replace("&amp;from=", "", $url);
+		$url = str_replace("&from=", "", $url);
+		$url = str_replace("?from=", "", $url);
+		if(endsWith($url, "?"))
+			$url = substr($url, 0, strlen($url)-1);
+		return $url;
+	}
+	else return $url.$from;
+}
 
 function pageLinks($url, $epp, $from, $total)
 {
 	$url = htmlspecialchars($url);
 
-	$numPages = ceil($total / $epp);
-	$page = ceil($from / $epp) + 1;
+	if($from < 0) $from = 0;
+	if($from > $total-1) $from = $total-1;
+	$from -= $from % $epp;
 
-	$first = ($from > 0) ? "<a class=\"pagelink\" href=\"".$url."0\">&#x00AB;</a> " : "";
+	$numPages = (int)ceil($total / $epp);
+	$page = (int)ceil($from / $epp) + 1;
+
+	$first = ($from > 0) ? "<a class=\"pagelink\" href=\"".makeFromUrl($url, 0)."\">&#x00AB;</a> " : "";
 	$prev = $from - $epp;
 	if($prev < 0) $prev = 0;
-	$prev = ($from > 0) ? "<a class=\"pagelink\"  href=\"".$url.$prev."\">&#x2039;</a> " : "";
+	$prev = ($from > 0) ? "<a class=\"pagelink\"  href=\"".makeFromUrl($url, $prev)."\">&#x2039;</a> " : "";
 	$next = $from + $epp;
 	$last = ($numPages * $epp) - $epp;
 	if($next > $last) $next = $last;
-	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.$next."\">&#x203A;</a>" : "";
-	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".$url.$last."\">&#x00BB;</a>" : "";
+	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".makeFromUrl($url, $next)."\">&#x203A;</a>" : "";
+	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".makeFromUrl($url, $last)."\">&#x00BB;</a>" : "";
 
 	$pageLinks = array();
 	for($p = $page - 5; $p < $page + 10; $p++)
@@ -246,7 +264,7 @@ function pageLinks($url, $epp, $from, $total)
 		if($p == $page || ($from == 0 && $p == 1))
 			$pageLinks[] = "<span class=\"pagelink\">$p</span>";
 		else
-			$pageLinks[] = "<a class=\"pagelink\"  href=\"".$url.(($p-1) * $epp)."\">".$p."</a>";
+			$pageLinks[] = "<a class=\"pagelink\"  href=\"".makeFromUrl($url, (($p-1) * $epp))."\">".$p."</a>";
 	}
 
 	return $first.$prev.join(array_slice($pageLinks, 0, 11), "").$next.$last;

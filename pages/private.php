@@ -118,7 +118,7 @@ if(NumRows($rPM))
 
 		$cellClass = ($cellClass+1) % 2;
 		if(!$pm['msgread'])
-			$img = "<img src=\"img/status/new.png\" alt=\"New!\" />";
+			$img = "<img src=\"".resourceLink("img/status/new.png")."\" alt=\"New!\" />";
 		else
 			$img = "";
 

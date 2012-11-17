@@ -306,8 +306,8 @@ $total = FetchResult("SELECT
 
 $from = (int)$_GET["from"];
 if(!isset($_GET["from"]))
-	$from = $total-$cpp;
-
+	$from = floor($total/$cpp)*$cpp;
+var_dump($from);
 $rComments = Query("SELECT
 		u.(_userfields),
 		{usercomments}.id, {usercomments}.cid, {usercomments}.text
