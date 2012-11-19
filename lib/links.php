@@ -257,7 +257,7 @@ function pageLinks($url, $epp, $from, $total)
 	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".makeFromUrl($url, $last)."\">&#x00BB;</a>" : "";
 
 	$pageLinks = array();
-	for($p = $page - 5; $p < $page + 10; $p++)
+	for($p = $page - 5; $p < $page + 5; $p++)
 	{
 		if($p < 1 || $p > $numPages)
 			continue;
@@ -267,8 +267,44 @@ function pageLinks($url, $epp, $from, $total)
 			$pageLinks[] = "<a class=\"pagelink\"  href=\"".makeFromUrl($url, (($p-1) * $epp))."\">".$p."</a>";
 	}
 
-	return $first.$prev.join(array_slice($pageLinks, 0, 11), "").$next.$last;
+	return $first.$prev.join($pageLinks, "").$next.$last;
 }
+
+function pageLinksInverted($url, $epp, $from, $total)
+{
+	$url = htmlspecialchars($url);
+
+	if($from < 0) $from = 0;
+	if($from > $total-1) $from = $total-1;
+	$from -= $from % $epp;
+
+	$numPages = (int)ceil($total / $epp);
+	$page = (int)ceil($from / $epp) + 1;
+
+	$first = ($from > 0) ? "<a class=\"pagelink\" href=\"".makeFromUrl($url, 0)."\">&#x00BB;</a> " : "";
+	$prev = $from - $epp;
+	if($prev < 0) $prev = 0;
+	$prev = ($from > 0) ? "<a class=\"pagelink\"  href=\"".makeFromUrl($url, $prev)."\">&#x203A;</a> " : "";
+	$next = $from + $epp;
+	$last = ($numPages * $epp) - $epp;
+	if($next > $last) $next = $last;
+	$next = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".makeFromUrl($url, $next)."\">&#x2039;</a>" : "";
+	$last = ($from < $total - $epp) ? " <a class=\"pagelink\"  href=\"".makeFromUrl($url, $last)."\">&#x00AB;</a>" : "";
+
+	$pageLinks = array();
+	for($p = $page + 5; $p >= $page - 5; $p--)
+	{
+		if($p < 1 || $p > $numPages)
+			continue;
+		if($p == $page || ($from == 0 && $p == 1))
+			$pageLinks[] = "<span class=\"pagelink\">".($numPages+1-$p)."</span>";
+		else
+			$pageLinks[] = "<a class=\"pagelink\"  href=\"".makeFromUrl($url, (($p-1) * $epp))."\">".($numPages+1-$p)."</a>";
+	}
+
+	return $last.$next.join($pageLinks, "").$prev.$first;
+}
+
 
 function absoluteActionLink($action, $id=0, $args="")
 {

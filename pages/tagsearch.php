@@ -73,7 +73,7 @@ if(NumRows($rThreads))
 
 	Write(
 "
-	<table clas	s=\"outline margin width100\">
+	<table class=\"outline margin width100\">
 		<tr class=\"header1\">
 			<th style=\"width: 20px;\">&nbsp;</th>
 			<th style=\"width: 16px;\">&nbsp;</th>". (

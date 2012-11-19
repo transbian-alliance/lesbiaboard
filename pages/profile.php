@@ -50,7 +50,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		die(header("Location: ".actionLink("profile", $id)));
 	}
 
-	if($_POST['action'] == __("Post") && IsReallyEmpty($_POST['text']) && $canComment)
+	if(isset($_POST['actionpost']) && IsReallyEmpty($_POST['text']) && $canComment)
 	{
 		AssertForbidden("makeComments");
 		$rComment = Query("insert into {usercomments} (uid, cid, date, text) values ({0}, {1}, {2}, {3})", $id, $loguserid, time(), $_POST['text']);
@@ -306,17 +306,23 @@ $total = FetchResult("SELECT
 
 $from = (int)$_GET["from"];
 if(!isset($_GET["from"]))
-	$from = floor($total/$cpp)*$cpp;
-var_dump($from);
+	$from = 0;
+$realFrom = $total-$from-$cpp;
+$realLen = $cpp;
+if($realFrom < 0)
+{
+	$realLen += $realFrom;
+	$realFrom = 0;
+}
 $rComments = Query("SELECT
 		u.(_userfields),
 		{usercomments}.id, {usercomments}.cid, {usercomments}.text
 		FROM {usercomments}
 		LEFT JOIN {users} u ON u.id = {usercomments}.cid
 		WHERE uid={0}
-		ORDER BY {usercomments}.date ASC LIMIT {1u},{2u}", $id, $from, $cpp);
+		ORDER BY {usercomments}.date ASC LIMIT {1u},{2u}", $id, $realFrom, $realLen);
 
-$pagelinks = PageLinks(actionLink("profile", $id, "from="), $cpp, $from, $total);
+$pagelinks = PageLinksInverted(actionLink("profile", $id, "from="), $cpp, $from, $total);
 
 $commentList = "";
 $commentField = "";
@@ -366,49 +372,43 @@ else
 
 if($loguserid )
 {
-	$commentField = format(
-"
+	$commentField = "
 								<div>
-									<form method=\"post\" action=\"".actionLink("profile")."\">
-										<input type=\"hidden\" name=\"id\" value=\"{0}\" />
+									<form name=\"commentform\" method=\"post\" action=\"".actionLink("profile")."\">
+										<input type=\"hidden\" name=\"id\" value=\"$id\" />
 										<input type=\"text\" name=\"text\" style=\"width: 80%;\" maxlength=\"255\" />
-										<input type=\"submit\" name=\"action\" value=\"".__("Post")."\" />
+										<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
 										<input type=\"hidden\" name=\"token\" value=\"{$loguser['token']}\" />
 									</form>
-								</div>
-", $id);
+								</div>";
 //	if($lastCID == $loguserid)
 //		$commentField = __("You already have the last word.");
 	if(!IsAllowed("makeComments") || !$canComment)
 		$commentField = __("You are not allowed to post usercomments.");
 }
 
-write(
-"
+print "
 			<td style=\"vertical-align: top; border: 0px none;\">
 				<table class=\"outline margin\">
 					<tr class=\"header1\">
 						<th colspan=\"2\">
-							".__("Comments about {0}")."
+							".format(__("Comments about {0}"), UserLink($user))."
 						</th>
 					</tr>
-					{1}
+					$commentList
 					<tr>
 						<td colspan=\"2\" class=\"cell2\">
-							{2}
+							$commentField
 						</td>
 					</tr>
-				</table>
-",	UserLink($user), $commentList, $commentField);
+				</table>";
 
 $bucket = "profileRight"; include("./lib/pluginloader.php");
 
-write(
-"
+print "
 			</td>
 		</tr>
-	</table>
-");
+	</table>";
 
 $previewPost['text'] = Settings::get("profilePreviewText");
 
