@@ -10,10 +10,10 @@ if($loguser['powerlevel'] < 3)
 	Kill(__("You must be an administrator to edit the board settings."));
 
 $plugin = "main";
-if(isset($_GET["plugin"]))
-	$plugin = $_GET["plugin"];
+if(isset($_GET["id"]))
+	$plugin = $_GET["id"];
 if(isset($_POST["_plugin"]))
-	$plugin = $_POST["_plugin"];
+	$plugin = $_POST["_id"];
 
 if(!ctype_alnum($plugin))
 	Kill(__("No."));
@@ -125,7 +125,7 @@ foreach($settings as $name => $data)
 		$invalidicon = "[INVALID]";
 
 	if($help)
-		$help = "<img src=\"img/icons/icon4.png\" title=\"$help\" alt=\"[!]\" />";
+		$help = "<img src=\"".resourceLink("img/icons/icon4.png")."\" title=\"$help\" alt=\"[!]\" />";
 
 	print "<tr class=\"cell$class\">
 				<td>
