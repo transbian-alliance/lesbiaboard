@@ -238,7 +238,7 @@ if($canMod)
 "
 				<label>
 					<input type=\"radio\" {0} name=\"iconid\" value=\"{1}\" />
-					<img src=\"img/icons/icon{1}.png\" alt=\"Icon {1}\" />
+					<img src=\"".resourceLink("img/icons/icon{1}.png")."\" alt=\"Icon {1}\" />
 				</label>
 ", $check, $i);
 		$i++;
