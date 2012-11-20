@@ -7,8 +7,6 @@ if($loguser['powerlevel'] >= 3 && isAllowed("viewAdminRoom"))
 $bucket = "topMenuStart"; include("./lib/pluginloader.php");
 
 $navigation->add(new PipeMenuLinkEntry(Settings::get("menuMainName"), "board"));
-$navigation->add(new PipeMenuLinkEntry(__("FAQ"), "faq"));
-
 if(isAllowed("viewMembers"))
 	$navigation->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
 if(isAllowed("viewRanks"))

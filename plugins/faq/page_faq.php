@@ -54,7 +54,7 @@ $colortable = format("
 </table>
 ", $headers, $colors);
 
-$faq = file_get_contents("lib/lang/faq_".$language.".html");
+$faq = Settings::pluginGet("faq");
 
 $faq = str_replace("<colortable />", $colortable, $faq);
 if("" == Settings::get("registrationWord"))
