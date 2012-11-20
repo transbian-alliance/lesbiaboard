@@ -9,7 +9,7 @@ if($post["id"] != "_")
 	$plusOne .= "<span class=\"plusone\">";
 	$plusOne .= formatPlusOnes($post["postplusones"]);
 
-	if($post["u_id"] != $loguserid)
+	if($post["u_id"] != $loguserid && $loguserid != 0)
 	{
 		$url = actionLink("plusone", $post["id"], "key=".$loguser["token"]);
 		$url = htmlspecialchars($url);
