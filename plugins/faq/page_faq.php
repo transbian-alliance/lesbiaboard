@@ -3,6 +3,12 @@
 //  Access: all
 
 $title = "FAQ";
+$links = "";
+if($loguser["powerlevel"] >= 3)
+	$links = actionLinkTagItem(__("Edit the FAQ"), "editsettings", "faq");
+
+MakeCrumbs(array(__("FAQ") => actionLink("faq")), $links);
+
 makeThemeArrays();
 
 $admin = UserLink(Fetch(Query("select name, id, powerlevel, sex from {users} where id = 1")));

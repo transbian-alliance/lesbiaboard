@@ -30,15 +30,11 @@ while($post = Fetch($rPosts))
 "
 	<tr class=\"cell{5}\">
 		<td>
-			{3}
+			{3}<br />
+			&raquo; {4}
 		</td>
 		<td>
-			{4}
-		</td>
-		<td>
-			{2}
-		</td>
-		<td>
+			{2}<br />
 			{1}
 		</td>
 		<td>
@@ -66,10 +62,8 @@ write(
 		<th colspan=\"5\">".__("Last posts")."</th>
 	</tr>
 	<tr class=\"header1\">
-		<th>".__("Forum")."</th>
-		<th>".__("Thread")."</th>
-		<th>".__("User")."</th>
-		<th>".__("Date")."</th>
+		<th>".__("Forum").", ".__("Thread")."</th>
+		<th>".__("User").", ".__("Date")."</th>
 		<th></th>
 	</tr>
 	{0}
