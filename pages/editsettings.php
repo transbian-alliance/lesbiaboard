@@ -13,7 +13,7 @@ $plugin = "main";
 if(isset($_GET["id"]))
 	$plugin = $_GET["id"];
 if(isset($_POST["_plugin"]))
-	$plugin = $_POST["_id"];
+	$plugin = $_POST["_plugin"];
 
 if(!ctype_alnum($plugin))
 	Kill(__("No."));
