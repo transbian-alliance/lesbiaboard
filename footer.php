@@ -2,7 +2,7 @@
 
 <?php print $footerExtensionsA?>
 
-Powered by <a href="https://github.com/Dirbaio/ABXD">AcmlmBoard XD</a><br />
+Powered by <a href="http://abxd.dirbaio.net/">AcmlmBoard XD</a><br />
 By Dirbaio, GlitchMr, Kawa, Mega-Mario, Nikolaj, et al<br />
 AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 <?php print __("<!-- English translation by The ABXD Team -->")?>
