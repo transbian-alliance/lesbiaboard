@@ -122,10 +122,9 @@ if (isset($_POST['dbhost']))
 			require 'lib/mysqlfunctions.php';
 
 			Upgrade();
-
 			$misc = Query("select * from {misc}");
 			if(NumRows($misc) == 0)
-				Query("INSERT INTO `{misc}` (`views`, `hotcount`, `porabox`, `poratitle`, `milestone`, `maxuserstext`) VALUES (0, 30, '<a href=\"http://github.org/Dirbaio/ABXD\">ABXD repository on GitHub </a><br /><br />Then, <a href=\"editpora.php\">edit this panel</a>.', 'Points of Required Attention', 'Nothing yet.', 'Nobody yet.');");
+				Query("INSERT INTO `{misc}` (`views`, `hotcount`, `milestone`, `maxuserstext`) VALUES (0, 30, 'Nothing yet.', 'Nobody yet.');");
 
 			Query("UPDATE `{misc}` SET `version` = 300");
 
