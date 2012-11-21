@@ -21,7 +21,7 @@ if(isset($_GET['connect']))
 	write("
 	<div class=\"message\" style=\"width: 90%; margin: 2em auto; text-align: center;\">
 		<h3 style=\"text-align: left;\">IRC chat</h3>
-		<applet code=\"IRCApplet.class\" codebase=\"plugins/ircpage/pjirc/\"
+		<applet code=\"IRCApplet.class\" codebase=\"".resourceLink("plugins/ircpage/pjirc/")."\"
 		archive=\"irc.jar,pixx.jar\" width=\"100%\" height=\"500\">
 		<param name=\"CABINETS\" value=\"irc.cab,securedirc.cab,pixx.cab\">
 
