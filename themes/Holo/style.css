@@ -379,6 +379,15 @@ input[placeholder="Search"]:placeholder {
 	background: #111111;
 }
 
+#userpanel a {
+	color: #FFF;
+}
+
+#userpanel a:hover {
+	border-bottom: 2px solid #33B5E5;
+	padding-bottom: 2px;
+}
+
 .mainMenuContainer {
 	margin: 0px;
 	padding: 0px;
