@@ -98,11 +98,15 @@ function bbcodeUser($contents, $arg)
 
 function bbcodeThread($contents, $arg)
 {
-	global $threadLinkCache;
+	global $threadLinkCache, $loguser;
 	$id = (int)$arg;
 	if(!isset($threadLinkCache[$id]))
 	{
-		$rThread = Query("select id, title from threads where id={0}", $id);
+		$rThread = Query("SELECT
+							t.id, t.title
+						FROM {threads} t 
+						LEFT JOIN {forums} f ON t.forum = f.id
+						WHERE t.id={0} AND f.minpower <= {1} ", $id, $loguser["powerlevel"]);
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);
@@ -116,11 +120,14 @@ function bbcodeThread($contents, $arg)
 
 function bbcodeForum($contents, $arg)
 {
-	global $forumLinkCache;
+	global $forumLinkCache, $loguser;
 	$id = (int)$arg;
 	if(!isset($forumLinkCache[$id]))
 	{
-		$rForum = Query("select id, title from forums where id={0}", $id);
+		$rForum = Query("SELECT 
+							id, title 
+						FROM {forums}
+						WHERE id={0} and minpower <= {1}", $id, $loguser["powerlevel"]);
 		if(NumRows($rForum))
 		{
 			$forum = Fetch($rForum);

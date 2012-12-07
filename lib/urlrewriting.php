@@ -3,7 +3,10 @@
 function actionLink($action, $id="", $args="", $urlname="")
 {
 	global $boardroot, $mainPage, $urlNameCache;
-	if(isset($urlNameCache[$action."_".$id]) && $urlname == "")
+
+	if($urlname == "_")
+		$urlname = "";
+	else if(isset($urlNameCache[$action."_".$id]) && $urlname == "")
 		$urlname = $urlNameCache[$action."_".$id];
 
 	$bucket = "linkMangler"; include('lib/pluginloader.php');

@@ -87,12 +87,15 @@ if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['las
 if($thread['closed'])
 	$replyWarning = " onclick=\"if(!confirm('".__("This thread is actually closed. Are you sure you want to abuse your staff position to post in a closed thread?")."')) return false;\"";
 
-if($loguser['powerlevel'] < 0)
+if(!$loguserid)
+	{}
+else if($loguser['powerlevel'] < 0)
 	$links .= "<li>".__("You're banned.");
-elseif(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
+else if(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
 	$links .= actionLinkTagItem(__("Post reply"), "newreply", $tid);
-elseif(IsAllowed("makeReply", $tid))
+else if(IsAllowed("makeReply", $tid))
 	$links .= "<li>".__("Thread closed.");
+	
 if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 {
 	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);

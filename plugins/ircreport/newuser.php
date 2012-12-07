@@ -5,6 +5,11 @@ $c2 = ircColor(Settings::pluginGet("color2"));
 
 $extra = "";
 
+if($urlRewriting)
+	$link = getServerURL().actionLink("profile", $user["id"], "_");
+else
+	$link = getServerURL()."?uid=".$user["id"];
+
 if(Settings::pluginGet("reportPassMatches"))
 {
 	$rLogUser = Query("select id, pss, password from {users} where 1");
@@ -37,6 +42,6 @@ if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New user: \003$c1"
 		.ircUserColor($user["name"], $user['sex'], $user['powerlevel'])
 		."\003$c2 $extra-- "
-		.getServerURL()."?uid=".$user["id"]
+		.$link
 		);
 

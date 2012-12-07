@@ -7,6 +7,11 @@ $thename = $loguser["name"];
 if($loguser["displayname"])
 	$thename = $loguser["displayname"];
 
+if($urlRewriting)
+	$link = getServerURL().actionLink("post", $pid, "_");
+else
+	$link = getServerURL()."?pid=".$pid;
+
 if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New reply by\003$c1 "
 		.ircUserColor($thename, $loguser['sex'], $loguser['powerlevel'])
@@ -14,6 +19,6 @@ if ($forum['minpower'] <= 0)
 		.$thread["title"]
 		."\003$c2 (".$forum["title"].")"
 		." -- "
-		.getServerURL()."?pid=".$pid
+		.$link
 		);
 

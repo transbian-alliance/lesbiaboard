@@ -7,6 +7,10 @@ $thename = $loguser["name"];
 if($loguser["displayname"])
 	$thename = $loguser["displayname"];
 
+if($urlRewriting)
+	$link = getServerURL().actionLink("thread", $tid, "_");
+else
+	$link = getServerURL()."?tid=".$tid;
 
 if ($forum['minpower'] <= 0)
 	ircReport("\003".$c2."New thread by\003$c1 "
@@ -15,5 +19,5 @@ if ($forum['minpower'] <= 0)
 		.$thread["title"]
 		."\003$c2 (".$forum["title"].")"
 		." -- "
-		.getServerURL()."?tid=".$tid
+		.$link
 		);
