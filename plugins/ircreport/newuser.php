@@ -6,7 +6,7 @@ $c2 = ircColor(Settings::pluginGet("color2"));
 $extra = "";
 
 if($urlRewriting)
-	$link = getServerURL().actionLink("profile", $user["id"], "_");
+	$link = getServerURLNoSlash().actionLink("profile", $user["id"], "", "_");
 else
 	$link = getServerURL()."?uid=".$user["id"];
 

@@ -8,7 +8,7 @@ if($loguser["displayname"])
 	$thename = $loguser["displayname"];
 
 if($urlRewriting)
-	$link = getServerURL().actionLink("post", $pid, "_");
+	$link = getServerURLNoSlash().actionLink("post", $pid, "", "_");
 else
 	$link = getServerURL()."?pid=".$pid;
 

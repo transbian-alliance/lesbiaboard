@@ -8,7 +8,7 @@ if($loguser["displayname"])
 	$thename = $loguser["displayname"];
 
 if($urlRewriting)
-	$link = getServerURL().actionLink("thread", $tid, "_");
+	$link = getServerURLNoSlash().actionLink("thread", $tid, "", "_");
 else
 	$link = getServerURL()."?tid=".$tid;
 

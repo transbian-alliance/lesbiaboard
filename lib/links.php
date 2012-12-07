@@ -318,7 +318,12 @@ function getRequestedURL()
 
 function getServerURL($https = false)
 {
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'] . "/";
+    return getServerURLNoSlash($https)."/";
+}
+
+function getServerURLNoSlash($https = false)
+{
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'];
 }
 
 function getFullRequestedURL($https = false)
