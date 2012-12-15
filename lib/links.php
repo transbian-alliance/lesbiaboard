@@ -323,7 +323,8 @@ function getServerURL($https = false)
 
 function getServerURLNoSlash($https = false)
 {
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'];
+    global $boardroot;
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'] . substr($boardroot, 0, strlen($boardroot)-1);
 }
 
 function getFullRequestedURL($https = false)
