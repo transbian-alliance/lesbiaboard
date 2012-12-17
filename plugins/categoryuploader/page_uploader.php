@@ -42,7 +42,7 @@ if($_GET['action'] == "uploadform")
 	MakeCrumbs(array(
 					"Uploader"=>actionLink("uploader"),
 					$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]),
-					"Upload new file" => actionLink("uploader", "", "action=uploadforum&cat=".$cat["id"])), $links);
+					"Upload new file" => actionLink("uploader", "", "action=uploadform&cat=".$cat["id"])), $links);
 
 	if($loguserid && IsAllowed("useUploader"))
 	{
