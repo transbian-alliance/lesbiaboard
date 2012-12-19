@@ -73,7 +73,7 @@ function bbcodeImage($contents, $arg)
 		$dest = $arg;
 	}
 
-	return '<img class="imgtag" src="'.htmlentities($dest).'" alt="'.$title.'"/>';
+	return '<img class="imgtag" src="'.htmlspecialchars($dest).'" alt="'.$title.'"/>';
 }
 
 
@@ -87,7 +87,7 @@ function bbcodeImageScale($contents, $arg)
 		$dest = $arg;
 	}
 
-	return '<a href="'.htmlentities($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlentities($dest).'" alt="'.$title.'"/></a>';
+	return '<a href="'.htmlspecialchars($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlspecialchars($dest).'" alt="'.$title.'"/></a>';
 }
 
 
@@ -154,26 +154,27 @@ function bbcodeQuoteGeneric($contents, $arg, $text)
 	if(!$arg)
 		return "<div class='quote'><div class='quotecontent'>$contents</div></div>";
 
-	$arg = explode(" ", $arg);
+	// Possible formats:
+	// [quote=blah]
+	// [quote="blah blah" id="123"]
 
-	$who = $arg[0];
-	$who = str_replace('"', '', $who);
-	if(count($arg) == 2)
+	if(preg_match('/"(.*)" id="(.*)"/', $arg, $match))
 	{
-		$id = $arg[1];
-		$id = str_replace('"', '', $id);
-		$id = substr($id, 3);
-		$id = (int)$id;
-		return "<div class='quote'><div class='quoteheader'>$text <a href=\"".actionLink("thread", "", "pid=$id#$id")."\">$who</a></div><div class='quotecontent'>$contents</div></div>";
+		$who = htmlspecialchars($match[1]);
+		$id = (int) $match[2];
+		return "<div class='quote'><div class='quoteheader'>$text <a href=\"".actionLink("post", $id)."\">$who</a></div><div class='quotecontent'>$contents</div></div>";
 	}
 	else
+	{
+		$who = htmlspecialchars($arg);
 		return "<div class='quote'><div class='quoteheader'>$text $who</div><div class='quotecontent'>$contents</div></div>";
+	}
 }
 
 function bbcodeSpoiler($contents, $arg)
 {
 	if($arg)
-		return "<div class=\"spoiler\"><button class=\"spoilerbutton named\">$arg</button><div class=\"spoiled hidden\">$contents</div></div>";
+		return "<div class=\"spoiler\"><button class=\"spoilerbutton named\">".htmlspecialchars($arg)."</button><div class=\"spoiled hidden\">$contents</div></div>";
 	else
 		return "<div class=\"spoiler\"><button class=\"spoilerbutton\">Show spoiler</button><div class=\"spoiled hidden\">$contents</div></div>";
 }
