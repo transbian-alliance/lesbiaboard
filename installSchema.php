@@ -311,7 +311,7 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,
-			"code" => "varchar(8)".$notNull,
+			"code" => "varchar(32)".$notNull,
 			"image" => "varchar(32)".$notNull,
 		),
 		"special" => $keyID
