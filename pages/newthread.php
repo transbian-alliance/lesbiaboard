@@ -275,11 +275,10 @@ $icons = "";
 while(is_file("img/icons/icon".$i.".png"))
 {
 	$checked = ($_POST['iconid'] == $i) ? "checked=\"checked\" " : "";
-	$icons .= "
-							<label>
-								<input type=\"radio\" $checked name=\"iconid\" value=\"{1}\" />
-								<img src=\"".resourceLink("img/icons/icon$i.png")."\" alt=\"Icon {1}\" onclick=\"javascript:void()\" />
-							</label>";
+	$icons .= "	<label>
+					<input type=\"radio\" $checked name=\"iconid\" value=\"$i\" />
+					<img src=\"".resourceLink("img/icons/icon$i.png")."\" alt=\"Icon $i\" onclick=\"javascript:void()\" />
+				</label>";
 	$i++;
 }
 
@@ -415,7 +414,7 @@ while($mood = Fetch($rMoods))
 
 if(CanMod($loguserid, $forum['id']))
 {
-	$mod = "\n\n<!-- Mod options -->asdf\n";
+	$mod = "\n\n<!-- Mod options -->\n";
 	$mod .= "<label><input type=\"checkbox\" ".getCheck("lock")." name=\"lock\">&nbsp;".__("Close thread", 1)."</label>\n";
 	$mod .= "<label><input type=\"checkbox\" ".getCheck("stick")."  name=\"stick\">&nbsp;".__("Sticky", 1)."</label>\n";
 }

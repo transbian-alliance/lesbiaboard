@@ -33,6 +33,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 
 	if($thread['icon'])
 	{
+		//This is a hack, but given how icons are stored in the DB, I can do nothing about it without breaking DB compatibility.
 		if(startsWith($thread['icon'], "img/"))
 			$thread['icon'] = resourceLink($thread['icon']);
 		$ThreadIcon = "<img src=\"".htmlspecialchars($thread['icon'])."\" alt=\"\" class=\"smiley\"/>";

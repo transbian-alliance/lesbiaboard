@@ -179,7 +179,7 @@ if($canMod)
 			{
 				$_POST['iconid'] = (int)$_POST['iconid'];
 				if($_POST['iconid'] < 255)
-					$iconurl = resourceLink("img/icons/icon".$_POST['iconid'].".png");
+					$iconurl = "img/icons/icon".$_POST['iconid'].".png";
 			}
 
 			$rThreads = Query("update {threads} set title={0}, icon={1}, closed={2}, sticky={3} where id={4} limit 1", $_POST['title'], $iconurl, $isClosed, $isSticky, $tid);
@@ -234,13 +234,10 @@ if($canMod)
 	{
 		$check = "";
 		if($_POST['iconid'] == $i) $check = "checked=\"checked\" ";
-		$icons .= format(
-"
-				<label>
-					<input type=\"radio\" {0} name=\"iconid\" value=\"{1}\" />
-					<img src=\"".resourceLink("img/icons/icon{1}.png")."\" alt=\"Icon {1}\" />
-				</label>
-", $check, $i);
+		$icons .= "	<label>
+						<input type=\"radio\" $checked name=\"iconid\" value=\"$i\" />
+						<img src=\"".resourceLink("img/icons/icon$i.png")."\" alt=\"Icon $i\" onclick=\"javascript:void()\" />
+					</label>";
 		$i++;
 	}
 	$check[0] = "";
