@@ -60,11 +60,13 @@ while($smiley = Fetch($rSmilies))
 				<td>
 					<input type=\"text\" name=\"image_{1}\" value=\"{3}\" />
 					<input type=\"hidden\" name=\"oldimage_{1}\" value=\"{3}\" />
-					<img src=\"img/smilies/{4}\" alt=\"{5}\" title=\"{5}\">
+				</td>
+				<td>
+					<img src=\"{4}\" alt=\"{5}\" title=\"{5}\">
 				</td>
 			</tr>
 ",	$cellClass, $i, $smiley['code'], $smiley['image'],
-	$smiley['image'], $smiley['code']);
+	htmlspecialchars(resourceLink("img/smilies/".$smiley['image'])), $smiley['code']);
 }
 
 write(
@@ -81,13 +83,13 @@ write(
 				<th>
 					Code
 				</th>
-				<th>
+				<th  colspan=\"2\">
 					Image
 				</th>
 			</tr>
 			{0}
 			<tr class=\"header0\">
-				<th colspan=\"2\">
+				<th colspan=\"3\">
 					Add
 				</th>
 			</tr>
@@ -95,15 +97,13 @@ write(
 				<td>
 					<input type=\"text\" name=\"code_add\" />
 				</td>
-				<td>
+				<td colspan=\"2\">
 					<input type=\"text\" name=\"image_add\" />
 				</td>
 			</tr>
 
 			<tr class=\"cell2\">
-				<td>
-				</td>
-				<td>
+				<td colspan=\"3\">
 					<input type=\"submit\" name=\"action\" value=\"Apply\" />
 					<input type=\"hidden\" name=\"key\" value=\"{1}\" />
 				</td>
