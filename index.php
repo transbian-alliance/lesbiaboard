@@ -217,6 +217,7 @@ if(!file_exists("layouts/$layout.php"))
 	$layout = "abxd";
 require("layouts/$layout.php"); echo (isset($times) ? $times : "");
 
+$bucket = "finish"; include('lib/pluginloader.php');
 
 ?>
 
