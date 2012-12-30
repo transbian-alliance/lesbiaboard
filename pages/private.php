@@ -19,6 +19,8 @@ if(isset($_GET['user']) && $loguser['powerlevel'] > 2)
 
 if(isset($_POST['action']))
 {
+	if ($_POST['token'] !== $loguser['token']) Kill('No.');
+	
 	if($_POST['action'] == "multidel" && $_POST['delete'] && $snoop != 1)
 	{
 		$deleted = 0;
@@ -46,6 +48,8 @@ if(isset($_POST['action']))
 
 if(isset($_GET['del']))
 {
+	if ($_GET['token'] !== $loguser['token']) Kill('No.');
+	
 	$pid = (int)$_GET['del'];
 	$rPM = Query("select * from {pmsgs} where id = {0} and (userto = {1} or userfrom = {1})", $pid, $loguserid);
 	if(NumRows($rPM))
@@ -126,7 +130,7 @@ if(NumRows($rPM))
 
 		$check = $snoop ? "" : "<input type=\"checkbox\" name=\"delete[{2}]\" />";
 
-		$delLink = $snoop == "" ? "<sup>&nbsp;".actionLinkTag("&#x2718;", "private", "", "del=".$pm['id'].$show)."</sup>" : "";
+		$delLink = $snoop == "" ? "<sup>&nbsp;".actionLinkTag("&#x2718;", "private", "", "del=".$pm['id'].$show.'&token='.$loguser['token'])."</sup>" : "";
 
 		$pms .= format(
 "
@@ -177,6 +181,7 @@ write(
 		<tr class=\"header1\">
 			<th style=\"text-align: right;\" colspan=\"6\">
 				<input type=\"hidden\" name=\"action\" value=\"multidel\" />
+				<input type=\"hidden\" name=\"token\" value=\"{$loguser['token']}\" />
 				<a href=\"javascript:void();\" onclick=\"document.forms[1].submit();\">".__("delete checked")."</a>
 			</th>
 		</tr>

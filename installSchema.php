@@ -239,7 +239,7 @@ $tables = array
 			"mood" => $genericInt,
 			"currentrevision" => $genericInt,
 		),
-		"special" => $keyID.", key `thread` (`thread`), key `date` (`date`), key `user` (`user`), key `ip` (`ip`)"
+		"special" => $keyID.", key `thread` (`thread`), key `date` (`date`), key `user` (`user`), key `ip` (`ip`), key `id` (`id`, `currentrevision`), key `deletedby` (`deletedby`)"
 	),
 	"posts_text" => array
 	(
@@ -251,7 +251,7 @@ $tables = array
 			"user" => $genericInt,
 			"date" => $genericInt,
 		),
-		"special" => "fulltext key `text` (`text`), key `pidrevision` (`pid`, `revision`)"
+		"special" => "fulltext key `text` (`text`), key `pidrevision` (`pid`, `revision`), key `user` (`user`)"
 	),
 	"proxybans" => array
 	(
