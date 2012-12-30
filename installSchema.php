@@ -5,6 +5,7 @@ $smallerInt = "int(8) NOT NULL DEFAULT '0'";
 $bool = "tinyint(1) NOT NULL DEFAULT '0'";
 $notNull = " NOT NULL DEFAULT ''";
 $text = "text DEFAULT ''"; //NOT NULL breaks in certain versions/settings.
+$postText = "mediumtext DEFAULT ''";
 $var128 = "varchar(128)".$notNull;
 $var256 = "varchar(256)".$notNull;
 $var1024 = "varchar(1024)".$notNull;
@@ -184,7 +185,7 @@ $tables = array
 		(
 			"pid" => $genericInt,
 			"title" => $var256,
-			"text" => $text,
+			"text" => $postText,
 		),
 		"special" => "primary key (`pid`)"
 	),
@@ -238,19 +239,19 @@ $tables = array
 			"mood" => $genericInt,
 			"currentrevision" => $genericInt,
 		),
-		"special" => $keyID.", key `thread` (`thread`), key `date` (`date`), key `user` (`user`), key `ip` (`ip`)"
+		"special" => $keyID.", key `thread` (`thread`), key `date` (`date`), key `user` (`user`), key `ip` (`ip`), key `id` (`id`, `currentrevision`), key `deletedby` (`deletedby`)"
 	),
 	"posts_text" => array
 	(
 		"fields" => array
 		(
 			"pid" => $genericInt,
-			"text" => $text,
+			"text" => $postText,
 			"revision" => $genericInt,
 			"user" => $genericInt,
 			"date" => $genericInt,
 		),
-		"special" => "fulltext key `text` (`text`), key `pidrevision` (`pid`, `revision`)"
+		"special" => "fulltext key `text` (`text`), key `pidrevision` (`pid`, `revision`), key `user` (`user`)"
 	),
 	"proxybans" => array
 	(
