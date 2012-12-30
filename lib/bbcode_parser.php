@@ -50,10 +50,10 @@ $tagParseStatus = array(
 );
 
 $autocloseTags = array(
-	'li' => array('li', 'ul', 'ol'),
-	'td' => array('td', 'tr', 'trh', 'table'),
-	'tr' => array('tr', 'trh', 'table'),
-	'trh' => array('tr', 'trh', 'table'),
+	'li' => array('li' => 1, 'ul' => 1, 'ol' => 1),
+	'td' => array('td' => 1, 'tr' => 1, 'trh' => 1, 'table' => 1),
+	'tr' => array('tr' => 1, 'trh' => 1, 'table' => 1),
+	'trh' => array('tr' => 1, 'trh' => 1, 'table' => 1),
 );
 
 $heavyTags = array(
@@ -178,7 +178,7 @@ function parseToken($token)
 
 function parse($parentToken)
 {
-	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables, $autocloseTags, $bbcodeIsTableHeader;
+	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables, $autocloseTags, $bbcodeIsTableHeader, $tokenCt;
 
 	$parentTag = $parentToken['tag'];
 
@@ -208,7 +208,7 @@ function parse($parentToken)
 	if($parentTag == 'trh')
 		$bbcodeIsTableHeader = true;
 
-	while($tokenPtr < count($tokens) && !$finished)
+	while($tokenPtr < $tokenCt && !$finished)
 	{
 		$token = $tokens[$tokenPtr++];
 
@@ -222,8 +222,8 @@ function parse($parentToken)
 			case 1: //BBCode open
 			case 3: //HTML open
 				if($parentToken['type'] == $token['type']
-						&& isset($autocloseTags[$parentTag])
-						&& in_array($token['tag'], $autocloseTags[$parentTag]))
+						&& array_key_exists($parentTag, $autocloseTags)
+						&& array_key_exists($token['tag'], $autocloseTags[$parentTag]))
 				{
 //					$result .= "[AUTO]";
 					$finished = true;
@@ -242,8 +242,8 @@ function parse($parentToken)
 					$finished = true;
 				else if($parentToken != 0
 						&& $parentToken['type']+1 == $token['type']
-						&& isset($autocloseTags[$parentTag])
-						&& in_array($token['tag'], $autocloseTags[$parentTag]))
+						&& array_key_exists($parentTag, $autocloseTags)
+						&& array_key_exists($token['tag'], $autocloseTags[$parentTag]))
 				{
 //					$result .= "[AUTO]";
 					$finished = true;
@@ -302,13 +302,16 @@ function parse($parentToken)
 
 function parseBBCode($text)
 {
-	global $tokens, $tokenPtr, $parseStatus;
-
-	$parseStatus = 0;
+	global $tokens, $tokenPtr, $parseStatus, $tokenCt;
 
 	$tokens = preg_split('/(\[(?:\w+(?:=".*?"|=[^]]*)?|\/\w+)\]|<[^\[\]<>]+>)/S', $text, 0, PREG_SPLIT_DELIM_CAPTURE);
-	$tokenPtr = 0;
 	$tokens = array_map('parseToken', $tokens);
-	return parse(0);
+
+	$parseStatus = 0;
+	$tokenCt = count($tokens);
+	$tokenPtr = 0;
+
+	$res = parse(0);
+	return $res;
 }
 

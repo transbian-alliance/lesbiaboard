@@ -4,44 +4,23 @@
 
 function loadSmilies($byOrder = FALSE)
 {
-	global $smilies, $smiliesOrdered;
+	global $smilies, $smiliesOrdered, $smiliesReplaceOrig, $smiliesReplaceNew;
 
-	if($byOrder)
-	{
-		if(isset($smiliesOrdered))
-			return;
-		$rSmilies = Query("select * from {smilies} order by id asc");
-		$smiliesOrdered = array();
-		while($smiley = Fetch($rSmilies))
-			$smiliesOrdered[] = $smiley;
-	}
-	else
-	{
-		if(isset($smilies))
-			return;
-		$rSmilies = Query("select * from {smilies} order by length(code) desc");
-		$smilies = array();
-		while($smiley = Fetch($rSmilies))
-		{
-			$smilies[] = $smiley;
-		}
-	}
-}
+	if(isset($smilies))
+		return;
 
-function applySmilies($text)
-{
-	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
+	$rSmilies = Query("select * from {smilies} order by length(code) desc");
+	$smilies = array();
 
-	if (!isset($smiliesReplaceOrig))
+	while($smiley = Fetch($rSmilies))
+		$smilies[] = $smiley;
+
+	$smiliesReplaceOrig = $smiliesReplaceNew = array();
+	for ($i = 0; $i < count($smilies); $i++)
 	{
-		$smiliesReplaceOrig = $smiliesReplaceNew = array();
-		for ($i = 0; $i < count($smilies); $i++)
-		{
-			$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
-			$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"".resourceLink("img/smilies/".$smilies[$i]['image'])."\" />";
-		}
+		$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
+		$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"".resourceLink("img/smilies/".$smilies[$i]['image'])."\" />";
 	}
-	return preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $text);
 }
 
 function makeUserAtLink($matches)
@@ -70,10 +49,10 @@ function makeUserAtLink($matches)
 //Main post text replacing.
 function postDoReplaceText($s)
 {
-	global $postNoSmilies, $postNoBr, $postPoster, $smilies;
+	global $postNoSmilies, $postNoBr, $postPoster, $smiliesReplaceOrig, $smiliesReplaceNew;
 
-	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
-	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
+//	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
+//	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
 	if($postPoster)
 		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
 
@@ -81,15 +60,16 @@ function postDoReplaceText($s)
 
 	//Smilies
 	if(!$postNoSmilies)
-		$s = ApplySmilies($s);
+		$s = preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $s);
 
-	include("macros.php");
+//Macros system WILL be replaced by smilies.
+/*	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
-
+*/
 	$s = preg_replace_callback('((?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&amp;|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)', 'bbcodeURLAuto', $s);
 
-	$bucket = "postMangler"; include("./lib/pluginloader.php");
+//	$bucket = "postMangler"; include("./lib/pluginloader.php");
 
 	return $s;
 }
