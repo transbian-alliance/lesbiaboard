@@ -2,12 +2,9 @@
 
 // Misc things that get replaced in text.
 
-function loadSmilies($byOrder = FALSE)
+function loadSmilies()
 {
 	global $smilies, $smiliesOrdered, $smiliesReplaceOrig, $smiliesReplaceNew;
-
-	if(isset($smilies))
-		return;
 
 	$rSmilies = Query("select * from {smilies} order by length(code) desc");
 	$smilies = array();
@@ -23,6 +20,7 @@ function loadSmilies($byOrder = FALSE)
 	}
 }
 
+/*
 function makeUserAtLink($matches)
 {
 	global $members;
@@ -44,31 +42,37 @@ function makeUserAtLink($matches)
 	}
 	else
 		return $username; //Return the actual name attempted.
-}
+}*/
 
 //Main post text replacing.
 function postDoReplaceText($s)
 {
-	global $postNoSmilies, $postNoBr, $postPoster, $smiliesReplaceOrig, $smiliesReplaceNew;
+	global $postNoSmilies, $postPoster, $smiliesReplaceOrig, $smiliesReplaceNew;
 
+	//These two are useless because they don't provide new functionality.
 //	$s = preg_replace_callback("'@\"([\w ]+)\"'si", "MakeUserAtLink", $s);
 //	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
+
 	if($postPoster)
 		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
 
-	LoadSmilies();
-
 	//Smilies
 	if(!$postNoSmilies)
+	{
+		if(!isset($smiliesReplaceOrig))
+			LoadSmilies();
 		$s = preg_replace($smiliesReplaceOrig, $smiliesReplaceNew, $s);
-
+	}
+	
 //Macros system WILL be replaced by smilies.
 /*	include("macros.php");
 	foreach($macros as $macro => $img)
 		$s = str_replace(":".$macro.":", "<img src=\"img/macros/".$img."\" alt=\":".$macro.":\" />", $s);
 */
+	//Automatic links. Messy regex FTW
 	$s = preg_replace_callback('((?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&amp;|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)', 'bbcodeURLAuto', $s);
 
+	//Plugin bucket for allowing plugins to add replacements.
 	$bucket = "postMangler"; include("./lib/pluginloader.php");
 
 	return $s;

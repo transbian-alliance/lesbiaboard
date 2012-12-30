@@ -68,7 +68,7 @@ $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
 
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $id, "", $user["name"]), __("List of posts")=>""), $links);
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $id, "", $user["name"]), __("List of posts")=>""), $links);
 
 $pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);
 

@@ -31,7 +31,7 @@ AssertForbidden($editUserMode ? "editUser" : "editProfile");
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
-makeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $user["id"]), __("Edit profile") => ""), "");
+makeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $userid, "", $user["name"]), __("Edit profile") => ""), "");
 
 loadRanksets();
 $ranksets = $ranksetNames;

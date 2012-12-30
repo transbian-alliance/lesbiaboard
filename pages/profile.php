@@ -441,9 +441,9 @@ $links .= $blockLayoutLink;
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), $uname => actionLink("profile", $id)), $links);
+MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $id)), $links);
 
-$title = format(__("Profile for {0}"), htmlspecialchars($user['displayname'] ? $user['displayname'] : $user['name']));
+$title = format(__("Profile for {0}"), htmlspecialchars($uname));
 
 function IsReallyEmpty($subject)
 {
