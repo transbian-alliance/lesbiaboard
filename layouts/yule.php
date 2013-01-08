@@ -1,5 +1,5 @@
 <!doctype html>
-
+<html>
 <head>
 	<title><?php print $layout_title?></title>
 	<?php include("header.php"); ?>
