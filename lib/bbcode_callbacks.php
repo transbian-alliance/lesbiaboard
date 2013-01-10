@@ -45,11 +45,11 @@ function bbcodeStrikethrough($contents){
 
 function bbcodeURL($contents, $arg)
 {
-	$dest = $contents;
-	$title = $contents;
+	$dest = htmlspecialchars($contents);
+	$title = htmlspecialchars($contents);
 
 	if($arg)
-		$dest = htmlentities($arg);
+		$dest = htmlspecialchars($arg);
 
 	return '<a href="'.$dest.'">'.$title.'</a>';
 }
@@ -60,7 +60,7 @@ function bbcodeURLAuto($match)
 	// This is almost like lcfirst() from PHP 5.3.0
 	$match[0][0] = strtolower($text[0]);
 	if ($match[0][0] === "w") $match[0] = "http://$match[0]";
-	return '<a href="'.$text.'">'.$match[0].'</a>';
+	return '<a href="'.htmlspecialchars($text).'">'.htmlspecialchars($match[0]).'</a>';
 }
 
 function bbcodeImage($contents, $arg)
@@ -73,7 +73,7 @@ function bbcodeImage($contents, $arg)
 		$dest = $arg;
 	}
 
-	return '<img class="imgtag" src="'.htmlspecialchars($dest).'" alt="'.$title.'"/>';
+	return '<img class="imgtag" src="'.htmlspecialchars($dest).'" alt="'.htmlspecialchars($title).'"/>';
 }
 
 
@@ -87,7 +87,7 @@ function bbcodeImageScale($contents, $arg)
 		$dest = $arg;
 	}
 
-	return '<a href="'.htmlspecialchars($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlspecialchars($dest).'" alt="'.$title.'"/></a>';
+	return '<a href="'.htmlspecialchars($dest).'"><img class="imgtag" style="max-width:300px; max-height:300px;" src="'.htmlspecialchars($dest).'" alt="'.htmlspecialchars($title).'"/></a>';
 }
 
 
