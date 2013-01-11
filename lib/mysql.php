@@ -31,7 +31,7 @@ function Query_AddUserInput($match)
 {
 	global $args;
 	$match = $match[1];
-	$format = "_";
+	$format = 's';
 	if(preg_match("/^\d+\D$/", $match))
 	{
 		$format = substr($match, strlen($match)-1, 1);
@@ -41,12 +41,13 @@ function Query_AddUserInput($match)
 	$var = $args[$match+1];
 
 	if ($var === NULL) return 'NULL';
-
-	if($format == "_")
-		if(ctype_digit((string)$var))
-			$format = "i";
-		else
-			$format = "s";
+			
+	if ($format == 'c')
+	{
+		$final = '';
+		foreach ($var as $v) $final .= '\''.SqlEscape($v).'\',';
+		return substr($final,0,-1);
+	}
 
 	if($format == "i") return (string)((int)$var);
 	if($format == "u") return (string)max((int)$var, 0);
