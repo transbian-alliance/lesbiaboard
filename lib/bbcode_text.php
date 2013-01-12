@@ -4,7 +4,7 @@
 
 function loadSmilies()
 {
-	global $smilies, $smiliesOrdered, $smiliesReplaceOrig, $smiliesReplaceNew;
+	global $smilies, $smiliesReplaceOrig, $smiliesReplaceNew;
 
 	$rSmilies = Query("select * from {smilies} order by length(code) desc");
 	$smilies = array();
@@ -18,6 +18,18 @@ function loadSmilies()
 		$smiliesReplaceOrig[] = "/(?<!\w)".preg_quote(htmlspecialchars($smilies[$i]['code']), "/")."(?!\w)/";
 		$smiliesReplaceNew[] = "<img class=\"smiley\" alt=\"\" src=\"".resourceLink("img/smilies/".$smilies[$i]['image'])."\" />";
 	}
+}
+
+
+function loadSmiliesOrdered()
+{
+	global $smiliesOrdered;
+
+	$rSmilies = Query("select * from {smilies}");
+	$smilies = array();
+
+	while($smiley = Fetch($rSmilies))
+		$smiliesOrdered[] = $smiley;
 }
 
 /*

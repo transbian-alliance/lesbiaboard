@@ -144,22 +144,22 @@ function DoSmileyBar($taname = "text")
 {
 	global $smiliesOrdered;
 	$expandAt = 100;
-	LoadSmilies();
-
-
+	LoadSmiliesOrdered();
 	print '<table class="message margin">
 		<tr class="header0"><th>'.__("Smilies").'</th></tr>
-		<tr class="cell0"><td id=\"smiliesContainer\">';
+		<tr class="cell0"><td id="smiliesContainer">';
 
 	if(count($smiliesOrdered) > $expandAt)
 		write("<button class=\"expander\" id=\"smiliesExpand\" onclick=\"expandSmilies();\">&#x25BC;</button>");
 	print "<div class=\"smilies\" id=\"commonSet\">";
-	for($i = 0; $i < count($smiliesOrdered) - 1; $i++)
+	
+	$i = 0;
+	foreach($smiliesOrdered as $s)
 	{
 		if($i == $expandAt)
 			print "</div><div class=\"smilies\" id=\"expandedSet\">";
-		$s = $smiliesOrdered[$i];
 		print "<img src=\"".resourceLink("img/smilies/".$s['image'])."\" alt=\"".htmlentities($s['code'])."\" title=\"".htmlentities($s['code'])."\" onclick=\"insertSmiley(' ".str_replace("'", "\'", $s['code'])." ');\" />";
+		$i++;
 	}
 
 	print '</div></td></tr></table>';
