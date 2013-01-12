@@ -80,6 +80,8 @@ if(isset($_GET['vote']))
 		if(!$existing)
 			Query("insert into {pollvotes} (poll, choiceid, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
 	}
+	
+	die(header("Location: ".actionLink("thread", $tid)));
 }
 
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
