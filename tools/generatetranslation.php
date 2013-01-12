@@ -19,7 +19,7 @@ function find_strings($tokens, $filename)
 			if ($tokens[$id + 2][0] === T_CONSTANT_ENCAPSED_STRING && ($tokens[$id + 3] === ')' || $tokens[$id + 3] === ','))
 			{
 				$thetoken = $tokens[$id + 2][1];
-				eval('$string = '.$thetoken.';');
+				$string = eval('return '.$thetoken.';');
 				if (!isset($messages[$string]))
 				{
 					if (!$filenameInserted)
