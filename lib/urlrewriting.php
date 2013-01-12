@@ -63,8 +63,9 @@ if($_GET["id"])
 		$valid = false;
 }
 
-//If URL is not valid, we have to redirect to the correct one!
-if(!$valid)
+// If URL is not valid, we have to redirect to the correct one!
+// Only if NOT POST request, though!
+if(strtoupper($_SERVER['REQUEST_METHOD']) != 'POST' && !$valid)
 {
 	$params = "";
 	foreach($_GET as $key => $val)
