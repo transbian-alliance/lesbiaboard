@@ -144,7 +144,7 @@ function DoSmileyBar($taname = "text")
 {
 	global $smiliesOrdered;
 	$expandAt = 100;
-	LoadSmilies(TRUE);
+	LoadSmilies();
 
 
 	print '<table class="message margin">

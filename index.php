@@ -176,7 +176,6 @@ checkForImage($layout_logopic, true, "logos/logo.gif");
 checkForImage($layout_logopic, false, "themes/$theme/logo.png");
 checkForImage($layout_logopic, false, "themes/$theme/logo.jpg");
 checkForImage($layout_logopic, false, "themes/$theme/logo.gif");
-checkForImage($layout_logopic, false, "themes/$theme/logo.png");
 checkForImage($layout_logopic, false, "img/logo.png");
 
 checkForImage($layout_favicon, true, "logos/favicon.gif");

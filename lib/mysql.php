@@ -118,7 +118,7 @@ function rawQuery($query)
 			$bt = "";
 			if(function_exists("backTrace"))
 				$bt = backTrace();
-			die(nl2br($bt).
+			echo (nl2br($bt).
 				"<br /><br />".htmlspecialchars($theError).
 				"<br /><br />Query was: <code>".htmlspecialchars($query)."</code>");
 /*				<br />This could have been caused by a database layout change in a recent git revision. Try running the installer again to fix it. <form action=\"install/doinstall.php\" method=\"POST\"><br />
