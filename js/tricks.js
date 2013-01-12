@@ -161,7 +161,7 @@ function startOnlineUsers()
 	//setTimeout("getOnlineUsers()", 10000);
 	//var onlineUsersBar = $('.header0').get(1);
 	//onlineUsersBar.id="onlineUsersBar";
-	var tmrid = window.setInterval("getOnlineUsers();", 10000);
+	var tmrid = window.setInterval(getOnlineUsers, 10000);
 
 	$(window).blur(function() {
 		if (tmrid != -9999)
@@ -174,7 +174,7 @@ function startOnlineUsers()
 	$(window).focus(function() {
 		getOnlineUsers();
 		if (tmrid == -9999)
-			tmrid = window.setInterval("getOnlineUsers();", 10000);
+			tmrid = window.setInterval(getOnlineUsers, 10000);
 	});
 }
 
@@ -314,7 +314,7 @@ var refreshUrl = "";
 
 function startPageUpdate()
 {
-	var tmrid = window.setInterval("doPageUpdate();", 30000);
+	var tmrid = window.setInterval(doPageUpdate, 30000);
 
 	$(window).blur(function() {
 		if (tmrid != -9999) {
@@ -326,7 +326,7 @@ function startPageUpdate()
 	$(window).focus(function() {
 		doPageUpdate();
 		if (tmrid == -9999)
-			tmrid = window.setInterval("doPageUpdate();", 30000);
+			tmrid = window.setInterval(doPageUpdate, 30000);
 	});
 }
 
@@ -527,7 +527,7 @@ function searchThemes(query) {
 		window.themes = document.getElementsByClassName("theme");
 
 		window.themeNames = {};
-		
+
 		for (var i = 0; i < window.themes.length; i++) {
 			window.themeNames[window.themes[i].title] = i;
 		}
