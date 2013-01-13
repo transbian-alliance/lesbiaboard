@@ -168,7 +168,7 @@ else if(isset($_POST['actionpost']))
 
 			//If it looks similar to this one, assume the user has double-clicked the button.
 			if($lastThread["forum"] == $fid && $lastThread["title"] == $_POST["title"])
-				die(header("Location: ".actionLink("thread", $lastThread["id"])));
+				redirectAction("thread", $lastThread["id"]);
 
 			$rejected = true;
 			Alert(__("You're going too damn fast! Slow down a little."), __("Hold your horses."));
@@ -249,7 +249,7 @@ else if(isset($_POST['actionpost']))
 		$thread["id"] = $tid;
 		$bucket = "newthread"; include("lib/pluginloader.php");
 
-		die(header("Location: ".actionLink("thread", $tid)));
+		redirectAction("thread", $tid);
 	}
 }
 

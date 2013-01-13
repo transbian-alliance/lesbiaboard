@@ -7,7 +7,7 @@ if(isset($_GET['pid']))
 {
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Status: 301 Moved Permanently");
-	die(header("Location: ".actionLink("post", $_GET["pid"])));
+	redirectAction("post", $_GET["pid"]);
 }
 
 if(isset($_GET['id']))
@@ -86,7 +86,7 @@ if(isset($_GET['vote']))
 			Query("insert into {pollvotes} (poll, choiceid, user) values ({0}, {1}, {2})", $thread['poll'], $vote, $loguserid);
 	}
 	
-	die(header("Location: ".actionLink("thread", $tid, $fromstring)));
+	redirectAction("thread", $tid, $fromstring);
 	
 }
 

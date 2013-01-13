@@ -40,7 +40,7 @@ elseif(isset($_POST['actionlogin']))
 
 		Report("[b]".$user['name']."[/] logged in.", 1);
 
-		die(header("Location: $boardroot"));
+		redirectAction("board");
 	}
 }
 

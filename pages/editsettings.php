@@ -57,9 +57,9 @@ if(isset($_POST["_plugin"]))
 		if(isset($_POST["_exit"]))
 		{
 			if($plugin == "main")
-				die(header("Location: ".actionLink("admin")));
+				redirectAction("admin");
 			else
-				die(header("Location: ".actionLink("pluginmanager")));
+				redirectAction("pluginmanager");
 		}
 		else
 			Alert(__("Settings were successfully saved!"));

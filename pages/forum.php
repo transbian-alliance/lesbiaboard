@@ -12,7 +12,7 @@ if($loguserid && $_GET['action'] == "markasread")
 	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads} WHERE {threads}.forum={2}",
 		$loguserid, time(), $fid);
 
-	die(header("Location: ".actionLink("board")));
+	redirectAction("board");
 }
 
 AssertForbidden("viewForum", $fid);
@@ -45,13 +45,13 @@ if(isset($_GET['ignore']))
 {
 	if(!$isIgnored)
 		Query("insert into {ignoredforums} values ({0}, {1})", $loguserid, $fid);
-	die(header("Location: ".actionLink("forum", $fid)));
+	redirectAction("forum", $fid);
 }
 else if(isset($_GET['unignore']))
 {
 	if($isIgnored)
 		Query("delete from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid);
-	die(header("Location: ".actionLink("forum", $fid)));
+	redirectAction("forum", $fid);
 }
 
 if($loguserid)

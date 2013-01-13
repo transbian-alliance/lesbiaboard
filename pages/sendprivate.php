@@ -131,7 +131,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 
 				$rPMT = Query("insert into {pmsgs_text} (pid,title,text) values ({0}, {1}, {2})", $pid, $_POST['title'], $post);
 
-				die(header("Location: ".actionLink("private", "", "show=2")));
+				redirectAction("private", "", "show=2");
 				//Redirect(__("Draft saved!"), "private.php?show=2", __("your drafts box"));
 			}
 			else
@@ -144,7 +144,7 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 					$rPMT = Query("insert into {pmsgs_text} (pid,title,text) values ({0}, {1}, {2})", $pid, $_POST['title'], $post);
 				}
 
-				die(header("Location: ".actionLink("private", "", "show=1")));
+				redirectAction("private", "", "show=1");
 				//Redirect(__("PM sent!"),"private.php?show=1", __("your PM outbox"));
 			}
 			exit();

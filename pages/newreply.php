@@ -104,7 +104,7 @@ else if(isset($_POST['actionpost']))
 			if($lastPost["thread"] == $tid)
 			{
 				$pid = $lastPost["id"];
-				die(header("Location: ".actionLink("thread", 0, "pid=".$pid."#".$pid)));
+				redirectAction("thread", 0, "pid=".$pid."#".$pid);
 			}
 
 			$rejected = true;
@@ -170,7 +170,7 @@ else if(isset($_POST['actionpost']))
 
 		$bucket = "newreply"; include("lib/pluginloader.php");
 
-		die(header("Location: ".actionLink("post", $pid)));
+		redirectAction("post", $pid);
 	}
 }
 

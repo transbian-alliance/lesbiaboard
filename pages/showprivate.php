@@ -94,7 +94,7 @@ if($draftEditor)
 		Query("delete from {pmsgs} where id = {0}", $pmid);
 		Query("delete from {pmsgs_text} where pid = {0}", $pmid);
 
-		die(header("Location: ".actionLink("private")));
+		redirectAction("private");
 		exit();
 	}
 
@@ -164,7 +164,7 @@ if($draftEditor)
 					$rPMT = Query("update {pmsgs_text} set title = {0}, text = {1} where pid = {2}", $_POST['title'], $post, $pmid);
 					$rPM = Query("update {pmsgs} set userto = {0} where id = {1}", $firstTo, $pmid);
 
-                	die(header("Location: ".actionLink("private", "", "show=2")));
+                	redirectAction("private", "", "show=2");
 				}
 				else
 				{
@@ -185,7 +185,7 @@ if($draftEditor)
 						$rPMT = Query("insert into {pmsgs_text} (pid,title,text) values ({0}, {1}, {2})", $pid, $_POST['title'], $post);
 					}
 
-				die(header("Location: ".actionLink("private", "", "show=1")));
+				redirectAction("private", "", "show=1");
 					exit();
 				}
 			}

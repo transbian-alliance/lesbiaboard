@@ -55,28 +55,28 @@ if($canMod)
 		$rThread = Query("update {threads} set closed=1 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] closed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-		die(header("Location: ".actionLink("thread", $tid)));
+		redirectAction("thread", $tid);
 	}
 	elseif($_GET['action']=="open")
 	{
 		$rThread = Query("update {threads} set closed=0 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] opened thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-		die(header("Location: ".actionLink("thread", $tid)));
+		redirectAction("thread", $tid);
 	}
 	elseif($_GET['action']=="stick")
 	{
 		$rThread = Query("update {threads} set sticky=1 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] stickied thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-		die(header("Location: ".actionLink("thread", $tid)));
+		redirectAction("thread", $tid);
 	}
 	elseif($_GET['action']=="unstick")
 	{
 		$rThread = Query("update {threads} set sticky=0 where id={0}", $tid);
 		Report("[b]".$loguser['name']."[/] unstuck thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-		die(header("Location: ".actionLink("thread", $tid)));
+		redirectAction("thread", $tid);
 	}
 	elseif($_GET['action']=="delete")
 	{
@@ -117,7 +117,7 @@ if($canMod)
 
 		Report("[b]".$loguser['name']."[/] deleted thread [b]".$thread['title']."[/]", $isHidden);
 
-		die(header("Location: ".actionLink("forum", $thread['forum'])));
+		redirectAction("forum", $thread['forum']);
 	}
 	elseif($_GET['action'] == "trash")
 	{
@@ -138,7 +138,7 @@ if($canMod)
 
 			Report("[b]".$loguser['name']."[/] thrashed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: ".actionLink("forum", $thread['forum'])));
+			redirectAction("forum", $thread['forum']);
 		}
 		else
 			Kill(__("Could not identify trash forum."));
@@ -186,7 +186,7 @@ if($canMod)
 
 			Report("[b]".$loguser['name']."[/] edited thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: ".actionLink("thread", $tid)));
+			redirectAction("thread", $tid);
 		}
 		else
 			Alert(__("Your thread title is empty. Enter a message and try again."));
@@ -202,7 +202,7 @@ else
 
 			Report("[b]".$loguser['name']."[/] renamed thread [b]".$thread['title']."[/] -> [g]#HERE#?tid=".$tid, $isHidden);
 
-			die(header("Location: ".actionLink("thread", $tid)));
+			redirectAction("thread", $tid);
 			//Redirect(__("Edited!"), "thread.php?id=".$tid, __("the thread"));
 			exit();
 		}

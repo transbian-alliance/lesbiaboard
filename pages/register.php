@@ -194,7 +194,7 @@ elseif($_POST['action'] == __("Register"))
 		die(header("Location: ."));
 	}
 	else
-		die(header("Location: ".actionLink("login")));
+		redirectAction("login");
 }
 
 function MakeOptions($fieldName, $checkedIndex, $choicesList)

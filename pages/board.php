@@ -1,15 +1,4 @@
 <?php
-$noAutoHeader = TRUE;
-
-if(isset($_GET['fid']) && (int)$_GET['fid'] > 0 && !isset($_GET['action']))
-	die(header("Location: forum.php?id=".(int)$_GET['fid']));
-else if(isset($_GET['tid']) && (int)$_GET['tid'] > 0)
-	die(header("Location: thread.php?id=".(int)$_GET['tid']));
-else if(isset($_GET['uid']) && (int)$_GET['uid'] > 0)
-	die(header("Location: profile.php?id=".(int)$_GET['uid']));
-else if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
-	die(header("Location: thread.php?pid=".(int)$_GET['pid']."#".(int)$_GET['pid']));
-
 
 $links = "";
 
@@ -46,7 +35,7 @@ if($pl < 0) $pl = 0;
 if($loguserid && isset($_GET['action']) && $_GET['action'] == "markallread")
 {
 	Query("REPLACE INTO {threadsread} (id,thread,date) SELECT {0}, {threads}.id, {1} FROM {threads}", $loguserid, time());
-	die(header("Location: ".actionLink("board")));
+	redirectAction("board");
 }
 
 printRefreshCode();

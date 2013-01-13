@@ -94,6 +94,17 @@ function actionLinkTagItemConfirm($text, $prompt, $action, $id=0, $args="")
 	return '<li><a onclick="return confirm(\''.$prompt.'\'); " href="'.htmlentities(actionLink($action, $id, $args)).'">'.$text.'</a></li>';
 }
 
+function redirectAction($action, $id=0, $args="", $urlname="")
+{
+	redirect(actionLink($action, $id, $args, $urlname));
+}
+
+function redirect($url)
+{
+	header("Location: ".$url);
+	die();
+}
+
 function resourceLink($what)
 {
 	global $boardroot;
