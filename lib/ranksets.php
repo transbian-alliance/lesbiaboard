@@ -32,6 +32,8 @@ function loadRanksets()
 function getRankHtml($rankset, $rank)
 {
 	$text = htmlspecialchars($rank["text"]);
+	if($rank["image"] == "") return $text;
+	
 	$img = htmlspecialchars(resourceLink("ranksets/".$rankset."/".$rank["image"]));
 	return "<img src=\"$img\" alt=\"\" /> $text";
 }
