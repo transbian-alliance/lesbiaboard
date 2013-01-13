@@ -268,7 +268,7 @@ $tables = array
 		(
 			"id" => $AI,		
 			"user" => $genericInt,	
-			"ip" => "varchar(45)".$notNull,
+			"ip" => "varchar(50)".$notNull,
 			"time" => $genericInt,	
 			"query" => $text,
 			"get" => $text,
@@ -278,17 +278,20 @@ $tables = array
 		),
 		"special" => $keyID
 	),
-	"reports" => array
+	"log" => array
 	(
 		"fields" => array
 		(
-			"ip" => "varchar(45)".$notNull,
 			"user" => $genericInt,
-			"time" => $genericInt,
+			"date" => $genericInt,
+			"type" => $genericInt,
+			"user2" => $genericInt,
+			"thread" => $genericInt,
+			"post" => $genericInt,
+			"forum" => $genericInt,
+			"pm" => $genericInt,
 			"text" => "varchar(1024)".$notNull,
-			"hidden" => $bool,
-			"severity" => "tinyint(2) NOT NULL DEFAULT '0'",
-			"request" => $text,
+			"ip" => "varchar(50)".$notNull,
 		),
 	),
 	"sessions" => array
@@ -427,34 +430,5 @@ $tables = array
 		),
 		"special" => "primary key (`uid`, `voter`)"
 	),
-	"usergroups" => array(
-		"fields" => array
-		(
-			"id" => $genericInt,
-			"title" => $var256,
-			"inherits" => $genericInt,
-			"permissions" => $text
-		)
-	),
-	"userpermissions" => array(
-		"fields" => array
-		(
-			"uid" => $genericInt,
-			"permissions" => $text
-		)
-	),
-	"notifications" => array(
-		"fields" => array(
-			"id" => $AI,
-			"uid" => $genericInt,
-			"type" => $var256,
-			"title" => $var256,
-			"description" => $text,
-			"link" => $bool,
-			"linklocation" => $var256,
-			"time" => $genericInt
-		),
-		"special" => $keyID
-	)
 );
 ?>
