@@ -29,8 +29,13 @@ if($maxUsersText[0] == ":")
 
 $sumAge = FetchResult("SELECT SUM(birthday) FROM {users} WHERE birthday != 0");
 $countAge = FetchResult("SELECT COUNT(*) FROM {users} WHERE birthday != 0");
-$avgAge = (int)($sumAge / $countAge);
-$avgAge = formatBirthday($avgAge);
+if ($countAge > 0)
+{
+	$avgAge = (int)($sumAge / $countAge);
+	$avgAge = formatBirthday($avgAge);
+}
+else
+	$avgAge = -1;
 
 write(
 "
@@ -70,14 +75,14 @@ write(
 			{6}
 		</td>
 	</tr>
-	<tr class=\"cell0\">
+	".(($avgAge > -1) ? "<tr class=\"cell0\">
 		<td>
 			".__("Average age of members")."
 		</td>
 		<td>
 			".$avgAge."
 		</td>
-	</tr>
+	</tr>":'')."
 </table>
 ",	$misc['maxpostsday'], gmdate($df, $misc['maxpostsdaydate']),
 	$misc['maxpostshour'], gmdate($df, $misc['maxpostshourdate']),
