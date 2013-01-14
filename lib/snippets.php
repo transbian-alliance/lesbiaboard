@@ -252,6 +252,8 @@ function cdate($format, $date = 0)
 
 function Report($stuff, $hidden = 0, $severity = 0)
 {
+	Kill('Legacy Report() function used. Fixme.');
+	
 	$full = GetFullURL();
 	$here = substr($full, 0, strrpos($full, "/"))."/";
 
@@ -263,6 +265,19 @@ function Report($stuff, $hidden = 0, $severity = 0)
 	Query("insert into {reports} (ip,user,time,text,hidden,severity,request)
 		values ({0}, {1}, {2}, {3}, {4}, {5}, {6})", $_SERVER['REMOTE_ADDR'], (int)$loguserid, time(), str_replace("#HERE#", $here, $stuff), $hidden, $severity, $req);
 	Query("delete from {reports} where time < {0}", (time() - (60*60*24*30)));
+}
+
+function LogAction($type, $text, $params)
+{
+	$user2 = (int)$params['user2'];
+	$thread = (int)$params['thread'];
+	$post = (int)$params['post'];
+	$forum = (int)$params['forum'];
+	$pm = (int)$params['pm'];
+	
+	Query("INSERT INTO {log} (user,date,type,user2,thread,post,forum,pm,text,ip)
+		VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9})",
+		$loguserid, time(), $type, $user2, $thread, $post, $forum, $pm, $text, $_SERVER['REMOTE_ADDR']);
 }
 
 //TODO: This is used for notifications. We should replace this with the coming-soon notifications system ~Dirbaio

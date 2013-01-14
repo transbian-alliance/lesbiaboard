@@ -284,7 +284,7 @@ $tables = array
 		(
 			"user" => $genericInt,
 			"date" => $genericInt,
-			"type" => $genericInt,
+			"type" => "varchar(16)".$notNull,
 			"user2" => $genericInt,
 			"thread" => $genericInt,
 			"post" => $genericInt,
