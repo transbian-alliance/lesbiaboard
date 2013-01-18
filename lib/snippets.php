@@ -269,15 +269,20 @@ function Report($stuff, $hidden = 0, $severity = 0)
 
 function LogAction($type, $text, $params)
 {
-	$user2 = (int)$params['user2'];
-	$thread = (int)$params['thread'];
-	$post = (int)$params['post'];
-	$forum = (int)$params['forum'];
-	$pm = (int)$params['pm'];
+	global $loguserid;
 	
-	Query("INSERT INTO {log} (user,date,type,user2,thread,post,forum,pm,text,ip)
-		VALUES ({0},{1},{2},{3},{4},{5},{6},{7},{8},{9})",
-		$loguserid, time(), $type, $user2, $thread, $post, $forum, $pm, $text, $_SERVER['REMOTE_ADDR']);
+	$fields = array();
+	$values = array();
+	
+	foreach ($params as $field=>$val)
+	{
+		$fields[] = $field;
+		$values[] = $val;
+	}
+	
+	Query("INSERT INTO {log} (user,date,type,text,ip,".implode(',',$fields).")
+		VALUES ({0},{1},{2},{3},{4},{5c})",
+		$loguserid, time(), $type, $text, $_SERVER['REMOTE_ADDR'], $values);
 }
 
 //TODO: This is used for notifications. We should replace this with the coming-soon notifications system ~Dirbaio

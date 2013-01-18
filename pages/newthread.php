@@ -240,8 +240,7 @@ else if(isset($_POST['actionpost']))
 
 		Query("update {threads} set lastpostid = {0} where id = {1}", $pid, $tid);
 
-		$isHidden = (int)($forum['minpower'] > 0);
-		Report("New ".($_POST['poll'] ? "poll" : "thread")." by [b]".$loguser['name']."[/]: [b]".$_POST['title']."[/] (".$forum['title'].") -> [g]#HERE#?tid=".$tid, $isHidden);
+		LogAction('newthread', 'New thread by {user} in {forum}: {thread}', array('forum' => $fid, 'thread' => $tid));
 
 		//newthread bucket
 		$postingAsUser = $loguser;
