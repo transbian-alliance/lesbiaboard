@@ -75,6 +75,7 @@ include("bbcode_text.php");
 include("bbcode_callbacks.php");
 include("bbcode_main.php");
 include("post.php");
+include("log.php");
 include("onlineusers.php");
 
 $theme = $loguser['theme'];

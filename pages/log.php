@@ -28,7 +28,8 @@ function logFormat_user2($data)
 
 function logFormat_thread($data)
 {
-	return actionLinkTag($data['thread_title'], 'thread', $data['thread_id']);
+	$thread = getDataPrefix($data, "thread_");
+	return makeThreadLink($thread);
 }
 
 function logFormat_post($data)
@@ -66,7 +67,7 @@ $logR = Query("	SELECT
 
 while($item = Fetch($logR))
 {
-	$event = $item['text'];
+	$event = $logText[$item['type']];
 	$event = preg_replace_callback("@\{(\w+)\}@", 'addLogInput', $event);
 
 	$cellClass = ($cellClass + 1) % 2;
@@ -80,7 +81,7 @@ while($item = Fetch($logR))
 				{2}
 			</td>
 		</tr>
-", $cellClass, str_replace(" ", "&nbsp;", TimeUnits(time() - $item['time'])), $event);
+", $cellClass, str_replace(" ", "&nbsp;", TimeUnits(time() - $item['date'])), $event);
 }
 
 write(
