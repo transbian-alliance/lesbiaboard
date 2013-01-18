@@ -1,27 +1,73 @@
 <?php
 
-if($loguser['powerlevel'] < 1)
-	Kill("Access denied.");
+if($loguser['powerlevel'] < 3)
+	Kill(__("Access denied."));
 
 MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Log") => actionLink("log")), "");
 
-//$here = "http://helmet.kafuka.org/nikoboard";
-$full = GetFullURL();
-$here = substr($full, 0, strrpos($full, "/"))."/";
-$there = "./"; //"/";
+$log_fields = array
+(
+	'user' => array('table' => 'users', 'key' => 'id', 'fields' => '_userfields'),
+	'user2' => array('table' => 'users', 'key' => 'id', 'fields' => '_userfields'),
+	'thread' => array('table' => 'threads', 'key' => 'id', 'fields' => 'id,title'),
+	'post' => array('table' => 'posts', 'key' => 'id', 'fields' => 'id'),
+	'forum' => array('table' => 'forums', 'key' => 'id', 'fields' => 'id,title'),
+	'pm' => array('table' => 'pmsgs', 'key' => 'id', 'fields' => 'id'),
+);
 
-$logR = Query("select * from {reports} order by time desc");
+function logFormat_user($data)
+{
+	$userdata = getDataPrefix($data, 'user_');
+	return userLink($userdata);
+}
+function logFormat_user2($data)
+{
+	$userdata = getDataPrefix($data, 'user2_');
+	return userLink($userdata);
+}
+
+function logFormat_thread($data)
+{
+	return actionLinkTag($data['thread_title'], 'thread', $data['thread_id']);
+}
+
+function logFormat_post($data)
+{
+	return actionLinkTag('post #'.$data['post_id'], 'post', $data['post_id']);
+}
+
+function logFormat_forum($data)
+{
+	return actionLinkTag($data['forum_title'], 'forum', $data['forum_id']);
+}
+
+function logFormat_pm($data)
+{
+	return actionLinkTag('PM #'.$data['pm_id'], 'showprivate', $data['pm_id'], 'snoop=1');
+}
+
+$bucket = 'log_fields'; include('lib/pluginloader.php');
+
+$joinfields = '';
+$joinstatements = '';
+foreach ($log_fields as $field=>$data)
+{
+	$joinfields .= ", {$field}.({$data['fields']}) \n";
+	$joinstatements .= "LEFT JOIN {{$data['table']}} {$field} ON l.{$field}!='0' AND {$field}.{$data['key']}=l.{$field} \n";
+}
+
+$logR = Query("	SELECT 
+					l.*
+					{$joinfields}
+				FROM 
+					{log} l
+					{$joinstatements}
+				ORDER BY date DESC"); // TODO: limit
+
 while($item = Fetch($logR))
 {
-	//print $item['text'];
-	$blar = $item['text'];
-	$blar = htmlspecialchars($blar);
-	$blar = str_replace("[g]", "", $blar);
-	$blar = str_replace("[b]", "", $blar);
-	$blar = str_replace("[/]", "", $blar);
-	$blar = str_replace("-&gt;", "&rarr;", $blar);
-
-	$blar = str_replace($here, $there, $blar);
+	$event = $item['text'];
+	$event = preg_replace_callback("@\{(\w+)\}@", 'addLogInput', $event);
 
 	$cellClass = ($cellClass + 1) % 2;
 	$log .= format(
@@ -34,7 +80,7 @@ while($item = Fetch($logR))
 				{2}
 			</td>
 		</tr>
-", $cellClass, str_replace(" ", "&nbsp;", TimeUnits(time() - $item['time'])), $blar);
+", $cellClass, str_replace(" ", "&nbsp;", TimeUnits(time() - $item['time'])), $event);
 }
 
 write(
@@ -51,5 +97,14 @@ write(
 		{0}
 	</table>
 ", $log);
+
+
+function addLogInput($m)
+{
+	global $item;
+	
+	$func = 'logFormat_'.$m[1];
+	return $func($item);
+}
 
 ?>
