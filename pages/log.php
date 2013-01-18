@@ -39,7 +39,7 @@ function logFormat_post($data)
 
 function logFormat_forum($data)
 {
-	return actionLinkTag($data['forum_title'], 'forum', $data['forum_id']);
+	return actionLinkTag($data['forum_title'], 'forum', $data['forum_id'], "", $data['forum_title']);
 }
 
 function logFormat_pm($data)
