@@ -2,16 +2,18 @@
 
 require 'wikilib.php';
 
-$page = getWikiPage($_GET['id']);
+$rev = isset($_GET['rev']) ? (int)$_GET['rev'] : 0;
+$page = getWikiPage($_GET['id'], $rev);
+$rev = min($rev, $page['revision']);
 
-$urltitle = urlencode($page['id']);
+$urltitle = $page['id'];//urlencode($page['id']);
 $nicetitle = htmlspecialchars(url2title($page['id']));
 $title = 'Wiki &raquo; '.$nicetitle;
 
 if ($page['istalk']) 
-	$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,7)).'<li>Discuss</li>';
+	$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,5)).'<li>Discuss</li>';
 else
-	$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk%3A'.$urltitle);
+	$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk:'.$urltitle);
 
 if ($page['canedit'])
 	$links .= actionLinkTagItem('Edit', 'wikiedit', $urltitle);
@@ -19,7 +21,7 @@ if ($page['canedit'])
 if ($page['ismain'])
 	MakeCrumbs(array('Wiki'=>actionLink('wiki')), $links);
 else
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), url2title($nicetitle)=>actionLink('wiki', $urltitle)), $links);
+	MakeCrumbs(array('Wiki'=>actionLink('wiki'), $nicetitle=>actionLink('wiki', $urltitle)), $links);
 
 echo '
 		<table class="outline margin">
@@ -37,7 +39,26 @@ else if ($page['new'])
 }
 else
 {
-	echo '<h1>'.$nicetitle.'</h1>'.wikiFilter($page['text'], $page['flags'] & WIKI_PFLAG_NOCONTBOX);
+	$revInfo = '';
+	$revList = '';
+	
+	if ($rev > 0) 
+	{
+		$revs = Query("SELECT pt.revision r FROM {wiki_pages_text} pt WHERE pt.id={0} ORDER BY r ASC", $urltitle);
+		while ($therev = Fetch($revs))
+		{
+			if ($therev['r'] == $rev)
+				$revList .= '&nbsp;'.$therev['r'].'&nbsp;';
+			else
+				$revList .= '&nbsp;'.actionLinkTag($therev['r'], 'wiki', $urltitle, 'rev='.$therev['r']).'&nbsp;';
+		}
+		
+		$user = Fetch(Query("SELECT u.(_userfields) FROM {users} u WHERE u.id={0}", $page['user']));
+		$user = getDataPrefix($user, 'u_');
+		$revInfo = 'Viewing revision '.$rev.' (by '.userLink($user).' on '.formatdate($page['date']).')<br>(revisions: '.$revList.')<br><br>';
+	}
+	
+	echo '<h1>'.$nicetitle.'</h1>'.$revInfo.wikiFilter($page['text'], $page['flags'] & WIKI_PFLAG_NOCONTBOX);
 }
 
 echo '
