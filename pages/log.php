@@ -49,12 +49,13 @@ function logFormat_pm($data)
 
 $bucket = 'log_fields'; include('lib/pluginloader.php');
 
+
 $joinfields = '';
 $joinstatements = '';
 foreach ($log_fields as $field=>$data)
 {
 	$joinfields .= ", {$field}.({$data['fields']}) \n";
-	$joinstatements .= "LEFT JOIN {{$data['table']}} {$field} ON l.{$field}!='0' AND {$field}.{$data['key']}=l.{$field} \n";
+	$joinstatements .= "LEFT JOIN {{$data['table']}} AS {$field} ON l.{$field}!='0' AND {$field}.{$data['key']}=l.{$field} \n";
 }
 
 $logR = Query("	SELECT 

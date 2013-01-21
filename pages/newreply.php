@@ -166,7 +166,7 @@ else if(isset($_POST['actionpost']))
 		$rThreads = Query("update {threads} set lastposter={0}, lastpostdate={1}, replies=replies+1, lastpostid={2}".$mod." where id={3} limit 1",
 			$loguserid, $now, $pid, $tid);
 
-		Report("New reply by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $isHidden);
+		logAction('newreply', array('forum' => $fid, 'thread' => $tid, 'post' => $pid));
 
 		$bucket = "newreply"; include("lib/pluginloader.php");
 

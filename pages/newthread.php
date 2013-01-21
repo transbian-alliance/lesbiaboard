@@ -240,7 +240,7 @@ else if(isset($_POST['actionpost']))
 
 		Query("update {threads} set lastpostid = {0} where id = {1}", $pid, $tid);
 
-		LogAction('newthread', array('forum' => $fid, 'thread' => $tid));
+		logAction('newthread', array('forum' => $fid, 'thread' => $tid));
 
 		//newthread bucket
 		$postingAsUser = $loguser;
