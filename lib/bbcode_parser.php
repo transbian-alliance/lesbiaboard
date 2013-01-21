@@ -295,6 +295,8 @@ function parse($parentToken)
 			$textcontents = '';
 			$contents .= $result;
 		}
+		
+		$lasttoken = $token;
 	}
 
 	if($parentTag == 'trh')
