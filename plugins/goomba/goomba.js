@@ -41,9 +41,9 @@ function Goomba() {
 Goomba.prototype.stomp = function ()
 {
 	var self = this;
-	if (self.stomped) return;
+	if (this.stomped) return;
 	this.stomped = true;
-	self.goomba.style.backgroundPosition = "-32px 0px";
+	this.goomba.style.backgroundPosition = "-32px 0px";
 	this.audio.play();
 	clearInterval(this.interval);
 	setTimeout(function () {
