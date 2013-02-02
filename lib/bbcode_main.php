@@ -49,8 +49,8 @@ function filterJS($match)
 	$url = str_replace("\t", "", $url);
 	$url = str_replace("\r", "", $url);
 	$url = str_replace("\n", "", $url);
-	if (stristr($url, "javascript:"))
-		return "";
+	if (stristr($url, "javascript:")) return "";
+	if (stristr($url, "data:")) return "";
 	return $match[0];
 }
 
@@ -83,7 +83,8 @@ function securityPostFilter($s)
 
 	$s = preg_replace("'-moz-binding'si"," -mo<em></em>z-binding", $s);
 	$s = preg_replace("'filter:'si","filter<em></em>:>", $s);
-	$s = preg_replace("'javascript:'si","javascript<em></em>:>", $s);
+	$s = preg_replace("'javascript:'si","javascript<em></em>:", $s);
+	$s = preg_replace("'data:'si","data<em></em>:", $s);
 
 	$s = preg_replace_callback("@(href|src)\s*=\s*\"([^\"]+)\"@si", "FilterJS", $s);
 	$s = preg_replace_callback("@(href|src)\s*=\s*'([^']+)'@si", "FilterJS", $s);
