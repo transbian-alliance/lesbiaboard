@@ -30,15 +30,9 @@ while($post = Fetch($rPosts))
 "
 	<tr class=\"cell{5}\">
 		<td>
-			{3}<br />
-			&raquo; {4}
-		</td>
-		<td>
-			{2}<br />
-			{1}
-		</td>
-		<td>
-			&raquo; ".actionLinkTag("{0}", "post", "{0}")."
+			{3} &raquo; {4}
+			<br>{2}, {1} 
+			<span style=\"float:right\">&raquo; ".actionLinkTag("{0}", "post", "{0}")."</span>
 		</td>
 	</tr>
 ", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), 
@@ -60,11 +54,6 @@ write(
 <table class=\"margin outline\">
 	<tr class=\"header0\">
 		<th colspan=\"5\">".__("Last posts")."</th>
-	</tr>
-	<tr class=\"header1\">
-		<th>".__("Forum").", ".__("Thread")."</th>
-		<th>".__("User").", ".__("Date")."</th>
-		<th></th>
 	</tr>
 	{0}
 </table>
