@@ -11,15 +11,16 @@ MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Recalculate statistics"
 
 function startFix()
 {
-	global $fixtime;
+	global $fixtime, $aff;
+	$aff = -1;
 	$fixtime = usectime();
 }
 
 function reportFix($what, $aff = -1)
 {
-	global $fixtime;
+	global $fixtime, $aff;
 	
-	if($aff = -1)
+	if($aff == -1)
 		$aff = affectedRows();
 	echo $what, " ", format(__("{0} rows affected."), $aff), " time: ", sprintf('%1.3f', usectime()-$fixtime), "<br />";
 }
@@ -93,7 +94,10 @@ while($forum = Fetch($rForum))
 	while($thread = Fetch($rThread))
 	{
 		$lastPost = Fetch(Query("select * from {posts} where thread = {0} order by date desc limit 0,1", $thread['id']));
-		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2} where id = {3}", (int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], $thread['id']);
+		$firstPost = Fetch(Query("select * from {posts} where thread = {0} order by date asc limit 0,1", $thread['id']));
+		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2}, date = {3}, firstpostid={4} where id = {5}", 
+			(int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], (int)$firstPost['date'], (int)$firstPost['id'], $thread['id']);
+		
 		$aff += affectedRows();
 		if($first)
 		{
@@ -103,7 +107,7 @@ while($forum = Fetch($rForum))
 		$first = 0;
 	}
 }
-reportFix(__("Updating threads last posts&hellip;"));
+reportFix(__("Updating threads dates and post IDs&hellip;"));
 
 $bucket = "recalc"; include("./lib/pluginloader.php");
 print "<br />All done!<br />";
