@@ -163,29 +163,6 @@ table#header
 	border-right-width:0;
 }
 
-/* All cells have border by default */
-table.post>tbody>tr>td, table.outline>tbody>tr>td, table.message>tbody>tr>td
-{
-	font-size: 1em; /* 10pt; */
-	border-width:0px 1px 1px 0px;
-	border-style:solid;
-	padding:2px 4px 2px 4px;
-}
-
-table.post>tbody>tr>th, table.outline>tbody>tr>th, table.message>tbody>tr>th
-{
-	border-width: 0px 0px 1px 0px;
-	border-style:solid;
-	font-size: 1em; /* 12px; */
-	text-align: left;
-}
-
-table.post>tbody>tr>th:last-child, table.outline>tbody>tr>th:last-child, table.message>tbody>tr>th:last-child
-{
-	border-width: 0px 1px 1px 0px;
-	border-style:solid;
-}
-
 tr.header0>th, tr.header1>th
 {
 	text-align: center!important;
