@@ -324,6 +324,8 @@ $tables = array
 			"id" => $AI,
 			"forum" => $genericInt,
 			"user" => $genericInt,
+			"date" => $genericInt,
+			"firstpostid" => $genericInt,
 			"views" => $genericInt,
 			"title" => "varchar(100)".$notNull,
 			"icon" => "varchar(200)".$notNull,
@@ -335,7 +337,7 @@ $tables = array
 			"sticky" => $bool,
 			"poll" => $genericInt,
 		),
-		"special" => $keyID.", key `forum` (`forum`), key `user` (`user`), key `sticky` (`sticky`), key `lastpostdate` (`lastpostdate`), fulltext key `title` (`title`)"
+		"special" => $keyID.", key `forum` (`forum`), key `user` (`user`), key `sticky` (`sticky`), key `lastpostdate` (`lastpostdate`), key `date` (`date`), fulltext key `title` (`title`)"
 	),
 	"threadsread" => array
 	(

@@ -127,7 +127,7 @@ class Settings
 				return false;
 
 		if($type == "integer" || $type == "user" || $type == "forum")
-			if(!is_numeric($value) || $value != (int)$value) //TODO: I'm not sure if it's the best way. is_numeric allows float values too.
+			if(!ctype_digit($value) || $value === "")
 				return false;
 
 		if($type == "float")
