@@ -2,29 +2,30 @@
 $logText = array
 (
 	// register/login actions
-	'register' => 'New user: {user2}{text}', // 'text' would contain stuff like IP/password matches
+	'register' => 'New user: {user}', // 'text' would contain stuff like IP/password matches
 	'login' => '{user} logged in',
-	'loginfail' => 'A guest attempted to log in as {user2}',
+	'loginfail' => '{user} attempted to log in as {user2}',
 	
 	// profile related actions
 	'editprofile' => '{user} edited his profile',
 	// add mood avatar editing and other stuff?
 	
 	// post related actions
-	'newreply' => 'New reply by {user} in {thread} ({forum}): {post}',
-	'editpost' => 'Post edited by {user} in {thread} ({forum}): {post}',
-	'deletepost' => 'Post deleted by {user} in {thread} ({forum}): {post}',
+	'newreply' => 'New reply by {user} in {thread}: {post}',
+	'editpost' => 'Post edited by {user} in {thread}: {post}',
+	'deletepost' => 'Post deleted by {user} in {thread}: {post}',
 	
 	// thread related actions
-	'newthread' => 'New thread by {user} in {forum}: {thread}',
-	'editthread' => 'Thread {thread} ({forum}) edited by {user}',
-	'movethread' => 'Thread {thread} ({forum}) moved by {user}',
-	'stickthread' => 'Thread {thread} ({forum}) sticked by {user}',
-	'unstickthread' => 'Thread {thread} ({forum}) unsticked by {user}',
-	'closethread' => 'Thread {thread} ({forum}) closed by {user}',
-	'openthread' => 'Thread {thread} ({forum}) opened by {user}',
-	'trashthread' => 'Thread {thread} ({forum}) trashed by {user}',
-	'deletethread' => 'Thread {thread} ({forum}) deleted by {user}',
+	'newthread' => 'New thread by {user}: {thread}',
+	'editthread' => '{user} edited thread {thread}',
+	'movethread' => '{user} moved thread {thread}}',
+	'stickthread' => '{user} stickied thread {thread}',
+	'unstickthread' => '{user} unstickied thread {thread}',
+	'closethread' => '{user} closed thread {thread}',
+	'openthread' => '{user} opened thread {thread}',
+	'trashthread' => '{user} trashed thread {thread}',
+	'deletethread' => '{user} deleted thread {thread}',
+	
 	
 	// admin actions
 	'edituser' => '{user} edited {user2}\'s profile',
