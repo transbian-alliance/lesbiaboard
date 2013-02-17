@@ -94,7 +94,7 @@ foreach($knownOSes as $code => $name)
 		if(strpos($name, "%") !== FALSE)
 		{
 			$versionStart = strpos($ua, $code) + strlen($code);
-			$version = GetVersion($ua, $versionStart);
+			$version = getVersion($ua, $versionStart);
 			$os = str_replace("%", $version, $os);
 		}
 		//If we're using the default Android browser, just report the version of Android being used ~Nina
@@ -108,13 +108,13 @@ foreach($knownOSes as $code => $name)
 
 $lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->";
 
-function GetVersion($ua, $versionStart)
+function getVersion($ua, $versionStart)
 {
 	$numDots = 0;
 	$version = "";
 	if (strpos($ua, "Linux")) {
 		for ($i = ++$versionStart; $i < strlen($ua); $i++) {
-			if ($ua[$i] === " ")
+			if ($ua[$i] === " " || $ua[$i] == ")")
 				break;
 			else if ($ua[$i] != ";") $version .= $ua[$i];
 		}

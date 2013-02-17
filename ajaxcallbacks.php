@@ -97,7 +97,7 @@ function checkForImage(&$image, $external, $file)
 	else
 	{
 		if(file_exists($file))
-			$image = $file;
+			$image = resourceLink($file);
 	}
 }
 
@@ -113,7 +113,7 @@ function checkForImage(&$image, $external, $file)
 	checkForImage($layout_logopic, false, "themes/$theme/logo.png");
 	checkForImage($layout_logopic, false, "img/logo.png");
 
-	die($themeFile."|".$layout_logopic);
+	die(resourceLink($themeFile)."|".$layout_logopic);
 }
 elseif($action == "srl")	//Show Revision List
 {

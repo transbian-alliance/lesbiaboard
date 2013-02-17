@@ -20,19 +20,21 @@ else
 	$ptitle = $page['id'];
 }
 
+if (!preg_match('@[^_]@', $ptitle)) Kill('You must enter a page title.');
+
 if (!$page['canedit']) Kill('You may not '.($page['new'] == 2 ? 'create pages.' : 'edit this page.'));
 if (($page['flags'] & WIKI_PFLAG_DELETED) && !$canmod) Kill('This page has been deleted.');
 
-$urltitle = urlencode($ptitle);
+$urltitle = $ptitle;//urlencode($ptitle);
 $nicetitle = htmlspecialchars(url2title($ptitle));
 $title = 'Wiki &raquo; '.($page['new'] == 2 ? 'New page' : 'Editing: '.$nicetitle);
 
 if ($page['new'] != 2)
 {
 	if ($page['istalk']) 
-		$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,7)).'<li>Discuss</li>';
+		$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,5)).'<li>Discuss</li>';
 	else
-		$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk%3A'.$urltitle);
+		$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk:'.$urltitle);
 
 	$links .= actionLinkTagItem('View', 'wiki', $urltitle);
 }
@@ -63,6 +65,8 @@ if (isset($_POST['saveaction']))
 	Query("INSERT INTO {wiki_pages} (id,revision,flags) VALUES ({0},{1},{2}) ON DUPLICATE KEY UPDATE revision={1}, flags={2}", 
 		$page['id'], $rev, $flags);
 		
+	$bucket = 'wikixd_pageedit'; include("lib/pluginloader.php");
+		
 	die(header('Location: '.actionLink('wiki', $page['id'])));
 }
 
@@ -71,7 +75,7 @@ if ($page['new'] == 2)
 else if ($page['ismain'])
 	MakeCrumbs(array('Wiki'=>actionLink('wiki'), 'Edit main page'=>actionLink('wikiedit', $urltitle)), $links);
 else
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), url2title($nicetitle)=>actionLink('wiki', $urltitle), 'Edit'=>actionLink('wikiedit', $urltitle)), $links);
+	MakeCrumbs(array('Wiki'=>actionLink('wiki'), $nicetitle=>actionLink('wiki', $urltitle), 'Edit'=>actionLink('wikiedit', $urltitle)), $links);
 
 echo '
 		<table class="outline margin">
@@ -109,7 +113,7 @@ if ($canmod)
 echo '
 <h1>'.($page['new'] == 2 ? 'New page' : 'Editing: '.$nicetitle).'</h1>
 <form action="" method="POST" name="editform">
-	'.($page['new'] == 2 ? 'Title:<br><input type="text" name="title" value="'.htmlspecialchars($nicetitle).'" style="width:99.5%;" maxlength="200" /><br><br>' : '').'
+	'.($page['new'] == 2 ? 'Title:<br><input type="text" name="title" value="'.$nicetitle.'" style="width:99.5%;" maxlength="200" /><br><br>' : '').'
 	<textarea name="text" id="text" style="width:99.5%; height:30em;" onkeydown="tabfixor(this,event);">'.htmlspecialchars($page['text']).'</textarea><br>
 	<input type="submit" name="saveaction" value="Save" /> <input type="submit" name="previewaction" value="Preview" /> '.$options.'
 	<input type="hidden" name="token" value="'.$token.'" />

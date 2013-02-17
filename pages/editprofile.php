@@ -215,6 +215,7 @@ $account = array(
 	),
 	"login" => array(
 		"name" => __("Login information"),
+		"class" => "needpass",
 		"items" => array(
 			"name" => array(
 				"caption" => __("User name"),
@@ -231,6 +232,7 @@ $account = array(
 	),
 	"email" => array(
 		"name" => __("Email information"),
+		"class" => "needpass",
 		"items" => array(
 			"email" => array(
 				"caption" => __("Email address"),
@@ -246,6 +248,7 @@ $account = array(
 	),
 	"admin" => array(
 		"name" => __("Administrative stuff"),
+		"class" => "needpass",
 		"items" => array(
 			"powerlevel" => array(
 				"caption" => __("Power level"),
@@ -698,8 +701,8 @@ function HandlePassword($field, $item)
 	{
 		$newsalt = Shake();
 		$sha = doHash($_POST[$field].$salt.$newsalt);
-		$_POST[$field] = $sha;
 		$sets[] = "pss = '".$newsalt."'";
+		$_POST[$field] = $sha;
 
 		//Now logout all the sessions that aren't this one, for security.
 		Query("DELETE FROM {sessions} WHERE id != {0} and user = {1}", doHash($_COOKIE['logsession'].$salt), $user["id"]);
@@ -989,10 +992,11 @@ function BuildPage($page, $id)
 	$output = "<table class=\"outline margin width50 eptable\" id=\"".$id."\"".$display.">\n";
 	foreach($page as $pageID => $section)
 	{
-		$output .= "<tr class=\"header0\"><th colspan=\"2\">".$section['name']."</th></tr>\n";
+		$secClass = $section["class"];
+		$output .= "<tr class=\"header0 $secClass\"><th colspan=\"2\">".$section['name']."</th></tr>\n";
 		foreach($section['items'] as $field => $item)
 		{
-			$output .= "<tr class=\"cell".$cellClass."\">\n";
+			$output .= "<tr class=\"cell$cellClass $secClass\" >\n";
 			$output .= "<td>\n";
 			if(isset($item["fail"])) $output .= "[ERROR] ";
 			if($item['type'] != "checkbox")
@@ -1118,3 +1122,23 @@ function Karma()
 }
 
 ?>
+
+<script type="text/javascript">
+	var passwordChanged = function()
+	{
+		if($("#currpassword").val() == "")
+			$("#passwordhide").html(".needpass {display:none;}");
+		else
+			$("#passwordhide").html("");
+	};
+	
+	$(function() {
+		$("#currpassword").keyup(passwordChanged);
+		passwordChanged();
+	});
+	
+</script>
+<style type="text/css" id="passwordhide">
+	
+</stype>
+

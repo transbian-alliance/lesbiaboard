@@ -15,8 +15,6 @@ function Goomba() {
 		this.position = -15;
 		this.direction = 1;
 	}
-	this.step = 0;
-	this.audio = new Audio(resourceLink("plugins/goomba/goomba.ogg"));
 	setInterval(function () {
 		if(self.stomped) return;
 		self.position += self.direction;
@@ -41,11 +39,14 @@ function Goomba() {
 Goomba.prototype.stomp = function ()
 {
 	var self = this;
+	if (this.stomped) return;
 	this.stomped = true;
-	self.goomba.style.backgroundPosition = "-32px 0px";
+	this.goomba.style.backgroundPosition = "-32px 0px";
 	this.audio.play();
 	clearInterval(this.interval);
 	setTimeout(function () {
 		self.goomba.style.display = "none";
 	}, 500);
 };
+Goomba.prototype.step = 0;
+Goomba.prototype.audio = new Audio(resourceLink("plugins/goomba/goomba.ogg"));

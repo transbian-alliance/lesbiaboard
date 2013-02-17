@@ -16,15 +16,18 @@ function url2title($str)
 	return str_replace('_', ' ', $str);
 }
 
-function getWikiPage($id)
+function getWikiPage($id, $rev = 0)
 {
 	global $canedit, $canmod;
 	
 	$ptitle = $id;
 	if (!$ptitle) $ptitle = 'Main_page';
 	else $ptitle = title2url($ptitle); // so that we don't have for example 'Main page' and 'Main_page' being considered different pages
+	
+	if ($rev < 0) $rev = 0;
 
-	$page = Query("SELECT p.*, pt.date, pt.user, pt.text FROM {wiki_pages} p LEFT JOIN {wiki_pages_text} pt ON pt.id=p.id AND pt.revision=p.revision WHERE p.id={0}", $ptitle);
+	$page = Query("SELECT p.*, pt.date, pt.user, pt.text FROM {wiki_pages} p LEFT JOIN {wiki_pages_text} pt ON pt.id=p.id AND pt.revision=".($rev>0 ? 'LEAST(p.revision,{1})':'p.revision')." WHERE p.id={0}", 
+		$ptitle, $rev);
 	if (!NumRows($page))
 	{
 		$page = array(
@@ -137,7 +140,7 @@ function wikiFilter($text, $nocontbox)
 	$text = preg_replace_callback('@^<(h[1-6]).*?>(.+?)</\1.*?>$@mi', 'headingHandler', $text);
 	
 	if ($contentsbox && (!$nocontbox)) $text = '
-		<table class="outline margin" style="display:inline-block;width:auto;float:right;">
+		<table class="outline margin" style="display:inline-block;width:auto;">
 			<tr class="header1"><th>Contents</th></tr>
 			<tr class="cell0">
 				<td style="padding:1em;">
@@ -145,6 +148,7 @@ function wikiFilter($text, $nocontbox)
 				</td>
 			</tr>
 		</table>
+		<br>
 		'.$text;
 	
 	return $text;

@@ -101,6 +101,7 @@ $goodHtmlTags = array(
 	'input' => 1,
 	'kbd' => 1,
 	'li' => 1,
+	'nobr' => 1,
 	'ol' => 1,
 	'p' => 1,
 	'pre' => 1,
@@ -122,6 +123,26 @@ $goodHtmlTags = array(
 	'u' => 1,
 	'ul' => 1,
 	'link' => 1
+);
+
+$blockHtmlTags = array(
+	'div' => 1,
+	'table' => 1,
+	'tbody' => 1,
+	'thead' => 1,
+	'tfoot' => 1,
+	'tr' => 1,
+	'th' => 1,
+	'td' => 1,
+	'p' => 1,
+	'style' => 1,
+	'link' => 1,
+	
+	// mix BBCode in. Hack.
+	'code' => 1,
+	'source' => 1,
+	'quote' => 1,
+	'spoiler' => 1,
 );
 
 
@@ -179,6 +200,9 @@ function parseToken($token)
 function parse($parentToken)
 {
 	global $tokens, $tokenPtr, $heavyTags, $singleTags, $singleHtmlTags, $tagParseStatus, $parseStatus, $bbcodeCallbacks, $allowTables, $autocloseTags, $bbcodeIsTableHeader, $tokenCt;
+	global $blockHtmlTags;
+	
+	$lasttoken = $parentToken;
 
 	$parentTag = $parentToken['tag'];
 
@@ -258,7 +282,12 @@ function parse($parentToken)
 			$printAsText = true;
 
 		if($printAsText)
+		{
+			if (!$heavyTag && array_key_exists($lasttoken['tag'], $blockHtmlTags))
+				$token['text'] = preg_replace("@^\r?\n@", '', $token['text']);
+			
 			$textcontents .= $token['text'];
+		}
 		else
 		{
 			if($textcontents)
@@ -266,6 +295,8 @@ function parse($parentToken)
 			$textcontents = '';
 			$contents .= $result;
 		}
+		
+		$lasttoken = $token;
 	}
 
 	if($parentTag == 'trh')
@@ -291,7 +322,9 @@ function parse($parentToken)
 	}
 	else if($parentToken['type'] == 3) //HTML
 	{
-		if($singleTag)
+		if ($parentTag == 'nobr')
+			return preg_replace('@<br\s*/?>@i', '', $contents); // hack
+		elseif($singleTag)
 			return '<'.$parentTag.' '.$parentToken['attributes'].'>';
 		else
 			return '<'.$parentTag.' '.$parentToken['attributes'].'>'.$contents.'</'.$parentTag.'>';

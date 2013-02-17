@@ -33,19 +33,19 @@ $rThreads = Query("	SELECT
 						lu.(_userfields)
 					FROM
 						{threads} t
-						LEFT JOIN {posts} p ON p.thread=t.id AND p.date=(SELECT MIN(p2.date) FROM {posts} p2 WHERE p2.thread=t.id)
+						LEFT JOIN {posts} p ON p.id=t.firstpostid
 						LEFT JOIN {posts_text} pt ON pt.pid = p.id AND pt.revision = p.currentrevision
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 					WHERE forum={0}
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {1u}, {2u}",
+					ORDER BY sticky DESC, date DESC LIMIT {1u}, {2u}",
 						$fid, $from, $tpp);
 
 $numonpage = NumRows($rThreads);
 
 $pagelinks = PageLinks(actionLink("blog", "", "from="), $tpp, $from, $total);
 
-if($pagelinks)
+if($pagelinks && $_GET["from"])
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
 $haveStickies = 0;
@@ -72,10 +72,10 @@ while($thread = Fetch($rThreads))
 	$posttext = CleanUpPost($thread['text'],$thread['u_name'], false, false);
 
 	$comments = Plural($thread['replies'], "comment");
-	$comments = actionLinkTag($comments, "thread", $thread['id'], "", $thread["title"]).". ";
+	$comments = actionLinkTag($comments, "thread", $thread['id'], "", $thread["title"]).".";
 
 	if($thread['replies'] != 0)
-		$comments .="Last comment by ".UserLink($last).". $lastLink";
+		$comments .=" Last by ".UserLink($last).". $lastLink";
 
 	$newreply = actionLinkTag("Post a comment", "newreply", $thread['id'], "", $thread["title"]);
 
