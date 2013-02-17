@@ -34,7 +34,7 @@ function logFormat_thread($data)
 
 function logFormat_post($data)
 {
-	return actionLinkTag('post #'.$data['post_id'], 'post', $data['post_id']);
+	return actionLinkTag('#'.$data['post_id'], 'post', $data['post_id']);
 }
 
 function logFormat_forum($data)
@@ -69,7 +69,7 @@ $logR = Query("	SELECT
 while($item = Fetch($logR))
 {
 	$event = $logText[$item['type']];
-	$event = preg_replace_callback("@\{(\w+)\}@", 'addLogInput', $event);
+	$event = preg_replace_callback("@\{(\w+)( (\w+))?\}@", 'addLogInput', $event);
 
 	$cellClass = ($cellClass + 1) % 2;
 	$log .= format(
@@ -106,7 +106,8 @@ function addLogInput($m)
 	global $item;
 	
 	$func = 'logFormat_'.$m[1];
-	return $func($item);
+	$option = $m[3];
+	return $func($item, $option);
 }
 
 ?>

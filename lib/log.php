@@ -2,18 +2,14 @@
 $logText = array
 (
 	// register/login actions
-	'register' => 'New user: {user}', // 'text' would contain stuff like IP/password matches
+	'register' => 'New user: {user}',
 	'login' => '{user} logged in',
 	'loginfail' => '{user} attempted to log in as {user2}',
 	
-	// profile related actions
-	'editprofile' => '{user} edited his profile',
-	// add mood avatar editing and other stuff?
-	
 	// post related actions
 	'newreply' => 'New reply by {user} in {thread}: {post}',
-	'editpost' => 'Post edited by {user} in {thread}: {post}',
-	'deletepost' => 'Post deleted by {user} in {thread}: {post}',
+	'editpost' => '{user} edited {user2 s} post in {thread}: {post}',
+	'deletepost' => '{user} deleted {user2 s} post in {thread}: {post}',
 	
 	// thread related actions
 	'newthread' => 'New thread by {user}: {thread}',
@@ -28,8 +24,8 @@ $logText = array
 	
 	
 	// admin actions
-	'edituser' => '{user} edited {user2}\'s profile',
-	'pmsnoop' => '{user} read {user2}\'s PM: {pm}',
+	'edituser' => '{user} edited {user2 s} profile',
+	'pmsnoop' => '{user} read {user2 s} PM: {pm}',
 	
 	//Add other log actions in here
 );
