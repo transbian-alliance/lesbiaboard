@@ -56,6 +56,8 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		$rComment = Query("insert into {usercomments} (uid, cid, date, text) values ({0}, {1}, {2}, {3})", $id, $loguserid, time(), $_POST['text']);
 		if($loguserid != $id)
 			Query("update {users} set newcomments = 1 where id={0}", $id);
+		logAction('usercomment', array('user2' => $id));
+		
 		die(header("Location: ".actionLink("profile", $id)));
 	}
 

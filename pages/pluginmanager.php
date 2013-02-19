@@ -15,8 +15,8 @@ if($_GET["action"] == "enable")
 		Kill("No.");
 
 	Query("insert into {enabledplugins} values ({0})", $_GET["id"]);
+	logAction("enableplugin", array('text' => $_GET["id"]));
 	Upgrade();
-
 	redirectAction("pluginmanager");
 }
 if($_GET["action"] == "disable")
@@ -25,6 +25,7 @@ if($_GET["action"] == "disable")
 		Kill("No.");
 
 	Query("delete from {enabledplugins} where plugin={0}", $_GET["id"]);
+	logAction("disableplugin", array('text' => $_GET["id"]));
 	redirectAction("pluginmanager");
 }
 

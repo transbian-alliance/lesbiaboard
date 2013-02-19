@@ -178,20 +178,19 @@ elseif($_POST['action'] == __("Register"))
 	if($uid == 1)
 		Query("update {users} set powerlevel = 4 where id = 1");
 
-	Report("New user: [b]".$_POST['name']."[/] (#".$uid.") -> [g]#HERE#?uid=".$uid);
+	logAction('register', array('user' => $uid));
 
 	$user = Fetch(Query("select * from {users} where id={0}", $uid));
 	$user["rawpass"] = $_POST["pass"];
 
 	$bucket = "newuser"; include("lib/pluginloader.php");
 
-
 	if($_POST['autologin'])
 	{
 		$sessionID = Shake();
 		setcookie("logsession", $sessionID, 0, $boardroot, "", false, true);
 		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], 0);
-		die(header("Location: ."));
+		redirectAction("board");
 	}
 	else
 		redirectAction("login");

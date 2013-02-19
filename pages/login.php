@@ -8,6 +8,7 @@ if($_POST['action'] == "logout")
 	Query("UPDATE {users} SET loggedin = 0 WHERE id={0}", $loguserid);
 	Query("DELETE FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt));
 
+	logAction('logout', array());
 	die(header("Location: $boardroot"));
 }
 elseif(isset($_POST['actionlogin']))
@@ -25,8 +26,10 @@ elseif(isset($_POST['actionlogin']))
 			$okay = true;
 		}
 		else
-			Report("A visitor from [b]".$_SERVER['REMOTE_ADDR']."[/] tried to log in as [b]".$user['name']."[/].", 1);
+			logAction('loginfail', array('user2' => $user["id"]));
 	}
+	else
+		logAction('loginfail2', array('text' => $_POST["name"]));
 
 	if(!$okay)
 		Alert(__("Invalid user name or password."));
@@ -38,7 +41,7 @@ elseif(isset($_POST['actionlogin']))
 		setcookie("logsession", $sessionID, 2147483647, $boardroot, "", false, true);
 		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], $_POST["session"]?1:0);
 
-		Report("[b]".$user['name']."[/] logged in.", 1);
+		logAction('login', array('user' => $user["id"]));
 
 		redirectAction("board");
 	}

@@ -550,11 +550,7 @@ if($_POST['action'] == __("Edit profile"))
 		if(isset($_POST['powerlevel']) && $_POST['powerlevel'] != $user['powerlevel'])
 			Karma();
 
-		$his = "[b]".$user['name']."[/]'s";
-		if($loguserid == $userid)
-			$his = HisHer($user['sex']);
-		Report("[b]".$loguser['name']."[/] edited ".$his." profile. -> [g]#HERE#?uid=".$userid, 1);
-
+		logAction('edituser', array('user2' => $user['id']));
 		redirectAction("profile", $userid);
 	}
 }

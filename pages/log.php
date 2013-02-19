@@ -79,19 +79,29 @@ function addLogInput($m)
 function logFormat_user($data, $option)
 {
 	$userdata = getDataPrefix($data, 'user_');
-	$res = userLink($userdata);
-	if($option == "s")
-		$res .= "'s";
-	return $res;
+	return formatUser($userdata, $data, $option);
 }
 
 function logFormat_user2($data, $option)
 {
 	$userdata = getDataPrefix($data, 'user2_');
-	$res = userLink($userdata);
+	return formatUser($userdata, $data, $option);
+}
+
+function formatUser($userdata, $data, $option)
+{
+	if($userdata["id"] == 0)
+		$res = "A guest from ".htmlspecialchars($data["ip"]);
+	else
+		$res = userLink($userdata);
 	if($option == "s")
 		$res .= "'s";
 	return $res;
+}
+
+function logFormat_text($data)
+{
+	return htmlspecialchars($data["text"]);
 }
 
 function logFormat_thread($data)

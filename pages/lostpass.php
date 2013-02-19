@@ -24,6 +24,8 @@ if(isset($_GET['key']) && isset($_GET['id']))
 	$newPass = randomString(8);
 	$sha = doHash($newPass.$salt.$newsalt);
 
+	logAction('lostpass2', array('user' => $user["id"]));
+
 	Query("update {users} set lostkey = '', password = {0}, pss = {2} where id = {1}", $sha, (int)$_GET['id'], $newsalt);
 	Kill(format(__("Your password has been reset to <strong>{0}</strong>. You can use this password to log in to the board. We suggest you change it as soon as possible."), $newPass), __("Password reset"));
 
@@ -54,6 +56,7 @@ else if($_POST['action'] == __("Send reset email"))
 		$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP";
 
 		mail($to, $subject, wordwrap($message, 70), $headers);
+		logAction('lostpass', array('user2' => $user["id"]));
 
 		Query("update {users} set lostkey = {0}, lostkeytimer = {1} where id = {2}", $hashedResetKey, time(), $user['id']);
 	}

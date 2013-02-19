@@ -4,7 +4,11 @@ $logText = array
 	// register/login actions
 	'register' => 'New user: {user}',
 	'login' => '{user} logged in',
+	'logout' => '{user} logged out',
 	'loginfail' => '{user} attempted to log in as {user2}',
+	'loginfail2' => '{user} attempted to log in as user "{text}"',
+	'lostpass' => '{user} requested a password reset for {user2}',
+	'lostpass2' => '{user} successfully reset his password.',
 	
 	// post related actions
 	'newreply' => 'New reply by {user} in {thread} ({forum}): {post}',
@@ -26,8 +30,12 @@ $logText = array
 	
 	// admin actions
 	'edituser' => '{user} edited {user2 s} profile',
+	'usercomment' => '{user} commented on {user2 s} profile',
 	'pmsnoop' => '{user} read {user2 s} PM: {pm}',
-	
+	'editsettings' => '{user} edited the board\'s settings',
+	'editplugsettings' => '{user} edited the settings of plugin {text}',
+	'enableplugin' => '{user} enabled plugin {text}',
+	'disableplugin' => '{user} disabled plugin {text}',
 	//Add other log actions in here
 );
 
@@ -41,18 +49,21 @@ function logAction($type, $params)
 {
 	global $loguserid;
 	
+	if(!isset($params["user"]))
+		$params["user"] = $loguserid;
+	
 	$fields = array();
 	$values = array();
 	
-	foreach ($params as $field=>$val)
+	foreach ($params as $field => $val)
 	{
 		$fields[] = $field;
 		$values[] = $val;
 	}
 	
-	Query("INSERT INTO {log} (user,date,type,ip,".implode(',',$fields).")
-		VALUES ({0},{1},{2},{3},{4c})",
-		$loguserid, time(), $type, $_SERVER['REMOTE_ADDR'], $values);
+	Query("INSERT INTO {log} (date,type,ip,".implode(',',$fields).")
+		VALUES ({0},{1},{2},{3c})",
+		time(), $type, $_SERVER['REMOTE_ADDR'], $values);
 	
 	$bucket = 'logaction'; include('lib/pluginloader.php');
 }

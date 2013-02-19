@@ -54,6 +54,11 @@ if(isset($_POST["_plugin"]))
 	if($valid)
 	{
 		Settings::save($plugin);
+		if($plugin == "main")
+			logAction('editsettings', array());
+		else
+			logAction('editplugsettings', array('text' => $plugin));
+
 		if(isset($_POST["_exit"]))
 		{
 			if($plugin == "main")
