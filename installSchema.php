@@ -289,6 +289,7 @@ $tables = array
 			"thread" => $genericInt,
 			"post" => $genericInt,
 			"forum" => $genericInt,
+			"forum2" => $genericInt,
 			"pm" => $genericInt,
 			"text" => "varchar(1024)".$notNull,
 			"ip" => "varchar(50)".$notNull,

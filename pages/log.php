@@ -12,40 +12,9 @@ $log_fields = array
 	'thread' => array('table' => 'threads', 'key' => 'id', 'fields' => 'id,title'),
 	'post' => array('table' => 'posts', 'key' => 'id', 'fields' => 'id'),
 	'forum' => array('table' => 'forums', 'key' => 'id', 'fields' => 'id,title'),
+	'forum2' => array('table' => 'forums', 'key' => 'id', 'fields' => 'id,title'),
 	'pm' => array('table' => 'pmsgs', 'key' => 'id', 'fields' => 'id'),
 );
-
-function logFormat_user($data)
-{
-	$userdata = getDataPrefix($data, 'user_');
-	return userLink($userdata);
-}
-function logFormat_user2($data)
-{
-	$userdata = getDataPrefix($data, 'user2_');
-	return userLink($userdata);
-}
-
-function logFormat_thread($data)
-{
-	$thread = getDataPrefix($data, "thread_");
-	return makeThreadLink($thread);
-}
-
-function logFormat_post($data)
-{
-	return actionLinkTag('#'.$data['post_id'], 'post', $data['post_id']);
-}
-
-function logFormat_forum($data)
-{
-	return actionLinkTag($data['forum_title'], 'forum', $data['forum_id'], "", $data['forum_title']);
-}
-
-function logFormat_pm($data)
-{
-	return actionLinkTag('PM #'.$data['pm_id'], 'showprivate', $data['pm_id'], 'snoop=1');
-}
 
 $bucket = 'log_fields'; include('lib/pluginloader.php');
 
@@ -72,21 +41,18 @@ while($item = Fetch($logR))
 	$event = preg_replace_callback("@\{(\w+)( (\w+))?\}@", 'addLogInput', $event);
 
 	$cellClass = ($cellClass + 1) % 2;
-	$log .= format(
-"
+	$log .= "
 		<tr>
 			<td class=\"cell2\">
-				{1}&nbsp;
+				".str_replace(" ", "&nbsp;", TimeUnits(time() - $item['date']))."
 			</td>
-			<td class=\"cell{0}\">
-				{2}
+			<td class=\"cell$cellClass\">
+				$event
 			</td>
-		</tr>
-", $cellClass, str_replace(" ", "&nbsp;", TimeUnits(time() - $item['date'])), $event);
+		</tr>";
 }
 
-write(
-"
+echo "
 	<table class=\"outline margin\">
 		<tr class=\"header1\">
 			<th>
@@ -96,9 +62,8 @@ write(
 				".__("Event")."
 			</th>
 		</tr>
-		{0}
-	</table>
-", $log);
+		$log
+	</table>";
 
 
 function addLogInput($m)
@@ -108,6 +73,51 @@ function addLogInput($m)
 	$func = 'logFormat_'.$m[1];
 	$option = $m[3];
 	return $func($item, $option);
+}
+
+
+function logFormat_user($data, $option)
+{
+	$userdata = getDataPrefix($data, 'user_');
+	$res = userLink($userdata);
+	if($option == "s")
+		$res .= "'s";
+	return $res;
+}
+
+function logFormat_user2($data, $option)
+{
+	$userdata = getDataPrefix($data, 'user2_');
+	$res = userLink($userdata);
+	if($option == "s")
+		$res .= "'s";
+	return $res;
+}
+
+function logFormat_thread($data)
+{
+	$thread = getDataPrefix($data, "thread_");
+	return makeThreadLink($thread);
+}
+
+function logFormat_post($data)
+{
+	return actionLinkTag('#'.$data['post_id'], 'post', $data['post_id']);
+}
+
+function logFormat_forum($data)
+{
+	return actionLinkTag($data['forum_title'], 'forum', $data['forum_id'], "", $data['forum_title']);
+}
+
+function logFormat_forum2($data)
+{
+	return actionLinkTag($data['forum2_title'], 'forum', $data['forum2_id'], "", $data['forum2_title']);
+}
+
+function logFormat_pm($data)
+{
+	return actionLinkTag('PM #'.$data['pm_id'], 'showprivate', $data['pm_id'], 'snoop=1');
 }
 
 ?>

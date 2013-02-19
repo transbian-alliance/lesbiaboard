@@ -149,5 +149,10 @@ Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perha
 			"default" => "1",
 			"name" => "Trash forum",
 		),
+		"hiddenTrashForum" => array (
+			"type" => "forum",
+			"default" => "1",
+			"name" => "Forum for deleted threads",
+		),
 	);
 ?>

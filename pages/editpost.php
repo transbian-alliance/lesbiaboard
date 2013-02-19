@@ -71,6 +71,8 @@ if((int)$_GET['delete'] == 1)
 		Kill(__("You're not allowed to delete posts."));
 	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
 
+	logAction('deletepost', array('forum' => $fid, 'thread' => $tid, 'user2' => $post["user"], 'post' => $pid));
+
 	redirectAction("post", $pid);
 }
 else if((int)$_GET['delete'] == 2)
@@ -79,6 +81,7 @@ else if((int)$_GET['delete'] == 2)
 	if(!CanMod($loguserid,$fid))
 		Kill(__("You're not allowed to undelete posts."));
 	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
+	logAction('undeletepost', array('forum' => $fid, 'thread' => $tid, 'user2' => $post["user"], 'post' => $pid));
 
 	redirectAction("post", $pid);
 }
@@ -151,7 +154,7 @@ else if(isset($_POST['actionpost']))
 		if($wasLastPost)
 			Query("update {threads} set lastpostdate={0} WHERE id={1} limit 1", $now, $thread['id']);
 
-		Report("Post edited by [b]".$loguser['name']."[/] in [b]".$thread['title']."[/] (".$forum['title'].") -> [g]#HERE#?pid=".$pid, $forum['minpower']>0);
+		logAction('editpost', array('forum' => $fid, 'thread' => $tid, 'user2' => $post["user"], 'post' => $pid));
 
 		redirectAction("post", $pid);
 	}

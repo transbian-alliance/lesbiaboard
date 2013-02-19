@@ -7,20 +7,21 @@ $logText = array
 	'loginfail' => '{user} attempted to log in as {user2}',
 	
 	// post related actions
-	'newreply' => 'New reply by {user} in {thread}: {post}',
-	'editpost' => '{user} edited {user2 s} post in {thread}: {post}',
-	'deletepost' => '{user} deleted {user2 s} post in {thread}: {post}',
+	'newreply' => 'New reply by {user} in {thread} ({forum}): {post}',
+	'editpost' => '{user} edited {user2 s} post in {thread} ({forum}): {post}',
+	'deletepost' => '{user} deleted {user2 s} post in {thread} ({forum}): {post}',
+	'undeletepost' => '{user} undeleted {user2 s} post in {thread} ({forum}): {post}',
 	
 	// thread related actions
 	'newthread' => 'New thread by {user}: {thread}',
-	'editthread' => '{user} edited thread {thread}',
-	'movethread' => '{user} moved thread {thread}}',
-	'stickthread' => '{user} stickied thread {thread}',
-	'unstickthread' => '{user} unstickied thread {thread}',
-	'closethread' => '{user} closed thread {thread}',
-	'openthread' => '{user} opened thread {thread}',
-	'trashthread' => '{user} trashed thread {thread}',
-	'deletethread' => '{user} deleted thread {thread}',
+	'editthread' => '{user} edited {user2 s} thread {thread} in forum {forum}',
+	'movethread' => '{user} moved {user2 s} thread {thread} from {forum} to {forum2}',
+	'stickthread' => '{user} sticked {user2 s} thread {thread} in forum {forum}',
+	'unstickthread' => '{user} unsticked {user2 s} thread {thread} in forum {forum}',
+	'closethread' => '{user} closed {user2 s} thread {thread} in forum {forum}',
+	'openthread' => '{user} opened {user2 s} thread {thread} in forum {forum}',
+	'trashthread' => '{user} trashed {user2 s} thread {thread} from forum {forum}',
+	'deletethread' => '{user} deleted {user2 s} thread {thread} from forum {forum}',
 	
 	
 	// admin actions
