@@ -37,8 +37,7 @@ $logR = Query("	SELECT
 
 while($item = Fetch($logR))
 {
-	$event = $logText[$item['type']];
-	$event = preg_replace_callback("@\{(\w+)( (\w+))?\}@", 'addLogInput', $event);
+	$event = formatEvent($item);
 
 	$cellClass = ($cellClass + 1) % 2;
 	$log .= "
@@ -66,6 +65,20 @@ echo "
 	</table>";
 
 
+function formatEvent($item)
+{
+	global $logText, $me, $lastuser, $loguserid;
+	
+	$me = $loguserid;
+	$lastuser = -1;
+	if(!isset($logText[$item['type']]))
+		return "[Unknown event: ".htmlspecialchars($item['type'])."]";
+	$event = $logText[$item['type']];
+	$event = preg_replace_callback("@\{(\w+)( (\w+))?\}@", 'addLogInput', $event);
+	$event = ucfirst($event);
+	return $event;
+}
+
 function addLogInput($m)
 {
 	global $item;
@@ -90,11 +103,26 @@ function logFormat_user2($data, $option)
 
 function formatUser($userdata, $data, $option)
 {
-	if($userdata["id"] == 0)
+	global $me, $lastuser;
+	$id = $userdata["id"];
+	$possessive = $option=="s";
+
+	if($id == $me) return $possessive ? "your" : "you";
+	if($id == $lastuser)
+	{
+		if($userdata["sex"] == 1)
+			return $possessive ? "her" : "her";
+		else
+			return $possessive ? "his" : "him";
+	}
+	else $lastuser = $id;
+		
+	if($id == 0)
 		$res = "A guest from ".htmlspecialchars($data["ip"]);
 	else
 		$res = userLink($userdata);
-	if($option == "s")
+		
+	if($possessive)
 		$res .= "'s";
 	return $res;
 }

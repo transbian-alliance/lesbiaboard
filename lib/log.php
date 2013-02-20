@@ -18,12 +18,12 @@ $logText = array
 	
 	// thread related actions
 	'newthread' => 'New thread by {user}: {thread}',
-	'editthread' => '{user} edited {user2 s} thread {thread} in forum {forum}',
+	'editthread' => '{user} edited {user2 s} thread {thread} ({forum})',
 	'movethread' => '{user} moved {user2 s} thread {thread} from {forum} to {forum2}',
-	'stickthread' => '{user} sticked {user2 s} thread {thread} in forum {forum}',
-	'unstickthread' => '{user} unsticked {user2 s} thread {thread} in forum {forum}',
-	'closethread' => '{user} closed {user2 s} thread {thread} in forum {forum}',
-	'openthread' => '{user} opened {user2 s} thread {thread} in forum {forum}',
+	'stickthread' => '{user} sticked {user2 s} thread {thread} ({forum})',
+	'unstickthread' => '{user} unsticked {user2 s} thread {thread} ({forum})',
+	'closethread' => '{user} closed {user2 s} thread {thread} ({forum})',
+	'openthread' => '{user} opened {user2 s} thread {thread} ({forum})',
 	'trashthread' => '{user} trashed {user2 s} thread {thread} from forum {forum}',
 	'deletethread' => '{user} deleted {user2 s} thread {thread} from forum {forum}',
 	
