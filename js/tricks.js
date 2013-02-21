@@ -522,20 +522,21 @@ function replacePost(id, opened)
 	});
 }
 
+var themes;
 function searchThemes(query) {
-	if (window.themes === undefined) {
-		window.themes = document.getElementsByClassName("theme");
+	if (themes === undefined) {
+		themes = document.getElementsByClassName("theme");
 
 		window.themeNames = {};
 
-		for (var i = 0; i < window.themes.length; i++) {
-			window.themeNames[window.themes[i].title] = i;
+		for (var i = 0; i < themes.length; i++) {
+			window.themeNames[themes[i].title] = i;
 		}
 	}
 
 	var themeKeys = Object.keys(window.themeNames);
 	query = query.toLowerCase();
-	for (var i = 0; i < window.themes.length; i++) {
+	for (var i = 0; i < themes.length; i++) {
 		if (query == "" || themeKeys[i].toLowerCase().indexOf(query) !== -1) {
 			themes[i].style.display = "inline-block";
 		} else {
