@@ -491,3 +491,13 @@ input[placeholder="Search"]:placeholder {
 
 #pmNotice a			{ color: #33B5E5; }
 #pmNotice a:hover	{ color: #FFF; }
+
+
+.fe_selected, .theme input:checked + label {
+	outline: 0px none;
+	background: #0099CC;
+}
+
+.fe_selected:active, .theme input:checked + label:active {
+	background: #33B5E5;
+}
