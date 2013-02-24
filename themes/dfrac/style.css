@@ -2,6 +2,8 @@
 Blowing Xkeeper away in UltraFragments
 ABXD rules --> AleX DurBs */
 
+@import url('../../css/borders.css');
+
 body
 {
 	background: #224 url("background.png");
@@ -46,23 +48,10 @@ a:hover, a:hover span, #header  a:hover, #header a:hover span
 {
 	background: rgba(96, 128, 255, .25);
 }
-/*
-.outline, table.outline
-{
-	outline: 1px solid rgba(0, 0, 128, .5) !important;
-}*/
 
 table.outline, td, th, .header0, .header1, #body table, #body .faq
 {
 	border-color: #003;
-}
-
-#header, #header tr, #header tr td
-{
-/*  This causes bad flickering in NSMBHD layout on Firefox ~Dirbaio*/
-/*	background: rgba(0, 0, 64, .25);*/
-	outline: 0;
-	border: 0;
 }
 
 .header0, .header1
@@ -147,15 +136,10 @@ input[type="checkbox"], input[type="radio"]
 	color: aliceblue;
 }
 
-div#tabs
-{
-	top: 7px;
-}
 div#tabs button
 {
 	border: 1px solid #5be;
 	background: rgba(0, 0, 255, .25);
-	border-bottom: 0;
 	font-weight: bold;
 	color: aliceblue;
 }

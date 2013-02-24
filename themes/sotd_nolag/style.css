@@ -1,4 +1,5 @@
 @import url('../../css/roundcorners.css');
+@import url('../../css/borders.css');
 
 /* AcmlmBoard XD - Space Over The Deck (?) theme */
 
@@ -109,20 +110,6 @@ td.post .codeblock
 {
 	background: #24285C url(back2t2.png);
 	font-family: "Consolas", "Courier New", monospace;
-}
-
-.errort
-{
-	background:  #4E5174 url(backh.png) repeat-x;
-	border: 1px solid #000;
-}
-
-.errorc
-{
-	text-align: center;
-	color: #EEE;
-	border: 1px solid #000;
-	border-top: 0px;
 }
 
 button

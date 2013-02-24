@@ -1,3 +1,5 @@
+@import url('../../css/borders.css');
+
 body
 {
 	background: #040420 url("back2c.png") fixed;
@@ -31,22 +33,18 @@ table.post td.post
 .header0 th
 {
 	background: url("backc2.png") repeat-x;
+	background-size:100% 100%;
 }
 
 .header1 th, .errort
 {
 	background: url("backh.png") repeat-x;
+	background-size:100% 100%;
 }
 
-code.Code, span.Code
+.codeblock
 {
 	background: url("back2t2.png");
-}
-
-.PoRT
-{
-	outline: 1px solid #669 !important;
-	box-shadow: none;
 }
 
 button, input[type="submit"]

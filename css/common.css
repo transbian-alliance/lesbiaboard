@@ -51,6 +51,12 @@ table, td, tr, th, div
 	border-color:black;
 }
 
+/* Default padding */
+td 
+{
+	padding:2px 4px 2px 4px;
+}
+
 /* Default link colors */
 a:link
 {
@@ -152,17 +158,6 @@ table
 	font-weight: normal;
 }
 
-table.post, table.outline, table.message
-{
-	border-width:1px 0px 0px 1px;
-	border-style:solid;
-}
-
-table#header
-{
-	border-right-width:0;
-}
-
 tr.header0>th, tr.header1>th
 {
 	text-align: center!important;
@@ -181,14 +176,12 @@ table.post td.side
 {
 	width: 15%;
 	vertical-align: top;
-	border-width: 0px 0px 1px 0px;
 	padding: 4px 10px 4px 10px;
 }
 
 table.post td.post
 {
 	padding:10px;
-	border-width: 1px 1px 1px 1px;
 	vertical-align: top;
 	height: 100px;
 }
@@ -199,31 +192,8 @@ table.post td.meta
 	font-size: .85em; /* 8pt; */
 	height: 14px;
 	margin: 0;
-	border-width: 0px 1px 0px 0px;
 	padding-right: 4px;
 }
-table.post td.links
-{
-	font-size: .85em; /* 8pt; */
-	height: 14px;
-	margin: 0;
-	border-width: 0px 1px 0px 0px;
-}
-
-table.post td.userlink
-{
-	border-width: 0px 0px 0px 0px;
-}
-
-table.deletedpost td.meta
-{
-	border-width: 0px 1px 1px 0px;
-}
-table.deletedpost td.side
-{
-	border-width: 0px 0px 1px 0px;
-}
-
 
 
 /* Message tables */
@@ -238,6 +208,8 @@ table.message td
 {
 	padding: 10px;
 }
+
+
 /* Other stuff */
 
 .PoRT
@@ -372,19 +344,6 @@ ul.pipemenu li:first-child
 	border-left-width: 0;
 }
 
-#getabetterbrowseryoulazyfuck
-{
-	position: absolute;
-	left: 32px;
-	top: 32px;
-	background: #CCF;
-	border: 4px solid red;
-	color: #000;
-	font-size: 16px;
-	font-weight: bold;
-	padding: 4px;
-}
-
 .footer a img
 {
 	opacity: .5;
@@ -394,6 +353,7 @@ ul.pipemenu li:first-child
 	   -moz-transition: opacity .2s ease-in-out;
 	-webkit-transition: opacity .2s ease-in-out;
 }
+
 .footer a:hover img
 {
 	opacity: 1;
@@ -402,19 +362,12 @@ ul.pipemenu li:first-child
 .smilies img, #rss img
 {
 	padding: 1px;
-	opacity: .5;
+	margin: 0;
 	border: 1px solid rgba(255, 255, 255, 0);
-	border-radius: 4px;
-	     -o-transition: opacity .2s ease-in-out;
-		-ms-transition: opacity .2s ease-in-out;
-	        transition: opacity .2s ease-in-out;
-	   -moz-transition: opacity .2s ease-in-out;
-	-webkit-transition: opacity .2s ease-in-out;
 }
+
 .smilies img:hover, #rss img:hover
 {
-	margin: 0;
-	opacity: 1;
 	background: rgba(255, 255, 255, .25);
 	border: 1px solid rgba(255, 255, 255, .5);
 }
@@ -423,6 +376,7 @@ input, select, textarea, button
 {
 	font-size: 1em;
 }
+
 input[disabled], button[disabled]
 {
 	opacity: .5;
@@ -593,6 +547,8 @@ td.threadIcon
 
 div#tabs
 {
+	position: relative;
+	top: 1px;
 	margin: 0px 0px;
 	margin-bottom: -1px;
 	padding: 0px 0px;
@@ -674,12 +630,6 @@ div.postToolbar button
 	height: 1.4em;
 	vertical-align: bottom;
 	margin-right: 1px;
-}
-
-div#rss
-{
-	float: right;
-	margin-left: 4px;
 }
 
 .themeselector input:checked + label, .fe_selected {

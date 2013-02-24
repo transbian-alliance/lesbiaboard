@@ -1,4 +1,5 @@
 @import url('../../css/roundcorners.css');
+@import url('../../css/borders.css');
 
 /* AcmlmBoard XD - Circuit board theme, ported from AcmlmBoard 1.x
 By Nikolaj */
@@ -11,19 +12,19 @@ body
 {
 	background: #222222 URL('circuitbg.jpg');
 	color: #EEFFDD;
-	font-family: "Tahoma";
+	font-family: "Tahoma", sans-serif;
 }
 
 h3
 {
 	border-top: 1px solid #000;
 	border-bottom: 1px solid #000;
-	font-family: "Tahoma";
+	font-family: "Tahoma", sans-serif;
 }
 
 h4
 {
-	font-family: "Tahoma";
+	font-family: "Tahoma", sans-serif;
 }
 
 a:link, a:visited, a:hover, a:active
@@ -41,54 +42,24 @@ table
 	color: #EEFFDD;
 }
 
-.outline
-{
-	outline-color: #000;
-}
-
-td
-{
-	border-color: #000;
-}
-
 th
 {
 	background: #406030;
-	border-color: #000;
 }
 
 table.post
 {
-	border-color: #000;
 	background: #10200C;
 }
 
 table.post td.post
 {
 	background: black;
-	border-left-color: #000;
-	border-top-color: #000;
-}
-
-table.post td.meta
-{
-	border-bottom-color: #000;
-}
-
-table.post td.links
-{
-	border-bottom-color: #000;
 }
 
 .cell0
 {
 	background: #10200C;
-}
-
-div.footer
-{
-	background: rgba(0, 0, 0, 0.5);
-	border-radius: 8px;
 }
 
 .cell1
@@ -101,10 +72,14 @@ div.footer
 	background: #10200C;
 }
 
+div.footer
+{
+	background: rgba(0, 0, 0, 0.5);
+}
+
 .header0 th
 {
 	background: #204018;
-	border: 1px solid #000;
 }
 
 .header1 th
@@ -113,57 +88,10 @@ div.footer
 	color: #DEFECA;
 }
 
-.header0
-{
-	border-color: #000;
-}
-
-.header1
-{
-	border-color: #000;
-}
-
-td.post code.Code
+.codeblock
 {
 	background: #10200C;
 	color: #FFF;
-}
-
-.errort
-{
-	background: #406030;
-	border: 1px solid #000;
-}
-
-.errorc
-{
-	background: #10200C;
-	text-align: center;
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
-	border-bottom: 1px solid #000;
-}
-
-#pmNotice
-{
-	background: #000;
-	color: #FFF !important;
-	opacity: 0.5;
-}
-
-#pmNotice:hover
-{
-	opcity: 1;
-}
-
-#pmNotice a span, #pmNotice a
-{
-	color: white !important;
-}
-
-#pmNotice a:hover span, #pmNotice a:hover
-{
-	color: white !important;
 }
 
 input, select, textarea
@@ -178,12 +106,6 @@ input[type="submit"], button
 	border: 1px solid #000;
 	background: #000;
 	color: white;
-}
-
-.geshi
-{
-	background: #10200C;
-	color: #FFF;
 }
 
 .geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
@@ -208,19 +130,7 @@ input[type="submit"], button
 .faq
 {
 	background: rgba(50,50,50,0.4);
-/* Suck it, IE, if you can't do RGBA */
 	padding: 4px;
-}
-
-/* extra tweaks by Kawa */
-table.outline
-{
-	border: 0px none;
-}
-
-.PoRT, .outline
-{
-		box-shadow: none;
 }
 
 div#tabs button
@@ -230,7 +140,6 @@ div#tabs button
 
 div#tabs button.selected
 {
-	border-bottom: 1px solid #204018;
 	background: #204018;
 }
 

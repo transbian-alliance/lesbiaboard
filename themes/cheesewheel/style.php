@@ -9,6 +9,7 @@ $sat = 50;
 $hs = $hue.", ".$sat."%";
 
 $css = "/* AcmlmBoard XD - Daily Cheese */
+@import url('../../css/borders.css');
 
 .faq
 {
