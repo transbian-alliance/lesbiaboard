@@ -132,6 +132,7 @@ if($canMod)
 	if($_GET['action'] == "delete" || $_GET['action'] == "trash")
 	{
 		$rThread = Query("update {threads} set sticky=0, closed=1 where id={0}", $tid);
+		redirectAction("forum", $fid);
 	}
 
 	//Editpost open/close.

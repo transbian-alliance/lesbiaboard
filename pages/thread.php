@@ -35,7 +35,12 @@ if(NumRows($rFora))
 {
 	$forum = Fetch($rFora);
 	if($forum['minpower'] > $pl)
-		Kill(__("You are not allowed to browse this forum."));
+	{
+		if($forum["id"] == Settings::get("hiddenTrashForum"))
+			Kill(__("This thread is deleted."));
+		else
+			Kill(__("You are not allowed to browse this forum."));
+	}
 }
 else
 	Kill(__("Unknown forum ID."));
@@ -115,8 +120,9 @@ if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']);
 	else
 		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']);
-	$links .= actionLinkTagItemConfirm(__("Delete"), __("Are you sure you want to just up and delete this whole thread?"), "editthread", $tid, "action=delete&key=".$loguser['token']);
 
+	if($forum['id'] != Settings::get('hiddenTrashForum'))
+		$links .= actionLinkTagItem(__("Delete"), "editthread", $tid, "action=delete&key=".$loguser['token']);
 	if($forum['id'] != Settings::get('trashForum'))
 		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']);
 }
