@@ -252,19 +252,7 @@ function cdate($format, $date = 0)
 
 function Report($stuff, $hidden = 0, $severity = 0)
 {
-	Kill('Legacy Report() function used. Fixme.');
-	
-	$full = GetFullURL();
-	$here = substr($full, 0, strrpos($full, "/"))."/";
-
-	if ($severity == 2)
-		$req = base64_encode(serialize($_REQUEST));
-	else
-		$req = 'NULL';
-
-	Query("insert into {reports} (ip,user,time,text,hidden,severity,request)
-		values ({0}, {1}, {2}, {3}, {4}, {5}, {6})", $_SERVER['REMOTE_ADDR'], (int)$loguserid, time(), str_replace("#HERE#", $here, $stuff), $hidden, $severity, $req);
-	Query("delete from {reports} where time < {0}", (time() - (60*60*24*30)));
+	//legacy function that should be removed.
 }
 
 
