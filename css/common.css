@@ -377,6 +377,12 @@ input, select, textarea, button
 	font-size: 1em;
 }
 
+/* Fix white-on-white on Chrome */
+select option, select optgroup
+{
+	background-color:inherit;
+}
+
 input[disabled], button[disabled]
 {
 	opacity: .5;
