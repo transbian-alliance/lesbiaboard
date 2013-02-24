@@ -19,6 +19,10 @@ body {
 	background-attachment: fixed;
 }
 
+table, tr, td, th, div, table.outline, table.margin, tbody, .cell0 td, .cell1 td, .cell2 td {
+	border: 0px none;
+}
+
 #header {
 	background: #111111;
 	border-bottom: 2px solid #33B5E5;
@@ -26,6 +30,11 @@ body {
 
 #header table, #header td, #header tr {
 	box-shadow: none;
+}
+
+table.post, table.outline, table.message {
+	border-width: 0px 0px 0px 0px;
+	border-style: none;
 }
 
 *::selection {
@@ -36,10 +45,6 @@ body {
 h3 {
 	padding: 4px;
 	color: #33B5E5;
-}
-
-table, tr, td, th, div {
-	border: 0px none transparent;
 }
 
 a:link	{ color: #33B5E5; }
@@ -56,7 +61,7 @@ body, input, button {
 }
 
 :not(.post) table:not(.post).margin.outline {
-	border: 0px none transparent;
+	border: 0px none;
 	background: #111111;
 	border-radius: 2px;
 	border: 1px solid #212121;
@@ -64,6 +69,7 @@ body, input, button {
 }
 
 :not(.post) table:not(.post) tr:first-child th, .eptable tr th, .header0 th, .header1 th {
+	border: 0px none;
 	border-bottom: 2px solid #575757;
 	text-transform: uppercase;
 	color: #CCCCCC;
@@ -76,13 +82,10 @@ body, input, button {
 	padding-left: 4px;
 }
 
-.cell0, .cell1, .cell2, .table.post td.side, table.pst td.userlink, table.post td.meta, table.post td.post, .faq, td, th
-{
-	border: 0px transparent;
-}
-
 table.post {
 	border-radius: 2px;
+	border: 1px solid #212121;
+	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
 table.post td.side, table.post td.post {
@@ -488,3 +491,13 @@ input[placeholder="Search"]:placeholder {
 
 #pmNotice a			{ color: #33B5E5; }
 #pmNotice a:hover	{ color: #FFF; }
+
+
+.fe_selected, .theme input:checked + label {
+	outline: 0px none;
+	background: #0099CC;
+}
+
+.fe_selected:active, .theme input:checked + label:active {
+	background: #33B5E5;
+}
