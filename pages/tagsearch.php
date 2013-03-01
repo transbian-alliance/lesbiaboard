@@ -1,8 +1,8 @@
 <?php
 
-$tag = $_GET["tag"];
+$tag = $_GET["id"];
 $tagcode = '"['.$tag.']"';
-$forum = $_GET["fid"];
+$forum = (int)$_GET["fid"];
 
 $cond = "WHERE MATCH (t.title) AGAINST ({0} IN BOOLEAN MODE)";
 
@@ -19,7 +19,7 @@ else
 	$from = 0;
 
 if(!$tpp) $tpp = 50;
-
+/*
 $rThreads = Query("	SELECT
 						t.*,
 						f.(title, id),
@@ -33,7 +33,8 @@ $rThreads = Query("	SELECT
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 						LEFT JOIN {forums} f ON f.id=t.forum
 					WHERE t.user={0} AND f.minpower <= {1}
-					ORDER BY lastpostdate DESC LIMIT {2}, {3}", $uid, $loguser["powerlevel"], $from, $tpp, $loguserid);
+					ORDER BY lastpostdate DESC LIMIT {2u}, {3u}", $uid, $loguser["powerlevel"], $from, $tpp, $loguserid);
+*/
 
 $rThreads = Query("	SELECT
 						t.*,
@@ -48,7 +49,7 @@ $rThreads = Query("	SELECT
 						LEFT JOIN users lu ON lu.id=t.lastposter
 						LEFT JOIN forums f ON f.id=t.forum
 					$cond and f.minpower <= {3}
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {4}, {5}",
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {4u}, {5u}",
 					$tagcode, $forum, $loguserid, $loguser["powerlevel"], $from, $tpp);
 
 $numonpage = NumRows($rThreads);
