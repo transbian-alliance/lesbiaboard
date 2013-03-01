@@ -150,6 +150,12 @@ class Settings
 	{
 		return self::$settingsArray["main"][$name];
 	}
+
+	public static function getForPlugin($plugin, $name)
+	{
+		return self::$settingsArray[$plugin][$name];
+	}
+
 	public static function pluginGet($name)
 	{
 		global $plugin;

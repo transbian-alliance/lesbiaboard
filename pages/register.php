@@ -6,121 +6,18 @@ $haveSecurimage = is_file("securimage/securimage.php");
 if($haveSecurimage)
 	session_start();
 
-
 $title = __("Register");
 
-$backtomain = "<br /><a href=\"./\">".__("Back to main")."</a> &bull; <a href=\"".actionLink("register")."\">".__("Try again")."</a>";
-$sexes = array(__("Male"), __("Female"), __("N/A"));
-
-if(!isset($_POST['action']))
+function validateSex($sex)
 {
-	write(
-"
-	<form action=\"".actionLink("register")."\" method=\"post\">
-		<table class=\"outline margin width50\">
-			<tr class=\"header0\">
-				<th colspan=\"2\">
-					".__("Register")."
-				</th>
-			</tr>
-			<tr>
-				<td class=\"cell2\">
-					<label for=\"un\">".__("User name")."</label>
-				</td>
-				<td class=\"cell0\">
-					<input type=\"text\" id=\"un\" name=\"name\" maxlength=\"20\" style=\"width: 98%;\"  class=\"required\" />
-				</td>
-			</tr>
-			<tr>
-				<td class=\"cell2\">
-					<label for=\"pw\">".__("Password")."</label>
-				</td>
-				<td class=\"cell1\">
-					<input type=\"password\" id=\"pw\" name=\"pass\" size=\"13\" maxlength=\"32\" class=\"required\" /> / ".__("Repeat:")." <input type=\"password\" id=\"pw2\" name=\"pass2\" size=\"13\" maxlength=\"32\" class=\"required\" />
-				</td>
-			</tr>
-			<tr>
-				<td class=\"cell2\">
-					<label for=\"email\">".__("Email address")."</label>
-				</td>
-				<td class=\"cell0\">
-					<input type=\"email\" id=\"email\" name=\"email\" value=\"\" style=\"width: 98%;\" maxlength=\"60\" />
-				</td>
-			</tr>
-			<tr>
-				<td class=\"cell2\">
-					".__("Sex")."
-				</td>
-				<td class=\"cell1\">
-					{0}
-				</td>
-			</tr>
-			<tr>
-				<td class=\"cell2\"></td>
-				<td class=\"cell0\">
-					<label>
-						<input type=\"checkbox\" name=\"readFaq\" />
-						".format(__("I have read the {0}FAQ{1}"), "<a href=\"".actionLink("faq")."\">", "</a>")."
-					</label>
-				</td>
-			</tr>
-", MakeOptions("sex",2,$sexes));
-
-	if(Settings::get("registrationWord") != "")
-	{
-		write(
-"
-			<tr>
-				<td class=\"cell2\">
-					<label for=\"tw\">".__("The word")."</label>
-				</td>
-				<td class=\"cell1\">
-					<input type=\"text\" id=\"tw\" name=\"theWord\" maxlength=\"100\" style=\"width: 80%;\"  class=\"required\" />
-					<img src=\"img/icons/icon5.png\" title=\"".__("It's in the FAQ. Read it carefully and you'll find out what the word is.")."\" alt=\"[?]\" />
-				</td>
-			</tr>
-");
-	}
-
-	if($haveSecurimage)
-	{
-		write(
-"
-			<tr>
-				<td class=\"cell2\">
-					".__("Security")."
-				</td>
-				<td class=\"cell1\">
-					<img id=\"captcha\" src=\"captcha.php\" alt=\"CAPTCHA Image\" />
-					<button onclick=\"document.getElementById('captcha').src = 'captcha.php?' + Math.random(); return false;\">".__("New")."</button><br />
-					<input type=\"text\" name=\"captcha_code\" size=\"10\" maxlength=\"6\" class=\"required\" />
-				</td>
-			</tr>
-");
-	}
-
-	write(
-"
-			<tr class=\"cell2\">
-				<td></td>
-				<td>
-					<input type=\"submit\" name=\"action\" value=\"".__("Register")."\"/>
-					<label>
-						<input type=\"checkbox\" checked=\"checked\" name=\"autologin\" />
-						".__("Log in afterwards")."
-					</label>
-				</td>
-			</tr>
-			<tr>
-				<td colspan=\"2\" class=\"cell0 smallFonts\">
-					".__("Specifying an email address is not exactly a hard requirement, but it will allow you to reset your password should you forget it. By default, your email is not shown.")."
-				</td>
-			</tr>
-		</table>
-	</form>
-");
+	if($sex == 0) return 0;
+	if($sex == 1) return 1;
+	if($sex == 2) return 2;
+	
+	return 2;
 }
-elseif($_POST['action'] == __("Register"))
+
+if(isset($_POST['name']))
 {
 	$name = $_POST['name'];
 	$cname = trim(str_replace(" ","", strtolower($name)));
@@ -138,63 +35,160 @@ elseif($_POST['action'] == __("Register"))
 
 	$ipKnown = FetchResult("select COUNT(*) from {users} where lastip={0}", $_SERVER['REMOTE_ADDR']);
 
+	//This makes testing faster.
+	if($_SERVER['REMOTE_ADDR'] == "127.0.0.1")
+		$ipKnown = 0;
+		
 	if($uname == $cname)
-		$err = __("This user name is already taken. Please choose another.").$backtomain;
+		$err = __("This user name is already taken. Please choose another.");
 	else if($name == "" || $cname == "")
-		$err = __("The user name must not be empty. Please choose one.").$backtomain;
+		$err = __("The user name must not be empty. Please choose one.");
 	else if(strpos($name, ";") !== false)
-		$err = __("The user name cannot contain semicolons.").$backtomain;
+		$err = __("The user name cannot contain semicolons.");
 	elseif($ipKnown >= 3)
-		$err = __("Another user is already using this IP address.").$backtomain;
-	else if(!$_POST['readFaq'])
-		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
-	else if(Settings::get("registrationWord") != "" && strcasecmp($_POST['theWord'], Settings::get("registrationWord")))
-		$err = format(__("That's not the right word. Are you sure you really {0}read the FAQ{1}?"), "<a href=\"".actionLink("faq")."\">", "</a>").$backtomain;
-	else if(strlen($_POST['pass']) < 4)
-		$err = __("Your password must be at least four characters long.").$backtomain;
+		$err = __("Another user is already using this IP address.");
+	else if(isset($plugins["faq"]) && !$_POST['readFaq'])
+		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>");
+	else if(strlen($_POST['pass']) < 6)
+		$err = __("Your password must be at least six characters long.");
 	else if ($_POST['pass'] !== $_POST['pass2'])
-		$err = __("The passwords you entered don't match.").$backtomain;
-
-	if($haveSecurimage)
+		$err = __("The passwords you entered don't match.");
+	else if($haveSecurimage)
 	{
 		include("securimage/securimage.php");
 		$securimage = new Securimage();
 		if($securimage->check($_POST['captcha_code']) == false)
-			$err = __("You got the CAPTCHA wrong.").$backtomain;
+			$err = __("You got the CAPTCHA wrong.");
 	}
 
 	if($err)
 	{
-		Kill($err);
+		Alert($err);
 	}
-
-	$newsalt = Shake();
-	$sha = doHash($_POST['pass'].$salt.$newsalt);
-	$uid = FetchResult("SELECT id+1 FROM {users} WHERE (SELECT COUNT(*) FROM {users} u2 WHERE u2.id={users}.id+1)=0 ORDER BY id ASC LIMIT 1");
-	if($uid < 1) $uid = 1;
-
-	$rUsers = Query("insert into {users} (id, name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {4}, {4}, {5}, {6}, {7}, {8})", $uid, $_POST['name'], $sha, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], (int)$_POST['sex'], Settings::get("defaultTheme"));
-
-	if($uid == 1)
-		Query("update {users} set powerlevel = 4 where id = 1");
-
-	logAction('register', array('user' => $uid));
-
-	$user = Fetch(Query("select * from {users} where id={0}", $uid));
-	$user["rawpass"] = $_POST["pass"];
-
-	$bucket = "newuser"; include("lib/pluginloader.php");
-
-	if($_POST['autologin'])
+	else
 	{
+		$newsalt = Shake();
+		$sha = doHash($_POST['pass'].$salt.$newsalt);
+
+		$sex = validateSex($_POST["sex"]);
+		$rUsers = Query("insert into {users} (name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {3}, {4}, {5}, {6}, {7})", $_POST['name'], $sha, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], $sex, Settings::get("defaultTheme"));
+		
+		$uid = insertId();
+		
+		if($uid == 1)
+			Query("update {users} set powerlevel = 4 where id = 1");
+
+		logAction('register', array('user' => $uid));
+
+		$user = Fetch(Query("select * from {users} where id={0}", $uid));
+		$user["rawpass"] = $_POST["pass"];
+
+		$bucket = "newuser"; include("lib/pluginloader.php");
+
 		$sessionID = Shake();
 		setcookie("logsession", $sessionID, 0, $boardroot, "", false, true);
 		Query("INSERT INTO {sessions} (id, user, autoexpire) VALUES ({0}, {1}, {2})", doHash($sessionID.$salt), $user["id"], 0);
 		redirectAction("board");
 	}
-	else
-		redirectAction("login");
 }
+
+
+$sexes = array(__("Male"), __("Female"), __("N/A"));
+
+$name = "";
+if(isset($_POST["name"]))
+	$name = htmlspecialchars($_POST["name"]);
+$email = "";
+if(isset($_POST["email"]))
+	$email = htmlspecialchars($_POST["email"]);
+$sex = 2;
+if(isset($_POST["sex"]))
+	$sex = validateSex($_POST["sex"]);
+
+echo "
+<form action=\"".actionLink("register")."\" method=\"post\">
+	<table class=\"outline margin width50\">
+		<tr class=\"header0\">
+			<th colspan=\"2\">
+				".__("Register")."
+			</th>
+		</tr>
+		<tr>
+			<td class=\"cell2\">
+				<label for=\"un\">".__("User name")."</label>
+			</td>
+			<td class=\"cell0\">
+				<input type=\"text\" id=\"un\" name=\"name\" value=\"$name\" maxlength=\"20\" style=\"width: 98%;\"  class=\"required\" />
+			</td>
+		</tr>
+		<tr>
+			<td class=\"cell2\">
+				<label for=\"pw\">".__("Password")."</label>
+			</td>
+			<td class=\"cell1\">
+				<input type=\"password\" id=\"pw\" name=\"pass\" size=\"13\" maxlength=\"32\" class=\"required\" /> / ".__("Repeat:")." <input type=\"password\" id=\"pw2\" name=\"pass2\" size=\"13\" maxlength=\"32\" class=\"required\" />
+			</td>
+		</tr>
+		<tr>
+			<td class=\"cell2\">
+				<label for=\"email\">".__("Email address")."</label>
+			</td>
+			<td class=\"cell0\">
+				<input type=\"email\" id=\"email\" name=\"email\" value=\"$email\" style=\"width: 98%;\" maxlength=\"60\" />
+			</td>
+		</tr>
+		<tr>
+			<td class=\"cell2\">
+				".__("Sex")."
+			</td>
+			<td class=\"cell1\">
+				".MakeOptions("sex",$sex,$sexes)."
+			</td>
+		</tr>";
+
+if(isset($plugins["faq"]))
+{
+	echo "
+			<tr>
+				<td class=\"cell2\"></td>
+				<td class=\"cell0\">
+					<label>
+						<input type=\"checkbox\" name=\"readFaq\" />
+						".format(__("I have read the {0}FAQ{1}"), "<a href=\"".actionLink("faq")."\">", "</a>")."
+					</label>
+				</td>
+			</tr>";
+}
+
+if($haveSecurimage)
+{
+	echo "
+		<tr>
+			<td class=\"cell2\">
+				".__("Security")."
+			</td>
+			<td class=\"cell1\">
+				<img width=\"200\" height=\"80\" id=\"captcha\" src=\"".actionLink("captcha", shake())."\" alt=\"CAPTCHA Image\" />
+				<button onclick=\"document.getElementById('captcha').src = '".actionLink("captcha", shake())."?' + Math.random(); return false;\">".__("New")."</button><br />
+				<input type=\"text\" name=\"captcha_code\" size=\"10\" maxlength=\"6\" class=\"required\" />
+			</td>
+		</tr>";
+}
+
+echo "
+		<tr class=\"cell2\">
+			<td></td>
+			<td>
+				<input type=\"submit\" name=\"action\" value=\"".__("Register")."\"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan=\"2\" class=\"cell0 smallFonts\">
+				".__("Specifying an email address is not exactly a hard requirement, but it will allow you to reset your password should you forget it. By default, your email is not shown.")."
+			</td>
+		</tr>
+	</table>
+</form>";
 
 function MakeOptions($fieldName, $checkedIndex, $choicesList)
 {
@@ -207,4 +201,4 @@ function MakeOptions($fieldName, $checkedIndex, $choicesList)
 					</label>", $key, $fieldName, $checks[$key], $val);
 	return $result;
 }
-?>
+

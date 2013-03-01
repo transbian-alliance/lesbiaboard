@@ -33,6 +33,7 @@ function usectime()
 	$t = gettimeofday();
 	return $t['sec'] + ($t['usec'] / 1000000);
 }
+$timeStart = usectime();
 
 
 include("version.php");
@@ -55,15 +56,10 @@ include("links.php");
 
 class KillException extends Exception { }
 date_default_timezone_set("GMT");
-$timeStart = usectime();
 
 $title = "";
 
 //WARNING: These things need to be kept in a certain order of execution.
-
-$thisURL = $_SERVER['SCRIPT_NAME'];
-if($q = $_SERVER['QUERY_STRING'])
-	$thisURL .= "?$q";
 
 include("pluginsystem.php");
 loadFieldLists();

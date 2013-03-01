@@ -11,7 +11,8 @@ MakeCrumbs(array(__("FAQ") => actionLink("faq")), $links);
 
 makeThemeArrays();
 
-$admin = UserLink(Fetch(Query("select name, id, powerlevel, sex from {users} where id = 1")));
+$admin = Fetch(Query("select u.(_userfields) from {users} u where id = 1"));
+$admin = UserLink(getDataPrefix($admin, "u_"));
 
 $sexes = array(0=>__("Male"),1=>__("Female"),2=>__("N/A"));
 $powerlevels = array(0=>__("Normal user"),1=>__("Local moderator"),2=>__("Full moderator"),3=>__("Administrator"),4=>__("Root"));
@@ -63,10 +64,6 @@ $colortable = format("
 $faq = Settings::pluginGet("faq");
 
 $faq = str_replace("<colortable />", $colortable, $faq);
-if("" == Settings::get("registrationWord"))
-	$faq = preg_replace("'<iftheword>(.*)</iftheword>'se", "", $faq);
-else
-	$faq = str_replace("<theword />", Settings::get("registrationWord"), $faq);
 
 $code1 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_$theme.css" />';
 $code2 = '<link rel="stylesheet" type="text/css" href="http://.../MyLayout_'.$theme.'.css" />';
