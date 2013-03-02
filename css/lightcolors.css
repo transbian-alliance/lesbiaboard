@@ -25,12 +25,12 @@ a:active
 }
 a:hover
 {
-	color:#703;
+	color:#000;
 }
 
 a:hover span
 {
-	color: #703 !important;
+	color: #000 !important;
 }
 
 table
