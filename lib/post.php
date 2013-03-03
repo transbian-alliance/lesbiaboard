@@ -400,7 +400,9 @@ function makePost($post, $type, $params=array())
 					</div>
 				</td>
 				<td class=\"post $mainBar\" id=\"post_${post['id']}\">
-					$postText
+					<div>
+						$postText
+					</div>
 				</td>
 			</tr>
 		</table>";
