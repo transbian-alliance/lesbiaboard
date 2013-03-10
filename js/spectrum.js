@@ -16,8 +16,8 @@
         // Options
         color: false,
         flat: false,
-        showInput: false,
-        showButtons: true,
+        showInput: true,
+        showButtons: false,
         clickoutFiresChange: false,
         showInitial: false,
         showPalette: false,
