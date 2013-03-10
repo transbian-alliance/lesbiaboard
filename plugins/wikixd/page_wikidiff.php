@@ -1,8 +1,8 @@
 <?php
 
 require 'wikilib.php';
-require 'plugins/wikixd/Diff.php';
-require 'plugins/wikixd/Renderer/inline.php';
+require 'Diff.php';
+require 'Diff/Renderer/inline.php';
 
 ?>
 <style type="text/css">
