@@ -1,8 +1,8 @@
 <?php
 
 require 'wikilib.php';
-require 'lib/diff/Diff.php';
-require 'lib/diff/Diff/Renderer/inline.php';
+require 'plugins/wikixd/Diff.php';
+require 'plugins/wikixd/Renderer/inline.php';
 
 ?>
 <style type="text/css">
@@ -80,3 +80,4 @@ function dodiff($cur, $prev)
 }
 
 ?>
+
