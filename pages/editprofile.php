@@ -1136,5 +1136,5 @@ function Karma()
 </script>
 <style type="text/css" id="passwordhide">
 	
-</stype>
+</style>
 
