@@ -14,7 +14,6 @@ else
 write(
 "
 	<link rel=\"stylesheet\" type=\"text/css\" href=\"".resourceLink("plugins/layoutmaker/layoutmaker.css")."\" />
-	<script type=\"text/javascript\" src=\"".resourceLink("js/jscolor/jscolor.js")."\"></script>
 ");
 
 $parmFields = "";
@@ -117,7 +116,7 @@ foreach($parameters as $id => $settings)
 				{0}
 			</td>
 			<td class=\"cell1\">
-				<input type=\"text\" id=\"{1}\" name=\"{1}\" value=\"{2}\" onchange=\"Update()\" class=\"color {hash:true,required:false}\" />
+				<input type=\"color\" id=\"{1}\" name=\"{1}\" value=\"{2}\" onchange=\"Update()\" />
 				{3}
 			</td>
 		</tr>
