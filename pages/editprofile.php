@@ -1027,6 +1027,7 @@ function BuildPage($page, $id)
 						$item['length'] = 32;
 					if($item["type"] == "passwordonce")
 						$item["type"] = "password";
+				case "color":
 				case "text":
 					$output .= "<input id=\"".$field."\" name=\"".$field."\" type=\"".$item['type']."\" value=\"".htmlspecialchars($item['value'])."\"";
 					if(isset($item['size']))
