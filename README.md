@@ -6,8 +6,7 @@ The new and secure AcmlmBoard-like board.
 
 Please note that you are using a version of ABXD obtained from the Git
 repository. This version of ABXD may have serious vulnerabilites and
-might not work at all. We won't help you if your board breaks from
-using this version of ABXD.
+might not work at all.
 
 If you are interested more stable software, you may want to download
 [ABXD 2.2.5](http://abxd.dirbaio.net/?page=downloads). It's known to

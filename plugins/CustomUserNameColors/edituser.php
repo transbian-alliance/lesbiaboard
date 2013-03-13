@@ -9,8 +9,10 @@ if(!function_exists("HandleUsernameColor"))
 		if ($loguser['powerlevel'] > 1)
 		{
 			$unc = $_POST['color'];
+			if($unc[0] !== "#")
+				$unc = "#$unc";
 			if($unc != "")
-				$unc = filterPollColors(str_pad($unc, 6, '0'));
+				$unc = filterPollColors(str_pad($unc, 7, '0'));
 
 			Query("UPDATE {users} SET color={0s} WHERE id={1}", $unc, $user["id"]);
 		}
@@ -20,13 +22,9 @@ if(!function_exists("HandleUsernameColor"))
 
 if ($loguser['powerlevel'] > 1)
 {
-	write("<script type=\"text/javascript\" src=\"".resourceLink("js/jscolor/jscolor.js")."\"></script>");
 	$general['appearance']['items']['color'] = array(
 		"caption" => "Name color",
-		"type" => "text",
-		"before" => "#",
-		"length" => 6,
-		"more" => "class=\"color {hash:false,required:false,pickerFaceColor:'black',pickerFace:3,pickerBorder:0,pickerInsetColor:'black',pickerPosition:'left',pickerMode:'HVS'}\"",
+		"type" => "color",
 		"callback" => "handleUsernameColor",
 	);
 }

@@ -42,7 +42,7 @@ class Text_Diff {
         }
         $engine = basename($engine);
 
-        require_once 'lib/diff/Diff/Engine/' . $engine . '.php';
+        require_once 'plugins/wikixd/Diff/Engine/' . $engine . '.php';
         $class = 'Text_Diff_Engine_' . $engine;
         $diff_engine = new $class();
 

@@ -40,7 +40,6 @@ $parameters = array
 (
 	"ID" => array("label"=>"User ID", "type"=>"int"),
 	"BACKGROUND" => array("label"=>"Background", "type"=>"background", "default"=>"#000044"),
-	"BACKGROUND2" => array("label"=>"Background2", "type"=>"background", "default"=>"#000044"),
 	"MARGIN" => array("label"=>"Margin", "type"=>"int", "default"=>"15", "pxem"=>"1"),
 	"PADDING" => array("label"=>"Padding", "type"=>"int", "default"=>"15", "pxem"=>"1"),
 	"OPACITY" => array("label"=>"Opacity", "type"=>"percentage", "default"=>"50"),

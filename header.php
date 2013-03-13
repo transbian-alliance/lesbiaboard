@@ -4,12 +4,14 @@
 	<meta name="keywords" content="<?php print Settings::get('metaTags'); ?>" />
 	<link rel="shortcut icon" type="image/x-icon" href="<?php print $layout_favicon;?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/common.css");?>" />
+	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("js/spectrum.css");?>" />
 	<link rel="stylesheet" type="text/css" id="theme_css" href="<?php print resourceLink($layout_themefile); ?>" />
 
 	<script type="text/javascript" src="<?php print resourceLink("js/jquery.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("js/tricks.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("js/jquery.tablednd_0_5.js");?>"></script>
 	<script type="text/javascript" src="<?php print resourceLink("js/jquery.scrollTo-1.4.2-min.js");?>"></script>
+	<script type="text/javascript" src="<?php print resourceLink("js/spectrum.js");?>"></script>
 	<script type="text/javascript">
 		boardroot = <?php print json_encode($boardroot); ?>;
 	</script>
