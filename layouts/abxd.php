@@ -31,23 +31,23 @@
 					</td>
 				</tr>
 				<tr class="cell1">
-					<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
+					<td class="smallFonts" style="text-align: center; width: 10%;">
 						<?php print $layout_views; ?>
 					</td>
 					<td class="smallFonts" style="text-align: center; width: 80%;">
 						<?php print $layout_navigation->build();?>
 					</td>
-					<td rowspan="3" class="smallFonts" style="text-align: center; width: 10%;">
+					<td class="smallFonts" style="text-align: center; width: 10%;">
 						<?php print $layout_time; ?>
 					</td>
 				</tr>
 				<tr class="cell2">
-					<td class="smallFonts" style="text-align: center">
+					<td colspan="3" class="smallFonts" style="text-align: center">
 						<?php print $layout_userpanel->build(); ?>
 					</td>
 				</tr>
 				<tr class="cell2">
-					<td colspan="1" class="smallFonts" style="text-align: center">
+					<td colspan="3" class="smallFonts" style="text-align: center">
 						<?php print $layout_onlineusers; ?>
 					</td>
 				</tr>
