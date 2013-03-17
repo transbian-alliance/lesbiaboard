@@ -13,6 +13,7 @@ ul.pipemenu li
 
 ul.pipemenu li:before {
 	content: ' - ';
+	margin-left:3px;
 }
 
 ul.pipemenu li:first-child:before {

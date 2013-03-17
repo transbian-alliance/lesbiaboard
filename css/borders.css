@@ -1,68 +1,62 @@
 
 /* All cells have border by default */
 
-table.post, table.outline, table.message
-{
-	border-width:1px 0px 0px 1px;
-	border-style:solid;
-}
-
 table#header
 {
 	border-right-width:0;
 }
 
-table.post>tbody>tr>td, table.outline>tbody>tr>td, table.message>tbody>tr>td
-{
-	font-size: 1em; /* 10pt; */
+table.outline>tbody>tr>td {
 	border-width:0px 1px 1px 0px;
 	border-style:solid;
 }
 
-table.post>tbody>tr>th, table.outline>tbody>tr>th, table.message>tbody>tr>th
+table.outline>tbody>tr:first-child>td {
+	border-top-width:1px;
+}
+table.outline>tbody>tr>td:first-child {
+	border-left-width:1px;
+}
+
+table.outline>tbody>tr>th
 {
 	border-width: 0px 0px 1px 0px;
 	border-style:solid;
-	font-size: 1em; /* 12px; */
-	text-align: left;
 }
 
-table.post>tbody>tr>th:last-child, table.outline>tbody>tr>th:last-child, table.message>tbody>tr>th:last-child
-{
-	border-width: 0px 1px 1px 0px;
+table.outline>tbody>tr>th:last-child {
+	border-right-width: 1px;
+}
+table.outline>tbody>tr>th:first-child {
+	border-left-width: 1px;
+}
+table.outline>tbody>tr:first-child>th {
+	border-top-width: 1px;
+}
+
+
+table.post>tbody>tr>td {
 	border-style:solid;
 }
-
-
-
-table.post td.side
-{
-	border-width: 0px 0px 1px 0px;
+table.post>tbody>tr>td.side {
+	border-width: 0px 0px 1px 1px;
 }
-
-table.post td.post
-{
+table.post>tbody>tr>td.post {
 	border-width: 1px 1px 1px 1px;
 }
-
-
-table.post td.meta
-{
-	border-width: 0px 1px 0px 0px;
+table.post>tbody>tr>td.meta {
+	border-width: 1px 1px 0px 0px;
+}
+table.post>tbody>tr>td.userlink {
+	border-width: 1px 0px 0px 1px;
 }
 
-table.post td.userlink
-{
-	border-width: 0px 0px 0px 0px;
-}
 
-table.deletedpost td.meta
-{
-	border-width: 0px 1px 1px 0px;
+table.deletedpost>tbody>tr>td.meta {
+	border-width: 1px 1px 1px 0px;
 }
-table.deletedpost td.side
-{
-	border-width: 0px 0px 1px 0px;
+table.deletedpost>tbody>tr>td.side {
+	border-width: 1px 0px 1px 1px;
 }
 
 
