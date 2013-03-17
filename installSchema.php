@@ -1,5 +1,6 @@
 <?php
 
+$hugeInt = "bigint(20) NOT NULL DEFAULT '0'";
 $genericInt = "int(11) NOT NULL DEFAULT '0'";
 $smallerInt = "int(8) NOT NULL DEFAULT '0'";
 $bool = "tinyint(1) NOT NULL DEFAULT '0'";
@@ -413,7 +414,7 @@ $tables = array
 			"usebanners" => "tinyint(1) NOT NULL DEFAULT '1'",
 			"showemail" => $bool,
 			"newcomments" => $bool,
-			"tempbantime" => $genericInt,
+			"tempbantime" => $hugeInt,
 			"tempbanpl" => $smallerInt,
 			"forbiddens" => $var1024,
 			"pluginsettings" => $text,
