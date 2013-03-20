@@ -57,14 +57,6 @@ if($loguser['powerlevel'] < 0)
 	Kill("You're banned.");
 */
 
-write(
-"
-	<script type=\"text/javascript\">
-			window.addEventListener(\"load\",  hookUpControls, false);
-	</script>
-");
-
-
 $recipIDs = array();
 if($_POST['to'])
 {
@@ -157,6 +149,13 @@ if($_POST['action'] == __("Send") || $_POST['action'] == __("Save as Draft"))
 		Alert(__("Enter a title and try again."), __("Your PM is untitled."));
 	}
 }
+
+write(
+"
+    <script type=\"text/javascript\">
+            window.addEventListener(\"load\",  hookUpControls, false);
+    </script>
+");
 
 $_POST['title'] = $_POST['title'];
 $_POST['text'] = $_POST['text'];
