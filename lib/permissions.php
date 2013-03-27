@@ -56,7 +56,7 @@ function CanMod($userid, $fid)
 		return true;
 	if($loguser['powerlevel'] == 1)
 	{
-		$rMods = Query("select * from forummods where forum={0} and user={1}", $fid, $userid);
+		$rMods = Query("select * from {forummods} where forum={0} and user={1}", $fid, $userid);
 		if(NumRows($rMods))
 			return true;
 	}
