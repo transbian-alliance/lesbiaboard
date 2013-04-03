@@ -138,7 +138,7 @@ function rawQuery($query)
 
 	$queries++;
 
-	if($debugMode)
+	if($debugQueries)
 	{
 		$mysqlCellClass = ($mysqlCellClass+1)%2;
 		$querytext .= "<tr class=\"cell$mysqlCellClass\"><td><pre style=\"white-space:pre-wrap;\">".htmlspecialchars(preg_replace('/^\s*/m', "", $query))."</pre></td><td>";

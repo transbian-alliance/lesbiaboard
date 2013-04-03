@@ -208,7 +208,7 @@ else
 
 $layout = Settings::get("defaultLayout");
 
-if($debugMode)
+if($debugQueries)
 	$layout_contents.="<table class=\"outline margin width100\"><tr class=header0><th colspan=4>List of queries
 	                   <tr class=header1><th>Query<th>Backtrace$querytext</table>";
 
