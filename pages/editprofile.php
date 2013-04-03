@@ -33,6 +33,8 @@ if($user["displayname"])
 	$uname = $user["displayname"];
 makeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $userid, "", $user["name"]), __("Edit profile") => ""), "");
 
+echo "<script src=\"".resourceLink('js/register.js')."\"></script>";
+
 loadRanksets();
 $ranksets = $ranksetNames;
 $ranksets = array_reverse($ranksets);
