@@ -2,37 +2,51 @@
 //PipeMenuBuilder class -- It builds menus.
 
 class PipeMenu {
-	private $className = "pipemenu";
+	private $classNames = array("pipemenu");
 	private $entries = array();
 
 	public function setClass($class) {
-		$this->className = $class;
+		$this->classNames = array($class);
 	}
 
-	public function getClass() {
-		return $this->className;
+	public function addClass($class) {
+		$this->classNames[] = $class;
+	}
+
+	public function removeClass($class) {
+		foreach(array_keys($this->classNames, $class, true) as $k => $v) {
+			unset($this->classNames[$k]);
+		}
+	}
+
+	public function getClasses() {
+		return $this->classNames;
 	}
 
 	public function add($entry) {
 		$this->entries[] = $entry;
 	}
 
+	public function addStart($entry) {
+		array_unshift($this->entries, $entry);
+	}
+
 	public function pop() {
-		array_pop($this->entries);
+		return array_pop($this->entries);
 	}
 
 	public function shift() {
-		array_shift($this->entries);
+		return array_shift($this->entries);
 	}
 
 	public function build() {
 		if(count($this->entries) == 0)
 			return "";
 
-		$html = "<ul class=\"" . $this->className . "\">";
+		$html = "<ul class=\"" . implode(" ", $this->classNames) . "\">";
 
 		foreach ($this->entries as $entry) {
-			$html .= $entry->build();
+			$html .= "<li>".$entry->build()."</li>";
 		}
 
 		$html .= "</ul>";
@@ -58,7 +72,10 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li><a href=\"" . htmlspecialchars(actionLink($this->action, $this->id, $this->args)) . "\">" . $this->label . "</a></li>";
+		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\">" . $this->label . "</a>";
+	}
+	public function getLink() {
+		return actionLink($this->action, $this->id, $this->args);
 	}
 }
 
@@ -70,7 +87,10 @@ class PipeMenuTextEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li>" . htmlspecialchars($this->text) . "</li>";
+		return htmlspecialchars($this->text);
+	}
+	public function getLink() {
+		return "";
 	}
 }
 
@@ -82,6 +102,10 @@ class PipeMenuHtmlEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li>" . $this->html . "</li>";
+		return $this->html;
+	}
+	public function getLink() {
+		preg_match('/href="([^"]*)"/', $this->html, $match);
+		return html_entity_decode($match[1]);
 	}
 }
