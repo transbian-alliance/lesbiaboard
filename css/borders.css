@@ -11,7 +11,7 @@ table.outline>tbody>tr>td {
 	border-style:solid;
 }
 
-table.outline>tbody>tr:first-child>td {
+table.outline>tbody:first-child>tr:first-child>td {
 	border-top-width:1px;
 }
 table.outline>tbody>tr>td:first-child {
@@ -30,7 +30,7 @@ table.outline>tbody>tr>th:last-child {
 table.outline>tbody>tr>th:first-child {
 	border-left-width: 1px;
 }
-table.outline>tbody>tr:first-child>th {
+table.outline>tbody:first-child>tr:first-child>th {
 	border-top-width: 1px;
 }
 
