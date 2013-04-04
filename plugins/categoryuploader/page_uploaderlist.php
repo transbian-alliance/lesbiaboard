@@ -176,19 +176,16 @@ function listCategory($cat)
 
 
 $cat = getCategory($_GET["cat"]);
-$links = actionLinkTag("Upload file", "uploader", "", "action=uploadform&cat=".$_GET["cat"]);
 
-if($_GET["cat"] == -2)
-	$links = "";
-if($isBot)
-	$links = "";
-if(!$loguserid)
-	$links = "";
+$links = new PipeMenu();
+if($_GET["cat"] != -2 && $loguserid && !$isBot)
+	$links -> add(new PipeMenuLinkEntry("Upload file", "uploader", "", "action=uploadform&cat=".$_GET["cat"]));
+makeLinks($links);
 
-MakeCrumbs(array(
-				"Uploader"=>actionLink("uploader"),
-				$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]),
-				), $links);
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Uploader"), "uploader"));
+$crumbs->add(new PipeMenuLinkEntry($cat["name"], "uploaderlist", "", "cat=".$cat["id"]));
+makeBreadcrumbs($crumbs);
 
 print "<form method=\"post\" action=\"".actionLink("uploader", "", "cat=${_GET["cat"]}")."\">";
 listCategory($_GET["cat"]);

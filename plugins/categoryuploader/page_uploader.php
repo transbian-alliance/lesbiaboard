@@ -38,11 +38,12 @@ if($_GET['action'] == "uploadform")
 		Kill('Invalid category');
 
 	$cat = getCategory($_GET["cat"]);
-
-	MakeCrumbs(array(
-					"Uploader"=>actionLink("uploader"),
-					$cat["name"] => actionLink("uploaderlist", "", "cat=".$cat["id"]),
-					"Upload new file" => actionLink("uploader", "", "action=uploadform&cat=".$cat["id"])), $links);
+	
+	$crumbs = new PipeMenu();
+	$crumbs->add(new PipeMenuLinkEntry(__("Uploader"), "uploader"));
+	$crumbs->add(new PipeMenuLinkEntry($cat["name"], "uploaderlist", "", "cat=".$cat["id"]));
+	$crumbs->add(new PipeMenuTextEntry(__("Upload file")));
+	makeBreadcrumbs($crumbs);
 
 	if($loguserid && IsAllowed("useUploader"))
 	{
@@ -226,8 +227,9 @@ else if($_GET['action'] == "delete") //single file
 }
 else
 {
-	MakeCrumbs(array(
-					"Uploader"=>actionLink("uploader")), $links);
+	$crumbs = new PipeMenu();
+	$crumbs->add(new PipeMenuLinkEntry(__("Uploader"), "uploader"));
+	makeBreadcrumbs($crumbs);
 
 	$errormsg = __("No categories found.");
 	$entries = Query("select * from {uploader_categories} order by ord");

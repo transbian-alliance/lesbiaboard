@@ -30,7 +30,7 @@
 					$now2 = "<a href=\"$boardroot\">".htmlspecialchars(Settings::get("boardname"))."</a>";
 				else
 					$now2 = $last2->build();
-				$now = $now2." &mdash; ".$now;
+				$now = $now2."&mdash;&nbsp;&nbsp;&nbsp;".$now;
 			}		
 			if($last2 == NULL)
 				$last2 = $layout_crumbs->pop();
