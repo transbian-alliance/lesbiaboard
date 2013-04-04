@@ -28,6 +28,13 @@
 	padding:0px;
 	width:100%;
 	z-index:1000;
+	max-height: 0px;
+	overflow: hidden;
+	-webkit-transition: 0.2s linear;
+}
+
+#mobile_header.shown {
+	max-height: 400px;
 }
 
 #mobile_header td {

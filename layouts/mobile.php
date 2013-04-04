@@ -42,7 +42,7 @@
 		<a class="mobile_openHeader" href="#" onclick="mobile_openHeader(); return false;"> ... </a>
 	</div>
 	
-	<div id="mobile_header" style="display:none" class="cell1">
+	<div id="mobile_header" class="cell1">
 		<div id="mobile_online">
 			<?php print $layout_onlineusers; ?> &nbsp;&mdash;&nbsp;
 			<?php print $layout_views; ?>
