@@ -29,15 +29,25 @@ $urltitle = $ptitle;//urlencode($ptitle);
 $nicetitle = htmlspecialchars(url2title($ptitle));
 $title = 'Wiki &raquo; '.($page['new'] == 2 ? 'New page' : 'Editing: '.$nicetitle);
 
+$links = new PipeMenu();
+
 if ($page['new'] != 2)
 {
-	if ($page['istalk']) 
-		$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,5)).'<li>Discuss</li>';
+	if ($page['istalk'])
+	{
+		$links -> add(new PipeMenuLinkEntry('Page', 'wiki', substr($urltitle,5)));
+		$links -> add(new PipeMenuTextEntry('Discuss'));
+	}
 	else
-		$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk:'.$urltitle);
+	{
+		$links -> add(new PipeMenuTextEntry('Page'));
+		$links -> add(new PipeMenuLinkEntry('Discuss', 'wiki', 'Talk:'.$urltitle));
+	}
 
-	$links .= actionLinkTagItem('View', 'wiki', $urltitle);
+	$links -> add(new PipeMenuLinkEntry('View', 'wiki', $urltitle));
 }
+
+makeLinks($links);
 
 if (isset($_POST['saveaction']))
 {
@@ -70,12 +80,22 @@ if (isset($_POST['saveaction']))
 	die(header('Location: '.actionLink('wiki', $page['id'])));
 }
 
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Wiki"), "wiki"));
+if (!$page['ismain'])
+	$crumbs->add(new PipeMenuLinkEntry($nicetitle, "wiki", $urltitle));
+
+
 if ($page['new'] == 2)
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), 'New page'=>actionLink('wikiedit', '', 'createnew')), $links);
+	$crumbs->add(new PipeMenuLinkEntry("New page", 'wikiedit', '', 'createnew'));
 else if ($page['ismain'])
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), 'Edit main page'=>actionLink('wikiedit', $urltitle)), $links);
+	$crumbs->add(new PipeMenuLinkEntry('Edit main page', 'wikiedit', $urltitle));
 else
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), $nicetitle=>actionLink('wiki', $urltitle), 'Edit'=>actionLink('wikiedit', $urltitle)), $links);
+{
+	$crumbs->add(new PipeMenuLinkEntry($nicetitle, 'wiki', $urltitle));
+	$crumbs->add(new PipeMenuLinkEntry('Edit', 'wikiedit', $urltitle));
+}
+makeBreadcrumbs($crumbs);
 
 echo '
 		<table class="outline margin">

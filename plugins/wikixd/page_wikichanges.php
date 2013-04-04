@@ -2,8 +2,14 @@
 
 require 'wikilib.php';
 
+
 $title = 'Wiki &raquo; Recent changes';
-MakeCrumbs(array('Wiki'=>actionLink('wiki'), 'Recent changes'=>actionLink('wikichanges')), $links);
+
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Wiki"), "wiki"));
+$crumbs->add(new PipeMenuLinkEntry(__("Recent changes"), "wikichanges"));
+makeBreadcrumbs($crumbs);
 
 $mydatefmt = 'm-d-Y';
 if ($loguserid) $mydatefmt = $loguser['dateformat'];
