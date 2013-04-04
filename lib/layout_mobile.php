@@ -73,7 +73,7 @@ function makeForumListing($parent)
 		$ignoreClass = $forum['ignored'] ? " class=\"ignored\"" : "";
 
 		if ($newstuff > 0)
-			$NewIcon = "<img src=\"img/status/new.png\" alt=\"New!\"/>";
+			$NewIcon = "<img src=\"".resourceLink("img/status/new.png")."\" alt=\"New!\"/>";
 			
 		if (isset($subfora[$forum['id']]))
 		{
@@ -84,7 +84,7 @@ function makeForumListing($parent)
 				if ($subforum['ignored'])
 					$link = '<span class="ignored">'.$link.'</span>';
 				else if ($subforum['numnew'] > 0)
-					$link = '<img src="img/status/new.png" alt="New!"/> '.$link;
+					$link = '<img src="'.resourceLink('img/status/new.png').'" alt="New!"/> '.$link;
 					
 				$subforaList .= $link.', ';
 			}
