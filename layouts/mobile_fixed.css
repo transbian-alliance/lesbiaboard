@@ -1,4 +1,11 @@
+body,html{
+  height:100%;
+}
+
 #mobile_headerBar {
+	position:fixed;
+	left:0px;
+	top:0px;
 	width:100%;
 	padding:0px;
 	border-bottom: 1px solid black;
@@ -23,11 +30,20 @@
 	background-color:rgba(0, 0, 0, 0.2)!important;
 }
 
+#mobile_header_padding {
+	height:50px;
+}
 #mobile_header {
 	margin:0px;
 	padding:0px;
+	position:fixed;
+	left:0px;
+	top:0px;
 	width:100%;
+	height:100%;
 	z-index:1000;
+
+	overflow: auto;
 }
 
 #mobile_header td {
@@ -45,7 +61,7 @@
 }
 
 #main {
-/*	margin-top:34px;*/
+	margin-top:34px;
 }
 
 .stackedMenu {

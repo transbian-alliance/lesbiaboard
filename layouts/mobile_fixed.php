@@ -5,8 +5,8 @@
 	<title><?php print $layout_title?></title>
 	<?php include("header.php"); ?>
 	<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
-	<script type="text/javascript" src="<?php print resourceLink("layouts/mobile.js");?>"></script>
-	<link rel="stylesheet" href="<?php print resourceLink("layouts/mobile.css");?>" type="text/css" />
+	<script type="text/javascript" src="<?php print resourceLink("layouts/mobile_fixed.js");?>"></script>
+	<link rel="stylesheet" href="<?php print resourceLink("layouts/mobile_fixed.css");?>" type="text/css" />
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
@@ -43,6 +43,7 @@
 	</div>
 	
 	<div id="mobile_header" style="display:none" class="cell1">
+		<div id="mobile_header_padding"></div>
 		<div id="mobile_online">
 			<?php print $layout_onlineusers; ?> &nbsp;&mdash;&nbsp;
 			<?php print $layout_views; ?> &nbsp;&mdash;&nbsp;
