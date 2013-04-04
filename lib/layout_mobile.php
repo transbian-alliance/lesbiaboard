@@ -160,7 +160,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		$NewIcon = "old";
 
 	if($NewIcon)
-		$NewIcon = "<img src=\"img/status/".$NewIcon.".png\" alt=\"\"/>";
+		$NewIcon = "<img src=\"".resourceLink("img/status/".$NewIcon.".png")."\" alt=\"\"/>";
 
 	if($thread['sticky'] == 0 && $haveStickies == 1 && $dostickies)
 	{
@@ -169,7 +169,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	}
 	if($thread['sticky'] && $haveStickies == 0) $haveStickies = 1;
 
-	$poll = ($thread['poll'] ? "<img src=\"img/poll.png\" alt=\"Poll\"/> " : "");
+	$poll = ($thread['poll'] ? "<img src=\"".resourceLink("img/poll.png")."\" alt=\"Poll\"/> " : "");
 
 
 	$n = 4;
