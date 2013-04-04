@@ -2,15 +2,25 @@
 //PipeMenuBuilder class -- It builds menus.
 
 class PipeMenu {
-	private $className = "pipemenu";
+	private $classNames = array("pipemenu");
 	private $entries = array();
 
 	public function setClass($class) {
-		$this->className = $class;
+		$this->classNames = array($class);
 	}
 
-	public function getClass() {
-		return $this->className;
+	public function addClass($class) {
+		$this->classNames[] = $class;
+	}
+
+	public function removeClass($class) {
+		foreach(array_keys($this->classNames, $class, true) as $k => $v) {
+			unset($this->classNames[$k]);
+		}
+	}
+
+	public function getClasses() {
+		return $this->classNames;
 	}
 
 	public function add($entry) {
@@ -33,7 +43,7 @@ class PipeMenu {
 		if(count($this->entries) == 0)
 			return "";
 
-		$html = "<ul class=\"" . $this->className . "\">";
+		$html = "<ul class=\"" . implode(" ", $this->classNames) . "\">";
 
 		foreach ($this->entries as $entry) {
 			$html .= "<li>".$entry->build()."</li>";
