@@ -117,54 +117,69 @@ if($pagelinks)
 ForumJump();
 printRefreshCode();
 
+function fj_forumBlock($fora, $catid, $selID, $indent)
+{
+	$ret = '';
+	
+	foreach ($fora[$catid] as $forum)
+	{
+		$ret .=
+'				<option value="'.htmlentities(actionLink('forum', $forum['id'])).'"'.($forum['id'] == $selID ? ' selected="selected"':'').'>'
+	.str_repeat('&nbsp; &nbsp; ', $indent).htmlspecialchars($forum['title'])
+	.'</option>
+';
+		if (!empty($fora[-$forum['id']]))
+			$ret .= fj_forumBlock($fora, -$forum['id'], $selID, $indent+1);
+	}
+	
+	return $ret;
+}
+
 function ForumJump()
 {
-	global $fid, $loguser;
+	global $fid, $loguserid, $loguser;
 
 	$pl = $loguser['powerlevel'];
 	if($pl < 0) $pl = 0;
+	
+	$rCats = Query("SELECT id, name FROM {categories} WHERE 1 ORDER BY corder, id");
+	$cats = array();
+	while ($cat = Fetch($rCats))
+		$cats[$cat['id']] = $cat['name'];
 
-	$lastCatID = -1;
 	$rFora = Query("	SELECT
-							f.id, f.title, f.catid,
-							c.name cname
+							f.id, f.title, f.catid
 						FROM
 							{forums} f
-							LEFT JOIN {categories} c ON c.id=f.catid
-						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
-						ORDER BY c.corder, c.id, f.forder, f.id", $pl);
-
-	$theList = "";
-	$optgroup = "";
+						WHERE ".forumAccessControlSQL().(($pl < 1) ? " AND f.hidden=0" : '')."
+						ORDER BY f.forder, f.id");
+						
+	$fora = array();
 	while($forum = Fetch($rFora))
-	{
-		if($forum['catid'] != $lastCatID)
-		{
-			$lastCatID = $forum['catid'];
-			$theList .= format(
-"
-			{0}
-			<optgroup label=\"{1}\">
-", $optgroup, htmlspecialchars($forum['cname']));
-			$optgroup = "</optgroup>";
-		}
+		$fora[$forum['catid']][] = $forum;
 
-		$theList .= format(
-"
-				<option value=\"{0}\"{2}>{1}</option>
-",	htmlentities(actionLink("forum", $forum['id'])), htmlspecialchars($forum['title']), ($forum['id'] == $fid ? " selected=\"selected\"" : ""));
+	$theList = '';
+	foreach ($cats as $cid=>$cname)
+	{
+		if (empty($fora[$cid]))
+			continue;
+			
+		$theList .= 
+'			<optgroup label="'.htmlspecialchars($cname).'">
+'.fj_forumBlock($fora, $cid, $fid, 0).
+'			</optgroup>
+';
 	}
 
-	write(
-"
+	echo "
 	<label>
 		".__("Forum Jump:")."
 		<select onchange=\"document.location=this.options[this.selectedIndex].value;\">
-			{0}
+			{1}
+			$theList
 			</optgroup>
 		</select>
-	</label>
-",	$theList);
+	</label>";
 }
 
 ?>
