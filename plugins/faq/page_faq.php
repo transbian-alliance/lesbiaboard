@@ -3,11 +3,15 @@
 //  Access: all
 
 $title = "FAQ";
-$links = "";
-if($loguser["powerlevel"] >= 3)
-	$links = actionLinkTagItem(__("Edit the FAQ"), "editsettings", "faq");
 
-MakeCrumbs(array(__("FAQ") => actionLink("faq")), $links);
+$links = new PipeMenu();
+if($loguser["powerlevel"] >= 3)
+	$links -> add(new PipeMenuLinkEntry(__("Edit the FAQ"), "editsettings", "faq"));
+makeLinks($links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("FAQ"), "faq"));
+makeBreadcrumbs($crumbs);
 
 makeThemeArrays();
 
