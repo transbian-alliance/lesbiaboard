@@ -95,7 +95,7 @@ class PipeMenuHtmlEntry implements PipeMenuEntry {
 		return $this->html;
 	}
 	public function getLink() {
-		preg_match('/href="(.*)"/', $this->html, $match);
+		preg_match('/href="([^"]*)"/', $this->html, $match);
 		return html_entity_decode($match[1]);
 	}
 }
