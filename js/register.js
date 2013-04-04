@@ -3,7 +3,8 @@
 
 $(function () {
   function submitState(enabled) {
-    $('[type=submit]').attr('disabled', !enabled)
+  	//This forces the user to change password everytime he wants to edit his profile... >:(
+    //$('[type=submit]').attr('disabled', !enabled)
   }
   submitState(false)
   $('#pw, #un').val("")

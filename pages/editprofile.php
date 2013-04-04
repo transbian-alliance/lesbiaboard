@@ -974,7 +974,7 @@ if($editUserMode)
 
 Write(
 "
-	<div class=\"margin right width50\" id=\"button\">
+	<div class=\"margin center width50\" id=\"button\">
 		{2}
 		<input type=\"submit\" id=\"submit\" name=\"action\" value=\"".__("Edit profile")."\" />
 		<input type=\"hidden\" name=\"id\" value=\"{0}\" />
