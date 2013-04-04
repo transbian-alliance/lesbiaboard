@@ -68,7 +68,11 @@ $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
 
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $id, "", $user["name"]), __("List of posts")=>""), $links);
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
+$crumbs->add(new PipeMenuLinkEntry(__("List of posts"), "listposts", $uid));
+makeBreadcrumbs($crumbs);
 
 $pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);
 

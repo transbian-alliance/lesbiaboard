@@ -4,7 +4,12 @@
 
 $title = __("Private messages");
 
-MakeCrumbs(array(__("Private messages")=>actionLink("private"), __("New PM")=>""), "");
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLink($loguser)));
+$crumbs->add(new PipeMenuLinkEntry(__("Private messages"), "private"));
+$crumbs->add(new PipeMenuLinkEntry(__("New PM"), "sendprivate"));
+makeBreadcrumbs($crumbs);
 
 AssertForbidden("sendPM");
 

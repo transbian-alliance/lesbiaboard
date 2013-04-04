@@ -18,10 +18,16 @@ if(isset($_POST["_plugin"]))
 if(!ctype_alnum($plugin))
 	Kill(__("No."));
 
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
 if($plugin == "main")
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit settings") => actionLink("editsettings")), "");
+	$crumbs->add(new PipeMenuLinkEntry(__("Edit settings"), "editsettings"));
 else
-	MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Plugin manager") => actionLink("pluginmanager"), $plugins[$plugin]["name"] => ""), "");
+{
+	$crumbs->add(new PipeMenuLinkEntry(__("Plugin manager"), "pluginmanager"));
+	$crumbs->add(new PipeMenuLinkEntry($plugins[$plugin]["name"], "editsettings", $plugin));
+}
+makeBreadcrumbs($crumbs);
 
 $settings = Settings::getSettingsFile($plugin);
 $oursettings = Settings::$settingsArray[$plugin];

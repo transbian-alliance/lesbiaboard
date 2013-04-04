@@ -2,6 +2,10 @@
 //  AcmlmBoard XD - User account registration page
 //  Access: any, but meant for guests.
 
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Register"), "register"));
+makeBreadcrumbs($crumbs);
+
 $haveSecurimage = is_file("securimage/securimage.php");
 if($haveSecurimage)
 	session_start();

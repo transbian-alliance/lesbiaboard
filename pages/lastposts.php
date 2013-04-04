@@ -1,7 +1,10 @@
 <?php
 
 $title = __("Last posts");
-MakeCrumbs(array(__("Last posts")=>actionLink("lastposts")), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Last posts"), "lastposts"));
+makeBreadcrumbs($crumbs);
 
 $hours = 72;
 

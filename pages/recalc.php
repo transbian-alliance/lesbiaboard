@@ -7,7 +7,10 @@ AssertForbidden("recalculate");
 if($loguser['powerlevel'] < 1)
 		Kill(__("Staff only, please."));
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Recalculate statistics") => actionLink("recalc")), "");
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Recalculate statistics"), "recalc"));
+makeBreadcrumbs($crumbs);
 
 function startFix()
 {

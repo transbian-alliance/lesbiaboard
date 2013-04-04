@@ -38,7 +38,11 @@ if(!isset($_POST['poll']) || isset($_GET['poll']))
 
 $OnlineUsersFid = $fid;
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid, "", $forum["title"]), __("New thread")=>""), $links);
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+$crumbs->add(new PipeMenuTextEntry(__("New thread")));
+makeBreadcrumbs($crumbs);
+
 
 if(isset($_POST['actionpreview']))
 {

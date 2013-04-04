@@ -9,7 +9,10 @@ AssertForbidden("editIPBans");
 if($loguser['powerlevel'] < 3)
 	Kill(__("Only administrators get to manage IP bans."));
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => actionLink("ipbans")), "");
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("IP bans"), "ipbans"));
+makeBreadcrumbs($crumbs);
 
 if(isset($_POST['actionadd']))
 {

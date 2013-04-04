@@ -31,14 +31,7 @@ if(NumRows($rFora))
 
 $title = $forum['title'];
 
-$rCat = Query("select * from {categories} where id={0}", $forum['catid']);
-if(NumRows($rCat))
-{
-	$cat = Fetch($rCat);
-} else
-	Kill(__("Unknown category ID."));
 setUrlName("newthread", $fid, $forum["title"]);
-
 
 $isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
 if(isset($_GET['ignore']))
@@ -54,21 +47,30 @@ else if(isset($_GET['unignore']))
 	redirectAction("forum", $fid);
 }
 
+$links = new PipeMenu();
+
 if($loguserid)
-	$links .= actionLinkTagItem(__("Mark forum read"), "forum", $fid, "action=markasread");
+	$links->add(new PipeMenuLinkEntry(__("Mark forum read"), "forum", $fid, "action=markasread"));
 
 if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 {
 	if($isIgnored)
-		$links .= "<li>".actionLinkTag(__("Unignore forum"), "forum", $fid, "unignore")."</li>";
+		$links->add(new PipeMenuLinkEntry(__("Unignore forum"), "forum", $fid, "unignore"));
 	else
-		$links .= "<li>".actionLinkTag(__("Ignore forum"), "forum", $fid, "ignore")."</li>";
+		$links->add(new PipeMenuLinkEntry(__("Ignore forum"), "forum", $fid, "ignore"));
 
-	$links .= "<li>".actionLinkTag(__("Post thread"), "newthread", $fid)."</li>";
+	$links->add(new PipeMenuLinkEntry(__("Post thread"), "newthread", $fid));
 }
 
+makeLinks($links);
+
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+makeBreadcrumbs($crumbs);
+
 $OnlineUsersFid = $fid;
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid)), $links);
+
+makeForumListing($fid);
 
 $total = $forum['numthreads'];
 $tpp = $loguser['threadsperpage'];
@@ -99,37 +101,9 @@ $pagelinks = PageLinks(actionLink("forum", $fid, "from="), $tpp, $from, $total);
 if($pagelinks)
 	echo "<div class=\"smallFonts pages\">".__("Pages:")." ".$pagelinks."</div>";
 
-$ppp = $loguser['postsperpage'];
-if(!$ppp) $ppp = 20;
-
 if(NumRows($rThreads))
-{
-	$forumList = "";
-	$haveStickies = 0;
-	$cellClass = 0;
-
-	while($thread = Fetch($rThreads))
-	{
-		$forumList .= listThread($thread, $cellClass);
-		$cellClass = ($cellClass + 1) % 2;
-	}
-
-	Write(
-"
-	<table class=\"outline margin width100\">
-		<tr class=\"header1\">
-			<th style=\"width: 20px;\">&nbsp;</th>
-			<th style=\"width: 16px;\">&nbsp;</th>
-			<th style=\"width: 60%;\">".__("Title")."</th>
-			<th>".__("Started by")."</th>
-			<th>".__("Replies")."</th>
-			<th>".__("Views")."</th>
-			<th style=\"min-width:150px\">".__("Last post")."</th>
-		</tr>
-		{0}
-	</table>
-",	$forumList);
-} else
+	echo listThreads($rThreads, true, false);
+else
 	if($forum['minpowerthread'] > $loguser['powerlevel'])
 		Alert(__("You cannot start any threads here."), __("Empty forum"));
 	elseif($loguserid)

@@ -7,7 +7,11 @@ AssertForbidden("editSmilies");
 if($loguser['powerlevel'] < 3)
 	Kill("You must be an administrator to edit the smiley table.");
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit smilies") => actionLink("editsmilies")), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Edit smilies"), "editsmilies"));
+makeBreadcrumbs($crumbs);
 
 if (isset($_POST['action']) && $loguser['token'] != $_POST['key'])
 	Kill(__("No."));

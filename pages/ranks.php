@@ -1,7 +1,9 @@
 <?php
 
 $title = __("Ranks");
-MakeCrumbs(array(__("Ranks")=>actionLink("ranks")), $links);
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Ranks"), "ranks"));
+makeBreadcrumbs($crumbs);
 AssertForbidden("viewRanks");
 
 loadRanksets();

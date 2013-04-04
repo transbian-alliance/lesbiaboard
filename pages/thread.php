@@ -100,37 +100,44 @@ if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['las
 if($thread['closed'])
 	$replyWarning = " onclick=\"if(!confirm('".__("This thread is actually closed. Are you sure you want to abuse your staff position to post in a closed thread?")."')) return false;\"";
 
-if(!$loguserid)
-	{}
-else if($loguser['powerlevel'] < 0)
-	$links .= "<li>".__("You're banned.");
-else if(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
-	$links .= actionLinkTagItem(__("Post reply"), "newreply", $tid);
-else if(IsAllowed("makeReply", $tid))
-	$links .= "<li>".__("Thread closed.");
-	
-if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
+$links = new PipeMenu();
+if($loguserid)
 {
-	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
-	if($thread['closed'])
-		$links .= actionLinkTagItem(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token']);
-	else
-		$links .= actionLinkTagItem(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token']);
-	if($thread['sticky'])
-		$links .= actionLinkTagItem(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']);
-	else
-		$links .= actionLinkTagItem(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']);
+	if($loguser['powerlevel'] < 0)
+		$links -> add(new PipeMenuTextEntry(__("You're banned.")));
+	else if(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
+		$links -> add(new PipeMenuLinkEntry(__("Post reply"), "newreply", $tid));
+	else if(IsAllowed("makeReply", $tid))
+		$links -> add(new PipeMenuTextEntry(__("Thread closed.")));
 
-	if($forum['id'] != Settings::get('hiddenTrashForum'))
-		$links .= actionLinkTagItem(__("Delete"), "editthread", $tid, "action=delete&key=".$loguser['token']);
-	if($forum['id'] != Settings::get('trashForum'))
-		$links .= actionLinkTagItem(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']);
+	if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
+	{
+		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid));
+		if($thread['closed'])
+			$links -> add(new PipeMenuLinkEntry(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token']));
+		else
+			$links -> add(new PipeMenuLinkEntry(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token']));
+		if($thread['sticky'])
+			$links -> add(new PipeMenuLinkEntry(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']));
+		else
+			$links -> add(new PipeMenuLinkEntry(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']));
+
+		if($forum['id'] != Settings::get('hiddenTrashForum'))
+			$links -> add(new PipeMenuLinkEntry(__("Delete"), "editthread", $tid, "action=delete&key=".$loguser['token']));
+		if($forum['id'] != Settings::get('trashForum'))
+			$links -> add(new PipeMenuLinkEntry(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']));
+	}
+	else if($thread['user'] == $loguserid)
+		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid));
 }
-else if($thread['user'] == $loguserid)
-	$links .= actionLinkTagItem(__("Edit"), "editthread", $tid);
 
-if($isBot)
-	$links = "";
+makeLinks($links);
+
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+$crumbs->add(new PipeMenuHtmlEntry(makeThreadLink($thread)));
+makeBreadcrumbs($crumbs);
+
 
 $OnlineUsersFid = $fid;
 write(
@@ -140,7 +147,6 @@ write(
 	</script>
 ");
 
-MakeCrumbs(array($forum['title']=>actionLink("forum", $fid, "", $forum['title']), actionLink("thread", $tid) => $threadtags), $links);
 
 if($thread['poll'])
 {

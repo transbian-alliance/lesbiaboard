@@ -39,11 +39,12 @@ if(NumRows($rUser))
 else
 	Kill(__("Unknown user."));
 
+$links = new PipeMenu();
 if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
 	$qPM = "update {pmsgs} set msgread=1 where id={0}";
 	$rPM = Query($qPM, $pm['id']);
-	$links = actionLinkTag(__("Send reply"), "sendprivate", "", "pid=".$pm['id']);
+	$links->add(new PipeMenuLinkEntry(__("Send reply"), "sendprivate", "", "pid=".$pm['id']));
 }
 else if(!isset($_GET['snooping']) && $pm['drafting'])
 {
@@ -56,7 +57,14 @@ else if(isset($_GET['snooping']))
 	Alert(__("You are snooping."));
 
 $pmtitle = htmlspecialchars($pm['title']); //sender's custom title overwrites this below, so save it here
-MakeCrumbs(array(("Private messages")=>actionLink("private"), $pmtitle=>""), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLinkById($pm["userto"])));
+$crumbs->add(new PipeMenuLinkEntry(__("Private messages"), "private", $pm["userto"]==$loguserid?"":$pm["userto"]));
+$crumbs->add(new PipeMenuTextEntry($pmtitle));
+makeBreadcrumbs($crumbs);
+makeLinks($links);
 
 $pm['num'] = "preview";
 $pm['posts'] = $user['posts'];

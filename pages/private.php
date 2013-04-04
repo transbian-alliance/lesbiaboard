@@ -10,12 +10,14 @@ if(!$loguserid)
 	Kill(__("You must be logged in to view your private messages."));
 
 $user = $loguserid;
-if(isset($_GET['user']) && $loguser['powerlevel'] > 2)
+if(isset($_GET['id']) && $loguser['powerlevel'] > 2)
 {
-	$user = (int)$_GET['user'];
+	$user = (int)$_GET['id'];
 	$snoop = "&snooping=1";
-	$userGet = "&user=".$user;
+	$userGet = $user;
 }
+else
+	$userGet = "";
 
 if(isset($_POST['action']))
 {
@@ -95,14 +97,19 @@ else
 	$from = 0;
 
 
-$links = "<ul class=\"pipemenu\">";
+$links = new PipeMenu();
+$links -> add(new PipeMenuLinkEntry(__("Show received"), "private", $userGet));
+$links -> add(new PipeMenuLinkEntry(__("Show sent"), "private", $userGet, "show=1"));
+$links -> add(new PipeMenuLinkEntry(__("Show drafts"), "private", $userGet, "show=2"));
+$links -> add(new PipeMenuLinkEntry(__("Send new PM"), "sendprivate"));
 
-$links .= actionLinkTagItem(__("Show received"), "private", "", str_replace("&", "", $userGet));
-$links .= actionLinkTagItem(__("Show sent"), "private", "", "show=1".$userGet);
-$links .= actionLinkTagItem(__("Show drafts"), "private", "", "show=2".$userGet);
-$links .= actionLinkTagItem(__("Send new PM"), "sendprivate");
+makeLinks($links);
 
-MakeCrumbs(array(__("Private messages")=>actionLink("private")), $links);
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLinkById($user)));
+$crumbs->add(new PipeMenuLinkEntry(__("Private messages"), "private", $userGet));
+makeBreadcrumbs($crumbs);
 
 $rPM = Query("select * from {pmsgs} left join {pmsgs_text} on pid = {pmsgs}.id where ".$whereFrom." and deleted != {1} order by date desc limit {2u}, {3u}", $user, $deleted, $from, $ppp);
 $numonpage = NumRows($rPM);

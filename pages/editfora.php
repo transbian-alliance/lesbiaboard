@@ -6,7 +6,11 @@
 $title = __("Edit forums");
 
 if ($loguser['powerlevel'] < 3) Kill(__("You're not allowed to access the forum editor."));
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Edit forum list") => actionLink("editfora")), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Edit forum list"), "editfora"));
+makeBreadcrumbs($crumbs);
 
 /**
 	Okay. Much like the category editor, now the action is specified by $_POST["action"].
@@ -34,6 +38,22 @@ if(!isset($_POST["action"]))
 
 $noFooter = true;
 
+function recursionCheck($fid, $cid)
+{
+	if ($cid >= 0) return;
+	
+	$check = array();
+	for (;;)
+	{
+		$check[] = -$cid;
+		if ($check[0] == $fid)
+			dieAjax('Endless recursion detected; choose another parent for this forum.');
+		
+		$cid = FetchResult("SELECT catid FROM {forums} WHERE id={0}", $cid);
+		if ($cid >= 0) break;
+	}
+}
+
 switch($_POST['action'])
 {
 	case 'updateforum':
@@ -47,7 +67,7 @@ switch($_POST['action'])
 		$title = $_POST['title'];
 		if($title == "") dieAjax(__("Title can't be empty."));
 		$description = $_POST['description'];
-		$category = (int)$_POST['category'];
+		$category = ($_POST['ptype'] == 0) ? (int)$_POST['category'] : -(int)$_POST['pforum'];
 		$forder = (int)$_POST['forder'];
 		$minpower = (int)$_POST['minpower'];
 		$minpowerthread = (int)$_POST['minpowerthread'];
@@ -85,7 +105,7 @@ switch($_POST['action'])
 		$title = $_POST['title'];
 		if($title == "") dieAjax(__("Title can't be empty."));
 		$description = $_POST['description'];
-		$category = (int)$_POST['category'];
+		$category = ($_POST['ptype'] == 0) ? (int)$_POST['category'] : -(int)$_POST['pforum'];
 		$forder = (int)$_POST['forder'];
 		$minpower = (int)$_POST['minpower'];
 		$minpowerthread = (int)$_POST['minpowerthread'];
@@ -217,6 +237,63 @@ switch($_POST['action'])
 		$rMod = Query("insert into {forummods} (forum, user) values ({0}, {1})", $fid, $mid);
 		dieAjax("Ok");
 		break;
+		
+	case 'deleteprivuser':
+		if(!isset($_GET['fid']))
+			Kill(__("Forum ID unspecified."));
+		if(!isset($_GET['uid']))
+			Kill(__("User ID unspecified."));
+
+		$fid = (int)$_GET['fid'];
+		$uid = (int)$_GET['uid'];
+		
+		$allowedusers = FetchResult("SELECT allowedusers FROM {forums} WHERE id={0}", $fid);
+		if (strlen($allowedusers) < 3) $allowed = array();
+		else $allowed = explode('|', substr($allowedusers,1,-1));
+		
+		foreach ($allowed as $k=>$id)
+		{
+			if ($uid == $id)
+			{
+				unset($allowed[$k]);
+				break;
+			}
+		}
+		Query("UPDATE {forums} SET allowedusers={0} WHERE id={1}", '|'.implode('|', $allowed).'|', $fid);
+		
+		dieAjax("Ok");
+		break;
+	case 'addprivuser':
+		if(!isset($_GET['fid']))
+			Kill(__("Forum ID unspecified."));
+		if(!isset($_GET['name']))
+			Kill(__("User name unspecified."));
+
+		$fid = (int)$_GET['fid'];
+		$name = $_GET['name'];
+		
+		$uid = FetchResult("SELECT id FROM {users} WHERE name={0} OR displayname={0}", $name);
+		if ($uid < 1) dieAjax('Unknown user name.');
+
+		$allowedusers = FetchResult("SELECT allowedusers FROM {forums} WHERE id={0}", $fid);
+		if (strlen($allowedusers) < 3) $allowed = array();
+		else $allowed = explode('|', substr($allowedusers,1,-1));
+		
+		$alreadyin = false;
+		foreach ($allowed as $id)
+		{
+			if ($uid == $id)
+			{
+				$alreadyin = true;
+				break;
+			}
+		}
+		if (!$alreadyin)
+			$allowed[] = $uid;
+		Query("UPDATE {forums} SET allowedusers={0} WHERE id={1}", '|'.implode('|', $allowed).'|', $fid);
+		
+		dieAjax("Ok");
+		break;
 
 	case '': //No action, do main code
 		break;
@@ -266,6 +343,12 @@ function WriteForumEditContents($fid)
 	$cats = array();
 	while ($cat = Fetch($rCats))
 		$cats[$cat['id']] = $cat;
+		
+	$rFora = Query("SELECT * FROM {forums} ORDER BY forder, id");
+
+	$fora = array();
+	while ($forum = Fetch($rFora))
+		$fora[$forum['id']] = $forum;
 
 	if(count($cats) == 0)
 		$cats[0] = __("No categories");
@@ -281,7 +364,7 @@ function WriteForumEditContents($fid)
 
 		$title = htmlspecialchars($forum['title']);
 		$description = htmlspecialchars($forum['description']);
-		$catselect = MakeCatSelect('cat', $cats, $forum['catid']);
+		$catselect = MakeCatSelect('cat', $cats, $fora, $forum['catid'], $forum['id']);
 		$minpower = PowerSelect('minpower', $forum['minpower']);
 		$minpowerthread = PowerSelect("minpowerthread", $forum['minpowerthread']);
 		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
@@ -346,12 +429,14 @@ function WriteForumEditContents($fid)
 			$addmod = "<br>No moderators available for adding.<br>To add a mod, set his powerlevel to Local Mod first.";
 
 		$localmods .= $addmod;
+		
+		
 	}
 	else
 	{
 		$title = __("New Forum");
 		$description = __("Description goes here. <strong>HTML allowed.</strong>");
-		$catselect = MakeCatSelect('cat', $cats, 1);
+		$catselect = MakeCatSelect('cat', $cats, $fora, 1, -1);
 		$minpower = PowerSelect('minpower', 0);
 		$minpowerthread = PowerSelect("minpowerthread", 0);
 		$minpowerreply = PowerSelect('minpowerreply', 0);
@@ -361,6 +446,7 @@ function WriteForumEditContents($fid)
 		$boxtitle = __("New Forum");
 		$delbutton = "";
 		$localmods = "(Create the forum before managing mods)";
+		$privusers = '<small>(create the forum before adding users here)</small>';
 	}
 
 	echo "
@@ -381,7 +467,7 @@ function WriteForumEditContents($fid)
 				<input type=\"text\" style=\"width: 98%;\" name=\"title\" value=\"$title\" />
 			</td>
 		</tr>
-		<tr class=\"cell1\">
+		<tr class=\"cell0\">
 
 			<td>
 				".__("Description")."
@@ -390,15 +476,15 @@ function WriteForumEditContents($fid)
 				<input type=\"text\" style=\"width: 98%;\" name=\"description\" value=\"$description\" />
 			</td>
 		</tr>
-		<tr class=\"cell0\">
+		<tr class=\"cell1\">
 			<td>
-				".__("Category")."
+				".__("Parent")."
 			</td>
 			<td>
 				$catselect
 			</td>
 		</tr>
-		<tr class=\"cell1\">
+		<tr class=\"cell0\">
 			<td>
 				".__("Listing order")."
 			</td>
@@ -407,7 +493,7 @@ function WriteForumEditContents($fid)
 				<img src=\"".resourceLink("img/icons/icon5.png")."\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
 			</td>
 		</tr>
-		<tr class=\"cell0\">
+		<tr class=\"cell1\">
 			<td>
 				".__("Powerlevel required")."
 			</td>
@@ -583,6 +669,51 @@ function WriteCategoryEditContents($cid)
 }
 
 
+function writeForums($cats, $cid, $level)
+{
+	$cat = $cats[$cid];
+	
+	if(isset($cat['forums'])) //<Kawa> empty categories look BAD.
+	{
+		foreach ($cat['forums'] as $cf)
+		{
+			if ($cf['id'] == 1337) // HAX
+			{
+				print '
+	<tr class="cell'.cell().'" style="cursor: hand;">
+		<td style="padding-left: '.(24*$level).'px;'.$sel.'">
+			<span style="opacity:0.5;">'.$cf['title'].'<br />
+			<small>(fake forum)</small></span>
+		</td>
+	</tr>';
+				
+				continue;
+			}
+			
+			$sel = $_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : '';
+			print '
+	<tr class="cell'.cell().'" style="cursor: hand;">
+		<td style="cursor: pointer; padding-left: '.(24*$level).'px;'.$sel.'" class="f" onmousedown="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
+			'.$cf['title'].'<br />
+			<small style="opacity: 0.75;">'.$cf['description'].'</small>
+		</td>
+	</tr>';
+			
+			if (isset($cats[-$cf['id']]))
+				writeForums($cats, -$cf['id'], $level+1);
+		}
+	}
+	else
+	{
+			print '
+	<tr class="cell'.cell().'" style="cursor: hand;">
+		<td style="padding-left: 24px;" class="f">
+			'.__("No forums in this category.").'
+		</td>
+	</tr>';
+	}
+}
+
 function WriteForumTableContents()
 {
 	$cats = array();
@@ -603,7 +734,7 @@ function WriteForumTableContents()
 			}
 		}
 	}
-	$hint = $cats ? __("Hint: Click a forum to select it.") : '';
+	$hint = '';//$cats ? __("Hint: Click a forum or category to select it.") : '';
 	$newforum = $cats ? '<button onclick="newForum();">'.__("Add Forum").'</button>' : '';
 
 	$buttons = '
@@ -627,40 +758,25 @@ function WriteForumTableContents()
 	{
 		$cats[$forum['catid']]['forums'][$forum['id']] = $forum;
 	}
+	
+	echo '<tr class="header0"><th>Main forums</th></tr>';
 
-	foreach ($cats as $cat)
+	foreach ($cats as $cid=>$cat)
 	{
+		if ($cid < 0) continue;
+		
+		$cname = $cat['name'];
+		
 		print '
 	<tbody id="cat'.$cat['id'].'" class="c">
 		<tr class="cell'.cell().'">
 			<td class="c" style="cursor: pointer;" onmousedown="pickCategory('.$cat['id'].');">
-				<strong>'.$cat['name'].'</strong>
+				<strong>'.htmlspecialchars($cname).'</strong>
 			</td>
 		</tr>';
 
-		if(isset($cat['forums'])) //<Kawa> empty categories look BAD.
-		{
-			foreach ($cat['forums'] as $cf)
-			{
-				$sel = $_GET['s'] == $cf['id'] ? ' outline: 1px solid #888;"' : '';
-				print '
-		<tr class="cell'.cell().'" style="cursor: hand;">
-			<td  style="cursor: pointer; padding-left: 24px;'.$sel.'" class="f" onmousedown="pickForum('.$cf['id'].');" id="forum'.$cf['id'].'">
-				'.$cf['title'].'<br />
-				<small style="opacity: 0.75;">'.$cf['description'].'</small>
-			</td>
-		</tr>';
-			}
-		}
-		else
-		{
-				print '
-		<tr class="cell'.cell().'" style="cursor: hand;">
-			<td style="padding-left: 24px;" class="f">
-				'.__("No forums in this category.").'
-			</td>
-		</tr>';
-		}
+		writeForums($cats, $cid, 1);
+		
 		print "</tbody>";
 	}
 
@@ -670,19 +786,67 @@ function WriteForumTableContents()
 	print '</table>';
 }
 
-function MakeCatSelect($i, $o, $v)
+function mcs_forumBlock($fora, $catid, $selID, $indent, $fid)
+{
+	$ret = '';
+	
+	foreach ($fora as $forum)
+	{
+		if ($forum['catid'] != $catid)
+			continue;
+		if ($forum['id'] == $fid)
+			continue;
+		if ($forum['id'] == 1337)	// HAX
+			continue;
+		
+		$ret .=
+'				<option value="'.$forum['id'].'"'.($forum['id'] == -$selID ? ' selected="selected"':'').'>'
+	.str_repeat('&nbsp; &nbsp; ', $indent).htmlspecialchars($forum['title'])
+	.'</option>
+';
+		$ret .= mcs_forumBlock($fora, -$forum['id'], $selID, $indent+1, $fid);
+	}
+	
+	return $ret;
+}
+
+function MakeCatSelect($i, $o, $fora, $v, $fid)
 {
 	$r = '
+			<label><input type="radio" name="ptype" value="0"'.($v>=0 ? ' checked="checked"':'').'>Category:</label>
 			<select name="category">';
 	foreach ($o as $opt)
 	{
 		$r .= '
 				<option value="'.$opt['id'].'"'.($v == $opt['id'] ? ' selected="selected"' : '').'>
-					'.$opt['name'].'
+					'.htmlspecialchars($opt['name']).'
 				</option>';
 	}
 	$r .= '
 			</select>';
+			
+	$r .= '
+			<br>
+			<label><input type="radio" name="ptype" value="1"'.($v<0 ? ' checked="checked"':'').'>Forum:</label>
+			<select name="pforum">';
+			
+	foreach ($o as $cid=>$cat)
+	{
+		$cname = $cat['name'];
+		
+		$fb = mcs_forumBlock($fora, $cid, $v, 0, $fid);
+		if (!$fb) continue;
+			
+		$r .= 
+'			<optgroup label="'.htmlspecialchars($cname).'">
+'.$fb.
+'			</optgroup>
+';
+	}
+	
+	$r .= '
+			</select>';
+			
 	return $r;
 }
 function PowerSelect($id, $s)
@@ -690,7 +854,9 @@ function PowerSelect($id, $s)
 	$r = Format('
 				<select name="{0}">
 	', $id);
-	$powers = array(-1=>__("Banned"), 0=>__("Regular"), 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Admin"));
+	if ($s < 0) $s = 0;
+	else if ($s > 3) $s = 3;
+	$powers = array(0=>__("Regular"), 1=>__("Local mod"), 2=>__("Full mod"), 3=>__("Admin"));
 	foreach ($powers as $k => $v)
 	{
 		$r .= Format('

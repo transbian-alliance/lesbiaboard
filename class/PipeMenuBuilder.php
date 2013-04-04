@@ -17,12 +17,16 @@ class PipeMenu {
 		$this->entries[] = $entry;
 	}
 
+	public function addStart($entry) {
+		array_unshift($this->entries, $entry);
+	}
+
 	public function pop() {
-		array_pop($this->entries);
+		return array_pop($this->entries);
 	}
 
 	public function shift() {
-		array_shift($this->entries);
+		return array_shift($this->entries);
 	}
 
 	public function build() {
@@ -32,7 +36,7 @@ class PipeMenu {
 		$html = "<ul class=\"" . $this->className . "\">";
 
 		foreach ($this->entries as $entry) {
-			$html .= $entry->build();
+			$html .= "<li>".$entry->build()."</li>";
 		}
 
 		$html .= "</ul>";
@@ -58,7 +62,10 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li><a href=\"" . htmlspecialchars(actionLink($this->action, $this->id, $this->args)) . "\">" . $this->label . "</a></li>";
+		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\">" . $this->label . "</a>";
+	}
+	public function getLink() {
+		return actionLink($this->action, $this->id, $this->args);
 	}
 }
 
@@ -70,7 +77,10 @@ class PipeMenuTextEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li>" . htmlspecialchars($this->text) . "</li>";
+		return htmlspecialchars($this->text);
+	}
+	public function getLink() {
+		return "";
 	}
 }
 
@@ -82,6 +92,10 @@ class PipeMenuHtmlEntry implements PipeMenuEntry {
 	}
 
 	public function build() {
-		return "<li>" . $this->html . "</li>";
+		return $this->html;
+	}
+	public function getLink() {
+		preg_match('/href="(.*)"/', $this->html, $match);
+		return html_entity_decode($match[1]);
 	}
 }

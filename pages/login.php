@@ -1,6 +1,9 @@
 <?php
 //  AcmlmBoard XD - Login page
 //  Access: guests
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Log in"), "login"));
+makeBreadcrumbs($crumbs);
 
 if($_POST['action'] == "logout")
 {

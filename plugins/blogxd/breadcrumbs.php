@@ -1,6 +1,7 @@
 <?php
-$pathPrefix = array(
-	Settings::pluginGet("crumbsBlogLink") => actionLink("blog"),
-	Settings::pluginGet("crumbsBoardLink") => actionLink("board"));
+
+$path->shift();
+$path->addStart(new PipeMenuLinkEntry(Settings::pluginGet("crumbsBoardLink"), "board"));
+$path->addStart(new PipeMenuLinkEntry(Settings::pluginGet("crumbsBlogLink"), "blog"));
 
 

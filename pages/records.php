@@ -5,6 +5,9 @@
 
 $title = __("Records");
 AssertForbidden("viewRecords");
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Records"), "records"));
+makeBreadcrumbs($crumbs);
 
 $df = "l, F jS Y, G:i:s";
 

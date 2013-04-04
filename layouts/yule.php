@@ -63,9 +63,19 @@
 	</form>
 
 	<?php print $layout_bars; ?>
-	<?php print $layout_crumbs;?>
+	<div class="margin">
+		<div style="float: right;">
+			<?php print $layout_links->build();?>
+		</div>
+		<?php print $layout_crumbs->build();?>&nbsp;
+	</div>
 	<?php print $layout_contents;?>
-	<?php print $layout_crumbs;?>
+	<div class="margin">
+		<div style="float: right;">
+			<?php print $layout_links->build();?>
+		</div>
+		<?php print $layout_crumbs->build();?>&nbsp;
+	</div>
 
 	</div>
 	<div class="footer" style='clear:both;'>

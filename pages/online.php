@@ -3,7 +3,10 @@
 //  Access: all
 
 $title = __("Online users");
-MakeCrumbs(array(__("Online users")=>actionLink("online")), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Online users"), "online"));
+makeBreadcrumbs($crumbs);
 
 AssertForbidden("viewOnline");
 

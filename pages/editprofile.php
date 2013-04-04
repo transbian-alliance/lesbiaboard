@@ -28,10 +28,15 @@ if($editUserMode && $user['powerlevel'] == 4 && $loguser['powerlevel'] != 4 && $
 AssertForbidden($editUserMode ? "editUser" : "editProfile");
 
 //Breadcrumbs
-$uname = $user["name"];
-if($user["displayname"])
-	$uname = $user["displayname"];
-makeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $userid, "", $user["name"]), __("Edit profile") => ""), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
+if($editUserMode)
+	$crumbs->add(new PipeMenuLinkEntry(__("Edit profile"), "editprofile", $userid));
+else
+	$crumbs->add(new PipeMenuLinkEntry(__("Edit profile"), "editprofile"));
+makeBreadcrumbs($crumbs);
 
 loadRanksets();
 $ranksets = $ranksetNames;

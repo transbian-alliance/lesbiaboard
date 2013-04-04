@@ -34,7 +34,7 @@ if(!$canMod && $thread['user'] != $loguserid)
 $OnlineUsersFid = $thread['forum'];
 
 $fid = $thread["forum"];
-$rFora = Query("select id, minpower, title from {forums} where id={0}", $fid);
+$rFora = Query("select id, minpower, title, catid from {forums} where id={0}", $fid);
 
 if(NumRows($rFora))
 	$forum = Fetch($rFora);
@@ -45,7 +45,12 @@ if($forum['minpower'] > $loguser['powerlevel'])
 	Kill(__("You are not allowed to edit threads."));
 $tags = ParseThreadTags($thread['title']);
 setUrlName("thread", $thread["id"], $thread["title"]);
-MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"], "", $forum["title"]), actionLink("thread", $tid) => $tags, __("Edit thread")=>""), $links);
+
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+$crumbs->add(new PipeMenuHtmlEntry(makeThreadLink($thread)));
+$crumbs->add(new PipeMenuTextEntry(__("Edit thread")));
+makeBreadcrumbs($crumbs);
 
 if(isset($_POST["action"]))
 	$_GET["action"] = $_POST["action"];

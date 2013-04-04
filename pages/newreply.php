@@ -56,7 +56,11 @@ write(
 
 $tags = ParseThreadTags($thread['title']);
 setUrlName("thread", $thread["id"], $thread["title"]);
-MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"], "", $forum["title"]), actionLink("thread", $tid) => $tags, __("New reply")=>""), $links);
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+$crumbs->add(new PipeMenuHtmlEntry(makeThreadLink($thread)));
+$crumbs->add(new PipeMenuTextEntry(__("New reply")));
+makeBreadcrumbs($crumbs);
 
 if(!$thread['sticky'] && Settings::get("oldThreadThreshold") > 0 && $thread['lastpostdate'] < time() - (2592000 * Settings::get("oldThreadThreshold")))
 	Alert(__("You are about to bump an old thread. This is usually a very bad idea. Please think about what you are about to do before you press the Post button."));

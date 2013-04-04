@@ -15,7 +15,11 @@ if(isset($_GET['byua']))
 }
 AssertForbidden("viewLKB");
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Last Known Browsers") => actionLink("lastknownbrowsers")), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Last known browsers"), "lastknownbrowsers"));
+makeBreadcrumbs($crumbs);
 
 $numUsers = FetchResult("select count(*) from {users} where powerlevel < 5");
 

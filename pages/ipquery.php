@@ -10,8 +10,11 @@ if(!filter_var($ip, FILTER_VALIDATE_IP))
 $links .= "<li><a href=\"http://dnsquery.org/ipwhois/$ip\" target=\"_blank\">Whois Query</a></li>";
 $links .= "<li><a onclick=\"if(confirm('Are you sure you want to IP-ban $ip?')) {document.getElementById('banform').submit();} return false;\" href=\"#\">IP Ban</a></li>";
 
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("IP ban manager") => actionLink("ipbans"), $ip => ""), $links);
-
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("IP bans"), "ipbans"));
+$crumbs->add(new PipeMenuLinkEntry($ip, "ipquery", $id));
+makeBreadcrumbs($crumbs);
 
 $rUsers = Query("select * from {users} where lastip={0}", $ip);
 

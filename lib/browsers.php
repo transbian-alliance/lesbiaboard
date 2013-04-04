@@ -14,6 +14,9 @@ $knownBrowsers = array
 	"Opera Tablet" => "Opera Mobile (tablet)",
 	"Opera Mobile" => "Opera Mobile",
 	"Opera Mini" => "Opera Mini", //Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.18887/764; U; nl) Presto/2.4.15
+	'iPod' => 'iPod',
+	'iPad' => 'iPad',
+	'iPhone' => 'iPhone',
 	"Nintendo Wii" => "Wii Internet Channel", //Opera/9.30 (Nintendo Wii; U; ; 3642; nl)
 	"Nintendo DSi" => "Nintendo DSi Browser", //Opera/9.50 (Nintendo DSi; Opera/507; U; en-US)
 	"Nitro" => "Nintendo DS Browser",
@@ -60,6 +63,9 @@ $knownOSes = array
 	"Nitro" => "Nintendo DS",
 );
 
+$mobileBrowsers = array('Opera Tablet', 'Opera Mobile', 'Opera Mini', 'Nintendo DSi', 'Nitro', 'Nintendo 3DS', 'Android', 'Nokia', 'iPod', 'iPad', 'iPhone');
+$mobileLayout = false;
+
 $ua = $_SERVER['HTTP_USER_AGENT'];
 
 foreach($knownBrowsers as $code => $name)
@@ -72,11 +78,16 @@ foreach($knownBrowsers as $code => $name)
 		//Opera Mini wasn't detected properly because of the Opera 10 hack.
 		if (strpos($ua, "Opera/9.80") !== FALSE && $code != "Opera Mini" || $code == "Safari" && strpos($ua, "Version/") !== FALSE)
 			$version = substr($ua, strpos($ua, "Version/") + 8);
+			
+		if (in_array($code, $mobileBrowsers)) $mobileLayout = true;
 
 		$lastKnownBrowser = $name." ".$version;
 		break;
 	}
 }
+
+if ($_COOKIE['forcelayout'] == 1) $mobileLayout = true;
+else if ($_COOKIE['forcelayout'] == -1) $mobileLayout = false;
 
 $browserName = $name;
 $browserVers = (float)$version;
@@ -94,7 +105,7 @@ foreach($knownOSes as $code => $name)
 		if(strpos($name, "%") !== FALSE)
 		{
 			$versionStart = strpos($ua, $code) + strlen($code);
-			$version = getVersion($ua, $versionStart);
+			$version = GetVersion($ua, $versionStart);
 			$os = str_replace("%", $version, $os);
 		}
 		//If we're using the default Android browser, just report the version of Android being used ~Nina
@@ -108,13 +119,13 @@ foreach($knownOSes as $code => $name)
 
 $lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->";
 
-function getVersion($ua, $versionStart)
+function GetVersion($ua, $versionStart)
 {
 	$numDots = 0;
 	$version = "";
 	if (strpos($ua, "Linux")) {
 		for ($i = ++$versionStart; $i < strlen($ua); $i++) {
-			if ($ua[$i] === " " || $ua[$i] == ")")
+			if ($ua[$i] === " ")
 				break;
 			else if ($ua[$i] != ";") $version .= $ua[$i];
 		}

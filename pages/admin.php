@@ -10,7 +10,9 @@ if($loguser['powerlevel'] < 3)
 
 $title = __("Administration");
 
-MakeCrumbs(array("Admin" => actionLink("admin")), "");
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+makeBreadcrumbs($crumbs);
 
 $cell2 = 1;
 function cell2($content)

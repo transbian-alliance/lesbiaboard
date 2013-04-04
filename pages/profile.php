@@ -84,9 +84,9 @@ if(IsAllowed("blockLayouts") && $loguserid)
 	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 	$isBlocked = NumRows($rBlock);
 	if($isBlocked)
-		$blockLayoutLink = actionLinkTagItem(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
+		$blockLayoutLink = new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
 	else
-		$blockLayoutLink = actionLinkTagItem(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
+		$blockLayoutLink = new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
 }
 
 $karma = $user['karma'];
@@ -423,27 +423,33 @@ foreach($user as $key => $value)
 MakePost($previewPost, POST_SAMPLE);
 
 
+$links = new PipeMenu();
 if(IsAllowed("editProfile") && $loguserid == $id)
-	$links .= actionLinkTagItem(__("Edit my profile"), "editprofile");
+	$links -> add(new PipeMenuLinkEntry(__("Edit my profile"), "editprofile"));
 else if(IsAllowed("editUser") && $loguser['powerlevel'] > 2)
-	$links .= actionLinkTagItem(__("Edit user"), "editprofile", $id);
+	$links -> add(new PipeMenuLinkEntry(__("Edit user"), "editprofile", $id));
 
 if(IsAllowed("snoopPM") && $loguser['powerlevel'] > 2)
-	$links .= actionLinkTagItem(__("Show PMs"), "private", "", "user=".$id);
+	$links -> add(new PipeMenuLinkEntry(__("Show PMs"), "private", $id));
 
 if($loguserid && IsAllowed("sendPM"))
-	$links .= actionLinkTagItem(__("Send PM"), "sendprivate", "", "uid=".$id);
+	$links -> add(new PipeMenuLinkEntry(__("Send PM"), "sendprivate", "", "uid=".$id));
 if(IsAllowed("listPosts"))
-		$links .= actionLinkTagItem(__("Show posts"), "listposts", $id, "", $user["name"]);
+		$links -> add(new PipeMenuLinkEntry(__("Show posts"), "listposts", $id, "", $user["name"]));
 if(IsAllowed("listThreads"))
-		$links .= actionLinkTagItem(__("Show threads"), "listthreads", $id, "", $user["name"]);
+		$links -> add(new PipeMenuLinkEntry(__("Show threads"), "listthreads", $id, "", $user["name"]));
 
-$links .= $blockLayoutLink;
+$links -> add($blockLayoutLink);
+makeLinks($links);
 
 $uname = $user["name"];
 if($user["displayname"])
 	$uname = $user["displayname"];
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist"), htmlspecialchars($uname) => actionLink("profile", $id)), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+$crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
+makeBreadcrumbs($crumbs);
 
 $title = format(__("Profile for {0}"), htmlspecialchars($uname));
 

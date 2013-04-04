@@ -1,7 +1,10 @@
 <?php
 
 $title = __("Mood avatars");
-MakeCrumbs(array(__("Mood avatars")=>actionLink("editavatars")), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Mood avatars"), "editavatars"));
+makeBreadcrumbs($crumbs);
 
 AssertForbidden("editMoods");
 

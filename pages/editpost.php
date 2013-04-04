@@ -97,7 +97,12 @@ if($thread['closed'] && !CanMod($loguserid, $fid))
 
 $tags = ParseThreadTags($thread['title']);
 setUrlName("thread", $thread["id"], $thread["title"]);
-MakeCrumbs(array($forum['title']=>actionLink("forum", $forum["id"], "", $forum["title"]), actionLink("thread", $tid) => $tags, __("Edit post")=>""), $links);
+
+$crumbs = new PipeMenu();
+makeForumCrumbs($crumbs, $forum);
+$crumbs->add(new PipeMenuHtmlEntry(makeThreadLink($thread)));
+$crumbs->add(new PipeMenuTextEntry(__("Edit post")));
+makeBreadcrumbs($crumbs);
 
 write("
 	<script type=\"text/javascript\">

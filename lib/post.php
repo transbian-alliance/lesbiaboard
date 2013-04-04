@@ -151,6 +151,9 @@ define('POST_SAMPLE', 3);			// sample post box (profile sample post, newreply po
 $sideBarStuff = "";
 $sideBarData = 0;
 
+if(!$mobileLayout)
+{
+
 // $post: post data (typically returned by SQL queries or forms)
 // $type: one of the POST_XXX constants
 // $params: an array of extra parameters, depending on the post box type. Possible parameters:
@@ -408,4 +411,5 @@ function makePost($post, $type, $params=array())
 		</table>";
 }
 
+}
 ?>

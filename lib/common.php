@@ -74,6 +74,9 @@ include("post.php");
 include("log.php");
 include("onlineusers.php");
 
+if($mobileLayout)
+	include("layout_mobile.php");
+	
 $theme = $loguser['theme'];
 include("write.php");
 include('lib/layout.php');

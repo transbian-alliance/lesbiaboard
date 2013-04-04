@@ -208,8 +208,9 @@ if ($_GET['listing'])
 	die();
 }
 
-
-MakeCrumbs(array(__("Member list")=>actionLink("memberlist")), $links);
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
+makeBreadcrumbs($crumbs);
 
 if (!$isBot)
 {
