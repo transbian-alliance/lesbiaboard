@@ -46,8 +46,7 @@
 		<div id="mobile_header_padding"></div>
 		<div id="mobile_online">
 			<?php print $layout_onlineusers; ?> &nbsp;&mdash;&nbsp;
-			<?php print $layout_views; ?> &nbsp;&mdash;&nbsp;
-			<?php print $layout_time; ?>
+			<?php print $layout_views; ?>
 		</div>
 		<?php if($layout_pora) { ?>
 		<td style="border: 0px none;">
