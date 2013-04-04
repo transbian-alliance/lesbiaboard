@@ -53,8 +53,6 @@ if(isset($_POST['name']))
 		$err = __("Another user is already using this IP address.");
 	else if(isset($plugins["faq"]) && !$_POST['readFaq'])
 		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>");
-	else if(strlen($_POST['pass']) < 6)
-		$err = __("Your password must be at least six characters long.");
 	else if ($_POST['pass'] !== $_POST['pass2'])
 		$err = __("The passwords you entered don't match.");
 	else if($haveSecurimage)
@@ -110,6 +108,7 @@ if(isset($_POST["sex"]))
 	$sex = validateSex($_POST["sex"]);
 
 echo "
+<script src=\"".resourceLink('js/register.js')."\"></script>
 <form action=\"".actionLink("register")."\" method=\"post\">
 	<table class=\"outline margin width50\">
 		<tr class=\"header0\">

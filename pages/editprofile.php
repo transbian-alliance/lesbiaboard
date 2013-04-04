@@ -38,6 +38,8 @@ else
 	$crumbs->add(new PipeMenuLinkEntry(__("Edit profile"), "editprofile"));
 makeBreadcrumbs($crumbs);
 
+echo "<script src=\"".resourceLink('js/register.js')."\"></script>";
+
 loadRanksets();
 $ranksets = $ranksetNames;
 $ranksets = array_reverse($ranksets);
