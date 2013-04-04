@@ -1,4 +1,26 @@
 <?php
+function gfxnumber($num)
+{
+	return $num;
+	// 0123456789/NA-
+	
+	$sign = '';
+	if ($num < 0)
+	{
+		$sign = '<span class="gfxnumber" style="background-position:-104px 0px;"></span>';
+		$num = -$num;
+	}
+	
+	$out = '';
+	while ($num > 0)
+	{
+		$out = '<span class="gfxnumber" style="background-position:-'.(8*($num%10)).'px 0px;"></span>'.$out;
+		$num = floor($num / 10);
+	}
+	
+	return '<span style="white-space:nowrap;">'.$sign.$out.'</span>';
+}
+
 function makeLinks($links)
 {
 	global $layout_links;
