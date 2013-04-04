@@ -18,7 +18,7 @@ body,html{
 }
 
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
-	background-color:rgba(0, 0, 0, 0.5);
+	background-color:rgba(0, 0, 0, 0.2);
 }
 
 .mobile_openHeader {
@@ -27,7 +27,7 @@ body,html{
 }
 
 .selected {
-	background-color:rgba(0, 0, 0, 0.5)!important;
+	background-color:rgba(0, 0, 0, 0.2)!important;
 }
 
 #mobile_header_padding {
@@ -82,7 +82,7 @@ body,html{
 }
 
 .stackedMenu > li > a:active, .stackedMenu > li > a:hover {
-	background-color:rgba(0, 0, 0, 0.5);
+	background-color:rgba(0, 0, 0, 0.2);
 }
 
 
