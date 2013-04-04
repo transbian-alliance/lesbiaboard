@@ -1,7 +1,11 @@
 <?php
 
 $title = 'Referrals';
-MakeCrumbs(array('Referrals'=>''), '');
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Referrals"), "referrals"));
+makeBreadcrumbs($crumbs);
 
 echo 
 '<table class="outline margin">

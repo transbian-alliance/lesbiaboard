@@ -1,7 +1,11 @@
 <?php
 if($loguser['powerlevel'] < 2)
 	Kill(__("You're not admin. There is nothing for you here."));
-MakeCrumbs(array(__("Admin") => actionLink("admin"), __("Update board") => actionLink("gitpull")), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("Update board"), "gitpull"));
+makeBreadcrumbs($crumbs);
 
 $output = array();
 exec("git pull 2>&1", $output);

@@ -1,7 +1,10 @@
 <?php
 
 $title = "IRC Chat";
-makeCrumbs(array(__("IRC Chat")=>actionLink("irc")), $links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("IRC chat"), "irc"));
+makeBreadcrumbs($crumbs);
 
 $bad = array("~", "&", "@", "?", "!", ".", ",", "=", "+", "%", "*");
 $handle = str_replace(" ", "", $loguser['name']);
