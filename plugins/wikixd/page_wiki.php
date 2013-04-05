@@ -10,18 +10,30 @@ $urltitle = $page['id'];//urlencode($page['id']);
 $nicetitle = htmlspecialchars(url2title($page['id']));
 $title = 'Wiki &raquo; '.$nicetitle;
 
-if ($page['istalk']) 
-	$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,5)).'<li>Discuss</li>';
+$links = new PipeMenu();
+
+if ($page['istalk'])
+{
+	$links -> add(new PipeMenuLinkEntry('Page', 'wiki', substr($urltitle,5)));
+	$links -> add(new PipeMenuTextEntry('Discuss'));
+}
 else
-	$links .= '<li>Page</li>'.actionLinkTagItem('Discuss', 'wiki', 'Talk:'.$urltitle);
+{
+	$links -> add(new PipeMenuTextEntry('Page'));
+	$links -> add(new PipeMenuLinkEntry('Discuss', 'wiki', 'Talk:'.$urltitle));
+}
 
 if ($page['canedit'])
-	$links .= actionLinkTagItem('Edit', 'wikiedit', $urltitle);
+	$links -> add(new PipeMenuLinkEntry('Edit', 'wikiedit', $urltitle));
 
-if ($page['ismain'])
-	MakeCrumbs(array('Wiki'=>actionLink('wiki')), $links);
-else
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), $nicetitle=>actionLink('wiki', $urltitle)), $links);
+makeLinks($links);
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Wiki"), "wiki"));
+if (!$page['ismain'])
+	$crumbs->add(new PipeMenuLinkEntry($nicetitle, "wiki", $urltitle));
+makeBreadcrumbs($crumbs);
+
 
 echo '
 		<table class="outline margin">

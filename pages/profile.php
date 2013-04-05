@@ -70,7 +70,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		// (INSERT ... ON DUPLICATE KEY UPDATE and primary index on uid+voter)
 		$k = FetchResult("select count(*) from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
 		if($k == 0)
-			$_qKarma = "insert into uservotes (uid, voter, up) values ({0}, {1}, {2})";
+			$_qKarma = "insert into {uservotes} (uid, voter, up) values ({0}, {1}, {2})";
 		else
 			$_qKarma = "update {uservotes} set up={2} where uid={0} and voter={1}";
 		$rKarma = Query($_qKarma, $id, $loguserid, $vote);

@@ -20,15 +20,28 @@ $urltitle = $page['id'];//urlencode($page['id']);
 $nicetitle = htmlspecialchars(url2title($page['id']));
 $title = 'Wiki &raquo; Diff: '.$nicetitle;
 
-$links .= actionLinkTagItem('Page', 'wiki', substr($urltitle,5)).actionLinkTagItem('Discuss', 'wiki', 'Talk:'.$urltitle);
+$links = new PipeMenu();
+
+//I think this is broken. 
+$links -> add(new PipeMenuLinkEntry('Page', 'wiki', substr($urltitle,5)));
+$links -> add(new PipeMenuLinkEntry('Discuss', 'wiki', 'Talk:'.$urltitle));
 
 if ($page['canedit'])
-	$links .= actionLinkTagItem('Edit', 'wikiedit', $urltitle);
+	$links -> add(new PipeMenuLinkEntry('Edit', 'wikiedit', $urltitle));
+	
+makeLinks($links);
 
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Wiki"), "wiki"));
 if ($page['ismain'])
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), 'Main page: Diff'=>actionLink('wikidiff', $urltitle, 'rev='.$rev)), $links);
+	$crumbs->add(new PipeMenuLinkEntry('Main page: Diff', 'wikidiff', $urltitle, 'rev='.$rev));
 else
-	MakeCrumbs(array('Wiki'=>actionLink('wiki'), $nicetitle=>actionLink('wiki', $urltitle), 'Diff'=>actionLink('wikidiff', $urltitle, 'rev='.$rev)), $links);
+{
+	$crumbs->add(new PipeMenuLinkEntry($nicetitle, 'wiki', $urltitle));
+	$crumbs->add(new PipeMenuLinkEntry('Diff', 'wikidiff', $urltitle, 'rev='.$rev));
+}
+makeBreadcrumbs($crumbs);
 	
 if ($page['new']) Kill('This page has not been created yet.');
 if ($page['revision'] <= 1) Kill('This page has not been edited since its creation.');

@@ -98,43 +98,60 @@ function makeBreadcrumbs($path)
 	$crumbs&nbsp;
 </div>";*/
 }
+function mfl_forumBlock($fora, $catid, $selID, $indent)
+{
+	$ret = '';
+	
+	foreach ($fora[$catid] as $forum)
+	{
+		$ret .=
+'				<option value="'.$forum['id'].'"'.($forum['id'] == $selID ? ' selected="selected"':'').'>'
+	.str_repeat('&nbsp; &nbsp; ', $indent).htmlspecialchars($forum['title'])
+	.'</option>
+';
+		if (!empty($fora[-$forum['id']]))
+			$ret .= mfl_forumBlock($fora, -$forum['id'], $selID, $indent+1);
+	}
+	
+	return $ret;
+}
 
 function makeForumList($fieldname, $selectedID)
 {
-	global $fid, $loguser;
+	global $loguserid, $loguser;
 
 	$pl = $loguser['powerlevel'];
 	if($pl < 0) $pl = 0;
+	
+	$rCats = Query("SELECT id, name FROM {categories} ORDER BY corder, id");
+	$cats = array();
+	while ($cat = Fetch($rCats))
+		$cats[$cat['id']] = $cat;
 
-	$lastCatID = -1;
 	$rFora = Query("	SELECT
-							f.id, f.title, f.catid,
-							c.name cname
+							f.id, f.title, f.catid
 						FROM
 							{forums} f
-							LEFT JOIN {categories} c ON c.id=f.catid
-						WHERE f.minpower<={0}".(($pl < 1) ? " AND f.hidden=0" : '')."
-						ORDER BY c.corder, c.id, f.forder, f.id", $pl);
-
-	$theList = "";
-	$optgroup = "";
+						WHERE ".forumAccessControlSQL().(($pl < 1) ? " AND f.hidden=0" : '')." AND f.id!=1337
+						ORDER BY f.forder, f.id");
+						
+	$fora = array();
 	while($forum = Fetch($rFora))
-	{
-		if($forum['catid'] != $lastCatID)
-		{
-			$lastCatID = $forum['catid'];
-			$theList .= format(
-"
-			{0}
-			<optgroup label=\"{1}\">
-", $optgroup, htmlspecialchars($forum['cname']));
-			$optgroup = "</optgroup>";
-		}
+		$fora[$forum['catid']][] = $forum;
 
-		$theList .= format(
-"
-				<option value=\"{0}\"{2}>{1}</option>
-", $forum['id'], htmlspecialchars($forum['title']), ($forum['id'] == $selectedID ? " selected=\"selected\"" : ""));
+	$theList = '';
+	foreach ($cats as $cid=>$cat)
+	{
+		if (empty($fora[$cid]))
+			continue;
+			
+		$cname = $cat['name'];
+			
+		$theList .= 
+'			<optgroup label="'.htmlspecialchars($cname).'">
+'.mfl_forumBlock($fora, $cid, $selectedID, 0).
+'			</optgroup>
+';
 	}
 
 	return "<select id=\"$fieldname\" name=\"$fieldname\">$theList</select>";

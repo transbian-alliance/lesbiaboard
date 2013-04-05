@@ -10,7 +10,11 @@ assertForbidden("editUserBadges");
 if($loguser['powerlevel'] < 3)
 	kill(__("You're not an administrator. There is nothing for you here."));
 
-makeCrumbs(array(__("Admin") => actionLink("admin"), __("User Badges Manager") => actionLink("userbadges")), "");
+
+$crumbs = new PipeMenu();
+$crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
+$crumbs->add(new PipeMenuLinkEntry(__("User Badges Manager"), "userbadges"));
+makeBreadcrumbs($crumbs);
 
 if($_POST['action'] == __("Add"))
 {

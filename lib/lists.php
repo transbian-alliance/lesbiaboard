@@ -94,7 +94,7 @@ if (!$mobileLayout)
 			$ignoreClass = $forum['ignored'] ? " class=\"ignored\"" : "";
 
 			if ($newstuff > 0)
-				$NewIcon = "<img src=\"img/status/new.png\" alt=\"New\"><br>".gfxnumber($newstuff);
+				$NewIcon = "<img src=\"".resourceLink("img/status/new.png")."\" alt=\"New\"><br>".gfxnumber($newstuff);
 
 			if (isset($mods[$forum['id']]))
 				foreach($mods[$forum['id']] as $user)
@@ -112,7 +112,7 @@ if (!$mobileLayout)
 					if ($subforum['ignored'])
 						$link = '<span class="ignored">'.$link.'</span>';
 					else if ($subforum['numnew'] > 0)
-						$link = '<img src="img/status/new.png" alt="New"/> '.$link;
+						$link = '<img src="'.resourceLink('img/status/new.png').'" alt="New"/> '.$link;
 					
 					$subforaList .= $link.', ';
 				}
