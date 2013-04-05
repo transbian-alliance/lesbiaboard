@@ -34,7 +34,11 @@ if(isset($_POST['text']) || isset($_GET['rulesread']) || $forum["rulespost"] == 
 else
 {
 	$OnlineUsersFid = $fid;
-	MakeCrumbs(array($forum['title']=>actionLink("forum", $fid), __("New thread")=>""), $links);
+
+	$crumbs = new PipeMenu();
+	makeForumCrumbs($crumbs, $forum);
+	$crumbs->add(new PipeMenuTextEntry(__("New thread")));
+	makeBreadcrumbs($crumbs);
 
 
 	$rPosts = Query("
