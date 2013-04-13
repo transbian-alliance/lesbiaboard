@@ -79,15 +79,6 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 	}
 }
 
-if(IsAllowed("blockLayouts") && $loguserid)
-{
-	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
-	$isBlocked = NumRows($rBlock);
-	if($isBlocked)
-		$blockLayoutLink = new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}");
-	else
-		$blockLayoutLink = new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}");
-}
 
 $karma = $user['karma'];
 if($canVote)
@@ -439,7 +430,16 @@ if(IsAllowed("listPosts"))
 if(IsAllowed("listThreads"))
 		$links -> add(new PipeMenuLinkEntry(__("Show threads"), "listthreads", $id, "", $user["name"]));
 
-$links -> add($blockLayoutLink);
+
+if(IsAllowed("blockLayouts") && $loguserid)
+{
+	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
+	$isBlocked = NumRows($rBlock);
+	if($isBlocked)
+		$links -> add(new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}"));
+	else
+		$links -> add(new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}"));
+}
 makeLinks($links);
 
 $uname = $user["name"];
