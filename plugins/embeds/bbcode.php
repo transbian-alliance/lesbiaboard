@@ -28,7 +28,7 @@ function getYoutubeIdFromUrl($url) {
           )             # End path alternatives.
         )               # End host alternatives.
         ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
-        $%x'
+        \b%x'
         ;
     $result = preg_match($pattern, $url, $matches);
     if (false !== $result) {

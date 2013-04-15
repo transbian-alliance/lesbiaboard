@@ -1,4 +1,4 @@
-[youtube]&hellip;[/youtube] &mdash; video ID only please <br />
+[youtube]&hellip;[/youtube] &mdash; video ID or URL <br />
 [video]&hellip;[/video] &mdash; requires URL to mp4 or ogv file <br />
 [swf ## ##]&hellip;[/swf] &mdash; insert SWF clip<br />
 [svg ## ##]&hellip;[/svg] &mdash; insert SVG image<br />
