@@ -11,6 +11,7 @@ $lastKnownBrowser = "Something";
 $knownBrowsers = array
 (
 	"MSIE" => "Internet Explorer",
+	"OPR" => "Opera",
 	"Opera Tablet" => "Opera Mobile (tablet)",
 	"Opera Mobile" => "Opera Mobile",
 	"Opera Mini" => "Opera Mini", //Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.18887/764; U; nl) Presto/2.4.15
