@@ -446,6 +446,7 @@ if($_POST['action'] == __("Edit profile"))
 						break;
 					case "text":
 					case "textarea":
+					case "color":
 						$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 						break;
 					case "password":
