@@ -740,3 +740,7 @@ div.overlayShade div.buttonContainer button {
 .postToolbar {
 	cursor: default;
 }
+
+.xdebug-error {
+	color:black;
+}

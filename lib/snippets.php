@@ -378,6 +378,7 @@ function getSexName($sex) {
 	return $sexes[$sex];
 }
 
+//TODO Add caching if it's too slow.
 function formatIP($ip)
 {
 	global $loguser;
@@ -395,6 +396,7 @@ function ip2long_better($ip)
 	$v = explode('.', $ip); 
 	return ($v[0]*16777216)+($v[1]*65536)+($v[2]*256)+$v[3];
 }
+
 //TODO: Optimize it so that it can be made with a join in online.php and other places.
 function IP2C($ip)
 {

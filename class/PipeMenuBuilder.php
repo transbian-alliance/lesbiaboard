@@ -79,6 +79,23 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	}
 }
 
+class PipeMenuAnyLinkEntry implements PipeMenuEntry {
+	private $label;
+	private $link;
+
+	public function __construct($label, $link) {
+		$this->label = $label;
+		$this->link = $link;
+	}
+
+	public function build() {
+		return "<a href=\"" . htmlspecialchars($this->link) . "\">" . $this->label . "</a>";
+	}
+	public function getLink() {
+		return $this->link;
+	}
+}
+
 class PipeMenuTextEntry implements PipeMenuEntry {
 	private $text;
 

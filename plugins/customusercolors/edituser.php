@@ -25,7 +25,12 @@ if ($loguser['powerlevel'] > 1)
 	$general['appearance']['items']['color'] = array(
 		"caption" => "Name color",
 		"type" => "color",
-		"callback" => "handleUsernameColor",
+//		"callback" => "handleUsernameColor",
+	);
+	$general['appearance']['items']['hascolor'] = array(
+		"caption" => "Enable color",
+		"type" => "checkbox",
+//		"callback" => "handleUsernameColor",
 	);
 }
 
