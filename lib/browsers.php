@@ -11,6 +11,7 @@ $lastKnownBrowser = "Something";
 $knownBrowsers = array
 (
 	"MSIE" => "Internet Explorer",
+        "rekonq" => "rekonq",
 	"OPR" => "Opera",
 	"Opera Tablet" => "Opera Mobile (tablet)",
 	"Opera Mobile" => "Opera Mobile",
@@ -74,7 +75,7 @@ foreach($knownBrowsers as $code => $name)
 	if (strpos($ua, $code) !== FALSE)
 	{
 		$versionStart = strpos($ua, $code) + strlen($code);
-		if ($code != "dwb") $version = GetVersion($ua, $versionStart);
+		if ($code != "dwb" || $code != "rekonq") $version = GetVersion($ua, $versionStart);
 
 		//Opera Mini wasn't detected properly because of the Opera 10 hack.
 		if (strpos($ua, "Opera/9.80") !== FALSE && $code != "Opera Mini" || $code == "Safari" && strpos($ua, "Version/") !== FALSE)
