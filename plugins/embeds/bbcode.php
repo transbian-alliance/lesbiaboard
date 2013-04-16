@@ -28,7 +28,7 @@ function getYoutubeIdFromUrl($url) {
           )             # End path alternatives.
         )               # End host alternatives.
         ([\w-]{10,12})  # Allow 10-12 for 11 char youtube id.
-        $%x'
+        \b%x'
         ;
     $result = preg_match($pattern, $url, $matches);
     if (false !== $result) {
@@ -52,7 +52,7 @@ function bbcodeYoutube($contents, $arg)
 	if($arg == "loop")
 		$args .= "&amp;loop=1";
 
-	return "<object width=\"425\" height=\"344\"><param name=\"movie\" value=\"http://www.youtube.com/v/$contents&amp;hl=en&amp;fs=1$args\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"never\"></param><embed src=\"http://www.youtube.com/v/$contents&amp;hl=en&amp;fs=1$args\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"never\" allowfullscreen=\"false\" width=\"425\" height=\"344\"></embed></object>";
+	return '<iframe width="560" height="315" src="//www.youtube-nocookie.com/embed/' . $contents . '" frameborder="0" allowfullscreen></iframe>';
 }
 
 function bbcodeVideo($contents, $arg)
