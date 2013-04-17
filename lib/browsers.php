@@ -11,7 +11,7 @@ $lastKnownBrowser = "Something";
 $knownBrowsers = array
 (
 	"MSIE" => "Internet Explorer",
-        "rekonq" => "rekonq",
+	"rekonq" => "rekonq",
 	"OPR" => "Opera",
 	"Opera Tablet" => "Opera Mobile (tablet)",
 	"Opera Mobile" => "Opera Mobile",
