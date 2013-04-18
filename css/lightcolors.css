@@ -1,7 +1,14 @@
+
 body, #body
 {
 	background-color: #FFF;
 	color:black;
+}
+
+div.spoiler div.spoiled
+{
+        background: #FFF;
+        color: #000;
 }
 
 /* Default border color */
