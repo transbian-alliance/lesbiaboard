@@ -13,6 +13,7 @@
 	display:inline-block;
 	padding:13px 5px;
 }
+
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
 	background-color:rgba(0, 0, 0, 0.2);
 }

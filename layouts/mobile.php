@@ -4,7 +4,7 @@
 <head>
 	<title><?php print $layout_title?></title>
 	<?php include("header.php"); ?>
-	<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, width=device-width" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, width=device-width" />
 	<script type="text/javascript" src="<?php print resourceLink("layouts/mobile.js");?>"></script>
 	<link rel="stylesheet" href="<?php print resourceLink("layouts/mobile.css");?>" type="text/css" />
 </head>
