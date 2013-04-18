@@ -89,7 +89,7 @@ $layouCache = array();
 
 function makePostText($post)
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache, $blocklayouts;
+	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache, $blocklayouts, $mobileLayout;
 
 	LoadBlockLayouts();
 	$poster = getDataPrefix($post, "u_");
@@ -118,7 +118,7 @@ function makePostText($post)
 	$magicString = "###POSTTEXTGOESHEREOMG###";
 	$separator = "";
 
-	if($isBlocked)
+	if($isBlocked || $mobileLayout)
 		$postLayout = $magicString;
 	else
 	{

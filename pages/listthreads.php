@@ -16,7 +16,7 @@ if($user["displayname"])
 $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
 $crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
-$crumbs->add(new PipeMenuLinkEntry(__("List of threads"), "listthreads", $uid));
+$crumbs->add(new PipeMenuTextEntry(__("Threads")));
 makeBreadcrumbs($crumbs);
 
 $total = FetchResult("SELECT

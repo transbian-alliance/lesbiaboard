@@ -36,6 +36,7 @@
 	</div>
 	<div id="body">
 		<div id="mobile_headerBar" class="cell0">
+			<table style="width:100%"><tr>
 			<?php 
 
 		
@@ -54,16 +55,19 @@
 						$now2 = "<a href=\"$boardroot\">".htmlspecialchars(Settings::get("boardname"))."</a>";
 					else
 						$now2 = $last2->build();
-					$now = $now2."&mdash;&nbsp;&nbsp;&nbsp;".$now;
+					$now = $now2."&nbsp;&nbsp;&mdash;&nbsp;&nbsp;&nbsp;".$now;
 				}		
 				if($last2 == NULL)
 					$last2 = $layout_crumbs->pop();
 			
 				if($last2 != NULL)
-					echo "<a class=\"button\" href=\"".htmlspecialchars($last2->getLink())."\"><img style=\"vertical-align:bottom; width:24px; height:24px;\" src=\"".resourceLink("img/mobile-back.png")."\"/></a>";
-				echo $now;
+					echo "<td style=\"width:40px\"><a class=\"button\" href=\"".htmlspecialchars($last2->getLink())."\"><img style=\"vertical-align:bottom; width:24px; height:24px;\" src=\"".resourceLink("img/mobile-back.png")."\"/></a></td>";
+				echo "<td>$now</td>";
 			?>
-			<a id="mobile_openHeader" href="#" class="button"><img style="width:24px; height:24px;" src="<?php echo resourceLink("img/mobile-menu.png");?>"/></a>
+			<td style="width:40px">
+				<a id="mobile_openHeader" href="#" class="button"><img style="width:24px; height:24px;" src="<?php echo resourceLink("img/mobile-menu.png");?>"/></a>
+			</td>
+			</tr></table>
 		</div>
 	
 

@@ -13,8 +13,10 @@ if(NumRows($rFora))
 	Kill(__("Unknown forum ID."));
 
 $fid = $forum['id'];
+$twoColumns = !$mobileLayout;
 
-write('<table><tr><td style="width: 50%; border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;">');
+if($twoColumns)
+	write('<table><tr><td style="width: 50%; border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;">');
 $total = $forum['numthreads'];
 
 if(isset($_GET['from']))
@@ -106,14 +108,18 @@ if($pagelinks)
 	Write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
 
-write('</td><td style="border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;">');
-?>
-<table class='outline margin width100'>
-<tr class="header0"><th>&nbsp;</th></tr>
-<tr class='cell1'><td style='padding:16px' colspan='2'>
-<?php echo CleanUpPost(Settings::pluginGet("righttext"));?>
-</td></tr></table>
-<?php
-$bucket = "blogxd_rightcolumn"; include("lib/pluginloader.php");
-write('</td></tr></table>');
-?>
+if($twoColumns)
+{
+	echo '</td><td style="border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;">';
+
+	echo '<table class="outline margin width100">
+	<tr class="header0"><th>&nbsp;</th></tr>
+	<tr class="cell1"><td style="padding:16px" colspan="2">';
+
+	echo CleanUpPost(Settings::pluginGet("righttext"));
+
+	echo '</td></tr></table>';
+	$bucket = "blogxd_rightcolumn"; include("lib/pluginloader.php");
+	echo '</td></tr></table>';
+}
+

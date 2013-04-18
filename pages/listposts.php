@@ -71,7 +71,7 @@ if($user["displayname"])
 $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
 $crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
-$crumbs->add(new PipeMenuLinkEntry(__("List of posts"), "listposts", $uid));
+$crumbs->add(new PipeMenuTextEntry(__("Posts")));
 makeBreadcrumbs($crumbs);
 
 $pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);

@@ -157,4 +157,113 @@ function makeForumList($fieldname, $selectedID)
 	return "<select id=\"$fieldname\" name=\"$fieldname\">$theList</select>";
 }
 
-?>
+
+function doLastPosts($compact, $limit)
+{
+	global $mobileLayout, $loguser;
+	if($mobileLayout)
+		$compact = true;
+		
+	$hours = 72;
+
+	$qPosts = "select
+		{posts}.id, {posts}.date,
+		u.(_userfields),
+		{threads}.title as ttit, {threads}.id as tid,
+		{forums}.title as ftit, {forums}.id as fid
+		from {posts}
+		left join {users} u on u.id = {posts}.user
+		left join {threads} on {threads}.id = {posts}.thread
+		left join {forums} on {threads}.forum = {forums}.id
+		where {forums}.minpower <= {0} and {posts}.date >= {1}
+		order by date desc limit 0, {2u}";
+
+	$rPosts = Query($qPosts, $loguser['powerlevel'], (time() - ($hours * 60*60)), $limit);
+
+	while($post = Fetch($rPosts))
+	{
+		$thread = array();
+		$thread["title"] = $post["ttit"];
+		$thread["id"] = $post["tid"];
+
+		$c = ($c+1) % 2;
+		if($compact)
+		{
+			$theList .= format(
+			"
+				<tr class=\"cell{5}\">
+					<td>
+						{3} &raquo; {4}
+						<br>{2}, {1} 
+						<span style=\"float:right\">&raquo; {6}</span>
+					</td>
+				</tr>
+			", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), 
+				actionLinkTag($post["ftit"], "forum", $post["fid"], "", $post["ftit"]), makeThreadLink($thread), $c, 
+				actionLinkTag($post['id'], "post", $post['id']));
+		}
+		else
+		{
+			$theList .= format(
+			"
+				<tr class=\"cell{5}\">
+					<td>
+						{3}
+					</td>
+					<td>
+						{4}
+					</td>
+					<td>
+						{2}
+					</td>
+					<td>
+						{1}
+					</td>
+					<td>
+						&raquo; {6}
+					</td>
+				</tr>
+			", $post['id'], formatdate($post['date']), UserLink(getDataPrefix($post, "u_")), 
+				actionLinkTag($post["ftit"], "forum", $post["fid"], "", $post["ftit"]), makeThreadLink($thread), $c,
+				actionLinkTag($post['id'], "post", $post['id']));
+		}
+	}
+
+	if($theList == "")
+		$theList = format(
+	"
+		<tr class=\"cell1\">
+			<td colspan=\"5\" style=\"text-align: center\">
+				".__("Nothing has been posted in the last {0}.")."
+			</td>
+		</tr>
+	", Plural($hours, __("hour")));
+
+	if($compact)
+		write(
+		"
+		<table class=\"margin outline\">
+			<tr class=\"header0\">
+				<th colspan=\"5\">".__("Last posts")."</th>
+			</tr>
+			{0}
+		</table>
+		", $theList);
+	else
+		write(
+		"
+		<table class=\"margin outline\">
+			<tr class=\"header0\">
+				<th colspan=\"5\">".__("Last posts")."</th>
+			</tr>
+			<tr class=\"header1\">
+				<th>".__("Forum")."</th>
+				<th>".__("Thread")."</th>
+				<th>".__("User")."</th>
+				<th>".__("Date")."</th>
+				<th></th>
+			</tr>
+			{0}
+		</table>
+		", $theList);
+}

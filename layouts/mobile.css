@@ -17,15 +17,15 @@
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
 	background-color:rgba(0, 0, 0, 0.2);
 }
+#mobile_headerBar td {
+	margin:0px;
+	padding:0px;
+}
 
 #mobile_openHeader {
 	-webkit-tap-highlight-color: transparent;
 	display:inline-block;
 	float:right;
-}
-
-.selected {
-	background-color:rgba(0, 0, 0, 0.2)!important;
 }
 
 #body {
