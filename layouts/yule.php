@@ -7,8 +7,8 @@
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
-
-<div class="outline margin" id="header" style="margin: 8px">
+<div id="body">
+	<div class="outline margin" id="header" style="margin: 8px">
 		<table class="outline">
 			<tr>
 				<td colspan="3" class="cell0">
@@ -81,5 +81,6 @@
 	<div class="footer" style='clear:both;'>
 	<?php print $layout_footer;?>
 	</div>
+</div>
 </body>
 </html>

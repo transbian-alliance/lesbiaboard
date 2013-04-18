@@ -2,7 +2,7 @@
 A pun on cheese and fire */
 @import url('../../css/borders.css');
 
-body
+#body
 {
 	background: black url("back.png") repeat;
 }

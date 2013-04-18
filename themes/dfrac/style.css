@@ -4,7 +4,7 @@ ABXD rules --> AleX DurBs */
 
 @import url('../../css/borders.css');
 
-body
+#body
 {
 	background: #224 url("background.png");
 }
@@ -49,7 +49,7 @@ a:hover, a:hover span, #header  a:hover, #header a:hover span
 	background: rgba(96, 128, 255, .25);
 }
 
-table.outline, td, th, .header0, .header1, #body table, #body .faq
+table.outline, td, th, .header0, .header1, ##body table, ##body .faq
 {
 	border-color: #003;
 }

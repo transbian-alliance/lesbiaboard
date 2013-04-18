@@ -1,7 +1,7 @@
 /* ABXD Umbreon theme by Kiyoshi Kasuga
 Inverting all the colours would probably make a nice phpBB Espeon skin */
 
-body
+#body
 {
 	background: #202000 url("b.png");
 	font-family: "Verdana", "Lucida Grande", sans-serif;

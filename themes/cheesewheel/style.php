@@ -17,7 +17,7 @@ $css = "/* AcmlmBoard XD - Daily Cheese */
 	background: hsl([huesat], 11%);
 }
 
-body
+#body
 {
 	background: #000;
 	color: hsl([huesat], 75%);

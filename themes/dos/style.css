@@ -7,7 +7,7 @@
 	font-weight: normal !important;
 }
 
-body
+#body
 {
 	background: black;
 	color: silver;
@@ -219,7 +219,7 @@ a, a span
 	color: yellow !important;
 }
 
-#body
+##body
 {
 	margin: 0px;
 }

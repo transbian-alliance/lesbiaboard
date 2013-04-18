@@ -3,7 +3,7 @@
 
 /* AcmlmBoard XD - ABXD Gold theme */
 
-body
+#body
 {
 	background: black url('back.png');
 	background-attachment: fixed;

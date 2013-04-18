@@ -1,6 +1,6 @@
 @import url('../../css/roundcorners.css');
 
-body {
+#body {
 	background: #202020;
 	font-family: Droid Sans, Tahoma, sans;
 	color: #F0F0F0;
@@ -54,17 +54,17 @@ ul.pipemenu li a {
 
 
 /* -properly- get rid of the stupidly-set-by-default borders */
-table.post>tbody>tr>th, table.outline>tbody>tr>th, table.message>tbody>tr>th {
+table.post>t#body>tr>th, table.outline>t#body>tr>th, table.message>t#body>tr>th {
 	border-width: 0px 0px 0px 0px;
 	border-style: none;
 }
 
-table.post>tbody>tr>th:last-child, table.outline>tbody>tr>th:last-child, table.message>tbody>tr>th:last-child {
+table.post>t#body>tr>th:last-child, table.outline>t#body>tr>th:last-child, table.message>t#body>tr>th:last-child {
 	border-width: 0px 1px 1px 0px;
 	border-style: none;
 }
 
-table.post>tbody>tr>td, table.outline>tbody>tr>td, table.message>tbody>tr>td {
+table.post>t#body>tr>td, table.outline>t#body>tr>td, table.message>t#body>tr>td {
 	border-width: 0px 1px 1px 0px;
 	border-style: none;
 }

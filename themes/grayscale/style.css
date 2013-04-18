@@ -2,7 +2,7 @@
 @import url('../../css/borders.css');
 /* AcmlmBoard XD - Grayscale board theme */
 
-body
+#body
 {
 	background: #383838 url(back2c.png);
 }

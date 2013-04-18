@@ -1,6 +1,6 @@
 @import url('../../css/roundcorners.css');
 
-body
+#body
 {
 	background: black url(back.png) repeat-x;
 }

@@ -3,7 +3,7 @@
 /* ABXD Panda theme by Kiyoshi Kasuga
 Loosely based on Panda Internet Security 2011 */
 
-body
+#body
 {
 	background: black url("back.png") repeat;
 }

@@ -1,7 +1,7 @@
 @import url('../../css/roundcorners.css');
 /* AcmlmBoard XD - Glossy board theme -- Made by Nikolaj */
 
-body
+#body
 {
 	background: #000 url(back.png);
 }

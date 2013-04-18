@@ -10,7 +10,7 @@ html {
 	height: 100%;
 }
 
-body {
+#body {
 	font-family: Roboto, Droid Sans, Tahoma, sans;
 	background: -webkit-linear-gradient(#000, #272D33);
 	background: -moz-linear-gradient(#000, #272D33);
@@ -19,7 +19,7 @@ body {
 	background-attachment: fixed;
 }
 
-table, tr, td, th, div, table.outline, table.margin, tbody, .cell0 td, .cell1 td, .cell2 td {
+table, tr, td, th, div, table.outline, table.margin, t#body, .cell0 td, .cell1 td, .cell2 td {
 	border: 0px none;
 }
 
@@ -56,7 +56,7 @@ ul.pipemenu li {
 	border: 0px none;
 }
 
-body, input, button {
+#body, input, button {
 	font-family: Droid Sans, Tahoma, sans;
 }
 

@@ -1,12 +1,12 @@
 /* AcmlmBoard XD - Pissin' on Board2 */
 @import url('../../css/borders.css');
 
-body
+#body
 {
 	background: #0C0B43 url(back1000.png);
 }
 
-table.outline, td, th, .header0, .header1, #body table, #body .faq
+table.outline, td, th, .header0, .header1, ##body table, ##body .faq
 {
 	border-color: #8677E7;
 }

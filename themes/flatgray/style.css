@@ -1,6 +1,6 @@
 /* AcmlmBoard XD - Flat Gray theme */
 
-body {
+#body {
 	background: hsl(0, 0%, 20%);
 	color: #E0E0E0;
 }

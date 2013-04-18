@@ -14,7 +14,7 @@ $hs2 = $hue2.", 100%";
 $css = "/* AcmlmBoard XD - Daily Cycle */
 @import url('../../css/roundcorners.css');
 
-body
+#body
 {
 	background: hsl([huesat], 15%) url(background.png);
 }

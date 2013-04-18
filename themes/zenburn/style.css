@@ -1,12 +1,12 @@
 /* AcmlmBoard XD - ZenBurn board theme */
 
-body
+#body
 {
 	background: rgb(31,31,31);
 	color: rgb(127,159,127);
 }
 
-h2, h3, h4, body
+h2, h3, h4, #body
 {
 	font-family: "Century Schoolbook", "Times New Roman", serif;
 }

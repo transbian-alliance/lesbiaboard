@@ -5,16 +5,21 @@
 	z-index:10000;
 }
 
+#mobile_headerBar a.button {
+	padding:8px!important;
+	height:auto;
+}
 #mobile_headerBar a {
 	display:inline-block;
-	padding:10px 14px 10px 14px;
+	vertical-align:middle;
+	padding:13px 5px;
 }
-
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
 	background-color:rgba(0, 0, 0, 0.2);
 }
 
-.mobile_openHeader {
+#mobile_openHeader {
+	-webkit-tap-highlight-color: transparent;
 	display:inline-block;
 	float:right;
 }
@@ -23,22 +28,55 @@
 	background-color:rgba(0, 0, 0, 0.2)!important;
 }
 
-#mobile_header {
+#body {
+	-webkit-transform: translateX(0px);
+	-webkit-transition: 0.2s -webkit-transform ease-in-out;
+	-moz-transition: 0.2s -moz-transform ease-in-out;
+	-o-transition: 0.2s -o-transform ease-in-out;
+	-ms-transition: 0.2s -ms-transform ease-in-out;
+	transition: 0.2s transform ease-in-out;
+}
+#body.shown {
+	-webkit-transform: translateX(-240px);
+}
+
+#mobile_sidebar {
+	background: #0a1733; /* Old browsers */
+	background: -moz-linear-gradient(left,  #0a1733 0%, #252e44 1%, #313959 3%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#0a1733), color-stop(1%,#252e44), color-stop(3%,#313959)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #0a1733 0%,#252e44 1%,#313959 3%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #0a1733 0%,#252e44 1%,#313959 3%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #0a1733 0%,#252e44 1%,#313959 3%); /* IE10+ */
+	background: linear-gradient(to right,  #0a1733 0%,#252e44 1%,#313959 3%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0a1733', endColorstr='#313959',GradientType=1 ); /* IE6-9 */
+
+	color:#9AB;
+	position:absolute!important;
+	right:0px;
+	top:0px;
+	width:240px;
+	height:100%;
+	min-height:100%;
 	margin:0px;
 	padding:0px;
-	width:100%;
-	z-index:1000;
-	max-height: 0px;
-	overflow: hidden;
-	-webkit-transition: 0.2s linear;
+	z-index:-1;
+	overflow-x: hidden;
+	overflow-y: auto;
+/*	-webkit-transition: 0.2s linear;
 	-moz-transition: 0.2s linear;
 	-o-transition: 0.2s linear;
 	-ms-transition: 0.2s linear;
-	transition: 0.2s linear;
+	transition: 0.2s linear;*/
 }
-
+#mobile_sidebar.shown {
+	z-index:1;
+}
+#mobile_sidebar a {
+	color: #AAC;
+	-webkit-tap-highlight-color: transparent;
+}
 #mobile_header.shown {
-	max-height: 400px;
+	display: block;
 }
 
 #mobile_header td {

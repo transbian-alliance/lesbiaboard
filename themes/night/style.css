@@ -3,7 +3,7 @@
 @import url('../../css/roundcorners.css');
 @import url('../../css/borders.css');
 
-body
+#body
 {
 	background: #000F1F url(background.png);
 }

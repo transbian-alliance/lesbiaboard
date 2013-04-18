@@ -6,7 +6,7 @@
  *      adapted to ABXD 2.0 by Kawa
  */
 
-body
+#body
 {
 	background: black url(back.png);
 	color: white;

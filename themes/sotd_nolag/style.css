@@ -3,7 +3,7 @@
 
 /* AcmlmBoard XD - Space Over The Deck (?) theme */
 
-body
+#body
 {
 	/* Fixed, for your (browser's) pleasure */
 	background: black url(bg_nolag.png);

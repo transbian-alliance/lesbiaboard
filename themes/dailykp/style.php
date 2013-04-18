@@ -15,7 +15,7 @@ $cp = $comp.", 20%";
 
 $css = "/* AcmlmBoard XD - Daily Kaypea */
 
-body
+#body
 {
 	background: hsl([huesat], 15%) url('background.png');
 }

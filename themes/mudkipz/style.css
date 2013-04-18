@@ -2,7 +2,7 @@
 /* AcmlmBoard XD - Mudkipz theme
 By Luigi-San */
 
-body
+#body
 {
 	background: #2BB3DB url('background.png') bottom right no-repeat;
 	color: #EFD;

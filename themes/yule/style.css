@@ -1,7 +1,7 @@
 /* AcmlmBoard XD - Pissin' on Jul */
 @import url('../../css/borders.css');
 
-body
+#body
 {
 	background: #000 url(starsbg.png);
 }

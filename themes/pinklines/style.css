@@ -14,7 +14,7 @@ table.outline, table.outline td, table.post td, table.outline .header0 th, table
 	background: hsl(0, 0%, 10%);
 }
 
-body
+#body
 {
 	background: black;
 	color: #FFFFFF;

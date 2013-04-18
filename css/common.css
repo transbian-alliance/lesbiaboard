@@ -1,5 +1,11 @@
 /* AcmlmBoard XD - Shared elements */
 
+html
+{
+	width: 100%;
+	height:100%;
+}
+
 body
 {
 	background-color: #222;
@@ -10,6 +16,12 @@ body
 	max-width: 1366px;
 	margin-left: auto;
 	margin-right: auto;
+	height:100%;
+}
+
+#body {
+	background-color:black;
+	min-height:100%;
 }
 
 h3
@@ -457,11 +469,6 @@ textarea
 #pmNotice a:hover span, #pmNotice a:hover
 {
 	color: #000;
-}
-
-#body
-{
-	margin: 8px;
 }
 
 .geshi

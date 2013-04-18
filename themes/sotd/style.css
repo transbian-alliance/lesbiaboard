@@ -3,7 +3,7 @@
 
 /* AcmlmBoard XD - Space Over The Deck (?) theme */
 
-body
+#body
 {
 	background: black url(back.jpg);
 	background-attachment: fixed;

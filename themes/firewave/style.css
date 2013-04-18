@@ -4,7 +4,7 @@
 Original AcmlmBoard version by KP9000
 Shittin' on board2 */
 
-body
+#body
 {
 	background: #300000 url("background.jpg");
 	color: #fff;
