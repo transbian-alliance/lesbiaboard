@@ -11,7 +11,6 @@
 }
 #mobile_headerBar a {
 	display:inline-block;
-	vertical-align:middle;
 	padding:13px 5px;
 }
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
