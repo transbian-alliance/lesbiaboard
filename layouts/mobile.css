@@ -62,10 +62,17 @@
 	z-index:-1;
 	overflow-x: hidden;
 	overflow-y: auto;
+	
+	display: none;
 }
+
 #mobile_sidebar.shown {
+	display:block;
+}
+#mobile_sidebar.top {
 	z-index:1;
 }
+
 #mobile_sidebar a {
 	color: #AAC;
 	-webkit-tap-highlight-color: transparent;

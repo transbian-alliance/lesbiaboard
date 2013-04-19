@@ -18,7 +18,8 @@ function showSidebar()
 	$("#body").addClass("shown");
 	$('body').css('overflow','hidden');
 	$('html').css('overflow','hidden');
-	setTimeout(function(){ $("#mobile_sidebar").toggleClass("shown"); }, 200);
+	$("#mobile_sidebar").addClass("shown");
+	setTimeout(function(){ $("#mobile_sidebar").addClass("top"); }, 200);
 	
 	return false;
 }
@@ -34,7 +35,8 @@ function hideSidebar()
 	$("#body").removeClass("shown");
 	$('body').css('overflow','visible');
 	$('html').css('overflow','visible');
-	$("#mobile_sidebar").toggleClass("shown");
+	$("#mobile_sidebar").removeClass("top");
+	setTimeout(function(){ $("#mobile_sidebar").removeClass("shown"); }, 200);
 	
 	return false;
 }
