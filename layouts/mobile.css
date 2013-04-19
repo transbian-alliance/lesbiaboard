@@ -62,11 +62,6 @@
 	z-index:-1;
 	overflow-x: hidden;
 	overflow-y: auto;
-/*	-webkit-transition: 0.2s linear;
-	-moz-transition: 0.2s linear;
-	-o-transition: 0.2s linear;
-	-ms-transition: 0.2s linear;
-	transition: 0.2s linear;*/
 }
 #mobile_sidebar.shown {
 	z-index:1;

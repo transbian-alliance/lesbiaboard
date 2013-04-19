@@ -3,10 +3,10 @@
 
 <head>
 	<title><?php print $layout_title?></title>
+	<link rel="stylesheet" href="<?php print resourceLink("layouts/mobile.css");?>" type="text/css" />
 	<?php include("header.php"); ?>
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, width=device-width" />
 	<script type="text/javascript" src="<?php print resourceLink("layouts/mobile.js");?>"></script>
-	<link rel="stylesheet" href="<?php print resourceLink("layouts/mobile.css");?>" type="text/css" />
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
@@ -81,8 +81,8 @@
 			<?php print $layout_contents;?>
 
 		</div>
-		<div class="footer" style='clear:both;'>
-		<?php print $layout_footer;?>
+		<div class="footer" style="clear: both;">
+			<?php print $layout_footer; ?>
 		</div>
 	</div>
 </body>

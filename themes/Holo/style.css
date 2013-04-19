@@ -61,10 +61,10 @@ ul.pipemenu li {
 }
 
 :not(.post) table:not(.post).margin.outline {
-/*	background: #111111;*/
+	background: #111111;
 	border-radius: 2px;
-	border: 1px solid #212121;
-/*	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);*/
+	border: 1px solid #36383B;
+	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
 :not(.post) table:not(.post) tr:first-child th, .eptable tr th, .header0 th, .header1 th {
@@ -84,21 +84,21 @@ ul.pipemenu li {
 table.post {
 	border-radius: 2px;
 	border: 1px solid #212121;
-/*	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);*/
+	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
 table.post td.side, table.post td.post {
-/*	background: #131313;*/
+	background: #131313;
 	border-radius: 0px;
 }
 table.post td.userlink, table.post td.meta {
-/*	background: #131313;*/
+	background: #131313;
 	border-radius: 0px;
 	border-bottom: 2px solid #33B5E5;
 }
 
 :not(.post) table:not(.post) tr:not(:last-child) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
-	border-bottom: 1px solid #282828;
+	border-bottom: 1px solid #36383B;
 }
 
 #header table tr td {
@@ -498,5 +498,29 @@ input[placeholder="Search"]:placeholder {
 }
 
 .fe_selected:active, .theme input:checked + label:active {
+	background: #33B5E5;
+}
+
+#mobile_sidebar {
+	background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -webkit-linear-gradient(#000, #272D33);
+	background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -moz-linear-gradient(#000, #272D33);
+	background: -o-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -o-linear-gradient(#000, #272D33);
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), linear-gradient(#000, #272D33);
+	background-attachment: static, fixed;
+}
+
+.stackedMenu li {
+	border-bottom: 1px solid #36383B;
+}	
+
+.stackedMenu li:first-child {
+	border-top: 1px solid #36383B;
+}
+
+.stackedMenu > li > a:link {
+	color: #FFF;
+}
+
+.stackedMenu > li > a:active, .stackedMenu > li > a:hover {
 	background: #33B5E5;
 }
