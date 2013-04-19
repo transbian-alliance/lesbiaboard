@@ -35,6 +35,7 @@
 		<?php print $layout_userpanel->build(); ?>
 	</div>
 	<div id="body">
+	<div id="body-wrapper">
 		<div id="mobile_headerBar" class="cell0">
 			<table style="width:100%"><tr>
 			<?php 
@@ -84,6 +85,7 @@
 		<div class="footer" style="clear: both;">
 			<?php print $layout_footer; ?>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

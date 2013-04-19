@@ -7,6 +7,7 @@
 </head>
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
 <div id="body">
+<div id="body-wrapper">
 	<div id="main" style="padding:8px;">
 		<div class="outline margin" id="header">
 			<table class="outline margin">
@@ -72,6 +73,7 @@
 	<div class="footer" style='clear:both;'>
 	<?php print $layout_footer;?>
 	</div>
+</div>
 </div>
 </body>
 </html>

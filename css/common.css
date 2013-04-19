@@ -13,15 +13,20 @@ body
 	font-family: "Verdana", "Lucida Grande", sans-serif;
 	font-size: 1em; /* 10pt; */
 	margin: 0;
-	max-width: 1366px;
-	margin-left: auto;
-	margin-right: auto;
 	height:100%;
+	width:100%;
 }
 
 #body {
 	background-color:black;
 	min-height:100%;
+	width:100%;
+}
+
+#body-wrapper {
+	max-width: 1366px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 h3
