@@ -2,6 +2,8 @@
 
 $title = "Service Abusers";
 
+require 'bad-behavior/responses.inc.php';
+
 if ($loguser['powerlevel'] < 3)
 	Kill('No.');
 
@@ -39,6 +41,7 @@ while ($abuser = fetch($abusers))
 	if (!$userlisting) $userlisting = 'None';
 	else $userlisting = substr($userlisting, 0, strlen($userlisting)-2);
 
+	$response = bb2_get_response($abuser['key']);
 	echo "
 		<tr class=\"cell0\">
 			<td>
@@ -51,7 +54,7 @@ while ($abuser = fetch($abusers))
 				<pre style='white-space:pre-wrap'>". htmlspecialchars(preg_replace('/logsession=\w+/', 'logsession=?????', $abuser['http_headers'])) . "</pre>
 			</td>
 			<td>
-				{$abuser['key']}
+				<abbr title=\"" . htmlspecialchars($response['log']). "\">{$abuser['key']}</abbr>
 			</td>
 			<td>
 				{$userlisting}
