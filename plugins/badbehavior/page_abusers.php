@@ -31,7 +31,7 @@ echo "
 $abusers = query('SELECT * FROM {bad_behavior} ORDER BY `date` DESC');
 while ($abuser = fetch($abusers))
 {
-	$date = formatdate(strtotime($foo['date']));
+	$date = formatdate(strtotime($abuser['date']));
 
 	$userlisting = '';
 	$users = Query("SELECT * FROM {users} WHERE lastip={0} ORDER BY name", $abuser['ip']);
