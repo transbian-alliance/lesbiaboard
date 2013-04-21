@@ -48,7 +48,7 @@ while ($abuser = fetch($abusers))
 				".formatIP($abuser['ip'])."
 			</td>
 			<td>
-				<pre>". htmlspecialchars(preg_replace('/logsession=\w+/', 'logsession=?????', $abuser['http_headers'])) . "</pre>
+				<pre style='white-space:pre-wrap'>". htmlspecialchars(preg_replace('/logsession=\w+/', 'logsession=?????', $abuser['http_headers'])) . "</pre>
 			</td>
 			<td>
 				{$abuser['key']}
