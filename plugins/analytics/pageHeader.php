@@ -2,9 +2,8 @@
 
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', '<?php print trim(Settings::pluginGet("trackingid"));?>']);
+  _gaq.push(['_setCustomVar', 1, 'Logged in', '<?php print $loguserid?"Yes":"No";?>', 2]);
   _gaq.push(['_trackPageview']);
-
- _gaq.push(['_setCustomVar', 1, 'Logged in', '<?php print $loguserid?"Yes":"No";?>', 2]);
    
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
