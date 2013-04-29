@@ -221,9 +221,9 @@ if($debugQueries)
 
 if($mobileLayout)
 	$layout = "mobile";
-if(!file_exists("layouts/$layout.php"))
+if(!file_exists("layouts/$layout/layout.php"))
 	$layout = "abxd";
-require("layouts/$layout.php"); echo (isset($times) ? $times : "");
+require("layouts/$layout/layout.php"); echo (isset($times) ? $times : "");
 
 $bucket = "finish"; include('lib/pluginloader.php');
 

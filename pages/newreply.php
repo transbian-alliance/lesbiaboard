@@ -251,62 +251,42 @@ if(CanMod($loguserid, $fid))
 	$mod .= "\n\n";
 }
 
-print "
-	<table style=\"width: 100%;\">
-		<tr>
-			<td style=\"vertical-align: top; border: none;\">
-				<form name=\"postform\" action=\"".actionLink("newreply", $tid)."\" method=\"post\">
-					<input type=\"hidden\" name=\"ninja\" value=\"$ninja\" />
-					<table class=\"outline margin width100\">
-						<tr class=\"header1\">
-							<th colspan=\"2\">
-								".__("New reply")."
-							</th>
-						</tr>
-						<tr class=\"cell0\">
-							<td>
-								<label for=\"text\">
-									".__("Post")."
-								</label>
-							</td>
-							<td>
-								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
-							</td>
-						</tr>
-						<tr class=\"cell2\">
-							<td></td>
-							<td>
-								<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
-								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
-								<select size=\"1\" name=\"mood\">
-									$moodOptions
-								</select>
-								<label>
-									<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
-								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
-								</label>
-								<input type=\"hidden\" name=\"id\" value=\"$tid\" />
-								$mod
-							</td>
-						</tr>
-					</table>
-				</form>
-			</td>
-			<td style=\"width: 20%; vertical-align: top; border: none;\">";
+$form = "
+		<form name=\"postform\" action=\"".actionLink("newreply", $tid)."\" method=\"post\">
+			<input type=\"hidden\" name=\"ninja\" value=\"$ninja\" />
+			<table class=\"outline margin width100\">
+				<tr class=\"header1\">
+					<th colspan=\"2\">
+						".__("New reply")."
+					</th>
+				</tr>
+				<tr class=\"cell0\">
+					<td colspan=\"2\">
+						<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
+					</td>
+				</tr>
+				<tr class=\"cell2\">
+					<td></td>
+					<td>
+						<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
+						<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
+						<select size=\"1\" name=\"mood\">
+							$moodOptions
+						</select>
+						<label>
+							<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
+						</label>
+						<label>
+							<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
+						</label>
+						<input type=\"hidden\" name=\"id\" value=\"$tid\" />
+						$mod
+					</td>
+				</tr>
+			</table>
+		</form>";
 
-DoSmileyBar();
-DoPostHelp();
-
-write("
-			</td>
-		</tr>
-	</table>
-	<script type=\"text/javascript\">
-		document.postform.text.focus();
-	</script>
-");
+doPostForm($form);
 
 doThreadPreview($tid);
 

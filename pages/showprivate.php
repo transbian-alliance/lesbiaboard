@@ -209,66 +209,46 @@ if($draftEditor)
 
 	MakePost($pm, POST_PM);
 
-	Write(
-"
-	<table style=\"width: 100%;\">
-		<tr>
-			<td style=\"vertical-align: top; border: none;\">
-				<form action=\"".actionLink("showprivate")."\" method=\"post\">
-					<table class=\"outline margin width100\">
-						<tr class=\"header1\">
-							<th colspan=\"2\">
-								".__("Edit Draft")."
-							</th>
-						</tr>
-						<tr class=\"cell0\">
-							<td>
-								".__("To")."
-							</td>
-							<td>
-								<input type=\"text\" name=\"to\" style=\"width: 98%;\" maxlength=\"1024\" value=\"{2}\" />
-							</td>
-						</tr>
-						<tr class=\"cell1\">
-							<td>
-								".__("Title")."
-							</td>
-							<td>
-								<input type=\"text\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"{1}\" />
-							</td>
-						<tr class=\"cell0\">
-							<td>
-								".__("Message")."
-							</td>
-							<td>
-								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">{0}</textarea>
-							</td>
-						</tr>
-						<tr class=\"cell2\">
-							<td></td>
-							<td>
-								<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" />
-								<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
-								<input type=\"submit\" name=\"action\" value=\"".__("Update Draft")."\" />
-								<input type=\"submit\" name=\"action\" value=\"".__("Discard Draft")."\" />
-								<input type=\"hidden\" name=\"id\" value=\"{3}\" />
-							</td>
-						</tr>
-					</table>
-				</form>
-			</td>
-			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	$prefill, $trefill, $to, $pmid);
-
-	DoSmileyBar();
-	DoPostHelp();
-
-	Write(
-"
-			</td>
-		</tr>
-	</table>
-");
+	$form = "
+		<form action=\"".actionLink("showprivate")."\" method=\"post\">
+			<table class=\"outline margin width100\">
+				<tr class=\"header1\">
+					<th colspan=\"2\">
+						".__("Edit Draft")."
+					</th>
+				</tr>
+				<tr class=\"cell0\">
+					<td>
+						".__("To")."
+					</td>
+					<td>
+						<input type=\"text\" name=\"to\" style=\"width: 98%;\" maxlength=\"1024\" value=\"$to\" />
+					</td>
+				</tr>
+				<tr class=\"cell1\">
+					<td>
+						".__("Title")."
+					</td>
+					<td>
+						<input type=\"text\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"$trefill\" />
+					</td>
+				<tr class=\"cell0\">
+					<td colspan=\"2\">
+						<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
+					</td>
+				</tr>
+				<tr class=\"cell2\">
+					<td></td>
+					<td>
+						<input type=\"submit\" name=\"action\" value=\"".__("Send")."\" />
+						<input type=\"submit\" name=\"action\" value=\"".__("Preview")."\" />
+						<input type=\"submit\" name=\"action\" value=\"".__("Update Draft")."\" />
+						<input type=\"submit\" name=\"action\" value=\"".__("Discard Draft")."\" />
+						<input type=\"hidden\" name=\"id\" value=\"$pmid\" />
+					</td>
+				</tr>
+			</table>";
+	doPostForm($form);
 }
 else
 {

@@ -186,62 +186,41 @@ $rMoods = Query("select mid, name from {moodavatars} where uid={0} order by mid 
 while($mood = Fetch($rMoods))
 	$moodOptions .= Format("<option {0}value=\"{1}\">{2}</option>\n", $moodSelects[$mood['mid']], $mood['mid'], htmlspecialchars($mood['name']));
 
-Write(
-"
-	<table style=\"width: 100%;\">
-		<tr>
-			<td style=\"vertical-align: top; border: none;\">
-				<form name=\"postform\" action=\"".actionLink("editpost")."\" method=\"post\">
-					<table class=\"outline margin width100\">
-						<tr class=\"header1\">
-							<th colspan=\"2\">
-								".__("Edit Post")."
-							</th>
-						</tr>
-						<tr class=\"cell0\">
-							<td>
-								".__("Post")."
-							</td>
-							<td>
-								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">{0}</textarea>
-							</td>
-						</tr>
-						<tr class=\"cell2\">
-							<td></td>
-							<td>
-								<input type=\"submit\" name=\"actionpost\" value=\"".__("Edit")."\" />
-								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
-								<select size=\"1\" name=\"mood\">
-									{1}
-								</select>
-								<label>
-									<input type=\"checkbox\" name=\"nopl\" {3} />&nbsp;".__("Disable post layout", 1)."
-								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nosm\" {4} />&nbsp;".__("Disable smilies", 1)."
-								</label>
-								<input type=\"hidden\" name=\"id\" value=\"{2}\" />
-								<input type=\"hidden\" name=\"key\" value=\"{6}\" />
-							</td>
-						</tr>
-					</table>
-				</form>
-			</td>
-			<td style=\"width: 200px; vertical-align: top; border: none;\">
-",	htmlspecialchars($prefill), $moodOptions, $pid, $nopl, $nosm, $nobr, $loguser['token']);
+$form = "
+	<form name=\"postform\" action=\"".actionLink("editpost")."\" method=\"post\">
+		<table class=\"outline margin width100\">
+			<tr class=\"header1\">
+				<th colspan=\"2\">
+					".__("Edit Post")."
+				</th>
+			</tr>
+			<tr class=\"cell0\">
+				<td colspan=\"2\">
+					<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">".htmlspecialchars($prefill)."</textarea>
+				</td>
+			</tr>
+			<tr class=\"cell2\">
+				<td></td>
+				<td>
+					<input type=\"submit\" name=\"actionpost\" value=\"".__("Edit")."\" />
+					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
+					<select size=\"1\" name=\"mood\">
+						$moodOptions
+					</select>
+					<label>
+						<input type=\"checkbox\" name=\"nopl\" $pid />&nbsp;".__("Disable post layout", 1)."
+					</label>
+					<label>
+						<input type=\"checkbox\" name=\"nosm\" $nosm />&nbsp;".__("Disable smilies", 1)."
+					</label>
+					<input type=\"hidden\" name=\"id\" value=\"$pid\" />
+					<input type=\"hidden\" name=\"key\" value=\"".$loguser['token']."\" />
+				</td>
+			</tr>
+		</table>
+	</form>";
 
-DoSmileyBar();
-DoPostHelp();
-
-Write(
-"
-			</td>
-		</tr>
-	</table>
-	<script type=\"text/javascript\">
-		document.postform.text.focus();
-	</script>
-");
+doPostForm($form);
 
 doThreadPreview($tid);
 

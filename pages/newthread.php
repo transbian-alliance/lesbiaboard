@@ -362,48 +362,6 @@ $pollSettings = "
 	$pollSettings
 	<tr class=\"cell0\"><td  colspan=\"2\"></td></tr>";
 
-print "
-	<script src=\"".resourceLink("js/threadtagging.js")."\"></script>
-	<table style=\"width: 100%;\">
-		<tr>
-			<td style=\"vertical-align: top; border: none;\">
-				<form name=\"postform\" action=\"".actionLink("newthread", $fid)."\" method=\"post\">
-					<table class=\"outline margin width100\">
-						<tr class=\"header1\">
-							<th colspan=\"2\">
-								".__("New thread")."
-							</th>
-						</tr>
-						<tr class=\"cell0\">
-							<td>
-								<label for=\"tit\">
-									".__("Title")."
-								</label>
-							</td>
-							<td id=\"threadTitleContainer\">
-								<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"$trefill\" />
-							</td>
-						</tr>
-						<tr class=\"cell1\">
-							<td>
-								".__("Icon")."
-							</td>
-							<td class=\"threadIcons\">
-								<label>
-									<input type=\"radio\" $iconNoneChecked name=\"iconid\" value=\"0\" />
-									<span>".__("None")."</span>
-								</label>
-								$icons
-								<br />
-								<label>
-									<input type=\"radio\" $iconCustomChecked name=\"iconid\" value=\"255\" />
-									<span>".__("Custom")."</span>
-								</label>
-								<input type=\"text\" id=\"iconurl\" name=\"iconurl\" style=\"width: 50%;\" maxlength=\"100\" value=\"".htmlspecialchars($_POST['iconurl'])."\" />
-							</td>
-						</tr>";
-
-print $pollSettings;
 
 if($_POST['mood'])
 	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
@@ -425,57 +383,72 @@ if(CanMod($loguserid, $forum['id']))
 if(!$_POST['poll'] || $_POST['pollOptions'])
 	$postButton = "<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" /> ";
 
-print "
-						<tr class=\"cell0\">
-							<td>
-								<label for=\"post\">
-									Post
-								</label>
-							</td>
-							<td>
-								<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
-							</td>
-						</tr>
-						<tr class=\"cell2\">
-							<td></td>
-							<td>
-								$postButton
-								<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
-								<select size=\"1\" name=\"mood\">
-									$moodOptions
-								</select>
-								<label>
-									<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
-								</label>
-								<label>
-									<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
-								</label>
-								<input type=\"hidden\" name=\"id\" value=\"$fid\" />
-								<input type=\"hidden\" name=\"poll\" value=\"".htmlspecialchars($_POST['poll'])."\" />
-								$mod
-							</td>
-						</tr>
-					</table>
-				</form>
-			</td>
-			<td style=\"width: 200px; vertical-align: top; border: none;\">";
 
-DoSmileyBar();
-DoPostHelp();
+echo "<script src=\"".resourceLink("js/threadtagging.js")."\"></script>";
 
-write("
-			</td>
-		</tr>
-	</table>
-	<script type=\"text/javascript\">
-		document.postform.text.focus();
-	</script>
-");
+$form = "
+		<form name=\"postform\" action=\"".actionLink("newthread", $fid)."\" method=\"post\">
+			<table class=\"outline margin width100\">
+				<tr class=\"header1\">
+					<th colspan=\"2\">
+						".__("New thread")."
+					</th>
+				</tr>
+				<tr class=\"cell0\">
+					<td>
+						<label for=\"tit\">
+							".__("Title")."
+						</label>
+					</td>
+					<td id=\"threadTitleContainer\">
+						<input type=\"text\" id=\"tit\" name=\"title\" style=\"width: 98%;\" maxlength=\"60\" value=\"$trefill\" />
+					</td>
+				</tr>
+				<tr class=\"cell1\">
+					<td>
+						".__("Icon")."
+					</td>
+					<td class=\"threadIcons\">
+						<label>
+							<input type=\"radio\" $iconNoneChecked name=\"iconid\" value=\"0\" />
+							<span>".__("None")."</span>
+						</label>
+						$icons
+						<br />
+						<label>
+							<input type=\"radio\" $iconCustomChecked name=\"iconid\" value=\"255\" />
+							<span>".__("Custom")."</span>
+						</label>
+						<input type=\"text\" id=\"iconurl\" name=\"iconurl\" style=\"width: 50%;\" maxlength=\"100\" value=\"".htmlspecialchars($_POST['iconurl'])."\" />
+					</td>
+				</tr>
+				$pollSettings
+				<tr class=\"cell0\">
+					<td colspan=\"2\">
+						<textarea id=\"text\" name=\"text\" rows=\"16\" style=\"width: 98%;\">$prefill</textarea>
+					</td>
+				</tr>
+				<tr class=\"cell2\">
+					<td></td>
+					<td>
+						$postButton
+						<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
+						<select size=\"1\" name=\"mood\">
+							$moodOptions
+						</select>
+						<label>
+							<input type=\"checkbox\" name=\"nopl\" ".getCheck("nopl")." />&nbsp;".__("Disable post layout", 1)."
+						</label>
+						<label>
+							<input type=\"checkbox\" name=\"nosm\" ".getCheck("nosm")." />&nbsp;".__("Disable smilies", 1)."
+						</label>
+						<input type=\"hidden\" name=\"id\" value=\"$fid\" />
+						<input type=\"hidden\" name=\"poll\" value=\"".htmlspecialchars($_POST['poll'])."\" />
+						$mod
+					</td>
+				</tr>
+			</table>
+		</form>";
 
-print "
-	<script type=\"text/javascript\">
-			window.addEventListener(\"load\",  hookUpControls, false);
-	</script>
-";
-
+doPostForm($form);
 ?>

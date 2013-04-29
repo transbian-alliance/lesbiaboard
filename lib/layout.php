@@ -1,4 +1,10 @@
 <?php
+
+if($mobileLayout)
+	include("layout_mobile.php");
+else
+	include("layout_nomobile.php");
+
 function gfxnumber($num)
 {
 	return $num;
@@ -266,4 +272,36 @@ function doLastPosts($compact, $limit)
 			{0}
 		</table>
 		", $theList);
+}
+
+function doPostForm($form)
+{
+	global $mobileLayout;
+	
+	if($mobileLayout)
+		echo $form;
+	else
+	{
+		print "
+			<table style=\"width: 100%;\">
+				<tr>
+					<td style=\"vertical-align: top; border: none;\">
+						$form
+					</td>
+					<td style=\"width: 20%; vertical-align: top; border: none;\">";
+
+		DoSmileyBar();
+		DoPostHelp();
+
+		echo "
+					</td>
+				</tr>
+			</table>";
+	}
+
+	echo "
+		<script type=\"text/javascript\">
+			document.postform.text.focus();
+		</script>
+	";
 }

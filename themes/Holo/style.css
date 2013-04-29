@@ -517,10 +517,7 @@ input[placeholder="Search"]:placeholder {
 	border-top: 1px solid #36383B;
 }
 
-.stackedMenu > li > a:link {
-	color: #FFF;
-}
-
 .stackedMenu > li > a:active, .stackedMenu > li > a:hover {
 	background: #33B5E5;
+	color: #FFF!important;
 }

@@ -252,10 +252,8 @@ table.message td
 	width: 100%;
 	font-size: .8em; /* 10pt; */
 	clear: both;
-}
-.footer *
-{
-	border-width: 0;
+	padding-top: 12px;
+	padding-bottom:12px;
 }
 
 .links
