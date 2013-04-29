@@ -3,7 +3,6 @@
 <head>
 	<title><?php print $layout_title?></title>
 	<?php include("header.php"); ?>
-	<link rel="stylesheet" href="./layouts/abxd_new.css" type="text/css" />
 </head>
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
 <div id="body">

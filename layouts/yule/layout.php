@@ -3,7 +3,6 @@
 <head>
 	<title><?php print $layout_title?></title>
 	<?php include("header.php"); ?>
-	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("layouts/yule.css");?>" />
 </head>
 
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
