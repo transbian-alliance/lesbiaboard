@@ -24,6 +24,7 @@ $knownBrowsers = array
 	"Nitro" => "Nintendo DS Browser",
 	"Nintendo 3DS" => "Nintendo 3DS",
 	"Opera" => "Opera",
+	"IceWeasel" => "IceWeasel",
 	"MozillaDeveloperPreview" => "Firefox (Development build)",
 	"Firefox" => "Firefox",
 	"dwb" => "DWB",
