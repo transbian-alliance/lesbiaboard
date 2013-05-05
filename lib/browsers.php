@@ -100,7 +100,6 @@ foreach($knownOSes as $code => $name)
 	if (strpos($ua, "X11")) $suffix = " (X11)";
 	else if (strpos($ua, "textmode")) $suffix = " (text mode)";
 	if (strpos($ua, $code) !== FALSE)
-
 	{
 		$os = $name;
 
@@ -128,8 +127,6 @@ function GetVersion($ua, $versionStart)
 	for($i = $versionStart; $i < strlen($ua); $i++)
 	{
 		$ch = $ua[$i];
-		if($ch == ';')
-			break;
 		if($ch == '_' && strpos($ua, "Mac OS X"))
 			$ch = '.';
 		if($ch == '.')
@@ -141,6 +138,15 @@ function GetVersion($ua, $versionStart)
 		}
 		else if(strpos("0123456789.-", $ch) !== FALSE)
 			$version .= $ch;
+		else if(strpos(":/", $ch) !== FALSE)
+			continue;
+		else if(!$numDots)
+		{
+			preg_match('/\G\w+/', $ua, $matches, 0, $versionStart + 1);
+			return $matches[0];
+		}
+		else
+			break;
 	}
 	return $version;
 }
