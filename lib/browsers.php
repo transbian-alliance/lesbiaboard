@@ -125,30 +125,22 @@ function GetVersion($ua, $versionStart)
 {
 	$numDots = 0;
 	$version = "";
-	if (strpos($ua, "Linux")) {
-		for ($i = ++$versionStart; $i < strlen($ua); $i++) {
-			if ($ua[$i] === " ")
-				break;
-			else if ($ua[$i] != ";") $version .= $ua[$i];
-		}
-	} else {
-		for($i = $versionStart; $i < strlen($ua); $i++)
+	for($i = $versionStart; $i < strlen($ua); $i++)
+	{
+		$ch = $ua[$i];
+		if($ch == ';')
+			break;
+		if($ch == '_' && strpos($ua, "Mac OS X"))
+			$ch = '.';
+		if($ch == '.')
 		{
-			$ch = $ua[$i];
-			if($ch == ';')
+			$numDots++;
+			if($numDots == 3)
 				break;
-			if($ch == '_' && strpos($ua, "Mac OS X"))
-				$ch = '.';
-			if($ch == '.')
-			{
-				$numDots++;
-				if($numDots == 3)
-					break;
-				$version .= '.';
-			}
-			else if(strpos("0123456789.-", $ch) !== FALSE)
-				$version .= $ch;
+			$version .= '.';
 		}
+		else if(strpos("0123456789.-", $ch) !== FALSE)
+			$version .= $ch;
 	}
 	return $version;
 }
