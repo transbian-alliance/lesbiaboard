@@ -95,7 +95,7 @@ function query()
 
 function rawQuery($query)
 {
-	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref, $loguserid, $mysqlCellClass;
+	global $queries, $querytext, $loguser, $dblink, $debugMode, $logSqlErrors, $dbpref, $loguserid, $mysqlCellClass, $debugQueries;
 
 //	if($debugMode)
 //		$queryStart = usectime();
