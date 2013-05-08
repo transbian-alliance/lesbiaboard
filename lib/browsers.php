@@ -16,13 +16,9 @@ $knownBrowsers = array
 	"Opera Tablet" => "Opera Mobile (tablet)",
 	"Opera Mobile" => "Opera Mobile",
 	"Opera Mini" => "Opera Mini", //Opera/9.80 (J2ME/MIDP; Opera Mini/4.2.18887/764; U; nl) Presto/2.4.15
-	'iPod' => 'iPod',
-	'iPad' => 'iPad',
-	'iPhone' => 'iPhone',
 	"Nintendo Wii" => "Wii Internet Channel", //Opera/9.30 (Nintendo Wii; U; ; 3642; nl)
 	"Nintendo DSi" => "Nintendo DSi Browser", //Opera/9.50 (Nintendo DSi; Opera/507; U; en-US)
 	"Nitro" => "Nintendo DS Browser",
-	"Nintendo 3DS" => "Nintendo 3DS",
 	"Opera" => "Opera",
 	"Iceweasel" => "Iceweasel",
 	"MozillaDeveloperPreview" => "Firefox (Development build)",
@@ -42,6 +38,10 @@ $knownBrowsers = array
 
 $knownOSes = array
 (
+	"Nintendo 3DS" => "Nintendo 3DS",
+	'iPod' => 'iPod',
+	'iPad' => 'iPad',
+	'iPhone' => 'iPhone',
 	"HTC_" => "HTC mobile",
 	"Series 60" => "S60",
 	"Android" => "Android",
@@ -59,8 +59,6 @@ $knownOSes = array
 	"Ubuntu" => "Ubuntu",
 	"Linux" => "GNU/Linux %",
 	"Mac OS X" => "Mac OS X %",
-	"iPhone" => "iPhone",
-	"iPad" => "iPad",
 	"BlackBerry" => "BlackBerry",
 	"Nintendo Wii" => "Nintendo Wii",
 	"Nitro" => "Nintendo DS",
@@ -114,6 +112,9 @@ foreach($knownOSes as $code => $name)
 		$lkbhax = explode(' ', $lastKnownBrowser);
 		if ($lkbhax[0] == "Android") break;
 		if (isset($suffix)) $os = $os . $suffix;
+
+		if (in_array($code, $mobileBrowsers)) $mobileLayout = true;
+
 		$lastKnownBrowser = format(__("{0} on {1}"), $lastKnownBrowser, $os);
 		break;
 	}
