@@ -22,9 +22,6 @@ echo "
 			<th>
 				Key
 			</th>
-			<th>
-				Users
-			</th>
 		</tr>
 ";
 
@@ -32,14 +29,6 @@ $abusers = query('SELECT * FROM {bad_behavior} ORDER BY `date` DESC');
 while ($abuser = fetch($abusers))
 {
 	$date = formatdate(strtotime($abuser['date']));
-
-	$userlisting = '';
-	$users = Query("SELECT * FROM {users} WHERE lastip={0} ORDER BY name", $abuser['ip']);
-	while ($user = Fetch($users))
-		$userlisting .= UserLink($user).', ';
-
-	if (!$userlisting) $userlisting = 'None';
-	else $userlisting = substr($userlisting, 0, strlen($userlisting)-2);
 
 	$response = bb2_get_response($abuser['key']);
 	echo "
@@ -55,9 +44,6 @@ while ($abuser = fetch($abusers))
 			</td>
 			<td>
 				<abbr title=\"" . htmlspecialchars($response['log']). "\">{$abuser['key']}</abbr>
-			</td>
-			<td>
-				{$userlisting}
 			</td>
 		</tr>
 ";
