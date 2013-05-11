@@ -358,6 +358,7 @@ function formatBirthday($b)
 }
 function getPowerlevelName($pl) {
 	$powerlevels = array(
+		-1 => __("Banned"),
 		0 => __("Normal"),
 		1 => __("Local mod"),
 		2 => __("Full mod"),
