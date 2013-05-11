@@ -220,7 +220,7 @@ if(count($foo))
 	$profileParts[__("Personal information")] = $foo;
 
 if($user['bio'])
-	$profileParts["bio"] = array("" => CleanUpPost($user['bio']));
+	$profileParts[__("Bio")] = array("" => CleanUpPost($user['bio']));
 
 $badgersR = Query("select * from {badges} where owner={0} order by color", $id);
 if(NumRows($badgersR))
