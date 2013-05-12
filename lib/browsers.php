@@ -77,7 +77,7 @@ foreach($knownBrowsers as $code => $name)
 		if ($code != "dwb" || $code != "rekonq") $version = GetVersion($ua, $versionStart);
 
 		//Opera Mini wasn't detected properly because of the Opera 10 hack.
-		if (strpos($ua, "Opera/9.80") !== FALSE && $code != "Opera Mini" || $code == "Safari" && strpos($ua, "Version/") !== FALSE)
+		if ((strpos($ua, "Opera/9.80") !== FALSE && $code != "Opera Mini" || $code == "Safari") && strpos($ua, "Version/") !== FALSE)
 			$version = substr($ua, strpos($ua, "Version/") + 8);
 			
 		if (in_array($code, $mobileBrowsers)) $mobileLayout = true;
