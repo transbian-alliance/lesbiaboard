@@ -162,7 +162,7 @@ if($canMod)
 //Edit thread title and icon. Both mods AND thread-owners can do this.
 if($_GET['action'] == "edit")
 {
-	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $_POST['title']));
+	$trimmedTitle = clean_title(str_replace('&nbsp;', ' ', $_POST['title']));
 	if($trimmedTitle != "")
 	{
 		if($_POST['iconid'])
@@ -177,7 +177,7 @@ if($_GET['action'] == "edit")
 		if($thread["title"] != $_POST['title'] || $thread["icon"] != $iconurl)
 			logAction('editthread', array('forum' => $fid, 'thread' => $tid, 'user2' => $thread["user"]));
 
-		$rThreads = Query("update {threads} set title={0}, icon={1} where id={2} limit 1", $_POST['title'], $iconurl, $tid);
+		$rThreads = Query("update {threads} set title={0}, icon={1} where id={2} limit 1", $trimmedTitle, $iconurl, $tid);
 
 		redirectAction("thread", $tid);
 	}
