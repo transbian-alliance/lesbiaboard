@@ -434,7 +434,7 @@ function clean_title($title)
 	}
 
 	// Capitalize first letter, but only when entire first word is lowercase
-	$title = preg_replace_callback('/\A(\p{Ll})(\p{Ll}*)\b/u', 'clean_title_replace_callback', $title);
+	$title = preg_replace_callback('/((?:\A|!|\?|\.)\s*\p{Ll})(\p{Ll}*)\b/u', 'clean_title_replace_callback', $title);
 
 	// We don't like periods in thread titles.......
 	$title = preg_replace('/([^.])\.+\z/', '$1$2', $title);
