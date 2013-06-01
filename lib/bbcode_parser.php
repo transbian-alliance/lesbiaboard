@@ -232,6 +232,8 @@ function parse($parentToken)
 	if($parentTag == 'trh')
 		$bbcodeIsTableHeader = true;
 
+	$textcontents = '';
+
 	while($tokenPtr < $tokenCt && !$finished)
 	{
 		$token = $tokens[$tokenPtr++];
@@ -290,7 +292,7 @@ function parse($parentToken)
 		}
 		else
 		{
-			if($textcontents)
+			if($textcontents !== "")
 				$contents .= parseText($textcontents);
 			$textcontents = '';
 			$contents .= $result;
@@ -302,7 +304,7 @@ function parse($parentToken)
 	if($parentTag == 'trh')
 		$bbcodeIsTableHeader = false;
 
-	if($textcontents)
+	if($textcontents !== "")
 		$contents .= parseText($textcontents);
 
 	//Restore saved parse status.
