@@ -150,7 +150,7 @@ button:active, input[type="submit"]:active {
 	background: #33B5E5;
 }
 
-input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea {
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], textarea {
 	background-color: transparent;
 	border: 0px none;
 	color: #FFF;
@@ -162,13 +162,10 @@ input[type="text"], input[type="password"], input[type="file"], input[type="emai
 	background-repeat: no-repeat, no-repeat;
 	background-position: bottom left, bottom right;
 	border-bottom: 1px solid #313131;
-	padding: 0px;
-	padding-left: 2px;
-	padding-right: 2px;
+	padding: 2px;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
-
+input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, textarea:focus {
 	background-image: -webkit-linear-gradient(#33B5E5, #33B5E5), -webkit-linear-gradient(#33B5E5, #33B5E5);
 	background-image: -moz-linear-gradient(#33B5E5, #33B5E5), -moz-linear-gradient(#33B5E5, #33B5E5);
 	background-image: -o-linear-gradient(#33B5E5, #33B5E5), -o-linear-gradient(#33B5E5, #33B5E5);
@@ -178,96 +175,46 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus
 }
 
 select {
-	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	color: #FFF;
+	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, rgba(192, 192, 192, 0.5) 50%, rgba(192, 192, 192, 0.5));
+	background-image: -moz-linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(192, 192, 192, 0.5) 50%, rgba(192, 192, 192, 0.5));
+	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, rgba(192, 192, 192, 0.5) 50%, rgba(192, 192, 192, 0.5));
+	background-image: -ms-linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(192, 192, 192, 0.5) 50%, rgba(192, 192, 192, 0.5));
+	background-image: linear-gradient(135deg, rgba(0, 0, 0, 0) 50%, rgba(192, 192, 192, 0.5) 50%, rgba(192, 192, 192, 0.5));
+	background-color: rgba(0, 0, 0, 0);
 	background-size: 8px 8px;
 	background-position: bottom right;
+	background-repeat: no-repeat;
 	-moz-appearance: none !important;
 	-webkit-appearance: push-button;
 	-o-appearance: push-button;
 	appearance: none;
+	padding: 2px;
 	padding-left: 2px;
-	padding-right: 2px;
+	padding-right: 4px;
+	outline: 0px none;
+	border: 0px none;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.5);
 	border-radius: 0px !important;
 }
 
 select:focus {
-	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
-	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
-	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
-	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
-	background-image: -ms-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #33B5E5 50%, #33B5E5);
+	background-color: rgba(0, 0, 0, 0);
 }
 
 select:active {
-	background-color: #33B5E5;
-	background-image: -webkit-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: -moz-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: -o-linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
-	background-image: linear-gradient(-45deg, rgba(0, 0, 0, 0) 50%, #313131 50%, #313131);
+	background-color: #257491;
 	border-bottom: 1px solid #313131;
 }
 
-option {
+select option {
 	background: #131313;
 	color: #FFFFFF;
 }
 
-/* ====================
- * This worked fine in Webkit-based browsers and Opera...
- * ...But of course not Firefox because it has to suck for some rason
-input[type="checkbox"] {
-	-webkit-appearance: none;
-	-moz-appearance: none !important;
-	-ms-appearance: push-button;
-	background-color: rgba(0, 0, 0, 0); 
-	appearance: button;
-	border: 0px solid rgba(0, 0, 0, 0) !important;
-	color: transparent;
-	width: 20px;
-	height: 20px;
-	background: url(./checkbox_normal.png);
-	margin: 0px 0px;
+select option:hover {
+	background: #33B5E5;
 }
-
-input[type="checkbox"]:checked {
-	background: url(./checkbox_checked_normal.png);
-}
-
-input[type="checkbox"]:focus {
-	background-image: url(./checkbox_focus.png), url(./checkbox_normal.png);
-	background-position: top left, 2px 1px;
-	margin-top: -1px;
-	margin-bottom: -1px;
-	margin-left: -2px;
-	margin-right: -1px;
-	width: 23px;
-	height: 22px;
-}
-
-input[type="checkbox"]:focus:checked {
-	background-image: url(./checkbox_checked_focus.png), url(checkbox_checked_normal.png);
-	background-position: top left, 2px 2px;
-	height: 23px;
-	margin-top: -2px;
-}
-
-input[type="checkbox"]:active {
-	margin: -8px -8px;
-	background: url(./checkbox_active.png);
-	width: 36px;
-	height: 36px;
-}
-
-input[type="checkbox"]:active:checked {
-	margin: -8px -8px;
-	background-image: url(./checkbox_checked_active.png);
-	width: 36px;
-	height: 36px;
-}
-*/
 
 div#tabs button, table.post td.meta ul.pipemenu li {
 	text-transform: uppercase;
@@ -309,6 +256,10 @@ table.post td.meta ul.pipemenu a {
 	color: #FFF;
 }
 
+div#tabs {
+	margin-bottom: 0px;
+}
+
 div#tabs button.selected, h3, table.post td.meta ul.pipemenu li:active, .mainMenu li:hover {
 	background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
 	background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 90%, #33B5E5 90%);
@@ -320,22 +271,6 @@ div#tabs button.selected, h3, table.post td.meta ul.pipemenu li:active, .mainMen
 div#tabs button:active, table.post td.meta ul.pipemenu li:active, .mainMenu li:active {
 	background-color: #33819D;
 }
-
-/* Entry-specific hacks */
-
-/* Nicer searchbox */
-/*button#submitQuery {
-	background: url('./search.png');
-	background-size: 16px 16px;
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 16px;
-	border-radius: 0px;
-	width: 16px;
-	font-size: 0px;
-	color: transparent;
-	border: 2px solid transparent;
-}*/
 
 button#submitQuery {
 	display: none;
