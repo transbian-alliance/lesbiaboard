@@ -131,7 +131,7 @@ window.addEventListener("load", function(e) {
 
 	var parentNode = threadTitleContainer.parentNode;
 
-	while (parentNode.tagName != "FORM") {
+	while (!(parentNode instanceof HTMLFormElement)) {
 		parentNode = parentNode.parentNode;
 	}
 
