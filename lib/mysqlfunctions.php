@@ -13,7 +13,19 @@ $keyID = "primary key (`id`)";
 function Import($sqlFile)
 {
 	global $dblink, $dbpref;
-	$dblink->multi_query(str_replace('{$dbpref}', $dbpref, file_get_contents($sqlFile)));
+	$res = $dblink->multi_query(str_replace('{$dbpref}', $dbpref, file_get_contents($sqlFile)));
+
+	$i = 0; 
+	if ($res) {
+		do {
+			$i++; 
+		} while ($dblink->more_results() && $dblink->next_result()); 
+	}
+	if ($dblink->errno) { 
+		echo "MySQL Error when importing file $sqlFile at statement $i: \n";
+		echo $dblink->error, "\n";
+		die();
+	}
 }
 
 function Upgrade()
