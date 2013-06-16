@@ -120,7 +120,7 @@ $settings = array(
 	),
 	"PoRAText" => array (
 		"type" => "texthtml",
-		"default" => "Welcome to your new ABXD Board!",
+		"default" => "Welcome to your new ABXD Board!<br>First, register to get admin access.<br>Then, you can edit the board settings, forum list, this very message, and other stuff from the admin panel.<br>Enjoy ABXD!",
 		"name" => "PoRA text",
 	),
 
