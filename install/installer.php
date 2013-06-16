@@ -24,7 +24,9 @@ include("lib/mysql.php");
 
 function install()
 {
-	global $dblink, $dbserv, $dbuser, $dbpass, $dbname, $dbpref, $dberror;
+	global $dblink, $dbserv, $dbuser, $dbpass, $dbname, $dbpref, $dberror, $abxd_version;
+	
+	doSanityChecks();
 	
 	if(file_exists("config/database.php"))
 	{
@@ -47,13 +49,23 @@ function install()
 	$currVersion = getInstalledVersion();
 	
 	if($currVersion == $abxd_version)
-		installationError("The board is already installed and updated.");
-	
+		installationError("The board is already installed and updated (Database version $currVersion). You don't need to run the installer!\n");
+
+	if($currVersion == -1)
+		echo "Installing database version $abxd_version...\n";
+	else
+		echo "Upgrading database from version $currVersion to $abxd_version...\n";
 	upgrade();
 	
+	$misc = Query("select * from {misc}");
+	if(NumRows($misc) == 0)
+		Query("INSERT INTO `{misc}` (`views`, `hotcount`, `milestone`, `maxuserstext`) VALUES (0, 30, 'Nothing yet.', 'Nobody yet.');");
+
+	Query("UPDATE `{misc}` SET `version` = {0}", $abxd_version);
+
+
 	if(!is_dir("config"))
 		mkdir("config");
-	
 	
 	if($currVersion == -1)
 	{
@@ -72,6 +84,37 @@ function install()
 
 //=============================================
 // UTILITY FUNCTIONS
+
+function doSanityChecks()
+{
+	$errors = array();
+	// Basic sanity tests
+	if (!function_exists('version_compare') || version_compare(PHP_VERSION, '5.0.0', '<'))
+		$errors[] = 'PHP 5.0.0 required, but you have PHP ' . PHP_VERSION . '.';
+	if (!function_exists('json_encode'))
+		$errors[] = 'As you have PHP older than PHP 5.2.0, you have to install ' .
+			        'PECL <a target="_blank" href="http://pecl.php.net/package/json">json</a> extension.';
+	if (!function_exists('preg_match'))
+		$errors[] = 'PCRE extension is required, yet it wasn\'t found. Please install it.';
+	if (!class_exists('mysqli'))
+		$errors[] = 'MySQLi extension wasn\'t found. Please install MySQLi.';
+	if (ini_get('register_globals'))
+		$errors[] = 'register_globals is not supported. Continuing may cause your ' .
+			        'board to be hacked. Disable it.';
+	/* This program will only run if the laws of mathematics hold */
+	if (1 == 0)
+		$errors[] = "Oh crap - we are not running in the correct Universe.";
+
+	if(count($errors))
+	{
+		echo "Your server doesn't meet the minimum requeriments for ABXD:\n";
+		foreach($errors as $error)
+			echo " - ", $error, "\n";
+		
+		echo "\nCan't install ABXD. Sorry!\n";
+		die();
+	}
+}
 
 //Returns -1 if board is not installed.
 //Returns the version installed if installed.
