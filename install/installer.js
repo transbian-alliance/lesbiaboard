@@ -1,80 +1,99 @@
 "use strict";
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 var page = 0;
 var numPages;
 
-function setStep(page) {
-	$("#progress").html("Step&nbsp;"+page+"&nbsp;of&nbsp;"+numPages);
-	$("#progress").animate({width: ((page/ numPages) * 100)+"%"}, 200);
-	$(".page").slideUp(200);
-	$("#page"+page).slideDown(200);
-}
+//0 = not installed
+//1 = installing
+//2 = installed
+var installationState = 0;
 
-$(function() {
-	numPages = $("#installPager div.page").length;
-	$('.page').hide();
-	$('#installUI').fadeIn(100);
-	$('#progress').css("width", "0%");
-	page++;
-	setStep(1);
-	$("#prevPageButton").click(function() {
-		if (page > 1) {
-			page--;
-			setStep(page);
-		} 
-		if (page == 1) $("#nextPageButton").attr("disabled");
-		$("#nextPageButton").removeAttr("disabled");
+function setStep(newPage) {
+	if(page != newPage)
+	{
+		page = newPage;
+		$("#progress").html("Step&nbsp;"+page+"&nbsp;of&nbsp;"+numPages);
+		$("#progress").animate({width: ((page/ numPages) * 100)+"%"}, 200);
+		$(".page").slideUp(200);
+		$("#page"+page).slideDown(200);
+		if(page == 3 && installationState == 0)
+			startInstallation();
+	}
+	
+	if(page == 2)
+		$("#nextPageButton").html(upgrade?"Upgrade!":"Install!");
+	else
+		$("#nextPageButton").html("Next &rarr;");
 
-	});
-	$("#nextPageButton").click(function() {
-		if (page < numPages) {
-			page++;
-			setStep(page);
-		} 
-		if (page == numPages) $("#nextPageButton").attr("disabled");
+	if (page == 1 || (page == 3 && installationState != 0))
+		$("#prevPageButton").attr("disabled", "disabled");
+	else
 		$("#prevPageButton").removeAttr("disabled");
-	});
-	$("#installButton").click(function() { doInstall(); });
-});
 
-function checkSqlConnection(attemptCreate) {
-	var url = "install/checksql.php";
-	if (attemptCreate == true) url += "?attemptCreate=true";
-	$.post(url, {
-		sqlServerAddress: $('#sqlServerAddress').val(),
-		sqlUserName: $('#sqlUserName').val(),
-		sqlPassword: $('#sqlPassword').val(),
-		sqlDbName: $('#sqlDbName').val()
-	}, function(data) {
-		$('#sqlStatus').html(data);
-		$('#sqlStatus').fadeIn(200);
-	});
+	if (page == numPages || (page == 3 && installationState != 2))
+		$("#nextPageButton").attr("disabled", "disabled");
+	else
+		$("#nextPageButton").removeAttr("disabled");
+	
 }
 
-var success = "";
-function doInstall() {
-	$("#prevPageButton, #nextPageButton").slideUp(250);
-	$("#progress").slideUp(250);
-	$("#page4").html('<div class="center" style="padding-top: 100px; font-style: italic;"><div class="pollbarContainer" style="width: 50%; margin: 12pt auto;">Installing. Please wait.</div></div>');
+function setState(newState)
+{
+	installationState = newState;
+	setStep(page);
+}
+
+function startInstallation()
+{
+	$("#install-output").text(upgrade?"Upgrading...":"Installing...");
+	setState(1);
+
 	$.post("install/doinstall.php", {
-		action: "Install",
+		action: "install",
 		dbserv: $('#sqlServerAddress').val(),
 		dbuser: $('#sqlUserName').val(),
 		dbpass: $('#sqlPassword').val(),
 		dbname: $('#sqlDbName').val(),
 		dbpref: $('#sqlTablePrefix').val(),
-		boardname: $("#boardName").val(),
-		logoalt: $("boardLogoAlt").val(),
-		logotitle: $("boardLogoTitle").val(),
-		defaultgroups: $("setUpDefaultUserGroups").val(),
-		addbase: $("createDefaultForums").val(),
-		htmltidy: $("useHTMLTidy").val()
 	}, function(data) {
-		$("#page4").html(data);
+		if(data.trim().endsWith("Success!"))
+			setState(2);
+		else
+		{
+			data += "\n\nAn error occured. Please go back and fix the settings and try again.\n";
+			setState(0);
+		}
+		$("#install-output").html(data);
 	});
 }
 
-function reenableControls() {
-	$('#prevPageButton, #nextPageButton').show(250);
-	$('#progress').show(250);
-}
+$(function() {
+	if(upgrade)
+		$('.install-only').hide();
+	else
+		$('.upgrade-only').hide();
+	if(sqlConfigured)
+		$('.sql-not-configured').hide();
+	else
+		$('.sql-configured').hide();
+
+
+	numPages = $("#installPager div.page").length;
+	$('.page').hide();
+	$('#installUI').fadeIn(100);
+	$('#progress').css("width", "0%");
+	setStep(1);
+	$("#prevPageButton").click(function() {
+		if (page > 1)
+			setStep(page-1);
+	});
+	$("#nextPageButton").click(function() {
+		if (page < numPages)
+			setStep(page+1);
+	});
+});
+

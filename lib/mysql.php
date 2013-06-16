@@ -1,13 +1,27 @@
 <?php
 // AcmlmBoard XD support - MySQL database wrapper functions
 
-include("database.php");
-
 $queries = 0;
-
-$dblink = new mysqli($dbserv, $dbuser, $dbpass, $dbname);
-unset($dbpass);
-
+$dberror = "";
+function sqlConnect()
+{
+	global $dbserv, $dbuser, $dbpass, $dbname, $dblink, $dberror;
+	$dblink = new mysqli($dbserv, $dbuser, $dbpass);
+	if($dblink->connect_error)
+	{
+		$dberror = $dblink->connect_error;
+		return false;
+	}
+	if(!$dblink->select_db($dbname))
+	{
+		$dberror = "Database does not exist";
+		return false;
+	}
+	
+	unset($dbpass);
+	
+	return true;
+}
 
 function SqlEscape($text)
 {

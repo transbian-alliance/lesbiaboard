@@ -2,8 +2,7 @@
 
 //Random includes needed for the installer to work.
 
-chdir("../");
-
+$debugMode = true;
 error_reporting(-1 & ~E_NOTICE);
 
 function cdate($format, $date = 0)
@@ -23,12 +22,9 @@ include("lib/version.php");
 include("lib/debug.php");
 include("lib/mysql.php");
 
-//Now read the used params for installation.
-
-
 function install()
 {
-	global $dblink, $dbserv, $dbuser, $dbpass, $dbname, $dbpref;
+	global $dblink, $dbserv, $dbuser, $dbpass, $dbname, $dbpref, $dberror;
 	
 	if(file_exists("config/database.php"))
 	{
@@ -44,18 +40,9 @@ function install()
 		$dbname = $_POST['dbname'];
 		$dbpref = $_POST['dbpref'];
 	}
-
-	//TODO REMOVE THIS
-	$dbserv = "localhost";
-	$dbuser = "abxd";
-	$dbpass = "mCGquCSPrqb6mMna";
-	$dbname = "abxd";
-	$dbpref = "";
 	
-	sqlConnect();
-	
-	if($dblink->connect_error)
-		installationError("Could not connect to the database. Error was: ".$dblink->connect_error);
+	if(!sqlConnect())
+		installationError("Could not connect to the database. Error was: ".$dberror);
 	
 	$currVersion = getInstalledVersion();
 	
@@ -73,10 +60,12 @@ function install()
 		//Stuff to do on new installation (Not upgrade)
 		Import("install/smilies.sql");
 		Import("install/installDefaults.sql");
-		writeConfigSalt();
+		if(!file_exists("config/salt.php"))
+			writeConfigSalt();
 	}
-		
-	writeConfigDatabase();
+	
+	if(!file_exists("config/database.php"))
+		writeConfigDatabase();
 }
 
 
@@ -146,16 +135,4 @@ function writeConfigSalt()
 	fwrite($sltf, "<?php \$salt = \"".$salt."\" ?>");
 	fclose($sltf);
 }
-
-install();
-echo "Done";
-
-
-
-
-
-
-
-
-
 
