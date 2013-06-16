@@ -145,8 +145,9 @@ function rawQuery($query)
 			<input type=\"hidden\" name=\"action\" value=\"Install\" />
 			<input type=\"hidden\" name=\"existingSettings\" value=\"true\" />
 			<input type=\"submit\" value=\"Click here to re-run the installation script\" /></form>");*/
-		}	
-		trigger_error("MySQL Error.", E_USER_ERROR);
+		}
+		else
+			trigger_error("MySQL Error.", E_USER_ERROR);
 		die("MySQL Error.");
 	}
 

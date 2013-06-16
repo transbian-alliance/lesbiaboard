@@ -42,8 +42,8 @@ include("dirs.php");
 include("settingsfile.php");
 include("debug.php");
 
-include("config/database.php");
 include("mysql.php");
+include("config/database.php");
 if(!sqlConnect())
 	die("Can't connect to the board database. Check the installation settings");
 
