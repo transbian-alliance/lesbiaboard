@@ -417,39 +417,4 @@ function IP2C($ip)
 		return "";
 }
 
-// Makes nicer title. Copied from Discourse.
-function clean_title($title)
-{
-	require_once 'mb_hax.php';
-	$title = trim($title);
-
-	// Shouting is bad!!!!
-	$title = preg_replace('/!+/', '!', $title);
-	$title = preg_replace('/\?+/', '?', $title);
-
-	// IF SOMETHING ISN'T QUITE RIGHT WITH LETTERS, FIX THEM!
-	if (mb_strtoupper($title) === $title)
-	{
-		$title = mb_strtolower($title);
-	}
-
-	// Capitalize first letter, but only when entire first word is lowercase
-	$title = preg_replace_callback('/((?:\A|!|\?|\.)\s*\p{Ll})(\p{Ll}*)\b/u', 'clean_title_replace_callback', $title);
-
-	// We don't like periods in thread titles.......
-	$title = preg_replace('/([^.])\.+\z/', '$1$2', $title);
-
-	// Remove space before punctuation !
-	$title = preg_replace('/\s+([!?]\s*)\z/', '$1', $title);
-
-	// Fix     spaces
-	$title = preg_replace('/\s+/', ' ', $title);
-
-	return $title;
-}
-
-function clean_title_replace_callback($matches) {
-	return mb_strtoupper($matches[1]) . $matches[2];
-}
-
 ?>

@@ -128,7 +128,7 @@ if(isset($_POST['actionpreview']))
 else if(isset($_POST['actionpost']))
 {
 	$titletags = parseThreadTags($_POST['title']);
-	$trimmedTitle = clean_title(str_replace('&nbsp;', ' ', $titletags[0]));
+	$trimmedTitle = trim(str_replace('&nbsp;', ' ', $titletags[0]));
 
 	//Now check if the thread is acceptable.
 	$rejected = false;
@@ -229,7 +229,7 @@ else if(isset($_POST['actionpost']))
 
 		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll)
 										  values ({0},   {1},  {2},   {3},  {4},          {1},        {5},   {6},     {7})",
-										    $fid, $loguserid, $trimmedTitle, $iconurl, time(), $closed, $sticky, $pod);
+										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
 		$tid = InsertId();
 
 		$rUsers = Query("update {users} set posts={0}, lastposttime={1} where id={2} limit 1", ($loguser['posts']+1), time(), $loguserid);
