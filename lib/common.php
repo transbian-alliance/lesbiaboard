@@ -46,7 +46,7 @@ include("mysql.php");
 include("config/database.php");
 if(!sqlConnect())
 	die("Can't connect to the board database. Check the installation settings");
-if(!fetch(query("SHOW TABLES LIKE 'misc'")))
+if(!fetch(query("SHOW TABLES LIKE '{misc}'")))
 	die(header("Location: install.php"));
 
 include("mysqlfunctions.php");

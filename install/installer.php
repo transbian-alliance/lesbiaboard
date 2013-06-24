@@ -121,10 +121,10 @@ function doSanityChecks()
 function getInstalledVersion()
 {
 	//If no misc table, not installed.
-	if(numRows(query("SHOW TABLES LIKE 'misc'")) == 0)
+	if(numRows(query("SHOW TABLES LIKE '{misc}'")) == 0)
 		return -1;
 
-	$row = query("SELECT * FROM misc");
+	$row = query("SELECT * FROM {misc}");
 	
 	//If no row in misc table, not installed.
 	if(numRows($row) == 0)
