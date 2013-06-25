@@ -7,7 +7,5 @@ if ($user['id'] == $loguserid || $loguser["powerlevel"] >= 3)
 	
 	$profileParts[__('Personal information')][__('Layout blocks')] = 
 			($GLOBALS["myblockcount"]-1).($GLOBALS["myblockcount"]==2 ? ' user has':' users have')." blocked ".
-			($user['id'] == $loguserid ? "your" : "this user's")." layout<br />";
+			($user['id'] == $loguserid ? "your" : "this user's")." layout<br>";
 }
-
-

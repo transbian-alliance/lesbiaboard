@@ -84,7 +84,7 @@ function listPlugin($plugin, $plugindata)
 	global $cell, $plugins, $loguser;
 
 	print '<tr class="cell'.$cell.'"><td>';
-	print "<b>".$plugindata["name"]."</b><br />";
+	print "<b>".$plugindata["name"]."</b><br>";
 	if($plugindata["author"])
 		$author = '<br />'.__("Made by:")." ".$plugindata["author"];
 	print '<span style="display:block;margin-left:30px;">'.$plugindata["description"].$author.'</span>';

@@ -13,7 +13,7 @@ echo '<div style="width: 50%; margin-left: auto; margin-right: auto; background:
 
 if (empty($output)) echo '<em>(no output)</em>';
 else
-	foreach ($output as $line) echo htmlspecialchars($line).'<br />';
+	foreach ($output as $line) echo htmlspecialchars($line).'<br>';
 
 echo '</div>';
 
