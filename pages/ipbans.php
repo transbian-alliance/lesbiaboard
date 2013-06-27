@@ -49,7 +49,7 @@ while($ipban = Fetch($rIPBan))
 		<td>".htmlspecialchars($ipban['ip'])."</td>
 		<td>".htmlspecialchars($ipban['reason'])."</td>
 		<td>$date</td>
-		<td><a href=\"".actionLink("ipbans", "", "ip=".htmlspecialchars($ipban['reason'])."&action=delete")."\">&#x2718;</a></td>
+		<td><a href=\"".actionLink("ipbans", "", "ip=".htmlspecialchars($ipban['ip'])."&action=delete")."\">&#x2718;</a></td>
 	</tr>";
 }
 

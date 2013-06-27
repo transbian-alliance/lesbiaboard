@@ -55,6 +55,8 @@ if($page == $mainPage)
 		die(header("Location: ".actionLink("post", (int)$_GET['pid'])));
 }
 
+define('CURRENT_PAGE', $page);
+
 ob_start();
 $layout_crumbs = new PipeMenu();
 $layout_links = new PipeMenu();
