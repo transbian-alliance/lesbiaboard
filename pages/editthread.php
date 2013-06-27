@@ -31,6 +31,9 @@ $canMod = CanMod($loguserid, $thread['forum']);
 if(!$canMod && $thread['user'] != $loguserid)
 	Kill(__("You are not allowed to edit threads."));
 
+if(!$canMod && $thread['closed'])
+	Kill(__("You are not allowed to edit closed threads."));
+
 $OnlineUsersFid = $thread['forum'];
 
 $fid = $thread["forum"];
