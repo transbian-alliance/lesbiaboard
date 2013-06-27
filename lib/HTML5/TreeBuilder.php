@@ -146,13 +146,17 @@ class HTML5_TreeBuilder {
     const SCOPE_TABLE = 2;
 
     public function __construct() {
-        $this->mode = self::INITIAL;
+        // Hack for partial documents
+
+        $this->mode = self::IN_BODY;
         $this->dom = new DOMDocument;
 
         $this->dom->encoding = 'UTF-8';
         $this->dom->preserveWhiteSpace = true;
         $this->dom->substituteEntities = true;
         $this->dom->strictErrorChecking = false;
+
+        $this->stack[] = $this->dom;
     }
 
     // Process tag tokens
@@ -176,11 +180,11 @@ class HTML5_TreeBuilder {
 
         if ($this->ignore_lf_token) $this->ignore_lf_token--;
         $this->ignored = false;
+
         // indenting is a little wonky, this can be changed later on
         switch ($mode) {
 
     case self::INITIAL:
-
         /* A character token that is one of U+0009 CHARACTER TABULATION,
          * U+000A LINE FEED (LF), U+000C FORM FEED (FF),  or U+0020 SPACE */
         if ($token['type'] === HTML5_Tokenizer::SPACECHARACTER) {
@@ -3162,7 +3166,9 @@ class HTML5_TreeBuilder {
         if (!empty($token['attr'])) {
             foreach($token['attr'] as $attr) {
                 if(!$el->hasAttribute($attr['name'])) {
-                    $el->setAttribute($attr['name'], $attr['value']);
+                    try {
+                        $el->setAttribute($attr['name'], $attr['value']);
+                    } catch (DOMException $e) {}
                 }
             }
         }
