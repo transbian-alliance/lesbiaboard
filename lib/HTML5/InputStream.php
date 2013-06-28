@@ -38,7 +38,7 @@ class HTML5_InputStream {
     /**
      * The current integer byte position we are in $data
      */
-    private $char;
+    public $char;
 
     /**
      * Length of $data; when $char === $data, we are at the end-of-file.

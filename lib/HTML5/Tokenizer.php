@@ -34,6 +34,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // all flags are in hyphenated form
 
 class HTML5_Tokenizer {
+    public $allowed_tags;
+
     /**
      * Points to an InputStream object.
      */
@@ -330,6 +332,7 @@ class HTML5_Tokenizer {
                         break;
 
                         case self::PCDATA:
+                            $tag_begin_position = $this->stream->char;
                             /* If the content model flag is set to the PCDATA state
                             Consume the next input character: */
                             // We consumed above.
@@ -551,8 +554,16 @@ class HTML5_Tokenizer {
                 case 'tag name':
                     /* Consume the next input character: */
                     $char = $this->stream->char();
-
                     if($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
+                        if (!isset($this->allowed_tags[$this->token['name']])) {
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '<'
+                            ));
+                            $this->stream->char = $tag_begin_position - 1;
+                            $state = 'data';
+                            break;
+                        }
                         /* U+0009 CHARACTER TABULATION
                         U+000A LINE FEED (LF)
                         U+000C FORM FEED (FF)
@@ -561,11 +572,29 @@ class HTML5_Tokenizer {
                         $state = 'before attribute name';
 
                     } elseif($char === '/') {
+                        if (!isset($this->allowed_tags[$this->token['name']])) {
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '<'
+                            ));
+                            $this->stream->char = $tag_begin_position - 1;
+                            $state = 'data';
+                            break;
+                        }
                         /* U+002F SOLIDUS (/)
                         Switch to the self-closing start tag state. */
                         $state = 'self-closing start tag';
 
                     } elseif($char === '>') {
+                        if (!isset($this->allowed_tags[$this->token['name']])) {
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '<'
+                            ));
+                            $this->stream->char = $tag_begin_position - 1;
+                            $state = 'data';
+                            break;
+                        }
                         /* U+003E GREATER-THAN SIGN (>)
                         Emit the current tag token. Switch to the data state. */
                         $this->emitToken($this->token);
@@ -582,6 +611,15 @@ class HTML5_Tokenizer {
                         $state = 'tag name';
 
                     } elseif($char === false) {
+                        if (!isset($this->allowed_tags[$this->token['name']])) {
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '<'
+                            ));
+                            $this->stream->char = $tag_begin_position - 1;
+                            $state = 'data';
+                            break;
+                        }
                         /* EOF
                         Parse error. Reconsume the EOF character in the data state. */
                         $this->emitToken(array(
