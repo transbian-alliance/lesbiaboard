@@ -149,6 +149,7 @@ class HTML5_TreeBuilder {
         // Hack for partial documents
 
         $this->mode = self::IN_BODY;
+        $this->quirks_mode = self::NO_QUIRKS;
         $this->dom = new DOMDocument;
 
         $this->dom->encoding = 'UTF-8';
