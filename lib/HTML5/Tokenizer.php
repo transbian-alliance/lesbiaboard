@@ -74,6 +74,7 @@ class HTML5_Tokenizer {
     const SPACECHARACTER = 5;
     const EOF            = 6;
     const PARSEERROR     = 7;
+    const BR             = 8;
 
     // These are constants representing bunches of characters.
     const ALPHA       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -100,6 +101,12 @@ class HTML5_Tokenizer {
             $this->tree->content_model = null;
         }
         $this->parse();
+    }
+
+    public function emitNewLine() {
+        $this->emitToken(array(
+            'type' => self::BR,
+        ));
     }
 
     // XXX maybe convert this into an iterator? regardless, this function
@@ -241,16 +248,17 @@ class HTML5_Tokenizer {
                         ));
                     
                     } elseif($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
+                        if ($char === "\n" || $char === "\x0c") {
+                            $this->emitNewLine();
+                        }
+
                         // Directly after emitting a token you switch back to the "data
                         // state". At that point spaceCharacters are important so they are
                         // emitted separately.
-                        $chars = $this->stream->charsWhile(self::WHITESPACE);
                         $this->emitToken(array(
                             'type' => self::SPACECHARACTER,
-                            'data' => $char . $chars
+                            'data' => $char,
                         ));
-                        $lastFourChars .= $chars;
-                        if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
 
                     } else {
                         /* Anything else
@@ -258,7 +266,7 @@ class HTML5_Tokenizer {
                         otherwise would also be treated as a character token and emit it
                         as a single character token. Stay in the data state. */
                         
-                        $mask = '';
+                        $mask = "\n\x0c";
                         if ($hyp_cond) $mask .= '-';
                         if ($amp_cond) $mask .= '&';
                         if ($lt_cond)  $mask .= '<';

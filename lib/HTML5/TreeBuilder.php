@@ -493,7 +493,6 @@ class HTML5_TreeBuilder {
         break;
 
     case self::IN_HEAD:
-
         /* A character token that is one of one of U+0009 CHARACTER TABULATION,
         U+000A LINE FEED (LF), U+000B LINE TABULATION, U+000C FORM FEED (FF),
         or U+0020 SPACE. */
@@ -745,6 +744,17 @@ class HTML5_TreeBuilder {
                 if (strlen($token['data']) !== strspn($token['data'], HTML5_Tokenizer::WHITESPACE)) {
                     $this->flag_frameset_ok = false;
                 }
+            break;
+
+            case HTML5_Tokenizer::BR:
+                if (count($this->stack) !== 1) break;
+                $this->reconstructActiveFormattingElements();
+                $this->insertElement(array(
+                    'type' => HTML5_Tokenizer::STARTTAG,
+                    'name' => 'br',
+                    'attr' => array(),
+                ));
+                array_pop($this->stack);
             break;
 
             /* A comment token */
