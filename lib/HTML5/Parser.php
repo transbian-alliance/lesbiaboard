@@ -28,9 +28,10 @@ class HTML5_Parser
      * @param $builder Custom builder implementation
      * @return Parsed HTML as DOMDocument
      */
-    static public function parseFragment($text, $context = null, $builder = null, $allowedTags = null) {
+    static public function parseFragment($text, $context = null, $builder = null, $allowedTags = null, $bbcode = array()) {
         $tokenizer = new HTML5_Tokenizer($text, $builder);
         $tokenizer->allowed_tags = $allowedTags;
+        $tokenizer->tree->bbcode = $tokenizer->bbcode = $bbcode;
         $tokenizer->parseFragment($context);
         return $tokenizer->save();
     }

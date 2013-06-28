@@ -38,6 +38,8 @@ class HTML5_TreeBuilder {
     public $stack = array();
     public $content_model;
 
+    public $bbcode;
+
     private $mode;
     private $original_mode;
     private $secondary_mode;
@@ -762,6 +764,77 @@ class HTML5_TreeBuilder {
                 /* Append a Comment node to the current node with the data
                 attribute set to the data given in the comment token. */
                 $this->insertComment($token['data']);
+            break;
+
+            case HTML5_Tokenizer::BBCODESTARTTAG:
+                $attr = array(
+                    array(
+                        'name'  => 'name',
+                        'value' => $token['name'],
+                    ),
+                );
+                if ($token['attr'] !== NULL)
+                    $attr[] = array(
+                        'name'  => 'value',
+                        'value' => $token['attr'],
+                    );
+                if ($token['pre'] !== NULL) {
+                    $attr[] = array(
+                        'name'  => 'pre',
+                        'value' => $token['pre'],
+                    );
+                }
+                $this->reconstructActiveFormattingElements();
+
+                $this->insertElement(array(
+                    'name' => 'bbcodehack',
+                    'attr' => $attr,
+                ));
+
+                if (isset($this->bbcode[$token['name']]['void']))
+                    array_pop($this->stack);
+            break;
+
+            case HTML5_Tokenizer::BBCODEENDTAG:
+                for($n = count($this->stack) - 1; $n >= 0; $n--) {
+                    /* Initialise node to be the current node (the bottommost
+                    node of the stack). */
+                    $node = $this->stack[$n];
+
+                    /* If node has the same tag name as the end tag token,
+                    then: */
+                    if($node->tagName === 'bbcodehack' && $token['name'] === $node->getAttribute('name')) {
+                        /* Generate implied end tags. */
+                        $this->generateImpliedEndTags();
+
+                        /* If the tag name of the end tag token does not
+                        match the tag name of the current node, this is a
+                        parse error. */
+                        // XERROR: implement this
+
+                        /* Pop all the nodes from the current node up to
+                        node, including node, then stop these steps. */
+                        // XSKETCHY
+                        do {
+                            $pop = array_pop($this->stack);
+                        } while ($pop !== $node);
+                        break;
+
+                    } else {
+                        $category = $this->getElementCategory($node);
+
+                        if($category !== self::FORMATTING && $category !== self::PHRASING) {
+                            /* Otherwise, if node is in neither the formatting
+                            category nor the phrasing category, then this is a
+                            parse error. Stop this algorithm. The end tag token
+                            is ignored. */
+                            $this->ignored = true;
+                            break;
+                            // parse error
+                        }
+                    }
+                    /* Set node to the previous entry in the stack of open elements. Loop. */
+                }
             break;
 
             case HTML5_Tokenizer::DOCTYPE:

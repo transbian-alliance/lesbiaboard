@@ -1,5 +1,7 @@
 <?php
 
+require_once 'bbcode.php';
+
 $filter_args = array(
 	'class'           => TRUE,
 	// For abusers, like Nina
@@ -272,24 +274,40 @@ $filter_mandatory = array(
 
 function cleanUpPost($postText)
 {
-	global $filter_tags;
+	global $filter_tags, $bbcode;
 	require_once 'HTML5/Parser.php';
-	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags)->item(0)->ownerDocument;
+	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags, $bbcode)->item(0)->ownerDocument;
 	process($document);
 	return $document->saveHTML();
 }
 
 function process(DOMNode $current_node)
 {
-	global $filter_args, $filter_tags, $filter_mandatory;
-	if ($current_node->hasChildNodes())
+	global $filter_args, $filter_tags, $filter_mandatory, $bbcode;
+	if ($current_node instanceof DOMElement || $current_node instanceof DOMDocument)
 	{
-		// Recursion.
-		foreach ($current_node->childNodes as $node)
+		// Recursion. I need iterator_to_array(), because it's likely
+		// that node list will be modified.
+		foreach (iterator_to_array($current_node->childNodes) as $node)
 			process($node);
 
+		// BBCode hack is NOT allowed to exist
+		if ($current_node->tagName === 'bbcodehack')
+		{
+			$value = $current_node->hasAttribute('value') ? $current_node->getAttribute('value') : NULL;
+			$nodes = $current_node->hasAttribute('pre')   ? $current_node->getAttribute('pre')   : $current_node->childNodes;
+			$nodes = $bbcode[$current_node->getAttribute('name')]['callback']($current_node->ownerDocument, $nodes, $value);
+			if (!is_array($nodes)) {
+				$nodes = array($nodes);
+			}
+			foreach ($nodes as $node)
+				$current_node->parentNode->insertBefore($node, $current_node);
+
+			// Remove bbcodehack from DOM
+			$current_node->parentNode->removeChild($current_node);
+		}
 		// Move node below when invalid.
-		if ($current_node->tagName && !isset($filter_tags[$current_node->tagName]))
+		elseif ($current_node->tagName && !isset($filter_tags[$current_node->tagName]))
 		{
 			while ($current_node->hasChildNodes())
 				$current_node->parentNode->insertBefore($current_node->childNodes->item(0), $current_node);

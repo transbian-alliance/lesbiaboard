@@ -36,6 +36,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class HTML5_Tokenizer {
     public $allowed_tags;
 
+    public $bbcode = array();
+
     /**
      * Points to an InputStream object.
      */
@@ -44,7 +46,7 @@ class HTML5_Tokenizer {
     /**
      * Tree builder that the tokenizer emits token to.
      */
-    private $tree;
+    public $tree;
 
     /**
      * Current content model we are parsing as.
@@ -75,6 +77,8 @@ class HTML5_Tokenizer {
     const EOF            = 6;
     const PARSEERROR     = 7;
     const BR             = 8;
+    const BBCODESTARTTAG = 9;
+    const BBCODEENDTAG   = 10;
 
     // These are constants representing bunches of characters.
     const ALPHA       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -140,11 +144,12 @@ class HTML5_Tokenizer {
             
             switch($state) {
                 case 'data':
-
                     /* Consume the next input character */
                     $char = $this->stream->char();
                     $lastFourChars .= $char;
                     if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
+
+                    $tag_begin_position = $this->stream->char;
 
                     // see below for meaning
                     $hyp_cond = 
@@ -218,6 +223,9 @@ class HTML5_Tokenizer {
                         Otherwise: treat it as per the "anything else" entry below. */
                         $state = 'tag open';
 
+                    } elseif($char === '[' && $lt_cond) {
+                        $state = 'bbcode tag open';
+
                     /* U+003E GREATER-THAN SIGN (>) */
                     } elseif(
                         $char === '>' &&
@@ -269,7 +277,7 @@ class HTML5_Tokenizer {
                         $mask = "\n\x0c";
                         if ($hyp_cond) $mask .= '-';
                         if ($amp_cond) $mask .= '&';
-                        if ($lt_cond)  $mask .= '<';
+                        if ($lt_cond)  $mask .= '<[';
                         if ($gt_cond)  $mask .= '>';
 
                         if ($mask === '') {
@@ -340,7 +348,6 @@ class HTML5_Tokenizer {
                         break;
 
                         case self::PCDATA:
-                            $tag_begin_position = $this->stream->char;
                             /* If the content model flag is set to the PCDATA state
                             Consume the next input character: */
                             // We consumed above.
@@ -568,7 +575,7 @@ class HTML5_Tokenizer {
                                 'type' => self::CHARACTER,
                                 'data' => '<'
                             ));
-                            $this->stream->char = $tag_begin_position - 1;
+                            $this->stream->char = $tag_begin_position;
                             $state = 'data';
                             break;
                         }
@@ -585,7 +592,7 @@ class HTML5_Tokenizer {
                                 'type' => self::CHARACTER,
                                 'data' => '<'
                             ));
-                            $this->stream->char = $tag_begin_position - 1;
+                            $this->stream->char = $tag_begin_position;
                             $state = 'data';
                             break;
                         }
@@ -599,7 +606,7 @@ class HTML5_Tokenizer {
                                 'type' => self::CHARACTER,
                                 'data' => '<'
                             ));
-                            $this->stream->char = $tag_begin_position - 1;
+                            $this->stream->char = $tag_begin_position;
                             $state = 'data';
                             break;
                         }
@@ -624,7 +631,7 @@ class HTML5_Tokenizer {
                                 'type' => self::CHARACTER,
                                 'data' => '<'
                             ));
-                            $this->stream->char = $tag_begin_position - 1;
+                            $this->stream->char = $tag_begin_position;
                             $state = 'data';
                             break;
                         }
@@ -2129,7 +2136,154 @@ class HTML5_Tokenizer {
                 break;
 
                 // case 'cdataSection':
+                case 'bbcode tag open':
+                    $char = $this->stream->char();
+                    if ($char === '/')
+                        $state = 'bbcode close tag open';
+                    elseif ('A' <= $char && $char <= 'Z' || 'a' <= $char && $char <= 'z') {
+                        $this->token = array(
+                            'name' => strtolower($char),
+                            'type' => self::BBCODESTARTTAG,
+                            'attr' => NULL,
+                        );
 
+                        $state = 'bbcode tag name';
+                    }
+                    else {
+                        $this->emitToken(array(
+                            'type' => self::CHARACTER,
+                            'data' => '[',
+                        ));
+                        $state = 'data';
+                        $this->stream->unget();
+                    }
+                break;
+
+                case 'bbcode close tag open':
+                    $char = $this->stream->char();
+                    if ('A' <= $char && $char <= 'Z' || 'a' <= $char && $char <= 'z') {
+                        $this->token = array(
+                            'name' => strtolower($char),
+                            'type' => self::BBCODEENDTAG,
+                        );
+                        $state = 'bbcode tag name';
+                    }
+                    else {
+                        $this->emitToken(array(
+                            'type' => self::CHARACTER,
+                            'data' => '[/',
+                        ));
+                        $this->stream->unget();
+                        $state = 'data';
+                    }
+                break;
+
+                case 'bbcode tag name':
+                    $char = $this->stream->char();
+                    if ('A' <= $char && $char <= 'Z' || 'a' <= $char && $char <= 'z') {
+                        $this->token['name'] .= strtolower($char);
+                    }
+                    else {
+                        if (isset($this->bbcode[$this->token['name']])) {
+                            $equals_found = FALSE;
+                            $state = 'bbcode before attribute value';
+                            $this->stream->unget();
+                        } else {
+                            // PANIC!
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '[',
+                            ));
+                            $this->stream->char = $tag_begin_position;
+                            $state = 'data';
+                        }
+                    }
+                break;
+
+                case 'bbcode before attribute value';
+                    $char = $this->stream->char();
+                    if ($char === '=' && !$equals_found) {
+                        $equals_found = TRUE;
+                        $this->token['attr'] = "";
+                        $this->token['found'] = TRUE;
+                    }
+                    elseif ($char === ' ' || $char === "\n" || $char === "\t") {
+                        $this->token['found'] = TRUE;
+                    }
+                    elseif ($char === ']') {
+                        $state = 'bbcode check pre';
+                    }
+                    // Yes, you can write nonsense like [url"http://"].
+                    // No idea why you would want to do it, but you
+                    // can. After all, who needs equals sign?
+                    elseif ($char === '"') {
+                        $state = 'bbcode quoted attribute';
+                    }
+                    elseif ($char === "'") {
+                        $state = 'bbcode single quoted attribute';
+                    }
+                    // PANIC!
+                    elseif (!isset($this->token['found'])) {
+                        $this->emitToken(array(
+                            'type' => self::CHARACTER,
+                            'data' => '[',
+                        ));
+                        $this->stream->char = $tag_begin_position;
+                        $state = 'data';
+                    }
+                    else {
+                        $this->token['attr'] = $char;
+                        $state = 'bbcode attribute';
+                    }
+                break;
+
+                case 'bbcode quoted attribute':
+                    $this->token['attr'] = $this->stream->charsUntil('"');
+                    $this->stream->char();
+                    $this->stream->charsWhile(" \t\n");
+                    if ($this->stream->char() !== ']')
+                        $this->stream->unget();
+                    $state = 'bbcode check pre';
+                break;
+
+                case 'bbcode single quoted attribute':
+                    $this->token['attr'] = $this->stream->charsUntil("'");
+                    $this->stream->char();
+                    $this->stream->charsWhile(" \t\n");
+                    if ($this->stream->char() !== ']')
+                        $this->stream->unget();
+                    $state = 'bbcode check pre';
+                break;
+
+                case 'bbcode attribute':
+                    $this->token['attr'] .= $this->stream->charsUntil("]");
+                    $this->stream->char();
+                    $state = 'bbcode check pre';
+                break;
+
+                case 'bbcode check pre':
+                    $pre = isset($this->bbcode[$this->token['name']]['pre']) ? $this->bbcode[$this->token['name']]['pre'] : NULL;
+                    if ($this->token['type'] !== self::BBCODESTARTTAG || !$pre || $pre !== TRUE && !$pre($this->token['attr'])) {
+                        $this->emitToken($this->token);
+                        $state = 'data';
+                        break;
+                    }
+                    $pre = "";
+                    $token = "[/{$this->token['name']}";
+                    $token_len = strlen($token);
+                    while ($this->stream->chars($token_len) !== $token) {
+                        $char = $this->stream->char();
+                        if ($char === FALSE) break;
+                        $pre .= $char . $this->stream->charsUntil('[');
+                    }
+                    $this->token['pre'] = $pre;
+                    $this->emitToken($this->token);
+
+                    // The sequence '[/'
+                    $this->stream->char();
+                    $this->stream->char();
+                    $state = 'bbcode close tag open';
+                break;
             }
         }
     }

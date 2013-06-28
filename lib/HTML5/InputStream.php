@@ -219,6 +219,10 @@ class HTML5_InputStream {
             : false;
     }
 
+    public function chars($chars) {
+        return substr($this->data, $this->char, $chars);
+    }
+
     /**
      * Get all characters until EOF.
      * @note This performs bounds checking
