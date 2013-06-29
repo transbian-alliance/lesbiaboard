@@ -131,6 +131,9 @@ class HTML5_Tokenizer {
          * false, and initially must be set to the false state."
          */
         $escape = false;
+
+        $bucket = 'postNewLine'; include "lib/pluginloader.php";
+
         //echo "\n\n";
         while($state !== null) {
             
@@ -282,9 +285,11 @@ class HTML5_Tokenizer {
 
                     } elseif($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
                         if ($char === "\n" || $char === "\x0c") {
+                            $bucket = 'preNewLine'; include "lib/pluginloader.php";
                             $this->emitNewLine();
-                            $this->stream->charsWhile(" \t");
+                            $bucket = 'postNewLine'; include "lib/pluginloader.php";
                         }
+                        $this->stream->charsWhile(" \t");
 
                         // Directly after emitting a token you switch back to the "data
                         // state". At that point spaceCharacters are important so they are
@@ -344,8 +349,6 @@ class HTML5_Tokenizer {
                             ));
                             break;
                         }
-
-                        $bucket = "specialTokens"; include("lib/pluginloader.php");
 
                         $this->emitToken(array(
                             'type' => self::CHARACTER,
