@@ -367,7 +367,6 @@ class HTML5_Tokenizer {
                             'type' => self::CHARACTER,
                             'data' => $result,
                         ));
-                        var_dump($result);
 
                         $lastFourChars .= $chars;
                         if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
