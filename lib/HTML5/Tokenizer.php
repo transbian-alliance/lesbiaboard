@@ -36,9 +36,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class HTML5_Tokenizer {
     public $allowed_tags;
 
-    // For plugins to modify
-    public $generic_mask = "\n\x0c";
-
     public $bbcode = array();
 
     /**
@@ -276,6 +273,12 @@ class HTML5_Tokenizer {
                                 'name' => 'b',
                             ));
                         }
+                        else {
+                            $this->tree->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => '/',
+                            ));
+                        }
 
                     } elseif($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
                         if ($char === "\n" || $char === "\x0c") {
@@ -292,27 +295,37 @@ class HTML5_Tokenizer {
                         ));
 
                     } else {
-                        $bucket = "specialTokens"; include("lib/pluginloader.php");
-                        /* Anything else
-                        THIS IS AN OPTIMIZATION: Get as many character that
-                        otherwise would also be treated as a character token and emit it
-                        as a single character token. Stay in the data state. */
-                        
-                        $mask = $this->generic_mask;
-                        if ($hyp_cond) $mask .= '-';
-                        if ($amp_cond) $mask .= '&';
-                        if ($lt_cond)  $mask .= '<[';
-                        if ($gt_cond)  $mask .= '>';
+                        // Link RegExp
+                        $nonsense = '((?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)';
 
-                        if ($mask === '') {
-                            $chars = $this->stream->remainingChars();
-                        } else {
-                            $chars = $this->stream->charsUntil($mask);
+                        if (preg_match($nonsense, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
+                            $this->stream->char += strlen($matches[0]) - 1;
+                            $this->emitToken(array(
+                                'type' => self::STARTTAG,
+                                'name' => 'a',
+                                'attr' => array(
+                                    array(
+                                        'name'  => 'href',
+                                        'value' => $matches[0],
+                                    ),
+                                ),
+                            ));
+                            $this->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => $matches[0],
+                            ));
+                            $this->emitToken(array(
+                                'type' => self::ENDTAG,
+                                'name' => 'a',
+                            ));
+                            break;
                         }
+
+                        $bucket = "specialTokens"; include("lib/pluginloader.php");
 
                         $this->emitToken(array(
                             'type' => self::CHARACTER,
-                            'data' => $char . $chars
+                            'data' => $char
                         ));
 
                         $lastFourChars .= $chars;

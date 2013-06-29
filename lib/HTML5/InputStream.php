@@ -33,7 +33,7 @@ class HTML5_InputStream {
     /**
      * The string data we're parsing.
      */
-    private $data;
+    public $data;
 
     /**
      * The current integer byte position we are in $data
