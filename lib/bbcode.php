@@ -302,6 +302,7 @@ function bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, $text)
 		$header = $dom->createElement('div');
 		$header->setAttribute('class', 'quoteheader');
 
+		$user_name = $dom->createTextNode($arg);
 		if ($attrs['borked'])
 		{
 			$quote = parseQuoteLike($arg);
@@ -316,8 +317,6 @@ function bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, $text)
 				$arg = $name;
 			}
 		}
-		else
-			$user_name = $dom->createTextNode($arg);
 		$header->appendChild($dom->createTextNode("$text "));
 		$header->appendChild($user_name);
 		$div->appendChild($header);
