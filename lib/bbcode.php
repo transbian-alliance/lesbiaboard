@@ -51,14 +51,29 @@ $bbcode = array(
 	'spoiler' => array(
 		'callback' => 'bbcodeSpoiler',
 	),
+
+	'table' => array(
+		'callback' => 'bbcodeTable',
+	),
+	'tr' => array(
+		'callback' => 'bbcodeTableRow',
+	),
+	'trh' => array(
+		'callback' => 'bbcodeTableRowHeader',
+	),
+	'td' => array(
+		'callback' => 'bbcodeTableCell',
+	),
 );
 
-function bbcodeAppend($dom, $nodes) {
+function bbcodeAppend($dom, $nodes)
+{
 	foreach (iterator_to_array($nodes) as $node)
 		$dom->appendChild($node);
 }
 
-function domToString($dom) {
+function domToString($dom)
+{
 	if ($dom instanceof DOMNodeList)
 	{
 		$result = "";
@@ -69,7 +84,8 @@ function domToString($dom) {
 	return $dom->ownerDocument->saveHTML($dom);
 }
 
-function markupToMarkup($dom, $markup) {
+function markupToMarkup($dom, $markup)
+{
 	$markup_dom = new DOMDocument;
 	$markup_dom->loadHTML($markup);
 	$nodes = $markup_dom->getElementsByTagName('body')->item(0)->childNodes;
@@ -80,7 +96,39 @@ function markupToMarkup($dom, $markup) {
 	return $result;
 }
 
-function parseQuoteLike($quote, $i = 0, $full = false) {
+// DOM is stupid enough to not let change the name of the element.
+function renameTag(DOMElement $oldTag, $newTagName)
+{
+    $document = $oldTag->ownerDocument;
+
+    $newTag = $document->createElement($newTagName);
+    $oldTag->parentNode->replaceChild($newTag, $oldTag);
+
+    foreach ($oldTag->attributes as $attribute)
+        $newTag->setAttribute($attribute->name, $attribute->value);
+
+    foreach (iterator_to_array($oldTag->childNodes) as $child)
+        $newTag->appendChild($oldTag->removeChild($child));
+
+    return $newTag;
+}
+
+function fixTableNesting($table, $elem, $rootTable = NULL, $childNode = NULL)
+{
+	if (!$rootTable) $rootTable = $table;
+	foreach (iterator_to_array($table->childNodes) as $node)
+	{
+		if ($node->tagName === $elem)
+		{
+			fixTableNesting($node, $elem, $rootTable, $childNode ? $childNode : $node);
+			if ($childNode)
+				$rootTable->insertBefore($node, $childNode->nextSibling);
+		}
+	}
+}
+
+function parseQuoteLike($quote, $i = 0, $full = false)
+{
 	if ($quote[$i] === '"')
 	{
 		$pos = strpos($quote, '"', $i + 1);
@@ -116,31 +164,36 @@ function parseQuoteLike($quote, $i = 0, $full = false) {
 	}
 }
 
-function bbcodeBold($dom, $nodes) {
+function bbcodeBold($dom, $nodes)
+{
 	$b = $dom->createElement('b');
 	bbcodeAppend($b, $nodes);
 	return $b;
 }
 
-function bbcodeItalic($dom, $nodes) {
+function bbcodeItalic($dom, $nodes)
+{
 	$i = $dom->createElement('i');
 	bbcodeAppend($i, $nodes);
 	return $i;
 }
 
-function bbcodeUnderline($dom, $nodes) {
+function bbcodeUnderline($dom, $nodes)
+{
 	$u = $dom->createElement('u');
 	bbcodeAppend($u, $nodes);
 	return $u;
 }
 
-function bbcodeStrikethrough($dom, $nodes) {
+function bbcodeStrikethrough($dom, $nodes)
+{
 	$s = $dom->createElement('s');
 	bbcodeAppend($s, $nodes);
 	return $s;
 }
 
-function bbcodeURL($dom, $nodes, $arg) {
+function bbcodeURL($dom, $nodes, $arg)
+{
 	$a = $dom->createElement('a');
 	if ($arg === NULL)
 	{
@@ -155,11 +208,13 @@ function bbcodeURL($dom, $nodes, $arg) {
 	return $a;
 }
 
-function bbcodeURLPRE($attr) {
+function bbcodeURLPRE($attr)
+{
 	return $attr === NULL;
 }
 
-function bbcodeImage($dom, $nodes, $title) {
+function bbcodeImage($dom, $nodes, $title)
+{
 	$img = $dom->createElement('img');
 	$img->setAttribute('src', $nodes);
 	$img->setAttribute('title', $title);
@@ -167,7 +222,8 @@ function bbcodeImage($dom, $nodes, $title) {
 	return $img;
 }
 
-function bbcodeImageScale($dom, $nodes, $title) {
+function bbcodeImageScale($dom, $nodes, $title)
+{
 	$a = $dom->createElement('a');
 	$a->setAttribute('href', $nodes);
 	$img = $dom->createElement('img');
@@ -179,7 +235,8 @@ function bbcodeImageScale($dom, $nodes, $title) {
 	return $a;
 }
 
-function bbcodeUser($dom, $nothing, $id) {
+function bbcodeUser($dom, $nothing, $id)
+{
 	return markupToMarkup($dom, UserLinkById((int) $id));
 }
 
@@ -272,7 +329,8 @@ function bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, $text)
 	return $div;
 }
 
-function bbcodeSpoiler($dom, $nodes, $arg) {
+function bbcodeSpoiler($dom, $nodes, $arg)
+{
 	$spoiler = $dom->createElement('div');
 	$spoiler->setAttribute('class', 'spoiler');
 	$button = $dom->createElement('button');
@@ -292,4 +350,43 @@ function bbcodeSpoiler($dom, $nodes, $arg) {
 	bbcodeAppend($contents, $nodes);
 	$spoiler->appendChild($contents);
 	return $spoiler;
+}
+
+function bbcodeTable($dom, $nodes)
+{
+	$table = $dom->createElement('table');
+	$table->setAttribute('class', 'outline margin');
+	bbcodeAppend($table, $nodes);
+	fixTableNesting($table, 'tr');
+	return $table;
+}
+
+function bbcodeTableRow($dom, $nodes)
+{
+	static $i = 0;
+	$i = ($i + 1) % 2;
+	$tr = $dom->createElement('tr');
+	$tr->setAttribute('class', "cell$i");
+	bbcodeAppend($tr, $nodes);
+	return $tr;
+}
+
+function bbcodeTableRowHeader($dom, $nodes)
+{
+	$tr = $dom->createElement('tr');
+	$tr->setAttribute('class', 'header0');
+	bbcodeAppend($tr, $nodes);
+	fixTableNesting($tr, 'td');
+	foreach (iterator_to_array($tr->childNodes) as $node)
+		if ($node->tagName === 'td')
+			renameTag($node, 'th');
+	return $tr;
+}
+
+function bbcodeTableCell($dom, $nodes)
+{
+	$td = $dom->createElement('td');
+	bbcodeAppend($td, $nodes);
+	fixTableNesting($td, 'td');
+	return $td;
 }
