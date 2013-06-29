@@ -12,8 +12,8 @@ function loadSmilies()
 	$smiliesReplaceOrig = $smiliesReplaceNew = array();
 	for ($i = 0; $i < count($smilies); $i++)
 	{
-		$smiliesReplaceOrig[] = '/\G(?<!\w)'.preg_quote($smilies[$i]['code'], "/").'(?!\w)/';
-		$smiliesReplaceNew[] = resourceLink("img/smilies/".$smilies[$i]['image']);
+		$smiliesReplaceOrig[$smilies[0]['code']][] = '/\G(?<!\w)'.preg_quote($smilies[$i]['code'], "/").'(?!\w)/';
+		$smiliesReplaceNew[$smilies[0]['code']][] = resourceLink("img/smilies/".$smilies[$i]['image']);
 	}
 }
 

@@ -297,59 +297,77 @@ class HTML5_Tokenizer {
 
                     } else {
                         global $postNoSmilies, $smiliesReplaceOrig, $smiliesReplaceNew;
-                        if($this->content_model === self::PCDATA && !$postNoSmilies) {
-                            if(!isset($smiliesReplaceOrig)) LoadSmilies();
-                            foreach ($smiliesReplaceOrig as $i => $regexp)
-                                if (preg_match($regexp, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
-                                    $this->stream->char += strlen($matches[0]) - 1;
-                                    $this->emitToken(array(
-                                        'type' => self::STARTTAG,
-                                        'name' => 'img',
-                                        'attr' => array(
-                                            array(
-                                                'name' => 'class',
-                                                'value' => 'smiley',
+                        $result = "";
+                        while(strpos("<&[\n\x0C", $char) === FALSE && $char !== FALSE) {
+                            $result .= $char;
+                            if($this->content_model === self::PCDATA && !$postNoSmilies) {
+                                if(!isset($smiliesReplaceOrig)) LoadSmilies();
+                                if (isset($smiliesReplaceOrig[$char]))
+                                foreach ($smiliesReplaceOrig[$char] as $i => $regexp)
+                                    if (preg_match($regexp, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
+                                        $this->stream->char += strlen($matches[0]) - 1;
+                                        $this->emitToken(array(
+                                            'type' => self::CHARACTER,
+                                            'data' => $char,
+                                        ));
+                                        $this->emitToken(array(
+                                            'type' => self::STARTTAG,
+                                            'name' => 'img',
+                                            'attr' => array(
+                                                array(
+                                                    'name' => 'class',
+                                                    'value' => 'smiley',
+                                                ),
+                                                array(
+                                                    'name' => 'src',
+                                                    'value' => $smiliesReplaceNew[$i],
+                                                ),
                                             ),
-                                            array(
-                                                'name' => 'src',
-                                                'value' => $smiliesReplaceNew[$i],
-                                            ),
+                                        ));
+                                        break 3;
+                                    }
+                            }
+
+                            // Link RegExp
+                            $nonsense = '(\G(?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)s';
+
+                            if ($this->content_model === self::PCDATA && preg_match($nonsense, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
+                                $this->stream->char += strlen($matches[0]) - 1;
+                                $this->emitToken(array(
+                                    'type' => self::CHARACTER,
+                                    'data' => $char
+                                ));
+
+                                $this->emitToken(array(
+                                    'type' => self::STARTTAG,
+                                    'name' => 'a',
+                                    'attr' => array(
+                                        array(
+                                            'name'  => 'href',
+                                            'value' => $matches[0],
                                         ),
-                                    ));
-                                    break 2;
-                                }
-                        }
-
-                        // Link RegExp
-                        $nonsense = '(\G(?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)';
-
-                        if ($this->content_model === self::PCDATA && preg_match($nonsense, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
-                            $this->stream->char += strlen($matches[0]) - 1;
-                            $this->emitToken(array(
-                                'type' => self::STARTTAG,
-                                'name' => 'a',
-                                'attr' => array(
-                                    array(
-                                        'name'  => 'href',
-                                        'value' => $matches[0],
                                     ),
-                                ),
-                            ));
-                            $this->emitToken(array(
-                                'type' => self::CHARACTER,
-                                'data' => $matches[0],
-                            ));
-                            $this->emitToken(array(
-                                'type' => self::ENDTAG,
-                                'name' => 'a',
-                            ));
-                            break;
+                                ));
+                                $this->emitToken(array(
+                                    'type' => self::CHARACTER,
+                                    'data' => $matches[0],
+                                ));
+                                $this->emitToken(array(
+                                    'type' => self::ENDTAG,
+                                    'name' => 'a',
+                                ));
+                                break 2;
+                            }
+                            $char = $this->stream->char();
                         }
+
+                        $this->stream->unget();
 
                         $this->emitToken(array(
                             'type' => self::CHARACTER,
-                            'data' => $char
+                            'data' => $result,
                         ));
+                        var_dump($result);
 
                         $lastFourChars .= $chars;
                         if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
