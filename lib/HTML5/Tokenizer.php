@@ -295,6 +295,30 @@ class HTML5_Tokenizer {
                         ));
 
                     } else {
+                        global $postNoSmilies, $smiliesReplaceOrig, $smiliesReplaceNew;
+                        if($this->content_model === self::PCDATA && !$postNoSmilies) {
+                            if(!isset($smiliesReplaceOrig)) LoadSmilies();
+                            foreach ($smiliesReplaceOrig as $i => $regexp)
+                                if (preg_match($regexp, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
+                                    $this->stream->char += strlen($matches[0]) - 1;
+                                    $this->emitToken(array(
+                                        'type' => self::STARTTAG,
+                                        'name' => 'img',
+                                        'attr' => array(
+                                            array(
+                                                'name' => 'class',
+                                                'value' => 'smiley',
+                                            ),
+                                            array(
+                                                'name' => 'src',
+                                                'value' => $smiliesReplaceNew[$i],
+                                            ),
+                                        ),
+                                    ));
+                                    break 2;
+                                }
+                        }
+
                         // Link RegExp
                         $nonsense = '(\G(?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)';
 
