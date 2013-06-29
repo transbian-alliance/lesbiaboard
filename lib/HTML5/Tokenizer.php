@@ -132,8 +132,6 @@ class HTML5_Tokenizer {
          */
         $escape = false;
 
-        $bucket = 'postNewLine'; include "lib/pluginloader.php";
-
         //echo "\n\n";
         while($state !== null) {
             
@@ -285,9 +283,7 @@ class HTML5_Tokenizer {
 
                     } elseif($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
                         if ($char === "\n" || $char === "\x0c") {
-                            $bucket = 'preNewLine'; include "lib/pluginloader.php";
                             $this->emitNewLine();
-                            $bucket = 'postNewLine'; include "lib/pluginloader.php";
                         }
                         $this->stream->charsWhile(" \t");
 
