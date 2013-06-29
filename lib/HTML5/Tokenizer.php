@@ -2200,7 +2200,8 @@ class HTML5_Tokenizer {
                     }
                 break;
 
-                case 'bbcode before attribute value';
+                case 'bbcode before attribute value':
+                    $begin_attr = $this->stream->char;
                     $char = $this->stream->char();
                     if ($char === '=' && !$equals_found) {
                         $equals_found = TRUE;
@@ -2241,18 +2242,28 @@ class HTML5_Tokenizer {
                     $this->token['attr'] = $this->stream->charsUntil('"');
                     $this->stream->char();
                     $this->stream->charsWhile(" \t\n");
-                    if ($this->stream->char() !== ']')
-                        $this->stream->unget();
-                    $state = 'bbcode check pre';
+                    if ($this->stream->char() !== ']') {
+                        $this->token['attr'] = "";
+                        $this->token['borked'] = true;
+                        $this->stream->char = $begin_attr;
+                        $state = 'bbcode attribute';
+                    } else {
+                        $state = 'bbcode check pre';
+                    }
                 break;
 
                 case 'bbcode single quoted attribute':
                     $this->token['attr'] = $this->stream->charsUntil("'");
                     $this->stream->char();
                     $this->stream->charsWhile(" \t\n");
-                    if ($this->stream->char() !== ']')
-                        $this->stream->unget();
-                    $state = 'bbcode check pre';
+                    if ($this->stream->char() !== ']') {
+                        $this->token['borked'] = "";
+                        $this->token['attr'] = true;
+                        $this->stream->char = $begin_attr;
+                        $state = 'bbcode attribute';
+                    } else {
+                        $state = 'bbcode check pre';
+                    }
                 break;
 
                 case 'bbcode attribute':

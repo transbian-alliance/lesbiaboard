@@ -784,6 +784,12 @@ class HTML5_TreeBuilder {
                         'value' => $token['pre'],
                     );
                 }
+                if (isset($token['borked'])) {
+                    $attr[] = array(
+                        'name'  => 'borked',
+                        'value' => "",
+                    );
+                }
                 $this->reconstructActiveFormattingElements();
 
                 $this->insertElement(array(

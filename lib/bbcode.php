@@ -80,6 +80,42 @@ function markupToMarkup($dom, $markup) {
 	return $result;
 }
 
+function parseQuoteLike($quote, $i = 0, $full = false) {
+	if ($quote[$i] === '"')
+	{
+		$pos = strpos($quote, '"', $i + 1);
+		if ($pos)
+			return array(
+				'pos'    => $pos + 1,
+				'substr' => substr($quote, $i + 1, $pos - $i - 1),
+			);
+	}
+	elseif ($quote[$i] === "'")
+	{
+		$pos = strpos($quote, "'", $i + 1);
+		if ($pos)
+			return array(
+				'pos'    => $pos + 1,
+				'substr' => substr($quote, $i + 1, $pos - $i - 1),
+			);
+	}
+	// If not, then it's unquoted
+	if ($full)
+		return array(
+			'pos'    => strlen($quote),
+			'substr' => substr($quote, $i),
+		);
+	else
+	{
+		$pos = strpos($quote, ' ', $i);
+		if (!$pos) $pos = strlen($quote);
+		return array(
+			'pos'    => $pos,
+			'substr' => substr($quote, $i, $pos - $i),
+		);
+	}
+}
+
 function bbcodeBold($dom, $nodes) {
 	$b = $dom->createElement('b');
 	bbcodeAppend($b, $nodes);
@@ -190,26 +226,43 @@ function bbcodeForum($dom, $nothing, $arg)
 	return markupToMarkup($dom, $forumLinkCache[$id]);
 }
 
-function bbcodeQuote($dom, $nodes, $arg)
+function bbcodeQuote($dom, $nodes, $arg, $attrs)
 {
-	return bbcodeQuoteGeneric($dom, $nodes, $arg, __("Posted by"));
+	return bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, __("Posted by"));
 }
 
-function bbcodeReply($dom, $nodes, $arg)
+function bbcodeReply($dom, $nodes, $arg, $attrs)
 {
-	return bbcodeQuoteGeneric($dom, $nodes, $arg, __("Sent by"));
+	return bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, __("Sent by"));
 }
 
-function bbcodeQuoteGeneric($dom, $nodes, $arg, $text)
+function bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, $text)
 {
-	// TODO: Implement id="" from old BBCode implementation
 	$div = $dom->createElement('div');
 	$div->setAttribute('class', 'quote');
 	if ($arg !== NULL)
 	{
 		$header = $dom->createElement('div');
 		$header->setAttribute('class', 'quoteheader');
-		$header->appendChild($dom->createTextNode("$text $arg"));
+
+		if ($attrs['borked'])
+		{
+			$quote = parseQuoteLike($arg);
+			$continue = $quote['pos'];
+			$name = $quote['substr'];
+			if (preg_match('/^\s*id\s*=\s*/', substr($arg, $continue), $matches))
+			{
+				$id = (int) parseQuoteLike($arg, strlen($matches[0]) + $continue, true);
+				$user_name = $dom->createElement('a');
+				$user_name->setAttribute('href', actionLink("post", $id));
+				$user_name->appendChild($dom->createTextNode($name));
+				$arg = $name;
+			}
+		}
+		else
+			$user_name = $dom->createTextNode($arg);
+		$header->appendChild($dom->createTextNode("$text "));
+		$header->appendChild($user_name);
 		$div->appendChild($header);
 	}
 	$content = $dom->createElement('div');

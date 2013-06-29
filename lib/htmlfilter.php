@@ -296,7 +296,9 @@ function process(DOMNode $current_node)
 		{
 			$value = $current_node->hasAttribute('value') ? $current_node->getAttribute('value') : NULL;
 			$nodes = $current_node->hasAttribute('pre')   ? $current_node->getAttribute('pre')   : $current_node->childNodes;
-			$nodes = $bbcode[$current_node->getAttribute('name')]['callback']($current_node->ownerDocument, $nodes, $value);
+			$nodes = $bbcode[$current_node->getAttribute('name')]['callback']($current_node->ownerDocument, $nodes, $value, array(
+				'borked' => $current_node->hasAttribute('borked'),
+			));
 			if (!is_array($nodes)) {
 				$nodes = array($nodes);
 			}
