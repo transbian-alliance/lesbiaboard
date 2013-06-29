@@ -272,9 +272,10 @@ $filter_mandatory = array(
 	),
 );
 
-function cleanUpPost($postText, $name)
+function cleanUpPost($postText, $name, $noSmilies)
 {
-	global $filter_tags, $bbcode;
+	global $filter_tags, $bbcode, $postNoSmilies;
+	$postNoSmilies = $noSmilies;
 	require_once 'HTML5/Parser.php';
 	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags, $bbcode, $name)->item(0)->ownerDocument;
 	process($document);
