@@ -347,6 +347,11 @@ function process(DOMNode $current_node)
 						$current_node->setAttribute($attr, $value);
 		}
 	}
+	elseif ($current_node instanceof DOMComment)
+	{
+		// Unsafe because of conditional comments
+		$current_node->parentNode->removeChild($current_node);
+	}
 }
 
 function add_css($css, $node) {
