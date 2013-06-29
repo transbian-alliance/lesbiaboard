@@ -2332,8 +2332,11 @@ class HTML5_Tokenizer {
                 break;
 
                 case 'bbcode check pre':
+                    $void = isset($this->bbcode[$this->token['name']]['void']) ? $this->bbcode[$this->token['name']]['void'] : NULL;
+                    $this->token['void'] = $void === TRUE || ($void !== NULL && $void($this->token['attr']));
+
                     $pre = isset($this->bbcode[$this->token['name']]['pre']) ? $this->bbcode[$this->token['name']]['pre'] : NULL;
-                    if ($this->token['type'] !== self::BBCODESTARTTAG || !$pre || $pre !== TRUE && !$pre($this->token['attr'])) {
+                    if ($this->token['void'] || $this->token['type'] !== self::BBCODESTARTTAG || !$pre || $pre !== TRUE && !$pre($this->token['attr'])) {
                         $this->emitToken($this->token);
                         $state = 'data';
                         break;

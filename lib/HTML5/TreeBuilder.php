@@ -796,8 +796,7 @@ class HTML5_TreeBuilder {
                     'name' => 'bbcodehack',
                     'attr' => $attr,
                 ));
-
-                if (isset($this->bbcode[$token['name']]['void']))
+                if ($token['void'])
                     array_pop($this->stack);
             break;
 

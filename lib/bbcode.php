@@ -15,7 +15,7 @@ $bbcode = array(
 
 	'url' => array(
 		'callback' => 'bbcodeURL',
-		'pre' => 'bbcodeURLPRE',
+		'pre' => 'bbcodeUrlPre',
 	),
 	'img' => array(
 		'callback' => 'bbcodeImage',
@@ -172,6 +172,14 @@ function parseQuoteLike($quote, $i = 0, $full = false)
 	}
 }
 
+function bbcodeNullIfArg($arg) {
+    return $arg !== NULL;
+}
+
+function bbcodeUrlPre($arg) {
+	return $arg === NULL;
+}
+
 function bbcodeBold($dom, $nodes)
 {
 	$b = $dom->createElement('b');
@@ -214,11 +222,6 @@ function bbcodeURL($dom, $nodes, $arg)
 		bbcodeAppend($a, $nodes);
 	}
 	return $a;
-}
-
-function bbcodeURLPRE($attr)
-{
-	return $attr === NULL;
 }
 
 function bbcodeImage($dom, $nodes, $title)
