@@ -90,7 +90,12 @@ function domToString($dom)
 function markupToMarkup($dom, $markup)
 {
 	$markup_dom = new DOMDocument;
-	$markup_dom->loadHTML($markup);
+	$markup_dom->encoding = 'UTF-8';
+	$markup_dom->preserveWhiteSpace = true;
+	$markup_dom->substituteEntities = true;
+	$markup_dom->strictErrorChecking = false;
+	$markup_dom->loadHTML("<?xml encoding='UTF-8'>$markup");
+
 	$nodes = $markup_dom->getElementsByTagName('body')->item(0)->childNodes;
 	$result = array();
 	foreach ($nodes as $node)
