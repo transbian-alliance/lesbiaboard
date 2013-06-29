@@ -6,7 +6,6 @@ $bbcode['youtube'] = array(
 );
 $bbcode['swf'] = array(
 	'callback' => 'bbcodeFlash',
-	'void'     => 'bbcodeNullIfArg',
 	'pre'      => TRUE,
 );
 $bbcode['video'] = array(
