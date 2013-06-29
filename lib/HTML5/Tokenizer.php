@@ -225,7 +225,7 @@ class HTML5_Tokenizer {
                         Otherwise: treat it as per the "anything else" entry below. */
                         $state = 'tag open';
 
-                    } elseif($char === '[' && $lt_cond) {
+                    } elseif($char === '[' && $this->content_model === self::PCDATA) {
                         $state = 'bbcode tag open';
 
                     /* U+003E GREATER-THAN SIGN (>) */
@@ -296,9 +296,9 @@ class HTML5_Tokenizer {
 
                     } else {
                         // Link RegExp
-                        $nonsense = '((?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)';
+                        $nonsense = '(\A(?:(?:view-source:)?(?:[Hh]t|[Ff])tps?://(?:(?:[^:&@/]*:[^:@/]*)@)?|\bwww\.)[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*(?::[0-9]+)?(?:/(?:->(?=\S)|&|[\w\-/%?=+#~:\'@*^$!]|[.,;\'|](?=\S)|(?:(\()|(\[)|\{)(?:->(?=\S)|[\w\-/%&?=+;#~:\'@*^$!.,;]|(?:(\()|(\[)|\{)(?:->(?=\S)|l[\w\-/%&?=+;#~:\'@*^$!.,;])*(?(3)\)|(?(4)\]|\})))*(?(1)\)|(?(2)\]|\})))*)?)';
 
-                        if (preg_match($nonsense, $this->stream->data, $matches, 0, $this->stream->char - 1)) {
+                        if ($this->content_model === self::PCDATA && preg_match($nonsense, substr($this->stream->data, $this->stream->char - 1), $matches)) {
                             $this->stream->char += strlen($matches[0]) - 1;
                             $this->emitToken(array(
                                 'type' => self::STARTTAG,
