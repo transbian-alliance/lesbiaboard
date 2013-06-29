@@ -2233,14 +2233,22 @@ class HTML5_Tokenizer {
                         $state = 'data';
                     }
                     else {
-                        $this->token['attr'] = $char;
+                        $this->token['attr'] = "";
+                        $this->stream->unget();
                         $state = 'bbcode attribute';
                     }
                 break;
 
                 case 'bbcode quoted attribute':
-                    $this->token['attr'] = $this->stream->charsUntil('"');
-                    $this->stream->char();
+                    while (true) {
+                        $this->token['attr'] .= $this->stream->charsUntil('&"');
+
+                        if ($this->stream->char() === '&')
+                            $this->token['attr'] .= $this->consumeCharacterReference(false, true);
+                        else
+                            break;
+                    }
+
                     $this->stream->charsWhile(" \t\n");
                     if ($this->stream->char() !== ']') {
                         $this->token['attr'] = "";
@@ -2253,8 +2261,15 @@ class HTML5_Tokenizer {
                 break;
 
                 case 'bbcode single quoted attribute':
-                    $this->token['attr'] = $this->stream->charsUntil("'");
-                    $this->stream->char();
+                    while (true) {
+                        $this->token['attr'] .= $this->stream->charsUntil("&'");
+
+                        if ($this->stream->char() === '&')
+                            $this->token['attr'] .= $this->consumeCharacterReference(false, true);
+                        else
+                            break;
+                    }
+
                     $this->stream->charsWhile(" \t\n");
                     if ($this->stream->char() !== ']') {
                         $this->token['borked'] = "";
@@ -2267,8 +2282,15 @@ class HTML5_Tokenizer {
                 break;
 
                 case 'bbcode attribute':
-                    $this->token['attr'] .= $this->stream->charsUntil("]");
-                    $this->stream->char();
+                    while (true) {
+                        $this->token['attr'] .= $this->stream->charsUntil('&]');
+                        if ($this->stream->char() === '&')
+                        {
+                            $this->token['attr'] .= $this->consumeCharacterReference(false, true);
+                        }
+                        else
+                            break;
+                    }
                     $state = 'bbcode check pre';
                 break;
 
