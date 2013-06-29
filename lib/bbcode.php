@@ -66,6 +66,9 @@ $bbcode = array(
 	),
 );
 
+//Allow plugins to register their own callbacks (new bbcode tags)
+$bucket = "bbcode"; include("pluginloader.php");
+
 function bbcodeAppend($dom, $nodes)
 {
 	foreach (iterator_to_array($nodes) as $node)

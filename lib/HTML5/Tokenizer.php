@@ -36,6 +36,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class HTML5_Tokenizer {
     public $allowed_tags;
 
+    // For plugins to modify
+    public $generic_mask = "\n\x0c";
+
     public $bbcode = array();
 
     /**
@@ -119,6 +122,8 @@ class HTML5_Tokenizer {
      * Performs the actual parsing of the document.
      */
     public function parse() {
+        global $user;
+
         // Current state
         $state = 'data';
         // This is used to avoid having to have look-behind in the data state.
@@ -255,9 +260,27 @@ class HTML5_Tokenizer {
                             'type' => self::EOF
                         ));
                     
+                    } elseif($char === "/") {
+                        if ($this->stream->chars(3) === "me ") {
+                            $this->stream->char += 2;
+                            $this->tree->emitToken(array(
+                                'type' => self::STARTTAG,
+                                'name' => 'b',
+                            ));
+                            $this->tree->emitToken(array(
+                                'type' => self::CHARACTER,
+                                'data' => "* {$this->userName}",
+                            ));
+                            $this->tree->emitToken(array(
+                                'type' => self::ENDTAG,
+                                'name' => 'b',
+                            ));
+                        }
+
                     } elseif($char === "\t" || $char === "\n" || $char === "\x0c" || $char === ' ') {
                         if ($char === "\n" || $char === "\x0c") {
                             $this->emitNewLine();
+                            $this->stream->charsWhile(" \t");
                         }
 
                         // Directly after emitting a token you switch back to the "data
@@ -269,12 +292,13 @@ class HTML5_Tokenizer {
                         ));
 
                     } else {
+                        $bucket = "specialTokens"; include("lib/pluginloader.php");
                         /* Anything else
                         THIS IS AN OPTIMIZATION: Get as many character that
                         otherwise would also be treated as a character token and emit it
                         as a single character token. Stay in the data state. */
                         
-                        $mask = "\n\x0c";
+                        $mask = $this->generic_mask;
                         if ($hyp_cond) $mask .= '-';
                         if ($amp_cond) $mask .= '&';
                         if ($lt_cond)  $mask .= '<[';

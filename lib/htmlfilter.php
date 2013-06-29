@@ -272,11 +272,11 @@ $filter_mandatory = array(
 	),
 );
 
-function cleanUpPost($postText)
+function cleanUpPost($postText, $name)
 {
 	global $filter_tags, $bbcode;
 	require_once 'HTML5/Parser.php';
-	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags, $bbcode)->item(0)->ownerDocument;
+	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags, $bbcode, $name)->item(0)->ownerDocument;
 	process($document);
 	return $document->saveHTML();
 }
