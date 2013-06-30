@@ -308,7 +308,7 @@ class HTML5_Tokenizer {
                                         $this->stream->char += strlen($matches[0]) - 1;
                                         $this->emitToken(array(
                                             'type' => self::CHARACTER,
-                                            'data' => $char,
+                                            'data' => substr($result, 0, -1),
                                         ));
                                         $this->emitToken(array(
                                             'type' => self::STARTTAG,
@@ -320,7 +320,7 @@ class HTML5_Tokenizer {
                                                 ),
                                                 array(
                                                     'name' => 'src',
-                                                    'value' => $smiliesReplaceNew[$i],
+                                                    'value' => $smiliesReplaceNew[$char][$i],
                                                 ),
                                             ),
                                         ));
