@@ -749,7 +749,12 @@ class HTML5_TreeBuilder {
             break;
 
             case HTML5_Tokenizer::BR:
-                if (count($this->stack) !== 1) break;
+                foreach ($this->stack as $elem) {
+                    if ($elem instanceof DOMElement) {
+                        if ($elem->tagName !== 'bbcodehack' && !isset($this->bbcode[$elem->getAttribute('name')]['br']))
+                             break 2;
+                    }
+                }
                 $this->reconstructActiveFormattingElements();
                 $this->insertElement(array(
                     'type' => HTML5_Tokenizer::STARTTAG,

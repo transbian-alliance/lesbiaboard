@@ -43,13 +43,16 @@ $bbcode = array(
 
 	'quote' => array(
 		'callback' => 'bbcodeQuote',
+		'br'       => true,
 	),
 	'reply' => array(
 		'callback' => 'bbcodeReply',
+		'br'       => true,
 	),
 
 	'spoiler' => array(
 		'callback' => 'bbcodeSpoiler',
+		'br'       => true,
 	),
 
 	'table' => array(
