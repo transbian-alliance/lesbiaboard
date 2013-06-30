@@ -14,6 +14,7 @@ $filter_args = array(
 	'spellcheck'      => 'process_truefalse',
 	// Specific to ABXD, usually unsafe
 	'style'           => TRUE,
+	'title'           => TRUE,
 	'translate'       => 'process_yesno',
 );
 
