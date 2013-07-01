@@ -279,6 +279,8 @@ function cleanUpPost($postText, $name, $noSmilies)
 	$postNoSmilies = $noSmilies;
 	require_once 'HTML5/Parser.php';
 	$document = HTML5_Parser::parseFragment($postText, null, null, $filter_tags, $bbcode, $name)->item(0)->ownerDocument;
+	// The DOM tree is empty. Ignore it.
+	if (!$document) return "";
 	process($document);
 	return $document->saveHTML();
 }
