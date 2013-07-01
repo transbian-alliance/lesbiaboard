@@ -751,7 +751,7 @@ class HTML5_TreeBuilder {
             case HTML5_Tokenizer::BR:
                 foreach ($this->stack as $elem) {
                     if ($elem instanceof DOMElement) {
-                        if ($elem->tagName !== 'bbcodehack' && !isset($this->bbcode[$elem->getAttribute('name')]['br']))
+                        if ($elem->tagName !== 'bbcodehack' || !isset($this->bbcode[$elem->getAttribute('name')]['br']))
                              break 2;
                     }
                 }
@@ -795,6 +795,21 @@ class HTML5_TreeBuilder {
                         'value' => "",
                     );
                 }
+                if (isset($this->bbcode[$token['name']]['selfclose'])) {
+                    $selfclose = $this->bbcode[$token['name']]['selfclose'];
+                    $to_where = count($this->stack);
+                    foreach ($this->stack as $i => $elem) {
+                        if ($elem->tagName === 'bbcodehack') {
+                            $bb = $this->bbcode[$elem->getAttribute('name')];
+                            if (isset($bb['stopclose']))
+                                $to_where = count($this->stack);
+                            elseif (isset($bb['selfclose']) && $bb['selfclose'] === $selfclose)
+                                $to_where = min($i, $to_where);
+                        }
+                    }
+                    array_splice($this->stack, $to_where);
+                }
+
                 $this->reconstructActiveFormattingElements();
 
                 $this->insertElement(array(

@@ -56,16 +56,20 @@ $bbcode = array(
 	),
 
 	'table' => array(
-		'callback' => 'bbcodeTable',
+		'callback'  => 'bbcodeTable',
+		'stopclose' => true,
 	),
 	'tr' => array(
-		'callback' => 'bbcodeTableRow',
+		'callback'  => 'bbcodeTableRow',
+		'selfclose' => 'tr',
 	),
 	'trh' => array(
-		'callback' => 'bbcodeTableRowHeader',
+		'callback'  => 'bbcodeTableRowHeader',
+		'selfclose' => 'tr',
 	),
 	'td' => array(
-		'callback' => 'bbcodeTableCell',
+		'callback'  => 'bbcodeTableCell',
+		'selfclose' => 'td',
 	),
 );
 
@@ -122,20 +126,6 @@ function renameTag(DOMElement $oldTag, $newTagName)
         $newTag->appendChild($oldTag->removeChild($child));
 
     return $newTag;
-}
-
-function fixTableNesting($table, $elem, $rootTable = NULL, $childNode = NULL)
-{
-	if (!$rootTable) $rootTable = $table;
-	foreach (iterator_to_array($table->childNodes) as $node)
-	{
-		if ($node->tagName === $elem)
-		{
-			fixTableNesting($node, $elem, $rootTable, $childNode ? $childNode : $node);
-			if ($childNode)
-				$rootTable->insertBefore($node, $childNode->nextSibling);
-		}
-	}
 }
 
 function parseQuoteLike($quote, $i = 0, $full = false)
@@ -370,7 +360,6 @@ function bbcodeTable($dom, $nodes)
 	$table = $dom->createElement('table');
 	$table->setAttribute('class', 'outline margin');
 	bbcodeAppend($table, $nodes);
-	fixTableNesting($table, 'tr');
 	return $table;
 }
 
@@ -389,7 +378,6 @@ function bbcodeTableRowHeader($dom, $nodes)
 	$tr = $dom->createElement('tr');
 	$tr->setAttribute('class', 'header0');
 	bbcodeAppend($tr, $nodes);
-	fixTableNesting($tr, 'td');
 	foreach (iterator_to_array($tr->childNodes) as $node)
 		if ($node->tagName === 'td')
 			renameTag($node, 'th');
@@ -400,6 +388,5 @@ function bbcodeTableCell($dom, $nodes)
 {
 	$td = $dom->createElement('td');
 	bbcodeAppend($td, $nodes);
-	fixTableNesting($td, 'td');
 	return $td;
 }
