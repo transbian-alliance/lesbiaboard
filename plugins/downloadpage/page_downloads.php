@@ -54,10 +54,10 @@ foreach ($downloads as $dl)
 	<table class=\"outline margin width100{$hl}\">
 		<tr class=\"cell{$c}\">
 			<td>
-				<span style=\"font-size: 120%; text-decoration: underline;\"><a href=\"{$dl['file']}\">".htmlspecialchars($dl['name'])."</a></span><br />
-				File size: ".ceil(filesize($dl['file']) / 1024)." KB<br />
+				<span style=\"font-size: 120%; text-decoration: underline;\"><a href=\"{$dl['file']}\">".htmlspecialchars($dl['name'])."</a></span><br>
+				File size: ".ceil(filesize($dl['file']) / 1024)." KB<br>
 				MD5: ".md5_file($dl['file'])."
-				".($dl['desc'] ? '<br /><br />'.nl2br(htmlspecialchars($dl['desc'])) : '')."
+				".($dl['desc'] ? '<br><br>'.nl2br(htmlspecialchars($dl['desc'])) : '')."
 			</td>
 		</tr>
 	</table>

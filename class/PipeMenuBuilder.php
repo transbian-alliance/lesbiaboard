@@ -40,7 +40,7 @@ class PipeMenu {
 	}
 
 	public function build() {
-		if(count($this->entries) == 0)
+		if(!$this->entries || in_array('breadcrumbs', $this->classNames) && count($this->entries) === 1)
 			return "";
 
 		$html = "<ul class=\"" . implode(" ", $this->classNames) . "\">";

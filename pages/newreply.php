@@ -210,7 +210,7 @@ else if($_GET['quote'])
 			$quote['text'] = __("Post is deleted");
 
 		$prefill = "[quote=\"".htmlspecialchars($quote['poster'])."\" id=\"".$quote['id']."\"]".htmlspecialchars($quote['text'])."[/quote]";
-		$prefill = str_replace("/me", "[b]* ".htmlspecialchars($quote['poster'])."[/b]", $prefill);
+		$prefill = str_replace("/me ", "[b]* ".htmlspecialchars($quote['poster'])."[/b]", $prefill);
 	}
 }
 

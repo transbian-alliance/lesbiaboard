@@ -1,4 +1,7 @@
 <?php
+// Protect from <iframe> password steal hack
+header('X-Frame-Options: DENY');
+
 $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
@@ -27,8 +30,8 @@ function getBirthdaysText()
 	}
 	if(count($birthdays))
 		$birthdaysToday = implode(", ", $birthdays);
-	if(isset($birthdaysToday))
-		return "<br />".__("Birthdays today:")." ".$birthdaysToday;
+	if($birthdaysToday)
+		return "<br>".__("Birthdays today:")." ".$birthdaysToday;
 	else
 		return "";
 }
@@ -54,6 +57,8 @@ if($page == $mainPage)
 	if(isset($_GET['pid']) && (int)$_GET['pid'] > 0)
 		die(header("Location: ".actionLink("post", (int)$_GET['pid'])));
 }
+
+define('CURRENT_PAGE', $page);
 
 ob_start();
 $layout_crumbs = new PipeMenu();

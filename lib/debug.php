@@ -35,6 +35,6 @@ function backTrace()
 function var_format($v) // pretty-print var_export
 {
 	return (str_replace(array("\n"," ","array"),
-array("<br />","&nbsp;","&nbsp;<i>array</i>"),
-var_export($v,true))."<br />");
+array("<br>","&nbsp;","&nbsp;<i>array</i>"),
+var_export($v,true))."<br>");
 }
