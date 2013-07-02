@@ -66,7 +66,7 @@ function postDoReplaceText($s)
 //	$s = preg_replace("'>>([0-9]+)'si",">>".actionLinkTag("\\1", "thread", "", "pid=\\1#\\1"), $s);
 
 	if($postPoster)
-		$s = preg_replace("'/me '","<b>* ".$postPoster."</b> ", $s);
+		$s = preg_replace("'/me '","<b>* ".htmlspecialchars($postPoster)."</b> ", $s);
 
 	//Smilies
 	if(!$postNoSmilies)
