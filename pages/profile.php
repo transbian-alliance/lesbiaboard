@@ -83,7 +83,6 @@ $score = ((int)$daysKnown * 2) + ($posts * 4) + ($threads * 8) + (($karma - 100)
 
 $minipic = getMinipicTag($user);
 
-
 if($user['rankset'])
 {
 	$currentRank = GetRank($user["rankset"], $user["posts"]);
@@ -128,7 +127,7 @@ if($user['tempbantime'])
 $profileParts = array();
 
 $foo = array();
-$foo[__("Name")] = $minipic . htmlspecialchars($user['displayname'] ? $user['displayname'] : $user['name']) . ($user['displayname'] ? " (".$user['name'].")" : "");
+$foo[__("Name")] = $minipic . htmlspecialchars($user['displayname'] ? $user['displayname']." (".$user['name'].")" : $user['name']);
 $foo[__("Power")] = getPowerlevelName($user['powerlevel']);
 $foo[__("Sex")] = getSexName($user['sex']);
 if($title)
