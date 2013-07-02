@@ -1,4 +1,7 @@
 <?php
+// Protect from <iframe> password steal hack
+header('X-Frame-Options: DENY');
+
 $ajaxPage = false;
 if(isset($_GET["ajax"]))
 	$ajaxPage = true;
