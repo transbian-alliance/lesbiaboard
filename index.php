@@ -151,6 +151,7 @@ $layout_title = htmlspecialchars(Settings::get("boardname"));
 if($title != "")
 	$layout_title .= " &raquo; ".$title;
 
+$layout_logotitle = Settings::get("boardname");
 
 //=======================
 // Board logo and theme

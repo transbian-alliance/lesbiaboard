@@ -17,7 +17,7 @@
 						<tr>
 							<td style="border: 0px none; text-align: <?php echo $layout_pora ? 'left' : 'center' ?>;">
 								<a href="<?php echo $boardroot;?>">
-									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_title); ?>" />
+									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" />
 								</a>
 							</td>
 							<?php if($layout_pora) { ?>
