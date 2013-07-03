@@ -36,6 +36,8 @@ function getBirthdaysText()
 		return "";
 }
 
+echo absoluteActionLink("test", 123);
+
 
 //=======================
 // Do the page

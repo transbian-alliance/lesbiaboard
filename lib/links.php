@@ -319,7 +319,7 @@ function pageLinksInverted($url, $epp, $from, $total)
 
 function absoluteActionLink($action, $id=0, $args="")
 {
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).substr(actionLink($action, $id, $args), 1);
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].actionLink($action, $id, $args);
 }
 
 function getRequestedURL()
