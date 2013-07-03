@@ -227,6 +227,8 @@ else if(isset($_POST['actionpost']))
 		else
 			$pod = 0;
 
+		$now = time();
+		
 		$rThreads = Query("insert into {threads} (forum, user, title, icon, lastpostdate, lastposter, closed, sticky, poll)
 										  values ({0},   {1},  {2},   {3},  {4},          {1},        {5},   {6},     {7})",
 										    $fid, $loguserid, $_POST['title'], $iconurl, time(), $closed, $sticky, $pod);
@@ -235,14 +237,14 @@ else if(isset($_POST['actionpost']))
 		$rUsers = Query("update {users} set posts={0}, lastposttime={1} where id={2} limit 1", ($loguser['posts']+1), time(), $loguserid);
 
 		$rPosts = Query("insert into {posts} (thread, user, date, ip, num, options, mood)
-									  values ({0},{1},{2},{3},{4}, {5}, {6})", $tid, $loguserid, time(), $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
+									  values ({0},{1},{2},{3},{4}, {5}, {6})", $tid, $loguserid, $now, $_SERVER['REMOTE_ADDR'], ($loguser['posts']+1), $options, (int)$_POST['mood']);
 		$pid = InsertId();
 
 		$rPostsText = Query("insert into {posts_text} (pid,text) values ({0},{1})", $pid, $post);
 
 		$rFora = Query("update {forums} set numthreads=numthreads+1, numposts=numposts+1, lastpostdate={0}, lastpostuser={1}, lastpostid={2} where id={3} limit 1", time(), $loguserid, $pid, $fid);
 
-		Query("update {threads} set lastpostid = {0} where id = {1}", $pid, $tid);
+		Query("update {threads} set firstpostid = {0}, lastpostid = {0}, date = {1} where id = {2}", $pid, $now, $tid);
 
 		logAction('newthread', array('forum' => $fid, 'thread' => $tid));
 
