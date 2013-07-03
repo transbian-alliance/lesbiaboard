@@ -15,11 +15,6 @@
 			<?php print $layout_onlineusers; ?> &nbsp;&mdash;&nbsp;
 			<?php print $layout_views; ?>
 		</div>
-		<?php if($layout_pora) { ?>
-		<td style="border: 0px none;">
-			<?php print $layout_pora; ?>
-		</td>
-		<?php } ?>
 
 		<?php 
 			$layout_navigation->setClass("stackedMenu");
