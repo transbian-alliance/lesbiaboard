@@ -340,7 +340,7 @@ function getServerURLNoSlash($https = false)
 
 function getFullRequestedURL($https = false)
 {
-    return getServerURL($https) . $_SERVER['REQUEST_URI'];
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 }
 
 function getFullURL()
