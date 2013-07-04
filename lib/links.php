@@ -319,7 +319,7 @@ function pageLinksInverted($url, $epp, $from, $total)
 
 function absoluteActionLink($action, $id=0, $args="")
 {
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).substr(actionLink($action, $id, $args), 1);
+    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].actionLink($action, $id, $args);
 }
 
 function getRequestedURL()
@@ -335,12 +335,20 @@ function getServerURL($https = false)
 function getServerURLNoSlash($https = false)
 {
     global $boardroot;
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'] . substr($boardroot, 0, strlen($boardroot)-1);
+    $stdport = $https?443:80;
+    $port = "";
+    if($stdport != $_SERVER["HTTP_PORT"])
+    	$port = ":".$_SERVER["HTTP_PORT"];
+    return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . substr($boardroot, 0, strlen($boardroot)-1);
 }
 
 function getFullRequestedURL($https = false)
 {
-    return getServerURL($https) . $_SERVER['REQUEST_URI'];
+    $stdport = $https?443:80;
+    $port = "";
+    if($stdport != $_SERVER["HTTP_PORT"])
+    	$port = ":".$_SERVER["HTTP_PORT"];
+    return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . $_SERVER['REQUEST_URI'];
 }
 
 function getFullURL()

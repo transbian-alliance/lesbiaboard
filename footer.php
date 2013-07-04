@@ -1,9 +1,7 @@
 
 <?php
-if ($mobileLayout) echo 'ABXD Mobile BETA - ';
-if ($_COOKIE['forcelayout']) echo '<a href="?forcelayout=0" rel="nofollow">Auto view</a>';
-else if ($mobileLayout) echo '<a href="?forcelayout=-1" rel="nofollow">Force normal view</a>';
-else echo '<a href="?forcelayout=1" rel="nofollow">Force mobile view [BETA]</a>';
+if (!$mobileLayout) echo '<a href="#" onclick="enableMobileLayout(1); return false;" rel="nofollow">Mobile view</a>';
+else echo '<a href="#" onclick="enableMobileLayout(-1); return false;" rel="nofollow">Disable mobile view</a>';
 ?>
 <br>
 <br>

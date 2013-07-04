@@ -29,7 +29,7 @@ function cell2($content)
 }
 
 Write("
-	<table class=\"outline margin width50\" style=\"float: right;\">
+	<table class=\"outline margin width50 floatright\">
 		<tr class=\"header1\">
 			<th colspan=\"2\">
 				".__("Information")."

@@ -8,12 +8,6 @@ if(isset($_GET["ajax"]))
 
 require('lib/common.php');
 
-if (isset($_GET['forcelayout']))
-{
-	setcookie('forcelayout', (int)$_GET['forcelayout'], time()+365*24*3600, $boardroot, "", false, true);
-	redirectAction("board");
-}
-
 //TODO: Put this in a proper place.
 function getBirthdaysText()
 {
@@ -157,6 +151,7 @@ $layout_title = htmlspecialchars(Settings::get("boardname"));
 if($title != "")
 	$layout_title .= " &raquo; ".$title;
 
+$layout_logotitle = Settings::get("boardname");
 
 //=======================
 // Board logo and theme
