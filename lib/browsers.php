@@ -87,9 +87,6 @@ foreach($knownBrowsers as $code => $name)
 	}
 }
 
-if ($_COOKIE['forcelayout'] == 1) $mobileLayout = true;
-else if ($_COOKIE['forcelayout'] == -1) $mobileLayout = false;
-
 $browserName = $name;
 $browserVers = (float)$version;
 
@@ -152,5 +149,8 @@ function GetVersion($ua, $versionStart)
 	}
 	return $version;
 }
+
+if ($_COOKIE['forcelayout'] == 1) $mobileLayout = true;
+else if ($_COOKIE['forcelayout'] == -1) $mobileLayout = false;
 
 ?>
