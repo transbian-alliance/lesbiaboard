@@ -149,6 +149,9 @@ $filter_tags = array(
 	'li' => array(
 		'value' => TRUE,
 	),
+	'link' => array(
+		'src' => 'process_url',
+	),
 	'map' => array(
 		'name' => TRUE,
 	),
@@ -267,6 +270,9 @@ $filter_mandatory = array(
 	),
 	'input' => array(
 		'autocomplete' => 'off',
+	),
+	'link' => array(
+		'rel' => 'stylesheet',	
 	),
 	'table' => array(
 		'border' => 1,
