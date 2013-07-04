@@ -344,7 +344,6 @@ div.spoiler div.hidden
 ul.pipemenu
 {
 	display: inline;
-	white-space: nowrap;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -366,7 +365,6 @@ ul.pipemenu li:first-child
 ul.breadcrumbs
 {
 	display: inline;
-	white-space: nowrap;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
