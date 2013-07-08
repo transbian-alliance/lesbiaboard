@@ -1,74 +1,60 @@
 
-body, #body
-{
+body, #body {
 	background-color: #FFF;
 	color:black;
 }
 
-div.spoiler div.spoiled
-{
+div.spoiler div.spoiled {
         background: #FFF;
         color: #000;
 }
 
 /* Default border color */
-table, td, tr, th, div
-{
+table, td, tr, th, div {
 	border-color:black;
 }
 
 /* Default link colors */
-a:link
-{
+a:link {
 	color: #05d;
 }
-a:visited
-{
+a:visited {
 	color: #05d;
 }
-a:active
-{
+a:active {
 	color: #05d;
 }
-a:hover
-{
+a:hover {
 	color:#000;
 }
 
-a:hover span
-{
+a:hover span {
 	color: #000 !important;
 }
 
-table
-{
+table {
 	color: #000;
 }
 
-div.quote div.quotecontent
-{
+div.quote div.quotecontent {
 	border-color:#CCC;
 }
 
 
-.geshi
-{
+.geshi {
 	color: #000;
 }
 
 
-.geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4
-{
+.geshi .kw0, .geshi .kw1, .geshi .kw2, .geshi .kw3, .geshi .kw4 {
 	color: #04C;
 }
 
-.geshi .br0, .geshi .sy0
-{
+.geshi .br0, .geshi .sy0 {
 	color: #033;
 }
 
-.geshi .co1, .geshi .coMULTI
-{
+.geshi .co1, .geshi .coMULTI {
 	color: #440;
 }
 
@@ -82,8 +68,7 @@ div.quote div.quotecontent
 .nc05 { color: #FF0000; } .nc15 { color: #FF0000; } .nc25 { color: #FF0000; }
 
 
-div.spoiler div.spoiled
-{
+div.spoiler div.spoiled {
 	background: #FFF;
 	color: #000;
 }

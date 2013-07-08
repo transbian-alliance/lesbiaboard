@@ -60,14 +60,14 @@
 	</form>
 
 	<?php print $layout_bars; ?>
-	<div class="margin">
+	<div class="margin breadcrumbs_bar">
 		<div style="float: right;">
 			<?php print $layout_links->build();?>
 		</div>
 		<?php print $layout_crumbs->build();?>&nbsp;
 	</div>
 	<?php print $layout_contents;?>
-	<div class="margin">
+	<div class="margin breadcrumbs_bar">
 		<div style="float: right;">
 			<?php print $layout_links->build();?>
 		</div>

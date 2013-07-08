@@ -94,7 +94,7 @@ a:hover
 }
 a:hover span
 {
-	color: #FFF !important;
+	color: #FFF ;
 }
 
 .pagelink
@@ -177,8 +177,8 @@ table
 
 tr.header0>th, tr.header1>th
 {
-	text-align: center!important;
-	font-size: .85em!important; /* 8pt; */
+	text-align: center;
+	font-size: .85em; /* 8pt; */
 }
 
 /* Post tables */
@@ -242,7 +242,7 @@ table.message td
 
 .PoRT td, .PoRT th, .smallFonts td, .smallFonts
 {
-	font-size: .85em!important; /* 8pt; */
+	font-size: .85em; /* 8pt; */
 }
 
 .footer
@@ -431,7 +431,7 @@ input[disabled], button[disabled]
 }
 input.color
 {
-	background-image:none!important;
+	background-image:none;
 }
 textarea
 {
@@ -586,7 +586,7 @@ td.threadIcon
 }
 
 .eptable {
-	margin: 0px 0px !important;
+	margin: 0px 0px ;
 }
 
 div#tabs
