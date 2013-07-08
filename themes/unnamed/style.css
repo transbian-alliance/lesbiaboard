@@ -297,3 +297,14 @@ ul.pipemenu li:not(:first-child) {
 	border-radius: 0px;
 	margin-right: -1px;
 }
+
+.postToolbar button {
+	background: none;
+	border: none;
+	border-radius: 0px;
+	box-shadow: none;
+	margin: 4px;
+}
+
+.postToolbar button:hover {
+	background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
