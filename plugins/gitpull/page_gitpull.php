@@ -2,12 +2,6 @@
 if($loguser['powerlevel'] < 2)
 	Kill(__("You're not admin. There is nothing for you here."));
 
-if(isset($_GET['branch']) && preg_match('/^[\w-]+$/', $_GET['branch']))
-{
-	exec("git checkout $_GET[branch]");
-	return;
-}
-
 $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Admin"), "admin"));
 $crumbs->add(new PipeMenuLinkEntry(__("Update board"), "gitpull"));
