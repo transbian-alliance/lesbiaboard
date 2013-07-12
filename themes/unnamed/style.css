@@ -22,8 +22,8 @@ div#main, .footer {
 }
 
 .footer {
-	border-bottom-left-radius: 32px;
-	border-bottom-right-radius: 32px;
+	border-bottom-left-radius: 24px;
+	border-bottom-right-radius: 24px;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -41,7 +41,7 @@ div#main, .footer {
 	padding: 6px;
 	padding-left: 8px;
 	padding-right: 8px;
-	line-height: 24px;
+	min-height: 26px;
 }
 
 /* I had to do this, unfortunately */
@@ -49,75 +49,29 @@ div#main, .footer {
 	display: none;
 }
 
-ul.breadcrumbs {
-	display: block;
+/*ul.breadcrumbs {
+	display: inline-block;
 }
 
 ul.breadcrumbs li {
-	float: left;
-	padding: 0px;
-	margin: 0px;
-	white-space: nowrap;
-	border-top: 1px solid #888;
-	border-bottom: 1px solid #888;
-	border-left: 1px solid #888;
+	background: linear-gradient(#EEE, #DDD);
+	border: 1px solid #888;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-radius: 8px;
+	margin-right: 4px;
 }
-
-ul.breadcrumbs li:first-child {
-}
-
-
 
 ul.breadcrumbs li a {
-	padding: 0px 0px 0px 20px;
 	margin: 0px;
-	background: #EEE;
-	position: relative;
-	display: block;
-	float: left;
 	line-height: 24px;
-}
-
-ul.breadcrumbs li:first-child a {
-	padding: 0px 0px 0px 8px;
-}
-
-ul.breadcrumbs li a:after {
-	content: ' ';
-	display: block;
-	width: 0px;
-	height: 0px;
-	border-top: 12px solid transparent;
-	border-bottom: 12px solid transparent;
-	border-left: 18px solid #EEE;
-	position: absolute;
-	top: 50%;
-	margin-top: -12px;
-	left: 100%;
-	z-index: 2;
-}
-
-ul.breadcrumbs li a:before { 
-	content: ' '; 
-	display: block; 
-	width: 0px; 
-	height: 0px;
-	border-top: 13px solid transparent;
-	border-bottom: 13px solid transparent;
-	border-left: 18px solid #888;
-	position: absolute;
-	top: 50%;
-	margin-top: -13px; 
-	margin-left: 0px;
-	left: 100%;
-	z-index: 1; 
 }
 
 ul.breadcrumbs li:before {
 	display: none;
-}
-
-
+}*/
 
 .header0 th, .header0, .header1 th, .header1 {
 	border-bottom: 2px solid #A0A0A0;
@@ -259,7 +213,7 @@ div#tabs button.selected:before {
 }
 
 
-ul.pipemenu {
+ul.pipemenu, ul.breadcrumbs {
 	display: inline-block;
 	line-height: 24px;
 	background: linear-gradient(#EEE, #DDD);
@@ -268,19 +222,26 @@ ul.pipemenu {
 	margin: 2px;
 }
 
-.breadcrumbs_bar ul.pipemenu {
-	display: inline-block;
+.breadcrumbs_bar ul.pipemenu, .breadcrumbs_bar ul.breadcrumbs {
 	margin: 0px;
-	line-height: 20px;
+	line-height: 24px;
 }
 
-ul.pipemenu li {
+.breadcrumbs_bar ul.pipemenu {
+}
+
+ul.pipemenu li, ul.breadcrumbs li {
 	padding-left: 6px;
 	padding-right: 6px;
+	cursor: default;
 }
 
-ul.pipemenu li:not(:first-child) {
+ul.pipemenu li:not(:first-child), ul.breadcrumbs li:not(:first-child) {
 	border-left: 1px solid #808080;
+}
+
+ul.breadcrumbs li:before {
+	display: none;
 }
 
 .pollbarContainer {
@@ -308,3 +269,4 @@ ul.pipemenu li:not(:first-child) {
 
 .postToolbar button:hover {
 	background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
