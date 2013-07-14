@@ -757,6 +757,11 @@ div.overlayShade div.buttonContainer button {
 }
 
 /* float shouldn't overflow page_contents */
-#page_contents {
-	overflow-y: hidden;
+#page_contents:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
 }
