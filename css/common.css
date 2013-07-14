@@ -755,3 +755,8 @@ div.overlayShade div.buttonContainer button {
 .floatright {
 	float: right;
 }
+
+/* float shouldn't overflow page_contents */
+#page_contents {
+	overflow: hidden;
+}
