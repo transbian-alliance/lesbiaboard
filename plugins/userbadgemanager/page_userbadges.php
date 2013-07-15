@@ -50,7 +50,7 @@ elseif($_GET['action'] == "newbadge")
 
 
 // Fetch badges
-$qBadge = "SELECT owner, {badges}.name, color, {users}.name username, {users}.sex sex, {users}.powerlevel powerlevel FROM {badges} JOIN {users} where owner = id";
+$qBadge = "SELECT owner, {badges}.name, {badges}.color, {users}.name username, {users}.sex sex, {users}.powerlevel powerlevel FROM {badges} JOIN {users} where owner = id";
 $rBadge = query($qBadge);
 
 
