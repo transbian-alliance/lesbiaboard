@@ -15,7 +15,7 @@ if(NumRows($rUser))
 else
 	Kill(__("Unknown user ID."));
 
-$title = __("Post list");
+$title = __("+1 list");
 
 $minpower = $loguser['powerlevel'];
 if($minpower < 0)
@@ -31,7 +31,6 @@ $total = FetchResult("
 				LEFT JOIN {forums} f ON f.id=t.forum
 			WHERE p.user={0} AND f.minpower <= {1} AND p.postplusones > 0",
 		$id, $minpower);
-
 
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))
@@ -73,6 +72,9 @@ $crumbs->add(new PipeMenuLinkEntry(__("Member list"), "memberlist"));
 $crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
 $crumbs->add(new PipeMenuTextEntry(__("+1'd posts")));
 makeBreadcrumbs($crumbs);
+
+if($total == 0)
+	Kill(__("This user has no +1'd posts"));
 
 $pagelinks = PageLinks(actionLink("listplusones", $id, "from="), $ppp, $from, $total);
 

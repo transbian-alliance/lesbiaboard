@@ -74,6 +74,9 @@ $crumbs->add(new PipeMenuHtmlEntry(userLink($user)));
 $crumbs->add(new PipeMenuTextEntry(__("Posts")));
 makeBreadcrumbs($crumbs);
 
+if($total == 0)
+	Kill(__("This user hasn't made any posts yet."));
+
 $pagelinks = PageLinks(actionLink("listposts", $id, "from="), $ppp, $from, $total);
 
 if($pagelinks)
