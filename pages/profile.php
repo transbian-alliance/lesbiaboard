@@ -103,7 +103,6 @@ if($user['homepageurl'])
 		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
 		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
-	$homepage = securityPostFilter($homepage);
 }
 
 $emailField = __("Private");
