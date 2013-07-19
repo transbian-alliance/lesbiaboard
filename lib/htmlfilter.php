@@ -274,9 +274,6 @@ $filter_mandatory = array(
 	'link' => array(
 		'rel' => 'stylesheet',
 	),
-	'table' => array(
-		'border' => 1,
-	),
 );
 
 function cleanUpPost($postText, $name="", $noSmilies = false)
