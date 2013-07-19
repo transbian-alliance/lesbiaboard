@@ -59,7 +59,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		if($loguserid != $id)
 			Query("update {users} set newcomments = 1 where id={0}", $id);
 		logAction('usercomment', array('user2' => $id));
-		
+
 		if($mobileLayout)
 			die(header("Location: ".actionLink("usercomments", $id)));
 		else
@@ -113,7 +113,7 @@ if(NumRows($rComments))
 								{3}{2}
 							</td>
 						</tr>
-",	UserLink(getDataPrefix($comment, "u_")), $cellClass, CleanUpPost($comment['text']), $deleteLink);
+",	UserLink(getDataPrefix($comment, "u_")), $cellClass, CleanUpPost($comment['text'], $comment['u_name']), $deleteLink);
 		$commentList = $commentList.$thisComment;
 		if(!isset($lastCID))
 			$lastCID = $comment['cid'];
