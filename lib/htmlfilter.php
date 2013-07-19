@@ -150,7 +150,7 @@ $filter_tags = array(
 		'value' => TRUE,
 	),
 	'link' => array(
-		'src' => 'process_url',
+		'href' => 'process_url',
 	),
 	'map' => array(
 		'name' => TRUE,
