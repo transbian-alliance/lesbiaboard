@@ -98,7 +98,7 @@ if($user['homepageurl'])
 	$nofollow = "";
 	if(Settings::get("nofollow"))
 		$nofollow = "rel=\"nofollow\"";
-			
+
 	if($user['homepagename'])
 		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
@@ -218,7 +218,7 @@ if(count($foo))
 	$profileParts[__("Personal information")] = $foo;
 
 if($user['bio'])
-	$profileParts[__("Bio")] = array("" => CleanUpPost($user['bio']));
+	$profileParts[__("Bio")] = array("" => CleanUpPost($user['bio'], $user['displayname'] ? $user['displayname'] : $user['name']));
 
 $badgersR = Query("select * from {badges} where owner={0} order by color", $id);
 if(NumRows($badgersR))
