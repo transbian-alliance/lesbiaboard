@@ -123,7 +123,7 @@ function makePostText($post)
 
 	$postText = $post['text'];
 	$postText = ApplyTags($postText, $tags);
-	$postText = CleanUpPost($postText, $poster['name'], $noSmilies, $noBr);
+	$postText = CleanUpPost($postText, $poster['name'], $noSmilies);
 
 	//Post header and footer.
 	$magicString = "###POSTTEXTGOESHEREOMG###";
