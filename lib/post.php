@@ -137,7 +137,7 @@ function makePostText($post)
 		{
 			$postLayout = $poster['postheader'].$magicString.$poster['signature'];
 			$postLayout = ApplyTags($postLayout, $tags);
-			$postLayout = CleanUpPost($postLayout, $poster['name'], $noSmilies, false);
+			$postLayout = CleanUpPost($postLayout, $poster['name'], $noSmilies);
 			$layoutCache[$poster["id"]] = $postLayout;
 		}
 		else
