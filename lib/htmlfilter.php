@@ -272,14 +272,14 @@ $filter_mandatory = array(
 		'autocomplete' => 'off',
 	),
 	'link' => array(
-		'rel' => 'stylesheet',	
+		'rel' => 'stylesheet',
 	),
 	'table' => array(
 		'border' => 1,
 	),
 );
 
-function cleanUpPost($postText, $name, $noSmilies)
+function cleanUpPost($postText, $name, $noSmilies = false)
 {
 	global $filter_tags, $bbcode, $postNoSmilies;
 	$postNoSmilies = $noSmilies;
