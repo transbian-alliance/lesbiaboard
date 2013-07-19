@@ -279,7 +279,7 @@ $filter_mandatory = array(
 	),
 );
 
-function cleanUpPost($postText, $name, $noSmilies = false)
+function cleanUpPost($postText, $name="", $noSmilies = false)
 {
 	global $filter_tags, $bbcode, $postNoSmilies;
 	$postNoSmilies = $noSmilies;
