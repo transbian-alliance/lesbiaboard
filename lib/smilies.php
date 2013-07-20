@@ -12,7 +12,7 @@ function loadSmilies()
 	$smiliesReplaceOrig = $smiliesReplaceNew = array();
 	foreach ($smilies as $smile)
 	{
-		$smiliesReplaceOrig[$smile['code'][0]][] = '/\G(?<!\w)'.preg_quote($smile['code'], "/").'(?!\w)/';
+		$smiliesReplaceOrig[$smile['code'][0]][] = '/\G(?<!\w)'.preg_quote($smile['code'], "/").'(?![\w/])/';
 		$smiliesReplaceNew[$smile['code'][0]][] = resourceLink("img/smilies/".$smile['image']);
 	}
 }
