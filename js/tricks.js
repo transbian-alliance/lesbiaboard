@@ -566,6 +566,5 @@ function setCookie(sKey, sValue, vEnd, sPath, sDomain, bSecure) {
 		}  
 	}  
 	var lol = escape(sKey) + "=" + escape(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-	alert(lol);
 	document.cookie = lol;
 }
