@@ -251,7 +251,12 @@ if($loguserid && is_dir($rootdir."/".$loguserid) || $loguser['powerlevel'] > 2)
 
 }
 
-$entries = Query("select {uploader}.*, users.name, users.displayname, users.powerlevel, users.sex from {uploader} left join {users} on {uploader}.user = {users}.id where {uploader}.private = 0 order by ".$skey.$sdir);
+$entries = Query("select 
+						up.*, 
+						u.name, u.displayname, u.powerlevel, u.sex 
+					from {uploader} up
+					left join {users} u on up.user = u.id 
+					where up.private = 0 order by ".$skey.$sdir);
 
 if(NumRows($entries) == 0 && !$havePrivates)
 {
