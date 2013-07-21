@@ -308,10 +308,10 @@ else if(IsAllowed("editUser") && $loguser['powerlevel'] > 2)
 	$links -> add(new PipeMenuLinkEntry(__("Edit user"), "editprofile", $id, "", "pencil"));
 
 if(IsAllowed("snoopPM") && $loguser['powerlevel'] > 2)
-	$links -> add(new PipeMenuLinkEntry(__("Show PMs"), "private", $id, "", "envelope"));
+	$links -> add(new PipeMenuLinkEntry(__("Show PMs"), "private", $id, "", "eye-open"));
 
 if($loguserid && IsAllowed("sendPM"))
-	$links -> add(new PipeMenuLinkEntry(__("Send PM"), "sendprivate", "", "uid=".$id, "envelope-alt"));
+	$links -> add(new PipeMenuLinkEntry(__("Send PM"), "sendprivate", "", "uid=".$id, "envelope"));
 if(IsAllowed("listPosts"))
 		$links -> add(new PipeMenuLinkEntry(__("Show posts"), "listposts", $id, "", "copy"));
 if(IsAllowed("listThreads"))

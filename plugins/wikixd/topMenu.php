@@ -1,3 +1,3 @@
 <?php
-	$navigation->add(new PipeMenuLinkEntry('Wiki', 'wiki'));
+	$navigation->add(new PipeMenuLinkEntry('Wiki', 'wiki', "", "", "file-text"));
 ?>

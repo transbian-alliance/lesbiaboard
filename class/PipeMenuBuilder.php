@@ -39,14 +39,14 @@ class PipeMenu {
 		return array_shift($this->entries);
 	}
 
-	public function build() {
+	public function build($style = 0) {
 		if(!$this->entries || in_array('breadcrumbs', $this->classNames) && count($this->entries) === 1)
 			return "";
 
 		$html = "<ul class=\"" . implode(" ", $this->classNames) . "\">";
 
 		foreach ($this->entries as $entry) {
-			$html .= "<li>".$entry->build()."</li>";
+			$html .= "<li>".$entry->build($style)."</li>";
 		}
 
 		$html .= "</ul>";
@@ -81,8 +81,12 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 		if($style != 2)
 			$label = $this->label;
 		if($icontag && $label)
-			$icontag .= " ";
-		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\">$icontag$label</a>";
+			$icontag .= "&nbsp;";
+
+		$tooltip = "";
+		if($style == 2)
+			$tooltip = "title=\"".$this->label."\"";
+		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\" $tooltip>$icontag$label</a>";
 	}
 	
 	public function getLink() {

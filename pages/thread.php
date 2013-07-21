@@ -135,7 +135,7 @@ makeLinks($links);
 
 $crumbs = new PipeMenu();
 makeForumCrumbs($crumbs, $forum);
-$crumbs->add(new PipeMenuHtmlEntry(makeThreadLink($thread)));
+$crumbs->add(new PipeMenuLinkEntry($title, "thread", $tid));
 makeBreadcrumbs($crumbs);
 
 

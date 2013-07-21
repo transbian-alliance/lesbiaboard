@@ -6,12 +6,11 @@
 }
 
 #mobile_headerBar a.button {
-	padding:8px!important;
-	height:auto;
+	color: white;
 }
 #mobile_headerBar a {
 	display:inline-block;
-	padding:13px 5px;
+	padding:12px;
 }
 
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
@@ -20,12 +19,12 @@
 #mobile_headerBar td {
 	margin:0px;
 	padding:0px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 #mobile_openHeader {
 	-webkit-tap-highlight-color: transparent;
-	display:inline-block;
-	float:right;
 }
 
 #mobile_overlay {
@@ -108,14 +107,48 @@ html.noscroll
 	padding: 0px;
 }
 
+.stackedMenu > li > a i, .stackedMenu > li > a img {
+	position: absolute;
+	left: 8px;
+	top: 8px;
+	font-size: 18px;
+}
 .stackedMenu > li > a, .stackedMenu > li > a:visited {
 	display:block;
+	padding:10px;
+	color: #FFF;
+	padding-left: 30px;
+	-webkit-tap-highlight-color: transparent;
+	position: relative;
+}
+
+.stackedMenu > li > a:active, .stackedMenu > li > a:hover {
+	background-color:rgba(0, 0, 0, 0.2);
+}
+
+
+
+.toolbarMenu {
+	display:block;
+	margin:0px;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.toolbarMenu > li{
+	display:inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+
+.toolbarMenu > li > a, .toolbarMenu > li > a:visited {
+	display:inline-block;
 	padding:10px;
 	color: #FFF;
 	-webkit-tap-highlight-color: transparent;
 }
 
-.stackedMenu > li > a:active, .stackedMenu > li > a:hover {
+.toolbarMenu > li > a:active, .toolbarMenu > li > a:hover {
 	background-color:rgba(0, 0, 0, 0.2);
 }
 

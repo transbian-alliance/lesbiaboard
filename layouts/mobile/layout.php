@@ -14,27 +14,26 @@
 		<?php 
 			$layout_navigation->setClass("stackedMenu");
 			$layout_userpanel->setClass("stackedMenu");
-			$layout_links->setClass("stackedMenu");
 		?>
-		<?php print $layout_links->build(); ?>
+		<?php print $layout_userpanel->build(); ?>
 		&nbsp;
 		<?php print $layout_navigation->build(); ?>
-		&nbsp;
-		<?php print $layout_userpanel->build(); ?>
 	</div>
 	<div id="mobile_overlay">
 	</div>
 	<div id="body">
 	<div id="body-wrapper">
 		<div id="mobile_headerBar" class="cell0">
-			<table style="width:100%"><tr>
+			<table style="width:100%;"><tr>
+			<td>
+				<a id="mobile_openHeader" href="#" class="button"><i class="icon-ellipsis-horizontal"></i></a>
+			</td>
 			<?php 
 				$last = $layout_crumbs->pop();
 				if($last == NULL)
 					$now = "<a href=\"$boardroot\">".htmlspecialchars(Settings::get("boardname"))."</a>";
 				else
 					$now = $last->build();
-	
 	
 				$last2 = NULL;
 				if($last != NULL && $last->getLink() == "")
@@ -50,11 +49,14 @@
 					$last2 = $layout_crumbs->pop();
 			
 				if($last2 != NULL)
-					echo "<td style=\"width:40px\"><a class=\"button\" href=\"".htmlspecialchars($last2->getLink())."\"><img style=\"vertical-align:bottom; width:24px; height:24px;\" src=\"".resourceLink("img/mobile-back.png")."\"/></a></td>";
-				echo "<td>$now</td>";
+					echo "<td style=\"width:40px\"><a class=\"button\" href=\"".htmlspecialchars($last2->getLink())."\"><i class=\"icon-angle-left\"></i></a></td>";
+				echo "<td style='width: 99%'><div style='width: 100%; height: 40px; position:relative;'><div style=\"position:absolute\">$now</div></div></td>";
 			?>
-			<td style="width:40px">
-				<a id="mobile_openHeader" href="#" class="button"><img style="width:24px; height:24px;" src="<?php echo resourceLink("img/mobile-menu.png");?>"/></a>
+			<td>
+				<?php
+					$layout_links->setClass("toolbarMenu");
+				 	print $layout_links->build(2); 
+				 ?>
 			</td>
 			</tr></table>
 		</div>
