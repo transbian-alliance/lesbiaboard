@@ -10,12 +10,7 @@
 <body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
 	<div id="mobile_sidebar">
 		<img id="theme_banner" style="width:100%" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" style="padding: 8px;" />
-									
-		<div id="mobile_online">
-			<?php print $layout_onlineusers; ?> &nbsp;&mdash;&nbsp;
-			<?php print $layout_views; ?>
-		</div>
-
+		
 		<?php 
 			$layout_navigation->setClass("stackedMenu");
 			$layout_userpanel->setClass("stackedMenu");
@@ -27,13 +22,13 @@
 		&nbsp;
 		<?php print $layout_userpanel->build(); ?>
 	</div>
+	<div id="mobile_overlay">
+	</div>
 	<div id="body">
 	<div id="body-wrapper">
 		<div id="mobile_headerBar" class="cell0">
 			<table style="width:100%"><tr>
 			<?php 
-
-		
 				$last = $layout_crumbs->pop();
 				if($last == NULL)
 					$now = "<a href=\"$boardroot\">".htmlspecialchars(Settings::get("boardname"))."</a>";
@@ -63,7 +58,6 @@
 			</td>
 			</tr></table>
 		</div>
-	
 
 		<div id="main" style="padding:8px;">
 
