@@ -79,6 +79,7 @@ class HTML5_Tokenizer {
     const BR             = 8;
     const BBCODESTARTTAG = 9;
     const BBCODEENDTAG   = 10;
+    const URL            = 11;
 
     // These are constants representing bunches of characters.
     const ALPHA       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -339,22 +340,8 @@ class HTML5_Tokenizer {
                                 ));
 
                                 $this->emitToken(array(
-                                    'type' => self::STARTTAG,
-                                    'name' => 'a',
-                                    'attr' => array(
-                                        array(
-                                            'name'  => 'href',
-                                            'value' => $matches[0],
-                                        ),
-                                    ),
-                                ));
-                                $this->emitToken(array(
-                                    'type' => self::CHARACTER,
+                                    'type' => self::URL,
                                     'data' => $matches[0],
-                                ));
-                                $this->emitToken(array(
-                                    'type' => self::ENDTAG,
-                                    'name' => 'a',
                                 ));
                                 break 2;
                             }

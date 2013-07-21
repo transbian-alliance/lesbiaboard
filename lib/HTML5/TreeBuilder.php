@@ -760,6 +760,31 @@ class HTML5_TreeBuilder {
                 }
             break;
 
+            case HTML5_Tokenizer::URL;
+                foreach ($this->stack as $elem) {
+                    if (
+                        $elem->tagName === 'bbcodehack' && $elem->getAttribute('name') === 'url'
+                     || $elem->tagName === 'a'
+                    ) {
+                        $this->insertText($token['data']);
+                        break 2;
+                    }
+                }
+                $this->insertElement(array(
+                    'type' => HTML5_Tokenizer::STARTTAG,
+                    'name' => 'a',
+                    'attr' => array(
+                        array(
+                            'name' => 'href',
+                            'value' => $token['data'],
+                        ),
+                    ),
+                ));
+                $this->insertText($token['data']);
+                $this->generateImpliedEndTags();
+                array_pop($this->stack);
+            break;
+
             /* A comment token */
             case HTML5_Tokenizer::COMMENT:
                 /* Append a Comment node to the current node with the data
