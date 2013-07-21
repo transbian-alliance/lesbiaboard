@@ -150,7 +150,7 @@ function makePostText($post)
 				$separator = "<br />";
 	}
 
-	$postText = str_replace($magicString, "<!-- LOL -->".$postText.$separator, $postLayout);
+	$postText = str_replace($magicString, $postText.$separator, $postLayout);
 	return $postText;
 }
 
