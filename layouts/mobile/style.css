@@ -31,6 +31,11 @@
 	background-color: black;
 	opacity: 0;
 	-webkit-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	-o-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	-ms-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	-moz-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	
 	position:fixed!important;
 	left:0px;
 	top:0px;
@@ -56,7 +61,16 @@ html.noscroll
 
 #mobile_sidebar {
 	-webkit-transition: 0.5s -webkit-transform ease-in-out;
+	-o-transition: 0.5s -o-transform ease-in-out;
+	-ms-transition: 0.5s -ms-transform ease-in-out;
+	-moz-transition: 0.5s -moz-transform ease-in-out;
+	transition: 0.5s transform ease-in-out;
+	
 	-webkit-transform: translateX(-240px);
+	-o-transform: translateX(-240px);
+	-ms-transform: translateX(-240px);
+	-moz-transform: translateX(-240px);
+	transform: translateX(-240px);
 
 	background:black;
 	color:white;
@@ -80,6 +94,10 @@ html.noscroll
 
 #mobile_sidebar.shown {
 	-webkit-transform: translateX(0px);
+	-o-transform: translateX(0px);
+	-ms-transform: translateX(0px);
+	-moz-transform: translateX(0px);
+	transform: translateX(0px);
 }
 
 #mobile_header.shown {

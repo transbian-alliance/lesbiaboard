@@ -51,15 +51,18 @@ $(function() {
 	document.addEventListener('touchmove', function(event) {
 		var dx = event.changedTouches[0].pageX-touchDownX;
 		var dy = event.changedTouches[0].pageY-touchDownY;
-		if($(window).scrollLeft() == 0 && !sidebarShown)
-		{
-			if(dx > 0 && Math.abs(dx) > Math.abs(dy))
-				event.preventDefault();
-		}
+		if(touchDown && $(window).scrollLeft() == 0 && !sidebarShown && dx > 0 && Math.abs(dx) > Math.abs(dy))
+			event.preventDefault();
+		else
+			touchDown = false;
+
 		$("#lol").text(dx+" "+dy);
 		if(dx > 60)
 			showSidebar();
 	}, false);
 	
+	document.addEventListener('scroll', function(event) {
+		touchDown = false;
+	}, false);
 
 });
