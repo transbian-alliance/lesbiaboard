@@ -106,29 +106,29 @@ if($loguserid)
 	if($loguser['powerlevel'] < 0)
 		$links -> add(new PipeMenuTextEntry(__("You're banned.")));
 	else if(IsAllowed("makeReply", $tid) && (!$thread['closed'] || $loguser['powerlevel'] > 2))
-		$links -> add(new PipeMenuLinkEntry(__("Post reply"), "newreply", $tid));
+		$links -> add(new PipeMenuLinkEntry(__("Post reply"), "newreply", $tid, "", "comment"));
 	else if(IsAllowed("makeReply", $tid))
 		$links -> add(new PipeMenuTextEntry(__("Thread closed.")));
 
 	if(CanMod($loguserid,$forum['id']) && IsAllowed("editThread", $tid))
 	{
-		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid));
+		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid, "", "pencil"));
 		if($thread['closed'])
-			$links -> add(new PipeMenuLinkEntry(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Open"), "editthread", $tid, "action=open&key=".$loguser['token'], "unlock"));
 		else
-			$links -> add(new PipeMenuLinkEntry(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Close"), "editthread", $tid, "action=close&key=".$loguser['token'], "lock"));
 		if($thread['sticky'])
-			$links -> add(new PipeMenuLinkEntry(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Unstick"), "editthread", $tid, "action=unstick&key=".$loguser['token'], "pushpin"));
 		else
-			$links -> add(new PipeMenuLinkEntry(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Stick"), "editthread", $tid, "action=stick&key=".$loguser['token'], "pushpin"));
 
 		if($forum['id'] != Settings::get('hiddenTrashForum'))
-			$links -> add(new PipeMenuLinkEntry(__("Delete"), "editthread", $tid, "action=delete&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Delete"), "editthread", $tid, "action=delete&key=".$loguser['token'], "remove"));
 		if($forum['id'] != Settings::get('trashForum'))
-			$links -> add(new PipeMenuLinkEntry(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token']));
+			$links -> add(new PipeMenuLinkEntry(__("Trash"), "editthread", $tid, "action=trash&key=".$loguser['token'], "trash"));
 	}
 	else if($thread['user'] == $loguserid)
-		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid));
+		$links -> add(new PipeMenuLinkEntry(__("Edit"), "editthread", $tid, "", "pencil"));
 }
 
 makeLinks($links);

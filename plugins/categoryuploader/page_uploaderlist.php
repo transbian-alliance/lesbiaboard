@@ -179,7 +179,7 @@ $cat = getCategory($_GET["cat"]);
 
 $links = new PipeMenu();
 if($_GET["cat"] != -2 && $loguserid && !$isBot)
-	$links -> add(new PipeMenuLinkEntry("Upload file", "uploader", "", "action=uploadform&cat=".$_GET["cat"]));
+	$links -> add(new PipeMenuLinkEntry("Upload file", "uploader", "", "action=uploadform&cat=".$_GET["cat"], "cloud-upload"));
 makeLinks($links);
 
 $crumbs = new PipeMenu();

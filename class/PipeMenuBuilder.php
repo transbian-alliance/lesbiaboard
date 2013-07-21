@@ -63,20 +63,32 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	private $action;
 	private $id;
 	private $args;
-
-	public function __construct($label, $action, $id = 0, $args = "") {
+	private $icon;
+	
+	public function __construct($label, $action, $id = 0, $args = "", $icon="") {
 		$this->label = $label;
 		$this->action = $action;
 		$this->id = $id;
 		$this->args = $args;
+		$this->icon = $icon;
 	}
 
-	public function build() {
-		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\">" . $this->label . "</a>";
+	public function build($style = 0) {
+		$icontag = "";
+		if($this->icon && $style != 1)
+			$icontag = "<i class=\"icon-". $this->icon ."\"></i>";
+		$label="";
+		if($style != 2)
+			$label = $this->label;
+		if($icontag && $label)
+			$icontag .= " ";
+		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\">$icontag$label</a>";
 	}
+	
 	public function getLink() {
 		return actionLink($this->action, $this->id, $this->args);
 	}
+	
 }
 
 class PipeMenuAnyLinkEntry implements PipeMenuEntry {

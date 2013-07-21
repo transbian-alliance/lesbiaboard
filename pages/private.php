@@ -98,10 +98,10 @@ else
 
 
 $links = new PipeMenu();
-$links -> add(new PipeMenuLinkEntry(__("Show received"), "private", $userGet));
-$links -> add(new PipeMenuLinkEntry(__("Show sent"), "private", $userGet, "show=1"));
-$links -> add(new PipeMenuLinkEntry(__("Show drafts"), "private", $userGet, "show=2"));
-$links -> add(new PipeMenuLinkEntry(__("Send new PM"), "sendprivate"));
+$links -> add(new PipeMenuLinkEntry(__("Show received"), "private", $userGet, "", "download-alt"));
+$links -> add(new PipeMenuLinkEntry(__("Show sent"), "private", $userGet, "show=1", "upload-alt"));
+$links -> add(new PipeMenuLinkEntry(__("Show drafts"), "private", $userGet, "show=2", "save"));
+$links -> add(new PipeMenuLinkEntry(__("Send new PM"), "sendprivate", "", "", "plus"));
 
 makeLinks($links);
 

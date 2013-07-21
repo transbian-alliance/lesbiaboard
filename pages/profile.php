@@ -301,21 +301,21 @@ MakePost($previewPost, POST_SAMPLE);
 
 $links = new PipeMenu();
 if($mobileLayout)
-	$links -> add(new PipeMenuLinkEntry(__("Comments"), "usercomments", $id));
+	$links -> add(new PipeMenuLinkEntry(__("Comments"), "usercomments", $id, "", "comments"));
 if(IsAllowed("editProfile") && $loguserid == $id)
-	$links -> add(new PipeMenuLinkEntry(__("Edit my profile"), "editprofile"));
+	$links -> add(new PipeMenuLinkEntry(__("Edit my profile"), "editprofile", "", "", "pencil"));
 else if(IsAllowed("editUser") && $loguser['powerlevel'] > 2)
-	$links -> add(new PipeMenuLinkEntry(__("Edit user"), "editprofile", $id));
+	$links -> add(new PipeMenuLinkEntry(__("Edit user"), "editprofile", $id, "", "pencil"));
 
 if(IsAllowed("snoopPM") && $loguser['powerlevel'] > 2)
-	$links -> add(new PipeMenuLinkEntry(__("Show PMs"), "private", $id));
+	$links -> add(new PipeMenuLinkEntry(__("Show PMs"), "private", $id, "", "envelope"));
 
 if($loguserid && IsAllowed("sendPM"))
-	$links -> add(new PipeMenuLinkEntry(__("Send PM"), "sendprivate", "", "uid=".$id));
+	$links -> add(new PipeMenuLinkEntry(__("Send PM"), "sendprivate", "", "uid=".$id, "envelope-alt"));
 if(IsAllowed("listPosts"))
-		$links -> add(new PipeMenuLinkEntry(__("Show posts"), "listposts", $id, "", $user["name"]));
+		$links -> add(new PipeMenuLinkEntry(__("Show posts"), "listposts", $id, "", "copy"));
 if(IsAllowed("listThreads"))
-		$links -> add(new PipeMenuLinkEntry(__("Show threads"), "listthreads", $id, "", $user["name"]));
+		$links -> add(new PipeMenuLinkEntry(__("Show threads"), "listthreads", $id, "", "list"));
 
 
 if(IsAllowed("blockLayouts") && $loguserid)
@@ -323,9 +323,9 @@ if(IsAllowed("blockLayouts") && $loguserid)
 	$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 	$isBlocked = NumRows($rBlock);
 	if($isBlocked)
-		$links -> add(new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}"));
+		$links -> add(new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}", "ban-circle"));
 	else
-		$links -> add(new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}"));
+		$links -> add(new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}", "ban-circle"));
 }
 
 makeLinks($links);

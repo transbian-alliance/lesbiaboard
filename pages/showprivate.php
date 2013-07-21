@@ -44,7 +44,7 @@ if(!isset($_GET['snooping']) && $pm['userto'] == $loguserid)
 {
 	$qPM = "update {pmsgs} set msgread=1 where id={0}";
 	$rPM = Query($qPM, $pm['id']);
-	$links->add(new PipeMenuLinkEntry(__("Send reply"), "sendprivate", "", "pid=".$pm['id']));
+	$links->add(new PipeMenuLinkEntry(__("Send reply"), "sendprivate", "", "pid=".$pm['id'], "reply"));
 }
 else if(!isset($_GET['snooping']) && $pm['drafting'])
 {
