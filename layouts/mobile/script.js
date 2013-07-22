@@ -57,7 +57,7 @@ $(function() {
 			touchDown = false;
 
 		$("#lol").text(dx+" "+dy);
-		if(dx > 60)
+		if(dx > 150 && Math.abs(dy) < 20)
 			showSidebar();
 	}, false);
 	
