@@ -9,7 +9,7 @@ repository. This version of ABXD may have serious vulnerabilites and
 might not work at all.
 
 If you are interested more stable software, you may want to download
-[ABXD 2.2.5](http://abxd.dirbaio.net/?page=downloads). It's known to
+[ABXD 2.2.6](http://abxd.dirbaio.net/?page=downloads). It's known to
 work almost everywhere.
 
 ## Installation
