@@ -1,8 +1,16 @@
+body {
+	margin-top: 40px;
+}
+
 #mobile_headerBar {
 	width:100%;
 	padding:0px;
 	border-bottom: 1px solid black;
 	z-index:10000;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	max-height: 40px;
 }
 
 #mobile_headerBar a.button {
@@ -10,7 +18,11 @@
 }
 #mobile_headerBar a {
 	display:inline-block;
-	padding:12px;
+	line-height: 40px;
+	padding: 0px;
+	padding-left: 8px;
+	padding-right: 8px;
+	height: 40px;
 }
 
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
@@ -30,11 +42,10 @@
 #mobile_overlay {
 	background-color: black;
 	opacity: 0;
-	-webkit-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
-	-o-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
-	-ms-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
-	-moz-transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
-	transition: 0.5s opacity ease-in-out, 0.5s visibility ease-in-out;
+	-webkit-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
+	-o-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
+	-ms-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
+	transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
 	
 	position:fixed!important;
 	left:0px;
@@ -60,11 +71,10 @@ html.noscroll
 }
 
 #mobile_sidebar {
-	-webkit-transition: 0.5s -webkit-transform ease-in-out;
-	-o-transition: 0.5s -o-transform ease-in-out;
-	-ms-transition: 0.5s -ms-transform ease-in-out;
-	-moz-transition: 0.5s -moz-transform ease-in-out;
-	transition: 0.5s transform ease-in-out;
+	-webkit-transition: 0.25s -webkit-transform ease-in-out;
+	-o-transition: 0.25s -o-transform ease-in-out;
+	-ms-transition: 0.25s -ms-transform ease-in-out;
+	transition: 0.25s transform ease-in-out;
 	
 	-webkit-transform: translateX(-240px);
 	-o-transform: translateX(-240px);
@@ -90,6 +100,11 @@ html.noscroll
 	-webkit-overflow-scrolling: touch;
 
 	display: block;
+}
+
+/* This is horrible, but I don't know how to fix it properly. */
+#mobile_sidebar > img {
+	margin-top: 40px;
 }
 
 #mobile_sidebar.shown {
@@ -159,9 +174,14 @@ html.noscroll
 	padding: 0px;
 }
 
+.toolbarMenu i {
+	font-size: 20px;
+	line-height: 40px;
+}
+
 .toolbarMenu > li > a, .toolbarMenu > li > a:visited {
 	display:inline-block;
-	padding:10px;
+	padding:0px;
 	color: #FFF;
 	-webkit-tap-highlight-color: transparent;
 }
@@ -185,3 +205,11 @@ html.noscroll
 	float: none;
 }
 
+
+.footer {
+	font-size: 0pt;
+}
+
+.footer > a:first-child {
+	font-size: 8pt;
+}
