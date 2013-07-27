@@ -71,10 +71,10 @@ html.noscroll
 }
 
 #mobile_sidebar {
-	-webkit-transition: 0.4s -webkit-transform ease-in-out;
-	-o-transition: 0.4s -o-transform ease-in-out;
-	-ms-transition: 0.4s -ms-transform ease-in-out;
-	transition: 0.4s transform ease-in-out;
+	-webkit-transition: 0.4s -webkit-transform ease-in-out, 0.4s visibility ease-in-out;
+	-o-transition: 0.4s -o-transform ease-in-out, 0.4s visibility ease-in-out;
+	-ms-transition: 0.4s -ms-transform ease-in-out, 0.4s visibility ease-in-out;
+	transition: 0.4s transform ease-in-out, 0.4s visibility ease-in-out;
 	
 	-webkit-transform: translateX(-240px);
 	-o-transform: translateX(-240px);
@@ -82,6 +82,8 @@ html.noscroll
 	-moz-transform: translateX(-240px);
 	transform: translateX(-240px);
 
+	visibility: hidden;
+	
 	background:black;
 	color:white;
 
@@ -108,6 +110,8 @@ html.noscroll
 }
 
 #mobile_sidebar.shown {
+    visibility: visible;
+
 	-webkit-transform: translateX(0px);
 	-o-transform: translateX(0px);
 	-ms-transform: translateX(0px);
