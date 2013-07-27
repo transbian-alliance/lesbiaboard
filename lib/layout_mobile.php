@@ -58,6 +58,7 @@ function makeForumListing($parent)
 		<tbody>
 			<tr class=\"header1\">
 				<th>{0}</th>
+				<th style=\"min-width:150px; width:15%;\">".__("Last post")."</th>
 			</tr>
 		</tbody>
 		<tbody>
@@ -92,6 +93,19 @@ function makeForumListing($parent)
 		if($subforaList)
 			$subforaList = "<br />".__("Subforums:")." ".substr($subforaList,0,-2);
 
+		if($forum['lastpostdate'])
+		{
+			$user = getDataPrefix($forum, "lu_");
+
+			$lastLink = "";
+			if($forum['lastpostid'])
+				$lastLink = actionLinkTag("&raquo;", "post", $forum['lastpostid']);
+			$lastLink = format("<span class=\"nom\">{0}<br />".__("by")." </span>{1} {2}", formatdate($forum['lastpostdate']), UserLink($user), $lastLink);
+		}
+		else
+			$lastLink = "----";
+
+
 		$theList .=
 "
 		<tr class=\"cell1\">
@@ -103,6 +117,9 @@ function makeForumListing($parent)
 					{$forum['description']}
 					$subforaList
 				</span>
+			</td>
+			<td class=\"cell0 smallFonts center\">
+				$lastLink
 			</td>
 		</tr>";
 	}
@@ -222,7 +239,6 @@ function makePost($post, $type, $params=array())
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
 		$links = new PipeMenu();
-		$links->setClass("toolbarMenu");
 
 		if(CanMod($loguserid,$params['fid']))
 		{
@@ -333,14 +349,16 @@ function makePost($post, $type, $params=array())
 	$links = $links->build();
 
 	if($links)
-		$links = "<div style=\"float: right; display: inline-block;\"><small>$links</small></div>";
+		$links = "<div style=\"text-align:right\"><small>$links</small></div>";
 	echo "
 		{$anchor}
 		<table class=\"outline margin $highlightClass\" id=\"post${post['id']}\">
 			<tr class=\"cell0\">
 				<td>
-					$links
-					".UserLink($poster)."
+					".UserLink($poster)." -
+					<small><span id=\"meta_${post['id']}\">
+						$meta
+					</span>
 					<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
 						Hi.
 					</span></small>
@@ -349,6 +367,7 @@ function makePost($post, $type, $params=array())
 			<tr class=\"cell1\">
 				<td class=\"mobile_post\" id=\"post_${post['id']}\">
 					$postText
+					$links
 				</td>
 			</tr>
 		</table>";
