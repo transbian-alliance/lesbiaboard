@@ -7,7 +7,7 @@
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, width=device-width" />
 </head>
 
-<body style="width:100%; font-size: <?php print $loguser['fontsize']; ?>%;">
+<body style="width:100%; font-size: 90%;" id="mobile_body">
 	<div id="mobile_sidebar">
 		<img id="theme_banner" style="width:100%" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" style="padding: 8px;" />
 		

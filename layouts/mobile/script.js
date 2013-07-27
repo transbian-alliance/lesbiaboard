@@ -1,7 +1,6 @@
 var sidebarShown = false;
 
-function showSidebar()
-{
+function showSidebar() {
 	if(sidebarShown)
 		return;
 	sidebarShown = true;
@@ -17,8 +16,7 @@ function showSidebar()
 	return false;
 }
 
-function hideSidebar()
-{
+function hideSidebar() {
 	if(!sidebarShown) 
 		return;
 
@@ -40,7 +38,13 @@ var touchDownY = 0;
 
 $(function() {
 
-	$('#mobile_openHeader').bind('click', showSidebar);
+	$('#mobile_openHeader').bind('click', function() {
+		if (sidebarShown === true) {
+			hideSidebar();
+		} else {
+			showSidebar();
+		}
+	});
 	$('#mobile_overlay').bind('click', hideSidebar);
 	
 	document.addEventListener('touchstart', function(event) {
@@ -57,7 +61,7 @@ $(function() {
 			touchDown = false;
 
 		$("#lol").text(dx+" "+dy);
-		if(dx > 60)
+		if(dx > 150 && Math.abs(dy) < 20)
 			showSidebar();
 	}, false);
 	

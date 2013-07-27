@@ -67,6 +67,14 @@ ul.pipemenu li {
 	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
+#mobile_body table:not(.post).margin.outline {
+	background: none;
+	border-radius: 0px;
+	border: 0px none;
+	box-shadow: none;
+}
+
+
 :not(.post) table:not(.post) tr:first-child th, .eptable tr th, .header0 th, .header1 th {
 	border: 0px none;
 	border-bottom: 2px solid #575757;
@@ -98,6 +106,10 @@ table.post td.userlink, table.post td.meta {
 }
 
 :not(.post) table:not(.post) tr:not(:last-child) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
+	border-bottom: 1px solid #36383B;
+}
+
+#mobile_body :not(.post) table:not(.post) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
 	border-bottom: 1px solid #36383B;
 }
 
@@ -268,7 +280,7 @@ div#tabs button.selected, h3, table.post td.meta ul.pipemenu li:active, .mainMen
 	margin-bottom: 0px;
 }
 
-div#tabs button:active, table.post td.meta ul.pipemenu li:active, .mainMenu li:active {
+div#tabs button:active, table.post td.meta ul.pipemenu li:active, .mainMenu li:active, .toolbarMenu li:active {
 	background-color: #33819D;
 }
 
@@ -436,12 +448,13 @@ input[placeholder="Search"]:placeholder {
 	background: #33B5E5;
 }
 
+#mobile_headerBar {
+	background: black;
+	border-bottom: 2px solid #33B5E5;
+}
+
 #mobile_sidebar {
-	background: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -webkit-linear-gradient(#000, #272D33);
-	background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -moz-linear-gradient(#000, #272D33);
-	background: -o-linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), -o-linear-gradient(#000, #272D33);
-	background: linear-gradient(90deg, rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.1)), linear-gradient(#000, #272D33);
-	background-attachment: static, fixed;
+	background: #111111;
 }
 
 .stackedMenu li {
@@ -452,7 +465,15 @@ input[placeholder="Search"]:placeholder {
 	border-top: 1px solid #36383B;
 }
 
-.stackedMenu > li > a:active, .stackedMenu > li > a:hover {
+.stackedMenu > li > a:active {
+	background: none;
+}
+
+.stackedMenu > li > a:active {
 	background: #33B5E5;
 	color: #FFF!important;
+}
+
+.toolbarMenu li i {
+	opacity: 0.8;
 }
