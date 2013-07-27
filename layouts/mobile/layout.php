@@ -15,9 +15,9 @@
 			$layout_navigation->setClass("stackedMenu");
 			$layout_userpanel->setClass("stackedMenu");
 		?>
-		<?php print $layout_userpanel->build(); ?>
+		<?php print $layout_userpanel->build(0); ?>
 		&nbsp;
-		<?php print $layout_navigation->build(); ?>
+		<?php print $layout_navigation->build(0); ?>
 	</div>
 	<div id="mobile_overlay">
 	</div>

@@ -39,7 +39,7 @@ class PipeMenu {
 		return array_shift($this->entries);
 	}
 
-	public function build($style = 0) {
+	public function build($style = 1) {
 		if(!$this->entries || in_array('breadcrumbs', $this->classNames) && count($this->entries) === 1)
 			return "";
 
@@ -73,7 +73,7 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 		$this->icon = $icon;
 	}
 
-	public function build($style = 0) {
+	public function build($style = 1) {
 		$icontag = "";
 		if($this->icon && $style != 1)
 			$icontag = "<i class=\"icon-". $this->icon ."\"></i>";
