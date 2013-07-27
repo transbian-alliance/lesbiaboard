@@ -277,7 +277,7 @@ if(NumRows($rPosts))
 if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div>", $pagelinks);
 
 
-if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning) && !$mobileLayout)
+if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning))
 {
 	$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
 
@@ -337,14 +337,6 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 		</table>
 	</form>
 ",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod);
-}
-
-if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning) && $mobileLayout) {
-	print "
-		<div style=\"text-align: center;\">
-			<a href=\"" . actionLink("newreply", $tid) . "\"><button style=\"font-size: 120%;\">" . __("Reply to this thread") . "</button></a>
-		</div>
-	";
 }
 
 ?>
