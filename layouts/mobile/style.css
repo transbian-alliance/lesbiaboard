@@ -42,10 +42,10 @@ body {
 #mobile_overlay {
 	background-color: black;
 	opacity: 0;
-	-webkit-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
-	-o-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
-	-ms-transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
-	transition: 0.25s opacity ease-out, 0.5s visibility ease-in-out;
+	-webkit-transition: 0.4s opacity ease-out, 0.4s visibility ease-in-out;
+	-o-transition: 0.4s opacity ease-out, 0.4s visibility ease-in-out;
+	-ms-transition: 0.4s opacity ease-out, 0.4s visibility ease-in-out;
+	transition: 0.4s opacity ease-out, 0.4s visibility ease-in-out;
 	
 	position:fixed!important;
 	left:0px;
@@ -71,10 +71,10 @@ html.noscroll
 }
 
 #mobile_sidebar {
-	-webkit-transition: 0.25s -webkit-transform ease-in-out;
-	-o-transition: 0.25s -o-transform ease-in-out;
-	-ms-transition: 0.25s -ms-transform ease-in-out;
-	transition: 0.25s transform ease-in-out;
+	-webkit-transition: 0.4s -webkit-transform ease-in-out;
+	-o-transition: 0.4s -o-transform ease-in-out;
+	-ms-transition: 0.4s -ms-transform ease-in-out;
+	transition: 0.4s transform ease-in-out;
 	
 	-webkit-transform: translateX(-240px);
 	-o-transform: translateX(-240px);
