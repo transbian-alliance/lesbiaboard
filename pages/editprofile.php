@@ -441,11 +441,16 @@ if($_POST['action'] == __("Edit profile"))
 				{
 					case "label":
 						break;
+					case "color":
+						$val = $_POST[$field];
+						var_dump($val);
+						if(!preg_match("/^#[0-9a-fA-F]*$/", $val))
+							$val = "";
+						$sets[] = $field." = '".SqlEscape($val)."'";
+						break;
 					case "text":
 					case "textarea":
-					case "color":
 						$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
-						break;
 					case "password":
 						if($_POST[$field])
 							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
