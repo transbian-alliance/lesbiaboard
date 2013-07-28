@@ -89,6 +89,9 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\" $tooltip>$icontag$label</a>";
 	}
 	
+	public function getText() {
+		return $this->label;
+	}
 	public function getLink() {
 		return actionLink($this->action, $this->id, $this->args);
 	}
@@ -107,6 +110,9 @@ class PipeMenuAnyLinkEntry implements PipeMenuEntry {
 	public function build() {
 		return "<a href=\"" . htmlspecialchars($this->link) . "\">" . $this->label . "</a>";
 	}
+	public function getText() {
+		return $this->label;
+	}
 	public function getLink() {
 		return $this->link;
 	}
@@ -122,6 +128,9 @@ class PipeMenuTextEntry implements PipeMenuEntry {
 	public function build() {
 		return htmlspecialchars($this->text);
 	}
+	public function getText() {
+		return $this->text;
+	}
 	public function getLink() {
 		return "";
 	}
@@ -136,6 +145,11 @@ class PipeMenuHtmlEntry implements PipeMenuEntry {
 
 	public function build() {
 		return $this->html;
+	}
+	public function getText() {
+		if(!preg_match('@<a [^>]+>(.*)</a>@', $this->html, $match))
+			return $html;
+		return $match[1];
 	}
 	public function getLink() {
 		preg_match('/href="([^"]*)"/', $this->html, $match);

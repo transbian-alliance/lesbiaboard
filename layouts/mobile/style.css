@@ -1,5 +1,5 @@
-body {
-	margin-top: 40px;
+#body-wrapper {
+	padding-top: 40px;
 }
 
 #mobile_headerBar {
@@ -75,13 +75,13 @@ html.noscroll
 	-o-transition: 0.4s -o-transform ease-in-out, 0.4s visibility ease-in-out;
 	-ms-transition: 0.4s -ms-transform ease-in-out, 0.4s visibility ease-in-out;
 	transition: 0.4s transform ease-in-out, 0.4s visibility ease-in-out;
-	
+
 	-webkit-transform: translateX(-240px);
 	-o-transform: translateX(-240px);
 	-ms-transform: translateX(-240px);
 	-moz-transform: translateX(-240px);
 	transform: translateX(-240px);
-
+	
 	visibility: hidden;
 	
 	background:black;
@@ -107,20 +107,6 @@ html.noscroll
 /* This is horrible, but I don't know how to fix it properly. */
 #mobile_sidebar > img {
 	margin-top: 40px;
-}
-
-#mobile_sidebar.shown {
-    visibility: visible;
-
-	-webkit-transform: translateX(0px);
-	-o-transform: translateX(0px);
-	-ms-transform: translateX(0px);
-	-moz-transform: translateX(0px);
-	transform: translateX(0px);
-}
-
-#mobile_header.shown {
-	display: block;
 }
 
 #mobile_header td {
@@ -216,4 +202,53 @@ html.noscroll
 
 .footer > a:first-child {
 	font-size: 8pt;
+}
+
+
+@media (min-width: 650px) {
+
+	#body-wrapper {
+		padding-left:240px;
+	}
+	
+	#mobile_sidebar {
+		visibility: visible;
+		-webkit-transform: translateX(0px);
+		-o-transform: translateX(0px);
+		-ms-transform: translateX(0px);
+		-moz-transform: translateX(0px);
+		transform: translateX(0px);
+	}
+	#mobile_openHeader {
+		display: none!important;
+	}
+}
+
+@media (max-width: 650px)  {
+	#mobile_sidebar {
+		-webkit-transform: translateX(-240px);
+		-o-transform: translateX(-240px);
+		-ms-transform: translateX(-240px);
+		-moz-transform: translateX(-240px);
+		transform: translateX(-240px);
+
+		visibility: hidden;
+	}
+
+	#mobile_sidebar.shown {
+		-webkit-transform: translateX(0px);
+		-o-transform: translateX(0px);
+		-ms-transform: translateX(0px);
+		-moz-transform: translateX(0px);
+		transform: translateX(0px);
+
+		visibility: visible;
+	}
+}	
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
 }
