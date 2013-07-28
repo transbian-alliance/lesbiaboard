@@ -388,6 +388,12 @@ if(!$_POST['poll'] || $_POST['pollOptions'])
 
 echo "<script src=\"".resourceLink("js/threadtagging.js")."\"></script>";
 
+echo "
+	<script type=\"text/javascript\">
+			window.addEventListener(\"load\",  hookUpControls, false);
+	</script>";
+
+
 $form = "
 		<form name=\"postform\" action=\"".actionLink("newthread", $fid)."\" method=\"post\">
 			<table class=\"outline margin width100\">

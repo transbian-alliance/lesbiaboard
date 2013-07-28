@@ -218,8 +218,7 @@ function showEditProfilePart(newId)
 }
 
 var textEditor;
-function hookUpControls()
-{
+function hookUpControls() {
 	//Now functional!
 	textEditor = document.getElementById("text");
 	textEditor.addEventListener("keypress", HandleKey, true);
@@ -252,8 +251,7 @@ function ConstructToolbar()
 
 	];
 
-	for(var i = 0; i < buttons.length; i++)
-	{
+	for(var i = 0; i < buttons.length; i++) {
 		var button = buttons[i];
 		if (button.separator !== undefined && button.separator == true) {
 			toolbar.appendChild(document.createTextNode(" "));
