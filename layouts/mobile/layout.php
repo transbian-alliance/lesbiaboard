@@ -21,8 +21,8 @@
 	</div>
 	<div id="mobile_overlay">
 	</div>
-	<div id="mobile_headerBar" class="cell0">
-		<table style="width:100%;"><tr>
+	<div id="mobile_headerBar">
+		<table style="width:100%;"><tr  class="cell0">
 		<td>
 			<a id="mobile_openHeader" href="#" class="button"><i class="icon-ellipsis-horizontal"></i></a>
 		</td>
@@ -66,21 +66,21 @@
 		</tr></table>
 	</div>
 	<div id="body">
-	<div id="body-wrapper">
-		<div id="main" style="padding:8px;">
+		<div id="body-wrapper">
+			<div id="main" style="padding:8px;">
 
-			<form action="<?php print actionLink('login'); ?>" method="post" id="logout">
-				<input type="hidden" name="action" value="logout" />
-			</form>
+				<form action="<?php print actionLink('login'); ?>" method="post" id="logout">
+					<input type="hidden" name="action" value="logout" />
+				</form>
 
-			<?php print $layout_bars; ?>
-			<?php print $layout_contents;?>
+				<?php print $layout_bars; ?>
+				<?php print $layout_contents;?>
 
+			</div>
+			<div class="footer" style="clear: both;">
+				<?php print $layout_footer; ?>
+			</div>
 		</div>
-		<div class="footer" style="clear: both;">
-			<?php print $layout_footer; ?>
-		</div>
-	</div>
 	</div>
 </body>
 </html>

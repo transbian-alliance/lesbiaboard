@@ -27,8 +27,8 @@ function showSidebar() {
 		$('html').addClass('noscroll').css('top',-scrollTop);         
 	}
 	$("#mobile_sidebar").scrollTop(0);
-	$("#mobile_sidebar").addClass("shown");
-	$("#mobile_overlay").addClass("shown");
+	$("#mobile_sidebar").addClass("visible shown");
+	$("#mobile_overlay").addClass("visible shown");
 	
 	return false;
 }
@@ -46,6 +46,11 @@ function hideSidebar() {
 		$('html,body').scrollTop(-scrollTop);
 	}
 	
+	setTimeout(function() {
+		$("#mobile_sidebar").removeClass("visible");
+		$("#mobile_overlay").removeClass("visible");
+	}, 500);
+	
 	$("#mobile_sidebar").removeClass("shown");
 	$("#mobile_overlay").removeClass("shown");
 	
@@ -56,11 +61,11 @@ function hideSidebar() {
 $(function() {
 
 	$('#mobile_openHeader').bind('click', function() {
-		if (sidebarShown === true) {
+		if (sidebarShown)
 			hideSidebar();
-		} else {
+		else
 			showSidebar();
-		}
+		return false;
 	});
 	$('#mobile_overlay').bind('click', hideSidebar);
 	
