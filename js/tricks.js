@@ -233,65 +233,78 @@ function ConstructToolbar()
 
 	var buttons =
 	[
-		{ label: "B", title: "Bold", style: "font-weight: bold", insert: "b" },
-		{ label: "I", title: "Italic", style: "font-style: italic", insert: "i" },
-		{ label: "U", title: "Underlined", style: "text-decoration: underline", insert: "u" },
-		{ label: "S", title: "Strikethrough", style: "text-decoration: line-through", insert: "s" },
-		{ label: "-" },
-		{ label: "x&#x00B2;", title: "Superscript", insert: "sup", html: true },
-		{ label: "x&#x2082;", title: "Subscript", insert: "sub", html: true },
-		//{ label: "A", title: "Big", insert: "big", html: true },
-		//{ label: "a", title: "Small", insert: "small", html: true },
-		{ label: "-" },
-		{ label: "url", title: "Link", style: "color: blue; text-decoration: underline", insert: "url" },
-		{ label: "<img src=\""+resourceLink("img/stdimg.png")+"\" style=\"height: 0.9em;\" />", title: "Image", insert: "img" },
-		{ label: "-" },
-		{ label: "&ldquo; &rdquo;", title: "Quote", insert: "quote" },
-		{ label: "&hellip;", title: "Spoiler", style: "opacity: 0.25", insert: "spoiler" },
-		//{ label: "abc", title: "Insert code block", style: "font-family: monospace", insert: "code" },
+		{ icon: "bold", title: "Bold", insert: 'b'},
+		{ icon: "italic", title: "Italic", insert: "i" },
+		{ icon: "underline", title: "Underlined", insert: "u" },
+		{ icon: "strikethrough", title: "Strikethrough", insert: "s" },
+		{ separator: true },
+		{ icon: "superscript", title: "Superscript", insert: "sup", html: true },
+		{ icon: "subscript", title: "Subscript", insert: "sub", html: true },
+		//{ icon: "A", title: "Big", insert: "big", html: true },
+		//{ icon: "a", title: "Small", insert: "small", html: true },
+		{ separator: true },
+		{ icon: "link", title: "Link", insert: "url" },
+		{ icon: "picture", title: "Image", insert: "img" },
+		{ separator: true },
+		{ icon: "quote-left", title: "Quote", insert: "quote" },
+		{ icon: "ellipsis-horizontal", title: "Spoiler", style: "opacity: 0.25", insert: "spoiler" },
+		//{ icon: "abc", title: "Insert code block", style: "font-family: monospace", insert: "code" },
 
 	];
 
 	for(var i = 0; i < buttons.length; i++)
 	{
 		var button = buttons[i];
-		if(button.label == "-")
-		{
-			toolbar.innerHTML += " ";
+		if (button.separator !== undefined && button.separator == true) {
+			toolbar.appendChild(document.createTextNode(" "));
 			continue;
 		}
-		var newButton = "<button ";
-		if (button.title != undefined)
-			newButton += "title=\"" + button.title + "\" ";
-		newButton += "onclick=\"Insert('" + button.insert + "', " + button.html + "); return false;\">";
-		if (button.style != undefined)
-			newButton += "<span style=\"" + button.style + "\">";
-		newButton += button.label;
-		if (button.style != undefined)
-			newButton += "</span>";
-		newButton += "</button>";
-		toolbar.innerHTML += newButton;
+
+		var newButton = document.createElement("button");
+		newButton.type = "button";
+
+		if (button.title != undefined) {
+			newButton.title = button.title;
+		}
+
+		if (button.callback !== undefined) {
+			newButton.addEventListener("click", button.callback, false);
+		} else {
+			//Kind of a hack… -Nina
+			newButton.insert = button.insert;
+			newButton.insertHtml = button.html;
+			newButton.addEventListener('click', function(e) {
+				e.preventDefault();
+				insert(this.insert, this.insertHtml);
+			}, false);
+		}
+
+		var icon = document.createElement("i");
+		icon.className = "icon-" + button.icon;
+
+		newButton.appendChild(icon);
+
+		toolbar.appendChild(newButton);
 	}
 
 	textEditor.parentNode.insertBefore(toolbar, textEditor);
 }
-function HandleKey()
-{
-	if(event.ctrlKey && !event.altKey)
-	{
+
+function HandleKey() {
+	if(event.ctrlKey && !event.altKey) {
 		var charCode = event.charCode ? event.charCode : event.keyCode;
 		var c = String.fromCharCode(charCode).toLowerCase();
 		if (c == "b" || c == "i" || c == "u")
 		{
 			textEditor.focus();
-			Insert(c);
+			insert(c);
 			event.preventDefault();
 			return false;
 		}
 	}
 }
-function Insert(stuff, html)
-{
+
+function insert(stuff, html) {
 	var oldSelS = textEditor.selectionStart;
 	var oldSelE = textEditor.selectionEnd;
 	var scroll = textEditor.scrollTop;
