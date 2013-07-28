@@ -51,6 +51,9 @@ function install()
 	if($currVersion == $abxd_version)
 		installationError("The board is already installed and updated (Database version $currVersion). You don't need to run the installer!\n");
 
+	echo "Setting utf8_unicode_ci collation to the database...\n";
+	query("ALTER DATABASE $dbname COLLATE utf8_unicode_ci");
+
 	if($currVersion == -1)
 		echo "Installing database version $abxd_version...\n";
 	else

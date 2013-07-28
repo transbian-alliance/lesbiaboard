@@ -18,6 +18,12 @@ function sqlConnect()
 		return false;
 	}
 	
+	if (!$dblink->set_charset("utf8"))
+	{
+        $dberror = "Error setting UTF8 charset";
+		return false;
+	}
+	
 	unset($dbpass);
 	
 	return true;
