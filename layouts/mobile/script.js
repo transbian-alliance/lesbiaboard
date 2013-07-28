@@ -78,8 +78,7 @@ $(function() {
 		else
 			touchDown = false;
 
-		$("#lol").text(dx+" "+dy);
-		if(dx > 60)
+		if(touchDown && dx > 60)
 			showSidebar();
 	}, false);
 	
