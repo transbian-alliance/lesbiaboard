@@ -351,7 +351,7 @@ function makePost($post, $type, $params=array())
 	
 	$links = $links->build(2);
 
-	if($links)
+//	if($links)
 //		$links = "<div style=\"text-align:right\"><small>$links</small></div>";
 /*	echo "
 		{$anchor}
