@@ -50,7 +50,7 @@ function bbcodeYoutube($dom, $contents, $arg)
 	if($id) $contents = $id;
 
 	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
-		return "[Invalid youtube video ID]";
+		return $dom->createTextNode("[Invalid youtube video ID]");
 
 	$args = "";
 
