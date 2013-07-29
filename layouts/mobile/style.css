@@ -29,6 +29,11 @@
 	height: 40px;
 }
 
+#mobile_headerBar .toolbarMenu a {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
 #mobile_headerBar a:active, #mobile_headerBar a:hover {
 	background-color:rgba(0, 0, 0, 0.2);
 }
