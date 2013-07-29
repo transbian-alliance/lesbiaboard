@@ -337,8 +337,8 @@ function getServerURLNoSlash($https = false)
     global $boardroot;
     $stdport = $https?443:80;
     $port = "";
-    if($stdport != $_SERVER["HTTP_PORT"])
-    	$port = ":".$_SERVER["HTTP_PORT"];
+    if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
+    	$port = ":".$_SERVER["SERVER_PORT"];
     return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . substr($boardroot, 0, strlen($boardroot)-1);
 }
 
@@ -346,8 +346,8 @@ function getFullRequestedURL($https = false)
 {
     $stdport = $https?443:80;
     $port = "";
-    if($stdport != $_SERVER["HTTP_PORT"])
-    	$port = ":".$_SERVER["HTTP_PORT"];
+    if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
+    	$port = ":".$_SERVER["SERVER_PORT"];
     return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . $_SERVER['REQUEST_URI'];
 }
 
