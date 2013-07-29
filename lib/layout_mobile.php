@@ -266,6 +266,7 @@ function makePost($post, $type, $params=array())
 	}
 
 	$links = new PipeMenu();
+	$links->setClass("toolbarMenu");
 
 	if ($type == POST_SAMPLE)
 		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");
@@ -290,21 +291,18 @@ function makePost($post, $type, $params=array())
 			}
 			else if ($type == POST_NORMAL)
 			{
-				$links->add(new PipeMenuLinkEntry(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id']));
+				$links->add(new PipeMenuLinkEntry(__("Link"), "thread", "", "pid=".$post['id']."#".$post['id'], 'link'));
 				
 				if ($canreply && !$params['noreplylinks'])
-					$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id']));
+					$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id'], 'quote-left'));
 
 				if ($editallowed && ($canmod || ($poster['id'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
 				{
-					$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id']));
+					$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id'], '', 'edit'));
 					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$loguser['token']);
 					$onclick = $canmod ? " onclick=\"deletePost(this);return false;\"" : ' onclick="if(!confirm(\'Really delete this post?\'))return false;"';
-					$links->add(new PipeMenuHtmlEntry("<a href=\"{$link}\"{$onclick}>".__('Delete')."</a>"));
+					$links->add(new PipeMenuHtmlEntry("<a href=\"{$link}\"{$onclick}><i class=\"icon-remove\">&nbsp;</i></a>"));
 				}
-				$links->add(new PipeMenuTextEntry('#'.$post['id']));
-				if ($loguser['powerlevel'] > 0)
-					$links->add(new PipeMenuTextEntry($post['ip']));
 
 				$bucket = "topbar"; include("./lib/pluginloader.php");
 			}
@@ -321,22 +319,27 @@ function makePost($post, $type, $params=array())
 
 			$meta .= " ".__("in")." ".makeThreadLink($thread);
 		}
-
-		//Revisions
-		if($post['revision'])
-		{
-			if ($canmod)
-				$meta .= " (<a href=\"javascript:void(0);\" onclick=\"showRevisions(".$post['id'].")\">".format(__("rev. {0}"), $post['revision'])."</a>)";
-			else
-				$meta .= " (".format(__("rev. {0}"), $post['revision']).")";
-		}
-		//</revisions>
 	}
 
 	// OTHER STUFF
 
-	if($type == POST_NORMAL)
+	if ($post['mood'] > 0) {
+		if (file_exists("${dataDir}avatars/".$poster['id']."_".$post['mood'])) {
+			$picture = "<img src=\"${dataUrl}avatars/".$poster['id']."_".$post['mood']."\" alt=\"\" />";
+		}
+	} else {
+		if ($poster["picture"] == "#INTERNAL#") {
+			$picture = "<img src=\"${dataUrl}avatars/".$poster['id']."\" alt=\"\" />";
+		} else if($poster["picture"]) {
+			$picture = "<img src=\"".htmlspecialchars($poster["picture"])."\" alt=\"\" />";
+		} else {
+			$picture = "&nbsp;";
+		}
+	}
+
+	if($type == POST_NORMAL) {
 		$anchor = "<a name=\"".$post['id']."\"></a>";
+	}
 
 	$highlightClass = "";
 	if($post['id'] == $highlight)
@@ -346,11 +349,11 @@ function makePost($post, $type, $params=array())
 
 	//PRINT THE POST!
 	
-	$links = $links->build();
+	$links = $links->build(2);
 
 	if($links)
-		$links = "<div style=\"text-align:right\"><small>$links</small></div>";
-	echo "
+//		$links = "<div style=\"text-align:right\"><small>$links</small></div>";
+/*	echo "
 		{$anchor}
 		<table class=\"outline margin $highlightClass\" id=\"post${post['id']}\">
 			<tr class=\"cell0\">
@@ -370,6 +373,24 @@ function makePost($post, $type, $params=array())
 					$links
 				</td>
 			</tr>
-		</table>";
+		</table>";*/
+
+	echo "
+		{$anchor}
+		<div class=\"mobile_postHeader\">
+			$links
+			<div class=\"mobile_userAvatarBox\">
+				$picture
+			</div>
+			" . userLink($poster) . "<br />
+			<span class=\"date\">$meta</span>
+		</div>
+		<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+			&nbsp;
+		</span>
+		<div class=\"mobile_postBox\">
+			$postText
+		</div>
+	";
 }
 

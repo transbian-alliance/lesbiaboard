@@ -24,7 +24,7 @@
 	<div id="mobile_headerBar">
 		<table style="width:100%;"><tr  class="cell0">
 		<td>
-			<a id="mobile_openHeader" href="#" class="button"><i class="icon-ellipsis-horizontal"></i></a>
+			<a id="mobile_openHeader" href="#" class="button"><i class="icon-reorder"></i></a>
 		</td>
 		<?php 
 			$last = $layout_crumbs->pop();
@@ -51,7 +51,7 @@
 			if($last2 != NULL)
 			{
 				$backurl = htmlspecialchars($last2->getLink());
-				$now = "&laquo; ".$now;
+				$now = "<i class=\"icon-chevron-left\">&nbsp;</i> ".$now;
 			}
 			
 			$now = "<a href=\"$backurl\">$now</a>";
