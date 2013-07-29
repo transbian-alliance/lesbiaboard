@@ -280,7 +280,7 @@ div#tabs button.selected, h3, table.post td.meta ul.pipemenu li:active, .mainMen
 	margin-bottom: 0px;
 }
 
-div#tabs button:active, table.post td.meta ul.pipemenu li:active, .mainMenu li:active, .toolbarMenu li:active {
+div#tabs button:active, table.post td.meta ul.pipemenu li:active, .mainMenu li:active, .toolbarMenu > li:active {
 	background-color: #33819D;
 }
 
@@ -465,7 +465,7 @@ input[placeholder="Search"]:placeholder {
 	border-top: 1px solid #36383B;
 }
 
-.stackedMenu > li > a:active {
+.stackedMenu > li > a:hover {
 	background: none;
 }
 
@@ -474,6 +474,21 @@ input[placeholder="Search"]:placeholder {
 	color: #FFF!important;
 }
 
+.toolbarMenu > li > a:hover {
+	background: none;
+}
+
 .toolbarMenu li i {
 	opacity: 0.8;
+}
+
+.mobile_postHeader {
+	background: #111111;
+	border: 1px solid #36383B;
+	border-bottom: 0px none;
+}
+
+.mobile_postBox {
+	border: 1px solid #36383B;
+	border-top-width: 2px;
 }
