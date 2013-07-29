@@ -664,16 +664,16 @@ td.threadIcons label > input:checked ~ *
 	}
 }
 
-div.postToolbar
-{
+div.postToolbar {
 	margin-bottom: 1px;
 }
 
-div.postToolbar button
-{
-	height: 1.4em;
-	vertical-align: bottom;
+div.postToolbar button {
 	margin-right: 1px;
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 24px;
+	height: 24px;
 }
 
 .themeselector input:checked + label, .fe_selected {
