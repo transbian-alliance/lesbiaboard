@@ -377,9 +377,9 @@ function makePost($post, $type, $params=array())
 
 	echo "
 		{$anchor}
-		<div class=\"mobile_postHeader\">
+		<div class=\"header0 mobile_postHeader\">
 			$links
-			<div class=\"mobile_userAvatarBox\">
+			<div class=\"cell0 mobile_userAvatarBox\">
 				$picture
 			</div>
 			" . userLink($poster) . "<br />
