@@ -504,6 +504,7 @@ textarea
 	color: #FFF;
 	margin: 0;
 	padding: 0px 3px;
+	white-space: nowrap;
 }
 .bronze
 {
@@ -546,8 +547,7 @@ button.expander:hover
 	border: 1px solid #FFF;
 }
 
-.threadTag
-{
+.threadTag {
 	color:white;
 	font-size: 1em;
 	text-shadow: 1px 1px 0px hsla(0, 0%, 0%, .5);
@@ -555,6 +555,7 @@ button.expander:hover
 	border: 1px dotted hsla(0, 0%, 100%, .75);
 	box-shadow: 1px 1px 2px hsla(0, 0%, 0%, .5);
 	margin-right: 2px;
+	white-space: nowrap;
 }
 
 td.threadIcon
