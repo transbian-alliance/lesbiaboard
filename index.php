@@ -11,7 +11,7 @@ require('lib/common.php');
 //TODO: Put this in a proper place.
 function getBirthdaysText()
 {
-	$rBirthdays = Query("select birthday, id, name, displayname, powerlevel, sex, minipic from {users} where birthday > 0 and powerlevel >= 0 order by name");
+	$rBirthdays = Query("select u.birthday, u.(_userfields) from {users} u where birthday > 0 and powerlevel >= 0 order by name");
 	$birthdays = array();
 	while($user = Fetch($rBirthdays))
 	{
@@ -19,7 +19,7 @@ function getBirthdaysText()
 		if(gmdate("m-d", $b) == gmdate("m-d"))
 		{
 			$y = gmdate("Y") - gmdate("Y", $b);
-			$birthdays[] = UserLink($user)." (".$y.")";
+			$birthdays[] = UserLink(getDataPrefix($user, "u_"))." (".$y.")";
 		}
 	}
 	if(count($birthdays))
