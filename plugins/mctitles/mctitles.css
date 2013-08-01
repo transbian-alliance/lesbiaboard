@@ -1,0 +1,14 @@
+.mcTitle {
+	transform: rotate(-20deg);
+	transform-origin: bottom center;
+	display: inline-block;
+	position: relative;
+	top: -30px;
+	left: -240px;
+	font-size: 20px;
+	color: yellow;
+	text-shadow: 2px 2px 0px #000;
+	width: 16em;
+	text-align: center;
+	pointer-events: none;
+}
