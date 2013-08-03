@@ -77,7 +77,7 @@ echo "
 			<td class=\"cell2\">
 			</td>
 			<td class=\"cell0\">
-				".__("WARNING: This will nuke the user. It will ban and IP-ban him, and delete permanently all his posts, threads, and profile comments.")."
+				".__("WARNING: This will IP-ban the user, and permanently and irreversibly delete the user itself and all his posts, threads, and profile comments. This user will be gone forever, as if he never existed.")."
 				<br/><br/>
 				".__("Please enter your password to confirm.")."
 			</td>
