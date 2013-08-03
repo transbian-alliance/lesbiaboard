@@ -50,7 +50,6 @@ if(isset($_POST["currpassword"]))
 				where id={0}", $uid);
 
 		//and then IP BAN HIM
-		echo  $user["lastip"];
 		query("insert into {ipbans} (ip, reason, date) 
 				values ({0}, {1}, 0)
 				on duplicate key update ip=ip", $user["lastip"], "Nuking ".$user["name"]);
