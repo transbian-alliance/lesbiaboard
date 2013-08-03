@@ -75,7 +75,7 @@ class HTML5_TreeBuilder {
     'p','param','plaintext','pre','script','select','spacer','style',
     'tbody','textarea','tfoot','thead','title','tr','ul','wbr');
 
-    private $block = array('div' => true, 'style' => true, 'table' => true, 'tr' => true, 'td' => true);
+    private $block = array('div' => true, 'style' => true, 'table' => true, 'tr' => true, 'td' => true, 'li' => true);
 
     private $pendingTableCharacters;
     private $pendingTableCharactersDirty;
