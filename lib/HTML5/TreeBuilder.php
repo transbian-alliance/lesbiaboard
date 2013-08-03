@@ -749,7 +749,7 @@ class HTML5_TreeBuilder {
             break;
 
             case HTML5_Tokenizer::BR:
-                if ($this->stack[count($this->stack) - 1]->textContent) {
+                if ($this->prev['type'] !== HTML5_Tokenizer::ENDTAG && $this->stack[count($this->stack) - 1]->textContent) {
                     $this->reconstructActiveFormattingElements();
                     $this->insertElement(array(
                         'type' => HTML5_Tokenizer::STARTTAG,
@@ -3287,6 +3287,7 @@ class HTML5_TreeBuilder {
         }
     break;
     }
+    $this->prev = $token;
         // end funky indenting
         }
 
