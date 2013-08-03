@@ -47,6 +47,16 @@ function Query_ExpandFieldLists($match)
 	return implode(',', $ret);
 }
 
+function Query_MangleTables($match)
+{
+	global $dbpref, $tableLists;
+	$tablename = $match[1];
+	if($tableLists[$tablename])
+		return $tableLists[$tablename];
+	
+	return $dbpref.$tablename;
+}
+
 function Query_AddUserInput($match)
 {
 	global $args;
@@ -105,7 +115,7 @@ function query()
 	$query = preg_replace_callback("@(\w+)\.\(([\w,\s]+)\)@s", 'Query_ExpandFieldLists', $query);
 
 	// add table prefixes
-	$query = preg_replace("@\{([a-z]\w*)\}@si", $dbpref.'$1', $query);
+	$query = preg_replace_callback("@\{([a-z]\w*)\}@si", "Query_MangleTables", $query);
 
 	// add the user input
 	$query = preg_replace_callback("@\{(\d+\w?)\}@s", 'Query_AddUserInput', $query);
@@ -229,9 +239,13 @@ $fieldLists = array(
 	"userfields" => "id,name,displayname,powerlevel,sex,minipic"
 );
 
+$tableLists = array(
+	"ipbans" => "lolol"
+);
+
 function loadFieldLists()
 {
-	global $fieldLists;
+	global $fieldLists, $tableLists;
 
 	//Allow plugins to add their own!
 	$bucket = "fieldLists"; include('lib/pluginloader.php');
