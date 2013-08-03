@@ -30,6 +30,7 @@ function gfxnumber($num)
 function makeLinks($links)
 {
 	global $layout_links;
+	$bucket = "links"; include("lib/pluginloader.php");
 	$layout_links = $links;
 }
 
