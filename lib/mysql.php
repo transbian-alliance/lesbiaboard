@@ -240,7 +240,6 @@ $fieldLists = array(
 );
 
 $tableLists = array(
-	"ipbans" => "lolol"
 );
 
 function loadFieldLists()
