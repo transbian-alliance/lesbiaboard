@@ -75,6 +75,8 @@ class HTML5_TreeBuilder {
     'p','param','plaintext','pre','script','select','spacer','style',
     'tbody','textarea','tfoot','thead','title','tr','ul','wbr');
 
+    private $block = array('div' => true, 'style' => true, 'table' => true, 'tr' => true, 'td' => true);
+
     private $pendingTableCharacters;
     private $pendingTableCharactersDirty;
 
@@ -749,7 +751,7 @@ class HTML5_TreeBuilder {
             break;
 
             case HTML5_Tokenizer::BR:
-                if ($this->prev['type'] !== HTML5_Tokenizer::ENDTAG && $this->stack[count($this->stack) - 1]->textContent) {
+                if (!isset($this->block[$this->prev['name']]) && $this->stack[count($this->stack) - 1]->textContent) {
                     $this->reconstructActiveFormattingElements();
                     $this->insertElement(array(
                         'type' => HTML5_Tokenizer::STARTTAG,
