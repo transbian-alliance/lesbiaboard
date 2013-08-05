@@ -52,15 +52,13 @@ $links = new PipeMenu();
 if($loguserid)
 	$links->add(new PipeMenuLinkEntry(__("Mark forum read"), "forum", $fid, "action=markasread", "ok"));
 
-if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
-{
-	if($isIgnored)
-		$links->add(new PipeMenuLinkEntry(__("Unignore forum"), "forum", $fid, "unignore", "eye-open"));
-	else
-		$links->add(new PipeMenuLinkEntry(__("Ignore forum"), "forum", $fid, "ignore", "eye-close"));
+if($isIgnored)
+	$links->add(new PipeMenuLinkEntry(__("Unignore forum"), "forum", $fid, "unignore", "eye-open"));
+else
+	$links->add(new PipeMenuLinkEntry(__("Ignore forum"), "forum", $fid, "ignore", "eye-close"));
 
+if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
 	$links->add(new PipeMenuLinkEntry(__("Post thread"), "newthread", $fid, "", "comment"));
-}
 
 makeLinks($links);
 
