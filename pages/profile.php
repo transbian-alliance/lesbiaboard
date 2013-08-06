@@ -35,7 +35,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		$block = (int)$_GET['block'];
 		$rBlock = Query("select * from {blockedlayouts} where user={0} and blockee={1}", $id, $loguserid);
 		$isBlocked = NumRows($rBlock);
-		if($block && !$isBlocked)
+		if($block && !$isBlocked && $loguserid != $id)
 			$rBlock = Query("insert into {blockedlayouts} (user, blockee) values ({0}, {1})", $id, $loguserid);
 		elseif(!$block && $isBlocked)
 			$rBlock = Query("delete from {blockedlayouts} where user={0} and blockee={1} limit 1", $id, $loguserid);
@@ -326,7 +326,7 @@ if(IsAllowed("blockLayouts") && $loguserid)
 	$isBlocked = NumRows($rBlock);
 	if($isBlocked)
 		$links -> add(new PipeMenuLinkEntry(__("Unblock layout"), "profile", $id, "block=0&token={$loguser['token']}", "ban-circle"));
-	else
+	else if($id != $loguserid)
 		$links -> add(new PipeMenuLinkEntry(__("Block layout"), "profile", $id, "block=1&token={$loguser['token']}", "ban-circle"));
 }
 
