@@ -139,7 +139,7 @@ function makeForumList($fieldname, $selectedID)
 							f.id, f.title, f.catid
 						FROM
 							{forums} f
-						WHERE ".forumAccessControlSQL().(($pl < 1) ? " AND f.hidden=0" : '')." AND f.id!=1337
+						WHERE ".forumAccessControlSQL().(($pl < 1) ? " AND f.hidden=0" : '')."
 						ORDER BY f.forder, f.id");
 						
 	$fora = array();
@@ -173,19 +173,18 @@ function doLastPosts($compact, $limit)
 		
 	$hours = 72;
 
-	$qPosts = "select
-		{posts}.id, {posts}.date,
-		u.(_userfields),
-		{threads}.title as ttit, {threads}.id as tid,
-		{forums}.title as ftit, {forums}.id as fid
-		from {posts}
-		left join {users} u on u.id = {posts}.user
-		left join {threads} on {threads}.id = {posts}.thread
-		left join {forums} on {threads}.forum = {forums}.id
-		where {forums}.minpower <= {0} and {posts}.date >= {1}
-		order by date desc limit 0, {2u}";
-
-	$rPosts = Query($qPosts, $loguser['powerlevel'], (time() - ($hours * 60*60)), $limit);
+	$rPosts = Query("SELECT
+						p.id, p.date,
+						u.(_userfields),
+						t.title AS ttit, t.id AS tid,
+						f.title AS ftit, f.id AS fid
+					FROM {posts} p
+						LEFT JOIN {users} u on u.id = p.user
+						LEFT JOIN {threads} t on t.id = p.thread
+						LEFT JOIN {forums} f on t.forum = f.id
+					WHERE ".forumAccessControlSql()." AND p.date >= {0}
+					ORDER BY date DESC LIMIT 0, {1u}", 
+			(time() - ($hours * 60*60)), $limit);
 
 	while($post = Fetch($rPosts))
 	{

@@ -42,12 +42,12 @@ $rThreads = Query("	SELECT
 						lu.(_userfields)
 					FROM
 						{threads} t
-						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={4}" : '')."
+						".($loguserid ? "LEFT JOIN {threadsread} tr ON tr.thread=t.id AND tr.id={3}" : '')."
 						LEFT JOIN {users} su ON su.id=t.user
 						LEFT JOIN {users} lu ON lu.id=t.lastposter
 						LEFT JOIN {forums} f ON f.id=t.forum
-					WHERE t.user={0} AND f.minpower <= {1}
-					ORDER BY lastpostdate DESC LIMIT {2u}, {3u}", $uid, $loguser["powerlevel"], $from, $tpp, $loguserid);
+					WHERE t.user={0} AND ".forumAccessControlSql()."
+					ORDER BY lastpostdate DESC LIMIT {1u}, {2u}", $uid, $from, $tpp, $loguserid);
 
 $numonpage = NumRows($rThreads);
 

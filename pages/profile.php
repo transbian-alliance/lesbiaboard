@@ -159,7 +159,9 @@ if($lastPost)
 	$thread["title"] = $lastPost["ttit"];
 	$thread["id"] = $lastPost["tid"];
 
-	if($lastPost["minpower"] > $loguser["powerlevel"])
+	$realpl = $loguser["powerlevel"];
+	if($realpl < 0) $realpl = 0;
+	if($lastPost["minpower"] > $realpl)
 		$place = __("a restricted forum.");
 	else
 	{

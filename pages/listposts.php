@@ -17,11 +17,6 @@ else
 
 $title = __("Post list");
 
-$minpower = $loguser['powerlevel'];
-if($minpower < 0)
-	$minpower = 0;
-
-
 $total = FetchResult("
 			SELECT
 				count(p.id)
@@ -29,9 +24,8 @@ $total = FetchResult("
 				{posts} p
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
-			WHERE p.user={0} AND f.minpower <= {1}",
-		$id, $minpower);
-
+			WHERE p.user={0} AND ".forumAccessControlSql(),
+		$id);
 
 $ppp = $loguser['postsperpage'];
 if(isset($_GET['from']))
@@ -59,8 +53,8 @@ $rPosts = Query("	SELECT
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
 				LEFT JOIN {categories} c ON c.id=f.catid
-			WHERE u.id={1} AND f.minpower <= {2}
-			ORDER BY date ASC LIMIT {3u}, {4u}", $loguserid, $id, $minpower, $from, $ppp);
+			WHERE u.id={1} AND ".forumAccessControlSql()."
+			ORDER BY date ASC LIMIT {2u}, {3u}", $loguserid, $id, $from, $ppp);
 
 $numonpage = NumRows($rPosts);
 
