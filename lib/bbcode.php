@@ -314,7 +314,8 @@ function bbcodeQuoteGeneric($dom, $nodes, $arg, $attrs, $text)
 			$name = $quote['substr'];
 			if (preg_match('/^\s*id\s*=\s*/', substr($arg, $continue), $matches))
 			{
-				$id = (int) parseQuoteLike($arg, strlen($matches[0]) + $continue, true);
+				$quote = parseQuoteLike($arg, strlen($matches[0]) + $continue, true);
+				$id = (int) $quote['substr'];
 				$user_name = $dom->createElement('a');
 				$user_name->setAttribute('href', actionLink("post", $id));
 				$user_name->appendChild($dom->createTextNode($name));
