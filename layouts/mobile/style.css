@@ -317,12 +317,8 @@
 	margin-right: auto;
 }
 
-.mobile_postHeader .mobile_userAvatarBox {
-	float: left;
-	margin-right: 8px;
-}
-
 .mobile_postHeader .mobile_postInfoCell {
+	padding-left: 8px;
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;

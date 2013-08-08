@@ -384,9 +384,13 @@ function makePost($post, $type, $params=array())
 						$picture
 					</div>
 				</th>
-				<th class=\"mobile_postInfoCell\">
-					" . userLink($poster) . "<br />
-					<span class=\"date\">$meta</span>
+				<th class=\"mobile_postInfoCell\" style=\"width: 99%; overflow: hidden;\">
+					<div style=\"position: relative; height: 40px; top: 0; left: 0;\">
+						<div style=\"position: absolute; top: 0; left: 0;\">
+							" . userLink($poster) . "<br />
+							<span class=\"date\">$meta</span>
+						</div>
+					</div>
 					<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
 						&nbsp;
 					</span>
