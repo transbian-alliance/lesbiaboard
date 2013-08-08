@@ -487,8 +487,3 @@ input[placeholder="Search"]:placeholder {
 	border: 1px solid #36383B;
 	border-bottom: 0px none;
 }
-
-.mobile_postBox {
-	border: 1px solid #36383B;
-	border-top-width: 2px;
-}
