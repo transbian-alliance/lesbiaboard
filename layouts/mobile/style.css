@@ -291,6 +291,8 @@
 	height: 40px;
 	line-height: 20px;
 	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .mobile_postHeader th {
@@ -320,8 +322,20 @@
 	margin-right: 8px;
 }
 
+.mobile_postHeader .mobile_postInfoCell {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.mobile_postHeader th {
+	margin:0px;
+	padding:0px;
+	white-space: nowrap;
+	overflow: hidden !important;
+}
+
 .mobile_postHeader .toolbarMenu {
-	float: right;
 }
 
 .mobile_postHeader ul.toolbarMenu i {
