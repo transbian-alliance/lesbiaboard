@@ -288,9 +288,13 @@
 
 
 .mobile_postHeader {
-	background: #222;
 	height: 40px;
 	line-height: 20px;
+	text-align: left;
+}
+
+.mobile_postHeader th {
+	text-align: left !important;
 }
 
 .mobile_postHeader .date {
@@ -304,9 +308,11 @@
 }
 
 .mobile_userAvatarBox img {
-	width: 40px;
-	height: 40px;
+	max-width: 40px;
+	max-height: 40px;
 	margin: 0px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .mobile_postHeader .mobile_userAvatarBox {
@@ -320,10 +326,4 @@
 
 .mobile_postHeader ul.toolbarMenu i {
 	line-height: 40px;
-}
-
-.mobile_postBox {
-	padding: 8px;
-	border: 1px solid #222;
-	margin-bottom: 8px;
 }

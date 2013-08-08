@@ -377,20 +377,27 @@ function makePost($post, $type, $params=array())
 
 	echo "
 		{$anchor}
-		<div class=\"header0 mobile_postHeader\">
-			$links
-			<div class=\"cell0 mobile_userAvatarBox\">
-				$picture
-			</div>
-			" . userLink($poster) . "<br />
-			<span class=\"date\">$meta</span>
-		</div>
-		<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
-			&nbsp;
-		</span>
-		<div class=\"mobile_postBox\">
-			$postText
-		</div>
+		<table class=\"outline margin mobile_postBox\">
+			<tr class=\"header0 mobile_postHeader\">
+				<th>
+					$links
+					<div class=\"cell0 mobile_userAvatarBox\">
+						$picture
+					</div>
+					" . userLink($poster) . "<br />
+					<span class=\"date\">$meta</span>
+					</div>
+					<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+						&nbsp;
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td class=\"cell0 mobile_postBox\">
+					$postText
+				</td>
+			</tr>
+		</table>
 	";
 }
 
