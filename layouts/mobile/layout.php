@@ -29,7 +29,7 @@
 		<?php 
 			$last = $layout_crumbs->pop();
 			if($last == NULL)
-				$now = "<a href=\"$boardroot\">".htmlspecialchars(Settings::get("boardname"))."</a>";
+				$now = htmlspecialchars(Settings::get("boardname"));
 			else
 				$now = $last->getText();
 
@@ -55,7 +55,7 @@
 			}
 			
 			$now = "<a href=\"$backurl\">$now</a>";
-			echo "<td style='width: 99%'><div style='width: 100%; height: 40px; position:relative;'><div style=\"position:absolute\">$now</div></div></td>";
+			echo "<td style='width: 99%'><div style='width: 100%; height: 40px; position:relative;'><div style=\"position:absolute;\">$now</div></div></td>";
 		?>
 		<td>
 			<?php

@@ -48,6 +48,10 @@
 	color: white;
 }
 
+#mobile_headerBar img {
+	vertical-align:middle;
+}
+
 #mobile_openHeader {
 	-webkit-tap-highlight-color: transparent;
 }
