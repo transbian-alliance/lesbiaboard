@@ -98,8 +98,8 @@ while($forum = Fetch($rForum))
 	{
 		$lastPost = Fetch(Query("select * from {posts} where thread = {0} order by date desc limit 0,1", $thread['id']));
 		$firstPost = Fetch(Query("select * from {posts} where thread = {0} order by date asc limit 0,1", $thread['id']));
-		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2}, date = {3}, firstpostid={4} where id = {5}", 
-			(int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], (int)$firstPost['date'], (int)$firstPost['id'], $thread['id']);
+		Query("update {threads} set lastpostid = {0}, lastposter = {1}, lastpostdate = {2}, date = {3}, firstpostid={4}, user={5} where id = {6}", 
+			(int)$lastPost['id'], (int)$lastPost['user'], (int)$lastPost['date'], (int)$firstPost['date'], (int)$firstPost['id'], (int)$firstPost['user'], $thread['id']);
 		
 		$aff += affectedRows();
 		if($first)

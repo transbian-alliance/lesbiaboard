@@ -101,7 +101,8 @@ function Query_AddUserInput($match)
  * {table} syntax allows for flexible manipulation of table names (namely, adding a DB prefix)
  *
  */
-function query()
+ 
+function parseQuery()
 {
 	global $dbpref, $args, $fieldLists;
 	$args = func_get_args();
@@ -120,7 +121,14 @@ function query()
 	// add the user input
 	$query = preg_replace_callback("@\{(\d+\w?)\}@s", 'Query_AddUserInput', $query);
 
-	return RawQuery($query);
+	return $query;
+}
+
+function query()
+{
+	$args = func_get_args();
+	if (is_array($args[0])) $args = $args[0];
+	return rawQuery(parseQuery($args));
 }
 
 function rawQuery($query)

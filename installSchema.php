@@ -421,6 +421,9 @@ $tables = array
 			"lostkey" => $var128,
 			"lostkeytimer" => $genericInt,
 			"loggedin" => $bool,
+			"convertpassword" => $var256,
+			"convertpasswordsalt" => $var256,
+			"convertpasswordtype" => $var256,
 		),
 		"special" => $keyID.", key `posts` (`posts`), key `name` (`name`), key `lastforum` (`lastforum`), key `lastposttime` (`lastposttime`), key `lastactivity` (`lastactivity`)"
 	),

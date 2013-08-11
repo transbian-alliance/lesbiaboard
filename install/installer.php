@@ -220,8 +220,77 @@ function runConverter($converter, $db, $pref)
 	$converter($db, $pref);
 }
 
+// CONVERTERS
+// TODO: Maybe move them to another file?
+
 function converterIPB($db, $pref)
 {
+	echo "Starting IPB conversion...\n";
 	$pref = "$db.$pref";
-	echo "CONVERT LOLOLOLO";
+
+	$isCat = array();
+	$forums = query("SELECT * FROM {$pref}forums");
+	while($forum = fetch($forums))
+		if($forum["parent_id"] == -1) //Category
+			$isCat[$forum["id"]] = true;
+	
+	$forums = query("SELECT * FROM {$pref}forums");
+	while($forum = fetch($forums))
+	{
+		if($forum["parent_id"] == -1) //Category
+			query("INSERT INTO {categories} (id, name) VALUES ({0}, {1})", $forum["id"], $forum["name"]);
+		else
+		{
+			$parent = $forum["parent_id"];
+			if(!$isCat[$parent])
+				$parent = -$parent;
+			query("INSERT INTO {forums} (id, title, description, catid) VALUES ({0}, {1}, {2}, {3})", 
+					$forum["id"], $forum["name"], $forum["description"], $parent);
+		}
+	}
+	
+	$insert = array();
+	
+	$threads = query("SELECT * FROM {$pref}topics");
+	while($thread = fetch($threads))
+	{
+		$closed = ($thread["state"] == "closed")?1:0;
+		$sticky = $thread["pinned"];
+		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4}, {5})", 
+				$thread["tid"], $thread["forum_id"], $thread["title"], $sticky, $closed, $thread["views"]);
+	}
+	rawQuery(parseQuery("INSERT INTO {threads} (id, forum, title, sticky, closed, views) VALUES ").implode(",", $insert));
+	
+	$insert = array();
+	$insertText = array();
+	$posts = query("SELECT * FROM {$pref}posts");
+	while($post = fetch($posts))
+	{
+		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4})", $post["pid"], $post["topic_id"], $post["author_id"], $post["post_date"], $post["ip_address"]);
+		$insertText[] = parseQuery("({0}, {1}, 0, {2}, {3})", $post["pid"], $post["post"], $post["author_id"], $post["post_date"]);
+	}
+	rawQuery(parseQuery("INSERT INTO {posts} (id, thread, user, date, ip) VALUES ").implode(",",$insert));
+	rawQuery(parseQuery("INSERT INTO {posts_text} (pid, text, revision, user, date) VALUES ").implode(",",$insertText));
+	
+	$insert = array();
+	$users = query("SELECT * FROM {$pref}members");
+	while($user = fetch($users))
+	{
+		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", 
+			$user["member_id"], $user["name"], $user["email"], $user["title"], $user["joined"], $user["members_pass_hash"], $user["members_pass_salt"], "IPB");
+	}
+
+	rawQuery(parseQuery("INSERT INTO {users} (id, name, email, title, regdate, convertpassword, convertpasswordsalt, convertpasswordtype) VALUES ").implode(",",$insert));
+
+	echo "IPB conversion completed.\n";
 }
+
+
+
+
+
+
+
+
+
+
