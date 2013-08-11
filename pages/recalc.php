@@ -28,8 +28,6 @@ function reportFix($what, $aff = -1)
 	echo $what, " ", format(__("{0} rows affected."), $aff), " time: ", sprintf('%1.3f', usectime()-$fixtime), "<br />";
 }
 
-$debugMode = false;
-
 startFix();
 query("UPDATE {users} u SET posts =
 			(SELECT COUNT(*) FROM {posts} p WHERE p.user = u.id)
