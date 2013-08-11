@@ -28,6 +28,8 @@ function reportFix($what, $aff = -1)
 	echo $what, " ", format(__("{0} rows affected."), $aff), " time: ", sprintf('%1.3f', usectime()-$fixtime), "<br />";
 }
 
+$debugQueries = false;
+
 startFix();
 query("UPDATE {users} u SET posts =
 			(SELECT COUNT(*) FROM {posts} p WHERE p.user = u.id)
@@ -52,7 +54,7 @@ reportFix(__("Counting user's karma&hellip;"));
 
 startFix();
 $aff = 0;
-$users = query("select id from users");
+$users = query("select id from {users}");
 while($user = fetch($users))
 {
 	RecalculateKarma($user["id"]);
