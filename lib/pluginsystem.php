@@ -104,7 +104,7 @@ while($plugin = Fetch($rPlugins))
 	try
 	{
 		$res = getPluginData($plugin);
-		if(!isset($res["nomobile"]))
+		if(!isset($res["nomobile"]) || !$mobileLayout)
 			$plugins[$plugin] = $res;
 	}
 	catch(BadPluginException $e)

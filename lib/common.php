@@ -65,6 +65,7 @@ $title = "";
 
 //WARNING: These things need to be kept in a certain order of execution.
 
+include("browsers.php");
 include("pluginsystem.php");
 loadFieldLists();
 include("loguser.php");

@@ -33,6 +33,12 @@ if($_GET["action"] == "disable")
 }
 
 
+$pluginsDb = array();
+
+$pluginList = query("SELECT * FROM {enabledplugins}");
+while($plugin = fetch($pluginList))
+	$pluginsDb[$plugin["plugin"]] = true;
+
 $cell = 0;
 $pluginsDir = @opendir("plugins");
 
@@ -57,7 +63,7 @@ if($pluginsDir !== FALSE)
 			}
 
 			$pluginDatas[$plugin] = $plugindata;
-			if(isset($plugins[$plugin]))
+			if(isset($pluginsDb[$plugin]))
 				$enabledplugins[$plugin] = $plugindata["name"];
 			else
 				$disabledplugins[$plugin] = $plugindata["name"];
@@ -81,7 +87,7 @@ print '</table>';
 
 function listPlugin($plugin, $plugindata)
 {
-	global $cell, $plugins, $loguser;
+	global $cell, $plugins, $loguser, $pluginsDb;
 
 	print '<tr class="cell'.$cell.'"><td>';
 	print "<b>".$plugindata["name"]."</b><br>";
@@ -94,7 +100,7 @@ function listPlugin($plugin, $plugindata)
 
 	$text = __("Enable");
 	$act = "enable";
-	if(isset($plugins[$plugin]))
+	if(isset($pluginsDb[$plugin]))
 	{
 		$text = __("Disable");
 		$act = "disable";

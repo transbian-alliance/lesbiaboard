@@ -14,7 +14,6 @@ $isBot = 0;
 if(str_replace($bots,"x",$_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGENT']) // stristr()/stripos()?
 	$isBot = 1;
 
-include("browsers.php");
 
 //Check the amount of users right now for the records
 $rMisc = Query("select * from {misc}");
