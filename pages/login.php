@@ -1,13 +1,22 @@
 <?php
 //  AcmlmBoard XD - Login page
 //  Access: guests
+
+function validateConvertPassword($pass, $hash, $salt, $type)
+{
+	if($type == "IPB")
+		return $hash == md5(md5($salt).md5($pass));
+		
+	return false;
+}
+
 $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Log in"), "login"));
 makeBreadcrumbs($crumbs);
 
 if($_POST['action'] == "logout")
 {
-		setcookie("logsession", "", 2147483647, $boardroot, "", false, true);
+	setcookie("logsession", "", 2147483647, $boardroot, "", false, true);
 	Query("UPDATE {users} SET loggedin = 0 WHERE id={0}", $loguserid);
 	Query("DELETE FROM {sessions} WHERE id={0}", doHash($_COOKIE['logsession'].$salt));
 
@@ -22,13 +31,30 @@ elseif(isset($_POST['actionlogin']))
 	$user = Fetch(Query("select * from {users} where name={0}", $_POST['name']));
 	if($user)
 	{
-		$sha = doHash($pass.$salt.$user['pss']);
-		if($user['password'] == $sha)
+		//Find out if the user has a legacy password stored.
+		if($user["convertpassword"])
 		{
-			print "badpass";
-			$okay = true;
+			//If he has one, validate it.
+			if(validateConvertPassword($pass, $user["convertpassword"], $user["convertpasswordsalt"], $user["convertpasswordtype"]))
+			{
+				//If the user has entered password correctly, upgrade it to ABXD hash and wipe the legacy hash.
+				$newsalt = Shake();
+				$sha = doHash($pass.$salt.$newsalt);
+				query("UPDATE {users} SET convertpassword='', convertpasswordsalt='', convertpasswordtype='', password={0}, pss={1} WHERE id={2}", $sha, $newsalt, $user["id"]);
+				
+				//Login successful.
+				$okay = true;
+			}
 		}
 		else
+		{
+			//No legacy password, check regular ABXD hash.
+			$sha = doHash($pass.$salt.$user['pss']);
+			if($user['password'] == $sha)
+				$okay = true;
+		}
+
+		if(!$okay)
 			logAction('loginfail', array('user2' => $user["id"]));
 	}
 	else
