@@ -249,45 +249,81 @@ function converterIPB($db, $pref)
 		}
 	}
 	
-	$insert = array();
+	$insert = new ChunkedInsert("INSERT INTO {threads} (id, forum, title, sticky, closed, views) VALUES ");
 	
 	$threads = query("SELECT * FROM {$pref}topics");
 	while($thread = fetch($threads))
 	{
 		$closed = ($thread["state"] == "closed")?1:0;
 		$sticky = $thread["pinned"];
-		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4}, {5})", 
+		$insert->insert("({0}, {1}, {2}, {3}, {4}, {5})", 
 				$thread["tid"], $thread["forum_id"], $thread["title"], $sticky, $closed, $thread["views"]);
 	}
-	rawQuery(parseQuery("INSERT INTO {threads} (id, forum, title, sticky, closed, views) VALUES ").implode(",", $insert));
+	$insert->finish();
 	
-	$insert = array();
-	$insertText = array();
+	$insert = new ChunkedInsert("INSERT INTO {posts} (id, thread, user, date, ip) VALUES ");
+	$insertText = new ChunkedInsert("INSERT INTO {posts_text} (pid, text, revision, user, date) VALUES ");
 	$posts = query("SELECT * FROM {$pref}posts");
 	while($post = fetch($posts))
 	{
-		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4})", $post["pid"], $post["topic_id"], $post["author_id"], $post["post_date"], $post["ip_address"]);
-		$insertText[] = parseQuery("({0}, {1}, 0, {2}, {3})", $post["pid"], $post["post"], $post["author_id"], $post["post_date"]);
+		$insert->insert("({0}, {1}, {2}, {3}, {4})", $post["pid"], $post["topic_id"], $post["author_id"], $post["post_date"], $post["ip_address"]);
+		$insertText->insert("({0}, {1}, 0, {2}, {3})", $post["pid"], $post["post"], $post["author_id"], $post["post_date"]);
 	}
-	rawQuery(parseQuery("INSERT INTO {posts} (id, thread, user, date, ip) VALUES ").implode(",",$insert));
-	rawQuery(parseQuery("INSERT INTO {posts_text} (pid, text, revision, user, date) VALUES ").implode(",",$insertText));
+
+/*	for($id = 1000; $id < 21000; $id++)
+	{
+		$insert->insert("({0}, {1}, {2}, {3}, {4})", $id, 1, 1, 0, "127.0.0.1");
+		$insertText->insert("({0}, {1}, 0, {2}, {3})", $id, "HELLO WORLD SPAM LOLOLOL", 1, 0);
+	}*/
 	
-	$insert = array();
+	$insert->finish();
+	$insertText->finish();
+	
+	$insert = new ChunkedInsert("INSERT INTO {users} (id, name, email, title, regdate, convertpassword, convertpasswordsalt, convertpasswordtype) VALUES ");
 	$users = query("SELECT * FROM {$pref}members");
 	while($user = fetch($users))
 	{
-		$insert[] = parseQuery("({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", 
+		$insert->insert("({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", 
 			$user["member_id"], $user["name"], $user["email"], $user["title"], $user["joined"], $user["members_pass_hash"], $user["members_pass_salt"], "IPB");
 	}
-
-	rawQuery(parseQuery("INSERT INTO {users} (id, name, email, title, regdate, convertpassword, convertpasswordsalt, convertpasswordtype) VALUES ").implode(",",$insert));
+	$insert->finish();
 
 	echo "IPB conversion completed.\n";
 }
 
-
-
-
+class ChunkedInsert
+{
+	private $header;
+	private $data;
+	private $count;
+	public function __construct($header)
+	{
+		$this->header = parseQuery($header);
+		$this->data = array();
+		$this->count = 0;
+	}
+	
+	public function insert()
+	{
+		$args = func_get_args();
+		if (is_array($args[0])) $args = $args[0];
+		$this->data[] = parseQuery($args);
+		$this->count++;
+		
+		if($this->count >= 100)
+			$this->finish();
+	}
+	
+	public function finish()
+	{
+		if($this->count == 0)
+			return;
+		
+		rawQuery($this->header.implode(",",$this->data));
+		$this->data = array();
+		$this->count = 0;
+	}
+}
 
 
 
