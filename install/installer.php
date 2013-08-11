@@ -22,6 +22,9 @@ include("lib/version.php");
 include("lib/debug.php");
 include("lib/mysql.php");
 
+
+//Here goes the main thing
+
 function install()
 {
 	global $dblink, $dbserv, $dbuser, $dbpass, $dbname, $dbpref, $dberror, $abxd_version;
@@ -43,6 +46,11 @@ function install()
 		$dbpref = $_POST['dbpref'];
 	}
 	
+	$convert = $_POST["convert"];
+	$convertFrom = $_POST["convertFrom"];
+	$convertDbName = $_POST["convertDbName"];
+	$convertDbPrefix = $_POST["convertDbPrefix"];
+	
 	if(!sqlConnect())
 		installationError("Could not connect to the database. Error was: ".$dberror);
 	
@@ -51,6 +59,9 @@ function install()
 	if($currVersion == $abxd_version)
 		installationError("The board is already installed and updated (Database version $currVersion). You don't need to run the installer!\n");
 
+	if($currVersion != -1 && $convert)
+		die("ERROR: You asked to convert a forum database, but an ABXD installation was already found in the installation DB. Converting is only possible when doing a new installation.");
+	
 	echo "Setting utf8_unicode_ci collation to the database...\n";
 	query("ALTER DATABASE $dbname COLLATE utf8_unicode_ci");
 
@@ -74,9 +85,17 @@ function install()
 	{
 		//Stuff to do on new installation (Not upgrade)
 		Import("install/smilies.sql");
-		Import("install/installDefaults.sql");
-		if(!file_exists("config/salt.php"))
+		if($convert)
+			runConverter($convertFrom, $convertDbName, $convertPrefix);
+		else
+			Import("install/installDefaults.sql");
+		if(file_exists("config/salt.php"))
+			echo "Not generating new salt.php as it's already present...\n";
+		else
+		{
+			echo "Generating new salt.php...\n";
 			writeConfigSalt();
+		}
 	}
 	
 	if(!file_exists("config/database.php"))
@@ -182,3 +201,27 @@ function writeConfigSalt()
 	fclose($sltf);
 }
 
+$converters = array("IPB");
+
+function isValidConverter($converter)
+{
+	global $converters;
+	return in_array($converter, $converters);
+}
+
+function runConverter($converter, $db, $pref)
+{
+	global $converters;
+	if(!isValidConverter($converter))
+		die("Invalid converter!");
+		
+	$converter = "converter$converter";
+
+	$converter($db, $pref);
+}
+
+function converterIPB($db, $pref)
+{
+	$pref = "$db.$pref";
+	echo "CONVERT LOLOLOLO";
+}

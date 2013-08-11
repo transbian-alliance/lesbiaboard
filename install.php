@@ -115,6 +115,53 @@
 									</td>
 								</tr>
 							</table>
+							<label><input type="checkbox" name="convert" id="convert" /> Convert database from another forum software</label>
+							<div id="convertToggle" style="display: none">
+								<table style="width: 50%;margin-left:auto;margin-right:auto;margin-top:50px; margin-bottom:50px;" class="outline margin">
+									<tr class="header1">
+										<th colspan="2">
+											Database converter
+										</th>
+									</tr>
+									<tr class="cell0">
+										<td>
+											Forum software
+										</td>
+										<td>
+											<select name="convertFrom" id="convertFrom">
+												<?php
+													foreach($converters as $converter)
+														echo "<option value=\"$converter\">$converter</option>";
+												?>
+											</select>
+										</td>
+									</tr>
+									<tr class="cell0">
+										<td>
+											Existing installation database name
+										</td>
+										<td>
+											<input type="text" name="convertDbName" id="convertDbName" value="" />
+										</td>
+									</tr>
+									<tr class="cell0">
+										<td>
+											Existing installation table prefix
+										</td>
+										<td>
+											<input type="text" name="convertDbName" id="convertDbName" value="" />
+										</td>
+									</tr>
+									<tr class="cell1">
+										<td colspan="2">
+											<p>NOTE: You can set this to the same DB as above, but then make sure to choose a unique 
+											table prefix so there will be no table name conflicts between the other forum software's 
+											and ABXD's tables.</p>
+											<p>Making a backup is strongly recommended!</b>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<p>When you're done, click Install below.</p>
 						</div>
 						<div class="upgrade-only">

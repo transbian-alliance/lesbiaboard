@@ -59,6 +59,10 @@ function startInstallation()
 		dbpass: $('#sqlPassword').val(),
 		dbname: $('#sqlDbName').val(),
 		dbpref: $('#sqlTablePrefix').val(),
+		convert: $('#convert').is(':checked'),
+		convertFrom: $('#convertFrom').val(),
+		convertDbName: $('#convertDbName').val(),
+		convertDbPrefix: $('#convertDbPrefix').val(),
 	}, function(data) {
 		if(data.trim().endsWith("Success!"))
 			setState(2);
@@ -87,6 +91,9 @@ $(function() {
 	$('#installUI').fadeIn(100);
 	$('#progress').css("width", "0%");
 	setStep(1);
+	$("#convert").click(function() {
+		$("#convertToggle").slideToggle();
+	});
 	$("#prevPageButton").click(function() {
 		if (page > 1)
 			setStep(page-1);
