@@ -1,7 +1,6 @@
 <?php
 
-$footerExtensionsA .= Format(
-"
+echo "
 	<script>
 	(function () {
 		var i = 0;
@@ -12,6 +11,6 @@ $footerExtensionsA .= Format(
 		}
 	})();
 	</script>
-");
+";
 
 ?>
