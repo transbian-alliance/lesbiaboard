@@ -5,7 +5,7 @@
 function validateConvertPassword($pass, $hash, $salt, $type)
 {
 	if($type == "IPB")
-		return $hash == md5(md5($salt).md5($pass));
+		return $hash === md5(md5($salt).md5($pass));
 		
 	return false;
 }
