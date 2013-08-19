@@ -53,7 +53,7 @@ $rPosts = Query("	SELECT
 				LEFT JOIN {threads} t ON t.id=p.thread
 				LEFT JOIN {forums} f ON f.id=t.forum
 				LEFT JOIN {categories} c ON c.id=f.catid
-			WHERE u.id={1} AND ".forumAccessControlSql()."
+			WHERE u.id={1} AND ".forumAccessControlSql()." AND p.postplusones > 0
 			ORDER BY postplusones DESC, date ASC LIMIT {2u}, {3u}", $loguserid, $id, $from, $ppp);
 
 $numonpage = NumRows($rPosts);
