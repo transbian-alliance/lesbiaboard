@@ -8,6 +8,5 @@ img/logos/*.jpg
 img/logos/*.ico
 !plugins/uploader/
 downloads/
-plugins/custombb/bbcode.txt
 securimage/
 layoutmaker/
