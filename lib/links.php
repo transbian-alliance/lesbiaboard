@@ -149,10 +149,10 @@ function userLink($user, $showMinipic = false, $customID = false)
 	}
 
 	$fname = $minipic.$fname;
-	
+
 	if(!Settings::get("showGender"))
 		$fsex = 2;
-	
+
 	if($fpow < 0) $fpow = -1;
 	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
 
@@ -319,36 +319,44 @@ function pageLinksInverted($url, $epp, $from, $total)
 
 function absoluteActionLink($action, $id=0, $args="")
 {
-    return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].actionLink($action, $id, $args);
+	$https = isHttps();
+	return ($https?"https":"http") . "://" . $_SERVER['SERVER_NAME'].actionLink($action, $id, $args);
 }
 
 function getRequestedURL()
 {
-    return $_SERVER['REQUEST_URI'];
+	return $_SERVER['REQUEST_URI'];
 }
 
-function getServerURL($https = false)
+function getServerURL()
 {
-    return getServerURLNoSlash($https)."/";
+	return getServerURLNoSlash()."/";
 }
 
-function getServerURLNoSlash($https = false)
+function getServerURLNoSlash()
 {
-    global $boardroot;
-    $stdport = $https?443:80;
-    $port = "";
-    if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
-    	$port = ":".$_SERVER["SERVER_PORT"];
-    return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . substr($boardroot, 0, strlen($boardroot)-1);
+	global $boardroot;
+	$https = isHttps();
+	$stdport = $https?443:80;
+	$port = "";
+	if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
+		$port = ":".$_SERVER["SERVER_PORT"];
+	return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . substr($boardroot, 0, strlen($boardroot)-1);
 }
 
-function getFullRequestedURL($https = false)
+function getFullRequestedURL()
 {
-    $stdport = $https?443:80;
-    $port = "";
-    if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
-    	$port = ":".$_SERVER["SERVER_PORT"];
-    return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . $_SERVER['REQUEST_URI'];
+	$https = isHttps();
+	$stdport = $https?443:80;
+	$port = "";
+	if($stdport != $_SERVER["SERVER_PORT"] && $_SERVER["SERVER_PORT"])
+		$port = ":".$_SERVER["SERVER_PORT"];
+	return ($https?"https":"http") . "://" . $_SERVER['HTTP_HOST'] . $port . $_SERVER['REQUEST_URI'];
+}
+
+function isHttps()
+{
+	return isset($_SERVER['HTTPS']);
 }
 
 function getFullURL()
