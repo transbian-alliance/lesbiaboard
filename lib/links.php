@@ -356,7 +356,7 @@ function getFullRequestedURL()
 
 function isHttps()
 {
-	return isset($_SERVER['HTTPS']);
+	return isset($_SERVER['HTTPS']) || $_SERVER["SERVER_PORT"] == 443;
 }
 
 function getFullURL()
