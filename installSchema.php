@@ -134,6 +134,7 @@ $tables = array
 			"ip" => "varchar(45)".$notNull,
 			"reason" => "varchar(100)".$notNull,			
 			"date" => $genericInt,			
+			"whitelisted" => $bool,
 		),
 		"special" => "unique key `ip` (`ip`), key `date` (`date`)"
 	),

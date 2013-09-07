@@ -69,12 +69,20 @@ function isIPBanned($ip)
 {
 	$rIPBan = Query("select * from {ipbans} where instr({0}, ip)=1", $ip);
 	
-	if(numRows($rIPBan))
+	$result = false;
+	while($ipban = Fetch($rIPBan))
 	{
-		$ipban = Fetch($rIPBan);
-		return $ipban;
+		if (IPMatches($ip, $ipban['ip']))
+			if ($ipban['whitelisted'])
+				return false;
+			else
+				$result = $ipban;
 	}
-	return false;
+	return $result;
+}
+
+function IPMatches($ip, $mask) {
+	return $ip === $mask || $mask[strlen($mask) - 1] === '.';
 }
 
 $ipban = isIPBanned($_SERVER['REMOTE_ADDR']);
