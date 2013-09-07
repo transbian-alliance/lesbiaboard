@@ -795,6 +795,19 @@ class HTML5_TreeBuilder {
             break;
 
             case HTML5_Tokenizer::BBCODESTARTTAG:
+                if (isset($this->bbcode[$token['name']]['require'])) {
+                    $result = false;
+                    $require = $this->bbcode[$token['name']]['require'];
+                    foreach ($this->stack as $elem) {
+                        if ($elem->tagName === 'bbcodehack' && in_array($elem->getAttribute('name'), $require)) {
+                            $result = true;
+                            break;
+                        }
+                    }
+                    if (!$result)
+                        return;
+
+                }
                 $attr = array(
                     array(
                         'name'  => 'name',

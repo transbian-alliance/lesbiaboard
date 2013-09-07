@@ -62,14 +62,17 @@ $bbcode = array(
 	'tr' => array(
 		'callback'  => 'bbcodeTableRow',
 		'selfclose' => 'tr',
+		'require' => array('table'),
 	),
 	'trh' => array(
 		'callback'  => 'bbcodeTableRowHeader',
 		'selfclose' => 'tr',
+		'require' => array('table'),
 	),
 	'td' => array(
 		'callback'  => 'bbcodeTableCell',
 		'selfclose' => 'td',
+		'require' => array('tr', 'trh'),
 	),
 );
 
