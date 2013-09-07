@@ -24,7 +24,7 @@ if(isset($_POST['actionadd']))
 		Alert("Already banned IP!");
 	else
 	{
-		$rIPBan = Query("insert into {ipbans} (ip, reason, date, whitelisted) values ({0}, {1}, {2}, {3})", $_POST['ip'], $_POST['reason'], ((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0), (int) (bool) $_POST['whitelisted']);
+		$rIPBan = Query("insert into {ipbans} (ip, reason, date, whitelisted) values ({0}, {1}, {2}, {3})", $_POST['ip'], $_POST['reason'], ((int)$_POST['days'] > 0 ? time() + ((int)$_POST['days'] * 86400) : 0), $_POST['whitelisted'] ? 1 : 0);
 		Alert(__("Added."), __("Notice"));
 	}
 }
