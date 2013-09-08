@@ -68,7 +68,7 @@ function getOnlineUsersText()
 	"
 		<script type=\"text/javascript\">
 			onlineFID = {0};
-			window.addEventListener(\"load\",  startOnlineUsers, false);
+			window.addEventListener(\"load\",  startAjaxRefresh, false);
 		</script>
 	", $OnlineUsersFid);
 	}
