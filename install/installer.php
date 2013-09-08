@@ -114,8 +114,19 @@ function doSanityChecks()
 	if (!function_exists('version_compare') || version_compare(PHP_VERSION, '5.0.0', '<'))
 		$errors[] = 'PHP 5.0.0 required, but you have PHP ' . PHP_VERSION . '.';
 	if (!function_exists('json_encode'))
-		$errors[] = 'As you have PHP older than PHP 5.2.0, you have to install ' .
-			        'PECL <a target="_blank" href="http://pecl.php.net/package/json">json</a> extension.';
+		if (version_compare(PHP_VERSION, '5.2.0', '<'))
+			$errors[] = 'As you have PHP older than PHP 5.2.0, you have to install ' .
+			            'PECL <a target="_blank" href="http://pecl.php.net/package/json">json</a> extension.';
+		elseif (version_compare(PHP_VERSION, '5.5.0', '>'))
+			$errors[] = 'Because of JSON licensing terms, JSON doesn\'t exist in PHP 5.5. ' .
+			            'Depending on how you installed PHP, you may need to install specific ' .
+			            'package, enable "json.so" extension in php.ini, or install ' .
+			            'PECL <a target="_blank" href="http://pecl.php.net/package/json">json</a> extension.';
+		else
+			$errors[] = 'You don\'t have JSON support in your installation, however ' .
+			            'you aren\'t using PHP version older than 5.2 or newer (or equal to) than 5.5. ' .
+			            'No specific instructions could be given, but you could try installing ' .
+			            '<a target="_blank" href="http://pecl.php.net/package/json">json</a> extension from PECL.';
 	if (!function_exists('preg_match'))
 		$errors[] = 'PCRE extension is required, yet it wasn\'t found. Please install it.';
 	if (!class_exists('mysqli'))
