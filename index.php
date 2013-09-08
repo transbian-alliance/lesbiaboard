@@ -94,6 +94,8 @@ catch(KillException $e)
 
 if($ajaxPage)
 {
+	header("Content-Type: text/plain");
+	
 	ob_end_flush();
 	die();
 }

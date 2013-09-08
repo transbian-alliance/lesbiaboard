@@ -308,7 +308,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 		<input type=\"hidden\" name=\"ninja\" value=\"{0}\" />
 		<table class=\"outline margin width75\" style=\"margin: 4px auto;\" id=\"quickreply\">
 			<tr class=\"header1\">
-				<th onclick=\"expandTable('quickreply', this)\" style=\"cursor: pointer;\">
+				<th>
 					".__("Quick-E Post&trade;")."
 				</th>
 			</tr>

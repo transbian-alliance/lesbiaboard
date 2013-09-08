@@ -17,32 +17,6 @@ function startsWithIns($a, $b){
 	return startsWith(strtolower($a), strtolower($b));
 }
 
-include_once("write.php");
-
-function OptimizeLayouts($text)
-{
-	$bucket = array();
-
-	// Save the tags in the temp array and remove them from where they were originally
-	$regexps = array("@<style(.*?)</style(.*?)>(\r?\n?)@si", "@<link(.*?)>(\r?\n?)@si", "@<script(.*?)</script(.*?)>(\r?\n?)@si");
-	foreach ($regexps as $regexp)
-	{
-		preg_match_all($regexp, $text, $temp, PREG_PATTERN_ORDER);
-		$text = preg_replace($regexp, "", $text);
-		$bucket = array_merge($bucket, $temp[0]);
-	}
-
-	// Remove duplicates
-	$bucket = array_unique($bucket);
-
-	// Put the tags back
-	$newStyles = "<!-- head tags -->".implode("", $bucket)."<!-- /head tags -->";
-	$text = str_replace("</head>", $newStyles."</head>", $text);
-	$text = str_replace("<recaptcha", "<script", $text);
-	return $text;
-}
-
-
 function GetRainbowColor()
 {
 	$stime = gettimeofday();

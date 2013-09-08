@@ -1,12 +1,78 @@
 "use strict";
 
+//LINKS AND STUFF
+
+//The value of this is set by PHP
 var boardroot = "";
+
 function resourceLink(url)
 {
 	return boardroot + url;
 }
 
-//Spoiler buttons
+
+//AJAX STUFF
+
+function ajax(page, params, callback)
+{
+	params["page"] = page;
+	$.get(boardroot, params, callback);
+}
+
+function ajaxPost(page, params, callback)
+{
+	$.post(boardroot+"?page="+page, params, callback);
+}
+
+
+//AJAX REFRESHERS
+
+//Value of this is set by PHP too.
+var onlineFID = 0;
+var refreshUrl = "";
+
+function startAjaxRefresh()
+{
+	//onlineFID = fid;
+	//setTimeout("getOnlineUsers()", 10000);
+	//var onlineUsersBar = $('.header0').get(1);
+	//onlineUsersBar.id="onlineUsersBar";
+	var tmrid = window.setInterval(ajaxRefresh, 10000);
+
+	$(window).blur(function() {
+		if (tmrid != -9999)
+		{
+			window.clearInterval(tmrid);
+			tmrid = -9999;
+		}
+	});
+
+	$(window).focus(function() {
+		ajaxRefresh();
+		if (tmrid == -9999)
+			tmrid = window.setInterval(ajaxRefresh, 10000);
+	});
+}
+
+function ajaxRefresh()
+{
+	ajax("getviewcount", {}, function(data) {
+	    $("#viewCount").html(data);
+	});
+	
+	ajax("getonlineusers", {f: onlineFID}, function(data) {
+	    $("#onlineUsers").html(data);
+	});
+	
+	//FIXME: This sucks
+	if(refreshUrl != "")
+		$.get(refreshUrl, "", function(data) {
+			$("#page_contents").html(data);
+		});
+}
+
+
+//SPOILER BUTTONS
 
 function toggleSpoiler()
 {
@@ -27,59 +93,7 @@ function toggleSpoiler()
 	}
 }
 
-
-
-/* Quote support
-   -------------
-   Thanks to Mega-Mario for the idea
- */
-function insertQuote(pid)
-{
-	$.get(boardroot+"ajaxcallbacks.php", "a=q&id="+pid, function(data)
-	{
-		var editor = $("#text")[0]; //we want the HTMLTextElement kthx
-		editor.focus();
-		if (document.selection)
-			document.selection.createRange().text += data;
-		else
-			editor.value = editor.value.substring(0, editor.selectionEnd) + data + editor.value.substring(editor.selectionEnd, editor.value.length);
-		editor.scrollTop = editor.scrollHeight;
-	});
-}
-
-function insertChanLink(pid)
-{
-	var editor = document.getElementById("text");
-	var linkText = ">>" + pid + "\r\n";
-	editor.focus();
-	if (document.selection)
-		document.selection.createRange().text += linkText;
-	else
-		editor.value = editor.value.substring(0, editor. selectionEnd) + linkText + editor.value.substring(editor.selectionEnd, editor.value.length);
-	editor.scrollTop = editor.scrollHeight;
-}
-
-
-
-
-/* Smiley tricks
-   -------------
-   Inspired by Mega-Mario's quote system.
- */
-function insertSmiley(smileyCode)
-{
-	var editor = document.getElementById("text");
-	editor.focus();
-	if (document.selection)
-	{
-		document.selection.createRange().text += " " + smileyCode;
-	}
-	else
-	{
-		editor.value = editor.value.substring(0, editor. selectionEnd) + smileyCode + editor.value.substring(editor.selectionEnd, editor.value.length);
-	}
-	editor.scrollTop = editor.scrollHeight;
-}
+//Expandables
 function expandSmilies()
 {
 	var button = document.getElementById("smiliesExpand");
@@ -121,87 +135,7 @@ function expandPostHelp()
 	}
 }
 
-
-
-/* Bare metal AJAX support functions
-   ---------------------------------
-   Press button, recieve content.
- */
-var xmlHttp = null; //Cache our request object
-
-// is this really used anymore now that we mostly use jQuery?
-function GetXmlHttpObject()
-{
-	//If we already have one, just return that.
-	if (xmlHttp != null) return xmlHttp;
-	xmlHttp = new XMLHttpRequest();
-	return xmlHttp;
-}
-
-
-
-function startPoraUpdate()
-{
-	var ta = document.getElementById("editbox");
-	var tt = document.getElementById("title");
-	var prt = document.getElementById("previewtext");
-	var pri = document.getElementById("previewtitle");
-
-	prt.innerHTML = ta.value;//.replace("\n", "<br />");
-	pri.textContent = tt.value;
-	//setTimeout("startPoraUpdate();", 100);
-}
-
-
-var onlineFID = 0;
-
-function startOnlineUsers()
-{
-	//onlineFID = fid;
-	//setTimeout("getOnlineUsers()", 10000);
-	//var onlineUsersBar = $('.header0').get(1);
-	//onlineUsersBar.id="onlineUsersBar";
-	var tmrid = window.setInterval(getOnlineUsers, 10000);
-
-	$(window).blur(function() {
-		if (tmrid != -9999)
-		{
-			window.clearInterval(tmrid);
-			tmrid = -9999;
-		}
-	});
-
-	$(window).focus(function() {
-		getOnlineUsers();
-		if (tmrid == -9999)
-			tmrid = window.setInterval(getOnlineUsers, 10000);
-	});
-}
-
-function getOnlineUsers()
-{
-	//$("#onlineUsers").load(boardroot+"ajaxcallbacks.php", "a=ou&f=" + onlineFID + "&salt=" + Date())
-	//$("#viewCount").load(boardroot+"ajaxcallbacks.php", "a=vc&f=" + onlineFID + "&salt=" + Date())
-	$.get(boardroot+"ajaxcallbacks.php", "a=vc", function(data)
-	{
-	    var viewCount = $("#viewCount");
-	    var oldCount = viewCount[0].innerHTML;
-	    if(oldCount != data)
-	    {
-			viewCount.html(data);
-		}
-	});
-	$.get(boardroot+"ajaxcallbacks.php", "a=ou&f=" + onlineFID, function(data)
-	{
-	    var onlineUsers = $("#onlineUsers");
-	    var oldOnline = onlineUsers[0].innerHTML;
-	    if(oldOnline != data)
-	    {
-			onlineUsers.html(data);
-		}
-	});
-}
-
+//EDIT PROFILE TABS
 
 function showEditProfilePart(newId)
 {
@@ -216,6 +150,8 @@ function showEditProfilePart(newId)
 	}
 	document.getElementById(newId+"Button").className = "tab selected";
 }
+
+//POST CONTROLS 
 
 var textEditor;
 function hookUpControls() {
@@ -321,32 +257,56 @@ function insert(stuff, html) {
 
 
 
-var refreshUrl = "";
-
-function startPageUpdate()
+/* Quote support
+   -------------
+   Thanks to Mega-Mario for the idea
+ */
+function insertQuote(pid)
 {
-	var tmrid = window.setInterval(doPageUpdate, 30000);
-
-	$(window).blur(function() {
-		if (tmrid != -9999) {
-			window.clearInterval(tmrid);
-			tmrid = -9999;
-		}
-	});
-
-	$(window).focus(function() {
-		doPageUpdate();
-		if (tmrid == -9999)
-			tmrid = window.setInterval(doPageUpdate, 30000);
+	ajax("getquote", {id: pid}, function(data)
+	{
+		var editor = $("#text")[0]; //we want the HTMLTextElement kthx
+		editor.focus();
+		if (document.selection)
+			document.selection.createRange().text += data;
+		else
+			editor.value = editor.value.substring(0, editor.selectionEnd) + data + editor.value.substring(editor.selectionEnd, editor.value.length);
+		editor.scrollTop = editor.scrollHeight;
 	});
 }
 
-function doPageUpdate()
+function insertChanLink(pid)
 {
-	$.get(refreshUrl, "", function(data)
+	var editor = document.getElementById("text");
+	var linkText = ">>" + pid + "\r\n";
+	editor.focus();
+	if (document.selection)
+		document.selection.createRange().text += linkText;
+	else
+		editor.value = editor.value.substring(0, editor. selectionEnd) + linkText + editor.value.substring(editor.selectionEnd, editor.value.length);
+	editor.scrollTop = editor.scrollHeight;
+}
+
+
+
+
+/* Smiley tricks
+   -------------
+   Inspired by Mega-Mario's quote system.
+ */
+function insertSmiley(smileyCode)
+{
+	var editor = document.getElementById("text");
+	editor.focus();
+	if (document.selection)
 	{
-		$("#page_contents").html(data);
-	});
+		document.selection.createRange().text += " " + smileyCode;
+	}
+	else
+	{
+		editor.value = editor.value.substring(0, editor. selectionEnd) + smileyCode + editor.value.substring(editor.selectionEnd, editor.value.length);
+	}
+	editor.scrollTop = editor.scrollHeight;
 }
 
 
@@ -354,11 +314,11 @@ function doPageUpdate()
 // Live theme changer by Mega-Mario
 function ChangeTheme(newtheme)
 {
-	$.get(boardroot+"ajaxcallbacks.php", "a=tf&t="+newtheme, function(data)
+	ajax("getthemefiles", {id: newtheme}, function(data)
 	{
-		var stuff = data.split('|');
-		$("#theme_css")[0].href = stuff[0];
-		$("#theme_banner")[0].src = stuff[1];
+		var stuff = JSON.parse(data);
+		$("#theme_css")[0].href = stuff.css;
+		$("#theme_banner")[0].src = stuff.logo;
 	});
 }
 
@@ -385,37 +345,19 @@ function ChangePage(newpage)
 }
 
 
-
-
-function expandTable(tableName, button)
-{
-	var table = document.getElementById(tableName);
-	var rows = table.getElementsByTagName("tr");
-
-	for(var i = 0; i < rows.length; i++)
-	{
-		//alert(rows[i].className + ", " + rows[i].style['display']);
-		if(rows[i].className == "header1")
-			continue;
-
-		if(rows[i].style['display'] == "none")
-			rows[i].style['display'] = "";
-		else
-			rows[i].style['display'] = "none";
-	}
-}
+//Stuff...?
 
 function hideTricks(pid)
 {
-	$("#dyna_"+pid).hide(200);//, function()
+	$("#dyna_"+pid).hide(200);
 	$("#meta_"+pid).show(200);
 }
 
 function showRevisions(pid)
 {
-	$("#meta_"+pid).hide(200);//, function()
-	$("#dyna_"+pid).load(boardroot+"ajaxcallbacks.php", "a=srl&id="+pid, function()
-	{
+	$("#meta_"+pid).hide(200);
+	ajax("getrevisionlist", {id: pid}, function(data) {
+		$("#dyna_"+pid).html(data);
 		$("#dyna_"+pid).show(200);
 	});
 }
@@ -423,8 +365,7 @@ function showRevisions(pid)
 function showRevision(pid, rev)
 {
 	var post = $("#post_"+pid);
-	$.get(boardroot+"ajaxcallbacks.php", "a=sr&id="+pid+"&rev="+rev, function(data)
-	{
+	ajax("getrevision", {id: pid, rev: rev}, function(data) {
 		post.fadeOut(200, function()
 		{
 			post[0].innerHTML = data;
@@ -433,13 +374,14 @@ function showRevision(pid, rev)
 	});
 }
 
-function deletePost(link)
+function deletePost(id, key, del)
 {
 	var reason = prompt('Enter a reason for deleting the post, or leave blank for no reason.');
 	if (reason == null) return;
 
-	var href = link.href + '&reason=' + encodeURIComponent(reason);
-	document.location.href = href;
+	ajaxPost("deletepost", {id: id, key: key, reason: reason, delete: del}, function() {
+		replacePost(id, false);
+	});
 }
 
 function checkAll()
@@ -527,8 +469,7 @@ function hookUploadCheck(id, type, size)
 
 function replacePost(id, opened)
 {
-	$.get(boardroot+"ajaxcallbacks.php?a=rp"+(opened ? "&o":"")+"&id="+id, function(data)
-	{
+	ajax("getpost", {id: id, o: opened?1:0}, function(data) {
 		$("#post"+id).replaceWith(data);
 	});
 }
@@ -559,6 +500,15 @@ function searchThemes(query) {
 $(document).ready(function() {
 	$(".spoilerbutton").click(toggleSpoiler);
 });
+
+//EMAIL IN PROFILE
+function loadEmail(id) {
+	ajax("getemail", {id: id}, function(data) {
+		$("#emailField").text(data);
+	});
+}
+
+//MOBILE LAYOUT
 
 function enableMobileLayout(val)
 {

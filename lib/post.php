@@ -247,9 +247,9 @@ function makePost($post, $type, $params=array())
 			if ($type == POST_DELETED_SNOOP)
 			{
 				$links->add(new PipeMenuTextEntry(__("Post deleted.")));
-				if ($editallowed)
-					$links->add(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
-				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",false); return false;\">".__("Close")."</a>"));
+				if ($editallowed && $canmod)
+					$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;\">".__('Undelete')."</a>"));
+				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].", false); return false;\">".__("Close")."</a>"));
 				$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
 			}
 			else if ($type == POST_NORMAL)
@@ -263,13 +263,8 @@ function makePost($post, $type, $params=array())
 					$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id']));
 
 				if ($editallowed && $canmod)
-				{
-					// TODO: perhaps make delete links not require a key to be passed
-					//  * POST-form delete confirmation, on separate page, a la Jul?
-					//  * hidden form and Javascript-submit() link?
-					$link = actionLink('editpost', $post['id'], 'delete=1&key='.$loguser['token']);
-					$links->add(new PipeMenuHtmlEntry("<a href=\"{$link}\" onclick=\"deletePost(this);return false;\">".__('Delete')."</a>"));
-				}
+					$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 1);return false;\">".__('Delete')."</a>"));
+
 				if ($canreply && !$params['noreplylinks'])
 					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))));
 				else

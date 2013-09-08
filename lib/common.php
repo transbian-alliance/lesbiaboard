@@ -55,6 +55,7 @@ Settings::load();
 Settings::checkPlugin("main");
 include("feedback.php");
 include("language.php");
+include("write.php");
 include("snippets.php");
 include("links.php");
 
@@ -79,7 +80,6 @@ include("htmlfilter.php");
 include("smilies.php");
 
 $theme = $loguser['theme'];
-include("write.php");
 include('lib/layout.php');
 
 //Classes
