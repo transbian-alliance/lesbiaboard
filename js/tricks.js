@@ -376,9 +376,12 @@ function showRevision(pid, rev)
 
 function deletePost(id, key, del)
 {
-	var reason = prompt('Enter a reason for deleting the post, or leave blank for no reason.');
-	if (reason == null) return;
-
+	if(del == 1)
+	{
+		var reason = prompt('Enter a reason for deleting the post, or leave blank for no reason.');
+		if (reason == null) return;
+	}
+	
 	ajaxPost("deletepost", {id: id, key: key, reason: reason, delete: del}, function() {
 		replacePost(id, false);
 	});

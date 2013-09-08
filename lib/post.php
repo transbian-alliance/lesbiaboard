@@ -204,7 +204,7 @@ function makePost($post, $type, $params=array())
 		if(CanMod($loguserid,$params['fid']))
 		{
 			if (IsAllowed("editPost", $post['id']))
-				$links->add(new PipeMenuLinkEntry(__("Undelete"), "editpost", $post['id'], "delete=2&key=".$loguser['token']));
+				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;\">".__('Undelete')."</a>"));
 			$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",true); return false;\">".__("View")."</a>"));
 		}
 

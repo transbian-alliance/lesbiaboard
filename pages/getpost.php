@@ -30,5 +30,5 @@ $post = Fetch($rPost);
 if (!CanMod($loguserid, $post['fid']))
 	die(__("No."));
 
-echo MakePost($post, isset($_GET['o']) ? POST_DELETED_SNOOP : POST_NORMAL, array('tid'=>$post['thread'], 'fid'=>$post['fid']));
+echo MakePost($post, $_GET['o'] ? POST_DELETED_SNOOP : POST_NORMAL, array('tid'=>$post['thread'], 'fid'=>$post['fid']));
 
