@@ -343,6 +343,8 @@ function makePost($post, $type, $params=array())
 	$lastpost = ($poster['lastposttime'] ? timeunits(time() - $poster['lastposttime']) : "none");
 	$lastview = timeunits(time() - $poster['lastactivity']);
 
+	$sideBarStuff .= "<br />\n".__("Karma:")." ".$poster['karma'];
+
 	if(!$params['forcepostnum'] && ($type == POST_PM || $type == POST_SAMPLE))
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$poster['posts'];
 	else
