@@ -79,7 +79,6 @@ $posts = FetchResult("select count(*) from {posts} where user={0}", $id);
 $threads = FetchResult("select count(*) from {threads} where user={0}", $id);
 $averagePosts = sprintf("%1.02f", $user['posts'] / $daysKnown);
 $averageThreads = sprintf("%1.02f", $threads / $daysKnown);
-$score = ((int)$daysKnown * 2) + ($posts * 4) + ($threads * 8) + (($karma - 100) * 3);
 
 $minipic = getMinipicTag($user);
 
@@ -176,7 +175,6 @@ else
 	$foo[__("Last post")] = __("Never");
 
 $foo[__("Last view")] = format("{0} ({1} ago)", formatdate($user['lastactivity']), TimeUnits(time() - $user['lastactivity']));
-$foo[__("Score")] = $score;
 $foo[__("Browser")] = $user['lastknownbrowser'];
 if($loguser['powerlevel'] > 0)
 	$foo[__("Last known IP")] = formatIP($user['lastip']);
