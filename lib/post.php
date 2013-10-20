@@ -178,7 +178,7 @@ function makePostLinks($post, $type, $params=array())
 		if($canMod)
 			$links->add(new PipeMenuLinkEntry(__('Undelete'), "", "", "", "undo", "deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;"));
 
-		if($canMod || $post["user"] == $loguserid)
+		if($canMod || $post["u_id"] == $loguserid)
 		{
 			if($type == POST_DELETED_SNOOP)
 				$links->add(new PipeMenuLinkEntry(__('Close'), "", "", "", "chevron-up", "replacePost(".$post['id'].", false); return false;"));
@@ -246,22 +246,58 @@ function makePost($post, $type, $params=array())
 				$meta .= ': '.htmlspecialchars($post['reason']);
 		}
 		
-		write(
-"
-		<table class=\"post margin deletedpost\" id=\"post{0}\">
-			<tr>
-				<td class=\"side userlink\" id=\"{0}\">
-					{1}
-				</td>
-				<td class=\"smallFonts meta right\">
-					<div style=\"float:left\">
-						{2}
-					</div>
-					{3}
-				</td>
-			</tr>
-		</table>
-",	$post['id'], userLink($poster), $meta, $links->build());
+		if($mobileLayout)
+		{
+			$links->setClass("toolbarMenu");
+
+			echo "
+				<table class=\"outline margin mobile_postBox\" id=\"post${post['id']}\">
+					<tr class=\"header0 mobile_postHeader\">
+						<th>
+							$anchor
+							<table>
+								<tr>
+									<td>
+										<div class=\"mobile_userAvatarBox\">
+											$picture
+										</div>
+									</td>
+									<td class=\"mobile_postInfoCell\" style=\"width: 99%; overflow: hidden;\">
+										<div style=\"position: relative; height: 40px; top: 0; left: 0;\">
+											<div style=\"position: absolute; top: 0; left: 0;\">
+												" . userLink($poster) . "<br />
+												<span class=\"date\">$meta</span>
+											</div>
+										</div>
+										<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+											&nbsp;
+										</span>
+									</td>
+									<td>
+										".$links->build(2)."
+									</td>
+								</tr>
+							</table>
+						</th>
+					</tr>
+				</table>
+			";
+		}
+		else
+			echo "
+				<table class=\"post margin deletedpost\" id=\"post{$post['id']}\">
+					<tr>
+						<td class=\"side userlink\">
+							".userLink($poster)."
+						</td>
+						<td class=\"smallFonts meta right\">
+							<div style=\"float:left\">
+								$meta
+							</div>
+							".$links->build()."
+						</td>
+					</tr>
+				</table>";
 		return;
 	}
 
@@ -300,7 +336,7 @@ function makePost($post, $type, $params=array())
 			else
 				$revdetail = '';
 
-			if ($canmod)
+			if ($canMod)
 				$meta .= " (<a href=\"javascript:void(0);\" onclick=\"showRevisions(".$post['id'].")\">".format(__("rev. {0}"), $post['revision'])."</a>".$revdetail.")";
 			else
 				$meta .= " (".format(__("rev. {0}"), $post['revision']).$revdetail.")";
@@ -384,10 +420,10 @@ function makePost($post, $type, $params=array())
 		$links->setClass("toolbarMenu");
 
 		echo "
-			$anchor
-			<table class=\"outline margin mobile_postBox\">
+				<table class=\"outline margin mobile_postBox\" id=\"post${post['id']}\">
 				<tr class=\"header0 mobile_postHeader\">
 					<th>
+						$anchor
 						<table>
 							<tr>
 								<td>

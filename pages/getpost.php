@@ -27,7 +27,7 @@ if (!NumRows($rPost))
 	die(__("Unknown post ID."));
 $post = Fetch($rPost);
 
-if (!CanMod($loguserid, $post['fid']))
+if (!CanMod($loguserid, $post['fid']) && $loguserid != $post["u_id"])
 	die(__("No."));
 
 echo MakePost($post, $_GET['o'] ? POST_DELETED_SNOOP : POST_NORMAL, array('tid'=>$post['thread'], 'fid'=>$post['fid']));
