@@ -170,6 +170,8 @@ function makePostLinks($post, $type, $params=array())
 
 	$links = new PipeMenu();
 
+	if($type == POST_PM || $type == POST_SAMPLE)
+		return $links;
 
 	if($post['deleted'])
 	{
