@@ -359,18 +359,23 @@ function makePost($post, $type, $params=array())
 	}
 	$sideBarStuff .= GetSyndrome(getActivity($poster["id"]));
 
+	$pictureUrl = "";
+	
 	if($post['mood'] > 0)
 	{
 		if(file_exists("${dataDir}avatars/".$poster['id']."_".$post['mood']))
-			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$poster['id']."_".$post['mood']."\" alt=\"\" />";
+			$pictureUrl = "${dataUrl}avatars/".$poster['id']."_".$post['mood'];
 	}
 	else
 	{
 		if($poster["picture"] == "#INTERNAL#")
-			$sideBarStuff .= "<img src=\"${dataUrl}avatars/".$poster['id']."\" alt=\"\" />";
+			$pictureUrl = "${dataUrl}avatars/".$poster['id'];
 		else if($poster["picture"])
-			$sideBarStuff .= "<img src=\"".htmlspecialchars($poster["picture"])."\" alt=\"\" />";
+			$pictureUrl = $poster["picture"];
 	}
+
+	if($pictureUrl)
+		$sideBarStuff .= "<img src=\"".htmlspecialchars($pictureUrl)."\" alt=\"\" />";
 
 	$lastpost = ($poster['lastposttime'] ? timeunits(time() - $poster['lastposttime']) : "none");
 	$lastview = timeunits(time() - $poster['lastactivity']);
@@ -419,6 +424,11 @@ function makePost($post, $type, $params=array())
 	{
 		$links->setClass("toolbarMenu");
 
+		if($pictureUrl)
+			$picture = "<img src=\"".htmlspecialchars($pictureUrl)."\" alt=\"\" style=\"max-width: 40px; max-height: 40px;\"/>";
+		else
+			$picture = "";
+		
 		echo "
 				<table class=\"outline margin mobile_postBox\" id=\"post${post['id']}\">
 				<tr class=\"header0 mobile_postHeader\">
