@@ -78,7 +78,7 @@
 
 			</div>
 			<div class="footer" style="clear: both;">
-				<?php print $layout_footer; ?>
+				<?php echo $layout_footer; ?>
 			</div>
 		</div>
 	</div>

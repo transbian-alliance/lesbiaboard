@@ -100,7 +100,7 @@ $layouCache = array();
 
 function makePostText($post)
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $postText, $sideBarStuff, $sideBarData, $salt, $layoutCache, $blocklayouts, $mobileLayout;
+	global $loguser, $loguserid, $layoutCache, $blocklayouts, $mobileLayout;
 
 	LoadBlockLayouts();
 	$poster = getDataPrefix($post, "u_");
@@ -159,11 +159,57 @@ define('POST_PM', 1);				// PM post box
 define('POST_DELETED_SNOOP', 2);	// post box with close/undelete (for mods 'view deleted post' feature)
 define('POST_SAMPLE', 3);			// sample post box (profile sample post, newreply post preview, etc)
 
-$sideBarStuff = "";
-$sideBarData = 0;
-
-if(!$mobileLayout)
+function makePostLinks($post, $type, $params=array())
 {
+	global $loguser, $loguserid, $mobileLayout;
+
+	$forum = $params['fid'];
+	$thread = $params['tid'];
+	$canMod = CanMod($loguserid, $forum);
+	$canReply = ($canMod || (!$post['closed'] && $loguser['powerlevel'] > -1)) && $loguserid;
+
+	$links = new PipeMenu();
+
+
+	if($post['deleted'])
+	{
+		if($canMod)
+			$links->add(new PipeMenuLinkEntry(__('Undelete'), "", "", "", "undo", "deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;"));
+
+		if($canMod || $post["user"] == $loguserid)
+		{
+			if($type == POST_DELETED_SNOOP)
+				$links->add(new PipeMenuLinkEntry(__('Close'), "", "", "", "chevron-up", "replacePost(".$post['id'].", false); return false;"));
+			else
+				$links->add(new PipeMenuLinkEntry(__('View'), "", "", "", "chevron-down", "replacePost(".$post['id'].", true); return false;"));
+		}
+	}
+	else
+	{
+		$links->add(new PipeMenuLinkEntry(__("Link"), "post", $post['id'], "", "link"));
+
+		if ($canReply && !$params['noreplylinks'])
+			$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id'], "quote-left"));
+
+		if ($canMod || ($post['user'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed']))
+			$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id'], "", "pencil"));
+
+		if ($canMod)
+			$links->add(new PipeMenuLinkEntry(__('Delete'), "", "", "", "remove", "deletePost(".$post["id"].", '".$loguser["token"]."', 1);return false;"));
+
+		if(!$mobileLayout)
+		{
+			$links->add(new PipeMenuTextEntry(format(__("ID: {0}"), $post['id'])));
+
+			if ($canMod)
+				$links->add(new PipeMenuTextEntry($post['ip']));
+		}
+
+		$bucket = "topbar"; include("./lib/pluginloader.php");
+	}
+
+	return $links;
+}
 
 // $post: post data (typically returned by SQL queries or forms)
 // $type: one of the POST_XXX constants
@@ -176,16 +222,15 @@ if(!$mobileLayout)
 //		* metatext: if non-empty, this text is displayed in the metabar instead of 'Sample post' (POST_SAMPLE only)
 function makePost($post, $type, $params=array())
 {
-	global $loguser, $loguserid, $theme, $hacks, $isBot, $blocklayouts, $postText, $sideBarStuff, $sideBarData, $salt, $dataDir, $dataUrl;
+	global $loguser, $loguserid, $blocklayouts, $dataDir, $dataUrl, $mobileLayout;
 
 	$sideBarStuff = "";
 	$poster = getDataPrefix($post, "u_");
 	LoadBlockLayouts();
 	$isBlocked = $poster['globalblock'] || $loguser['blocklayouts'] || $post['options'] & 1 || isset($blocklayouts[$poster['id']]);
 
-	if(isset($_GET['pid']))
-		$highlight = (int)$_GET['pid'];
-
+	$links = makePostLinks($post, $type, $params);
+	
 	if($post['deleted'] && $type == POST_NORMAL)
 	{
 		$meta = format(__("Posted on {0}"), formatdate($post['date']));
@@ -198,17 +243,7 @@ function makePost($post, $type, $params=array())
 			if ($post['reason'])
 				$meta .= ': '.htmlspecialchars($post['reason']);
 		}
-
-		$links = new PipeMenu();
-
-		if(CanMod($loguserid,$params['fid']))
-		{
-			if (IsAllowed("editPost", $post['id']))
-				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;\">".__('Undelete')."</a>"));
-			$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].",true); return false;\">".__("View")."</a>"));
-		}
-
-		$links->add(new PipeMenuTextEntry(format(__("ID: {0}"), $post['id'])));
+		
 		write(
 "
 		<table class=\"post margin deletedpost\" id=\"post{0}\">
@@ -224,12 +259,9 @@ function makePost($post, $type, $params=array())
 				</td>
 			</tr>
 		</table>
-",	$post['id'], userLink($poster), $meta, $links->build()
-);
+",	$post['id'], userLink($poster), $meta, $links->build());
 		return;
 	}
-
-	$links = new PipeMenu();
 
 	if ($type == POST_SAMPLE)
 		$meta = $params['metatext'] ? $params['metatext'] : __("Sample post");
@@ -237,45 +269,7 @@ function makePost($post, $type, $params=array())
 	{
 		$forum = $params['fid'];
 		$thread = $params['tid'];
-		$canmod = CanMod($loguserid, $forum);
-		$replyallowed = IsAllowed("makeReply", $thread);
-		$editallowed = IsAllowed("editPost", $post['id']);
-		$canreply = $replyallowed && ($canmod || (!$post['closed'] && $loguser['powerlevel'] > -1)) && $loguserid;
-
-		if (!$isBot)
-		{
-			if ($type == POST_DELETED_SNOOP)
-			{
-				$links->add(new PipeMenuTextEntry(__("Post deleted.")));
-				if ($editallowed && $canmod)
-					$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;\">".__('Undelete')."</a>"));
-				$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"replacePost(".$post['id'].", false); return false;\">".__("Close")."</a>"));
-				$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
-			}
-			else if ($type == POST_NORMAL)
-			{
-				$links->add(new PipeMenuLinkEntry(__("Link"), "post", $post['id']));
-
-				if ($canreply && !$params['noreplylinks'])
-					$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id']));
-
-				if ($editallowed && ($canmod || ($poster['id'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed'])))
-					$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id']));
-
-				if ($editallowed && $canmod)
-					$links->add(new PipeMenuHtmlEntry("<a href=\"#\" onclick=\"deletePost(".$post["id"].", '".$loguser["token"]."', 1);return false;\">".__('Delete')."</a>"));
-
-				if ($canreply && !$params['noreplylinks'])
-					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), actionLinkTag($post['id'], "newreply", $thread, "link=".$post['id']))));
-				else
-					$links->add(new PipeMenuHtmlEntry(format(__("ID: {0}"), $post['id'])));
-				if ($loguser['powerlevel'] > 0)
-					$links->add(new PipeMenuTextEntry($post['ip']));
-
-				$bucket = "topbar"; include("./lib/pluginloader.php");
-			}
-		}
-
+		
 		if ($type == POST_PM)
 			$message = __("Sent on {0}");
 		else
@@ -366,7 +360,7 @@ function makePost($post, $type, $params=array())
 	// OTHER STUFF
 
 	if($type == POST_NORMAL)
-		$anchor = "<a name=\"".$post['id']."\" />";
+		$anchor = "<a name=\"".$post['id']."\"></a>";
 
 	if(!$isBlocked)
 	{
@@ -379,45 +373,82 @@ function makePost($post, $type, $params=array())
 		$mainBar = "mainbar".$poster['id'];
 	}
 
-	$highlightClass = "";
-	if($post['id'] == $highlight)
-		$highlightClass = "highlightedPost";
-
 	$postText = makePostText($post);
 
 	//PRINT THE POST!
 
-	echo "
-		<table class=\"post margin $highlightClass $pTable\" id=\"post${post['id']}\">
-			<tr class=\"$row1\">
-				<td class=\"side userlink $topBar1\">
-					$anchor
-					".UserLink($poster)."
-				</td>
-				<td class=\"meta right $topBar2\">
-					<div style=\"float: left;\" id=\"meta_${post['id']}\">
-						$meta
-					</div>
-					<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_${post['id']}\">
-						Hi.
-					</div>
-					" . $links->build() . "
-				</td>
-			</tr>
-			<tr class=\"".$row2."\">
-				<td class=\"side $sideBar\">
-					<div class=\"smallFonts\">
-						$sideBarStuff
-					</div>
-				</td>
-				<td class=\"post $mainBar\" id=\"post_${post['id']}\">
-					<div>
-						$postText
-					</div>
-				</td>
-			</tr>
-		</table>";
-}
+	if($mobileLayout)
+	{
+		$links->setClass("toolbarMenu");
 
+		echo "
+			$anchor
+			<table class=\"outline margin mobile_postBox\">
+				<tr class=\"header0 mobile_postHeader\">
+					<th>
+						<table>
+							<tr>
+								<td>
+									<div class=\"mobile_userAvatarBox\">
+										$picture
+									</div>
+								</td>
+								<td class=\"mobile_postInfoCell\" style=\"width: 99%; overflow: hidden;\">
+									<div style=\"position: relative; height: 40px; top: 0; left: 0;\">
+										<div style=\"position: absolute; top: 0; left: 0;\">
+											" . userLink($poster) . "<br />
+											<span class=\"date\">$meta</span>
+										</div>
+									</div>
+									<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+										&nbsp;
+									</span>
+								</td>
+								<td>
+									".$links->build(2)."
+								</td>
+							</tr>
+						</table>
+					</th>
+				</tr>
+				<tr>
+					<td colspan=\"3\" class=\"cell0 mobile_postBox\">
+						$postText
+					</td>
+				</tr>
+			</table>
+		";
+	}
+	else
+		echo "
+			<table class=\"post margin $highlightClass $pTable\" id=\"post${post['id']}\">
+				<tr class=\"$row1\">
+					<td class=\"side userlink $topBar1\">
+						$anchor
+						".UserLink($poster)."
+					</td>
+					<td class=\"meta right $topBar2\">
+						<div style=\"float: left;\" id=\"meta_${post['id']}\">
+							$meta
+						</div>
+						<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+							Hi.
+						</div>
+						" . $links->build() . "
+					</td>
+				</tr>
+				<tr class=\"".$row2."\">
+					<td class=\"side $sideBar\">
+						<div class=\"smallFonts\">
+							$sideBarStuff
+						</div>
+					</td>
+					<td class=\"post $mainBar\" id=\"post_${post['id']}\">
+						<div>
+							$postText
+						</div>
+					</td>
+				</tr>
+			</table>";
 }
 ?>

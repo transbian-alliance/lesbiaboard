@@ -66,12 +66,13 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	private $icon;
 	public $newtab = false;
 	
-	public function __construct($label, $action, $id = 0, $args = "", $icon="") {
+	public function __construct($label, $action, $id = 0, $args = "", $icon="", $onclick="") {
 		$this->label = $label;
 		$this->action = $action;
 		$this->id = $id;
 		$this->args = $args;
 		$this->icon = $icon;
+		$this->onclick = $onclick;
 	}
 
 	public function build($style = 1) {
@@ -86,13 +87,17 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 
 		$tooltip = "";
 		if($style == 2)
-			$tooltip = "title=\"".$this->label."\"";
+			$tooltip = "title=\"".htmlspecialchars($this->label)."\"";
 			
 		$target = "";
 		if($this->newtab)
 			$target="target=\"_blank\"";
 		
-		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\" $target $tooltip>$icontag$label</a>";
+		$onclick="";
+		if($this->onclick)
+			$onclick="onclick=\"".htmlspecialchars($this->onclick)."\"";
+		
+		return "<a href=\"" . htmlspecialchars($this->getLink()) . "\" $target $tooltip $onclick>$icontag$label</a>";
 	}
 	
 	public function getText() {

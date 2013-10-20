@@ -181,15 +181,6 @@
 }
 
 
-.footer {
-	font-size: 0pt;
-}
-
-.footer > a:first-child {
-	font-size: 8pt;
-}
-
-
 @media (min-width: 650px) {
 
 	#body-wrapper {

@@ -64,28 +64,6 @@ $wasLastPost = ($thread['lastpostdate'] == $post['date']);
 
 $fid = $thread['forum'];
 
-if((int)$_GET['delete'] == 1)
-{
-	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
-	if(!CanMod($loguserid,$fid))
-		Kill(__("You're not allowed to delete posts."));
-	$rPosts = Query("update {posts} set deleted=1,deletedby={0},reason={1} where id={2} limit 1", $loguserid, $_GET['reason'], $pid);
-
-	logAction('deletepost', array('forum' => $fid, 'thread' => $tid, 'user2' => $post["user"], 'post' => $pid));
-
-	redirectAction("post", $pid);
-}
-else if((int)$_GET['delete'] == 2)
-{
-	if ($_GET['key'] != $loguser['token']) Kill(__("No."));
-	if(!CanMod($loguserid,$fid))
-		Kill(__("You're not allowed to undelete posts."));
-	$rPosts = Query("update {posts} set deleted=0 where id={0} limit 1", $pid);
-	logAction('undeletepost', array('forum' => $fid, 'thread' => $tid, 'user2' => $post["user"], 'post' => $pid));
-
-	redirectAction("post", $pid);
-}
-
 if ($post['deleted'])
 	Kill(__("This post has been deleted."));
 
