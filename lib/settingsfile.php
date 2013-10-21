@@ -131,10 +131,10 @@ $settings = array(
 [quote=Goomba][quote=Mario]Woohoo! [url=http://www.mariowiki.com/Super_Mushroom]That's what I needed![/url][/quote]Oh, nooo! *stomp*[/quote]
 
 Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perhaps how to do the classic infinite loop?
-[source=c]while(true){
+[code]while(true){
 printf(\"Hello World!
 \");
-}[/source]",
+}[/code]",
 		"name" => "Post Preview text"
 	),
 
