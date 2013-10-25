@@ -307,6 +307,8 @@ function makePost($post, $type, $params=array())
 	{
 		$forum = $params['fid'];
 		$thread = $params['tid'];
+		$canMod = CanMod($loguserid, $forum);
+		$canReply = ($canMod || (!$post['closed'] && $loguser['powerlevel'] > -1)) && $loguserid;
 		
 		if ($type == POST_PM)
 			$message = __("Sent on {0}");
@@ -469,7 +471,7 @@ function makePost($post, $type, $params=array())
 	}
 	else
 		echo "
-			<table class=\"post margin $highlightClass $pTable\" id=\"post${post['id']}\">
+			<table class=\"post margin $pTable\" id=\"post${post['id']}\">
 				<tr class=\"$row1\">
 					<td class=\"side userlink $topBar1\">
 						$anchor
