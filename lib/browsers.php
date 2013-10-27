@@ -44,6 +44,7 @@ $knownOSes = array
 	'iPhone' => 'iPhone',
 	"HTC_" => "HTC mobile",
 	"Series 60" => "S60",
+	"Nexus" => "Android (Nexus %)",
 	"Android" => "Android",
 	"Windows 4.0" => "Windows 95",
 	"Windows 4.1" => "Windows 98",
