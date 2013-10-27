@@ -6,7 +6,7 @@ if($post["id"] != "_")
 {
 	$plusOne = "";
 	
-	$plusOne .= "<span class=\"plusone\">";
+	$plusOne .= "<span class=\"postplusone\">";
 	$plusOne .= formatPlusOnes($post["postplusones"]);
 
 	if($post["u_id"] != $loguserid && $loguserid != 0)
