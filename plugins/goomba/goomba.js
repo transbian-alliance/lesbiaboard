@@ -45,11 +45,14 @@ function Goomba() {
 		this.x = x;
 		this.y = y;
 		this.xVel = Math.random() * 10 - 5;
-		this.yVel = Math.random() * 3 + 2.5;
+		this.yVel = Math.random() * 400 + 200;
+		this.initTime = new Date;
 
 		this.movementInterval = setInterval(function() {
+			// Pixels per second squared (around 9.8 cm s^-2)
+			var GRAVITY = 370;
+
 			this.x += this.xVel;
-			this.y -= this.yVel;
 
 			//If we are about to go off the screen, we should stop that.
 			if (this.x > document.documentElement.clientWidth - 16 || this.x < 0) {
@@ -57,24 +60,10 @@ function Goomba() {
 			}
 
 			//Decrease x velocity
-			if (this.yVel > 0) {
-				if (this.xVel < 0) {
-					this.xVel -= this.xVel / 250;
-					if (this.xVel > 0) {
-						this.xVel = 0;
-					}
-				} else if (this.xVel > 0) {
-					this.xVel -= this.xVel / 250;
-					if (this.xVel < 0) {
-						this.xVel = 0;
-					}
-				}
-			}
+			this.xVel -= this.xVel / 250;
 
-			if (this.yVel > -4) {
-//				this.yVel -= this.yVel / 250;
-				this.yVel -= 0.05;
-			}
+			var time = (new Date - this.initTime) / 1000
+			this.y = y + GRAVITY * Math.pow(time, 2) / 2 - this.yVel * time;
 
 			this.goomba.style.top = this.y + "px";
 			this.goomba.style.left = this.x + "px";
