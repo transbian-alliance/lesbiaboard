@@ -42,8 +42,12 @@ function getYoutubeIdFromUrl($url) {
 	return false;
 }
 
+
+
 function bbcodeYoutube($dom, $contents, $arg)
 {
+	global $mobileLayout;
+	
 	$contents = trim($contents);
 
 	$id = getYoutubeIdFromUrl($contents);
@@ -52,11 +56,19 @@ function bbcodeYoutube($dom, $contents, $arg)
 	if(!preg_match("/^[\-0-9_a-zA-Z]+$/", $contents))
 		return $dom->createTextNode("[Invalid youtube video ID]");
 
+	if($mobileLayout)
+	{
+		$link = $dom->createElement('a');
+		$link->setAttribute('href', "https://www.youtube.com/watch?v=$contents");
+		$link->appendChild($dom->createTextNode(__('[View video]')));
+		return $link;
+	}
+
 	$args = "";
 
 	if($arg == "loop")
 		$args .= "&amp;loop=1";
-
+	
 	$frame = $dom->createElement('iframe');
 	$frame->setAttribute('width', 560);
 	$frame->setAttribute('height', 315);
