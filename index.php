@@ -30,6 +30,18 @@ function getBirthdaysText()
 		return "";
 }
 
+//Support for running pages from the terminal.
+if(isset($argv))
+{
+	$_GET = array();
+	$_GET["page"] = $argv[1];
+	
+	$_SERVER = array();
+	$_SERVER["REMOTE_ADDR"] = "0.0.0.0";
+	
+	$ajaxPage = true;
+}
+
 
 //=======================
 // Do the page
