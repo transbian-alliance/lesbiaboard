@@ -30,6 +30,10 @@ function getBirthdaysText()
 		return "";
 }
 
+//Use buffering to draw the page. 
+//Useful to have it disabled when running from the terminal.
+$useBuffering = true;
+
 //Support for running pages from the terminal.
 if(isset($argv))
 {
@@ -40,6 +44,7 @@ if(isset($argv))
 	$_SERVER["REMOTE_ADDR"] = "0.0.0.0";
 	
 	$ajaxPage = true;
+	$useBuffering = false;
 }
 
 
@@ -66,7 +71,9 @@ if($page == $mainPage)
 
 define('CURRENT_PAGE', $page);
 
-ob_start();
+if($useBuffering)
+	ob_start();
+
 $layout_crumbs = new PipeMenu();
 $layout_links = new PipeMenu();
 
@@ -106,9 +113,13 @@ catch(KillException $e)
 
 if($ajaxPage)
 {
-	header("Content-Type: text/plain");
 	
-	ob_end_flush();
+	if($useBuffering)
+	{
+		header("Content-Type: text/plain");
+		ob_end_flush();
+	}
+		
 	die();
 }
 
