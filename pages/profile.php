@@ -52,7 +52,7 @@ if($loguserid && ($_GET['token'] == $loguser['token'] || $_POST['token'] == $log
 		if($k == 0)
 			$_qKarma = "insert into {uservotes} (uid, voter, up) values ({0}, {1}, {2})";
 		else
-			$_qKarma = "update {uservotes} set up={2} where uid={0} and voter={1}";
+			$_qKarma = "delete from {uservotes} where uid={0} and voter={1}";
 		$rKarma = Query($_qKarma, $id, $loguserid, $vote);
 		$user['karma'] = RecalculateKarma($id);
 		die(header("Location: ".actionLink("profile", $id)));
@@ -66,8 +66,8 @@ if($canVote)
 	$k = FetchResult("select up from {uservotes} where uid={0} and voter={1}", $id, $loguserid);
 
 	$karmalinks = "";
-	if($k != 1) $karmaLinks .= actionLinkTag("&#x2191;", "profile", $id, "vote=1&token={$loguser['token']}");
-	if($k != 0) $karmaLinks .= actionLinkTag("&#x2193;", "profile", $id, "vote=0&token={$loguser['token']}");
+	if($k != 1) $karmaLinks .= actionLinkTag(" &#x2191; ", "profile", $id, "vote=1&token={$loguser['token']}");
+	if($k != 0) $karmaLinks .= actionLinkTag(" &#x2193; ", "profile", $id, "vote=0&token={$loguser['token']}");
 
 	$karmaLinks = "<small>[$karmaLinks]</small>";
 }

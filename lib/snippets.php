@@ -195,7 +195,7 @@ function DoPostHelp()
 
 
 
-function RecalculateKarma($uid)
+function recalculateKarma($uid)
 {
 	$karma = 100;
 	$karmaWeights = array(5, 10, 10, 15, 15);
