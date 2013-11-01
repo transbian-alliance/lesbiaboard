@@ -80,6 +80,8 @@ if(isset($_POST['name']))
 		if($uid == 1)
 			Query("update {users} set powerlevel = 4 where id = 1");
 
+		recalculateKarma($uid);
+		
 		logAction('register', array('user' => $uid));
 
 		$user = Fetch(Query("select * from {users} where id={0}", $uid));
