@@ -16,8 +16,8 @@ $thread = Fetch(Query("SELECT * FROM {threads} WHERE id = {0}", $post["thread"])
 if(!$thread)
 	die("Unknown thread");
 
-if($thread["closed"])
-	die(__("Thread is closed"));
+//if($thread["closed"])
+//	die(__("Thread is closed"));
 
 $vote = Fetch(Query("SELECT * FROM {postplusones} WHERE post = {0} AND user = {1}", $pid, $loguserid));
 if($vote)
