@@ -41,7 +41,6 @@ if(NumRows($entry))
 		case "png": $ctype="image/png"; $download = false; break;
 		case "jpeg":
 		case "jpg": $ctype="image/jpg"; $download = false; break;
-		case "svg": $ctype="image/svg+xml"; $download = false; break;
 		case "css": $ctype="text/css"; $download = false; break;
 		case "txt": $ctype="text/plain"; $download = false; break;
 		case "swf": $ctype="application/x-shockwave-flash"; $download = false; break;
