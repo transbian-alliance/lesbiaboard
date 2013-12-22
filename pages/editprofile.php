@@ -611,7 +611,7 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	global $userid, $dataDir;
 	if($type == 0)
 	{
-		$extensions = array(".png",".jpg",".gif");
+		$extensions = array(".png",".jpg",".jpeg",".gif");
 		$maxDim = 100;
 		$maxSize = 300 * 1024;
 	}
