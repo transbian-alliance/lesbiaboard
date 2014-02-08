@@ -263,7 +263,7 @@ if (!$isBot)
 			<form action=\"javascript:refreshMemberlist();\">
 				<div style=\"display:inline-block\">
 					<input type=\"text\" name=\"query\" id=\"query\" placeholder=\"".__("Search")."\" />
-					<button id=\"submitQuery\">&rarr;</button>
+					<button id=\"submitQuery\"><i class=\"icon-search\"></i></button>
 				</div>
 			</form>
 	</td></tr></table>";
