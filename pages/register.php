@@ -51,8 +51,6 @@ if(isset($_POST['name']))
 		$err = __("The user name cannot contain semicolons.");
 	elseif($ipKnown >= 3)
 		$err = __("Another user is already using this IP address.");
-	else if(isset($plugins["faq"]) && !$_POST['readFaq'])
-		$err = format(__("You really should {0}read the FAQ{1}&hellip;"), "<a href=\"".actionLink("faq")."\">", "</a>");
 	else if ($_POST['pass'] !== $_POST['pass2'])
 		$err = __("The passwords you entered don't match.");
 	else if($haveSecurimage)
@@ -151,20 +149,6 @@ echo "
 				".MakeOptions("sex",$sex,$sexes)."
 			</td>
 		</tr>";
-
-if(isset($plugins["faq"]))
-{
-	echo "
-			<tr>
-				<td class=\"cell2\"></td>
-				<td class=\"cell0\">
-					<label>
-						<input type=\"checkbox\" name=\"readFaq\" />
-						".format(__("I have read the {0}FAQ{1}"), "<a href=\"".actionLink("faq")."\">", "</a>")."
-					</label>
-				</td>
-			</tr>";
-}
 
 if($haveSecurimage)
 {
