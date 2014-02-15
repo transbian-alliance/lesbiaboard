@@ -28,8 +28,9 @@ function ajaxPost(page, params, callback)
 //AJAX REFRESHERS
 
 //Value of this is set by PHP too.
-var onlineFID = 0;
+//var onlineFID = 0;
 var refreshUrl = "";
+var onlineFID = 0;
 
 function startAjaxRefresh()
 {
@@ -60,7 +61,7 @@ function ajaxRefresh()
 	    $("#viewCount").html(data);
 	});
 	
-	ajax("getonlineusers", {f: onlineFID}, function(data) {
+	ajax("getonlineusers", {id: onlineFID}, function(data) {
 	    $("#onlineUsers").html(data);
 	});
 	
