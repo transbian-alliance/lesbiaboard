@@ -299,7 +299,11 @@ class HTML5_Tokenizer {
                     } else {
                         global $postNoSmilies, $smiliesReplaceOrig, $smiliesReplaceNew;
                         $result = "";
-                        while(strpos("<&[\n\x0C", $char) === FALSE && $char !== FALSE) {
+                        if ($this->content_model === self::PCDATA)
+                            $endChars = "<&[\n\x0C";
+                        else
+                            $endChars = "<\n\x0C";
+                        while(strpos($endChars, $char) === FALSE && $char !== FALSE) {
                             $result .= $char;
                             if($this->content_model === self::PCDATA && !$postNoSmilies) {
                                 if(!isset($smiliesReplaceOrig)) LoadSmilies();
