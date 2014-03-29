@@ -67,7 +67,7 @@ $knownOSes = array
 	"Firefox" => "Firefox OS",
 );
 
-$mobileBrowsers = array('Opera Tablet', 'Opera Mobile', 'Opera Mini', 'Nintendo DSi', 'Nitro', 'Nintendo 3DS', 'Android', 'Nokia', 'iPod', 'iPad', 'iPhone');
+$mobileBrowsers = array('Opera Tablet', 'Opera Mobile', 'Opera Mini', 'Nintendo DSi', 'Nitro', 'Nintendo 3DS', 'Android', 'Nokia', 'iPod', 'iPad', 'iPhone', 'Firefox OS');
 $mobileLayout = false;
 
 $ua = $_SERVER['HTTP_USER_AGENT'];
