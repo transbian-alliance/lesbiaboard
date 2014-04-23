@@ -8,6 +8,10 @@
 
 table.outline, td, th, .header0, .header1, ##body table, ##body .faq
 {
+}
+
+.outline, .outline td, .outline tr, .header0 th, .header1 th, .cell0, .cell1, .cell2, .errort, td.post, td.side, td.meta
+{
 	border-color: #8677E7;
 }
 
@@ -44,9 +48,14 @@ table.post
 	box-shadow: 0px 0px 0px;
 }
 
-td.side, td.meta, table.post td.post
+td.side, td.meta
 {
-	background: #111133;
+	background: #1A2464 url(backt100.png);
+}
+
+table.post td.post
+{
+	background: #06015D url(backt200.png);
 }
 
 td.post code.Code .geshi .post_about
@@ -71,6 +80,7 @@ div#tabs
 {
 	position: relative;
 	left: 8px;
+	margin-bottom: 0px;
 }
 
 div#tabs button
