@@ -13,6 +13,7 @@
 	color: yellow;
 	text-shadow: 2px 2px 0px #000;
 	width: 16em;
+	margin-right: -16em;
 	text-align: center;
 	pointer-events: none;
 
