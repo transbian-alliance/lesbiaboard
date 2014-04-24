@@ -7,7 +7,8 @@ if($loguserid && isset($_GET['action']) && $_GET['action'] == "markallread")
 }
 
 $links = new PipeMenu();
-$links->add(new PipeMenuLinkEntry(__("Mark all forums read"), "board", 0, "action=markallread", "ok"));
+if ($loguserid)
+	$links->add(new PipeMenuLinkEntry(__("Mark all forums read"), "board", 0, "action=markallread", "ok"));
 
 makeLinks($links);
 makeBreadcrumbs(new PipeMenu());

@@ -33,32 +33,37 @@ $title = $forum['title'];
 
 setUrlName("newthread", $fid, $forum["title"]);
 
-$isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
-if(isset($_GET['ignore']))
+if ($loguserid)
 {
-	if(!$isIgnored)
-		Query("insert into {ignoredforums} values ({0}, {1})", $loguserid, $fid);
-	redirectAction("forum", $fid);
-}
-else if(isset($_GET['unignore']))
-{
-	if($isIgnored)
-		Query("delete from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid);
-	redirectAction("forum", $fid);
+	$isIgnored = FetchResult("select count(*) from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid) == 1;
+	if(isset($_GET['ignore']))
+	{
+		if(!$isIgnored)
+			Query("insert into {ignoredforums} values ({0}, {1})", $loguserid, $fid);
+		redirectAction("forum", $fid);
+	}
+	else if(isset($_GET['unignore']))
+	{
+		if($isIgnored)
+			Query("delete from {ignoredforums} where uid={0} and fid={1}", $loguserid, $fid);
+		redirectAction("forum", $fid);
+	}
 }
 
 $links = new PipeMenu();
 
 if($loguserid)
+{
 	$links->add(new PipeMenuLinkEntry(__("Mark forum read"), "forum", $fid, "action=markasread", "ok"));
 
-if($isIgnored)
-	$links->add(new PipeMenuLinkEntry(__("Unignore forum"), "forum", $fid, "unignore", "eye-open"));
-else
-	$links->add(new PipeMenuLinkEntry(__("Ignore forum"), "forum", $fid, "ignore", "eye-close"));
+	if($isIgnored)
+		$links->add(new PipeMenuLinkEntry(__("Unignore forum"), "forum", $fid, "unignore", "eye-open"));
+	else
+		$links->add(new PipeMenuLinkEntry(__("Ignore forum"), "forum", $fid, "ignore", "eye-close"));
 
-if($loguserid && $forum['minpowerthread'] <= $loguser['powerlevel'])
-	$links->add(new PipeMenuLinkEntry(__("Post thread"), "newthread", $fid, "", "comment"));
+	if($forum['minpowerthread'] <= $loguser['powerlevel'])
+		$links->add(new PipeMenuLinkEntry(__("Post thread"), "newthread", $fid, "", "comment"));
+}
 
 makeLinks($links);
 
