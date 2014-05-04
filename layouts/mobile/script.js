@@ -6,7 +6,6 @@ var isSafari = userAgent.match(/iPad/i) || userAgent.match(/iPhone/i);
 var hideTimeout = false;
 function showDrawer(percent)
 {
-	console.log("show "+percent);
 	$('#drawer-overlay').css('opacity', percent*0.75);
 
 	if(hideTimeout)
