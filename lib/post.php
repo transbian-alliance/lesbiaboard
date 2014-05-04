@@ -251,18 +251,18 @@ function makePost($post, $type, $params=array())
 			$links->setClass("toolbarMenu");
 
 			echo "
-				<table class=\"outline margin mobile_postBox\" id=\"post${post['id']}\">
-					<tr class=\"header0 mobile_postHeader\">
+				<table class=\"outline margin mobile-postBox\" id=\"post${post['id']}\">
+					<tr class=\"header0 mobile-postHeader\">
 						<th>
 							$anchor
 							<table>
 								<tr>
 									<td>
-										<div class=\"mobile_userAvatarBox\">
+										<div class=\"mobile-userAvatarBox\">
 											$picture
 										</div>
 									</td>
-									<td class=\"mobile_postInfoCell\" style=\"width: 99%; overflow: hidden;\">
+									<td class=\"mobile-postInfoCell\" style=\"width: 99%; overflow: hidden;\">
 										<div style=\"position: relative; height: 40px; top: 0; left: 0;\">
 											<div style=\"position: absolute; top: 0; left: 0;\">
 												" . userLink($poster) . "<br />
@@ -432,18 +432,18 @@ function makePost($post, $type, $params=array())
 			$picture = "";
 		
 		echo "
-				<table class=\"outline margin mobile_postBox\" id=\"post${post['id']}\">
-				<tr class=\"header0 mobile_postHeader\">
+				<table class=\"outline margin mobile-postBox\" id=\"post${post['id']}\">
+				<tr class=\"header0 mobile-postHeader\">
 					<th>
 						$anchor
 						<table>
 							<tr>
 								<td>
-									<div class=\"mobile_userAvatarBox\">
+									<div class=\"mobile-userAvatarBox\">
 										$picture
 									</div>
 								</td>
-								<td class=\"mobile_postInfoCell\" style=\"width: 99%; overflow: hidden;\">
+								<td class=\"mobile-postInfoCell\" style=\"width: 99%; overflow: hidden;\">
 									<div style=\"position: relative; height: 40px; top: 0; left: 0;\">
 										<div style=\"position: absolute; top: 0; left: 0;\">
 											" . userLink($poster) . "<br />
@@ -462,7 +462,7 @@ function makePost($post, $type, $params=array())
 					</th>
 				</tr>
 				<tr>
-					<td colspan=\"3\" class=\"cell0 mobile_postBox\">
+					<td colspan=\"3\" class=\"cell0 mobile-postBox\">
 						$postText
 					</td>
 				</tr>
