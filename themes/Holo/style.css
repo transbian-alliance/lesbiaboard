@@ -67,7 +67,7 @@ ul.pipemenu li {
 	box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
 }
 
-#mobile_body table:not(.post).margin.outline {
+#mobile-body table:not(.post).margin.outline {
 	background: none;
 	border-radius: 0px;
 	border: 0px none;
@@ -109,7 +109,7 @@ table.post td.userlink, table.post td.meta {
 	border-bottom: 1px solid #36383B;
 }
 
-#mobile_body :not(.post) table:not(.post) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
+#mobile-body :not(.post) table:not(.post) td, :not(.post) table:not(.post) tr:not(.header0):not(.header1):only-child td {
 	border-bottom: 1px solid #36383B;
 }
 
@@ -448,12 +448,12 @@ input[placeholder="Search"]:placeholder {
 	background: #33B5E5;
 }
 
-#mobile_headerBar {
+#mobile-headerBar {
 	background: black;
 	border-bottom: 2px solid #33B5E5;
 }
 
-#mobile_sidebar {
+#drawer {
 	background: #111111;
 }
 
@@ -482,7 +482,7 @@ input[placeholder="Search"]:placeholder {
 	opacity: 0.8;
 }
 
-.mobile_postHeader {
+.mobile-postHeader {
 	background: #111111;
 	border: 1px solid #36383B;
 	border-bottom: 0px none;

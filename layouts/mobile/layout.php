@@ -7,8 +7,8 @@
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, width=device-width" />
 </head>
 
-<body class="preload" style="width:100%; font-size: 90%;" id="mobile_body">
-	<div id="mobile_sidebar">
+<body style="width:100%; font-size: 90%;" id="mobile-body">
+	<div id="drawer">
 		<img id="theme_banner" style="width:100%" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" style="padding: 8px;" />
 		
 		<?php 
@@ -19,12 +19,12 @@
 		&nbsp;
 		<?php print $layout_navigation->build(0); ?>
 	</div>
-	<div id="mobile_overlay">
+	<div id="drawer-overlay">
 	</div>
-	<div id="mobile_headerBar">
+	<div id="mobile-headerBar">
 		<table style="width:100%;"><tr  class="cell0">
 		<td>
-			<a id="mobile_openHeader" href="#" class="button"><i class="icon-reorder"></i></a>
+			<a id="drawer-toggle" href="#" class="button"><i class="icon-reorder"></i></a>
 		</td>
 		<?php 
 			$last = $layout_crumbs->pop();
