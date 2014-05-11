@@ -19,7 +19,7 @@
 	<head>
 		<title>ABXD installation</title>
 		<link rel="stylesheet" href="css/common.css" type="text/css" />
-		<link rel="stylesheet" href="themes/gold/style.css" type="text/css" />
+		<link rel="stylesheet" href="themes/abxd30/style.css" type="text/css" />
 		<script src="js/jquery.js"></script>
 		<script src="install/installer.js"></script>
 		<script type="text/javascript">
