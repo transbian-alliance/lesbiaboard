@@ -52,11 +52,6 @@
 	vertical-align:middle;
 }
 
-#mobile-openHeader {
-	-webkit-tap-highlight-color: transparent;
-}
-
-
 #mobile-header td {
 	vertical-align: top;
 }
@@ -126,6 +121,10 @@
 	}
 }
 
+#drawer-toggle {
+	display: none!important;
+}
+
 @media (max-width: 767px) {
 	#drawer {
 		-webkit-transform: translateX(-300px);
@@ -139,7 +138,7 @@
 		margin-left: 0px;
 	}	
 	#drawer-toggle {
-		display: inline-block;
+		display: inline-block!important;
 	}
 }
 
