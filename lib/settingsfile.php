@@ -64,7 +64,7 @@ $settings = array(
 	),
 	"defaultTheme" => array (
 		"type" => "theme",
-		"default" => "gold",
+		"default" => "abxd30",
 		"name" => "Default Board Theme",
 	),
 	"defaultLayout" => array (
