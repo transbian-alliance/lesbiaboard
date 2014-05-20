@@ -9,24 +9,29 @@
 }
 
 #body {
-	background: hsl(240, 20%, 15%) url(noise-texture.png);
+	background: hsl(210, 20%, 15%) url(noise-texture.png);
 	color: #FFFFFF;
 }
+
+a:link, a:visited	{ color: hsl(210, 80%, 65%); }
+a:hover				{ color: hsl(210, 80%, 80%); }
+a:active			{ color: hsl(210, 80%, 75%); }
 
 .header0, .header1 {
 	border: 0px none;
 }
 
 .header0 th, .header1 th {
-	background: linear-gradient(hsl(240, 50%, 15%) 0px, hsl(240, 50%, 50%) 2px, hsl(240, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
+	background: linear-gradient(hsl(210, 50%, 15%) 0px, hsl(210, 50%, 50%) 2px, hsl(210, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
 	padding-top: 4px;
 	color: #FFFFFF;
 }
 
 .header1:first-child th, .header0:first-child th, .errort {
-	background: linear-gradient(hsl(240, 40%, 40%), hsl(240, 40%, 30%));
+	background: linear-gradient(hsl(210, 40%, 40%), hsl(210, 40%, 30%));
 	border-bottom: 0px none;
 	padding-bottom: 4px;
+	border-bottom: 1px solid hsl(210, 20%, 7.5%);
 }
 
 .cell2 {
@@ -35,37 +40,53 @@
 .cell1, table.post td.side, table.post td.userlink, table.post td.meta {
 }
 
-.cell0, table.post td.post, .faq {
-}
-
-table.outline, .errorc, table.post {
-	background: linear-gradient(hsl(240, 20%, 15%), hsl(240, 20%, 10%) 120px);
-	box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.35);
+table.outline, table.message, .errorc, table.post {
+	background: linear-gradient(hsl(210, 20%, 15%), hsl(210, 20%, 10%) 120px);
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.45);
 	border-radius: 8px;
-	border: 1px solid hsl(240, 20%, 10%);
+	border: 1px solid hsl(210, 20%, 7.5%);
 }
 
-table.post > tbody > tr:first-child td {
-	background: linear-gradient(hsl(240, 50%, 15%) 0px, hsl(240, 50%, 50%) 2px, hsl(240, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
+#header .outline {
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.45);
+}
+
+td.meta, td.side.userlink {
+	background: linear-gradient(hsl(210, 50%, 15%) 0px, hsl(210, 50%, 50%) 2px, hsl(210, 50%, 35%) 4px, hsla(0, 0%, 0%, 0.3) 4px, hsla(0, 0%, 0%, 0));
 	padding-top: 4px;
 }
 
-button, input[type="submit"] {
+button, input[type="submit"], select {
 	border: 0px none;
-	background: linear-gradient(hsl(240, 20%, 15%), hsl(240, 20%, 12.5%));
+	background: linear-gradient(hsl(210, 20%, 15%), hsl(210, 20%, 12.5%));
 	border-radius: 4px;
 	color: #FFF;
+	box-shadow: 0px 0px 3px hsla(210, 0%, 0%, 0.5);
+	border: 1px solid hsl(210, 20%, 10%);
+	transition: 0.1s linear;
 }
 
-input[type="text"], input[type="password"], input[type="file"], input[type="email"], select, textarea {
-	background: linear-gradient(hsl(240, 20%, 18%), hsl(240, 20%, 15%));
+button:hover, input[type="submit"]:hover, select:hover {
+	border-color: hsla(210, 50%, 60%, 0.5);
+}
+
+button:active, input[type="submit"]:active, select:active {
+	border-color: hsl(210, 50%, 25%);
+}
+
+button:focus, input[type="submit"]:focus, select:focus {
+	border-color: hsl(210, 50%, 25%);
+}
+
+input[type="text"], input[type="password"], input[type="file"], input[type="email"], textarea {
+	background: linear-gradient(hsl(210, 20%, 18%), hsl(210, 20%, 15%));
 	border-radius: 4px;
-	border: 1px solid hsl(240, 20%, 25%);
+	border: 1px solid hsl(210, 20%, 25%);
 	color: white;
 }
 
 input[type="checkbox"], input[type="radio"] {
-	background: hsl(240, 20%, 15%);
+	background: hsl(210, 20%, 15%);
 	border: 0px none;
 	border-radius: 4px;
 	color: hsl(0, 0%, 15%);
@@ -76,9 +97,19 @@ input[type="radio"] {
 	border-radius: 8px;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
-	background: linear-gradient(hsl(240, 20%, 21%), hsl(240, 20%, 18%));
-	border-color: hsl(240, 50%, 45%);
+input[type="text"]:focus, input[type="password"]:focus, input[type="file"]:focus, input[type="email"]:focus, textarea:focus {
+	background: linear-gradient(hsl(210, 20%, 19%), hsl(210, 20%, 16%));
+	border-color: hsl(210, 50%, 45%);
+}
+
+button.expander {
+	border: 0px none;
+	box-shadow: 0px 0px 3px hsla(0, 0%, 0%, 0.8);
+}
+
+button.expander:hover {
+	border: 0px none;
+	background: linear-gradient(hsl(210, 50%, 55%), hsl(210, 50%, 40%));
 }
 
 div#tabs {
@@ -95,7 +126,7 @@ div#tabs button {
 }
 
 div#tabs button.selected {
-	background: hsl(240, 40%, 40%);
+	background: hsl(210, 40%, 40%);
 }
 
 .themeselector input:checked + label, .fe_selected {
@@ -106,7 +137,7 @@ div#tabs button.selected {
 /* Mobile layout */
 
 #drawer {
-	background: hsl(240, 20%, 10%) url(noise-texture.png);
+	background: hsl(210, 20%, 10%) url(noise-texture.png);
 	box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -115,7 +146,7 @@ div#tabs button.selected {
 }
 
 #mobile-headerBar {
-	background: linear-gradient(hsl(240, 20%, 15%), hsl(240, 20%, 10%)), url(noise-texture.png);
+	background: linear-gradient(hsl(210, 20%, 15%), hsl(210, 20%, 10%)), url(noise-texture.png);
 	border-bottom: 0px none;
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
 }
