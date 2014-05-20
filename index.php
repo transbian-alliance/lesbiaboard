@@ -199,6 +199,15 @@ function checkForImage(&$image, $external, $file)
 	}
 }
 
+if (!file_exists("themes/$theme")) { //Are we using some invalid theme?
+	if ($loguserid) {
+		$defaultTheme = Settings::get("defaultTheme");
+		query("update users set theme='" . $defaultTheme . "' where id=$loguserid");
+		$theme = $defaultTheme;
+	}
+}
+
+
 checkForImage($layout_logopic, true, "logos/logo_$theme.png");
 checkForImage($layout_logopic, true, "logos/logo_$theme.jpg");
 checkForImage($layout_logopic, true, "logos/logo_$theme.gif");
