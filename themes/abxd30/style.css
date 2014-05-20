@@ -113,7 +113,7 @@ button.expander:hover {
 }
 
 div#tabs {
-	margin-left: 2px;
+	margin-left: 4px;
 }
 
 div#tabs button {
@@ -122,11 +122,14 @@ div#tabs button {
 	border-top-right-radius: 8px;
 	padding-left: 8px;
 	padding-right: 8px;
-	margin-bottom: 2px;
+	box-shadow: none;
+	margin-bottom: 1px;
 }
 
 div#tabs button.selected {
 	background: hsl(210, 40%, 40%);
+	padding-bottom: 1px;
+	margin-bottom: 0px;
 }
 
 .themeselector input:checked + label, .fe_selected {
