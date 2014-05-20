@@ -80,6 +80,7 @@ include("htmlfilter.php");
 include("smilies.php");
 
 $theme = $loguser['theme'];
+
 include('lib/layout.php');
 
 //Classes
