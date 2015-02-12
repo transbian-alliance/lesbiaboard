@@ -21,11 +21,11 @@ ABXD in your server and follow the installer. It couldn't be easier.
 ## Bugs
 
 Checkout [ABXD Bug Reports](http://abxd.dirbaio.net/?page=forum&id=6)
-forum. Feel free to report non-security bugs. If you have security bug,
+forum. Feel free to report non-security bugs. If you have security bugs,
 contact [Dirbaio](https://github.com/Dirbaio).
 
 ## Contributions
 
-Fork the repository and send pull request. This project uses tab-based
-indentation and opening brace on separate line, keep that in mind while
+Fork the repository and send a pull request. This project uses tab-based
+indentation and opening braces on separate lines, so keep that in mind while
 contributing patches.
