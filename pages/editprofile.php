@@ -705,6 +705,9 @@ function HandlePassword($field, $item)
 
 	if($_POST[$field])
 	{
+		$newsalt = Shake();
+		$sha = doHash($_POST[$field].$salt.$newsalt);
+		$sets[] = "pss = '".$newsalt."'";
 		$_POST[$field] = password_hash($_POST[$field], PASSWORD_DEFAULT);
 
 		//Now logout all the sessions that aren't this one, for security.
