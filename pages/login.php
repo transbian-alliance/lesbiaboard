@@ -75,7 +75,7 @@ elseif(isset($_POST['actionlogin']))
 				{
 					$password = password_hash($pass, PASSWORD_DEFAULT);
 
-					Query("UPDATE {users} SET password = {0}, pss = ''", $password);
+					Query("UPDATE {users} SET password = {0} WHERE id={1}", $password, $user['id']);
 					$okay = true;
 				}
 			}
