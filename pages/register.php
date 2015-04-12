@@ -67,10 +67,11 @@ if(isset($_POST['name']))
 	}
 	else
 	{
+		$newsalt = Shake();
 		$password = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
 		$sex = validateSex($_POST["sex"]);
-		$rUsers = Query("insert into {users} (name, password, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {3}, {4}, {5}, {6})", $_POST['name'], $password, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], $sex, Settings::get("defaultTheme"));
+		$rUsers = Query("insert into {users} (name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {3}, {4}, {5}, {6}, {7})", $_POST['name'], $password, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], $sex, Settings::get("defaultTheme"));
 		
 		$uid = insertId();
 		

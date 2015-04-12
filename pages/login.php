@@ -55,8 +55,9 @@ elseif(isset($_POST['actionlogin']))
 			if(validateConvertPassword($pass, $user["convertpassword"], $user["convertpasswordsalt"], $user["convertpasswordtype"]))
 			{
 				//If the user has entered password correctly, upgrade it to ABXD hash and wipe the legacy hash.
+				$newsalt = Shake();
 				$password = password_hash($pass, PASSWORD_DEFAULT);
-				query("UPDATE {users} SET convertpassword='', convertpasswordsalt='', convertpasswordtype='', pss='', password={0} WHERE id={1}", $password, $user["id"]);
+				query("UPDATE {users} SET convertpassword='', convertpasswordsalt='', convertpasswordtype='', password={0}, pss={1} WHERE id={2}", $password, $newsalt, $user["id"]);
 				
 				//Login successful.
 				$okay = true;
