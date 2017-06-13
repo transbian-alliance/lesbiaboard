@@ -56,10 +56,11 @@ $knownOSes = array
 	"Windows NT 6.0" => "Windows Vista",
 	"Windows NT 6.1" => "Windows 7",
 	"Windows NT 6.2" => "Windows 8",
+	"Windows NT 10.0" => "Windows 10",
 	"Windows Mobile" => "Windows Mobile",
 	"FreeBSD" => "FreeBSD",
 	"Ubuntu" => "Ubuntu",
-	"Linux" => "GNU/Linux %",
+	"Linux" => "Linux",
 	"Mac OS X" => "Mac OS X %",
 	"BlackBerry" => "BlackBerry",
 	"Nintendo Wii" => "Nintendo Wii",
@@ -96,8 +97,6 @@ $browserVers = (float)$version;
 $os = "";
 foreach($knownOSes as $code => $name)
 {
-	if (strpos($ua, "X11")) $suffix = " (X11)";
-	else if (strpos($ua, "textmode")) $suffix = " (text mode)";
 	if (strpos($ua, $code) !== FALSE)
 	{
 		$os = $name;
