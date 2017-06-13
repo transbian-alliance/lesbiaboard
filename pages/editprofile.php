@@ -399,8 +399,7 @@ if($_POST['action'] == __("Edit profile"))
 
 	if($_POST["currpassword"] != "")
 	{
-		$sha = doHash($_POST["currpassword"].$salt.$loguser['pss']);
-		if($loguser['password'] == $sha)
+		if (password_verify($_POST['currpassword'], $loguser['password']))
 			$passwordEntered = true;
 		else
 		{
@@ -709,7 +708,7 @@ function HandlePassword($field, $item)
 		$newsalt = Shake();
 		$sha = doHash($_POST[$field].$salt.$newsalt);
 		$sets[] = "pss = '".$newsalt."'";
-		$_POST[$field] = $sha;
+		$_POST[$field] = password_hash($_POST[$field], PASSWORD_DEFAULT);
 
 		//Now logout all the sessions that aren't this one, for security.
 		Query("DELETE FROM {sessions} WHERE id != {0} and user = {1}", doHash($_COOKIE['logsession'].$salt), $user["id"]);

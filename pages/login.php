@@ -10,6 +10,23 @@ function validateConvertPassword($pass, $hash, $salt, $type)
 	return false;
 }
 
+// This is needed to keep up to date with new hashing settings.
+// From https://gist.github.com/nikic/3707231#rehashing-passwords
+function isValidPassword($password, $hash, $uid)
+{
+    if (!password_verify($password, $hash))
+        return false;
+
+    if (password_needs_rehash($hash, PASSWORD_DEFAULT))
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        Query('UPDATE {users} SET password = {0} WHERE id = {1}', $hash, $uid);
+    }
+
+    return true;
+}
+
 $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Log in"), "login"));
 makeBreadcrumbs($crumbs);
@@ -39,8 +56,8 @@ elseif(isset($_POST['actionlogin']))
 			{
 				//If the user has entered password correctly, upgrade it to ABXD hash and wipe the legacy hash.
 				$newsalt = Shake();
-				$sha = doHash($pass.$salt.$newsalt);
-				query("UPDATE {users} SET convertpassword='', convertpasswordsalt='', convertpasswordtype='', password={0}, pss={1} WHERE id={2}", $sha, $newsalt, $user["id"]);
+				$password = password_hash($pass, PASSWORD_DEFAULT);
+				query("UPDATE {users} SET convertpassword='', convertpasswordsalt='', convertpasswordtype='', password={0}, pss={1} WHERE id={2}", $password, $newsalt, $user["id"]);
 				
 				//Login successful.
 				$okay = true;
@@ -48,10 +65,21 @@ elseif(isset($_POST['actionlogin']))
 		}
 		else
 		{
-			//No legacy password, check regular ABXD hash.
-			$sha = doHash($pass.$salt.$user['pss']);
-			if($user['password'] == $sha)
+			// Check for the password. (new type)
+			if (isValidPassword($pass, $user['password'], $user['id']))
 				$okay = true;
+			else
+			{
+				// Check for the legacy ABXD password and convert it to the new password.
+				$sha = doHash($pass.$salt.$user['pss']);
+				if ($user['password'] == $sha)
+				{
+					$password = password_hash($pass, PASSWORD_DEFAULT);
+
+					Query("UPDATE {users} SET password = {0} WHERE id={1}", $password, $user['id']);
+					$okay = true;
+				}
+			}
 		}
 
 		if(!$okay)
