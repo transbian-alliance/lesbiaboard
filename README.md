@@ -9,8 +9,7 @@ repository. This version of ABXD may have serious vulnerabilites and
 might not work at all.
 
 If you are interested more stable software, you may want to download
-[ABXD 2.2.6](http://abxd.dirbaio.net/?page=downloads). It's known to
-work almost everywhere.
+[the latest stable release](https://github.com/ABXD/ABXD/releases). It's known to work almost everywhere.
 
 ## Installation
 
@@ -20,9 +19,8 @@ ABXD in your server and follow the installer. It couldn't be easier.
 
 ## Bugs
 
-Checkout [ABXD Bug Reports](http://abxd.dirbaio.net/?page=forum&id=6)
-forum. Feel free to report non-security bugs. If you have security bugs,
-contact [Dirbaio](https://github.com/Dirbaio).
+Create an issue here on GitHub for any bugs not related to security. If you
+know of any security bugs, plaese contact [Dirbaio](https://github.com/Dirbaio) instead.
 
 ## Contributions
 
