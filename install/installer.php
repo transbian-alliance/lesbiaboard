@@ -111,13 +111,10 @@ function doSanityChecks()
 {
 	$errors = array();
 	// Basic sanity tests
-	if (!function_exists('version_compare') || version_compare(PHP_VERSION, '5.0.0', '<'))
-		$errors[] = 'PHP 5.0.0 required, but you have PHP ' . PHP_VERSION . '.';
+	if (!function_exists('version_compare') || version_compare(PHP_VERSION, '5.3.7', '>='))
+		$errors[] = 'PHP 5.3.7 or greater required, but you have PHP ' . PHP_VERSION . '.';
 	if (!function_exists('json_encode'))
-		if (version_compare(PHP_VERSION, '5.2.0', '<'))
-			$errors[] = 'As you have PHP older than PHP 5.2.0, you have to install ' .
-			            'PECL <a target="_blank" href="http://pecl.php.net/package/json">json</a> extension.';
-		elseif (version_compare(PHP_VERSION, '5.5.0', '>'))
+		if (version_compare(PHP_VERSION, '5.5.0', '>'))
 			$errors[] = 'Because of JSON licensing terms, JSON doesn\'t exist in PHP 5.5. ' .
 			            'Depending on how you installed PHP, you may need to install specific ' .
 			            'package, enable "json.so" extension in php.ini, or install ' .

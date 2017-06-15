@@ -36,6 +36,9 @@ function usectime()
 $timeStart = usectime();
 
 
+if (!function_exists('password_hash'))
+	require_once('password.php');
+
 include("version.php");
 include("config/salt.php");
 include("dirs.php");
