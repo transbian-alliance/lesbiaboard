@@ -55,7 +55,7 @@ function HisHer($user)
 		return "his";
 	if($user['sex'] == 1)
 		return "her";
-	return "its";
+	return "their";
 }
 
 function stringtotimestamp($str)
