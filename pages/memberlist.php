@@ -62,8 +62,9 @@ if ($_GET['listing'])
 		$pow = (int)$_GET['pow'];
 
 	$order = "";
-	$where = "1";
 
+	$whereparts = array();
+	
 	switch($sort)
 	{
 		case "id": $order = "id ".(isset($dir) ? $dir : "asc"); break;
@@ -74,19 +75,20 @@ if ($_GET['listing'])
 	}
 
 	if(isset($pow))
-		$where.= " and powerlevel={2}";
+		$whereparts[] = "powerlevel={2}";
 
 	$query = $_GET['query'];
 
 	if($query != "") {
-			$where.= " and name like {3} or displayname like {3}";
+			$whereparts[] = "(name like {3} or displayname like {3})";
 	}
 
 	if(!(isset($pow) && $pow == 5))
-		$where.= " and powerlevel < 5";
+		$whereparts[] = "powerlevel < 5";
 
-	$numUsers = FetchResult("select count(*) from {users} where ".$where, null, null, $pow, "%{$query}%");
-	$rUsers = Query("select * from {users} where ".$where." order by ".$order.", name asc limit {0u},{1u}", $from, $tpp, $pow, "%{$query}%");
+	$wherepart = empty($whereparts)?"":"where ".implode(" AND ",$whereparts);
+	$numUsers = FetchResult("select count(*) from {users} $wherepart", null, null, $pow, "%{$query}%");
+	$rUsers = Query("select * from {users} $wherepart order by ".$order.", name asc limit {0u},{1u}", $from, $tpp, $pow, "%{$query}%");
 
 	$pagelinks = PageLinks2("javascript:refreshMemberlist(", $tpp, $from, $numUsers);
 
