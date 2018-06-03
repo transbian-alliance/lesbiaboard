@@ -123,7 +123,7 @@ foreach($knownOSes as $code => $name)
 	}
 }
 
-$lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->";
+/*$lastKnownBrowser .= "<!-- ".htmlspecialchars($ua)." -->";*/
 
 function GetVersion($ua, $versionStart)
 {
