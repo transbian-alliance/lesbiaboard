@@ -72,6 +72,12 @@ $general = array(
 				"width" => "98%",
 				"length" => 255,
 			),
+			"namecolor" => array(
+				"caption" => __("Name color"),
+				"type" => "text",
+				"width" => "15%",
+				"length" => 6,
+			),
 		),
 	),
 	"avatar" => array(
