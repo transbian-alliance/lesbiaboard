@@ -1,26 +1,22 @@
-# AcmlmBoard XD
+# Lesbiaboard
 
-The new and secure AcmlmBoard-like board.
+The new and secure AcmlmBoard-like board for transbians.
 
 ## Warning
 
-Please note that you are using a version of ABXD obtained from the Git
-repository. This version of ABXD may have serious vulnerabilites and
+Please note that you are using a version of Lesbiaboard obtained from the Git
+repository. This version of Lesbiaboard may have serious vulnerabilites and
 might not work at all.
-
-If you are interested more stable software, you may want to download
-[the latest stable release](https://github.com/ABXD/ABXD/releases). It's known to work almost everywhere.
 
 ## Installation
 
-[Download ABXD](https://github.com/Dirbaio/ABXD/zipball/master), put it
+[Download ABXD](https://git.agiri.ninja/transbian/lesbiaboard/repository/master/archive.zip), put it
 on the HTTP server (PHP has to be installed), visit the location of
-ABXD in your server and follow the installer. It couldn't be easier.
+Lesbiaboard in your server and follow the installer. It couldn't be easier.
 
 ## Bugs
 
-Create an issue here on GitHub for any bugs not related to security. If you
-know of any security bugs, plaese contact [Dirbaio](https://github.com/Dirbaio) instead.
+Create an issue here on GitLab for any bugs.
 
 ## Contributions
 
