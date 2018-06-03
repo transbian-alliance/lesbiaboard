@@ -3,17 +3,17 @@
 $settings = array(
 	"boardname" => array (
 		"type" => "text",
-		"default" => "AcmlmBoard XD",
+		"default" => "Lesbiaboard",
 		"name" => "Board name"
 	),
 	"metaDescription" => array (
 		"type" => "text",
-		"default" => "AcmlmBoard XD",
+		"default" => "Lesbiaboard",
 		"name" => "Meta description"
 	),
 	"metaTags" => array (
 		"type" => "text",
-		"default" => "AcmlmBoard XD abxd",
+		"default" => "Lesbiaboard trans lesbian transbian",
 		"name" => "Meta tags"
 	),
 	"dateformat" => array (
@@ -72,11 +72,6 @@ $settings = array(
 		"default" => "abxd",
 		"name" => "Board layout",
 	),
-	"showGender" => array (
-		"type" => "boolean",
-		"default" => "1",
-		"name" => "Color usernames based on gender"
-	),
 	"defaultLanguage" => array (
 		"type" => "language",
 		"default" => "en_US",
@@ -120,7 +115,7 @@ $settings = array(
 	),
 	"PoRAText" => array (
 		"type" => "texthtml",
-		"default" => "Welcome to your new ABXD Board!<br>The first person to register gets root/owner access. For this reason, avoid showing people the URL of your site before it is set up.<br>Then, when you have registered, you can edit the board settings, forum list, this very message, and other stuff from the admin panel.<br>Enjoy ABXD!",
+		"default" => "Welcome to your new Lesbiaboard!<br>The first person to register gets root/owner access. For this reason, avoid showing people the URL of your site before it is set up.<br>Then, when you have registered, you can edit the board settings, forum list, this very message, and other stuff from the admin panel.<br>Enjoy Lesbiaboard!",
 		"name" => "PoRA text",
 	),
 
