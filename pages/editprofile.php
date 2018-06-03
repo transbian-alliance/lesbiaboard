@@ -72,6 +72,12 @@ $general = array(
 				"width" => "98%",
 				"length" => 255,
 			),
+			"namecolor" => array(
+				"caption" => __("Name color"),
+				"type" => "color",
+				"width" => "75px",
+				"length" => 7,
+			),
 		),
 	),
 	"avatar" => array(
@@ -440,9 +446,8 @@ if($_POST['action'] == __("Edit profile"))
 						break;
 					case "color":
 						$val = $_POST[$field];
-						var_dump($val);
-						if(!preg_match("/^#[0-9a-fA-F]*$/", $val))
-							$val = "";
+						if (!preg_match("/^#?[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/", $val)) $val = "";
+						if ($val{0} == "#") $val = substr($val, 1);
 						$sets[] = $field." = '".SqlEscape($val)."'";
 						break;
 					case "text":
@@ -1035,6 +1040,8 @@ function BuildPage($page, $id)
 					if($item["type"] == "passwordonce")
 						$item["type"] = "password";
 				case "color":
+					$output .= "#";
+					$item['type'] = "text";
 				case "text":
 					$output .= "<input id=\"".$field."\" name=\"".$field."\" type=\"".$item['type']."\" value=\"".htmlspecialchars($item['value'])."\"";
 					if(isset($item['size']))
