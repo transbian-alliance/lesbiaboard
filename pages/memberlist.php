@@ -62,7 +62,7 @@ if ($_GET['listing'])
 		$pow = (int)$_GET['pow'];
 
 	$order = "";
-	$where = "";
+	$where = "1";
 
 	switch($sort)
 	{
