@@ -424,6 +424,7 @@ $tables = array
 			"convertpassword" => $var256,
 			"convertpasswordsalt" => $var256,
 			"convertpasswordtype" => $var256,
+			"namecolor" => "varchar(6)".$notNull,
 		),
 		"special" => $keyID.", key `posts` (`posts`), key `name` (`name`), key `lastforum` (`lastforum`), key `lastposttime` (`lastposttime`), key `lastactivity` (`lastactivity`)"
 	),
