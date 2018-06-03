@@ -121,13 +121,16 @@ if($user['tempbantime'])
 	);
 }
 
+if($user['gender'])
+  $gender = htmlspecialchars($user['gender']);
 
 $profileParts = array();
 
 $foo = array();
 $foo[__("Name")] = $minipic . htmlspecialchars($user['displayname'] ? $user['displayname']." (".$user['name'].")" : $user['name']);
 $foo[__("Power")] = getPowerlevelName($user['powerlevel']);
-$foo[__("Gender")] = htmlspecialchars($user['gender']);
+if($gender)
+  $foo[__("Gender")] = $gender;
 if($title)
 	$foo[__("Title")] = $title;
 if($currentRank)
