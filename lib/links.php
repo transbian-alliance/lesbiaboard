@@ -136,7 +136,7 @@ function userLink($user, $showMinipic = false, $customID = false)
 	$bucket = "userMangler"; include("./lib/pluginloader.php");
 
 	$fpow = $user['powerlevel'];
-	$fsex = $user['sex'];
+	//$fsex = $user['sex'];
 	$fname = ($user['displayname'] ? $user['displayname'] : $user['name']);
 	$fname = htmlspecialchars($fname);
 	$fname = str_replace(" ", "&nbsp;", $fname);
@@ -149,11 +149,11 @@ function userLink($user, $showMinipic = false, $customID = false)
 
 	$fname = $minipic.$fname;
 
-	if(!Settings::get("showGender"))
-		$fsex = 2;
+	/*if(!Settings::get("showGender"))
+		$fsex = 2;*/
 
 	if($fpow < 0) $fpow = -1;
-	$classing = " class=\"nc" . $fsex . (($fpow < 0) ? "x" : $fpow)."\"";
+	$classing = " class=\"nc2" . (($fpow < 0) ? "x" : $fpow)."\"";
 
 	if ($customID)
 		$classing .= " id=\"$customID\"";
@@ -216,7 +216,7 @@ function userLinkById($id)
 		if(NumRows($rUser))
 			$userlinkCache[$id] = getDataPrefix(Fetch($rUser), "u_");
 		else
-			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'sex' => 0, 'powerlevel' => -1);
+			$userlinkCache[$id] = array('id' => 0, 'name' => "Unknown User", 'powerlevel' => -1);
 	}
 	return UserLink($userlinkCache[$id]);
 }

@@ -19,7 +19,7 @@ if(str_replace($bots,"x",$_SERVER['HTTP_USER_AGENT']) != $_SERVER['HTTP_USER_AGE
 $rMisc = Query("select * from {misc}");
 $misc = Fetch($rMisc);
 
-$rOnlineUsers = Query("select id, powerlevel, sex, name from {users} where lastactivity > {0} or lastposttime > {0} order by name", (time()-300));
+$rOnlineUsers = Query("select id, powerlevel, name from {users} where lastactivity > {0} or lastposttime > {0} order by name", (time()-300));
 
 $_qRecords = "";
 $onlineUsers = "";

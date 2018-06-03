@@ -101,7 +101,7 @@ if($user['homepageurl'])
 	if($user['homepagename'])
 		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepagename'])."</a> - ".htmlspecialchars($user['homepageurl']);
 	else
-		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['url'])."</a>";
+		$homepage = "<a $nofollow target=\"_blank\" href=\"".htmlspecialchars($user['homepageurl'])."\">".htmlspecialchars($user['homepageurl'])."</a>";
 }
 
 $emailField = __("Private");
@@ -127,7 +127,7 @@ $profileParts = array();
 $foo = array();
 $foo[__("Name")] = $minipic . htmlspecialchars($user['displayname'] ? $user['displayname']." (".$user['name'].")" : $user['name']);
 $foo[__("Power")] = getPowerlevelName($user['powerlevel']);
-$foo[__("Sex")] = getSexName($user['sex']);
+$foo[__("Gender")] = htmlspecialchars($user['gender']);
 if($title)
 	$foo[__("Title")] = $title;
 if($currentRank)

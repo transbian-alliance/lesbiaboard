@@ -1,7 +1,7 @@
 //Memberlist JavaScript
 
 function hookUpMemberlistControls() {
-	$("#orderBy,#order,#sex,#power").change(function(e) {
+	$("#orderBy,#order,#power").change(function(e) {
 		refreshMemberlist();
 	});
 
@@ -15,7 +15,6 @@ function hookUpMemberlistControls() {
 function refreshMemberlist(page) {
 	var orderBy = $("#orderBy").val();
 	var order   = $(  "#order").val();
-	var sex     = $(    "#sex").val();
 	var power   = $(  "#power").val();
 	var query   = $(  "#query").val();
 	if (typeof page == "undefined")
@@ -25,7 +24,6 @@ function refreshMemberlist(page) {
 		listing: true,
 		dir: order,
 		sort: orderBy,
-		sex: sex,
 		pow: power,
 		from: page,
 		query: query}, function(data) {

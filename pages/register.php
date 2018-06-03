@@ -12,15 +12,6 @@ if($haveSecurimage)
 
 $title = __("Register");
 
-function validateSex($sex)
-{
-	if($sex == 0) return 0;
-	if($sex == 1) return 1;
-	if($sex == 2) return 2;
-	
-	return 2;
-}
-
 if(isset($_POST['name']))
 {
 	$name = trim($_POST['name']);
@@ -70,8 +61,7 @@ if(isset($_POST['name']))
 		$newsalt = Shake();
 		$password = password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
-		$sex = validateSex($_POST["sex"]);
-		$rUsers = Query("insert into {users} (name, password, pss, regdate, lastactivity, lastip, email, sex, theme) values ({0}, {1}, {2}, {3}, {3}, {4}, {5}, {6}, {7})", $_POST['name'], $password, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], $sex, Settings::get("defaultTheme"));
+		$rUsers = Query("insert into {users} (name, password, pss, regdate, lastactivity, lastip, email, theme) values ({0}, {1}, {2}, {3}, {3}, {4}, {5}, {6})", $_POST['name'], $password, $newsalt, time(), $_SERVER['REMOTE_ADDR'], $_POST['email'], Settings::get("defaultTheme"));
 		
 		$uid = insertId();
 		
@@ -94,18 +84,12 @@ if(isset($_POST['name']))
 	}
 }
 
-
-$sexes = array(__("Male"), __("Female"), __("N/A"));
-
 $name = "";
 if(isset($_POST["name"]))
 	$name = htmlspecialchars($_POST["name"]);
 $email = "";
 if(isset($_POST["email"]))
 	$email = htmlspecialchars($_POST["email"]);
-$sex = 2;
-if(isset($_POST["sex"]))
-	$sex = validateSex($_POST["sex"]);
 
 echo "
 <form action=\"".actionLink("register")."\" method=\"post\">
@@ -137,14 +121,6 @@ echo "
 			</td>
 			<td class=\"cell0\">
 				<input type=\"email\" id=\"email\" name=\"email\" value=\"$email\" style=\"width: 98%;\" maxlength=\"60\" />
-			</td>
-		</tr>
-		<tr>
-			<td class=\"cell2\">
-				".__("Sex")."
-			</td>
-			<td class=\"cell1\">
-				".MakeOptions("sex",$sex,$sexes)."
 			</td>
 		</tr>";
 

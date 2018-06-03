@@ -343,16 +343,6 @@ function getPowerlevelName($pl) {
 	return $powerlevels[$pl];
 }
 
-function getSexName($sex) {
-	$sexes = array(
-		0 => __("Male"),
-		1 => __("Female"),
-		2 => __("N/A"),
-	);
-
-	return $sexes[$sex];
-}
-
 //TODO Add caching if it's too slow.
 function formatIP($ip)
 {

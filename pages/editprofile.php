@@ -46,7 +46,6 @@ foreach($dateformats as $format)
 foreach($timeformats as $format)
 	$timelist[$format] = ($format ? $format.' ('.cdate($format).')':'');
 
-$sexes = array(__("Male"), __("Female"), __("N/A"));
 $powerlevels = array(-1 => __("-1 - Banned"), __("0 - Normal user"), __("1 - Local Mod"), __("2 - Full Mod"), __("3 - Admin"));
 
 //Editprofile.php: Welcome to the Hell of Nested Arrays!
@@ -146,16 +145,17 @@ $personal = array(
 	"personal" => array(
 		"name" => __("Personal information"),
 		"items" => array(
-			"sex" => array(
-				"caption" => __("Sex"),
-				"type" => "radiogroup",
-				"options" => $sexes,
-			),
 			"realname" => array(
 				"caption" => __("Real name"),
 				"type" => "text",
 				"width" => "98%",
 				"length" => 60,
+			),
+			"gender" => array(
+				"caption" => __("Gender"),
+				"type" => "text",
+        "width" => "98%",
+        "length" => 60,
 			),
 			"location" => array(
 				"caption" => __("Location"),
