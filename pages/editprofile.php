@@ -1019,7 +1019,7 @@ function BuildPage($page, $id)
 				$output .= " ".$item['before'];
 
 			// Yes, some cases are missing the break; at the end.
-			// This is intentional, but I don't think it's a good idea...
+			// This is intentional, but I don't think it's a good idea... (agiri agrees)
 			switch($item['type'])
 			{
 				case "label":
@@ -1040,8 +1040,10 @@ function BuildPage($page, $id)
 					if($item["type"] == "passwordonce")
 						$item["type"] = "password";
 				case "color":
-					$output .= "#";
-					$item['type'] = "text";
+					if ($item['type'] == "color") {
+						$output .= "#";
+						$item['type'] = "text";
+					}
 				case "text":
 					$output .= "<input id=\"".$field."\" name=\"".$field."\" type=\"".$item['type']."\" value=\"".htmlspecialchars($item['value'])."\"";
 					if(isset($item['size']))
