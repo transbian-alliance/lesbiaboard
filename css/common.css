@@ -766,3 +766,12 @@ div.overlayShade div.buttonContainer button {
 	clear: both;
 	height: 0;
 }
+
+pre {
+  font-size: 1.2em;
+  background: #222;
+  color: #ddd;
+  border: solid 1px #999;
+  border-radius: 2px;
+  margin: 0;
+}

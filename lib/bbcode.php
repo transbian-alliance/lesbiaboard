@@ -403,7 +403,18 @@ function bbcodeTableCell($dom, $nodes)
 
 function bbcodeCode($dom, $nodes)
 {
+  // code part in <pre>
 	$pre = $dom->createElement('pre');
 	$pre->textContent = $nodes;
-	return $pre;
+  
+  // label
+  $span = $dom->createElement('span');
+  $span->textContent = __("Code:");
+  
+  // div wrapper for prettiness
+  $div = $dom->createElement('div');
+  $div->appendChild($span);
+  $div->appendChild($pre);
+  
+	return $div;
 }
