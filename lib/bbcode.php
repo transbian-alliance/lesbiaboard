@@ -74,6 +74,12 @@ $bbcode = array(
 		'selfclose' => 'td',
 		'require' => array('tr', 'trh'),
 	),
+  
+	'code' => array(
+		'callback' => 'bbcodeCode',
+		'br'       => false,
+    'pre'      => true,
+	),
 );
 
 //Allow plugins to register their own callbacks (new bbcode tags)
@@ -393,4 +399,22 @@ function bbcodeTableCell($dom, $nodes)
 	$td = $dom->createElement('td');
 	bbcodeAppend($td, $nodes);
 	return $td;
+}
+
+function bbcodeCode($dom, $nodes)
+{
+  // code part in <pre>
+	$pre = $dom->createElement('pre');
+	$pre->textContent = $nodes;
+  
+  // label
+  $span = $dom->createElement('span');
+  $span->textContent = __("Code:");
+  
+  // div wrapper for prettiness
+  $div = $dom->createElement('div');
+  $div->appendChild($span);
+  $div->appendChild($pre);
+  
+	return $div;
 }
