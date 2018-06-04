@@ -74,6 +74,12 @@ $bbcode = array(
 		'selfclose' => 'td',
 		'require' => array('tr', 'trh'),
 	),
+  
+	'code' => array(
+		'callback' => 'bbcodeCode',
+		'br'       => false,
+    'pre'      => true,
+	),
 );
 
 //Allow plugins to register their own callbacks (new bbcode tags)
