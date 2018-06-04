@@ -394,3 +394,22 @@ function bbcodeTableCell($dom, $nodes)
 	bbcodeAppend($td, $nodes);
 	return $td;
 }
+
+function bbcodeCode($dom, $nodes)
+{
+  // code part in <pre>
+	$pre = $dom->createElement('pre');
+	$pre->textContent = $nodes;
+  
+  // label
+  $span = $dom->createElement('span');
+  $span->textContent = __("Code:");
+  
+  // div wrapper for prettiness
+  $div = $dom->createElement('div');
+	$div->setAttribute('class', "codeblock");
+  $div->appendChild($span);
+  $div->appendChild($pre);
+  
+	return $div;
+}

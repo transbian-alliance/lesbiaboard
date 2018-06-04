@@ -305,6 +305,14 @@ div.quote div.quoteheader
 	margin-top:5px;
 	margin-bottom:5px;
 }
+.codeblock pre {
+  font-size: 1.2em;
+  background: #222;
+  color: #ddd;
+  border: solid 1px #999;
+  border-radius: 2px;
+  margin: 0;
+}
 
 form
 {
