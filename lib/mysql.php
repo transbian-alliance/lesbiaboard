@@ -244,7 +244,7 @@ function getDataPrefix($data, $pref)
 
 
 $fieldLists = array(
-	"userfields" => "id,name,displayname,powerlevel,gender,minipic,karma"
+	"userfields" => "id,name,displayname,powerlevel,gender,minipic,karma,namecolor"
 );
 
 $tableLists = array(

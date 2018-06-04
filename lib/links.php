@@ -144,19 +144,23 @@ function userLink($user, $showMinipic = false, $customID = false)
 	$minipic = "";
 	if($showMinipic || Settings::get("alwaysMinipic"))
 		$minipic = getMinipicTag($user);
-	{
-	}
 
 	$fname = $minipic.$fname;
 
 	/*if(!Settings::get("showGender"))
 		$fsex = 2;*/
 
-	if($fpow < 0) $fpow = -1;
-	$classing = " class=\"nc2" . (($fpow < 0) ? "x" : $fpow)."\"";
-
-	if ($customID)
-		$classing .= " id=\"$customID\"";
+  //rename $classing to something more sensible?
+  if($user['namecolor']) {
+    $classing = " style=\"color: #" . htmlspecialchars($user['namecolor']) . ";\"";
+  } else {
+    if($fpow < 0) $fpow = -1;
+    $classing = " class=\"nc2" . (($fpow < 0) ? "x" : $fpow)."\"";
+  }
+  
+  // don't fucking make several tags with the same id!! bad for DOM !!
+	/*if ($customID)
+		$classing .= " id=\"$customID\"";*/
 
 /*
 	if($hacks['alwayssamepower'])
