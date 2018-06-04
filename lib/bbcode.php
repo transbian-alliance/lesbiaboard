@@ -78,6 +78,7 @@ $bbcode = array(
 	'code' => array(
 		'callback' => 'bbcodeCode',
 		'br'       => false,
+    'pre'      => true,
 	),
 );
 
@@ -403,6 +404,6 @@ function bbcodeTableCell($dom, $nodes)
 function bbcodeCode($dom, $nodes)
 {
 	$pre = $dom->createElement('pre');
-	bbcodeAppend($pre, $nodes);
+	$pre->textContent = $nodes;
 	return $pre;
 }
