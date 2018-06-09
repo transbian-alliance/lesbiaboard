@@ -56,12 +56,6 @@ $settings = array(
 		"default" => "Main",
 		"name" => "Text in menu 'main' link",
 	),
-	"mailResetSender" => array (
-		"type" => "text",
-		"default" => "",
-		"name" => "Password Reset e-mail Sender",
-		"help" => "Email address used to send the pasword reset e-mails. If left blank, the password reset feature is disabled.",
-	),
 	"defaultTheme" => array (
 		"type" => "theme",
 		"default" => "abxd30",
@@ -178,6 +172,12 @@ printf(\"Hello World!
 		"default" => "tls",
 		"name" => "SMTP: Secure login type",
 		"help" => "tls, ssl, or none",
+	),
+	"mailSenderAddress" => array (
+		"type" => "text",
+		"default" => "",
+		"name" => "Forum email from address",
+		"help" => "Email address used to send forum email. If left blank, the password reset feature is disabled.",
 	),
 );
 ?>

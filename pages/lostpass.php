@@ -1,6 +1,6 @@
 <?php
 
-if(Settings::get("mailResetSender") == "")
+if(Settings::get("mailSenderAddress") == "")
 	Kill(__("No sender specified for reset emails. Please check the board settings."));
 
 if(isset($_GET['key']) && isset($_GET['id']))
@@ -48,7 +48,7 @@ else if($_POST['action'] == __("Send reset email"))
 
 		$hashedResetKey = doHash($resetKey.$salt.$user["pss"]);
 
-		$from = Settings::get("mailResetSender");
+		$from = Settings::get("mailSenderAddress");
 		$to = $user['email'];
 		$subject = format(__("Password reset for {0}"), $user['name']);
 		$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".absoluteActionLink("lostpass", $user['id'], "key=$resetKey")."\n\n".__("This link can be used once.");
