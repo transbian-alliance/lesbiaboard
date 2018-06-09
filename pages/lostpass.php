@@ -1,4 +1,6 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 if(Settings::get("mailSenderAddress") == "")
 	Kill(__("No sender specified for reset emails. Please check the board settings."));
@@ -38,6 +40,7 @@ else if($_POST['action'] == __("Send reset email"))
 	$user = Query("select id, name, password, email, lostkeytimer, pss from {users} where name = {0} and email = {1}", $_POST['name'], $_POST['mail']);
 	if(NumRows($user) != 0)
 	{
+		echo("AAAAAAAAAAA");
                 //Do not disclose info about user e-mail.
 		$user = Fetch($user);
 		if($user['lostkeytimer'] > time() - (60*60)) //wait an hour between attempts
@@ -48,14 +51,33 @@ else if($_POST['action'] == __("Send reset email"))
 
 		$hashedResetKey = doHash($resetKey.$salt.$user["pss"]);
 
-		$from = Settings::get("mailSenderAddress");
 		$to = $user['email'];
 		$subject = format(__("Password reset for {0}"), $user['name']);
 		$message = format(__("A password reset was requested for your user account on {0}."), Settings::get("boardname"))."\n".__("If you did not submit this request, this message can be ignored.")."\n\n".__("To reset your password, visit the following URL:")."\n\n".absoluteActionLink("lostpass", $user['id'], "key=$resetKey")."\n\n".__("This link can be used once.");
 
-		$headers = "From: ".$from."\r\n"."Reply-To: ".$from."\r\n"."X-Mailer: PHP";
+		$mail = new PHPMailer();
+		if (Settings::get("mailSmtpEnabled")) {
+			$mail->isSMTP();
+			$mail->Host = Settings::get("mailSmtpHost");
+			$mail->Port = Settings::get("mailSmtpPort");
+			if (Settings::get("mailSmtpAuth")) {
+				$mail->SMTPAuth = true;
+				$mail->Username = Settings::get("mailSmtpUser");
+				$mail->Password = Settings::get("mailSmtpPass");
+			} else {
+				$mail->SMTPAuth = false;
+			}
+			$sec = Settings::get("mailSmtpSecure");
+			if ($sec !== "none") {
+				$mail->SMTPSecure = $sec;
+			}
+		}
+		$mail->setFrom(Settings::get("mailSenderAddress"), Settings::get("mailSenderName"));
+		$mail->addAddress($to);
+		$mail->Subject = $subject;
+		$mail->Body = wordwrap($message, 70);
+		$mail->send();
 
-		mail($to, $subject, wordwrap($message, 70), $headers);
 		logAction('lostpass', array('user2' => $user["id"]));
 
 		Query("update {users} set lostkey = {0}, lostkeytimer = {1} where id = {2}", $hashedResetKey, time(), $user['id']);
