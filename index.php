@@ -7,6 +7,7 @@ if(isset($_GET["ajax"]))
 	$ajaxPage = true;
 
 require('lib/common.php');
+require(__DIR__ . '/vendor/autoload.php');
 
 //TODO: Put this in a proper place.
 function getBirthdaysText()
