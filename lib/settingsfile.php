@@ -179,5 +179,11 @@ printf(\"Hello World!
 		"name" => "Forum email from address",
 		"help" => "Email address used to send forum email. If left blank, the password reset feature is disabled.",
 	),
+	"mailSenderName" => array (
+		"type" => "text",
+		"default" => "Lesbiaboard",
+		"name" => "Forum email from friendly name",
+		"help" => "Friendly name used on forum email From: field.",
+	),
 );
 ?>
