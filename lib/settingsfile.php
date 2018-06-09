@@ -143,5 +143,41 @@ printf(\"Hello World!
 		"default" => "1",
 		"name" => "Forum for deleted threads",
 	),
+	"mailSmtpEnabled" => array (
+		"type" => "boolean",
+		"default" => 0,
+		"name" => "Use SMTP for forum emails",
+	),
+	"mailSmtpHost" => array (
+		"type" => "text",
+		"default" => "smtp.example.com",
+		"name" => "SMTP: Server hostname",
+	),
+	"mailSmtpPort" => array (
+		"type" => "integer",
+		"default" => "587",
+		"name" => "SMTP: Server port",
+	),
+	"mailSmtpAuth" => array (
+		"type" => "boolean",
+		"default" => 1,
+		"name" => "SMTP: Use authentication",
+	),
+	"mailSmtpUser" => array (
+		"type" => "text",
+		"default" => "user@example.com",
+		"name" => "SMTP: Username",
+	),
+	"mailSmtpPass" => array (
+		"type" => "text",
+		"default" => "himitsu",
+		"name" => "SMTP: Password",
+	),
+	"mailSmtpSecure" => array (
+		"type" => "text",
+		"default" => "tls",
+		"name" => "SMTP: Secure login type",
+		"help" => "tls, ssl, or none",
+	),
 );
 ?>
