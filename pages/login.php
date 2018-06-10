@@ -106,7 +106,7 @@ elseif(isset($_POST['actionlogin']))
 
 $forgotPass = "";
 
-if(Settings::get("mailResetSender") != "")
+if(Settings::get("mailSenderAddress") != "")
 	$forgotPass = "<button onclick=\"document.location = '".actionLink("lostpass")."'; return false;\">".__("Forgot password?")."</button>";
 
 echo "

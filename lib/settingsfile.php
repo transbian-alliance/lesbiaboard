@@ -56,12 +56,6 @@ $settings = array(
 		"default" => "Main",
 		"name" => "Text in menu 'main' link",
 	),
-	"mailResetSender" => array (
-		"type" => "text",
-		"default" => "",
-		"name" => "Password Reset e-mail Sender",
-		"help" => "Email address used to send the pasword reset e-mails. If left blank, the password reset feature is disabled.",
-	),
 	"defaultTheme" => array (
 		"type" => "theme",
 		"default" => "abxd30",
@@ -142,6 +136,54 @@ printf(\"Hello World!
 		"type" => "forum",
 		"default" => "1",
 		"name" => "Forum for deleted threads",
+	),
+	"mailSmtpEnabled" => array (
+		"type" => "boolean",
+		"default" => 0,
+		"name" => "Use SMTP for forum emails",
+	),
+	"mailSmtpHost" => array (
+		"type" => "text",
+		"default" => "smtp.example.com",
+		"name" => "SMTP: Server hostname",
+	),
+	"mailSmtpPort" => array (
+		"type" => "integer",
+		"default" => "587",
+		"name" => "SMTP: Server port",
+	),
+	"mailSmtpAuth" => array (
+		"type" => "boolean",
+		"default" => 1,
+		"name" => "SMTP: Use authentication",
+	),
+	"mailSmtpUser" => array (
+		"type" => "text",
+		"default" => "user@example.com",
+		"name" => "SMTP: Username",
+	),
+	"mailSmtpPass" => array (
+		"type" => "text",
+		"default" => "himitsu",
+		"name" => "SMTP: Password",
+	),
+	"mailSmtpSecure" => array (
+		"type" => "text",
+		"default" => "tls",
+		"name" => "SMTP: Secure login type",
+		"help" => "tls, ssl, or none",
+	),
+	"mailSenderAddress" => array (
+		"type" => "text",
+		"default" => "",
+		"name" => "Forum email from address",
+		"help" => "Email address used to send forum email. If left blank, the password reset feature is disabled.",
+	),
+	"mailSenderName" => array (
+		"type" => "text",
+		"default" => "Lesbiaboard",
+		"name" => "Forum email from friendly name",
+		"help" => "Friendly name used on forum email From: field.",
 	),
 );
 ?>
