@@ -2607,7 +2607,7 @@ $languagePack = array(
 'edit your mood avatars' =>
 'zmieniać swoich awatarów nastroju',
 
-'edit the PoRA box' =>
+'edit the News box' =>
 'zmieniać punktów wymaganej uwagi',
 
 'edit posts' =>
@@ -3038,7 +3038,7 @@ $languagePack = array(
 'the main page' =>
 'strony głównej',
 
-'PoRA Editor' =>
+'News Editor' =>
 'Edytor punktów wymaganej uwagi',
 
 'Title (plain)' =>

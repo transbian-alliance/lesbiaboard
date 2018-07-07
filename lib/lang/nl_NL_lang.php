@@ -2534,7 +2534,7 @@ $languagePack = array(
 'edit your mood avatars' =>
 'je bui-avatars te bewerken',
 
-'edit the PoRA box' =>
+'edit the News box' =>
 'de aandachtspunten te bewerken',
 
 'edit posts' =>
@@ -2806,7 +2806,7 @@ $languagePack = array(
 'the main page' =>
 'de hoofdpagina',
 
-'PoRA Editor' =>
+'News Editor' =>
 'Aandachtspunteneditor',
 
 'Title (plain)' =>

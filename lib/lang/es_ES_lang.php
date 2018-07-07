@@ -2534,7 +2534,7 @@ $languagePack = array(
 'edit your mood avatars' =>
 'editar tus avatares',
 
-'edit the PoRA box' =>
+'edit the News box' =>
 'editar los PdAR',
 
 'edit posts' =>
@@ -2815,7 +2815,7 @@ $languagePack = array(
 'the main page' =>
 'la página principal',
 
-'PoRA Editor' =>
+'News Editor' =>
 'Editor de PdAR',
 
 'Title (plain)' =>

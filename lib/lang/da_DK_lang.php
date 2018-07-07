@@ -2534,8 +2534,8 @@ $languagePack = array(
 'edit your mood avatars' =>
 'redigére dine humøravatars',
 
-'edit the PoRA box' =>
-'redigére PoRA-kassen',
+'edit the News box' =>
+'redigére News-kassen',
 
 'edit posts' =>
 'redigére indlæg',
