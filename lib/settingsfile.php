@@ -58,7 +58,7 @@ $settings = array(
 	),
 	"defaultTheme" => array (
 		"type" => "theme",
-		"default" => "abxd30",
+		"default" => "lesbiaboard",
 		"name" => "Default Board Theme",
 	),
 	"defaultLayout" => array (
