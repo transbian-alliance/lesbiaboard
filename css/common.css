@@ -233,10 +233,27 @@ table.message td
 
 /* Other stuff */
 
+.noborder {
+  border: 0px none;
+}
+
+.logo-td {
+  text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+  .logo-td {
+    display: block;
+  }
+  
+  .news-td {
+    display: block;
+  } 
+}
+
 .PoRT
 {
-	float: right;
-	clear: right;
+	float: center;
 	margin-right: 1em;
 }
 
