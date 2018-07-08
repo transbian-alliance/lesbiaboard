@@ -1,6 +1,8 @@
 	<meta http-equiv="Content-Type" content="text/html; CHARSET=utf-8" />
 	<meta name="description" content="<?php print Settings::get('metaDescription'); ?>" />
 	<meta name="keywords" content="<?php print Settings::get('metaTags'); ?>" />
+  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/x-icon" href="<?php print $layout_favicon;?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("css/common.css");?>" />
 	<link rel="stylesheet" type="text/css" href="<?php print resourceLink("js/spectrum.css");?>" />

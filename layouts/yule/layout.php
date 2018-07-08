@@ -15,14 +15,14 @@
 					<!-- Board header goes here -->
 					<table>
 						<tr>
-							<td style="border: 0px none; text-align: <?php echo $layout_pora ? 'left' : 'center' ?>;">
+							<td style="border: 0px none; text-align: <?php echo $layout_news ? 'left' : 'center' ?>;">
 								<a href="<?php echo $boardroot;?>">
 									<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" />
 								</a>
 							</td>
-							<?php if($layout_pora) { ?>
+							<?php if($layout_news) { ?>
 							<td style="border: 0px none;">
-								<?php print $layout_pora; ?>
+								<?php print $layout_news; ?>
 							</td>
 							<?php } ?>
 						</tr>

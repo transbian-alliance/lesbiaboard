@@ -230,20 +230,20 @@ if(!file_exists($layout_themefile))
 
 $layout_contents = "<div id=\"page_contents\">$layout_contents</div>";
 //=======================
-// PoRA box
+// News box
 
-if(Settings::get("showPoRA"))
+if(Settings::get("showNews"))
 {
-	$layout_pora = '
+	$layout_news = '
 		<div class="PoRT nom">
 			<table class="message outline">
-				<tr class="header0"><th>'.Settings::get("PoRATitle").'</th></tr>
-				<tr class="cell0"><td>'.Settings::get("PoRAText").'</td></tr>
+				<tr class="header0"><th>'.Settings::get("NewsTitle").'</th></tr>
+				<tr class="cell0"><td>'.Settings::get("NewsText").'</td></tr>
 			</table>
 		</div>';
 }
 else
-	$layout_pora = "";
+	$layout_news = "";
 
 //=======================
 // Print everything!

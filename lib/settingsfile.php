@@ -58,7 +58,7 @@ $settings = array(
 	),
 	"defaultTheme" => array (
 		"type" => "theme",
-		"default" => "abxd30",
+		"default" => "lesbiaboard",
 		"name" => "Default Board Theme",
 	),
 	"defaultLayout" => array (
@@ -97,32 +97,31 @@ $settings = array(
 		"default" => "1",
 		"name" => "Show extra info in post sidebar",
 	),
-	"showPoRA" => array (
+	"showNews" => array (
 		"type" => "boolean",
 		"default" => "1",
-		"name" => "Show Points of Required Attention",
+		"name" => "Show news on header",
 	),
-	"PoRATitle" => array (
+	"NewsTitle" => array (
 		"type" => "text",
-		"default" => "Points of Required Attention&trade;",
-		"name" => "PoRA title",
+		"default" => "News",
+		"name" => "News title",
 	),
-	"PoRAText" => array (
+	"NewsText" => array (
 		"type" => "texthtml",
 		"default" => "Welcome to your new Lesbiaboard!<br>The first person to register gets root/owner access. For this reason, avoid showing people the URL of your site before it is set up.<br>Then, when you have registered, you can edit the board settings, forum list, this very message, and other stuff from the admin panel.<br>Enjoy Lesbiaboard!",
-		"name" => "PoRA text",
+		"name" => "News text",
 	),
 
 	"profilePreviewText" => array (
 		"type" => "textbbcode",
 		"default" => "This is a sample post. You [b]probably[/b] [i]already[/i] [u]know[/u] what this is for.
 
-[quote=Goomba][quote=Mario]Woohoo! [url=http://www.mariowiki.com/Super_Mushroom]That's what I needed![/url][/quote]Oh, nooo! *stomp*[/quote]
+[quote=another lesbian][quote=a lesbian]I fuckin' love girls[/quote]wow that's gay[/quote]
 
 Well, what more could you [url=http://en.wikipedia.org]want to know[/url]? Perhaps how to do the classic infinite loop?
 [code]while(true){
-printf(\"Hello World!
-\");
+  printf(\"Hello World!\");
 }[/code]",
 		"name" => "Post Preview text"
 	),

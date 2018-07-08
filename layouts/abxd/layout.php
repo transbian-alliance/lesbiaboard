@@ -17,14 +17,14 @@
 						<!-- Board header goes here -->
 						<table>
 							<tr>
-								<td style="border: 0px none; text-align: left;">
+								<td class="noborder logo-td">
 									<a href="<?php echo $boardroot;?>">
-										<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" style="padding: 8px;" />
+										<img id="theme_banner" src="<?php print htmlspecialchars($layout_logopic); ?>" alt="" title="<?php print htmlspecialchars($layout_logotitle); ?>" />
 									</a>
 								</td>
-								<?php if($layout_pora) { ?>
-								<td style="border: 0px none;">
-									<?php print $layout_pora; ?>
+								<?php if($layout_news) { ?>
+								<td class="noborder news-td">
+									<?php print $layout_news; ?>
 								</td>
 								<?php } ?>
 							</tr>
