@@ -103,7 +103,8 @@ for($i = 0; $i < count($ranks); $i++)
 		if($user['posts'] >= $rank['num'] && $user['posts'] < $nextRank['num'])
 			$members[] = UserLink($user);
 	}
-	$showRank = $loguser['powerlevel'] > 0 || $loguser['posts'] >= $rank['num'] || count($members) > 0;
+	//$showRank = $loguser['powerlevel'] > 0 || $loguser['posts'] >= $rank['num'] || count($members) > 0;
+	$showRank = true;
 	if($showRank)
 		$rankText = getRankHtml($rankset, $rank);
 	else
