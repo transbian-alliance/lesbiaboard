@@ -10,9 +10,11 @@ might not work at all.
 
 ## Installation
 
-[Download Lesbiaboard](https://git.agiri.ninja/transbian/lesbiaboard/repository/master/archive.zip), put it
-on the HTTP server (PHP has to be installed), visit the location of
-Lesbiaboard in your server and follow the installer. It couldn't be easier.
+[Download Lesbiaboard](https://git.agiri.ninja/transbian/lesbiaboard/repository/master/archive.zip)
+, put it on a HTTP server supporting PHP and visit the location of Lesbiaboard
+in your server. The interactive installer should take care of everything.
+
+For more information, check the documentation [here](https://git.agiri.ninja/transbian/lesbiaboard/wikis/home).
 
 ## Bugs
 
