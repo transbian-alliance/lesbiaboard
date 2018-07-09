@@ -120,7 +120,7 @@ $settings = array(
   ),
   "avatarAllowAboveMax" => array (
     "type" => "boolean",
-    "default" => "0",
+    "default" => "1",
     "name" => "Allow users to upload avatars above maximum dimensions",
   ),
 	"profilePreviewText" => array (
