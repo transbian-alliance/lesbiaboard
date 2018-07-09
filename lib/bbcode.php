@@ -223,6 +223,7 @@ function bbcodeURL($dom, $nodes, $arg)
 		$a->setAttribute('href', $arg);
 		bbcodeAppend($a, $nodes);
 	}
+	$a->setAttribute('target', '_blank');
 	return $a;
 }
 
