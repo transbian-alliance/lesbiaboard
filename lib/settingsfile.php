@@ -113,6 +113,16 @@ $settings = array(
 		"name" => "News text",
 	),
 
+  "avatarMaxDim" => array (
+    "type" => "integer",
+    "default" => "150",
+    "name" => "Max size in pixels (both width and height) for the forum avatar",
+  ),
+  "avatarAllowAboveMax" => array (
+    "type" => "boolean",
+    "default" => "0",
+    "name" => "Allow users to upload avatars above maximum dimensions",
+  ),
 	"profilePreviewText" => array (
 		"type" => "textbbcode",
 		"default" => "This is a sample post. You [b]probably[/b] [i]already[/i] [u]know[/u] what this is for.
