@@ -754,7 +754,7 @@ div.overlayShade div.buttonContainer button {
 /* make [img] have a max size */
 .imgtag {
   position: relative;
-  float: left;
+  display: inline-block;
 }
 .imgtag img { 
   max-width: 100%;
@@ -762,7 +762,6 @@ div.overlayShade div.buttonContainer button {
 }
 .imgtag::before {
   content: "";
-  display: block;
   position: absolute;
   top: 0;
   bottom: 0;
