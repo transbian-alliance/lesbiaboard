@@ -376,8 +376,12 @@ function makePost($post, $type, $params=array())
 			$pictureUrl = $poster["picture"];
 	}
 
+  $maxDim = Settings::get("avatarMaxDim");
+  
 	if($pictureUrl)
-		$sideBarStuff .= "<img src=\"".htmlspecialchars($pictureUrl)."\" alt=\"\" />";
+		$sideBarStuff .= format("<img src=\"{0}\" alt=\"\"
+                            style=\"max-width:{1}px;max-height:{1}px;\" />"
+                            , htmlspecialchars($pictureUrl), $maxDim);
 
 	$lastpost = ($poster['lastposttime'] ? timeunits(time() - $poster['lastposttime']) : "none");
 	$lastview = timeunits(time() - $poster['lastactivity']);

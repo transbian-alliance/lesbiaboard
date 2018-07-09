@@ -86,8 +86,8 @@ $general = array(
 			"picture" => array(
 				"caption" => __("Avatar"),
 				"type" => "displaypic",
-				"errorname" => "picture",
-				"hint" => format(__("Maximum size is {0} by {0} pixels."), 100),
+				"errorname" => "avatar",
+				"hint" => format(__("Maximum size is {0} by {0} pixels."), Settings::get("avatarMaxDim")),
 			),
 			"minipic" => array(
 				"caption" => __("Minipic"),
@@ -309,9 +309,6 @@ if(!$editUserMode)
 	unset($account['admin']);
 }
 
-if($loguser['powerlevel'] > 0)
-	$general['avatar']['items']['picture']['hint'] = __("As a staff member, you can upload pictures of any reasonable size.");
-
 if($loguser['powerlevel'] == 4 && isset($account['admin']['items']['powerlevel']))
 {
 	if($user['powerlevel'] == 4)
@@ -511,7 +508,7 @@ if($_POST['action'] == __("Edit profile"))
 						}
 						if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
 							continue;
-						$res = HandlePicture($field, 0, $item['errorname'], $user['powerlevel'] > 0 || $loguser['powerlevel'] > 0);
+						$res = HandlePicture($field, 0, $item['errorname']);
 						if($res === true)
 							$sets[] = $field." = '#INTERNAL#'";
 						else
@@ -607,20 +604,22 @@ unset($tab);
 if($failed)
 	$loguser['theme'] = $_POST['theme'];
 
-function HandlePicture($field, $type, $errorname, $allowOversize = false)
+function HandlePicture($field, $type, $errorname)
 {
 	global $userid, $dataDir;
 	if($type == 0)
 	{
+		$targetFile = $dataDir."avatars/".$userid;
 		$extensions = array(".png",".jpg",".jpeg",".gif");
-		$maxDim = 100;
-		$maxSize = 300 * 1024;
+		$maxDim = Settings::get("avatarMaxDim");
+		$maxSize = 2 * 1024 * 1024; // 2MB
 	}
 	else if($type == 1)
 	{
+		$targetFile = $dataDir."minipics/".$userid;
 		$extensions = array(".png", ".gif");
 		$maxDim = 16;
-		$maxSize = 100 * 1024;
+		$maxSize = 100 * 1024; // 100KB
 	}
 
 	$fileName = $_FILES[$field]['name'];
@@ -628,68 +627,20 @@ function HandlePicture($field, $type, $errorname, $allowOversize = false)
 	$tempFile = $_FILES[$field]['tmp_name'];
 	list($width, $height, $fileType) = getimagesize($tempFile);
 
-	if ($type == 0 && ($width > 300 || $height > 300))
-		return __("That avatar is definitely too big. The avatar field is meant for an avatar, not a wallpaper.");
+  if(!Settings::get("avatarAllowAboveMax"))
+    if ($width > $maxDim || $height > $maxDim)
+      return format(__("Dimensions of {0} must be at most {1} by {1} pixels."), $errorname, $maxDim);
 
 	$extension = strtolower(strrchr($fileName, "."));
 	if(!in_array($extension, $extensions))
 		return format(__("Invalid extension used for {0}. Allowed: {1}"), $errorname, join($extensions, ", "));
 
-	if($fileSize > $maxSize && !$allowOversize)
+	if($fileSize > $maxSize)
 		return format(__("File size for {0} is too high. The limit is {1} bytes, the uploaded image is {2} bytes."), $errorname, $maxSize, $fileSize)."</li>";
-
-	switch($fileType)
-	{
-		case 1:
-			$sourceImage = imagecreatefromgif($tempFile);
-			break;
-		case 2:
-			$sourceImage = imagecreatefromjpeg($tempFile);
-			break;
-		case 3:
-			$sourceImage = imagecreatefrompng($tempFile);
-			break;
-	}
-
-	$oversize = ($width > $maxDim || $height > $maxDim);
-	if ($type == 0)
-	{
-		$targetFile = $dataDir."avatars/".$userid;
-
-		if($allowOversize || !$oversize)
-		{
-			//Just copy it over.
-			copy($tempFile, $targetFile);
-		}
-		else
-		{
-			//Resample that mother!
-			$ratio = $width / $height;
-			if($ratio > 1)
-			{
-				$targetImage = imagecreatetruecolor($maxDim, floor($maxDim / $ratio));
-				imagecopyresampled($targetImage, $sourceImage, 0,0,0,0, $maxDim, $maxDim / $ratio, $width, $height);
-			} else
-			{
-				$targetImage = imagecreatetruecolor(floor($maxDim * $ratio), $maxDim);
-				imagecopyresampled($targetImage, $sourceImage, 0,0,0,0, $maxDim * $ratio, $maxDim, $width, $height);
-			}
-			imagepng($targetImage, $targetFile);
-			imagedestroy($targetImage);
-		}
-	}
-	elseif ($type == 1)
-	{
-		$targetFile = $dataDir."minipics/".$userid;
-
-		if ($oversize)
-		{
-			//Don't allow minipics over $maxDim for anypony.
-			return format(__("Dimensions of {0} must be at most {1} by {1} pixels."), $errorname, $maxDim);
-		}
-		else
-			copy($tempFile, $targetFile);
-	}
+  
+  // if it got here it should be alright
+  copy($tempFile, $targetFile);
+  
 	return true;
 }
 
