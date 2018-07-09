@@ -791,3 +791,28 @@ div.overlayShade div.buttonContainer button {
 	clear: both;
 	height: 0;
 }
+
+/* post bbcode tweaks */
+
+/* make images have a max size */
+.imgtag {
+  position: relative;
+  float: left;
+}
+.imgtag img { 
+  max-width: 100%;
+  max-height: 600px;
+}
+.imgtag::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: background .1s;
+}
+.imgtag:hover::before {
+  background: rgba(255,255,255, 0.25);
+}

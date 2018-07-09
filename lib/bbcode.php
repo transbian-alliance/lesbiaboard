@@ -21,10 +21,6 @@ $bbcode = array(
 		'callback' => 'bbcodeImage',
 		'pre' => true,
 	),
-	'imgs' => array(
-        'callback' => 'bbcodeImageScale',
-        'pre' => true,
-	),
 
 	'user' => array(
 		'callback' => 'bbcodeUser',
@@ -229,22 +225,13 @@ function bbcodeURL($dom, $nodes, $arg)
 
 function bbcodeImage($dom, $nodes, $title)
 {
-	$img = $dom->createElement('img');
-	$img->setAttribute('src', $nodes);
-	$img->setAttribute('title', $title);
-	$img->setAttribute('class', 'imgtag');
-	return $img;
-}
-
-function bbcodeImageScale($dom, $nodes, $title)
-{
 	$a = $dom->createElement('a');
+	$a->setAttribute('target', '_blank');
 	$a->setAttribute('href', $nodes);
 	$img = $dom->createElement('img');
 	$img->setAttribute('src', $nodes);
 	$img->setAttribute('title', $title);
-	$img->setAttribute('class', 'imgtag');
-	$img->setAttribute('style', 'max-width:300px; max-height:300px');
+	$a->setAttribute('class', 'imgtag');
 	$a->appendChild($img);
 	return $a;
 }
