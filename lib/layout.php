@@ -170,8 +170,6 @@ function doLastPosts($compact, $limit)
 	global $mobileLayout, $loguser;
 	if($mobileLayout)
 		$compact = true;
-		
-	$hours = 72;
 
 	$rPosts = Query("SELECT
 						p.id, p.date,
@@ -182,9 +180,8 @@ function doLastPosts($compact, $limit)
 						LEFT JOIN {users} u on u.id = p.user
 						LEFT JOIN {threads} t on t.id = p.thread
 						LEFT JOIN {forums} f on t.forum = f.id
-					WHERE ".forumAccessControlSql()." AND p.date >= {0}
-					ORDER BY date DESC LIMIT 0, {1u}", 
-			(time() - ($hours * 60*60)), $limit);
+					WHERE ".forumAccessControlSql()."
+					ORDER BY date DESC LIMIT 0, {0u}",$limit);
 
 	while($post = Fetch($rPosts))
 	{
@@ -240,10 +237,9 @@ function doLastPosts($compact, $limit)
 	"
 		<tr class=\"cell1\">
 			<td colspan=\"5\" style=\"text-align: center\">
-				".__("Nothing has been posted in the last {0}.")."
+				".__("Nothing has been posted yet.")."
 			</td>
-		</tr>
-	", Plural($hours, __("hour")));
+		</tr>");
 
 	if($compact)
 		write(
