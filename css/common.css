@@ -288,49 +288,6 @@ table.message td
 	opacity: 0.5;
 }
 
-/* [Quote] stuff */
-div.quote
-{
-	padding: 4px;
-	margin-top: 4px;
-	margin-bottom:4px;
-	margin-left:50px;
-	margin-right:10px;
-}
-
-div.quote div.quotecontent
-{
-	padding:4px;
-	margin-top:4px;
-	border-top: 1px solid white;
-	border-bottom: 1px solid white;
-}
-
-div.quote div.quoteheader
-{
-	font-size:10px;
-	font-style:italic;
-}
-
-.codeblock
-{
-	white-space:pre-wrap;
-	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
-	padding:4px;
-	margin-left:10px;
-	margin-right:10px;
-	margin-top:5px;
-	margin-bottom:5px;
-}
-.codeblock pre {
-  font-size: 1.2em;
-  background: #222;
-  color: #ddd;
-  border: solid 1px #999;
-  border-radius: 2px;
-  margin: 0;
-}
-
 form
 {
 	margin: 0;
@@ -794,7 +751,7 @@ div.overlayShade div.buttonContainer button {
 
 /* post bbcode tweaks */
 
-/* make images have a max size */
+/* make [img] have a max size */
 .imgtag {
   position: relative;
   float: left;
@@ -815,4 +772,48 @@ div.overlayShade div.buttonContainer button {
 }
 .imgtag:hover::before {
   background: rgba(255,255,255, 0.25);
+}
+
+/* [Quote] stuff */
+div.quote
+{
+	padding: 4px;
+	margin-top: 4px;
+	margin-bottom:4px;
+	margin-left:50px;
+	margin-right:10px;
+}
+
+div.quote div.quotecontent
+{
+	padding:4px;
+	margin-top:4px;
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+}
+
+div.quote div.quoteheader
+{
+	font-size:10px;
+	font-style:italic;
+}
+
+/* [code] */
+.codeblock
+{
+	white-space:pre-wrap;
+	font-family: "Consolas", "Lucida Console", "Courier New", monospace;
+	padding:4px;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+.codeblock pre {
+  font-size: 1.2em;
+  background: #222;
+  color: #ddd;
+  border: solid 1px #999;
+  border-radius: 2px;
+  margin: 0;
 }
