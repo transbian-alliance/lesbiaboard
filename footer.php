@@ -6,7 +6,7 @@ else echo '<a href="#" onclick="enableMobileLayout(-1); return false;" rel="nofo
 <br>
 <!-- TODO: pull version from somewhere else -->
 <?php $bucket = "footer"; include("./lib/pluginloader.php");?>
-Powered by Lesbiaboard 1.0 by <a href="http://transbian.love/">Transbian Alliance</a><br />
+Powered by Lesbiaboard 1.1 by <a href="http://transbian.love/">Transbian Alliance</a><br />
 Acmlmboard XD &copy; Dirbaio, xfix, Kawa, StapleButter, Nadia, et al<br />
 AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 <?php print __("<!-- English translation by The ABXD Team -->")?>
