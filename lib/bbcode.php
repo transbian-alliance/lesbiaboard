@@ -405,11 +405,11 @@ function bbcodeCode($dom, $nodes)
 {
   // code part in <pre>
 	$pre = $dom->createElement('pre');
-	$pre->textContent = $nodes;
+	$pre->appendChild($dom->createTextNode($nodes));
   
   // label
   $span = $dom->createElement('span');
-  $span->textContent = __("Code:");
+  $span->appendChild($dom->createTextNode(__("Code:")));
   
   // div wrapper for prettiness
   $div = $dom->createElement('div');
