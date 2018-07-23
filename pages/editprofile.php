@@ -627,8 +627,8 @@ function HandlePicture($field, $type, $errorname)
 	$tempFile = $_FILES[$field]['tmp_name'];
 	list($width, $height, $fileType) = getimagesize($tempFile);
 
-  	if(!Settings::get("avatarAllowAboveMax") && $type == 0)
-    	if ($width > $maxDim || $height > $maxDim)
+	if(!Settings::get("avatarAllowAboveMax") || $type == 1)
+		if ($width > $maxDim || $height > $maxDim)
 			return format(__("Dimensions of {0} must be at most {1} by {1} pixels."), $errorname, $maxDim);
 
 	$extension = strtolower(strrchr($fileName, "."));
