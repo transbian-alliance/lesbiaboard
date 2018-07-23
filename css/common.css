@@ -296,6 +296,8 @@ form
 .minipic
 {
 	vertical-align: top;
+  max-height: 16px;
+  max-width: 16px;
 }
 
 div.spoiler
