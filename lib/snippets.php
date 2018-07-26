@@ -157,16 +157,14 @@ function DoPostHelp()
 				[code]&hellip;[/code] &mdash; <code>".__("code block")."</code> <br />
 				[spoiler]&hellip;[/spoiler] &mdash; ".__("spoiler block")." <br />
 				[spoiler=&hellip;]&hellip;[/spoiler] <br />
-				[source]&hellip;[/source] &mdash; ".__("colorcoded block, assuming C#")." <br />
-				[source=&hellip;]&hellip;[/source] &mdash; ".__("colorcoded block, specific language")."<sup title=\"bnf, c, cpp, csharp, html4strict, irc, javascript, lolcode, lua, mysql, php, qbasic, vbnet, xml\">[".__("which?")."]</sup> <br />
 	");
 	$bucket = "postHelpPresentation"; include("./lib/pluginloader.php");
 	write("
 				<br />
 				<h4>".__("Links")."</h4>
 				[img]http://&hellip;[/img] &mdash; ".__("insert image")." <br />
-				[url]http://&hellip;[/url] <br />
-				[url=http://&hellip;]&hellip;[/url] <br />
+				[url]http://&hellip;[/url], ".__("or")." <br />
+				[url=http://&hellip;]&hellip;[/url] &mdash; ".__("insert external link")." <br />
 				>>&hellip; &mdash; ".__("link to post by ID")." <br />
 				[user=##] &mdash; ".__("link to user's profile by ID")." <br />
 	");
