@@ -175,7 +175,7 @@ function makePostLinks($post, $type, $params=array())
 
 	if($post['deleted'])
 	{
-		if($canMod)
+		if($canMod || ($post["u_id"] == $loguserid && $post["deletedby"] == $loguserid))
 			$links->add(new PipeMenuLinkEntry(__('Undelete'), "", "", "", "undo", "deletePost(".$post["id"].", '".$loguser["token"]."', 2);return false;"));
 
 		if($canMod || $post["u_id"] == $loguserid)
@@ -196,7 +196,10 @@ function makePostLinks($post, $type, $params=array())
 		if ($canMod || ($post['user'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed']))
 			$links->add(new PipeMenuLinkEntry(__("Edit"), "editpost", $post['id'], "", "pencil"));
 
+		// mod post delete
 		if ($canMod)
+			$links->add(new PipeMenuLinkEntry(__('Delete (Mod)'), "", "", "", "remove", "deletePost(".$post["id"].", '".$loguser["token"]."', 1);return false;"));
+		else if ($post['user'] == $loguserid && $loguser['powerlevel'] > -1)
 			$links->add(new PipeMenuLinkEntry(__('Delete'), "", "", "", "remove", "deletePost(".$post["id"].", '".$loguser["token"]."', 1);return false;"));
 
 		if(!$mobileLayout)

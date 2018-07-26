@@ -32,8 +32,8 @@ else
 
 $fid = $forum['id'];
 
-if(!CanMod($loguserid,$fid))
-	Kill(__("You're not allowed to delete posts."));
+if(!CanMod($loguserid,$fid) && !($loguserid == $post['user']  && $loguser['powerlevel'] > -1))
+	Kill(__("You're not allowed to delete this post."));
 
 $del = (int)$_POST['delete'];
 
