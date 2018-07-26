@@ -186,7 +186,7 @@ function formatUser($userdata, $data, $option)
 	if($id == $me) return $possessive ? "your" : "you";
 	if($id == $lastuser)
 	{
-		return $possessive ? "theirs" : "they";
+		return $possessive ? "their" : "they";
 	}
 	else $lastuser = $id;
 		
