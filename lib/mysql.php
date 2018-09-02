@@ -18,9 +18,9 @@ function sqlConnect()
 		return false;
 	}
 	
-	if (!$dblink->set_charset("utf8"))
+	if (!$dblink->set_charset("utf8mb4"))
 	{
-        $dberror = "Error setting UTF8 charset";
+        $dberror = "Error setting utf8mb4 charset";
 		return false;
 	}
 	
