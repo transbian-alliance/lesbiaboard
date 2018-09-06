@@ -21,6 +21,10 @@ $bbcode = array(
 		'callback' => 'bbcodeImage',
 		'pre' => true,
 	),
+	'video' => array(
+		'callback' => 'bbcodeVideo',
+		'pre' => true,
+	),
 
 	'user' => array(
 		'callback' => 'bbcodeUser',
@@ -234,6 +238,30 @@ function bbcodeImage($dom, $nodes, $title)
 	$a->setAttribute('class', 'imgtag');
 	$a->appendChild($img);
 	return $a;
+}
+
+function bbcodeVideo($dom, $nodes, $arg)
+{
+	$yt_match = '/(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
+	$matches = array();
+	preg_match($yt_match, $nodes, $matches);
+	if(empty($matches)) {
+		// not a youtube video -- try to embed with <video>
+		$video = $dom->createElement('video');
+		$video->setAttribute('controls', 'true');
+		$video->setAttribute('muted', 'true');
+		$video->setAttribute('preload', 'metadata');
+		$video->setAttribute('src', $nodes);
+		return $video;
+	} else {
+		// it's a youtube video -- just do iframe embed
+		$iframe = $dom->createElement('iframe');
+		$iframe->setAttribute('width', '640');
+		$iframe->setAttribute('height', '360');
+		$iframe->setAttribute('frameborder', '0');
+		$iframe->setAttribute('src', 'https://www.youtube.com/embed/'.$matches[1]);
+		return $iframe;
+	}
 }
 
 function bbcodeUser($dom, $nothing, $id)
