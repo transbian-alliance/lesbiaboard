@@ -820,7 +820,8 @@ div.quote div.quoteheader
 }
 
 /* [video] */
-.post video, .post iframe {
+.post video, .post iframe,
+.mobile-postBox video, .mobile-postBox iframe {
 	max-width: 100%;
 	max-height: 600px;
 }
