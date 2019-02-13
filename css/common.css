@@ -370,7 +370,7 @@ ul.breadcrumbs li:first-child:before
 	content:"";
 }
 
-.footer a img
+/*.footer a img
 {
 	opacity: .5;
 	     -o-transition: opacity .2s ease-in-out;
@@ -383,7 +383,7 @@ ul.breadcrumbs li:first-child:before
 .footer a:hover img
 {
 	opacity: 1;
-}
+}*/
 
 .smilies img, #rss img
 {

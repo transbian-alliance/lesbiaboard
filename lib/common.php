@@ -94,3 +94,13 @@ include("lists.php");
 $mainPage = "board";
 $bucket = "init"; include('lib/pluginloader.php');
 
+$footerButtons = '<br>
+<div class="center">
+	<a href="https://computerfairi.es/ target="_blank" rel="nofollow">
+		<img src="img/buttons/cf.png" alt="Computer Fairies" />
+	</a>
+	<a href="https://emreed.net/LowTech_Directory.html target="_blank" rel="nofollow">
+		<img src="img/buttons/lowtech.png" alt="Computer Fairies" />
+	</a>
+	<img src="img/buttons/girls.png" alt="Computer Fairies" />
+</div>';
