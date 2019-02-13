@@ -6,6 +6,18 @@ $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Register"), "register"));
 makeBreadcrumbs($crumbs);
 
+// do not allow registration over plain http
+function isSecure() {
+  return
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || $_SERVER['SERVER_PORT'] == 443;
+}
+
+if(!isSecure()) {
+	Alert("Please use the HTTPS version of Lesbiaboard to register a new user.");
+	return;
+}
+
 $haveSecurimage = is_file("securimage/securimage.php");
 if($haveSecurimage)
 	session_start();
@@ -16,6 +28,24 @@ if(isset($_POST['name']))
 {
 	$name = trim($_POST['name']);
 	$cname = str_replace(" ","", strtolower($name));
+
+	// this is only meant to keep non-sentient actors from registering accounts
+	$test_answers = array(
+		"lesbians",
+		"lesbian",
+		"lesbian people",
+		"transbians",
+		"transbian",
+		"transbian people",
+		"trans people",
+		"trans",
+		"transgender",
+		"transgender people",
+		"girls",
+		"enbies",
+		"lgbt",
+	);
+	$test_reply = trim(strtolower($_POST['test_question']));
 
 	$rUsers = Query("select name, displayname from {users}");
 	while($user = Fetch($rUsers))
@@ -44,6 +74,8 @@ if(isset($_POST['name']))
 		$err = __("Another user is already using this IP address.");
 	else if ($_POST['pass'] !== $_POST['pass2'])
 		$err = __("The passwords you entered don't match.");
+	else if (!in_array($test_reply, $test_answers))
+		$err = __("You did not pass the required security question to register an account.");
 	else if($haveSecurimage)
 	{
 		include("securimage/securimage.php");
@@ -121,6 +153,14 @@ echo "
 			</td>
 			<td class=\"cell0\">
 				<input type=\"email\" id=\"email\" name=\"email\" value=\"$email\" style=\"width: 98%;\" maxlength=\"60\" />
+			</td>
+		</tr>
+		<tr>
+			<td class=\"cell2\">
+				<label for=\"test_question\">".__("Who is this forum aimed at? (there are a few correct answers)")."</label>
+			</td>
+			<td class=\"cell0\">
+				<input type=\"text\" id=\"test_question\" name=\"test_question\" style=\"width: 98%;\" class=\"required\" />
 			</td>
 		</tr>";
 
