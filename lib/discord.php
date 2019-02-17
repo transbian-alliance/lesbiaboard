@@ -4,8 +4,8 @@
 include('config/discord.php');
 
 function pushToDiscord($action, $pid) {
-  global $webhook_url;
-  
+  global $webhook_url, $board_url;
+
   $rPost = Query("
   SELECT
     u.name, u.displayname, t.title t_title, f.minpower, f.title f_title
@@ -22,7 +22,7 @@ function pushToDiscord($action, $pid) {
   if($post['f_minpower'] > 0)
     return;
 
-  $purl = actionLink("post", $pid);
+  $purl = $board_url . actionLink("post", $pid, "");
   $name = ($post['name'] ? $post['name'] : $post['displayname']);
 
   if($action == "thread") {
