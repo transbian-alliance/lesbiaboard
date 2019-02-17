@@ -4,6 +4,8 @@
 include('config/discord.php');
 
 function pushToDiscord($action, $pid) {
+  global $webhook_url;
+  
   $rPost = Query("
   SELECT
     u.name, u.displayname, t.title t_title, f.minpower, f.title f_title
