@@ -19,7 +19,7 @@ function pushToDiscord($action, $pid) {
   if(!NumRows($rPost))
     return;
   $post = Fetch($rPost);
-  if($post['f_minpower'] > 0)
+  if($post['minpower'] > 0)
     return;
 
   $purl = $board_url . actionLink("post", $pid, "");
