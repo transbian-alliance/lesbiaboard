@@ -104,3 +104,5 @@ $footerButtons = '<br>
 	</a>
 	<img src="img/buttons/girls.png" alt="Computer Fairies" />
 </div>';
+
+include('lib/discord.php');

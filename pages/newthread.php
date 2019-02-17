@@ -248,6 +248,8 @@ else if(isset($_POST['actionpost']))
 
 		logAction('newthread', array('forum' => $fid, 'thread' => $tid));
 
+		pushToDiscord('thread', $pid);
+
 		//newthread bucket
 		$postingAsUser = $loguser;
 		$thread["title"] = $_POST['title'];

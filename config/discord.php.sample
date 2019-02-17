@@ -1,0 +1,3 @@
+<?php
+  $webhook_url = "WEBHOOK_URL_HERE";
+?>

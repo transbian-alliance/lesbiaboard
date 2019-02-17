@@ -172,6 +172,8 @@ else if(isset($_POST['actionpost']))
 
 		logAction('newreply', array('forum' => $fid, 'thread' => $tid, 'post' => $pid));
 
+		pushToDiscord('reply', $pid);
+
 		$bucket = "newreply"; include("lib/pluginloader.php");
 
 		redirectAction("post", $pid);
