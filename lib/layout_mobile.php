@@ -142,6 +142,21 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 	$starter = getDataPrefix($thread, "su_");
 	$last = getDataPrefix($thread, "lu_");
 
+	if($loguserid) {
+		$readDate = ($thread['readdate'] ? $thread['readdate'] : 0);
+		$firstUnreadResult = Query("
+			SELECT
+				p.(id)
+			FROM
+				{posts} p
+			WHERE
+				p.thread = {0} AND p.date > {1};
+		", $thread['id'], $readDate);
+		//$FirstUnreadLink = Fetch($firstUnread) . $thread['readdate'];
+		$firstUnread = Fetch($firstUnreadResult);
+		if($firstUnread['p_id'])
+			$FirstUnreadLink = "<span class=\"smallFonts\">(".actionLinkTag("First Unread", "post", $firstUnread['p_id']).")</span>";
+	}
 
 	$NewIcon = "";
 	$newstuff = 0;
@@ -212,7 +227,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		<td>
 			$NewIcon
 			$poll
-			$threadlink $pl<br>
+			$threadlink $FirstUnreadLink $pl<br>
 			<small>by ".UserLink($starter).$forumcell." -- ".Plural($thread['replies'], 'reply')."</small>
 		</td>
 		<td class=\"smallFonts center\">

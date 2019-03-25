@@ -178,6 +178,21 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 
 	$threadlink = makeThreadLink($thread);
 
+	if($loguserid) {
+		$readDate = ($thread['readdate'] ? $thread['readdate'] : 0);
+		$firstUnreadResult = Query("
+			SELECT
+				p.(id)
+			FROM
+				{posts} p
+			WHERE
+				p.thread = {0} AND p.date > {1};
+		", $thread['id'], $readDate);
+		//$FirstUnreadLink = Fetch($firstUnread) . $thread['readdate'];
+		$firstUnread = Fetch($firstUnreadResult);
+		if($firstUnread['p_id'])
+			$FirstUnreadLink = "<span class=\"smallFonts\">(".actionLinkTag("First Unread", "post", $firstUnread['p_id']).")</span>";
+	}
 
 	$NewIcon = "";
 	$newstuff = 0;
@@ -263,6 +278,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		<td style=\"border-left: 0px none;\">
 			$poll
 			$threadlink
+			$FirstUnreadLink
 			$pl
 		</td>
 		$forumcell
