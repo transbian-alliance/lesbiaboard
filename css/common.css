@@ -362,7 +362,7 @@ ul.breadcrumbs li
 }
 ul.breadcrumbs li:before
 {
-	content:"» ";
+	content:"\00BB "; /*Double 'greater than' sign, used on breadcrumbs. Escaped because charset/AJAX fuckery. --Pululut*/
 }
 
 ul.breadcrumbs li:first-child:before
@@ -641,7 +641,11 @@ td.threadIcons label > input:checked ~ *
 	-webkit-transform: scale(1.1);
 }
 
-@media handheld
+/* Explaining '719px': on the presumption most PC monitors are at least 1280x720. this may screw up netbooks. 
+(Interestingly, previous common.css had it optimised for 'handhelds' which meant PDAs, Opera Mini etc)
+On a side note, we can finally stamp out the separate mobile layout and optimise the normal one to be responsive using this :D --Pululut */
+
+@media screen and (max-width: 719px)
 {
 	.nom
 	{
