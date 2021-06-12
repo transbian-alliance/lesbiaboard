@@ -8,8 +8,8 @@ $notNull = " NOT NULL DEFAULT ''";
 $text = "text"; //NOT NULL breaks in certain versions/settings.
 $postText = "mediumtext";
 $var128 = "varchar(128)".$notNull;
-$var256 = "varchar(256)".$notNull;
-$var1024 = "varchar(1024)".$notNull;
+$var256 = "varchar(191)".$notNull;
+$var1024 = "varchar(767)".$notNull;
 $AI = "int(11) NOT NULL AUTO_INCREMENT";
 $keyID = "primary key (`id`)";
 
@@ -101,7 +101,7 @@ $tables = array
 			"id" => $AI,
 			"ip" => "varchar(45)".$notNull,
 			"date" => $genericInt,
-			"lasturl" => "varchar(100)".$notNull,
+			"lasturl" => $var128,
 			"lastforum" => $genericInt,	
 			"bot" => $bool,
 		),
@@ -269,7 +269,7 @@ $tables = array
 		(
 			"id" => $AI,		
 			"user" => $genericInt,	
-			"ip" => "varchar(50)".$notNull,
+			"ip" => "varchar(45)".$notNull,
 			"time" => $genericInt,	
 			"query" => $text,
 			"get" => $text,
@@ -292,8 +292,8 @@ $tables = array
 			"forum" => $genericInt,
 			"forum2" => $genericInt,
 			"pm" => $genericInt,
-			"text" => "varchar(1024)".$notNull,
-			"ip" => "varchar(50)".$notNull,
+			"text" => $var1024,
+			"ip" => "varchar(45)".$notNull,
 		),
 	),
 	"sessions" => array
@@ -332,8 +332,8 @@ $tables = array
 			"date" => $genericInt,
 			"firstpostid" => $genericInt,
 			"views" => $genericInt,
-			"title" => "varchar(100)".$notNull,
-			"icon" => "varchar(200)".$notNull,
+			"title" => $var128,
+			"icon" => $var256,
 			"replies" => $genericInt,
 			"lastpostdate" => $genericInt,
 			"lastposter" => $genericInt,
