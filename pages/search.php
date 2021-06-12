@@ -15,6 +15,9 @@ if(isset($_POST['google']))
 
 AssertForbidden("search");
 
+if (!$loguserid)
+	Kill("Please log in to search the forums.");
+
 echo "	<table>
 		<tr>
 			<td style=\"width: 70%; border: 0px none; vertical-align: top; padding-right: 1em; padding-bottom: 1em;\">";
