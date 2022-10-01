@@ -285,7 +285,7 @@ function pageLinks($url, $epp, $from, $total)
 			$pageLinks[] = "<a class=\"pagelink\"  href=\"".makeFromUrl($url, (($p-1) * $epp))."\">".$p."</a>";
 	}
 
-	return $first.$prev.join($pageLinks, "").$next.$last;
+	return $first.$prev.join("", $pageLinks).$next.$last;
 }
 
 function pageLinksInverted($url, $epp, $from, $total)
@@ -320,7 +320,7 @@ function pageLinksInverted($url, $epp, $from, $total)
 			$pageLinks[] = "<a class=\"pagelink\"  href=\"".makeFromUrl($url, (($p-1) * $epp))."\">".($numPages+1-$p)."</a>";
 	}
 
-	return $last.$next.join($pageLinks, "").$prev.$first;
+	return $last.$next.join("", $pageLinks).$prev.$first;
 }
 
 

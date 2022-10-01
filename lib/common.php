@@ -10,7 +10,7 @@ if(!is_file("config/database.php"))
 $boardroot = preg_replace('{/[^/]*$}', '/', $_SERVER['SCRIPT_NAME']);
 
 // Deslash GPC variables if we have magic quotes on
-if (get_magic_quotes_gpc())
+/*if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 {
 	function AutoDeslash($val)
 	{
@@ -26,7 +26,7 @@ if (get_magic_quotes_gpc())
 	$_GET = array_map('AutoDeslash', $_GET);
 	$_POST = array_map('AutoDeslash', $_POST);
 	$_COOKIE = array_map('AutoDeslash', $_COOKIE);
-}
+}*/
 
 function usectime()
 {
