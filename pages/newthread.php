@@ -29,7 +29,7 @@ else
 if($forum['locked'])
 	Kill(__("This forum is locked."));
 
-if($forum['minpowerthread'] > $loguser['powerlevel'])
+if($forum['minpowerthread'] > $loguser['powerlevel'] || !CanView($fid))
 	Kill(__("You are not allowed to post threads in this forum."));
 
 if(!isset($_POST['poll']) || isset($_GET['poll']))

@@ -44,7 +44,7 @@ if(NumRows($rFora))
 else
 	Kill(__("Unknown forum ID."));
 
-if($forum['minpower'] > $loguser['powerlevel'])
+if(!CanView($fid))
 	Kill(__("You are not allowed to edit threads."));
 $tags = ParseThreadTags($thread['title']);
 setUrlName("thread", $thread["id"], $thread["title"]);
@@ -211,7 +211,7 @@ if(NumRows($rFora))
 else
 	Kill(__("Unknown forum ID."));
 
-if($forum['minpower'] > $loguser['powerlevel'])
+if(!CanView($fid))
 	Kill(__("You are not allowed to edit threads."));
 
 

@@ -34,7 +34,7 @@ $rFora = Query("select * from {forums} where id={0}", $fid);
 if(NumRows($rFora))
 {
 	$forum = Fetch($rFora);
-	if($forum['minpower'] > $pl)
+	if(!CanView($fid))
 	{
 		if($forum["id"] == Settings::get("hiddenTrashForum"))
 			Kill(__("This thread is deleted."));

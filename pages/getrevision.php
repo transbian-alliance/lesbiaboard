@@ -27,10 +27,10 @@ else
 $qThread = "select forum from {threads} where id={0}";
 $rThread = Query($qThread, $post['thread']);
 $thread = Fetch($rThread);
-$qForum = "select minpower from {forums} where id={0}";
-$rForum = Query($qForum, $thread['forum']);
-$forum = Fetch($rForum);
-if($forum['minpower'] > $loguser['powerlevel'])
+//$qForum = "select minpower from {forums} where id={0}";
+//$rForum = Query($qForum, $thread['forum']);
+//$forum = Fetch($rForum);
+if(!CanView($thread['forum']))
 	die(__("No."));
 
 echo makePostText($post);

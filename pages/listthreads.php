@@ -24,7 +24,7 @@ $total = FetchResult("SELECT
 					FROM
 						{threads} t
 						LEFT JOIN {forums} f ON f.id=t.forum
-					WHERE t.user={0} AND f.minpower <= {1}", $uid, $loguser["powerlevel"]);
+					WHERE t.user={0} AND ".forumAccessControlSql(), $uid);
 
 $tpp = $loguser['threadsperpage'];
 if(isset($_GET['from']))

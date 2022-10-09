@@ -84,6 +84,7 @@ $tables = array
 			"minpower" => $smallerInt,
 			"minpowerthread" => $smallerInt,
 			"minpowerreply" => $smallerInt,
+			"minpostsread" => $genericInt,
 			"numthreads" => $genericInt,
 			"numposts" => $genericInt,
 			"lastpostdate" => $genericInt,

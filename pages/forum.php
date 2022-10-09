@@ -24,7 +24,7 @@ $rFora = Query("select * from {forums} where id={0}", $fid);
 if(NumRows($rFora))
 {
 	$forum = Fetch($rFora);
-	if($forum['minpower'] > $pl)
+	if(!CanView($fid))
 		Kill(__("You are not allowed to browse this forum."));
 } else
 	Kill(__("Unknown forum ID."));

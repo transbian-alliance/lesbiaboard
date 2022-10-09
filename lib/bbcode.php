@@ -292,7 +292,7 @@ function bbcodeThread($dom, $nothing, $arg)
 							t.id, t.title
 						FROM {threads} t
 						LEFT JOIN {forums} f ON t.forum = f.id
-						WHERE t.id={0} AND f.minpower <= {1} ", $id, $loguser["powerlevel"]);
+						WHERE t.id={0} AND ".forumAccessControlSql(), $id);
 		if(NumRows($rThread))
 		{
 			$thread = Fetch($rThread);

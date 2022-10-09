@@ -48,9 +48,9 @@ $rThreads = Query("	SELECT
 						LEFT JOIN users su ON su.id=t.user
 						LEFT JOIN users lu ON lu.id=t.lastposter
 						LEFT JOIN forums f ON f.id=t.forum
-					$cond and f.minpower <= {3}
-					ORDER BY sticky DESC, lastpostdate DESC LIMIT {4u}, {5u}",
-					$tagcode, $forum, $loguserid, $loguser["powerlevel"], $from, $tpp);
+					$cond and ".forumAccessControlSql()."
+					ORDER BY sticky DESC, lastpostdate DESC LIMIT {3u}, {4u}",
+					$tagcode, $forum, $loguserid, $from, $tpp);
 
 $numonpage = NumRows($rThreads);
 

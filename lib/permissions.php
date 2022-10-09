@@ -63,6 +63,23 @@ function CanMod($userid, $fid)
 	return false;
 }
 
+function CanView($forumid, $user = null)
+{
+	global $loguser;
+	$rForum = Query("select minpower, minpostsread from {forums} where id={0}", $forumid);
+	$forum = Fetch($rForum);
+	if (!$user)
+		$user = $loguser;
+	
+	$pl = $user['powerlevel'];
+	if ($pl < 0) $pl = 0;
+	
+	if ($pl < $forum['minpower'])
+		return false;
+	if ($user['posts'] < $forum['minpostsread'])
+		return false;
+	return true;
+}
 
 function AssertForbidden($to, $specifically = 0)
 {

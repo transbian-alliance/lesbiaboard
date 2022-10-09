@@ -37,6 +37,9 @@ else
 $fid = $forum['id'];
 AssertForbidden("viewForum", $fid);
 
+if (!CanView($fid))
+	Kill(__("You are not allowed to view posts in this forum."));
+
 $isHidden = (int)($forum['minpower'] > 0);
 
 if($forum['minpowerreply'] > $loguser['powerlevel'])
@@ -190,7 +193,7 @@ else if($_GET['quote'])
 {
 	$rQuote = Query("	select
 					p.id, p.deleted, pt.text,
-					f.minpower,
+					f.id forumid,
 					u.name poster
 				from {posts} p
 					left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision
@@ -205,8 +208,8 @@ else if($_GET['quote'])
 
 		//SPY CHECK!
 		//Do we need to translate this line? It's not even displayed in its true form ._.
-		if($quote['minpower'] > $loguser['powerlevel'])
-			$quote['text'] = str_rot13("Pools closed due to not enough power. Prosecutors will be violated.");
+		if(!CanView($quote['forumid']))
+			$quote['text'] = __("You are not allowed to view this post.");
 
 		if ($quote['deleted'])
 			$quote['text'] = __("Post is deleted");

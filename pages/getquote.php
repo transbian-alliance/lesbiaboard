@@ -5,7 +5,7 @@ $id = (int)$_GET["id"];
 
 $qQuote = "	select
 				p.id, p.deleted, pt.text,
-				f.minpower,
+				f.id forumid,
 				u.name poster
 			from {posts} p
 				left join {posts_text} pt on pt.pid = p.id and pt.revision = p.currentrevision
@@ -20,7 +20,7 @@ if(!NumRows($rQuote))
 
 $quote = Fetch($rQuote);
 
-if($quote['minpower'] > $loguser['powerlevel'])
+if(!CanView($quote['forumid']))
 	die("No.");
 
 if ($quote['deleted'])

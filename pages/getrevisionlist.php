@@ -17,7 +17,7 @@ $thread = Fetch($rThread);
 $qForum = "select minpower from {forums} where id={0}";
 $rForum = Query($qForum, $thread['forum']);
 $forum = Fetch($rForum);
-if($forum['minpower'] > $loguser['powerlevel'])
+if(!CanView($thread['forum']))
 	die(__("No.")." ".$hideTricks);
 
 

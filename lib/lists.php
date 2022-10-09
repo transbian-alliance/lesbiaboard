@@ -5,7 +5,9 @@ function forumAccessControlSql()
 	global $loguser;
 	$realpl = $loguser["powerlevel"];
 	if($realpl < 0) $realpl = 0;
-	return "f.minpower <= ".$realpl;
+	$realposts = $loguser["posts"];
+	if(!$realposts || $realposts < 0) $realposts = 0;
+	return "f.minpower <= ".$realpl." and f.minpostsread <= ".$realposts;
 }
 
 function listThreads($threads, $dostickies = true, $showforum = false)

@@ -8,7 +8,7 @@ function pushToDiscord($action, $pid) {
 
   $rPost = Query("
   SELECT
-    u.name, u.displayname, t.title t_title, f.minpower, f.title f_title
+    u.name, u.displayname, t.title t_title, f.minpower, f.minpostsread, f.title f_title
   FROM
     {posts} p
     LEFT JOIN {users} u ON u.id = p.user
@@ -21,9 +21,11 @@ function pushToDiscord($action, $pid) {
   $post = Fetch($rPost);
   if($post['minpower'] > 0)
     return;
+  if($post['minpostsread'] > 0)
+    return;
 
   $purl = $board_url . actionLink("post", $pid, "");
-  $name = ($post['name'] ? $post['name'] : $post['displayname']);
+  $name = ($post['displayname'] ? $post['name'] : $post['displayname']);
 
   if($action == "thread") {
     $format = "**New %s:** %s in %s by %s\n%s";

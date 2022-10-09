@@ -72,9 +72,10 @@ switch($_POST['action'])
 		$minpower = (int)$_POST['minpower'];
 		$minpowerthread = (int)$_POST['minpowerthread'];
 		$minpowerreply = (int)$_POST['minpowerreply'];
+		$minpostsread = (int)$_POST['minpostsread'];
 
 		//Send it to the DB
-		Query("UPDATE {forums} SET title = {0}, description = {1}, catid = {2}, forder = {3}, minpower = {4}, minpowerthread = {5}, minpowerreply = {6} WHERE id = {7}", $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply, $id);
+		Query("UPDATE {forums} SET title = {0}, description = {1}, catid = {2}, forder = {3}, minpower = {4}, minpowerthread = {5}, minpowerreply = {6}, minpostsread = {7} WHERE id = {8}", $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply, $minpostsread, $id);
 		dieAjax("Ok");
 
 		break;
@@ -110,6 +111,7 @@ switch($_POST['action'])
 		$minpower = (int)$_POST['minpower'];
 		$minpowerthread = (int)$_POST['minpowerthread'];
 		$minpowerreply = (int)$_POST['minpowerreply'];
+		$minpostsread = (int)$_POST['minpostsread'];
 
 		//Figure out the new forum ID.
 		//I think it'd be better to use InsertId, but...
@@ -117,7 +119,7 @@ switch($_POST['action'])
 		if($newID < 1) $newID = 1;
 
 		//Add the actual forum
-		Query("INSERT INTO {forums} (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", $newID, $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply);
+		Query("INSERT INTO {forums} (`id`, `title`, `description`, `catid`, `forder`, `minpower`, `minpowerthread`, `minpowerreply`, `minpostsread`) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})", $newID, $title, $description, $category, $forder, $minpower, $minpowerthread, $minpowerreply, $minpostsread);
 
 		dieAjax("Ok");
 
@@ -368,6 +370,7 @@ function WriteForumEditContents($fid)
 		$minpower = PowerSelect('minpower', $forum['minpower']);
 		$minpowerthread = PowerSelect("minpowerthread", $forum['minpowerthread']);
 		$minpowerreply = PowerSelect('minpowerreply', $forum['minpowerreply']);
+		$minpostsread = $forum['minpostsread'];
 		$forder = $forum['forder'];
 		$func = "changeForumInfo";
 		$button = __("Save");
@@ -440,6 +443,7 @@ function WriteForumEditContents($fid)
 		$minpower = PowerSelect('minpower', 0);
 		$minpowerthread = PowerSelect("minpowerthread", 0);
 		$minpowerreply = PowerSelect('minpowerreply', 0);
+		$minpostsread = 0;
 		$forder = 0;
 		$func = "addForum";
 		$button = __("Add");
@@ -491,6 +495,14 @@ function WriteForumEditContents($fid)
 			<td>
 				<input type=\"text\" size=\"2\" name=\"forder\" value=\"$forder\" />
 				<img src=\"".resourceLink("img/icons/icon5.png")."\" title=\"".__("Everything is sorted by listing order first, then by ID. If everything has its listing order set to 0, they will therefore be sorted by ID only.")."\" alt=\"[?]\" />
+			</td>
+		</tr>
+		<tr class=\"cell0\">
+			<td>
+				".__("Posts required to read")."
+			</td>
+			<td>
+				<input type=\"text\" size=\"2\" name=\"minpostsread\" value=\"$minpostsread\" />
 			</td>
 		</tr>
 		<tr class=\"cell1\">

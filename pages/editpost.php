@@ -54,9 +54,9 @@ if(NumRows($rFora))
 else
 	Kill(__("Unknown forum ID."));
 
-if ($loguser['powerlevel'] < $forum['minpower'])
-	Kill(__("You are not allowed to browse this forum."));
 $fid = $forum['id'];
+if (!CanView($fid))
+	Kill(__("You are not allowed to browse this forum."));
 AssertForbidden("viewForum", $fid);
 
 //-- Mark as New if last post is edited --
