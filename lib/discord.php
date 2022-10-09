@@ -25,7 +25,7 @@ function pushToDiscord($action, $pid) {
     return;
 
   $purl = $board_url . actionLink("post", $pid, "");
-  $name = ($post['displayname'] ? $post['name'] : $post['displayname']);
+  $name = ($post['displayname'] ? $post['displayname'] : $post['name']);
 
   if($action == "thread") {
     $format = "**New %s:** %s in %s by %s\n%s";
