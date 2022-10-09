@@ -151,7 +151,7 @@ function userLink($user, $showMinipic = false, $customID = false)
 		$fsex = 2;*/
 
   //rename $classing to something more sensible?
-  if($user['namecolor']) {
+  if($user['namecolor'] && $fpow >= 0) {
     $classing = " style=\"color: #" . htmlspecialchars($user['namecolor']) . ";\"";
   } else {
     if($fpow < 0) $fpow = -1;
