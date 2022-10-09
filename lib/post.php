@@ -389,6 +389,9 @@ function makePost($post, $type, $params=array())
 	$lastpost = ($poster['lastposttime'] ? timeunits(time() - $poster['lastposttime']) : "none");
 	$lastview = timeunits(time() - $poster['lastactivity']);
 
+	if($poster['gender'])
+		$sideBarStuff .= "<br />\n".__("Gender:")." ".htmlspecialchars($poster['gender']);
+
 	$sideBarStuff .= "<br />\n".__("Karma:")." ".$poster['karma'];
 
 	if(!$params['forcepostnum'] && ($type == POST_PM || $type == POST_SAMPLE))
@@ -397,9 +400,6 @@ function makePost($post, $type, $params=array())
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['num']."/".$poster['posts'];
 
 	$sideBarStuff .= "<br />\n".__("Since:")." ".cdate($loguser['dateformat'], $poster['regdate'])."<br />";
-
-	if($poster['gender'])
-		$sideBarStuff .= "<br />\n".__("Gender:")." ".htmlspecialchars($poster['gender'])."<br />";
 
 	$bucket = "sidebar"; include("./lib/pluginloader.php");
 
