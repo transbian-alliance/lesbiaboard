@@ -303,7 +303,7 @@ class HTML5_Tokenizer {
                             $endChars = "<&[\n\x0C";
                         else
                             $endChars = "<\n\x0C";
-                        while(strpos($endChars, strval($char)) === FALSE && $char !== FALSE) {
+                        while($char !== FALSE && strpos($endChars, strval($char)) === FALSE) {
                             $result .= $char;
                             if($this->content_model === self::PCDATA && !$postNoSmilies) {
                                 if(!isset($smiliesReplaceOrig)) LoadSmilies();
