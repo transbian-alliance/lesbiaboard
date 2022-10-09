@@ -398,6 +398,9 @@ function makePost($post, $type, $params=array())
 
 	$sideBarStuff .= "<br />\n".__("Since:")." ".cdate($loguser['dateformat'], $poster['regdate'])."<br />";
 
+	if($poster['gender'])
+		$sideBarStuff .= "<br />\n".__("Gender:")." ".htmlspecialchars($poster['gender'])."<br />";
+
 	$bucket = "sidebar"; include("./lib/pluginloader.php");
 
 	if(Settings::get("showExtraSidebar"))
