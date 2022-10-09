@@ -75,7 +75,7 @@ function CanView($forumid, $user = null)
 	if (!$pl || $pl < 0) $pl = 0;
 
 	$posts = $user['posts'];
-	if (!$posts || $posts < 0) $posts = 0;
+	if (!$posts || $posts < 0 || $user['powerlevel'] < 0) $posts = 0;
 	
 	if ($pl < $forum['minpower'])
 		return false;
