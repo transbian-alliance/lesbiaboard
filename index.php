@@ -9,28 +9,6 @@ if(isset($_GET["ajax"]))
 require('lib/common.php');
 require(__DIR__ . '/vendor/autoload.php');
 
-//TODO: Put this in a proper place.
-function getBirthdaysText()
-{
-	$rBirthdays = Query("select u.birthday, u.(_userfields) from {users} u where birthday > 0 and powerlevel >= 0 order by name");
-	$birthdays = array();
-	while($user = Fetch($rBirthdays))
-	{
-		$b = $user['birthday'];
-		if(gmdate("m-d", $b) == gmdate("m-d"))
-		{
-			$y = gmdate("Y") - gmdate("Y", $b);
-			$birthdays[] = UserLink(getDataPrefix($user, "u_"))." (".$y.")";
-		}
-	}
-	if(count($birthdays))
-		$birthdaysToday = implode(", ", $birthdays);
-	if($birthdaysToday)
-		return "<br>".__("Birthdays today:")." ".$birthdaysToday;
-	else
-		return "";
-}
-
 //Use buffering to draw the page. 
 //Useful to have it disabled when running from the terminal.
 $useBuffering = true;
