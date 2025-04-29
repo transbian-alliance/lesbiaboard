@@ -180,7 +180,8 @@ function DoPostHelp()
 				<br />
 				<h4>".__("Embeds")."</h4>
 				[img]http://&hellip;[/img] &mdash; ".__("insert image")." <br />
-				[video]http://&hellip;[/video] &mdash; ".__("insert video (youtube or mp4)")." <br />
+				[img=http://&hellip;]image description&hellip;[/img] &mdash; ".__("insert image with description")." <br />
+				[video]http://&hellip;[/video] &mdash; ".__("insert video (youtube, streamable or mp4)")." <br />
 	");
 	$bucket = "postHelpEmbeds"; include("./lib/pluginloader.php");
 	write("
