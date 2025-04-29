@@ -6,16 +6,8 @@ $crumbs = new PipeMenu();
 $crumbs->add(new PipeMenuLinkEntry(__("Register"), "register"));
 makeBreadcrumbs($crumbs);
 
-// do not allow registration over plain http
-function isSecure() {
-  return
-    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || $_SERVER['SERVER_PORT'] == 443;
-}
-
-if(!isSecure()) {
-	Alert("Please use the HTTPS version of Lesbiaboard to register a new user.");
-	return;
+if(!isHttps()) {
+	Kill("Please use the HTTPS version of Lesbiaboard to register a new user.");
 }
 
 $haveSecurimage = is_file("securimage/securimage.php");
