@@ -11,6 +11,8 @@ AssertForbidden("editMoods");
 if(!$loguserid)
 	Kill(__("You must be logged in to edit your avatars."));
 
+$userid = $loguserid;
+
 if(isset($_POST['action']))
 {
 	$mid = (int)$_POST['mid'];
@@ -37,68 +39,16 @@ if(isset($_POST['action']))
 		//Begin copypasta from edituser/editprofile_avatar...
 		if($fname = $_FILES['picture']['name'])
 		{
-			$fext = strtolower(substr($fname,-4));
-			$error = "";
+			$res = HandlePicture('picture', 0, "avatar", $mid);
 
-			$exts = array(".png",".jpg",".gif");
-			$dimx = Settings::get("avatarMaxDim");
-			$dimy = Settings::get("avatarMaxDim");
-			$dimxs = 60;
-			$dimys = 60;
-			$size = 30720;
-
-			$validext = false;
-			$extlist = "";
-			foreach($exts as $ext)
+			if($res === true)
 			{
-				if($fext == $ext)
-				$validext = true;
-				$extlist .= ($extlist ? ", " : "").$ext;
-			}
-			if(!$validext)
-				$error.="<li>".__("Invalid file type, must be one of:")." ".$extlist."</li>";
-
-			if(!$error)
-			{
-				$tmpfile = $_FILES['picture']['tmp_name'];
-				$file = "{$dataDir}avatars/".$loguserid."_".$mid;
-
 				if($_POST['name'] == "")
 					$_POST['name'] = "#".$mid;
 
 				Query("insert into {moodavatars} (uid, mid, name) values ({0}, {1}, {2})", $loguserid, $mid, $_POST['name']);
-
-				if($loguser['powerlevel'] > 0)	//Are we at least a local mod?
-					copy($tmpfile,$file);	//Then ignore the 100x100 rule.
-				else
-				{
-					list($width, $height, $type) = getimagesize($tmpfile);
-
-					if($type == 1) $img1 = imagecreatefromgif ($tmpfile);
-					if($type == 2) $img1 = imagecreatefromjpeg($tmpfile);
-					if($type == 3) $img1 = imagecreatefrompng ($tmpfile);
-
-					if($width <= $dimx && $height <= $dimy && $type<=3)
-						copy($tmpfile,$file);
-					elseif($type <= 3)
-					{
-						$r = imagesx($img1) / imagesy($img1);
-						if($r > 1)
-						{
-							$img2=imagecreatetruecolor($dimx,floor($dimy / $r));
-							imagecopyresampled($img2,$img1,0,0,0,0,$dimx,$dimy/$r,imagesx($img1),imagesy($img1));
-						} else
-						{
-							$img2=imagecreatetruecolor(floor($dimx * $r), $dimy);
-							imagecopyresampled($img2,$img1,0,0,0,0,$dimx*$r,$dimy,imagesx($img1),imagesy($img1));
-						}
-						imagepng($img2,$file);
-					} else
-						$error.="<li>Invalid format.</li>";
-				}
-				$usepic = $file;
 			} else
-				Kill(__("Could not update your avatar for the following reason(s):")."<ul>".$error."</ul>");
+				Kill(__("Could not update your avatar for the following reason(s):")."<ul>".$res."</ul>");
 		}
 	}
 }

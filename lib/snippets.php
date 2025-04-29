@@ -401,4 +401,65 @@ function getBirthdaysText()
 		return "";
 }
 
+function HandlePicture($field, $type, $errorname, $mood_id = NULL)
+{
+	global $userid, $dataDir;
+	if($type == 0) // main avatar
+	{
+		if (isset($mood_id)) {
+			$targetFile = $dataDir."avatars/".$userid."_".$mood_id;
+		} else {		
+			$targetFile = $dataDir."avatars/".$userid;
+		}
+		$extensions = array("png","jpg","jpeg","gif");
+		$maxDim = Settings::get("avatarMaxDim");
+		$maxSize = 2 * 1024 * 1024; // 2MB
+	}
+	else if($type == 1) // minipic
+	{
+		$targetFile = $dataDir."minipics/".$userid;
+		$extensions = array("png", "gif");
+		$maxDim = 16;
+		$maxSize = 100 * 1024; // 100KB
+	}
+
+	$fileName = $_FILES[$field]['name'];
+	$fileSize = $_FILES[$field]['size'];
+	$tempFile = $_FILES[$field]['tmp_name'];
+	list($width, $height, $fileType) = getimagesize($tempFile);
+	
+	$extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+	if(!in_array($extension, $extensions))
+		return format(__("Invalid extension {0} used for {1}. Allowed: {2}"), $fileName, $errorname, join(", ", $extensions));
+
+	if($fileSize > $maxSize)
+		return format(__("File size for {0} is too high. The limit is {1} bytes, the uploaded image is {2} bytes."), $errorname, $maxSize, $fileSize); //."</li>"; <-- huh?
+
+	if($width <= $maxDim && $height <= $maxDim) {
+		echo "sdaif";
+		copy($tempFile, $targetFile);
+	} else {
+		if (!Settings::get("avatarAllowAboveMax") || $type == 1) // i don't want to resize minipics
+			return format(__("Dimensions of {0} must be at most {1} by {1} pixels."), $errorname, $maxDim);
+
+		if($fileType == 1) $img1 = imagecreatefromgif ($tempFile);
+		if($fileType == 2) $img1 = imagecreatefromjpeg($tempFile);
+		if($fileType == 3) $img1 = imagecreatefrompng ($tempFile);
+		if($fileType > 3) return format(__("Invalid image format detected."));
+
+		$r = imagesx($img1) / imagesy($img1);
+		echo $r;
+		if($r > 1) {
+			$img2=imagecreatetruecolor($maxDim,floor($maxDim / $r));
+			imagecopyresampled($img2,$img1,0,0,0,0,$maxDim,$maxDim/$r,imagesx($img1),imagesy($img1));
+		} else {
+			$img2=imagecreatetruecolor(floor($maxDim * $r), $maxDim);
+			imagecopyresampled($img2,$img1,0,0,0,0,$maxDim*$r,$maxDim,imagesx($img1),imagesy($img1));
+		}
+		imagepng($img2,$targetFile);
+	}
+  
+	return true;
+}
+
 ?>

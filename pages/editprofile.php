@@ -444,7 +444,7 @@ if($_POST['action'] == __("Edit profile"))
 					case "color":
 						$val = $_POST[$field];
 						if (!preg_match("/^#?[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/", $val)) $val = "";
-						if ($val{0} == "#") $val = substr($val, 1);
+						if (substr($val, 0, 1) == "#") $val = substr($val, 1);
 						$sets[] = $field." = '".SqlEscape($val)."'";
 						break;
 					case "text":
@@ -504,10 +504,10 @@ if($_POST['action'] == __("Edit profile"))
 						{
 							@unlink($dataDir."avatars/$userid");
 							$sets[] = $field." = ''";
-							continue;
+							break;
 						}
 						if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
-							continue;
+							break;
 						$res = HandlePicture($field, 0, $item['errorname']);
 						if($res === true)
 							$sets[] = $field." = '#INTERNAL#'";
@@ -523,10 +523,10 @@ if($_POST['action'] == __("Edit profile"))
 						{
 							@unlink($dataDir."minipic/$userid");
 							$sets[] = $field." = ''";
-							continue;
+							break;
 						}
 						if($_FILES[$field]['name'] == "" || $_FILES[$field]['error'] == UPLOAD_ERR_NO_FILE)
-							continue;
+							break;
 						$res = HandlePicture($field, 1, $item['errorname']);
 						if($res === true)
 							$sets[] = $field." = '#INTERNAL#'";
@@ -549,7 +549,7 @@ if($_POST['action'] == __("Edit profile"))
 	$sets[] = "pluginsettings = '".SqlEscape(serialize($pluginSettings))."'";
 	if ((int)$_POST['powerlevel'] != $user['powerlevel']) $sets[] = "tempbantime = 0";
 
-	$query .= join($sets, ", ")." WHERE id = ".$userid;
+	$query .= join(", ", $sets)." WHERE id = ".$userid;
 	if(!$failed)
 	{
 		RawQuery($query);
@@ -603,46 +603,6 @@ unset($tab);
 
 if($failed)
 	$loguser['theme'] = $_POST['theme'];
-
-function HandlePicture($field, $type, $errorname)
-{
-	global $userid, $dataDir;
-	if($type == 0)
-	{
-		$targetFile = $dataDir."avatars/".$userid;
-		$extensions = array(".png",".jpg",".jpeg",".gif");
-		$maxDim = Settings::get("avatarMaxDim");
-		$maxSize = 2 * 1024 * 1024; // 2MB
-	}
-	else if($type == 1)
-	{
-		$targetFile = $dataDir."minipics/".$userid;
-		$extensions = array(".png", ".gif");
-		$maxDim = 16;
-		$maxSize = 100 * 1024; // 100KB
-	}
-
-	$fileName = $_FILES[$field]['name'];
-	$fileSize = $_FILES[$field]['size'];
-	$tempFile = $_FILES[$field]['tmp_name'];
-	list($width, $height, $fileType) = getimagesize($tempFile);
-
-	if(!Settings::get("avatarAllowAboveMax") || $type == 1)
-		if ($width > $maxDim || $height > $maxDim)
-			return format(__("Dimensions of {0} must be at most {1} by {1} pixels."), $errorname, $maxDim);
-
-	$extension = strtolower(strrchr($fileName, "."));
-	if(!in_array($extension, $extensions))
-		return format(__("Invalid extension used for {0}. Allowed: {1}"), $errorname, join($extensions, ", "));
-
-	if($fileSize > $maxSize)
-		return format(__("File size for {0} is too high. The limit is {1} bytes, the uploaded image is {2} bytes."), $errorname, $maxSize, $fileSize)."</li>";
-  
-  // if it got here it should be alright
-  copy($tempFile, $targetFile);
-  
-	return true;
-}
 
 // Special field-specific callbacks
 function HandlePassword($field, $item)
