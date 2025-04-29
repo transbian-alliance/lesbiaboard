@@ -63,6 +63,9 @@ if(isset($_POST['actionpreview']))
 			if($option['color'] == "")
 				$option['color'] = $defaultColors[($pops + 9) % 16];
 
+			if(!startsWith($option['color'], '#'))
+				$option['color'] = '#'.$option['color'];
+
 			$votes = 1;
 
 			$cellClass = ($cellClass+1) % 2;
@@ -313,7 +316,7 @@ if($_POST['poll'])
 								<input type=\"text\" id=\"p{1}\" name=\"pollOption{1}\" value=\"{3}\" style=\"width: 50%;\" maxlength=\"40\" >&nbsp;
 								<label>
 									".__("Color", 1)."&nbsp;
-									<input type=\"text\" name=\"pollColor{1}\" value=\"{4}\" size=\"10\" maxlength=\"7\" class=\"color {hash:true,required:false,pickerFaceColor:'black',pickerFace:3,pickerBorder:0,pickerInsetColor:'black',pickerPosition:'left',pickerMode:'HVS'}\" />
+									#<input type=\"text\" name=\"pollColor{1}\" value=\"{4}\" size=\"10\" maxlength=\"6\" class=\"color {hash:true,required:false,pickerFaceColor:'black',pickerFace:3,pickerBorder:0,pickerInsetColor:'black',pickerPosition:'left',pickerMode:'HVS'}\" />
 								</label>
 								{5}
 							</td>

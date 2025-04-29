@@ -1,18 +1,5 @@
 <?php
 
-$hugeInt = "bigint(20) NOT NULL DEFAULT '0'";
-$genericInt = "int(11) NOT NULL DEFAULT '0'";
-$smallerInt = "int(8) NOT NULL DEFAULT '0'";
-$bool = "tinyint(1) NOT NULL DEFAULT '0'";
-$notNull = " NOT NULL DEFAULT ''";
-$text = "text"; //NOT NULL breaks in certain versions/settings.
-$postText = "mediumtext";
-$var128 = "varchar(128)".$notNull;
-$var256 = "varchar(256)".$notNull;
-$var1024 = "varchar(1024)".$notNull;
-$AI = "int(11) NOT NULL AUTO_INCREMENT";
-$keyID = "primary key (`id`)";
-
 $tables = array
 (
 	"badges" => array
@@ -100,9 +87,9 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,
-			"ip" => "varchar(45)".$notNull,
+			"ip" => $var50,
 			"date" => $genericInt,
-			"lasturl" => "varchar(100)".$notNull,
+			"lasturl" => $var128,
 			"lastforum" => $genericInt,	
 			"bot" => $bool,
 		),
@@ -131,8 +118,8 @@ $tables = array
 	(
 		"fields" => array
 		(
-			"ip" => "varchar(45)".$notNull,
-			"reason" => "varchar(100)".$notNull,			
+			"ip" => $var50,
+			"reason" => $var128,			
 			"date" => $genericInt,			
 			"whitelisted" => $bool,
 		),
@@ -174,7 +161,7 @@ $tables = array
 			"userto" => $genericInt,
 			"userfrom" => $genericInt,
 			"date" => $genericInt,
-			"ip" => "varchar(45)".$notNull,
+			"ip" => $var50,
 			"msgread" => $bool,
 			"deleted" => "tinyint(4) NOT NULL DEFAULT '0'",
 			"drafting" => $bool,
@@ -220,7 +207,7 @@ $tables = array
 			"id" => $AI,
 			"poll" => $genericInt,
 			"choice" => $var256,
-			"color" => "varchar(25)".$notNull,
+			"color" => $varcolor,
 		),
 		"special" => $keyID.", key `poll` (`poll`)"
 	),
@@ -232,11 +219,11 @@ $tables = array
 			"thread" => $genericInt,
 			"user" => $genericInt,
 			"date" => $genericInt,
-			"ip" => "varchar(45)".$notNull,
+			"ip" => $var50,
 			"num" => $genericInt,
 			"deleted" => $bool,
 			"deletedby" => $genericInt,
-			"reason" => "varchar(300)".$notNull,
+			"reason" => $var256,
 			"options" => "tinyint(4) NOT NULL DEFAULT '0'",
 			"mood" => $genericInt,
 			"currentrevision" => $genericInt,
@@ -260,7 +247,7 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,			
-			"ip" => "varchar(45)".$notNull,
+			"ip" => $var50,
 		),
 		"special" => $keyID.", unique key `ip` (`ip`)"
 	),
@@ -270,7 +257,7 @@ $tables = array
 		(
 			"id" => $AI,		
 			"user" => $genericInt,	
-			"ip" => "varchar(50)".$notNull,
+			"ip" => $var50,
 			"time" => $genericInt,	
 			"query" => $text,
 			"get" => $text,
@@ -293,8 +280,8 @@ $tables = array
 			"forum" => $genericInt,
 			"forum2" => $genericInt,
 			"pm" => $genericInt,
-			"text" => "varchar(1024)".$notNull,
-			"ip" => "varchar(50)".$notNull,
+			"text" => $var1024,
+			"ip" => $var50,
 		),
 	),
 	"sessions" => array
@@ -318,8 +305,8 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,
-			"code" => "varchar(32)".$notNull,
-			"image" => "varchar(32)".$notNull,
+			"code" => $var32,
+			"image" => $var32,
 		),
 		"special" => $keyID
 	),
@@ -333,8 +320,8 @@ $tables = array
 			"date" => $genericInt,
 			"firstpostid" => $genericInt,
 			"views" => $genericInt,
-			"title" => "varchar(100)".$notNull,
-			"icon" => "varchar(200)".$notNull,
+			"title" => $var128,
+			"icon" => $var256,
 			"replies" => $genericInt,
 			"lastpostdate" => $genericInt,
 			"lastposter" => $genericInt,
@@ -374,8 +361,8 @@ $tables = array
 		"fields" => array
 		(
 			"id" => $AI,
-			"name" => "varchar(32)".$notNull,
-			"displayname" => "varchar(32)".$notNull,
+			"name" => $var32,
+			"displayname" => $var32,
 			"password" => $var256,
 			"pss" => "varchar(16)".$notNull,
 			"powerlevel" => $smallerInt,
@@ -387,27 +374,27 @@ $tables = array
 			"postheader" => $text,
 			"signature" => $text,
 			"bio" => $text,
-			"gender" => "varchar(60)".$notNull,
+			"gender" => $var128,
 			"rankset" => $var128,
-			"realname" => "varchar(60)".$notNull,
+			"realname" => $var128,
 			"lastknownbrowser" => $text,
 			"location" => $var128,
 			"birthday" => $genericInt,
-			"email" => "varchar(60)".$notNull,
-			"homepageurl" => "varchar(80)".$notNull,
-			"homepagename" => "varchar(100)".$notNull,			
+			"email" => $var128,
+			"homepageurl" => $var128,
+			"homepagename" => $var128,			
 			"lastposttime" => $genericInt,
 			"lastactivity" => $genericInt,
-			"lastip" => "varchar(50)".$notNull,
+			"lastip" => $var50,
 			"lasturl" => $var128,
 			"lastforum" => $genericInt,
 			"postsperpage" => "int(8) NOT NULL DEFAULT '20'",
 			"threadsperpage" => "int(8) NOT NULL DEFAULT '50'",
 			"timezone" => "float NOT NULL DEFAULT '0'",
-			"theme" => "varchar(32)".$notNull,
+			"theme" => $var32,
 			"signsep" => $bool,
-			"dateformat" => "varchar(20) NOT NULL DEFAULT 'm-d-y'",
-			"timeformat" => "varchar(20) NOT NULL DEFAULT 'h:i a'",
+			"dateformat" => $var32." DEFAULT 'm-d-y'",
+			"timeformat" => $var32." DEFAULT 'h:i a'",
 			"fontsize" => "int(8) NOT NULL DEFAULT '80'",
 			"karma" => $genericInt,
 			"blocklayouts" => $bool,
@@ -425,7 +412,7 @@ $tables = array
 			"convertpassword" => $var256,
 			"convertpasswordsalt" => $var256,
 			"convertpasswordtype" => $var256,
-			"namecolor" => "varchar(6)".$notNull,
+			"namecolor" => $varcolor,
 		),
 		"special" => $keyID.", key `posts` (`posts`), key `name` (`name`), key `lastforum` (`lastforum`), key `lastposttime` (`lastposttime`), key `lastactivity` (`lastactivity`)"
 	),

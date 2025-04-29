@@ -169,13 +169,16 @@ if($thread['poll'])
 	$pops = 0;
 	$noColors = 0;
 	$defaultColors = array(
-				  "#0000B6","#00B600","#00B6B6","#B60000","#B600B6","#B66700","#B6B6B6",
+		"#0000B6","#00B600","#00B6B6","#B60000","#B600B6","#B66700","#B6B6B6",
 		"#676767","#6767FF","#67FF67","#67FFFF","#FF6767","#FF67FF","#FFFF67","#FFFFFF",);
 
 	while($option = Fetch($rOptions))
 	{
 		if($option['color'] == "")
 			$option['color'] = $defaultColors[($option["id"] + 9) % 15];
+
+		if(!startsWith($option['color'], '#'))
+			$option['color'] = '#'.$option['color'];
 
 		$chosen = $option["myvote"]? "&#x2714;":"";
 
