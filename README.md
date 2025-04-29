@@ -1,12 +1,12 @@
 # Lesbiaboard
 
-The new and secure AcmlmBoard-like board for transbians.
+![lesbiaboard](img/logo.png)
+
+Lesbiaboard is the fork of AcmlmBoard XD 3.0 used by [lesbiaboard](https://forums.transbian.love).
 
 ## Warning
 
-Please note that you are using a version of Lesbiaboard obtained from the Git
-repository. This version of Lesbiaboard may have serious vulnerabilites and
-might not work at all.
+Probably nobody should be using AcmlmBoards anymore in 202X.
 
 ## Installation
 
