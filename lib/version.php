@@ -6,10 +6,10 @@ $lb_ver_major = 1;
 $lb_ver_minor = 4;
 $lb_ver_patch = NULL;
 
-function doBoardVersionFooter()
-{
-  $verStr = "$lb_ver_major.$lb_ver_sub";
-  if (isset($lb_ver_subsub))
-    $verStr = "$lb_ver_major.$lb_ver_sub.$lb_ver_subsub";
-  return $verStr;
+function doBoardVersionFooter() {
+	global $lb_ver_major, $lb_ver_minor, $lb_ver_patch;
+	$verStr = "$lb_ver_major.$lb_ver_minor";
+	if (isset($lb_ver_patch))
+		$verStr = "$lb_ver_major.$lb_ver_minor.$lb_ver_patch";
+	return $verStr;
 }
