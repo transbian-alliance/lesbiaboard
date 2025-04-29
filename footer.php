@@ -4,9 +4,9 @@ else echo '<a href="#" onclick="enableMobileLayout(-1); return false;" rel="nofo
 ?>
 <br>
 <br>
-<!-- TODO: pull version from somewhere else -->
+
 <?php $bucket = "footer"; include("./lib/pluginloader.php");?>
-Powered by Lesbiaboard 1.3 by <a href="http://transbian.love/">Transbian Alliance</a><br />
+Powered by <a href="https://github.com/transbian-alliance/lesbiaboard">Lesbiaboard</a> <?php doBoardVersionFooter(); ?> by <a href="http://transbian.love/">Transbian Alliance</a><br />
 Acmlmboard XD &copy; Dirbaio, xfix, Kawa, StapleButter, Nadia, et al<br />
 AcmlmBoard &copy; Jean-Fran&ccedil;ois Lapointe<br />
 <?php print __("<!-- English translation by The ABXD Team -->")?>
