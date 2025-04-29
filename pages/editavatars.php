@@ -41,8 +41,8 @@ if(isset($_POST['action']))
 			$error = "";
 
 			$exts = array(".png",".jpg",".gif");
-			$dimx = 100;
-			$dimy = 100;
+			$dimx = Settings::get("avatarMaxDim");
+			$dimy = Settings::get("avatarMaxDim");
 			$dimxs = 60;
 			$dimys = 60;
 			$size = 30720;
@@ -68,7 +68,7 @@ if(isset($_POST['action']))
 
 				Query("insert into {moodavatars} (uid, mid, name) values ({0}, {1}, {2})", $loguserid, $mid, $_POST['name']);
 
-				if($loguser['powerlevel'])	//Are we at least a local mod?
+				if($loguser['powerlevel'] > 0)	//Are we at least a local mod?
 					copy($tmpfile,$file);	//Then ignore the 100x100 rule.
 				else
 				{
@@ -111,7 +111,7 @@ while($mood = Fetch($rMoods))
 	$moodRows .= format(
 "
 		<tr class=\"cell{0}\">
-			<td style=\"width: 100px;\">
+			<td style=\"width: {$dimx}px;\">
 				<img src=\"{$dataDir}avatars/{1}_{2}\" alt=\"\">
 			</td>
 			<td>
