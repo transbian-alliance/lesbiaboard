@@ -84,7 +84,7 @@ else
 */
 
 $users = array();
-$rUsers = Query("select u.(_userfields), u.posts as u_posts from {users} u order by id asc");
+$rUsers = Query("select u.(_userfields), u.posts as u_posts from {users} u where powerlevel >= 0 order by id asc");
 while($user = Fetch($rUsers))
 	$users[$user['u_id']] = getDataPrefix($user, "u_");
 
