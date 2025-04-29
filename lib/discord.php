@@ -1,7 +1,7 @@
 <?php
 // crude webhook to push info to discord
 
-include('config/discord.php');
+include('config/discord_vars.php');
 
 function pushToDiscord($action, $pid) {
   global $webhook_url, $board_url;

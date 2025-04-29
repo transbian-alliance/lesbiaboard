@@ -3,6 +3,7 @@
 database.php
 settings.php
 salt.php
+discord_vars.php
 composer.phar
 uploader/
 img/logos/*.png
