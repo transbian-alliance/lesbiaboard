@@ -1,5 +1,22 @@
 <?php
 
+include_once("mysqltypes.php");
+global $hugeInt;
+global $genericInt;
+global $smallerInt;
+global $bool;
+global $notNull;
+global $text;
+global $postText;
+global $varcolor;
+global $var32;
+global $var50;
+global $var128;
+global $var256;
+global $var1024;
+global $AI;
+global $keyID;
+
 $tables = array
 (
 	"badges" => array
