@@ -483,14 +483,19 @@ if($_POST['action'] == __("Edit profile"))
 							$sets[] = $field." = '".SqlEscape($_POST[$field])."'";
 						break;
 					case "birthday":
+						$val = 0;
 						if($_POST[$field])
 						{
-							$val = @stringtotimestamp($_POST[$field]);
-							if($val > time())
-								$val = 0;
+							//$val = @stringtotimestamp($_POST[$field]); // WOW !!!
+							$timestamp = strtotime($_POST[$field]);
+							if ($timestamp != false) {
+								$date = new DateTime('@'.$timestamp);
+								$date->modify('12:00');
+								$val = $date->getTimestamp();
+								if($val > time() || $val === false)
+									$val = 0;
+							}
 						}
-						else
-							$val = 0;
 						$sets[] = $field." = '".$val."'";
 						break;
 					case "timezone":
