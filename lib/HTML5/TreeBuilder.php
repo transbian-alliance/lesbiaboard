@@ -780,6 +780,10 @@ class HTML5_TreeBuilder {
                             'name' => 'href',
                             'value' => $token['data'],
                         ),
+                        array(
+                            'name' => 'target',
+                            'value' => '_blank',
+                        ),
                     ),
                 ));
                 $this->insertText($token['data']);
