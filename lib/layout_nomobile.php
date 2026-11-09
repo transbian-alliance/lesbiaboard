@@ -178,6 +178,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 
 	$threadlink = makeThreadLink($thread);
 
+	$FirstUnreadLink = "";
 	if($loguserid) {
 		$readDate = ($thread['readdate'] ? $thread['readdate'] : 0);
 		$firstUnreadResult = Query("
@@ -190,7 +191,7 @@ function listThread($thread, $cellClass, $dostickies = true, $showforum = false)
 		", $thread['id'], $readDate);
 		//$FirstUnreadLink = Fetch($firstUnread) . $thread['readdate'];
 		$firstUnread = Fetch($firstUnreadResult);
-		if($firstUnread['p_id'])
+		if($firstUnread['p_id'] ?? false)
 			$FirstUnreadLink = "<span class=\"smallFonts\">(".actionLinkTag("First Unread", "post", $firstUnread['p_id']).")</span>";
 	}
 

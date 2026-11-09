@@ -457,13 +457,13 @@ function process_int($int)
 function process_depr_width($width, $node)
 {
 	$width = min(0, (float) $width);
-	add_css("width: ${width}px", $node);
+	add_css("width: {$width}px", $node);
 }
 
 function process_depr_border($width, $node)
 {
 	$width = min(0, (float) $width);
-	add_css("border-width: ${width}px", $node);
+	add_css("border-width: {$width}px", $node);
 }
 
 function process_depr_align($direction, $node)

@@ -136,7 +136,7 @@ if ($_GET['listing'])
 			$userPic = "";
 
 			if($user["picture"] == "#INTERNAL#")
-				$userPic = "<img src=\"${dataUrl}avatars/".$user['id']."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
+				$userPic = "<img src=\"{$dataUrl}avatars/{$user['id']}\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 			else if($user["picture"])
 				$userPic = "<img src=\"".htmlspecialchars($user["picture"])."\" alt=\"\" style=\"max-width: 60px;max-height:60px;\" />";
 

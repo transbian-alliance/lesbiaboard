@@ -323,7 +323,7 @@ if($canMod)
 				<td>
 					<input type=\"submit\" name=\"asdf\" value=\"".__("Edit")."\" />
 					<input type=\"hidden\" name=\"id\" value=\"$tid\" />
-					<input type=\"hidden\" name=\"key\" value=\"${loguser["token"]}\" />
+					<input type=\"hidden\" name=\"key\" value=\"{$loguser["token"]}\" />
 					<input type=\"hidden\" name=\"action\" value=\"edit\" />
 				</td>
 			</tr>
@@ -367,7 +367,7 @@ else
 				<td>
 					<input type=\"submit\" name=\"asdf\" value=\"".__("Edit")."\" />
 					<input type=\"hidden\" name=\"id\" value=\"$tid\" />
-					<input type=\"hidden\" name=\"key\" value=\"${loguser["token"]}\" />
+					<input type=\"hidden\" name=\"key\" value=\"{$loguser["token"]}\" />
 					<input type=\"hidden\" name=\"action\" value=\"edit\" />
 				</td>
 			</tr>

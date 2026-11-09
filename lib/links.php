@@ -122,7 +122,7 @@ function getMinipicTag($user)
 	global $dataUrl;
 	$minipic = "";
 	if($user["minipic"] == "#INTERNAL#")
-		$minipic = "<img src=\"${dataUrl}minipics/${user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
+		$minipic = "<img src=\"{$dataUrl}minipics/{$user["id"]}\" alt=\"\" class=\"minipic\" />&nbsp;";
 	else if($user["minipic"])
 		$minipic = "<img src=\"".$user['minipic']."\" alt=\"\" class=\"minipic\" />&nbsp;";
 	return $minipic;
@@ -202,7 +202,7 @@ function userLink($user, $showMinipic = false, $customID = false)
 	*/
 
 	$bucket = "userLink"; include('lib/pluginloader.php');
-	if($user["powerlevel"])
+	if($user["powerlevel"] && isset($powerlevels[$user['powerlevel']]))
 		$plstring = ", ".$powerlevels[$user['powerlevel']];
 	else
 		$plstring = "";
