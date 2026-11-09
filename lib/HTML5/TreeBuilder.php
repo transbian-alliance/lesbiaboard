@@ -82,6 +82,7 @@ class HTML5_TreeBuilder {
     private $block = array('div' => true, 'style' => true, 'table' => true, 'tr' => true, 'td' => true, 'li' => true);
 
     private $pendingTableCharacters;
+    private $pendingTableCharactersNull;
     private $pendingTableCharactersDirty;
 
     // Tree construction modes
@@ -2303,10 +2304,10 @@ class HTML5_TreeBuilder {
             array_pop($this->stack);
         } elseif ($token['type'] === HTML5_Tokenizer::EOF) {
             /* If the current node is not the root html element, then this is a parse error. */
-            if (end($this->stack)->tagName !== 'html') {
+            //if (end($this->stack)->tagName !== 'html') {
                 // Note: It can only be the current node in the fragment case.
                 // parse error
-            }
+            //}
             /* Stop parsing. */
         /* Anything else */
         } else {
