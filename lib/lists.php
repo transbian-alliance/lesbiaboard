@@ -59,6 +59,7 @@ function doThreadPreview($tid)
 {
 	global $mobileLayout;
 	if($mobileLayout) return;
+	$cellClass = 0;
 	
 	$rPosts = Query("
 		select
@@ -83,28 +84,27 @@ function doThreadPreview($tid)
 			$nosm = $post['options'] & 2;
 			$nobr = $post['options'] & 4;
 
-			$posts .= Format(
-	"
+			$posts .= "
 			<tr>
 				<td class=\"cell2\" style=\"width: 15%; vertical-align: top;\">
-					{1}
+					".UserLink($poster)."
 				</td>
-				<td class=\"cell{0}\">
-					<button style=\"float: right;\" onclick=\"insertQuote({2});\">".__("Quote")."</button>
-					<button style=\"float: right;\" onclick=\"insertChanLink({2});\">".__("Link")."</button>
-					{3}
+				<td class=\"cell{$cellClass}\">
+					<button style=\"float: right;\" onclick=\"insertQuote({$post['id']});\">".__("Quote")."</button>
+					<button style=\"float: right;\" onclick=\"insertChanLink({$post['id']});\">".__("Link")."</button>
+					".CleanUpPost($post['text'])."
 				</td>
 			</tr>
-	",	$cellClass, UserLink($poster), $post['id'], CleanUpPost($post['text'], $poster['name'], $nosm));
+	";
 		}
-		Write(
+		print(
 	"
 		<table class=\"outline margin\">
 			<tr class=\"header0\">
 				<th colspan=\"2\">".__("Thread review")."</th>
 			</tr>
-			{0}
+			{$posts}
 		</table>
-	",	$posts);
+	");
 	}
 }

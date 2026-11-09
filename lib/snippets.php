@@ -394,10 +394,11 @@ function getBirthdaysText()
 			$birthdays[] = UserLink(getDataPrefix($user, "u_"))." (".$y.")";
 		}
 	}
-	if(count($birthdays))
+	if(count($birthdays)) {
 		$birthdaysToday = implode(", ", $birthdays);
-	if($birthdaysToday)
-		return "<br>".__("Birthdays today:")." ".$birthdaysToday;
+		if($birthdaysToday)
+			return "<br>".__("Birthdays today:")." ".$birthdaysToday;
+	}
 	else
 		return "";
 }

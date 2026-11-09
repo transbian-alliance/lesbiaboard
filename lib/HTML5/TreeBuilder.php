@@ -34,6 +34,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //      XDOM - DOM specific code (tagName is explicitly not marked).
 //          this is not (yet) in helper functions.
 
+// this entire thing is cursed - what is lesbiaboard using it for and what can we replace it with
+
 class HTML5_TreeBuilder {
     public $stack = array();
     public $content_model;
@@ -51,6 +53,8 @@ class HTML5_TreeBuilder {
 
     private $head_pointer = null;
     private $form_pointer = null;
+
+    private $prev = null;
 
     private $flag_frameset_ok = true;
     private $flag_force_quirks = false;
@@ -751,7 +755,7 @@ class HTML5_TreeBuilder {
             break;
 
             case HTML5_Tokenizer::BR:
-                if (!isset($this->block[$this->prev['name']]) && $this->stack[count($this->stack) - 1]->textContent) {
+                if (!isset($this->block[$this->prev['name'] ?? '']) && $this->stack[count($this->stack) - 1]->textContent) {
                     $this->reconstructActiveFormattingElements();
                     $this->insertElement(array(
                         'type' => HTML5_Tokenizer::STARTTAG,
@@ -762,11 +766,12 @@ class HTML5_TreeBuilder {
                 }
             break;
 
-            case HTML5_Tokenizer::URL;
+            case HTML5_Tokenizer::URL:
                 foreach ($this->stack as $elem) {
                     if (
-                        $elem->tagName === 'bbcodehack' && $elem->getAttribute('name') === 'url'
-                     || $elem->tagName === 'a'
+                        $elem->nodeType == XML_ELEMENT_NODE &&
+                        ($elem->tagName === 'bbcodehack' && $elem->getAttribute('name') === 'url'
+                     || $elem->tagName === 'a')
                     ) {
                         $this->insertText($token['data']);
                         break 2;
@@ -818,12 +823,12 @@ class HTML5_TreeBuilder {
                         'value' => $token['name'],
                     ),
                 );
-                if ($token['attr'] !== NULL)
+                if ($token['attr'] ?? NULL !== NULL)
                     $attr[] = array(
                         'name'  => 'value',
                         'value' => $token['attr'],
                     );
-                if ($token['pre'] !== NULL) {
+                if ($token['pre'] ?? NULL !== NULL) {
                     $attr[] = array(
                         'name'  => 'pre',
                         'value' => $token['pre'],
@@ -2698,7 +2703,7 @@ class HTML5_TreeBuilder {
                 tag name as the token has been popped from the stack. */
                 do {
                     $node = array_pop($this->stack);
-                } while ($node->tagName !== $token['name']);
+                } while ($node && $node->tagName !== $token['name']);
 
                 /* Clear the list of active formatting elements up to the last
                 marker. */
@@ -3377,6 +3382,7 @@ class HTML5_TreeBuilder {
             /* 1. Initialise node to be the current node (the bottommost node of
             the stack). */
             $node = $this->stack[$leng - 1 - $n];
+            if ($node->nodeType != XML_ELEMENT_NODE) continue;
 
             if($node->tagName === $el) {
                 /* 2. If node is the target node, terminate in a match state. */
@@ -3556,6 +3562,7 @@ class HTML5_TreeBuilder {
         for($n = $leng - 1; $n >= 0; $n--) {
             /* 2. Let node be the last node in the stack of open elements. */
             $node = $this->stack[$n];
+            if ($node->nodeType != XML_ELEMENT_NODE) continue;
 
             /* 3. If node is the first node in the stack of open elements, then
              * set last to true and set node to the context  element. (fragment

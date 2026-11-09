@@ -64,6 +64,7 @@ class PipeMenuLinkEntry implements PipeMenuEntry {
 	private $id;
 	private $args;
 	private $icon;
+	private $onclick;
 	public $newtab = false;
 	
 	public function __construct($label, $action, $id = 0, $args = "", $icon="", $onclick="") {

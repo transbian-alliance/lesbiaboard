@@ -229,19 +229,23 @@ function bbcodeURL($dom, $nodes, $arg)
 
 function bbcodeImage($dom, $nodes, $arg)
 {
+	$desc = NULL;
 	if ($arg === NULL) { // img with url inside tag
 		$url = $nodes;
 	} else { // img with url in arg and description inside tag
 		$url = $arg;
-		$desc = $nodes;
+		if (is_string($nodes))
+			$desc = $nodes;
 	}
 	$a = $dom->createElement('a');
 	$a->setAttribute('target', '_blank');
 	$a->setAttribute('href', $url);
-	$a->setAttribute('title', $desc);
 	$img = $dom->createElement('img');
 	$img->setAttribute('src', $url);
-	$img->setAttribute('alt', $desc);
+	if ($desc) {
+		$a->setAttribute('title', $desc);
+		$img->setAttribute('alt', $desc);
+	}
 	$a->setAttribute('class', 'imgtag');
 	$a->appendChild($img);
 	return $a;

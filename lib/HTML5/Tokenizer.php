@@ -37,6 +37,7 @@ class HTML5_Tokenizer {
     public $allowed_tags;
 
     public $bbcode = array();
+    public $userName = '';
 
     /**
      * Points to an InputStream object.
@@ -359,8 +360,9 @@ class HTML5_Tokenizer {
                             'data' => $result,
                         ));
 
-                        $lastFourChars .= $chars;
-                        if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
+                        // chars is undefined here
+                        //$lastFourChars .= $chars;
+                        //if (strlen($lastFourChars) > 4) $lastFourChars = substr($lastFourChars, -4);
 
                         $state = 'data';
                     }

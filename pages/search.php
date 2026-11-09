@@ -8,8 +8,7 @@ if(isset($_POST['google']))
 {
 	$here = GetFullURL();
 	$here = substr($here, 0, strrpos($here, "/"));
-	if($urlRewriting) //hack
-		$here = substr($here, 0, strrpos($here, "/"));
+
 	header("Location: http://www.google.com/search?q=".urlencode($_POST['google']." site:".$here));
 }
 

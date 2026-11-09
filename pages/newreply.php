@@ -76,8 +76,8 @@ if(isset($_POST['actionpreview']))
 	$previewPost['posts'] = $loguser['posts']+1;
 	$previewPost['id'] = "_";
 	$previewPost['options'] = 0;
-	if($_POST['nopl']) $previewPost['options'] |= 1;
-	if($_POST['nosm']) $previewPost['options'] |= 2;
+	if($_POST['nopl'] ?? false) $previewPost['options'] |= 1;
+	if($_POST['nosm'] ?? false) $previewPost['options'] |= 2;
 	$previewPost['mood'] = (int)$_POST['mood'];
 	foreach($loguser as $key => $value)
 		$previewPost["u_".$key] = $value;
@@ -185,11 +185,11 @@ else if(isset($_POST['actionpost']))
 
 $prefill = htmlspecialchars($_POST['text']);
 
-if($_GET['link'])
+if($_GET['link'] ?? false)
 {
 	$prefill = ">>".(int)$_GET['link']."\r\n\r\n";
 }
-else if($_GET['quote'])
+else if($_GET['quote'] ?? false)
 {
 	$rQuote = Query("	select
 					p.id, p.deleted, pt.text,
@@ -226,17 +226,20 @@ function getCheck($name)
 	else return "";
 }
 
-if($_POST['mood'])
-	$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
-$moodOptions = "<option ".$moodSelects[0]."value=\"0\">".__("[Default avatar]")."</option>\n";
+$selectedMood = 0;
+if($_POST['mood']) $selectedMood = $_POST['mood'];
+	//$moodSelects[(int)$_POST['mood']] = "selected=\"selected\" ";
+$selected = $selectedMood == 0 ? 'selected=\"selected\" ' : '';
+$moodOptions = "<option {$selected} value=\"0\">".__("[Default avatar]")."</option>\n";
 
 $rMoods = Query("select mid, name from {moodavatars} where uid={0} order by mid asc", $loguserid);
 
-while($mood = Fetch($rMoods))
-	$moodOptions .= format(
-"
-	<option {0} value=\"{1}\">{2}</option>
-",	$moodSelects[$mood['mid']], $mood['mid'], htmlspecialchars($mood['name']));
+while($mood = Fetch($rMoods)) {
+	$selected = $selectedMood == $mood['mid'] ? 'selected=\"selected\" ' : '';
+	$moodOptions .= "
+	<option {$selected} value=\"{$mood['mid']}\">".htmlspecialchars($mood['name'])."</option>
+";
+}
 
 $ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
 

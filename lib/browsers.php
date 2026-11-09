@@ -156,7 +156,7 @@ function GetVersion($ua, $versionStart)
 	return $version;
 }
 
-if ($_COOKIE['forcelayout'] == 1) $mobileLayout = true;
-else if ($_COOKIE['forcelayout'] == -1) $mobileLayout = false;
+if ($_COOKIE['forcelayout'] ?? -1 == 1) $mobileLayout = true;
+else if ($_COOKIE['forcelayout'] ?? -1 == -1) $mobileLayout = false;
 
 ?>

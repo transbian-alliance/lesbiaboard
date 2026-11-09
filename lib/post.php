@@ -7,6 +7,7 @@ include_once("write.php");
 function ParseThreadTags($title)
 {
 	preg_match_all("/\[(.*?)\]/", $title, $matches);
+	$tags = "";
 	foreach($matches[1] as $tag)
 	{
 		$title = str_replace("[".$tag."]", "", $title);
@@ -22,7 +23,7 @@ function ParseThreadTags($title)
 
 		$tags .= "<span class=\"threadTag\" style=\"background-color: ".$color.";\">".$tag."</span>";
 	}
-	if($tags)
+	if($tags != "")
 		$tags = " ".$tags;
 
 	$title = str_replace("<", "&lt;", $title);
@@ -116,9 +117,10 @@ function makePostText($post)
 //		"postnum" => $post['num'],
 		"postcount" => $poster['posts'],
 		"numdays" => floor((time()-$poster['regdate'])/86400),
-		"date" => formatdate($post['date']),
 		"rank" => GetRank($poster["rankset"], $poster["posts"]),
 	);
+	if ($post['date'] ?? false)
+		$tags["date"] = formatdate($post['date']);
 	$bucket = "amperTags"; include("./lib/pluginloader.php");
 
 	$postText = $post['text'];
@@ -163,10 +165,11 @@ function makePostLinks($post, $type, $params=array())
 {
 	global $loguser, $loguserid, $mobileLayout;
 
-	$forum = $params['fid'];
-	$thread = $params['tid'];
+	// TODO: maybe these shouldn't be null coming from newreply, check
+	$forum = $params['fid'] ?? NULL;
+	$thread = $params['tid'] ?? NULL;
 	$canMod = CanMod($loguserid, $forum);
-	$canReply = ($canMod || (!$post['closed'] && $loguser['powerlevel'] > -1)) && $loguserid;
+	$canReply = ($canMod || (!($post['closed'] ?? false) && $loguser['powerlevel'] > -1)) && $loguserid;
 
 	$links = new PipeMenu();
 
@@ -190,7 +193,7 @@ function makePostLinks($post, $type, $params=array())
 	{
 		$links->add(new PipeMenuLinkEntry(__("Link"), "post", $post['id'], "", "link"));
 
-		if ($canReply && !$params['noreplylinks'])
+		if ($canReply && !($params['noreplylinks'] ?? false))
 			$links->add(new PipeMenuLinkEntry(__("Quote"), "newreply", $thread, "quote=".$post['id'], "quote-left"));
 
 		if ($canMod || ($post['user'] == $loguserid && $loguser['powerlevel'] > -1 && !$post['closed']))
@@ -236,7 +239,7 @@ function makePost($post, $type, $params=array())
 
 	$links = makePostLinks($post, $type, $params);
 	
-	if($post['deleted'] && $type == POST_NORMAL)
+	if($post['deleted'] ?? false && $type == POST_NORMAL)
 	{
 		$meta = format(__("Posted on {0}"), formatdate($post['date']));
 		$meta .= __(', deleted');
@@ -254,7 +257,7 @@ function makePost($post, $type, $params=array())
 			$links->setClass("toolbarMenu");
 
 			echo "
-				<table class=\"outline margin mobile-postBox\" id=\"post${post['id']}\">
+				<table class=\"outline margin mobile-postBox\" id=\"post{$post['id']}\">
 					<tr class=\"header0 mobile-postHeader\">
 						<th>
 							$anchor
@@ -272,7 +275,7 @@ function makePost($post, $type, $params=array())
 												<span class=\"date\">$meta</span>
 											</div>
 										</div>
-										<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+										<span style=\"text-align:left; display: none;\" id=\"dyna_{$post['id']}\">
 											&nbsp;
 										</span>
 									</td>
@@ -321,7 +324,7 @@ function makePost($post, $type, $params=array())
 		$meta = format($message, formatdate($post['date']));
 
 		//Threadlinks for listpost.php
-		if ($params['threadlink'])
+		if ($params['threadlink'] ?? false)
 		{
 			$thread = array();
 			$thread["id"] = $post["thread"];
@@ -368,13 +371,13 @@ function makePost($post, $type, $params=array())
 	
 	if($post['mood'] > 0)
 	{
-		if(file_exists("${dataDir}avatars/".$poster['id']."_".$post['mood']))
-			$pictureUrl = "${dataUrl}avatars/".$poster['id']."_".$post['mood'];
+		if(file_exists("{$dataDir}avatars/".$poster['id']."_".$post['mood']))
+			$pictureUrl = "{$dataUrl}avatars/".$poster['id']."_".$post['mood'];
 	}
 	else
 	{
 		if($poster["picture"] == "#INTERNAL#")
-			$pictureUrl = "${dataUrl}avatars/".$poster['id'];
+			$pictureUrl = "{$dataUrl}avatars/".$poster['id'];
 		else if($poster["picture"])
 			$pictureUrl = $poster["picture"];
 	}
@@ -394,7 +397,7 @@ function makePost($post, $type, $params=array())
 
 	$sideBarStuff .= "<br />\n".__("Karma:")." ".$poster['karma'];
 
-	if(!$params['forcepostnum'] && ($type == POST_PM || $type == POST_SAMPLE))
+	if(!($params['forcepostnum'] ?? false) && ($type == POST_PM || $type == POST_SAMPLE))
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$poster['posts'];
 	else
 		$sideBarStuff .= "<br />\n".__("Posts:")." ".$post['num']."/".$poster['posts'];
@@ -414,6 +417,7 @@ function makePost($post, $type, $params=array())
 
 	// OTHER STUFF
 
+	$anchor = "";
 	if($type == POST_NORMAL)
 		$anchor = "<a name=\"".$post['id']."\"></a>";
 
@@ -442,7 +446,7 @@ function makePost($post, $type, $params=array())
 			$picture = "";
 		
 		echo "
-				<table class=\"outline margin mobile-postBox\" id=\"post${post['id']}\">
+				<table class=\"outline margin mobile-postBox\" id=\"post{$post['id']}\">
 				<tr class=\"header0 mobile-postHeader\">
 					<th>
 						$anchor
@@ -460,7 +464,7 @@ function makePost($post, $type, $params=array())
 											<span class=\"date\">$meta</span>
 										</div>
 									</div>
-									<span style=\"text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+									<span style=\"text-align:left; display: none;\" id=\"dyna_{$post['id']}\">
 										&nbsp;
 									</span>
 								</td>
@@ -481,17 +485,17 @@ function makePost($post, $type, $params=array())
 	}
 	else
 		echo "
-			<table class=\"post margin $pTable\" id=\"post${post['id']}\">
+			<table class=\"post margin $pTable\" id=\"post{$post['id']}\">
 				<tr class=\"$row1\">
 					<td class=\"side userlink $topBar1\">
 						$anchor
 						".UserLink($poster)."
 					</td>
 					<td class=\"meta right $topBar2\">
-						<div style=\"float: left;\" id=\"meta_${post['id']}\">
+						<div style=\"float: left;\" id=\"meta_{$post['id']}\">
 							$meta
 						</div>
-						<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_${post['id']}\">
+						<div style=\"float: left; text-align:left; display: none;\" id=\"dyna_{$post['id']}\">
 							Hi.
 						</div>
 						" . $links->build() . "
@@ -503,7 +507,7 @@ function makePost($post, $type, $params=array())
 							$sideBarStuff
 						</div>
 					</td>
-					<td class=\"post $mainBar\" id=\"post_${post['id']}\">
+					<td class=\"post $mainBar\" id=\"post_{$post['id']}\">
 						<div>
 							$postText
 						</div>

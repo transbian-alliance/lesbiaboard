@@ -69,8 +69,8 @@ function makeForumListing($parent, $page=0)
 		</tbody>
 		<tbody id=\"cat_{1}\"{2}>
 ", ($parent==0)?$forum['cname']:'Subforums', $forum['catid'], 
-	$_COOKIE['catstate'][$forum['catid']] ? ' style="display:none;"':'',
-	$_COOKIE['catstate'][$forum['catid']] ? '':' style="display:none;"');
+	$_COOKIE['catstate'][$forum['catid']] ?? false ? ' style="display:none;"':'',
+	$_COOKIE['catstate'][$forum['catid']] ?? false ? '':' style="display:none;"');
 
 			$lastCatID = $forum['catid'];
 			$firstCat = false;
@@ -125,7 +125,7 @@ function makeForumListing($parent, $page=0)
 			$lastLink = "----";
 	
 		$postcountmsg = '';
-		if ($forum['ignoreposts'])
+		if ($forum['ignoreposts'] ?? false)
 			$postcountmsg = '<br><small>(posts in this forum aren\'t counted in users\' postcounts)</small>';
 
 

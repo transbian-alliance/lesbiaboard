@@ -283,6 +283,7 @@ if ($pagelinks) write("<div class=\"smallFonts pages\">".__("Pages:")." {0}</div
 if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread['closed'] || $loguser['powerlevel'] > 0) && !isset($replyWarning))
 {
 	$ninja = FetchResult("select id from {posts} where thread={0} order by date desc limit 0, 1", $tid);
+	$mod = '';
 
 	//Quick reply goes here
 	if(CanMod($loguserid, $fid))
@@ -297,18 +298,18 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 		else
 			$mod .= "<label><input type=\"checkbox\" name=\"unstick\">&nbsp;".__("Unstick", 1)."</label>\n";
 	}
-	$moodOptions = "<option ".$moodSelects[0]."value=\"0\">".__("[Default avatar]")."</option>\n";
+	// mmodselects empty??
+	$moodOptions = "<option selected=\"selected\" value=\"0\">".__("[Default avatar]")."</option>\n";
 	$rMoods = Query("select mid, name from {moodavatars} where uid={0} order by mid asc", $loguserid);
 	while($mood = Fetch($rMoods))
-		$moodOptions .= format(
-"
-	<option {0} value=\"{1}\">{2}</option>
-",	$moodSelects[$mood['mid']], $mood['mid'], htmlspecialchars($mood['name']));
+		$moodOptions .= "
+	<option {$moodSelects[$mood['mid']]} value=\"{$mood['mid']}\">".htmlspecialchars($mood['name'])."</option>
+";
 
-	write(
+	print(
 	"
 	<form action=\"".actionLink("newreply", $tid)."\" method=\"post\">
-		<input type=\"hidden\" name=\"ninja\" value=\"{0}\" />
+		<input type=\"hidden\" name=\"ninja\" value=\"$ninja\" />
 		<table class=\"outline margin width75\" style=\"margin: 4px auto;\" id=\"quickreply\">
 			<tr class=\"header1\">
 				<th>
@@ -317,7 +318,7 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 			</tr>
 			<tr class=\"cell0\">
 				<td>
-					<textarea id=\"text\" name=\"text\" rows=\"8\" style=\"width: 98%;\">{3}</textarea>
+					<textarea id=\"text\" name=\"text\" rows=\"8\" style=\"width: 98%;\"></textarea>
 				</td>
 			</tr>
 			<tr class=\"cell2\">
@@ -325,21 +326,21 @@ if($loguserid && $loguser['powerlevel'] >= $forum['minpowerreply'] && (!$thread[
 					<input type=\"submit\" name=\"actionpost\" value=\"".__("Post")."\" />
 					<input type=\"submit\" name=\"actionpreview\" value=\"".__("Preview")."\" />
 					<select size=\"1\" name=\"mood\">
-						{4}
+						$moodOptions
 					</select>
 					<label>
-						<input type=\"checkbox\" name=\"nopl\" {5} />&nbsp;".__("Disable post layout", 1)."
+						<input type=\"checkbox\" name=\"nopl\" />&nbsp;".__("Disable post layout", 1)."
 					</label>
 					<label>
-						<input type=\"checkbox\" name=\"nosm\" {6} />&nbsp;".__("Disable smilies", 1)."
+						<input type=\"checkbox\" name=\"nosm\" />&nbsp;".__("Disable smilies", 1)."
 					</label>
-					<input type=\"hidden\" name=\"id\" value=\"{7}\" />
-					{8}
+					<input type=\"hidden\" name=\"id\" value=\"$tid\" />
+					$mod
 				</td>
 			</tr>
 		</table>
 	</form>
-",	$ninja, 0, 0, $prefill, $moodOptions, $nopl, $nosm, $tid, $mod);
+");
 }
 
 ?>
